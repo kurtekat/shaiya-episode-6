@@ -20,7 +20,7 @@
 
 * The `.code` section contains the IAT, entry point, and a PE header
 
-* The remaining sections are left over from packing/unpacking have been filled with null bytes
+* The remaining sections left over from packing/unpacking have been filled with null bytes
 
 #### Notes
 
@@ -53,6 +53,10 @@ The project addresses the following issues:
 * Weapon enchant bug
 
 * HP/MP/SP bug
+
+* Lag when adding/removing equipment
+
+* Market search index
 
 It also modifies the client to accept the older `0x2602` packet by ignoring the dates in the product item definition.
 

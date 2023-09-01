@@ -4,11 +4,11 @@ A library that modifies ps_game to make it compatible with Episode 6 clients.
 
 ## Getting Started
 
-1. Navigate to the `bin` directory and read the documentation. Install the binaries to `SERVER\PSM_Client\Bin` and execute the store procedures in SQL Server Management Studio.
+Navigate to the `bin` directory and read the documentation. Install the binaries to `SERVER\PSM_Client\Bin` and execute the store procedures in SQL Server Management Studio. Open the project in Visual Studio, target the x86 platform, and build the solution. Copy the library to `SERVER\PSM_Client\Bin` and use `ps_game.ct` to inject the library. 
 
-2. Open the project in Visual Studio, target the x86 platform, and build the solution. Copy the library to `SERVER\PSM_Client\Bin` and use `ps_game.ct` to inject the code.
+Note: calling `LoadLibraryA` before ps_session packet `0x105` arrives will result in `g_nPayLetterEnable` being set to `false`. The intent is to use functions that are available to accomplish a task and avoid machine code as much as possible.
 
-3. The game service is owned by the `NT AUTHORITY\SYSTEM` account. When the library attempts to establish a trusted connection with SQL Server, it will try to log in with that account. One way to ensure the login succeeds is to add `NT AUTHORITY\SYSTEM` to the `sysadmin` role.
+When the library attempts to establish a trusted connection with SQL Server, it will try to log in with the `NT AUTHORITY\SYSTEM` account. One way to ensure the login succeeds is to add `NT AUTHORITY\SYSTEM` to the `sysadmin` role.
 
 ```sql
 ALTER SERVER ROLE [sysadmin] ADD MEMBER [NT AUTHORITY\SYSTEM]
@@ -17,7 +17,7 @@ ALTER SERVER ROLE [sysadmin] ADD MEMBER [NT AUTHORITY\SYSTEM]
 
 ## Contributors
 
-Everyone is welcome to submit a pull request or open an issue. Whether or not the code is merged, your time and effort is respected and appreciated.
+Everyone is welcome to submit a pull request or open an issue. Whether or not the code is merged, your time and effort is appreciated. The life cycle of this project will end if the community does not support it in some way or another. There are many ways people can contribute. Please browse the open [issues](https://github.com/kurtekat/Shaiya/issues) before submitting a pull request.
 
 ### Guidelines
 

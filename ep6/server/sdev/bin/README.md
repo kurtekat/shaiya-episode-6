@@ -1,27 +1,14 @@
-#### ps_game
+### ps_game
 
-Use an application like Cheat Engine to inject a library. A file that calls `LoadLibraryA` from machine code will not be included with this project.
+The max level is 70. It is possible to change, but there are some issues that need to be understood. I have seen this discussed more than once, so I will try my best to explain.
 
-```
-[ENABLE]
-loadlibrary('sdev.dll')
+1. `CGameData::LoadExp` and `CGameData::LoadStatus` are not designed to support writing values beyond level 70 to memory. In the case of `ExpDefs`, modifying the loop to read more rows from the query result is not problem, but without checking the memory address of each level and grow, I cannot guarantee the integrity of the data once everything is loaded. 
 
-[DISABLE]
-```
+2. The memory used to store values read from the database is not heap allocated. `StatusDefs` values will be overwritten at some point. I can only confirm this with a hard mode priest from level 72 and beyond. The data was either corrupted or non-existent.
 
-#### Level
+3. `Exp` values should not exceed `4294967295`. The values in `PS_GameDefs.dbo.ExpDefs` will be 10 times the amount in memory.
 
-The max level is 70. It is possible to change, but there are some issues that need to be understood.
-
-1. `CGameData::LoadExp` does not read rows beyond level 70 from `PS_GameDefs.dbo.ExpDefs`.
-
-2. The `Exp` values should not exceed `4294967295`. The values in `PS_GameDefs.dbo.ExpDefs` will be 10 times the amount in memory.
-
-3. The toughest issue is the `PS_GameDefs.dbo.StatusDefs` values. The memory is not stored on the heap, so some values beyond level 70 may be overwritten.
-
-#### Status
-
-Since the level 80 comparisons were replaced with 70, priest/oracle status bugs seem to have disappeared. There needs to be more time to confirm the issue is related. The section named `.yong` that was removed from this file contained two hooks that appear to have been a workaround.
+I replaced the all the level 80 comparisons I found with 70. Since then, priest/oracle status bugs seem to have disappeared. More testing is required to confirm. The section named `.yong` that was removed from this file contained two hooks that appear to have been a workaround.
 
 ```
 [ENABLE]
@@ -79,7 +66,7 @@ dealloc(newmem)
 movzx eax,byte ptr[edi+00000134]
 ```
 
-#### ps_dbAgent
+### ps_dbAgent
 
 This file has two modifications. The first is a dupe solution released by [Trayne01](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/3798719-release-episode-5-4-packet-based-dupe-fix.html). It requires a modified version of the `[dbo].[usp_Save_Char_Info_E]` stored procedure, which can be found in the in this repository or in the archive released by the developer. The second calls `DBCharacter::ReloadPoint` which executes `[dbo].[usp_Read_User_CashPoint_UsersMaster]` get the user's cash points.
 
@@ -104,7 +91,7 @@ dealloc(newmem)
 call 00405380
 ```
 
-#### SQL Server
+### SQL Server
 
 The procedures listed below need to be installed for the cash shop to work as intended. If you receive an error, change `ALTER` to `CREATE` and try again. The code in this repository works with modern versions of SQL Server so please do not use outdated software.
 

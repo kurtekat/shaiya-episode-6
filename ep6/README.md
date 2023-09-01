@@ -20,6 +20,8 @@ This project would not exist without the open-source contributions of these deve
 
 [EricDutra-16](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4189218-release-wip-ep6-source-code.html)
 
+[-RazoR-](https://github.com/razor-44/Episode6)
+
 [shen1l](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/3669922-release-ep6-itemmall-fixed.html)
 
 ## Goal
