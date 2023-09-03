@@ -265,6 +265,23 @@ void __declspec(naked) naked_0x468AFA()
     }
 }
 
+unsigned u0x46150F = 0x46150F;
+void __declspec(naked) naked_0x46150A()
+{
+    __asm
+    {
+        cmp ebp,0xD // slot
+        jge _0x46150F
+
+        // original
+        mov [edi],cx
+        mov eax,[eax]
+
+        _0x46150F:
+        jmp u0x46150F
+    }
+}
+
 void hook::user_equipment()
 {
     // CUser::PacketUserDBChar case 0x403
@@ -275,6 +292,8 @@ void hook::user_equipment()
     util::detour((void*)0x4686C4, naked_0x4686C4, 5);
     util::detour((void*)0x4689CF, naked_0x4689CF, 5);
     util::detour((void*)0x468AFA, naked_0x468AFA, 5);
+    // CUser::InitEquipment
+    util::detour((void*)0x46150A, naked_0x46150A, 5);
 
     std::uint8_t slot_out_of_range = 17;
     // CUser::InitEquipment
@@ -289,6 +308,4 @@ void hook::user_equipment()
     util::write_memory((void*)0x46BCCF, &slot_out_of_range, 1);
     // CUser::PacketAdminCmdD
     util::write_memory((void*)0x482896, &slot_out_of_range, 1);
-    // CUser::SendDBAgentCharGetInfo
-    util::write_memory((void*)0x47AEAA, &slot_out_of_range, 1);
 }
