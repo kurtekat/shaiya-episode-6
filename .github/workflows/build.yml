@@ -1,0 +1,19 @@
+name: Build server code
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Configure msvc
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+      - run: msbuild ep6/server/sdev/sdev.vcxproj /p:configuration=debug /p:platform=win32
+      - uses: actions/upload-artifact@v1
+        with:
+          name: sdev.dll
+          path: ep6/server/sdev/debug/sdev.dll
+
