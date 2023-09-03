@@ -7,6 +7,7 @@
 
 #include <shaiya/packets/0101.h>
 #include <shaiya/include/CGameData.h>
+#include <shaiya/include/CItem.h>
 #include <shaiya/include/CUser.h>
 #include <shaiya/include/SConnection.h>
 using namespace shaiya;
@@ -63,6 +64,7 @@ namespace user_equipment
 
     #pragma managed
 
+    // to-do: modify ps_dbAgent and ps_game to eliminate this
     void init_equipment(ULONG charId, Equipment0101* equipment)
     {
         try
@@ -145,7 +147,7 @@ namespace user_equipment
         }
     }
 
-    void send_view(CUser* user, EquipmentSlot slot)
+    void send(CUser* user, EquipmentSlot slot)
     {
         switch (slot)
         {
@@ -157,6 +159,27 @@ namespace user_equipment
         default:
             break;
         }
+    }
+
+    void init(CUser* user)
+    {
+        user->isInitEquipment = true;
+
+        for (int i = 0; i < slot_out_of_range; ++i)
+        {
+            auto item = user->inventory[0][i];
+
+            if (item)
+            {
+                if (i < EquipmentSlot::Vehicle)
+                    user->itemQuality[i] = item->quality;
+
+                CUser::ItemEquipmentAdd(user, item, i);
+            }
+        }
+
+        user->isInitEquipment = false;
+        CUser::SetAttack(user);
     }
 }
 
@@ -214,7 +237,7 @@ void __declspec(naked) naked_0x4686C4()
             
         push ebx
         push esi
-        call user_equipment::send_view
+        call user_equipment::send
         add esp,0x8
 
         popad
@@ -234,7 +257,7 @@ void __declspec(naked) naked_0x4689CF()
             
         push ebx
         push esi
-        call user_equipment::send_view
+        call user_equipment::send
         add esp,0x8
 
         popad
@@ -254,7 +277,7 @@ void __declspec(naked) naked_0x468AFA()
             
         push ebx
         push esi
-        call user_equipment::send_view
+        call user_equipment::send
         add esp,0x8
 
         popad
@@ -265,20 +288,93 @@ void __declspec(naked) naked_0x468AFA()
     }
 }
 
-unsigned u0x46150F = 0x46150F;
-void __declspec(naked) naked_0x46150A()
+unsigned u0x468A6E = 0x468A6E;
+unsigned u0x468AC0 = 0x468AC0;
+void __declspec(naked) naked_0x468A66()
 {
     __asm
     {
-        cmp ebp,0xD // slot
-        jge _0x46150F
+        // slot
+        cmp ebx,0x8
+        jge _0x468AC0
 
         // original
-        mov [edi],cx
-        mov eax,[eax]
+        mov cx,[esi+ebx*2+0x1A6]
+        jmp u0x468A6E
 
-        _0x46150F:
-        jmp u0x46150F
+        _0x468AC0:
+        jmp u0x468AC0
+    }
+}
+
+unsigned u0x468669 = 0x468669;
+unsigned u0x4686BA = 0x4686BA;
+void __declspec(naked) naked_0x468661()
+{
+    __asm
+    {
+        // slot
+        cmp ebx,0x8
+        jge _0x4686BA
+
+        // original
+        mov di,[esi+ebx*2+0x1A6]
+        jmp u0x468669
+
+        _0x4686BA:
+        jmp u0x4686BA
+    }
+}
+
+unsigned u0x468817 = 0x468817;
+unsigned u0x4687CF = 0x4687CF;
+void __declspec(naked) naked_0x4687C7()
+{
+    __asm
+    {
+        // slot
+        cmp ebx,0x8
+        jge _0x468817
+
+        // original
+        mov dx,[esi+ebx*2+0x1A6]
+        jmp u0x4687CF
+
+        _0x468817:
+        jmp u0x468817
+    }
+}
+
+unsigned u0x46899A = 0x46899A;
+void __declspec(naked) naked_0x468992()
+{
+    __asm
+    {
+        // slot
+        cmp ebx,0x8
+        jge _0x46899A
+
+        // original
+        mov [esi+ebx*2+0x1A6],cx
+
+        _0x46899A:
+        jmp u0x46899A
+    }
+}
+
+unsigned u0x46153E = 0x46153E;
+void __declspec(naked) naked_0x4614E3()
+{
+    __asm
+    {
+        pushad
+
+        push esi
+        call user_equipment::init
+        add esp,0x4
+
+        popad
+        jmp u0x46153E
     }
 }
 
@@ -292,12 +388,14 @@ void hook::user_equipment()
     util::detour((void*)0x4686C4, naked_0x4686C4, 5);
     util::detour((void*)0x4689CF, naked_0x4689CF, 5);
     util::detour((void*)0x468AFA, naked_0x468AFA, 5);
+    util::detour((void*)0x468A66, naked_0x468A66, 8);
+    util::detour((void*)0x468661, naked_0x468661, 8);
+    util::detour((void*)0x4687C7, naked_0x4687C7, 8);
+    util::detour((void*)0x468992, naked_0x468992, 8);
     // CUser::InitEquipment
-    util::detour((void*)0x46150A, naked_0x46150A, 5);
+    util::detour((void*)0x4614E3, naked_0x4614E3, 6);
 
     std::uint8_t slot_out_of_range = 17;
-    // CUser::InitEquipment
-    util::write_memory((void*)0x461528, &slot_out_of_range, 1);
     // CUser::InitEquipment (overload)
     util::write_memory((void*)0x4615B3, &slot_out_of_range, 1);
     // CUser::ItemBagToBag

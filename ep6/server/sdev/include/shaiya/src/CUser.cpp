@@ -64,6 +64,19 @@ bool CUser::ItemDelete(CUser* user, int type, int typeId)
     return (*(LPFN)0x46C6A0)(user, type, typeId);
 }
 
+void CUser::ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot)
+{
+    Address u0x461640 = 0x461640;
+
+    __asm
+    {
+        push slot
+        mov eax,item
+        mov edi,user
+        call u0x461640
+    }
+}
+
 void CUser::ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/)
 {
     Address u0x462720 = 0x462720;
