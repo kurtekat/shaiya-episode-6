@@ -1,18 +1,12 @@
 #pragma once
 #include <shaiya/common.h>
 
-#include <string>
-#include <stdio.h>
-
 namespace shaiya
 {
-    constexpr Address* g_GameLog = 0x587970;
-    
-    class SLog
+    #pragma pack(push, 1)
+    struct SLog
     {
-    public:
-            static void log(const std::string& text);
-    private:
-            static FILE* get_log_file();
+
     };
+    #pragma pack(pop)
 }
