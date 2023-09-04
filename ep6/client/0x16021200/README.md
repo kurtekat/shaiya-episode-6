@@ -54,8 +54,6 @@ The project addresses the following issues:
 
 * Weapon enchant bug
 
-* HP/MP/SP bug
-
 * Lag when adding/removing equipment
 
 * Market search index

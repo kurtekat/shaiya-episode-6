@@ -29,20 +29,6 @@ void __declspec(naked) naked_0x4B8755()
     }
 }
 
-unsigned u0x594301 = 0x594301;
-void __declspec(naked) naked_0x5942FB()
-{
-    __asm
-    {
-        mov esi,[esp+0x4]
-        mov edx,[esp+0x8]
-        mov ecx,[esp+0xC]
-        // original
-        mov dword ptr ds:[0x914478],esi
-        jmp u0x594301
-    }
-}
-
 unsigned u0x59F8AF = 0x59F8AF;
 void __declspec(naked) naked_0x59F896()
 {
@@ -68,8 +54,6 @@ void hook::gui()
 {
     // weapon enchant bug
     util::detour((void*)0x4B8755, naked_0x4B8755, 5);
-    // hp/mp/sp bug
-    util::detour((void*)0x5942FB, naked_0x5942FB, 6);
     // appearance/sex change bug
     util::detour((void*)0x59F896, naked_0x59F896, 6);
     // move when using cash shop
