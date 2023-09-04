@@ -57,8 +57,8 @@ enum struct Family : UINT8
 {
     Human,
     Elf,
-    DeathEater,
-    Vail
+    Vail,
+    Deatheater
 };
 
 enum struct Grow : UINT8
