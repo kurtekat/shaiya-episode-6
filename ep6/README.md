@@ -1,6 +1,6 @@
 # Shaiya Episode 6
 
-An open-source effort to make Shaiya Episode 5 servers compatible with Shaiya Episode 6 clients.
+An open-source effort to make episode 5 servers compatible with episode 6 clients.
 
 ## Environment
 
