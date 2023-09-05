@@ -1,5 +1,3 @@
-Note: see issue [#15](https://github.com/kurtekat/shaiya/issues/15) before using this client. Version [0x16012100](https://github.com/kurtekat/shaiya/tree/main/ep6/client/0x16012100) is recommended.
-
 #### Build Version
 
 `0x16021200`
