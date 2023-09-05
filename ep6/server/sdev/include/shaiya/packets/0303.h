@@ -12,6 +12,7 @@ namespace shaiya
         UINT8 enchantStep;
     };
 
+    #ifdef SHAIYA_EP6
     struct UserShape
     {
         UINT16 opcode; // 0x303
@@ -33,5 +34,29 @@ namespace shaiya
         CloakBadge cloakBadge;
         char guildName[25];
     };
+    #else
+    struct UserShape
+    {
+        UINT16 opcode; // 0x303
+        ULONG charId;
+        bool dead;
+        bool sitMode;
+        Country country;
+        Family family;
+        UINT8 hair;
+        UINT8 face;
+        UINT8 size;
+        Job job;
+        Sex sex;
+        UINT8 partyType;
+        Grow grow;
+        UINT32 kills;
+        Equipment0303 equipment[8];
+        char charName[21];
+        CloakBadge cloakBadge;
+        char guildName[25];
+    };
+    #endif
+
     #pragma pack(pop)
 }

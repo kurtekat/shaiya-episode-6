@@ -1,14 +1,14 @@
 #pragma once
+#define SHAIYA_EP6
 #pragma unmanaged
 
 #if WIN32
 #else
-#error requires Win32 platform
+#error requires x86 platform
 #endif
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <sqltypes.h>
 
 // thanks Cups ^^
 #define CONCAT(x, y) x ## y

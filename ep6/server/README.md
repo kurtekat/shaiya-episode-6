@@ -1,6 +1,6 @@
 # Shaiya Episode 6 - Server
 
-A library that modifies ps_game to make it compatible with Episode 6 clients.
+A library that modifies ps_game to make it compatible with episode 6 clients.
 
 ## Getting Started
 
@@ -13,6 +13,25 @@ When the library attempts to establish a trusted connection with SQL Server, it 
 ```sql
 ALTER SERVER ROLE [sysadmin] ADD MEMBER [NT AUTHORITY\SYSTEM]
 
+```
+
+To use this library with episode 5 projects, comment the `SHAIYA_EP6` macro and the episode 6 functions.
+
+```cpp
+// common.h
+//#define SHAIYA_EP6
+```
+
+```cpp
+// main.cpp
+/*
+hook::packet_character();
+hook::packet_gem();
+hook::packet_market();
+hook::user_equipment();
+hook::user_shape();
+hook::user_status();
+*/
 ```
 
 ## Contributors

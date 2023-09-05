@@ -26,9 +26,10 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 count;
-        // ep6 fields
+        #ifdef SHAIYA_EP6
         ULONG fromDate;
         ULONG toDate;
+        #endif
     };
 
     struct ProductItemPurchaseResponse

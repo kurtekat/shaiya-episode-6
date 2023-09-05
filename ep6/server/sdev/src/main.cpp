@@ -37,11 +37,14 @@ void Main(HMODULE hModule)
     // CUser::EnterWorld
     util::detour((void*)0x455B00, naked_0x455B00, 6);
 
-    hook::packet_character();
     hook::packet_exchange();
+    hook::packet_shop();
+
+    // ep6 functions
+
+    hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
-    hook::packet_shop();
     hook::user_equipment();
     hook::user_shape();
     hook::user_status();

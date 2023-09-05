@@ -8,9 +8,9 @@ namespace shaiya
     {
         UINT16 opcode; // 0x505
         ULONG charId;
-        UINT32 health;
-        UINT32 mana;
-        UINT32 stamina;
+        int health;
+        int mana;
+        int stamina;
     };
     #pragma pack(pop)
 }

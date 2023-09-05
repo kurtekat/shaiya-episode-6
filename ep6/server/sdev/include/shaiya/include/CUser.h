@@ -87,6 +87,7 @@ namespace shaiya
         UINT8 enchantStep;
     };
 
+    #ifdef SHAIYA_EP6
     struct CloneUser
     {
         PAD(8);
@@ -107,11 +108,35 @@ namespace shaiya
         char charName[21];        //0x4B
         CloakBadge cloakBadge;    //0x60
         char guildName[25];       //0x66
-        // with cloak = 0x64
-        // without = 0x5E
         UINT8 packetLength;       //0x7F
         // 0x80
     };
+    #else
+    struct CloneUser
+    {
+        PAD(8);
+        bool dead;                //0x08
+        bool sitMode;             //0x09
+        Country country;          //0x0A
+        Family family;            //0x0B
+        UINT8 hair;               //0x0C
+        UINT8 face;               //0x0D
+        UINT8 size;               //0x0E
+        Job job;                  //0x0F
+        Sex sex;                  //0x10
+        UINT8 partyType;          //0x11
+        Grow grow;                //0x12
+        PAD(1);
+        UINT32 kills;             //0x14
+        CloneEquipment equipment[8];  //0x18
+        char charName[21];        //0x30
+        CloakBadge cloakBadge;    //0x45
+        char guildName[25];       //0x4B
+        UINT8 packetLength;       //0x64
+        PAD(3);
+        // 0x68
+    };
+    #endif
 
     enum struct CharmType : UINT32
     {

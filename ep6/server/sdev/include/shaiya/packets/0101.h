@@ -5,11 +5,19 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    #ifdef SHAIYA_EP6
     struct Equipment0101
     {
         UINT8 type[17];
         UINT8 typeId[17];
     };
+    #else
+    struct Equipment0101
+    {
+        UINT8 type[8];
+        UINT8 typeId[8];
+    };
+    #endif
 
     struct CharacterList
     {
