@@ -267,7 +267,7 @@ void __declspec(naked) naked_0x47DE7B()
         push edi // packet
         push ebx // exchange user
         push esi // user
-        call packet_exchange::send_battle_exchange_user_item
+        call packet_exchange::send_exchange_user_item
         add esp,0xC
 
         popad
@@ -286,7 +286,7 @@ void __declspec(naked) naked_0x48C69A()
         push edi // packet
         push ebp // exchange user
         push esi // user
-        call packet_exchange::send_exchange_user_item
+        call packet_exchange::send_battle_exchange_user_item
         add esp,0xC
 
         popad
