@@ -6,7 +6,10 @@
 #include <include/util.h>
 
 #include <shaiya/packets/0A05.h>
+#include <shaiya/packets/0A09.h>
 #include <shaiya/packets/0A0A.h>
+#include <shaiya/packets/240D.h>
+#include <shaiya/include/CItem.h>
 #include <shaiya/include/CUser.h>
 #include <shaiya/include/SConnection.h>
 using namespace shaiya;
@@ -96,6 +99,56 @@ namespace packet_exchange
 
         reset_state(user);
     }
+
+    void send_exchange_user_item(CUser* user, CUser* exchangeUser, Packet packet)
+    {
+        ExchangeUserItem exchange_user_item{};
+        exchange_user_item.opcode = 0xA09;
+        exchange_user_item.destSlot = util::read_bytes<std::uint8_t>(packet, 5);
+
+        auto src_bag = util::read_bytes<std::uint8_t>(packet, 2);
+        auto src_slot = util::read_bytes<std::uint8_t>(packet, 3);
+
+        // tested at 0x47DD6B
+        auto& item = exchangeUser->inventory[src_bag][src_slot];
+        exchange_user_item.type = item->type;
+        exchange_user_item.typeId = item->typeId;
+        exchange_user_item.count = util::read_bytes<std::uint8_t>(packet, 4);
+        exchange_user_item.quality = item->quality;
+        std::memcpy(&exchange_user_item.gems, &item->gems, sizeof(item->gems));
+
+        // to-do: implement dates
+        exchange_user_item.fromDate = 0;
+        exchange_user_item.toDate = 0;
+
+        std::memcpy(exchange_user_item.craftName, &item->craftName, sizeof(CraftName));
+        SConnection::Send(user, &exchange_user_item, sizeof(ExchangeUserItem));
+    }
+
+    void send_battle_exchange_user_item(CUser* user, CUser* exchangeUser, Packet packet)
+    {
+        BattleExchangeUserItem exchange_user_item{};
+        exchange_user_item.opcode = 0x240D;
+        exchange_user_item.destSlot = util::read_bytes<std::uint8_t>(packet, 5);
+
+        auto src_bag = util::read_bytes<std::uint8_t>(packet, 2);
+        auto src_slot = util::read_bytes<std::uint8_t>(packet, 3);
+
+        // tested at 0x48C577
+        auto& item = exchangeUser->inventory[src_bag][src_slot];
+        exchange_user_item.type = item->type;
+        exchange_user_item.typeId = item->typeId;
+        exchange_user_item.count = util::read_bytes<std::uint8_t>(packet, 4);
+        exchange_user_item.quality = item->quality;
+        std::memcpy(&exchange_user_item.gems, &item->gems, sizeof(item->gems));
+
+        // to-do: implement dates
+        exchange_user_item.fromDate = 0;
+        exchange_user_item.toDate = 0;
+
+        std::memcpy(exchange_user_item.craftName, &item->craftName, sizeof(CraftName));
+        SConnection::Send(user, &exchange_user_item, sizeof(ExchangeUserItem));
+    }
 }
 
 unsigned u0x47D969 = 0x47D969;
@@ -118,6 +171,7 @@ void __declspec(naked) naked_0x47D964()
         add esp,0x8
 
         popad
+
         jmp u0x47E0DA
     }
 }
@@ -131,9 +185,11 @@ void __declspec(naked) naked_0x47E253()
         // user->confirmExchangeState
         cmp [ecx+0x1534],al
         jne _0x47E263
+
         // user->confirmExchangeState
         cmp [esi+0x1534],al
         jne _0x47E263
+
         // user->exchangeState
         cmp byte ptr[ecx+0x15E4],al
         jne _0x47E263
@@ -157,6 +213,7 @@ void __declspec(naked) naked_0x47E26F()
         add esp,0x8
 
         popad
+
         jmp u0x47E29D
     }
 }
@@ -167,7 +224,6 @@ void __declspec(naked) naked_0x47DE08()
 {
     __asm
     {
-        // original
         pushad
 
         push ebx // user
@@ -187,7 +243,6 @@ void __declspec(naked) naked_0x47DFC0()
 {
     __asm
     {
-        // original
         pushad
 
         push ebx // user
@@ -199,6 +254,44 @@ void __declspec(naked) naked_0x47DFC0()
         // original
         call u0x47E250
         jmp u0x47DFC5
+    }
+}
+
+unsigned u0x47DF34 = 0x47DF34;
+void __declspec(naked) naked_0x47DE7B()
+{
+    __asm
+    {
+        pushad
+
+        push edi // packet
+        push ebx // exchange user
+        push esi // user
+        call packet_exchange::send_battle_exchange_user_item
+        add esp,0xC
+
+        popad
+
+        jmp u0x47DF34
+    }
+}
+
+unsigned u0x48C753 = 0x48C753;
+void __declspec(naked) naked_0x48C69A()
+{
+    __asm
+    {
+        pushad
+
+        push edi // packet
+        push ebp // exchange user
+        push esi // user
+        call packet_exchange::send_exchange_user_item
+        add esp,0xC
+
+        popad
+
+        jmp u0x48C753
     }
 }
 
@@ -214,4 +307,8 @@ void hook::packet_exchange()
     util::detour((void*)0x47DE08, naked_0x47DE08, 5);
     // CUser::PacketExchange case 0xA07
     util::detour((void*)0x47DFC0, naked_0x47DFC0, 5);
+    // CUser::PacketExchange case 0xA06
+    util::detour((void*)0x47DE7B, naked_0x47DE7B, 8);
+    // CUser::PacketPvP case 0x240A
+    util::detour((void*)0x48C69A, naked_0x48C69A, 8);
 }

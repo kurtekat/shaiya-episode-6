@@ -444,16 +444,16 @@ namespace packet_gem
 
             break;
         case CGameData::ItemEffect::ItemComposeRec:
-            if (!item->craftRecovery)
+            if (!item->craftReaction)
                 return;
 
             if (!item_bag_number)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
 
-                item->craftRecovery = bonus;
-                item->craftName.recovery[0] = text[0];
-                item->craftName.recovery[1] = text[1];
+                item->craftReaction = bonus;
+                item->craftName.reaction[0] = text[0];
+                item->craftName.reaction[1] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
@@ -473,9 +473,9 @@ namespace packet_gem
                 break;
             }
 
-            item->craftRecovery = bonus;
-            item->craftName.recovery[0] = text[0];
-            item->craftName.recovery[1] = text[1];
+            item->craftReaction = bonus;
+            item->craftName.reaction[0] = text[0];
+            item->craftName.reaction[1] = text[1];
 
             break;
         case CGameData::ItemEffect::ItemComposeLuc:
@@ -545,7 +545,6 @@ void __declspec(naked) naked_0x479FB4()
         jmp u0x479FBC
 
         case_0x80D:
-
         pushad
 
         push esi // packet

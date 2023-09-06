@@ -24,9 +24,9 @@ namespace user_status
         strength -= user->strength;
         packet.strength = strength;
 
-        auto recovery = user->abilityRecovery;
-        recovery -= user->recovery;
-        packet.recovery = recovery;
+        auto reaction = user->abilityReaction;
+        reaction -= user->reaction;
+        packet.reaction = reaction;
 
         auto intelligence = user->abilityIntelligence;
         intelligence -= user->intelligence;

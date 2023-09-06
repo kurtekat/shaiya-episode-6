@@ -300,7 +300,7 @@ namespace shaiya
         UINT16 skillPoints;                //0x13A
         UINT32 exp;                        //0x13C
         UINT32 money;                      //0x140
-        PAD(4);
+        UINT32 bankMoney;                  //0x144
         Count kills;                       //0x148
         Count deaths;                      //0x14C
         Count victories;                   //0x150
@@ -318,7 +318,7 @@ namespace shaiya
         UINT16 dexterity;                  //0x16E
         UINT16 intelligence;               //0x170
         UINT16 wisdom;                     //0x172
-        UINT16 recovery;                   //0x174
+        UINT16 reaction;                   //0x174
         UINT16 luck;                       //0x176
         UINT32 maxHealth;                  //0x178
         UINT32 maxMana;                    //0x17C
@@ -341,7 +341,7 @@ namespace shaiya
         UINT32 abilityDexterity;         //0x1220
         UINT32 abilityIntelligence;      //0x1224
         UINT32 abilityWisdom;            //0x1228
-        UINT32 abilityRecovery;          //0x122C
+        UINT32 abilityReaction;          //0x122C
         UINT32 abilityLuck;              //0x1230
         UINT32 health;                   //0x1234
         UINT32 mana;                     //0x1238

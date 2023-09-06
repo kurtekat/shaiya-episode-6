@@ -9,7 +9,7 @@ namespace shaiya
     {
         char strength[2];
         char dexterity[2];
-        char recovery[2];
+        char reaction[2];
         char intelligence[2];
         char wisdom[2];
         char luck[2];
@@ -51,7 +51,7 @@ namespace shaiya
         PAD(27);
         UINT16 craftStrength;      //0x84
         UINT16 craftDexterity;     //0x86
-        UINT16 craftRecovery;      //0x88
+        UINT16 craftReaction;      //0x88
         UINT16 craftIntelligence;  //0x8A
         UINT16 craftWisdom;        //0x8C
         UINT16 craftLuck;          //0x8E

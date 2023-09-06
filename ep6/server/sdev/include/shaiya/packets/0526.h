@@ -8,7 +8,7 @@ namespace shaiya
     {
         UINT16 opcode; // 0x526
         UINT32 strength;
-        UINT32 recovery;
+        UINT32 reaction;
         UINT32 intelligence;
         UINT32 wisdom;
         UINT32 dexterity;

@@ -44,7 +44,7 @@ namespace user_equipment
         UINT16 level;           //0x11
         UINT16 strength;        //0x13
         UINT16 dexterity;       //0x15
-        UINT16 recovery;        //0x17
+        UINT16 reaction;        //0x17
         UINT16 intelligence;    //0x19
         UINT16 wisdom;          //0x1B
         UINT16 luck;            //0x1D
@@ -117,7 +117,7 @@ namespace user_equipment
         character.mapId = dbCharacter->mapId;
         character.strength = dbCharacter->strength;
         character.dexterity = dbCharacter->dexterity;
-        character.recovery = dbCharacter->recovery;
+        character.reaction = dbCharacter->reaction;
         character.intelligence = dbCharacter->intelligence;
         character.wisdom = dbCharacter->wisdom;
         character.luck = dbCharacter->luck;
@@ -167,15 +167,14 @@ namespace user_equipment
 
         for (int i = 0; i < slot_out_of_range; ++i)
         {
-            auto item = user->inventory[0][i];
+            auto& item = user->inventory[0][i];
+            if (!item)
+                continue;
 
-            if (item)
-            {
-                if (i < EquipmentSlot::Vehicle)
-                    user->itemQuality[i] = item->quality;
+            if (i < EquipmentSlot::Vehicle)
+                user->itemQuality[i] = item->quality;
 
-                CUser::ItemEquipmentAdd(user, item, i);
-            }
+            CUser::ItemEquipmentAdd(user, item, i);
         }
 
         user->isInitEquipment = false;
@@ -374,6 +373,7 @@ void __declspec(naked) naked_0x4614E3()
         add esp,0x4
 
         popad
+
         jmp u0x46153E
     }
 }

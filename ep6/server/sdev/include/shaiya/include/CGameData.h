@@ -219,7 +219,7 @@ namespace shaiya
             UINT16 mana;             //0x6E
             UINT16 strength;         //0x70
             UINT16 dexterity;        //0x72
-            UINT16 recovery;         //0x74
+            UINT16 reaction;         //0x74
             UINT16 intelligence;     //0x76
             UINT16 wisdom;           //0x78
             UINT16 luck;             //0x7A
@@ -243,7 +243,7 @@ namespace shaiya
             UINT32 stamina;           //0x14
             UINT32 mana;              //0x18
             UINT32 strength;          //0x1C
-            UINT32 recovery;          //0x20
+            UINT32 reaction;          //0x20
             UINT32 intelligence;      //0x24
             UINT32 wisdom;            //0x28
             UINT32 dexterity;         //0x2C

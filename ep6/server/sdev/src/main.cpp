@@ -25,6 +25,7 @@ void __declspec(naked) naked_0x455B00()
         add esp,0x4
 
         popad
+
         // original
         sub esp,0x8C
         jmp u0x455B06

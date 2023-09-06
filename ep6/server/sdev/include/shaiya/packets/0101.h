@@ -36,7 +36,7 @@ namespace shaiya
         UINT16 mapId;
         UINT16 strength;
         UINT16 dexterity;
-        UINT16 recovery;
+        UINT16 reaction;
         UINT16 intelligence;
         UINT16 wisdom;
         UINT16 luck;

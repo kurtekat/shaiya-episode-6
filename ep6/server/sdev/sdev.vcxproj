@@ -80,24 +80,29 @@
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\packets\0101.h" />
     <ClInclude Include="include\shaiya\packets\0119.h" />
+    <ClInclude Include="include\shaiya\packets\0206.h" />
+    <ClInclude Include="include\shaiya\packets\022E.h" />
     <ClInclude Include="include\shaiya\packets\0303.h" />
     <ClInclude Include="include\shaiya\packets\0505.h" />
     <ClInclude Include="include\shaiya\packets\0506.h" />
     <ClInclude Include="include\shaiya\packets\0507.h" />
     <ClInclude Include="include\shaiya\packets\0521.h" />
     <ClInclude Include="include\shaiya\packets\0526.h" />
+    <ClInclude Include="include\shaiya\packets\0711.h" />
     <ClInclude Include="include\shaiya\packets\0717.h" />
     <ClInclude Include="include\shaiya\packets\0805.h" />
     <ClInclude Include="include\shaiya\packets\0806.h" />
     <ClInclude Include="include\shaiya\packets\0807.h" />
     <ClInclude Include="include\shaiya\packets\080D.h" />
-    <ClInclude Include="include\shaiya\packets\0A05.h" />
-    <ClInclude Include="include\shaiya\packets\0A0A.h" />
-    <ClInclude Include="include\shaiya\packets\2602.h" />
-	<ClInclude Include="include\shaiya\packets\0206.h" />
     <ClInclude Include="include\shaiya\packets\0830.h" />
     <ClInclude Include="include\shaiya\packets\0831.h" />
     <ClInclude Include="include\shaiya\packets\0832.h" />
+    <ClInclude Include="include\shaiya\packets\0A05.h" />
+    <ClInclude Include="include\shaiya\packets\0A06.h" />
+    <ClInclude Include="include\shaiya\packets\0A09.h" />
+    <ClInclude Include="include\shaiya\packets\0A0A.h" />
+    <ClInclude Include="include\shaiya\packets\240D.h" />
+    <ClInclude Include="include\shaiya\packets\2602.h" />
     <ClInclude Include="include\util.h" />
   </ItemGroup>
   <ItemGroup>

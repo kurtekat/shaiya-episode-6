@@ -145,6 +145,7 @@ void __declspec(naked) naked_0x48876F()
         add esp,0x4
 
         popad
+
         // original
         jmp u0x488D5F
     }
@@ -181,6 +182,7 @@ void __declspec(naked) naked_0x488A80()
         add esp,0x10
 
         popad
+
         // original
         jmp u0x488D5F
     }

@@ -3,8 +3,9 @@
 
 namespace shaiya
 {
-#pragma pack(push, 1)
-    struct UpdateItemStatePacket {
+    #pragma pack(push, 1)
+    struct UpdateItemStatePacket
+    {
         WORD opcode; // 0x0206
         BYTE bag;
         BYTE slot;
@@ -12,5 +13,5 @@ namespace shaiya
         BYTE typeId;
         BYTE count;
     };
-#pragma pack(pop)
+    #pragma pack(pop)
 }
