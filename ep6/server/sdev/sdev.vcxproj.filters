@@ -108,6 +108,9 @@
     <ClCompile Include="src\packet_market.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\packet_myshop.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -276,6 +279,9 @@
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\022E.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\230B.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
   </ItemGroup>

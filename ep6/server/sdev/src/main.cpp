@@ -46,6 +46,7 @@ void Main(HMODULE hModule)
     hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
+    hook::packet_myshop();
     hook::user_equipment();
     hook::user_shape();
     hook::user_status();

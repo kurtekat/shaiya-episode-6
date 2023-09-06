@@ -37,6 +37,7 @@
     <ClCompile Include="include\shaiya\src\SVector.cpp" />
     <ClCompile Include="src\packet_exchange.cpp" />
     <ClCompile Include="src\packet_market.cpp" />
+    <ClCompile Include="src\packet_myshop.cpp" />
     <ClCompile Include="src\user_equipment.cpp" />
     <ClCompile Include="src\packet_character.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="include\shaiya\packets\0A06.h" />
     <ClInclude Include="include\shaiya\packets\0A09.h" />
     <ClInclude Include="include\shaiya\packets\0A0A.h" />
+    <ClInclude Include="include\shaiya\packets\230B.h" />
     <ClInclude Include="include\shaiya\packets\240D.h" />
     <ClInclude Include="include\shaiya\packets\2602.h" />
     <ClInclude Include="include\util.h" />

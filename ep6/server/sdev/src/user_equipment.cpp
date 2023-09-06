@@ -402,10 +402,10 @@ void hook::user_equipment()
     util::write_memory((void*)0x46862D, &slot_out_of_range, 1);
     util::write_memory((void*)0x468722, &slot_out_of_range, 1);
     util::write_memory((void*)0x468955, &slot_out_of_range, 1);
+    // CUser::PacketGetInfo case 0x307
+    //util::write_memory((void*)0x477DE5, &slot_out_of_range, 1);
     // CUser::ClearEquipment
     util::write_memory((void*)0x46BCCF, &slot_out_of_range, 1);
-    // CUser::PacketGetInfo case 0x307
-    util::write_memory((void*)0x477DE5, &slot_out_of_range, 1);
     // CUser::PacketAdminCmdD
     util::write_memory((void*)0x482896, &slot_out_of_range, 1);
 }
