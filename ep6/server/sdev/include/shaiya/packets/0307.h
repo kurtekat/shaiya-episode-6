@@ -4,28 +4,32 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct MyShopItem
+    struct InspectEquipment
     {
         UINT8 slot;
-        UINT32 price;
         UINT8 type;
         UINT8 typeId;
-        UINT8 count;
         UINT16 quality;
         // or CloakBadge
         UINT8 gems[6];
-        #ifdef SHAIYA_EP6
-        ULONG fromDate;
-        ULONG toDate;
-        #endif
         char craftName[21];
     };
 
-    struct MyShopItemList
+    struct InspectRequest
     {
-        UINT16 opcode; // 0x230B
+        UINT16 opcode; // 0x307
+        ULONG charId;
+    };
+
+    struct InspectResponse
+    {
+        UINT16 opcode; // 0x307
         UINT8 itemCount;
-        MyShopItem list[20];
+        #ifdef SHAIYA_EP6
+        InspectEquipment list[17];
+        #else
+        InspectEquipment list[12];
+        #endif
     };
     #pragma pack(pop)
 }

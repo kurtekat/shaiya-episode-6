@@ -284,5 +284,8 @@
     <ClInclude Include="include\shaiya\packets\230B.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\packets\0307.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

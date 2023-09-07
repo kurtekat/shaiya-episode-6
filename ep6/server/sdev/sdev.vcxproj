@@ -84,6 +84,7 @@
     <ClInclude Include="include\shaiya\packets\0206.h" />
     <ClInclude Include="include\shaiya\packets\022E.h" />
     <ClInclude Include="include\shaiya\packets\0303.h" />
+    <ClInclude Include="include\shaiya\packets\0307.h" />
     <ClInclude Include="include\shaiya\packets\0505.h" />
     <ClInclude Include="include\shaiya\packets\0506.h" />
     <ClInclude Include="include\shaiya\packets\0507.h" />

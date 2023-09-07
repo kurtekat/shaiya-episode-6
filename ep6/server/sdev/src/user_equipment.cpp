@@ -6,6 +6,7 @@
 #include <include/util.h>
 
 #include <shaiya/packets/0101.h>
+#include <shaiya/packets/0307.h>
 #include <shaiya/include/CGameData.h>
 #include <shaiya/include/CItem.h>
 #include <shaiya/include/CUser.h>
@@ -17,7 +18,7 @@ namespace user_equipment
     using namespace System;
     using namespace System::Data;
 
-    constexpr int slot_out_of_range = 17;
+    constexpr int max_equipment_slot_count = 17;
 
     #pragma pack(push, 1)
     struct Equipment
@@ -69,8 +70,8 @@ namespace user_equipment
     {
         try
         {
-            auto connectionString = gcnew String("Data Source=localhost;Database=master;Integrated Security=True;");
-            SqlClient::SqlConnection connection(connectionString);
+            auto connection_string = gcnew String("Data Source=localhost;Database=master;Integrated Security=True;");
+            SqlClient::SqlConnection connection(connection_string);
 
             auto text = String::Format(
                 "SELECT Slot, [Type], [TypeID] FROM [PS_GameData].[dbo].[CharItems] WHERE Bag=0 AND CharID={0} ORDER BY Slot ASC;",
@@ -165,20 +166,51 @@ namespace user_equipment
     {
         user->isInitEquipment = true;
 
-        for (int i = 0; i < slot_out_of_range; ++i)
+        for (int slot = 0; slot < max_equipment_slot_count; ++slot)
         {
-            auto& item = user->inventory[0][i];
+            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
 
-            if (i < EquipmentSlot::Vehicle)
-                user->itemQuality[i] = item->quality;
+            if (slot < EquipmentSlot::Vehicle)
+                user->itemQuality[slot] = item->quality;
 
-            CUser::ItemEquipmentAdd(user, item, i);
+            CUser::ItemEquipmentAdd(user, item, slot);
         }
 
         user->isInitEquipment = false;
         CUser::SetAttack(user);
+    }
+
+    void send_inspect(CUser* user, CUser* target)
+    {
+        InspectResponse response{};
+        response.opcode = 0x307;
+        response.itemCount = 0;
+
+        for (int slot = 0; slot < max_equipment_slot_count; ++slot)
+        {
+            auto& item = target->inventory[0][slot];
+            if (!item)
+                continue;
+
+            InspectEquipment inspect_equipment{};
+            inspect_equipment.slot = slot;
+            inspect_equipment.type = item->type;
+            inspect_equipment.typeId = item->typeId;
+
+            if (slot < EquipmentSlot::Vehicle)
+                inspect_equipment.quality = item->quality;
+
+            std::memcpy(&inspect_equipment.gems, &item->gems, sizeof(item->gems));
+            std::memcpy(inspect_equipment.craftName, &item->craftName, sizeof(CraftName));
+            std::memcpy(&response.list[response.itemCount], &inspect_equipment, sizeof(InspectEquipment));
+            ++response.itemCount;
+        }
+
+        constexpr int packet_size_without_list = 3;
+        int packet_size = packet_size_without_list + (response.itemCount * sizeof(InspectEquipment));
+        SConnection::Send(user, &response, packet_size);
     }
 }
 
@@ -216,6 +248,7 @@ void __declspec(naked) naked_0x46846F()
         popad
 
         je wrong_slot
+
         // original
         mov eax,0x1
         jmp u0x468474
@@ -378,6 +411,24 @@ void __declspec(naked) naked_0x4614E3()
     }
 }
 
+unsigned u0x477E02 = 0x477E02;
+void __declspec(naked) naked_0x477D4F()
+{
+    __asm
+    {
+        pushad
+
+        push eax // target
+        push edi // user
+        call user_equipment::send_inspect
+        add esp,0x8
+
+        popad
+
+        jmp u0x477E02
+    }
+}
+
 void hook::user_equipment()
 {
     // CUser::PacketUserDBChar case 0x403
@@ -394,18 +445,20 @@ void hook::user_equipment()
     util::detour((void*)0x468992, naked_0x468992, 8);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
+    // CUser::PacketGetInfo case 0x307
+    util::detour((void*)0x477D4F, naked_0x477D4F, 7);
 
-    std::uint8_t slot_out_of_range = 17;
+    std::uint8_t max_equipment_slot_count = 17;
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, &slot_out_of_range, 1);
+    util::write_memory((void*)0x4615B3, &max_equipment_slot_count, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, &slot_out_of_range, 1);
-    util::write_memory((void*)0x468722, &slot_out_of_range, 1);
-    util::write_memory((void*)0x468955, &slot_out_of_range, 1);
+    util::write_memory((void*)0x46862D, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x468722, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x468955, &max_equipment_slot_count, 1);
     // CUser::PacketGetInfo case 0x307
     //util::write_memory((void*)0x477DE5, &slot_out_of_range, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, &slot_out_of_range, 1);
+    util::write_memory((void*)0x46BCCF, &max_equipment_slot_count, 1);
     // CUser::PacketAdminCmdD
-    util::write_memory((void*)0x482896, &slot_out_of_range, 1);
+    util::write_memory((void*)0x482896, &max_equipment_slot_count, 1);
 }

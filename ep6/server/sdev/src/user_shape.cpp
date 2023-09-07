@@ -14,7 +14,7 @@ using namespace shaiya;
 
 namespace user_shape
 {
-    constexpr int slot_out_of_range = 17;
+    constexpr int max_equipment_slot_count = 17;
     constexpr int shape_size_without_cloak = 118;
     constexpr int shape_size_with_cloak = 124;
 
@@ -35,7 +35,7 @@ namespace user_shape
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
         
-        for (int i = 0; i < slot_out_of_range; ++i)
+        for (int i = 0; i < max_equipment_slot_count; ++i)
         {
             if (target->inventory[0][i])
             {
@@ -112,7 +112,7 @@ namespace user_shape
         shape.grow = user->grow;
         shape.kills = user->kills;
 
-        for (int i = 0; i < slot_out_of_range; ++i)
+        for (int i = 0; i < max_equipment_slot_count; ++i)
         {
             if (user->inventory[0][i])
             {
@@ -192,7 +192,7 @@ namespace user_shape
         shape.grow = user->grow;
         shape.kills = user->kills;
 
-        for (int i = 0; i < slot_out_of_range; ++i)
+        for (int i = 0; i < max_equipment_slot_count; ++i)
         {
             if (user->inventory[0][i])
             {

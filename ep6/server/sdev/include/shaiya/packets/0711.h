@@ -20,15 +20,15 @@ namespace shaiya
         char craftName[21];
     };
 
-    struct CharacterWarehouse
+    struct WarhouseItemList
     {
         UINT16 opcode; // 0x711
         UINT32 money;
         UINT8 itemCount;
         #ifdef SHAIYA_EP6
-        WarehouseItem items[40];
+        WarehouseItem list[40];
         #else
-        WarehouseItem items[50]
+        WarehouseItem list[50]
         #endif
     };
     #pragma pack(pop)

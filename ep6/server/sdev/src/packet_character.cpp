@@ -69,16 +69,15 @@ namespace packet_character
         // ep5: 1657 = 7 + (33 * 50)
         // ep6: 2057 = 7 + (41 * 50)
         //
-        // 2057 bytes will crash ps_game
+        // 2057 bytes will crash ps_game (max is 2048)
         // shen1l changed 50 to 40
         constexpr int max_item_send_count = 40;
+        constexpr int packet_size_without_list = 7;
 
-        CharacterWarehouse warehouse{};
+        WarhouseItemList warehouse{};
         warehouse.opcode = 0x711;
         warehouse.money = user->bankMoney;
         warehouse.itemCount = 0;
-
-        constexpr int size_without_items = 7;
 
         for (int slot = 0; slot < max_warehouse_item_count; ++slot)
         {
@@ -99,17 +98,17 @@ namespace packet_character
             warehouse_item.toDate = 0;
 
             std::memcpy(warehouse_item.craftName, &user->warehouse[slot]->craftName, sizeof(CraftName));
-            std::memcpy(&warehouse.items[warehouse.itemCount], &warehouse_item, sizeof(WarehouseItem));
+            std::memcpy(&warehouse.list[warehouse.itemCount], &warehouse_item, sizeof(WarehouseItem));
             ++warehouse.itemCount;
 
             if (warehouse.itemCount != max_item_send_count)
                 continue;
             else
             {
-                int packet_size = size_without_items + (warehouse.itemCount * sizeof(WarehouseItem));
+                int packet_size = packet_size_without_list + (warehouse.itemCount * sizeof(WarehouseItem));
                 SConnection::Send(user, &warehouse, packet_size);
 
-                std::memset(&warehouse.items, 0, sizeof(warehouse.items));
+                std::memset(&warehouse.list, 0, sizeof(warehouse.list));
                 warehouse.itemCount = 0;
             }
         }
@@ -117,7 +116,7 @@ namespace packet_character
         if (warehouse.itemCount <= 0)
             return;
 
-        int packet_size = size_without_items + (warehouse.itemCount * sizeof(WarehouseItem));
+        int packet_size = packet_size_without_list + (warehouse.itemCount * sizeof(WarehouseItem));
         SConnection::Send(user, &warehouse, packet_size);
     }
 }

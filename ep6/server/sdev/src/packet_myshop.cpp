@@ -16,27 +16,27 @@ namespace packet_myshop
 {
     void send_item_list(CUser* user, MyShop* myShop)
     {
-        constexpr int shop_bag_size = 20;
+        constexpr int max_shop_slot_count = 20;
 
-        MyShopItemList item_list{};
-        item_list.opcode = 0x230B;
-        item_list.itemCount = 0;
+        MyShopItemList myshop{};
+        myshop.opcode = 0x230B;
+        myshop.itemCount = 0;
 
-        for (int i = 0; i < shop_bag_size; ++i)
+        for (int shop_slot = 0; shop_slot < max_shop_slot_count; ++shop_slot)
         {
-            auto bag = myShop->srcBag[i];
-            auto slot = myShop->srcSlot[i];
+            auto src_bag = myShop->srcBag[shop_slot];
+            auto src_slot = myShop->srcSlot[shop_slot];
 
-            if (!myShop->srcBag[i])
+            if (!src_bag)
                 continue;
 
-            auto& item = myShop->user->inventory[bag][slot];
+            auto& item = myShop->user->inventory[src_bag][src_slot];
             if (!item)
                 continue;
 
             MyShopItem myshop_item{};
-            myshop_item.index = item_list.itemCount;
-            myshop_item.price = myShop->price[i];
+            myshop_item.slot = shop_slot;
+            myshop_item.price = myShop->price[shop_slot];
             myshop_item.type = item->type;
             myshop_item.typeId = item->typeId;
             myshop_item.count = item->count;
@@ -48,13 +48,13 @@ namespace packet_myshop
             myshop_item.fromDate = 0;
 
             std::memcpy(myshop_item.craftName, &item->craftName, sizeof(CraftName));
-            std::memcpy(&item_list.inventory[item_list.itemCount], &myshop_item, sizeof(MyShopItem));
-            ++item_list.itemCount;
+            std::memcpy(&myshop.list[myshop.itemCount], &myshop_item, sizeof(MyShopItem));
+            ++myshop.itemCount;
         }
 
-        constexpr int size_without_inventory = 3;
-        int packet_size = size_without_inventory + (item_list.itemCount * sizeof(MyShopItem));
-        SConnection::Send(user, &item_list, packet_size);
+        constexpr int packet_size_without_list = 3;
+        int packet_size = packet_size_without_list + (myshop.itemCount * sizeof(MyShopItem));
+        SConnection::Send(user, &myshop, packet_size);
     }
 }
 
