@@ -51,10 +51,58 @@ void __declspec(naked) naked_0x59FF96()
     }
 }
 
+unsigned u0x593BEE = 0x593BEE;
+void __declspec(naked) naked_0x593BE8()
+{
+    __asm
+    {
+        // original
+        mov byte ptr[esi+0x1C9],al
+
+        xor eax,eax
+
+        // character->petType
+        cmp byte ptr[esi+0x1C7],0x0
+        jne dual_layer_clothes
+
+        // character->pet
+        mov [esi+0x430],eax
+
+        dual_layer_clothes:
+        cmp byte ptr[esi+0x1C8],0x0
+        jne wings
+
+        // character->enableClothes
+        mov [esi+0xAC],eax
+        mov eax,-0x1
+
+        // character->clothes
+        mov [esi+0xB0],eax
+        mov [esi+0xB4],eax
+        mov [esi+0xB8],eax
+        mov [esi+0xBC],eax
+        mov [esi+0xC0],eax
+        mov [esi+0xC4],eax
+        xor eax,eax
+
+        wings:
+        cmp byte ptr[esi+0x1C9],0x0
+        jne _0x593BEE
+
+        // character->wings
+        mov [esi+0x434],eax
+
+        _0x593BEE:
+        jmp u0x593BEE
+    }
+}
+
 void hook::gui()
 {
     // weapon enchant bug
     util::detour((void*)0x4B867F, naked_0x4B867F, 5);
+    // disguise bug
+    util::detour((void*)0x593BE8, naked_0x593BE8, 6);
     // appearance/sex change bug
     util::detour((void*)0x59FF96, naked_0x59FF96, 6);
     // move when using cash shop
