@@ -188,7 +188,7 @@ namespace user_equipment
         response.opcode = 0x307;
         response.itemCount = 0;
 
-        for (int slot = 0; slot < max_equipment_slot_count; ++slot)
+        for (int slot = 0; slot < EquipmentSlot::Wings; ++slot)
         {
             auto& item = target->inventory[0][slot];
             if (!item)
