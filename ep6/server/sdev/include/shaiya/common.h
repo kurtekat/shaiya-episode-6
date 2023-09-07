@@ -38,15 +38,15 @@ enum EquipmentSlot
     UpperArmor, //0x1C4
     LowerArmor, //0x1C8
     Gloves,     //0x1CC
-    Boots,      //0x1D0
+    Shoes,      //0x1D0
     Weapon,     //0x1D4
     Shield,     //0x1D8
     Cloak,      //0x1DC
     Ring1,      //0x1DC
     Ring2,      //0x1E0
-    Loop1,      //0x1E4
-    Loop2,      //0x1E8
-    Amulet,     //0x1EC
+    Bracelet1,  //0x1E4
+    Bracelet2,  //0x1E8
+    Necklace,   //0x1EC
     Vehicle,    //0x1F0
     Pet,        //0x1F4
     Costume,    //0x1F8

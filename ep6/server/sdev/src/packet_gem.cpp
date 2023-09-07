@@ -233,7 +233,7 @@ namespace packet_gem
         if (!item)
             return;
 
-        if (item->itemInfo->realType > CGameData::ItemRealType::Loop)
+        if (item->itemInfo->realType > CGameData::ItemRealType::Bracelet)
         {
             ItemComposeResponse response{ 0x806, ItemComposeResult::Failure };
             SConnection::Send(user, &response, 3);

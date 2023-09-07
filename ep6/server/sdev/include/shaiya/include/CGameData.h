@@ -122,16 +122,45 @@ namespace shaiya
             Item500 = 210
         };
 
+        enum struct ItemMarketType : UINT8
+        {
+            TwoHandedWeapon = 1,
+            OneHandedWeapon,
+            DualWeapon,
+            Spear,
+            HeavyWeapon,
+            Knuckles,
+            Dagger,
+            Staff,
+            Bow,
+            Projectile,
+            Helmet,
+            UpperArmor,
+            LowerArmor,
+            Gloves,
+            Shoes,
+            Cloak,
+            Shield,
+            Necklace,
+            Ring,
+            Bracelet,
+            Lapis,
+            Lapisian,
+            Other,
+            Vehicle,
+            HighQuality
+        };
+
         enum struct ItemRealType : UINT32
         {
             OneHandedSword = 1,
             TwoHandedSword,
             OneHandedAxe,
             TwoHandedAxe,
-            DualWield,
+            DualWeapon,
             Spear,
-            OneHandedMace,
-            TwoHandedHammer,
+            OneHandedHeavy,
+            TwoHandedHeavy,
             ReverseDagger,
             Dagger,
             Javelin,
@@ -144,11 +173,11 @@ namespace shaiya
             LowerArmor,
             Shield,
             Gloves,
-            Boots,
+            Shoes,
             Ring,
-            Amulet,
-            Cape,
-            Loop,
+            Necklace,
+            Cloak,
+            Bracelet,
             Gold,
             Quest,
             Gem = 30,
@@ -228,7 +257,7 @@ namespace shaiya
             UINT32 sell;             //0x84
             PAD(24);
             ItemRealType realType;   //0xA0
-            UINT8 itemMType;         //0xA4
+            UINT8 marketType;        //0xA4
             PAD(3);
             // 0xA8
         };
