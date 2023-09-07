@@ -6,7 +6,7 @@ A library that modifies ps_game to make it compatible with episode 6 clients.
 
 Navigate to the `bin` directory and read the documentation. Install the binaries to `SERVER\PSM_Client\Bin` and execute the store procedures in SQL Server Management Studio. Open the project in Visual Studio, target the x86 platform, and build the solution. Copy the library to `SERVER\PSM_Client\Bin` and use `ps_game.ct` to inject the library. 
 
-Note: calling `LoadLibraryA` before ps_session packet `0x105` arrives will result in `g_nPayLetterEnable` being set to `false`. The intent is to use functions that are available to accomplish a task and avoid machine code as much as possible.
+Note: calling `LoadLibraryA` before ps_session packet `0x105` arrives will result in `g_nPayLetterEnable` being set to `false`.
 
 When the library attempts to establish a trusted connection with SQL Server, it will try to log in with the `NT AUTHORITY\SYSTEM` account. One way to ensure the login succeeds is to add `NT AUTHORITY\SYSTEM` to the `sysadmin` role.
 
@@ -28,6 +28,7 @@ To use this library with episode 5 projects, comment the `SHAIYA_EP6` macro and 
 hook::packet_character();
 hook::packet_gem();
 hook::packet_market();
+hook::packet_myshop();
 hook::user_equipment();
 hook::user_shape();
 hook::user_status();
@@ -36,39 +37,13 @@ hook::user_status();
 
 ## Contributors
 
-Everyone is welcome to submit a pull request or open an issue. Whether or not the code is merged, your time and effort is appreciated. The life cycle of this project will end if the community does not support it in some way or another. There are many ways people can contribute. Please browse the open [issues](https://github.com/kurtekat/Shaiya/issues) before submitting a pull request.
+Everyone is welcome to submit a pull request or open an issue. Whether or not the code is merged, your time and effort is appreciated. The life cycle of this project will end if the community does not support it in some way or another. There are many ways people can contribute. Please browse the [issues](https://github.com/kurtekat/Shaiya/issues) before contributing.
 
 ### Guidelines
 
 #### C++
 
-Most expressions in the `shaiya` namespace match the debug information, etc. The intent is to keep it that way. Aside from that, here are some suggested naming conventions.
-
-`snake_case`
-
-* namespaces
-* constants
-* local variables
-* global variables
-* functions
-* member methods
-
-`camelCase`
-
-* parameters
-* structure fields
-* member variables
-
-`PascalCase`
-
-* type definitions
-* structures
-* classes
-
-
-#### x86 ASM
-
-Use as little as machine code as possible. Please follow the style in the code block below. It shows the address of the detour and where it returns without having to look elsewhere.
+Most expressions in the `shaiya` namespace match the debug information, etc. The intent is to keep it that way. Aside from that, use as little as machine code as possible. Please follow the style in the code block below. It shows the address of the detour and where it returns without having to look elsewhere.
 
 ```
 unsigned u0x47A00C = 0x47A00C;

@@ -52,6 +52,8 @@ The project addresses the following issues:
 
 * Weapon enchant bug
 
+* Disguise removal bug
+
 * Lag when adding/removing equipment
 
 * Market search index
