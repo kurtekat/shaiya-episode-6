@@ -1,21 +1,14 @@
 # Shaiya Episode 6 - Server
 
-A library that modifies ps_game to make it compatible with episode 6 clients.
+A library that modifies ps_game and ps_dbAgent to make them compatible with episode 6 clients.
 
 ## Getting Started
 
-Navigate to the `bin` directory and read the documentation. Install the binaries to `SERVER\PSM_Client\Bin` and execute the store procedures in SQL Server Management Studio. Open the project in Visual Studio, target the x86 platform, and build the solution. Copy the library to `SERVER\PSM_Client\Bin` and use `ps_game.ct` to inject the library. 
+Navigate to the `bin` directory in both projects and read the documentation. Copy the binaries to `SERVER\PSM_Client\Bin` and execute the store procedures in SQL Server Management Studio. Open the project in Visual Studio, target the x86 platform, and build the solution. Copy the libraries to `SERVER\PSM_Client\Bin` and start the services. Use the provided `.ct` files to inject the libraries.
 
 Note: calling `LoadLibraryA` before ps_session packet `0x105` arrives will result in `g_nPayLetterEnable` being set to `false`.
 
-When the library attempts to establish a trusted connection with SQL Server, it will try to log in with the `NT AUTHORITY\SYSTEM` account. One way to ensure the login succeeds is to add `NT AUTHORITY\SYSTEM` to the `sysadmin` role.
-
-```sql
-ALTER SERVER ROLE [sysadmin] ADD MEMBER [NT AUTHORITY\SYSTEM]
-
-```
-
-To use this library with episode 5 projects, comment the `SHAIYA_EP6` macro and the episode 6 functions.
+To use this library with episode 5 projects, comment the `SHAIYA_EP6` macro and the episode 6 functions. `sdev-db.dll` is not required for episode 5 projects.
 
 ```cpp
 // common.h
@@ -63,13 +56,4 @@ void __declspec(naked) naked_0x47A003()
         jmp u0x47A00C
     }
 }
-```
-
-#### .NET
-
-The source and headers contain `pragma` directives to tell the compiler whether the code is managed or unmanaged. It will default to managed, so please pay attention to the warnings. For example: the `naked` attribute and `DllMain` will emit a warning.
-
-```
-#pragma managed
-#pragma unmanaged
 ```

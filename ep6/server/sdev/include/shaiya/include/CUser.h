@@ -70,16 +70,6 @@ namespace shaiya
         UINT8 count;
     };
 
-    struct CloakBadge
-    {
-        UINT8 frontPattern;
-        UINT8 backPattern;
-        UINT8 emblem;
-        UINT8 frontColor;
-        UINT8 backColor;
-        UINT8 emblemColor;
-    };
-
     struct CloneEquipment
     {
         UINT8 type;
@@ -289,7 +279,7 @@ namespace shaiya
         Country country;                   //0x12D
         Family family;                     //0x12E
         Grow grow;                         //0x12F
-        PAD(1);
+        Grow maxGrow;                      //0x130
         UINT8 hair;                        //0x131
         UINT8 face;                        //0x132
         UINT8 size;                        //0x133

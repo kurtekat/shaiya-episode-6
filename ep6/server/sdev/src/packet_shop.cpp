@@ -1,4 +1,3 @@
-#pragma unmanaged
 #include <array>
 #include <thread>
 #define WIN32_LEAN_AND_MEAN
@@ -70,7 +69,7 @@ namespace packet_shop
 {
     using namespace shaiya;
 
-    void event_0x105(bool enable)
+    void raise_event_0x105(bool enable)
     {
         PacketBuffer0105 packet{};
         packet.u0x00 = 0;
@@ -82,7 +81,7 @@ namespace packet_shop
         CClientToMgr::OnRecv(&packet);
     }
 
-    void event_0x1B02(CUser* user)
+    void raise_event_0x1B02(CUser* user)
     {
         PacketBuffer1B02 packet{};
         packet.u0x00 = 0;
@@ -95,7 +94,7 @@ namespace packet_shop
         CClientToMgr::OnRecv(&packet);
     }
 
-    void event_0x1B03(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
+    void raise_event_0x1B03(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
     {
         PacketBuffer1B03 packet{};
         packet.u0x00 = 0;
@@ -111,24 +110,24 @@ namespace packet_shop
         CClientToMgr::OnRecv(&packet);
     }
 
-    void purchase_item(CUser* user)
+    void purchase_item_async(CUser* user)
     {
         std::thread([=] {
-            event_0x1B02(user);
+            raise_event_0x1B02(user);
             }).detach();
     }
 
-    void send_present(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
+    void send_present_async(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
     {
         std::thread([=] {
-            event_0x1B03(user, targetName, productCode, usePoint);
+            raise_event_0x1B03(user, targetName, productCode, usePoint);
             }).detach();
     }
 
-    void set_pay_letter_enable(bool enable)
+    void set_pay_letter_enable_async(bool enable)
     {
         std::thread([=] {
-            event_0x105(enable);
+            raise_event_0x105(enable);
             }).detach();
     }
 }
@@ -141,7 +140,7 @@ void __declspec(naked) naked_0x48876F()
         pushad
 
         push edi // user
-        call packet_shop::purchase_item
+        call packet_shop::purchase_item_async
         add esp,0x4
 
         popad
@@ -178,7 +177,7 @@ void __declspec(naked) naked_0x488A80()
         lea eax,[esp+0x167]
         push eax // targetName
         push edi // user
-        call packet_shop::send_present
+        call packet_shop::send_present_async
         add esp,0x10
 
         popad
@@ -217,5 +216,5 @@ void hook::packet_shop()
     util::detour((void*)0x47D3D7, naked_0x47D3D7, 5);
 
     // fake a 0x105 event
-    packet_shop::set_pay_letter_enable(true);
+    packet_shop::set_pay_letter_enable_async(true);
 }

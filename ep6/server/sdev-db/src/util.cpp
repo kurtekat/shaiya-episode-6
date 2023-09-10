@@ -35,7 +35,7 @@ void util::log(const std::string& text)
 {
     auto time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
     std::ofstream ofs("sdev.log.txt", std::ios::app);
-    
+
     if (ofs)
     {
         ofs << std::format("{:%Y-%m-%d %X}\n", time) << text << '\n';

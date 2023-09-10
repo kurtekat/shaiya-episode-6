@@ -10,8 +10,6 @@ Visual Studio 2022
 
 C++ 20
 
-.NET Framework 4.8
-
 ## Inspiration
 
 This project would not exist without the open-source contributions of these developers. 

@@ -1,4 +1,3 @@
-#pragma unmanaged
 #include <map>
 #include <random>
 #include <string>
