@@ -44,8 +44,8 @@ namespace shaiya
         UINT16 stamina;
         Equipment0101 equipment;
         char charName[19];
-        bool deleted;
         bool nameChange;
+        bool deleted;
         CloakBadge cloakBadge;
     };
     #pragma pack(pop)
