@@ -1,7 +1,8 @@
 ### ps_dbAgent
 
-This file has two modifications. The first is a dupe solution released by Trayne01. It requires a modified version [dbo].[usp_Save_Char_Info_E], which can be found in the in the sql directory. The second modification calls DBCharacter::ReloadPoint to get the user's cash points.
+This file has two modifications. The first is a dupe solution released by [Trayne01](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/3798719-release-episode-5-4-packet-based-dupe-fix.html). It requires a modified version [dbo].[usp_Save_Char_Info_E], which can be found in the in the sql directory. The second modification calls DBCharacter::ReloadPoint to get the user's cash points.
 
+```
 [ENABLE]
 alloc(newmem,128)
 label(return)
@@ -20,6 +21,7 @@ return:
 dealloc(newmem)
 0040478E:
 call 00405380
+```
 
 ### SQL Server
 
