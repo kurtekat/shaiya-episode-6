@@ -7,5 +7,6 @@
 void Main(HMODULE hModule)
 {
     DisableThreadLibraryCalls(hModule);
-    hook::ep6();
+    hook::character_create();
+    hook::character_list();
 }

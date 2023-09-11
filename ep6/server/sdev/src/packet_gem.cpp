@@ -26,7 +26,7 @@ namespace packet_gem
 
     // max is 99
     constexpr int req_wis_out_of_range = 100;
-    constexpr int max_equipment_slot_count = 24;
+    constexpr int max_item_slot = 24;
     constexpr ItemId weapon_lapisian_plus = 95004;
     constexpr ItemId hot_time_lapisian = 95005;
     constexpr ItemId armor_lapisian_plus = 95009;
@@ -81,7 +81,7 @@ namespace packet_gem
 
     int find_available_slot(CUser* user, int bag)
     {
-        for (int slot = 0; slot < max_equipment_slot_count; ++slot)
+        for (int slot = 0; slot < max_item_slot; ++slot)
             if (!user->inventory[bag][slot])
                 return slot;
 
@@ -131,7 +131,7 @@ namespace packet_gem
         auto rune_bag_number = util::read_bytes<std::uint8_t>(packet, 2);
         auto rune_slot_number = util::read_bytes<std::uint8_t>(packet, 3);
 
-        if (rune_bag_number > user->bagsUnlocked || rune_slot_number >= max_equipment_slot_count)
+        if (rune_bag_number > user->bagsUnlocked || rune_slot_number >= max_item_slot)
             return;
 
         auto rune = user->inventory[rune_bag_number][rune_slot_number];
@@ -148,7 +148,7 @@ namespace packet_gem
         auto vial_bag_number = util::read_bytes<std::uint8_t>(packet, 4);
         auto vial_slot_number = util::read_bytes<std::uint8_t>(packet, 5);
 
-        if (vial_bag_number > user->bagsUnlocked || vial_slot_number >= max_equipment_slot_count)
+        if (vial_bag_number > user->bagsUnlocked || vial_slot_number >= max_item_slot)
             return;
 
         auto vial = user->inventory[vial_bag_number][vial_slot_number];
@@ -215,7 +215,7 @@ namespace packet_gem
         auto rune_bag_number = util::read_bytes<std::uint8_t>(packet, 2);
         auto rune_slot_number = util::read_bytes<std::uint8_t>(packet, 3);
 
-        if (rune_bag_number > user->bagsUnlocked || rune_slot_number >= max_equipment_slot_count)
+        if (rune_bag_number > user->bagsUnlocked || rune_slot_number >= max_item_slot)
             return;
 
         auto rune = user->inventory[rune_bag_number][rune_slot_number];
@@ -225,7 +225,7 @@ namespace packet_gem
         auto item_bag_number = util::read_bytes<std::uint8_t>(packet, 4);
         auto item_slot_number = util::read_bytes<std::uint8_t>(packet, 5);
 
-        if (item_bag_number > user->bagsUnlocked || item_slot_number >= max_equipment_slot_count)
+        if (item_bag_number > user->bagsUnlocked || item_slot_number >= max_item_slot)
             return;
 
         auto item = user->inventory[item_bag_number][item_slot_number];
@@ -523,7 +523,7 @@ namespace packet_gem
         std::memcpy(response.craftName, &item->craftName, sizeof(CraftName));
         SConnection::Send(user, &response, sizeof(ItemComposeResponse));
 
-        DBItemCraftName item_craft_name{ 0x717, user->userUid, item_bag_number, item_slot_number };
+        DBItemCraftName item_craft_name{ 0x717, user->userId, item_bag_number, item_slot_number };
         std::memcpy(item_craft_name.craftName, &item->craftName, sizeof(CraftName));
         SConnectionTServerReconnect::Send(&item_craft_name, sizeof(DBItemCraftName));
 

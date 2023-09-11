@@ -13,7 +13,7 @@ using namespace shaiya;
 
 namespace user_shape
 {
-    constexpr int max_equipment_slot_count = 17;
+    constexpr int max_equipment_slot = 17;
     constexpr int shape_size_without_cloak = 118;
     constexpr int shape_size_with_cloak = 124;
 
@@ -34,13 +34,13 @@ namespace user_shape
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
         
-        for (int i = 0; i < max_equipment_slot_count; ++i)
+        for (int slot = 0; slot < max_equipment_slot; ++slot)
         {
-            if (target->inventory[0][i])
+            if (target->inventory[0][slot])
             {
-                user->clone->equipment[i].type = target->inventory[0][i]->type;
-                user->clone->equipment[i].typeId = target->inventory[0][i]->typeId;
-                user->clone->equipment[i].enchantStep = CItem::GetEnchantStep(target->inventory[0][i]);
+                user->clone->equipment[slot].type = target->inventory[0][slot]->type;
+                user->clone->equipment[slot].typeId = target->inventory[0][slot]->typeId;
+                user->clone->equipment[slot].enchantStep = CItem::GetEnchantStep(target->inventory[0][slot]);
             }
         }
 
@@ -111,13 +111,13 @@ namespace user_shape
         shape.grow = user->grow;
         shape.kills = user->kills;
 
-        for (int i = 0; i < max_equipment_slot_count; ++i)
+        for (int slot = 0; slot < max_equipment_slot; ++slot)
         {
-            if (user->inventory[0][i])
+            if (user->inventory[0][slot])
             {
-                shape.equipment[i].type = user->inventory[0][i]->type;
-                shape.equipment[i].typeId = user->inventory[0][i]->typeId;
-                shape.equipment[i].enchantStep = CItem::GetEnchantStep(user->inventory[0][i]);
+                shape.equipment[slot].type = user->inventory[0][slot]->type;
+                shape.equipment[slot].typeId = user->inventory[0][slot]->typeId;
+                shape.equipment[slot].enchantStep = CItem::GetEnchantStep(user->inventory[0][slot]);
             }
         }
 
@@ -191,13 +191,13 @@ namespace user_shape
         shape.grow = user->grow;
         shape.kills = user->kills;
 
-        for (int i = 0; i < max_equipment_slot_count; ++i)
+        for (int slot = 0; slot < max_equipment_slot; ++slot)
         {
-            if (user->inventory[0][i])
+            if (user->inventory[0][slot])
             {
-                shape.equipment[i].type = user->inventory[0][i]->type;
-                shape.equipment[i].typeId = user->inventory[0][i]->typeId;
-                shape.equipment[i].enchantStep = CItem::GetEnchantStep(user->inventory[0][i]);
+                shape.equipment[slot].type = user->inventory[0][slot]->type;
+                shape.equipment[slot].typeId = user->inventory[0][slot]->typeId;
+                shape.equipment[slot].enchantStep = CItem::GetEnchantStep(user->inventory[0][slot]);
             }
         }
 

@@ -22,14 +22,14 @@ namespace packet_character
     struct DBCharNameAvailableRequest
     {
         UINT16 opcode; // 0x40D
-        ULONG userUid;
+        UserId userId;
         char charName[19];
     };
 
     struct DBCharNameAvailableResponse
     {
         UINT16 opcode; // 0x40D
-        ULONG userUid;
+        UserId userId;
         bool available;
     };
     #pragma pack(pop)
@@ -40,7 +40,7 @@ namespace packet_character
 
         DBCharNameAvailableRequest request{};
         request.opcode = 0x40D;
-        request.userUid = user->userUid;
+        request.userId = user->userId;
         strncpy_s(request.charName, name, sizeof(request.charName));
 
         int packet_size = packet_size_without_name + std::strlen(request.charName) + 1;
@@ -118,7 +118,7 @@ namespace packet_character
         CharacterList character{};
         character.opcode = 0x101;
         character.slot = dbCharacter->slot;
-        character.charId = dbCharacter->charId;
+        character.charId = dbCharacter->id;
         character.regDate = dbCharacter->regDate;
         character.level = dbCharacter->level;
         character.family = dbCharacter->family;

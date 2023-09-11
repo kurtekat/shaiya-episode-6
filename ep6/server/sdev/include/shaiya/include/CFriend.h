@@ -6,7 +6,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CFriend
     {
-        ULONG id;         //0x00
+        CharId id;        //0x00
         Country country;  //0x04
         Grow grow;        //0x05
         Job job;          //0x06

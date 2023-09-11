@@ -500,7 +500,7 @@ namespace shaiya
         static KCStatus* GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/);
         static int GetKCStatusMax(int country/*eax*/);
         static int GetKCStatusMaxKillCount(int country/*eax*/);
-        static ProductInfo* GetProductInfo(PCSTR productCode/*eax*/);
+        static ProductInfo* GetProductInfo(const char* productCode/*eax*/);
         static SkillInfo* GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/);
     };
     #pragma pack(pop)

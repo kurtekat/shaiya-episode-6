@@ -14,7 +14,7 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    constexpr int max_equipment_slot_count = 17;
+    constexpr int max_equipment_slot = 17;
 
     bool enable_slot(CGameData::ItemInfo* info, EquipmentSlot slot)
     {
@@ -49,7 +49,7 @@ namespace user_equipment
     {
         user->isInitEquipment = true;
 
-        for (int slot = 0; slot < max_equipment_slot_count; ++slot)
+        for (int slot = 0; slot < max_equipment_slot; ++slot)
         {
             auto& item = user->inventory[0][slot];
             if (!item)
@@ -311,15 +311,15 @@ void hook::user_equipment()
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
 
-    std::uint8_t max_equipment_slot_count = 17;
+    std::uint8_t max_equipment_slot = 17;
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x4615B3, &max_equipment_slot, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, &max_equipment_slot_count, 1);
-    util::write_memory((void*)0x468722, &max_equipment_slot_count, 1);
-    util::write_memory((void*)0x468955, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x46862D, &max_equipment_slot, 1);
+    util::write_memory((void*)0x468722, &max_equipment_slot, 1);
+    util::write_memory((void*)0x468955, &max_equipment_slot, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x46BCCF, &max_equipment_slot, 1);
     // CUser::PacketAdminCmdD
-    util::write_memory((void*)0x482896, &max_equipment_slot_count, 1);
+    util::write_memory((void*)0x482896, &max_equipment_slot, 1);
 }

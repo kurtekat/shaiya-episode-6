@@ -16,7 +16,7 @@ namespace shaiya
 
     struct Character0403
     {
-        ULONG charId;             //0x00
+        CharId id;                //0x00
         ULONG regDate;            //0x04
         bool deleted;             //0x08
         UINT8 slot;               //0x09
@@ -53,7 +53,7 @@ namespace shaiya
 
     struct Character0403
     {
-        ULONG charId;             //0x00
+        CharId id;                //0x00
         ULONG regDate;            //0x04
         bool deleted;             //0x08
         UINT8 slot;               //0x09
@@ -86,7 +86,7 @@ namespace shaiya
     struct DBCharacterList
     {
         UINT16 opcode;  //0x403
-        UINT32 userUid;
+        UserId userId;
         bool sendCountry;
         UINT8 count;
         Character0403 list[5];

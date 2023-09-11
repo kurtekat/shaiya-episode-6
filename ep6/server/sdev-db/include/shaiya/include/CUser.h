@@ -6,7 +6,6 @@ namespace shaiya
     FWDDECL SConnection;
 
     #pragma pack(push, 1)
-    // mother f**ker
     struct Equipment
     {
         UINT8 type[8];
@@ -15,7 +14,7 @@ namespace shaiya
 
     struct Character
     {
-        ULONG id;               //0x00
+        CharId id;              //0x00
         ULONG regDate;          //0x04
         UINT8 slot;             //0x08
         Family family;          //0x09
@@ -50,7 +49,7 @@ namespace shaiya
     struct CUser
     {
         PAD(56);
-        ULONG userUid;            //0x38
+        UserId userId;            //0x38
         PAD(15152);
         Character character[5];   //0x3B6C
         // 0x3D38

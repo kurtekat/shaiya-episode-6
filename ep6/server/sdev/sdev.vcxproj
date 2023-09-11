@@ -115,7 +115,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{cc07fbe2-8d59-47af-8344-a80f5c1c3414}</ProjectGuid>
-    <RootNamespace>Dll1</RootNamespace>
+    <RootNamespace>sdev</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFrameworkVersion>
     </TargetFrameworkVersion>

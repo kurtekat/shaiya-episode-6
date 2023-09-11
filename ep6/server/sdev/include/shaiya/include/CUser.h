@@ -45,7 +45,7 @@ namespace shaiya
         Wind2
     };
 
-    struct BanCharacter
+    struct BanChar
     {
         ULONG id;       //0x00
         char name[21];  //0x04
@@ -269,12 +269,13 @@ namespace shaiya
     {
         SConnection connection;            //0x00
         SVector pos;                       //0xD0
+        // == charId
         ULONG id;                          //0xDC
         FWDDECL CZone* zone;               //0xE0
         UINT32 cellX;                      //0xE4
         UINT32 cellZ;                      //0xE8
         PAD(60);
-        ULONG charId;                      //0x128
+        CharId charId;                     //0x128
         UINT8 slot;                        //0x12C
         Country country;                   //0x12D
         Family family;                     //0x12E
@@ -499,7 +500,7 @@ namespace shaiya
         UINT32 buddyCount;              //0x1838
         CFriend buddy[100];             //0x183C
         UINT32 banCount;                //0x377C
-        BanCharacter banChar[100];      //0x3780
+        BanChar banChar[100];           //0x3780
         ULONG buddyInviteCharId;        //0x5530
         PAD(76);
         BOOL joinGuildDisable;          //0x5580
@@ -517,7 +518,7 @@ namespace shaiya
         Permission permission;          //0x5808
         PAD(3);
         AdminInfo adminInfo;            //0x580C
-        ULONG userUid;                  //0x582C
+        UserId userId;                  //0x582C
         PAD(4);
         char username[32];              //0x5834
         PAD(1);

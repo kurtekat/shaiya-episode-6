@@ -1,7 +1,5 @@
 #include <array>
 #include <map>
-#include <format>
-#include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -11,84 +9,24 @@
 #include <shaiya/packets/0403.h>
 #include <shaiya/include/CUser.h>
 #include <shaiya/include/SConnection.h>
-#include <shaiya/include/SDatabase.h>
-#include <shaiya/include/SDatabasePool.h>
 using namespace shaiya;
 
-namespace ep6
+namespace character_list
 {
-    constexpr int max_character_slot_count = 5;
-    constexpr int max_equipment_slot_count = 17;
-    inline std::map<CUser*, std::array<Equipment0403, 5>> equipment_map{};
+    constexpr int max_character_slot = 5;
+    constexpr int max_equipment_slot = 17;
 
-    #pragma pack(push, 1)
-    // custom
-    struct CharNameAvailableResponse
-    {
-        UINT16 opcode; // 0x40D
-        ULONG userUid;
-        bool available;
-    };
-    #pragma pack(pop)
+    inline std::map<UserId, std::array<Equipment0403, 5>> equipment_map{};
 
-    bool is_name_available(SQLPOINTER name)
-    {
-        auto db = SDatabasePool::AllocDB();
-
-        if (!db)
-            return false;
-
-        SDatabase::Prepare(db);
-
-        std::string query = "SELECT ISNULL(COUNT(*),0) FROM [PS_GameData].[dbo].[Chars] WHERE CharName=CAST(? AS VARCHAR) AND Del=0;";
-        SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, 19, 0, name, 0, nullptr);
-        SQLPrepareA(db->stmt, reinterpret_cast<SQLCHAR*>(query.data()), SQL_NTS);
-
-        if (SQLExecute(db->stmt))
-        {
-            SDatabase::WriteErrorLog(db);
-            SDatabasePool::FreeDB(db);
-            return false;
-        }
-
-        if (SQLFetch(db->stmt))
-        {
-            SDatabase::WriteErrorLog(db);
-            SDatabasePool::FreeDB(db);
-            return false;
-        }
-
-        int count = 0;
-        if (SQLGetData(db->stmt, 1, SQL_INTEGER, &count, 0, nullptr))
-        {
-            SDatabase::WriteErrorLog(db);
-            SDatabasePool::FreeDB(db);
-            return false;
-        }
-
-        SDatabasePool::FreeDB(db);
-        return count == 0;
-    }
-
-    void char_name_available_handler(CUser* user, SQLPOINTER name)
-    {
-        CharNameAvailableResponse response{ 0x40D, user->userUid, is_name_available(name) };
-
-        if (!user->connection)
-            return;
-
-        SConnection::Send(user->connection, &response, sizeof(CharNameAvailableResponse));
-    }
-
-    void send_character_list(CUser* user, bool sendCountry)
+    void send(CUser* user, bool sendCountry)
     {
         CharacterList character_list{};
         character_list.opcode = 0x403;
-        character_list.userUid = user->userUid;
+        character_list.userId = user->userId;
         character_list.sendCountry = sendCountry;
         character_list.count = 0;
 
-        for (int i = 0; i < max_character_slot_count; ++i)
+        for (int i = 0; i < max_character_slot; ++i)
         {
             if (!user->character[i].id)
                 continue;
@@ -118,7 +56,7 @@ namespace ep6
             character.mapId = user->character[i].mapId;
             character.nameChange = user->character[i].nameChange;
 
-            auto it = equipment_map.find(user);
+            auto it = equipment_map.find(user->userId);
             if (it != equipment_map.end())
                 std::memcpy(&character.equipment, &it->second[i], sizeof(Equipment0403));
             else
@@ -140,53 +78,25 @@ namespace ep6
         SConnection::Send(user->connection, &character_list, packet_size);
     }
 
-    void hook_user_ctor(CUser* user)
+    void make_equipment_pair(CUser* user)
     {
-        auto it = equipment_map.find(user);
+        auto it = equipment_map.find(user->userId);
         if (it == equipment_map.end())
         {
             std::array<Equipment0403, 5> equipment{};
-            auto pair = std::make_pair(user, equipment);
+            auto pair = std::make_pair(user->userId, equipment);
             equipment_map.insert(pair);
         }
     }
 
     void init_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
     {
-        auto it = equipment_map.find(user);
+        auto it = equipment_map.find(user->userId);
         if (it != equipment_map.end())
         {
             it->second[characterSlot].type[equipmentSlot] = type;
             it->second[characterSlot].typeId[equipmentSlot] = typeId;
         }
-    }
-}
-
-unsigned u0x4061D9 = 0x4061D9;
-void __declspec(naked) naked_0x4061D3()
-{
-    __asm
-    {
-        // original
-        add edx,-0x402
-        cmp edx,0xB
-        je case_0x40D
-        jmp u0x4061D9
-
-        case_0x40D:
-        pushad
-
-        lea edx,[eax+0x6]
-
-        push edx // name
-        push ecx // user
-        call ep6::char_name_available_handler
-        add esp,0x8
-
-        popad
-
-        mov al,0x1
-        retn
     }
 }
 
@@ -200,7 +110,7 @@ void __declspec(naked) naked_0x40AA20()
 
         push edx // sendCountry
         push esi // user
-        call ep6::send_character_list
+        call character_list::send
         add esp,0x8
 
         popad
@@ -209,22 +119,22 @@ void __declspec(naked) naked_0x40AA20()
     }
 }
 
-unsigned u0x401798 = 0x401798;
-void __declspec(naked) naked_0x401793()
+unsigned u0x421AAB = 0x421AAB;
+void __declspec(naked) naked_0x421AA5()
 {
     __asm
     {
         pushad
 
-        push esi // user
-        call ep6::hook_user_ctor
+        push edi // user
+        call character_list::make_equipment_pair
         add esp,0x4
 
         popad
 
         // original
-        mov ecx,0xF0
-        jmp u0x401798
+        lea eax,[edi+0x3B98]
+        jmp u0x421AAB
     }
 }
 
@@ -245,7 +155,7 @@ void __declspec(naked) naked_0x4223F7()
         movzx edx,byte ptr[esp+0x54]
         push edx // characterSlot
         push edi // user
-        call ep6::init_equipment
+        call character_list::init_equipment
         add esp,0x14
 
         popad
@@ -257,17 +167,14 @@ void __declspec(naked) naked_0x4223F7()
     }
 }
 
-void hook::ep6()
+void hook::character_list()
 {
-    // CUser::PacketUserChar switch
-    util::detour((void*)0x4061D3, naked_0x4061D3, 6);
     // CUser::SendCharacterList
     util::detour((void*)0x40AA20, naked_0x40AA20, 6);
-    // CUser::CUser
-    util::detour((void*)0x401793, naked_0x401793, 5);
     // DBCharacter::LoadCharacterList
+    util::detour((void*)0x421AA5, naked_0x421AA5, 6);
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
 
-    std::uint8_t read_items_param = 17;
-    util::write_memory((void*)0x42220B, &read_items_param, 1);
+    std::uint8_t read_items_slot_param = 17;
+    util::write_memory((void*)0x42220B, &read_items_slot_param, 1);
 }

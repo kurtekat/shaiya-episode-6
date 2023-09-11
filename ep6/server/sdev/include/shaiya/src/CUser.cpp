@@ -249,7 +249,6 @@ void CUser::SendRecoverMe(CUser* user/*ecx*/, int health, int stamina, int mana)
     (*(LPFN)0x490D60)(user, health, stamina, mana);
 }
 
-// note: __fastcall incompatible with the /clr option
 void CUser::SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
     Address u0x490DA0 = 0x490DA0;
@@ -264,7 +263,6 @@ void CUser::SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*e
     }
 }
 
-// note: __fastcall incompatible with the /clr option
 void CUser::SendRecoverSet(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
     Address u0x4910F0 = 0x4910F0;

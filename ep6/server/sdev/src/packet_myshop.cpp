@@ -15,13 +15,13 @@ namespace packet_myshop
 {
     void send_item_list(CUser* user, MyShop* myShop)
     {
-        constexpr int max_shop_slot_count = 20;
+        constexpr int max_shop_slot = 20;
 
         MyShopItemList myshop{};
         myshop.opcode = 0x230B;
         myshop.itemCount = 0;
 
-        for (int shop_slot = 0; shop_slot < max_shop_slot_count; ++shop_slot)
+        for (int shop_slot = 0; shop_slot < max_shop_slot; ++shop_slot)
         {
             auto src_bag = myShop->srcBag[shop_slot];
             auto src_slot = myShop->srcSlot[shop_slot];

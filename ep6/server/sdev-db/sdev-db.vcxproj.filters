@@ -71,7 +71,7 @@
     <ClCompile Include="src\util.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ep6.cpp">
+    <ClCompile Include="src\character_create.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\SDatabase.cpp">
@@ -79,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp">
       <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\character_list.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

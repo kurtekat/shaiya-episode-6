@@ -59,7 +59,7 @@ int CGameData::GetKCStatusMaxKillCount(int country/*eax*/)
     }
 }
 
-CGameData::ProductInfo* CGameData::GetProductInfo(PCSTR productCode/*eax*/)
+CGameData::ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
 {
     Address u0x47A5F0 = 0x47A5F0;
 

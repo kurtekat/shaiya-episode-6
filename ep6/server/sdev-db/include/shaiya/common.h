@@ -20,11 +20,12 @@
 #define FWDDECL struct
 
 typedef unsigned Address;
+typedef unsigned long CharId;
 typedef unsigned Count;
-typedef unsigned long Id;
 typedef unsigned char* Packet;
 typedef int Socket;
 typedef unsigned long TickCount;
+typedef unsigned long UserId;
 
 enum struct Country : UINT8
 {

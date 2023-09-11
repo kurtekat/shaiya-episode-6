@@ -37,14 +37,14 @@ struct PacketBuffer1B02
     void* p0x04;
     ULONG u0x08;
     ULONG u0x0C;
-    ULONG userUid;         // ebx+0x02
-    ULONG charId;          // ebx+0x06
+    UserId userId;         // ebx+0x02
+    CharId charId;         // ebx+0x06
     UINT8 result;          // ebx+0x0A
     char itemKey[25];      // ebx+0x0B
     UINT32 u0x32;          // ebx+0x24
     char orderNumber[16];  // ebx+0x28
     // user->id
-    ULONG userId;          // ebx+0x38
+    ULONG id;              // ebx+0x38
     UINT32 u0x4A;          // ebx+0x3C
     UINT32 itemCount;      // ebx+0x40
     // 0x52
@@ -56,7 +56,7 @@ struct PacketBuffer1B03
     void* p0x04;
     ULONG u0x08;
     ULONG u0x0C;
-    ULONG userUid;         // ebx+0x02
+    UserId userId;         // ebx+0x02
     char productCode[21];  // ebx+0x06
     char targetName[21];   // ebx+0x1B
     UINT32 usePoint;       // ebx+0x30
@@ -89,12 +89,12 @@ namespace packet_shop
         packet.u0x08 = 0;
         // 00 00 02 1B
         packet.u0x0C = 0x1B020000;
-        packet.userUid = user->userUid;
+        packet.userId = user->userId;
         packet.charId = user->charId;
         CClientToMgr::OnRecv(&packet);
     }
 
-    void raise_event_0x1B03(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
+    void raise_event_0x1B03(CUser* user, const char* targetName, const char* productCode, int usePoint)
     {
         PacketBuffer1B03 packet{};
         packet.u0x00 = 0;
@@ -102,7 +102,7 @@ namespace packet_shop
         packet.u0x08 = 0;
         // 00 00 03 1B
         packet.u0x0C = 0x1B030000;
-        packet.userUid = user->userUid;
+        packet.userId = user->userId;
         strncpy_s(packet.productCode, productCode, sizeof(packet.productCode));
         strncpy_s(packet.targetName, targetName, sizeof(packet.targetName));
         packet.usePoint = usePoint;
@@ -117,7 +117,7 @@ namespace packet_shop
             }).detach();
     }
 
-    void send_present_async(CUser* user, const char* targetName, const char* productCode, std::uint32_t usePoint)
+    void send_present_async(CUser* user, const char* targetName, const char* productCode, int usePoint)
     {
         std::thread([=] {
             raise_event_0x1B03(user, targetName, productCode, usePoint);
