@@ -24,4 +24,4 @@ The output file will be encrypted.
 
 ## Server Format
 
-Copy the output file to **PSM_Client/Bin/Data**. The output file will be not be encrypted.
+Copy the output file to **PSM_Client/Bin/Data**. The output file will not be encrypted.

@@ -44,4 +44,4 @@ The application will extract the file to a format that is easy to read and edit.
   },
 ```
 
-When you are done, run the application again, choose the compile option, and then choose the server format. Copy the output file to **PSM_Client/Bin/Data**. The output file will be not be encrypted.
+Copy the output file to **PSM_Client/Bin/Data**. The output file will not be encrypted.
