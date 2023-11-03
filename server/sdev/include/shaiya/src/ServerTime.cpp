@@ -16,7 +16,7 @@ ULONG ServerTime::GetExpireTime(ULONG makeTime, int days)
     ULARGE_INTEGER li{ ft.dwLowDateTime, ft.dwHighDateTime };
 
     auto seconds = std::chrono::seconds(std::chrono::days(days)).count();
-    li.QuadPart += seconds * std::chrono::microseconds(std::chrono::seconds(1)).count();
+    li.QuadPart += seconds * std::chrono::microseconds(std::chrono::seconds(10)).count();
 
     ft.dwLowDateTime = li.LowPart;
     ft.dwHighDateTime = li.HighPart;
