@@ -1,12 +1,15 @@
 #pragma once
 #include <include/shaiya/common.h>
 #include <include/shaiya/include/SSyncList.h>
+#include <include/shaiya/include/SSyncMap.h>
 
 namespace shaiya
 {
+    FWDDECL CItem;
     FWDDECL CMap;
     FWDDECL CMob;
     FWDDECL CNpc;
+    FWDDECL CTrap;
     FWDDECL CUser;
     FWDDECL SVector;
 
@@ -14,17 +17,24 @@ namespace shaiya
     struct CZone
     {
         PAD(24);
-        ULONG id;                   //0x18
+        ULONG id;                         //0x18
         PAD(12);
-        CMap* map;                  //0x28
+        CMap* map;                        //0x28
         PAD(12);
-        SSyncList<CUser> waitList;  //0x38
-        // 0x64
-        PAD(120);
-        SSyncList<CUser> userList;  //0x184
-        SSyncList<CMob> mobList;    //0x1B0
-        // 0x1DC
-        PAD(316);
+        SSyncList<CUser> waitList;        //0x38
+        SSyncMap<ULONG, CUser*> userMap;  //0x64
+        SSyncMap<ULONG, CMob*> mobMap;    //0xAC
+        SSyncMap<ULONG, CNpc*> npcMap;    //0xF4
+        SSyncMap<ULONG, CItem*> itemMap;  //0x13C
+        SSyncList<CUser> userList;        //0x184
+        SSyncList<CMob> mobList;          //0x1B0
+        SSyncList<CNpc> npcList;          //0x1DC
+        SSyncList<CItem> itemList;        //0x208
+        SSyncList<CTrap> trapList;        //0x234
+        // not used :)
+        SSyncList<void> list260;          //0x260
+        // 0x2A4
+        PAD(116);
         // 0x318
 
         static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);

@@ -1,6 +1,7 @@
 #pragma once
 #include <include/shaiya/common.h>
 #include <include/shaiya/include/CGameData.h>
+#include <include/shaiya/include/SNode.h>
 
 namespace shaiya
 {
@@ -47,8 +48,8 @@ namespace shaiya
         UINT16 craftStamina;       //0x94
         UINT16 craftAttackPower;   //0x96
         UINT16 craftAbsorption;    //0x98
-        PAD(14);
-        // 0xA8
+        PAD(6);
+        // 0xA0
 
         static char GetEnchantStep(CItem* item/*edx*/);
         /*itemInfo->itemRealType == 22 or 23 or 25*/

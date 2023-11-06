@@ -12,15 +12,15 @@ namespace shaiya
         int hours;
         int minutes;
 
-        Duration(LPSYSTEMTIME time)
+        Duration(LPSYSTEMTIME lpst)
             : days(0), hours(0), minutes(0)
         {
-            auto tt = this->to_time_t(time);
+            auto tt = this->to_time_t(lpst);
             if (tt == -1)
                 return;
 
-            auto time_point = std::chrono::system_clock::from_time_t(tt);
-            auto duration = time_point - std::chrono::system_clock::now();
+            auto tp = std::chrono::system_clock::from_time_t(tt);
+            auto duration = tp - std::chrono::system_clock::now();
 
             this->days = std::chrono::duration_cast<std::chrono::days>(duration).count();
             this->hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
@@ -34,15 +34,15 @@ namespace shaiya
 
     private:
 
-        std::time_t to_time_t(LPSYSTEMTIME st)
+        std::time_t to_time_t(LPSYSTEMTIME lpst)
         {
             std::tm tm{};
-            tm.tm_sec = st->wSecond;
-            tm.tm_min = st->wMinute;
-            tm.tm_hour = st->wHour;
-            tm.tm_mday = st->wDay;
-            tm.tm_mon = st->wMonth - 1;
-            tm.tm_year = st->wYear - 1900;
+            tm.tm_sec = lpst->wSecond;
+            tm.tm_min = lpst->wMinute;
+            tm.tm_hour = lpst->wHour;
+            tm.tm_mday = lpst->wDay;
+            tm.tm_mon = lpst->wMonth - 1;
+            tm.tm_year = lpst->wYear - 1900;
             tm.tm_isdst = -1;
             return std::mktime(&tm);
         }

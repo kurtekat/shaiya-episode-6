@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct BattleExchangeItem
+    struct PvPExchangeItem
     {
         UINT16 opcode{ 0x240D };
         UINT8 destSlot;

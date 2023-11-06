@@ -26,9 +26,11 @@
     <ClCompile Include="include\shaiya\src\CItemDrop.cpp" />
     <ClCompile Include="include\shaiya\src\CMap.cpp" />
     <ClCompile Include="include\shaiya\src\CMob.cpp" />
+    <ClCompile Include="include\shaiya\src\CNpc.cpp" />
     <ClCompile Include="include\shaiya\src\CObject.cpp" />
     <ClCompile Include="include\shaiya\src\CParty.cpp" />
     <ClCompile Include="include\shaiya\src\CQuestData.cpp" />
+    <ClCompile Include="include\shaiya\src\CTrap.cpp" />
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
@@ -60,7 +62,7 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
     <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
-    <ClInclude Include="include\shaiya\include\CDamage.h" />
+    <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
     <ClInclude Include="include\shaiya\include\CExchange.h" />
     <ClInclude Include="include\shaiya\include\CFriend.h" />
@@ -79,11 +81,13 @@
     <ClInclude Include="include\shaiya\include\CQuest.h" />
     <ClInclude Include="include\shaiya\include\CQuestData.h" />
     <ClInclude Include="include\shaiya\include\CSkill.h" />
+    <ClInclude Include="include\shaiya\include\CTrap.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
+    <ClInclude Include="include\shaiya\include\Obelisk.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
     <ClInclude Include="include\shaiya\include\SDatabase.h" />
     <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
@@ -91,6 +95,7 @@
     <ClInclude Include="include\shaiya\include\SConnectionTBaseReconnect.h" />
     <ClInclude Include="include\shaiya\include\SNode.h" />
     <ClInclude Include="include\shaiya\include\SSyncList.h" />
+    <ClInclude Include="include\shaiya\include\SSyncMap.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\packets\0003.h" />
@@ -99,6 +104,8 @@
     <ClInclude Include="include\shaiya\packets\0119.h" />
     <ClInclude Include="include\shaiya\packets\0204.h" />
     <ClInclude Include="include\shaiya\packets\0205.h" />
+    <ClInclude Include="include\shaiya\packets\020A.h" />
+    <ClInclude Include="include\shaiya\packets\020B.h" />
     <ClInclude Include="include\shaiya\packets\020E.h" />
     <ClInclude Include="include\shaiya\packets\0218.h" />
     <ClInclude Include="include\shaiya\packets\0219.h" />
@@ -109,6 +116,7 @@
     <ClInclude Include="include\shaiya\packets\0230.h" />
     <ClInclude Include="include\shaiya\packets\0303.h" />
     <ClInclude Include="include\shaiya\packets\0307.h" />
+    <ClInclude Include="include\shaiya\packets\0401.h" />
     <ClInclude Include="include\shaiya\packets\0501.h" />
     <ClInclude Include="include\shaiya\packets\0505.h" />
     <ClInclude Include="include\shaiya\packets\0506.h" />

@@ -1,14 +1,14 @@
 #pragma once
 #include <include/shaiya/common.h>
+#include <include/shaiya/include/SNode.h>
 
 namespace shaiya
 {
-    #define HEARTBEAT_INTERVAL 120000
-
     #pragma pack(push, 1)
-    struct HeartbeatIncoming
+    struct CDead
     {
-        UINT16 opcode{ 0x003 };
+        PAD(96);
+        // 0x60
     };
     #pragma pack(pop)
 }

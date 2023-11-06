@@ -51,16 +51,6 @@ namespace shaiya
         Wind2
     };
 
-    enum struct BattleState : UINT32
-    {
-        None,
-        RequestSent,
-        RequestRecv,
-        Countdown,
-        Start,
-        Exchange
-    }; 
-
     struct BillingItem
     {
         UINT8 type;
@@ -154,6 +144,16 @@ namespace shaiya
         Normal = 11
     };
 
+    enum struct PvPState : UINT32
+    {
+        None,
+        RequestSent,
+        RequestRecv,
+        Countdown,
+        Start,
+        Exchange
+    };
+
     struct QuickSlot
     {
         UINT8 bag;
@@ -245,7 +245,7 @@ namespace shaiya
         Mob
     };
 
-    struct UserKCStatus
+    struct KillCountStatus
     {
         PAD(4);                    //0x14D4
         UINT32 health;             //0x14D8
@@ -538,7 +538,7 @@ namespace shaiya
         TickCount partySummonReqTimeout;   //0x149C
         TickCount nextRecoveryTime;        //0x14A0
         Array<TickCount, 12> itemCooldown; //0x14A4
-        UserKCStatus kcStatus;             //0x14D4
+        KillCountStatus kcStatus;          //0x14D4
         // 0x1544
         PAD(16);
         TargetType targetType;             //0x1554
@@ -567,10 +567,10 @@ namespace shaiya
         BOOL joinGuildDisabled;            //0x5580
         BOOL grbZoneEnterFlag;             //0x5584
         BOOL insZoneEnterFlag;             //0x5588
-        BattleState battleState;           //0x558C
-        TickCount battleRequestTimeout;    //0x5590
-        CharId battleTargetId;             //0x5594
-        SVector battlePos;                 //0x5598
+        PvPState pvpState;                 //0x558C
+        TickCount pvpRequestTimeout;       //0x5590
+        CharId pvpTargetId;                //0x5594
+        SVector pvpPos;                    //0x5598
         GuildId gvgTargetId;               //0x55A4
         SVector gvgPos;                    //0x55A8
         TickCount gvgRequestTimeout;       //0x55B4
@@ -615,7 +615,8 @@ namespace shaiya
         UINT8 skillResetCount;             //0x58E9
         bool statResetEvent;               //0x58EA
         bool skillResetEvent;              //0x58EB
-        PAD(16);
+        TickCount lockOnTick;              //0x58EC
+        PAD(12);
         UINT32 recallItemBag;              //0x58FC
         UINT32 recallItemSlot;             //0x5900 
         RecallItemType recallItemType;     //0x5904

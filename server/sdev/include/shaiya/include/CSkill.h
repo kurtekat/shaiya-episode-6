@@ -20,8 +20,7 @@ namespace shaiya
         ULONG debuffCasterId;  //0x30
         // 0x34
         CGameData::SkillInfo* skillInfo;
-        PAD(8);
-        // 0x40
+        // 0x38
     };
     #pragma pack(pop)
 }

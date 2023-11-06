@@ -170,8 +170,8 @@ void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergi
     for (auto& synergy : g_synergies)
     {
         int wornCount = 0;
-        for (const auto& item_id : synergy.set)
-            if (equipment.count(item_id))
+        for (const auto& itemId : synergy.set)
+            if (equipment.count(itemId))
                 ++wornCount;
 
         if (wornCount < 2)

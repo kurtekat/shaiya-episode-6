@@ -144,6 +144,12 @@
     <ClCompile Include="src\packet_mailbox.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\CNpc.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\CTrap.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -316,9 +322,6 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\050F.h">
       <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CDamage.h">
-      <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SDatabase.h">
       <Filter>include\shaiya\include</Filter>
@@ -552,6 +555,27 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\0522.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\020A.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\020B.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\Obelisk.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SSyncMap.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CTrap.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CDead.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\0401.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
   </ItemGroup>

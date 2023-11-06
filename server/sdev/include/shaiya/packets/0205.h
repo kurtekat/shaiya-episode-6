@@ -4,7 +4,13 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ItemAcquired
+    struct ZonePickItemIncoming
+    {
+        UINT16 opcode{ 0x205 };
+        ULONG id;
+    };
+
+    struct ItemAcquiredOutgoing
     {
         UINT16 opcode{ 0x205 };
         UINT8 bag;

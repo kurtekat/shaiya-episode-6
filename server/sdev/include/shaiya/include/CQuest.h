@@ -13,7 +13,7 @@ namespace shaiya
         UINT16 id;             //0x08
         PAD(22);
         QuestInfo* questInfo;  //0x20
-        //
+        // 0x24
     };
     #pragma pack(pop)
 }

@@ -9,11 +9,12 @@ namespace shaiya
     template<class T>
     struct SSyncList
     {
-        T* head;
-        T* cursor;
-        CRITICAL_SECTION cs;
-        UINT32 count;
-        SNode node;
+        T* head;              //0x00
+        T* next;              //0x04
+        CRITICAL_SECTION cs;  //0x08
+        int count;            //0x20
+        SNode node;           //0x24
+        // 0x2C
     };
     #pragma pack(pop)
 }

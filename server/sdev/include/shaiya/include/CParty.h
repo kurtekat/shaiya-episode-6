@@ -35,7 +35,8 @@ namespace shaiya
         bool isUnion;               //0x114
         bool isAutoJoin;            //0x115
         PAD(2);
-        // 0x118
+        CRITICAL_SECTION cs118;     //0x118
+        // 0x130
 
         static CUser* FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/);
         static void LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/);

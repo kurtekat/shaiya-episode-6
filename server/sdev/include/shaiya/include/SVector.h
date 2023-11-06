@@ -11,6 +11,8 @@ namespace shaiya
         float z;
 
         static double EuclideanDistance(SVector* u, SVector* v);
+        static double Length(SVector* v);
+        static void Normalize(SVector* v/*esi*/);
     };
     #pragma pack(pop)
 }
