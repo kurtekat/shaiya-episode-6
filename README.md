@@ -12,7 +12,7 @@ C++ 20
 
 ## Documentation
 
-Please read the [wiki](https://github.com/kurtekat/shaiya-episode-6/wiki) before requesting support.
+Please read the [wiki](https://github.com/kurtekat/shaiya-episode-6/wiki) before getting started.
 
 ## Inspiration
 
