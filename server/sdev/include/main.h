@@ -18,6 +18,7 @@ namespace hook
     void packet_mailbox();
     void packet_market();
     void packet_myshop();
+    void revenge_mark();
     void user_equipment();
     void user_apply_skill();
     void user_shape();

@@ -47,6 +47,7 @@
     <ClCompile Include="src\packet_mailbox.cpp" />
     <ClCompile Include="src\packet_market.cpp" />
     <ClCompile Include="src\packet_myshop.cpp" />
+    <ClCompile Include="src\revenge_mark.cpp" />
     <ClCompile Include="src\user_equipment.cpp" />
     <ClCompile Include="src\packet_character.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
     <ClInclude Include="include\shaiya\include\Obelisk.h" />
+    <ClInclude Include="include\shaiya\include\Revenge.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
     <ClInclude Include="include\shaiya\include\SDatabase.h" />
     <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
@@ -111,6 +113,7 @@
     <ClInclude Include="include\shaiya\packets\0219.h" />
     <ClInclude Include="include\shaiya\packets\021A.h" />
     <ClInclude Include="include\shaiya\packets\0221.h" />
+    <ClInclude Include="include\shaiya\packets\0229.h" />
     <ClInclude Include="include\shaiya\packets\022E.h" />
     <ClInclude Include="include\shaiya\packets\022F.h" />
     <ClInclude Include="include\shaiya\packets\0230.h" />

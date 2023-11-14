@@ -150,6 +150,9 @@
     <ClCompile Include="include\shaiya\src\CTrap.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\revenge_mark.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -577,6 +580,12 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\0401.h">
       <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\0229.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\Revenge.h">
+      <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

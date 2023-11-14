@@ -55,6 +55,7 @@ This is a 6.4 PT client. The sections left over from packing/unpacking have been
 * Chaotic Squares
 * Town Teleport Scrolls
 * Rune Combination
+* Revenge Mark
 
 # sdev.dll
 

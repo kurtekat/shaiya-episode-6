@@ -4,6 +4,7 @@
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/Revenge.h>
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 
@@ -16,6 +17,10 @@ void leave_world_hook(CUser* user)
 {
     #ifdef WITH_SET_ITEM
     g_appliedSynergies.erase(user->id);
+    #endif
+
+    #ifdef SHAIYA_EP6_4_PT
+    g_revengeMark.erase(user->id);
     #endif
 }
 
@@ -94,6 +99,7 @@ void Main(HMODULE hModule)
     hook::packet_gem();
     hook::packet_mailbox();
     hook::packet_market();
+    hook::revenge_mark();
     #endif
 
     #ifdef SHAIYA_EP6_COMMON

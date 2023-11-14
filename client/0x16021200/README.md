@@ -55,6 +55,7 @@ This is a 6.4 PT client that arrived in patch 182. The sections left over from p
 * Chaotic Squares
 * Town Teleport Scrolls
 * Rune Combination
+* Revenge Mark
 
 # sdev.dll
 
