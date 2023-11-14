@@ -33,7 +33,6 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\DBCharacter.h" />
-    <ClInclude Include="include\shaiya\packets\0403.h" />
     <ClInclude Include="include\util.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>

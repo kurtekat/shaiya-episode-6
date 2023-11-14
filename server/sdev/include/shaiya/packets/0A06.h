@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ExchangeItemAdd
+    struct ExchangeItemAddOutgoing
     {
         UINT16 opcode{ 0xA06 };
         UINT8 srcBag;

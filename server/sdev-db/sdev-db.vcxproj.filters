@@ -16,9 +16,6 @@
     <Filter Include="include\shaiya">
       <UniqueIdentifier>{c4b58948-68c6-4e1b-aa1d-cb19965c03f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets">
-      <UniqueIdentifier>{34e18b5a-7095-43b5-9df2-3fbd7fcc4a5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\shaiya\include">
       <UniqueIdentifier>{77e9825d-4b8d-4580-b900-8ba88e7b02fb}</UniqueIdentifier>
     </Filter>
@@ -27,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\shaiya\packets\0403.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\CUser.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>

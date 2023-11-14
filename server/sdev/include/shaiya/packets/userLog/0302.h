@@ -4,7 +4,6 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    // values are passed to [dbo].[usp_Try_GameLogout_R]
     struct DisconnectIncoming
     {
         UINT16 opcode{ 0x302 };

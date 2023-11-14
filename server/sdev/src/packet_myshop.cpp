@@ -17,7 +17,7 @@ namespace packet_myshop
     {
         constexpr int packet_size_without_list = 3;
 
-        MyShopItemList packet{};
+        MyShopItemListOutgoing packet{};
         packet.itemCount = 0;
 
         for (int slot = 0; slot < MAX_MYSHOP_SLOT; ++slot)

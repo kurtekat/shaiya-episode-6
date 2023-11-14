@@ -12,7 +12,7 @@ namespace shaiya
         UINT8 enchantStep;
     };
 
-    struct UserShape
+    struct UserShapeOutgoing
     {
         UINT16 opcode{ 0x303 };
         ULONG charId;

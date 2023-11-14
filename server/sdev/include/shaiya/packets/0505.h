@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct RecoverAdd
+    struct RecoverAddOutgoing
     {
         UINT16 opcode{ 0x505 };
         ULONG charId;

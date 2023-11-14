@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SaveKillPC
+    struct SaveKillPCIncoming
     {
         UINT16 opcode{ 0x60C };
         UserId userId;

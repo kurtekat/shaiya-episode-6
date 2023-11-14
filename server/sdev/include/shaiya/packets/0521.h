@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct RecoverSet
+    struct RecoverSetOutgoing
     {
         UINT16 opcode{ 0x521 };
         UINT32 health;

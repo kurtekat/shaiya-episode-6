@@ -4,20 +4,22 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct PvPExchangeItemOutgoing
+    struct Item0D29
     {
-        UINT16 opcode{ 0x240D };
-        UINT8 destSlot;
+        UINT8 slot;
         UINT8 type;
         UINT8 typeId;
-        UINT8 count;
         UINT16 quality;
-        #ifdef WITH_ITEM_DURATION
-        ULONG fromDate;
-        ULONG toDate;
-        #endif
         Gems gems;
+        UINT8 count;
         CraftName craftName;
+    };
+
+    struct GuildBankItemListOutgoing
+    {
+        UINT16 opcode{ 0xD29 };
+        UINT8 itemCount;
+        Array<Item0D29, 50> itemList;
     };
     #pragma pack(pop)
 }

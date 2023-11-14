@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct UserKillPC
+    struct UserKillPCOutgoing
     {
         UINT16 opcode{ 0x20E };
         KillPC killPC;

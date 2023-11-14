@@ -484,8 +484,8 @@ namespace packet_gem
 
         SConnection::Send(&user->connection, &packet, sizeof(ItemComposeOutgoing));
 
-        SaveItemCraftName packet2{ 0x717, user->userId, itemBag, itemSlot, item->craftName };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet2, sizeof(SaveItemCraftName));
+        SaveItemCraftNameIncoming packet2{ 0x717, user->userId, itemBag, itemSlot, item->craftName };
+        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet2, sizeof(SaveItemCraftNameIncoming));
 
         CUser::ItemUseNSend(user, runeBag, runeSlot, false);
     }
@@ -520,7 +520,7 @@ void __declspec(naked) naked_0x479FB4()
 
         jmp exit_switch
 
-        // chaotic squares: not on to-do list
+        // chaotic squares
 
         case_0x830:
         case_0x832:

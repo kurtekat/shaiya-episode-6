@@ -96,7 +96,7 @@ namespace packet_exchange
 
     void send_item(CUser* user, CUser* exchangeUser, Packet buffer, bool pvp)
     {
-        ExchangeItem packet{};
+        ExchangeItemOutgoing packet{};
         packet.opcode = pvp ? 0x240D : 0xA09;
         packet.destSlot = util::read_bytes<std::uint8_t>(buffer, 5);
 
@@ -122,7 +122,7 @@ namespace packet_exchange
         #endif
 
         packet.craftName = item->craftName;
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeItem));
+        SConnection::Send(&user->connection, &packet, sizeof(ExchangeItemOutgoing));
     }
 }
 

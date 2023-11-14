@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SaveMoney
+    struct SaveMoneyIncoming
     {
         UINT16 opcode{ 0x603 };
         UserId userId;

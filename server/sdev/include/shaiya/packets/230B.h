@@ -20,7 +20,7 @@ namespace shaiya
         CraftName craftName;
     };
 
-    struct MyShopItemList
+    struct MyShopItemListOutgoing
     {
         UINT16 opcode{ 0x230B };
         UINT8 itemCount;

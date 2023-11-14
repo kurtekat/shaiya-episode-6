@@ -4,12 +4,12 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct VetManagerRewardLevelIncoming
+    struct PvPRewardLevelIncoming
     {
         UINT16 opcode{ 0x218 };
     };
 
-    struct VetManagerRewardLevelOutgoing
+    struct PvPRewardLevelOutgoing
     {
         UINT16 opcode{ 0x218 };
         UINT8 killLv;

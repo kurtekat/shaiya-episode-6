@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ItemCast
+    struct ItemCastOutgoing
     {
         UINT16 opcode{ 0x221 };
         ULONG charId;

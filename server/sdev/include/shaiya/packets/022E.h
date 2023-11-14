@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ItemDuration
+    struct ItemDurationOutgoing
     {
         UINT16 opcode{ 0x22E };
         UINT8 bag;

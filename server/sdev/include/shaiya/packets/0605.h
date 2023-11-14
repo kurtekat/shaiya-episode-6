@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct MobAttack
+    struct MobAttackOutgoing
     {
         UINT16 opcode{ 0x605 };
         UINT8 damageType;

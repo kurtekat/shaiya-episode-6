@@ -75,8 +75,8 @@ namespace item_effect
             user->recallType = RecallType::TownTeleportScroll;
             user->recallTime = GetTickCount() + 5000;
 
-            ItemCast packet{ 0x221, user->id };
-            CObject::PSendViewCombat(user, &packet, sizeof(ItemCast));
+            ItemCastOutgoing packet{ 0x221, user->id };
+            CObject::PSendViewCombat(user, &packet, sizeof(ItemCastOutgoing));
             return 1;
         }
         default:

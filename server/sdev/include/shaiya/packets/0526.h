@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct UserStatus
+    struct UserStatusOutgoing
     {
         UINT16 opcode{ 0x526 };
         UINT32 strength;

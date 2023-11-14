@@ -19,7 +19,7 @@ namespace shaiya
         CraftName craftName;
     };
 
-    struct UserStoredItemList
+    struct UserStoredItemListOutgoing
     {
         UINT16 opcode{ 0x711 };
         UINT32 bankMoney;

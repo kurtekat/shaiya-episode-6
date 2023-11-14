@@ -1,5 +1,5 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <sdev/include/shaiya/common.h>
 
 namespace shaiya
 {
@@ -46,7 +46,7 @@ namespace shaiya
         // 6.4, 6.3: 0x68, 5.4: 0x56
     };
 
-    struct DBCharacterList
+    struct CharacterListOutgoing
     {
         UINT16 opcode{ 0x403 };
         UserId userId;

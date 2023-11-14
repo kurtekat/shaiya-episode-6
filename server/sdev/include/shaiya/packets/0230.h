@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SendCharacterHonor
+    struct CharacterHonorOutgoing
     {
         UINT16 opcode{ 0x230 };
         UINT16 honor;

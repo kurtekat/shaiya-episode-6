@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct UserShapeType
+    struct UserShapeTypeOutgoing
     {
         UINT16 opcode{ 0x51D };
         ULONG charId;

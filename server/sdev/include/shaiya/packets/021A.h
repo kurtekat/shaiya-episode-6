@@ -4,12 +4,12 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct VetManagerDeathRewardIncoming
+    struct PvPDeathRewardIncoming
     {
         UINT16 opcode{ 0x21A };
     };
 
-    struct VetManagerDeathRewardOutgoing
+    struct PvPDeathRewardOutgoing
     {
         UINT16 opcode{ 0x21A };
         bool success;

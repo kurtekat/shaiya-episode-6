@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SaveStatusUp
+    struct SaveStatusUpIncoming
     {
         UINT16 opcode{ 0x604 };
         UserId userId;

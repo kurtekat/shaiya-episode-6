@@ -5,7 +5,7 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // not implemented
-    struct SaveBankMoney
+    struct SaveBankMoneyIncoming
     {
         UINT16 opcode{ 0x60B };
         UserId userId;

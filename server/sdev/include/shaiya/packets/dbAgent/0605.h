@@ -12,7 +12,7 @@ namespace shaiya
         Other = 2,
     };
 
-    struct SaveStatusGroup
+    struct SaveStatusGroupIncoming
     {
         UINT16 opcode{ 0x605 };
         UserId userId;

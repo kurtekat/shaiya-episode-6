@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SaveLevel
+    struct SaveLevelIncoming
     {
         UINT16 opcode{ 0x60A };
         UserId userId;

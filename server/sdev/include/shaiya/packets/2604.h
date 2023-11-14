@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct PresentReceived
+    struct PresentReceivedOutgoing
     {
         UINT16 opcode{ 0x2604 };
         CharName senderName;

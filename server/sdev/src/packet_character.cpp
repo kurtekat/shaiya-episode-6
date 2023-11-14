@@ -70,7 +70,7 @@ namespace packet_character
         // shen1l changed 50 to 40
         constexpr int max_item_send_count = 40;
 
-        UserStoredItemList warehouse{};
+        UserStoredItemListOutgoing warehouse{};
         warehouse.bankMoney = user->bankMoney;
         warehouse.itemCount = 0;
 
@@ -118,7 +118,7 @@ namespace packet_character
 
     void send_character(CUser* user, Character0403* dbCharacter)
     {
-        Character0101 character{};
+        CharacterOutgoing character{};
         character.slot = dbCharacter->slot;
         character.charId = dbCharacter->id;
         character.regDate = dbCharacter->regDate;
@@ -145,7 +145,7 @@ namespace packet_character
         character.deleted = dbCharacter->deleted;
         character.nameChange = dbCharacter->nameChange;
         character.cloakBadge = dbCharacter->cloakBadge;
-        SConnection::Send(&user->connection, &character, sizeof(Character0101));
+        SConnection::Send(&user->connection, &character, sizeof(CharacterOutgoing));
     }
 }
 

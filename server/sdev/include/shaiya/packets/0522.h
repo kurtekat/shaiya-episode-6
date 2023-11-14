@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct UserKillCount
+    struct UserKillCountOutgoing
     {
         UINT16 opcode{ 0x522 };
         ULONG charId;

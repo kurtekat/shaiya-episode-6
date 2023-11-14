@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ChatMessageToServer
+    struct ChatMessageToServerOutgoing
     {
         UINT16 opcode{ 0x1108 };
         CharName senderName;

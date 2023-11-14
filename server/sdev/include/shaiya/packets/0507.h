@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SendEquipment
+    struct UserEquipmentOutgoing
     {
         UINT16 opcode{ 0x507 };
         ULONG charId;

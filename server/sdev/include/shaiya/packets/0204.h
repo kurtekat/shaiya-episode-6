@@ -16,7 +16,7 @@ namespace shaiya
         CraftName craftName;
     };
 
-    struct ItemMove
+    struct ItemMoveOutgoing
     {
         UINT16 opcode{ 0x204 };
         Item0204 srcItem;

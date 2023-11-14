@@ -12,7 +12,7 @@ namespace shaiya
         UINT16 srcSlot;
     };
 
-    struct SaveQuickSlot
+    struct SaveQuickSlotIncoming
     {
         UINT16 opcode{ 0x609 };
         UserId userId;

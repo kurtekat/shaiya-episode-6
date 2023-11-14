@@ -20,7 +20,7 @@ namespace item_duration
     {
         CUser::ItemRemove(user, bag, slot);
 
-        ItemExpireNotice packet{};
+        ItemExpireNoticeOutgoing packet{};
         packet.type = item->type;
         packet.typeId = item->typeId;
 
@@ -29,7 +29,7 @@ namespace item_duration
         else
             packet.noticeType = ItemExpireNoticeType::DeletedFromInventory;
 
-        SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNotice));
+        SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNoticeOutgoing));
     }
 
     void send_expire_notice(CUser* user, CItem* item, int bag, int slot)
@@ -54,7 +54,7 @@ namespace item_duration
 
         if (!duration.days)
         {
-            ItemExpireNotice packet{};
+            ItemExpireNoticeOutgoing packet{};
             packet.type = item->type;
             packet.typeId = item->typeId;
 
@@ -77,7 +77,7 @@ namespace item_duration
                     packet.noticeType = ItemExpireNoticeType::HoursLeftInventory;
             }
 
-            SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNotice));
+            SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNoticeOutgoing));
         }
     }
 
@@ -92,12 +92,12 @@ namespace item_duration
         case CGameData::ItemType::Pet:
         case CGameData::ItemType::Costume:
         {
-            ItemDuration packet{};
+            ItemDurationOutgoing packet{};
             packet.bag = bag;
             packet.slot = slot;
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, days);
-            SConnection::Send(&user->connection, &packet, sizeof(ItemDuration));
+            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
 
             send_expire_notice(user, item, bag, slot);
             break;
@@ -150,12 +150,12 @@ namespace item_duration
         case CGameData::ItemType::Pet:
         case CGameData::ItemType::Costume:
         {
-            ItemDuration packet{};
+            ItemDurationOutgoing packet{};
             packet.bag = warehouse_bag;
             packet.slot = slot;
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, days);
-            SConnection::Send(&user->connection, &packet, sizeof(ItemDuration));
+            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
             break;
         }
         default:
@@ -174,12 +174,12 @@ namespace item_duration
         case CGameData::ItemType::Pet:
         case CGameData::ItemType::Costume:
         {
-            ItemDuration packet{};
+            ItemDurationOutgoing packet{};
             packet.bag = util::read_bytes<std::uint8_t>(buffer, 2);
             packet.slot = util::read_bytes<std::uint8_t>(buffer, 3);
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, days);
-            SConnection::Send(&user->connection, &packet, sizeof(ItemDuration));
+            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
             break;
         }
         default:

@@ -71,7 +71,7 @@ namespace user_shape
 
     void send_user_shape(CUser* user, CUser* target)
     {
-        UserShape packet{};
+        UserShapeOutgoing packet{};
         packet.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
@@ -152,7 +152,7 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        UserShape packet{};
+        UserShapeOutgoing packet{};
         packet.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
@@ -230,7 +230,7 @@ namespace user_shape
 
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
-        UserShapeType packet{};
+        UserShapeTypeOutgoing packet{};
         packet.charId = user->id;
         packet.shapeType = util::read_bytes<ShapeType>(buffer, 6);
         
@@ -246,12 +246,12 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        CZone::SendView(user->zone, &packet, sizeof(UserShapeType), user->cellX, user->cellZ);
+        CZone::SendView(user->zone, &packet, sizeof(UserShapeTypeOutgoing), user->cellX, user->cellZ);
     }
 
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
-        UserShapeType packet{};
+        UserShapeTypeOutgoing packet{};
         packet.charId = user->id;
         packet.shapeType = shapeType;
 
@@ -264,7 +264,7 @@ namespace user_shape
         }
         #endif
 
-        SConnection::Send(&target->connection, &packet, sizeof(UserShapeType));
+        SConnection::Send(&target->connection, &packet, sizeof(UserShapeTypeOutgoing));
     }
 }
 

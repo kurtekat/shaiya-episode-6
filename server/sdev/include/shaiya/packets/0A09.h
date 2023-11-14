@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ExchangeItem
+    struct ExchangeItemOutgoing
     {
         UINT16 opcode{ 0xA09 };
         UINT8 destSlot;

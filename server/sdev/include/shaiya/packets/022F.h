@@ -14,7 +14,7 @@ namespace shaiya
         HoursLeftWarehouse,
     };
 
-    struct ItemExpireNotice
+    struct ItemExpireNoticeOutgoing
     {
         UINT16 opcode{ 0x22F };
         UINT8 type;

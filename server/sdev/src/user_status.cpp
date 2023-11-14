@@ -16,7 +16,7 @@ namespace user_status
 {
     void send(CUser* user)
     {
-        UserStatus packet{};
+        UserStatusOutgoing packet{};
 
         auto strength = user->abilityStrength;
         strength -= user->strength;
@@ -71,7 +71,7 @@ namespace user_status
         packet.defense = user->defense;
         packet.resistance = user->magicResistance;
 
-        SConnection::Send(&user->connection, &packet, sizeof(UserStatus));
+        SConnection::Send(&user->connection, &packet, sizeof(UserStatusOutgoing));
     }
 
     void send_recover_set(CUser* user)
