@@ -66,7 +66,7 @@ namespace shaiya
             PerfectCure = 26,
             GoddessBlessing = 30,
             PartyMemberSummon,
-            Movement,
+            PartyMemberMoveTo,
             SkillReset,
             StatReset,
             WarehouseRecall,
@@ -96,6 +96,8 @@ namespace shaiya
             MoveWar,
             ItemCompose = 62,
             Promotion,
+            EquipMale,
+            EquipFemale,
             PerfectLinkingHammer = 69,
             MobGen = 73,
             CrowleyEssence = 85,
@@ -349,7 +351,7 @@ namespace shaiya
             UINT8 attackTime;        //0x44
             Attribute attribute;     //0x45
             ItemEffect effect;       //0x46
-            UINT8 slots;             //0x47
+            UINT8 slotCount;         //0x47
             UINT8 speed;             //0x48
             UINT8 absorption;        //0x49
             UINT8 maxOjCount;        //0x4A

@@ -10,7 +10,7 @@ namespace shaiya
     FWDDECL CZone;
 
     #pragma pack(push, 1)
-    enum struct LuaEvent : UINT32
+    enum struct MobLuaEvent : UINT32
     {
         OnMoveEnd,
         OnAttacked,
@@ -110,7 +110,7 @@ namespace shaiya
         CharId luaTargetId;              //0x308
         PAD(40);
         TickCount lockOnTick;            //0x334
-        LuaEvent luaEvent;               //0x338
+        MobLuaEvent luaEvent;            //0x338
         PAD(2516);
         MobRespawn* mobRespawn;          //0xD10
         PAD(40);

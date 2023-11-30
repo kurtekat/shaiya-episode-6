@@ -12,6 +12,18 @@ char CItem::GetEnchantStep(CItem* item/*edx*/)
     }
 }
 
+int CItem::GetGemCount(CItem* item/*ecx*/)
+{
+    typedef int(__thiscall* LPFN)(CItem*);
+    return (*(LPFN)0x4D2260)(item);
+}
+
+int CItem::GetGemSlot(CItem* item/*ecx*/)
+{
+    typedef int(__thiscall* LPFN)(CItem*);
+    return (*(LPFN)0x4D2240)(item);
+}
+
 bool CItem::IsAccessory(CItem* item/*eax*/)
 {
     Address u0x4D2110 = 0x4D2110;
@@ -31,6 +43,18 @@ bool CItem::IsEquipment(CItem* item/*eax*/)
     {
         mov eax,item
         call u0x405960
+    }
+}
+
+bool CItem::IsEquipSex(CItem* item/*eax*/, int bySex/*ecx*/)
+{
+    Address u0x468180 = 0x468180;
+
+    __asm
+    {
+        mov eax,item
+        mov ecx,bySex
+        call u0x468180
     }
 }
 

@@ -214,7 +214,7 @@ namespace packet_gem
         }
 
         // optional
-        if (item->makeType == MakeType::Q)
+        if (item->makeType == ItemMakeType::Q)
         {
             SConnection::Send(&user->connection, &packet, 3);
             return;

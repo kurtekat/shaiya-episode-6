@@ -126,15 +126,15 @@ enum EquipmentSlot
     Weapon,     //0x1D4
     Shield,     //0x1D8
     Cloak,      //0x1DC
-    Ring1,      //0x1DC
-    Ring2,      //0x1E0
-    Bracelet1,  //0x1E4
-    Bracelet2,  //0x1E8
-    Necklace,   //0x1EC
-    Vehicle,    //0x1F0
-    Pet,        //0x1F4
-    Costume,    //0x1F8
-    Wings       //0x1FC
+    Ring1,      //0x1E0
+    Ring2,      //0x1E4
+    Bracelet1,  //0x1E8
+    Bracelet2,  //0x1EC
+    Necklace,   //0x1F0
+    Vehicle,    //0x1F4
+    Pet,        //0x1F8
+    Costume,    //0x1FC
+    Wings       //0x200
 };
 
 enum struct Family : UINT8
