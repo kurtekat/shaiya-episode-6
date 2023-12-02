@@ -4,7 +4,7 @@
 
 namespace shaiya
 {
-    FWDDECL CUser;
+    struct CUser;
 
     #pragma pack(push, 1)
     struct CGuildCreate

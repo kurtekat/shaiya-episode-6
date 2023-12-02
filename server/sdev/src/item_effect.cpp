@@ -3,7 +3,7 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0221.h>
+#include <include/shaiya/packets/0200.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CNpcData.h>

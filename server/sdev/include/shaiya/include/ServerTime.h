@@ -4,6 +4,8 @@
 
 namespace shaiya
 {
+    struct CGameData;
+
     class Duration
     {
     public:
@@ -52,6 +54,7 @@ namespace shaiya
     {
         static ULONG GetExpireTime(ULONG makeTime, int days);
         static ULONG GetSystemTime();
+        static bool IsTimedItem(CGameData::ItemInfo* itemInfo);
         static ULONG ServerTimeToSystemTime(ULONG time/*eax*/, LPSYSTEMTIME lpst/*ecx*/);
         static ULONG SystemTimeToServerTime(LPSYSTEMTIME lpst);
     };

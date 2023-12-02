@@ -2,7 +2,7 @@
 
 namespace shaiya
 {
-    FWDDECL SDatabase;
+    struct SDatabase;
     
     struct SDatabasePool
     {

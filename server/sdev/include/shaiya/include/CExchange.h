@@ -3,8 +3,8 @@
 
 namespace shaiya
 {
-    FWDDECL CItem;
-    FWDDECL CUser;
+    struct CItem;
+    struct CUser;
 
     #pragma pack(push, 1)
     struct ExcItem

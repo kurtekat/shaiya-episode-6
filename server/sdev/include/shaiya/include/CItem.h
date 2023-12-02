@@ -6,7 +6,7 @@
 
 namespace shaiya
 {
-    FWDDECL CZone;
+    struct CZone;
 
     #pragma pack(push, 1)
     enum struct ItemDropType : UINT8
@@ -71,8 +71,8 @@ namespace shaiya
         UINT16 craftAttackPower;   //0x96
         UINT16 craftAbsorption;    //0x98
         PAD(2);
-        bool unknown;              //0x9C
-        PAD(3);
+        // cash shop
+        UINT32 purchaseNumber;     //0x9C
         // 0xA0
 
         static char GetEnchantStep(CItem* item/*edx*/);

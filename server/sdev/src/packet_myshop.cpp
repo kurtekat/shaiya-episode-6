@@ -3,7 +3,7 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/230B.h>
+#include <include/shaiya/packets/2300.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/MyShop.h>
@@ -42,8 +42,11 @@ namespace packet_myshop
             item230B.gems = item->gems;
 
             #ifdef WITH_ITEM_DURATION
-            item230B.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
-            item230B.fromDate = item230B.toDate ? item->makeTime : 0;
+            if (ServerTime::IsTimedItem(item->itemInfo))
+            {
+                item230B.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                item230B.fromDate = item230B.toDate ? item->makeTime : 0;
+            }
             #endif
 
             item230B.craftName = item->craftName;

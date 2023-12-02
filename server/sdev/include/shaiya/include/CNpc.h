@@ -5,9 +5,9 @@
 
 namespace shaiya
 {
-    FWDDECL Npc;
-    FWDDECL CMap;
-    FWDDECL CUser;
+    struct Npc;
+    struct CMap;
+    struct CUser;
 
     #pragma pack(push, 1)
     enum struct NpcStatus : UINT32

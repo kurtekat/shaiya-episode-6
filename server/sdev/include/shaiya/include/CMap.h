@@ -4,7 +4,7 @@
 
 namespace shaiya
 {
-    FWDDECL CDoor;
+    struct CDoor;
 
     typedef Array<char, 256> SvMapName;
 

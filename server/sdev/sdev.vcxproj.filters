@@ -153,6 +153,9 @@
     <ClCompile Include="src\revenge_mark.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\CObjectMgr.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -230,100 +233,31 @@
     <ClInclude Include="include\shaiya\common.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0A0A.h">
+    <ClInclude Include="include\shaiya\packets\0100.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\080D.h">
+    <ClInclude Include="include\shaiya\packets\2600.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0101.h">
+    <ClInclude Include="include\shaiya\packets\0800.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0119.h">
+    <ClInclude Include="include\shaiya\packets\0A00.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0303.h">
+    <ClInclude Include="include\shaiya\packets\0700.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0505.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0506.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0521.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0526.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0806.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0807.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2602.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0805.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0A05.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0507.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0711.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0A09.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0A06.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\240D.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\022E.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\230B.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0307.h">
+    <ClInclude Include="include\shaiya\packets\2300.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CObject.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0221.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\055A.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\022F.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0903.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\ServerTime.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0204.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0205.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0511.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\050F.h">
+    <ClInclude Include="include\shaiya\packets\0200.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SDatabase.h">
@@ -335,85 +269,16 @@
     <ClInclude Include="include\shaiya\include\SConnection.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2209.h">
+    <ClInclude Include="include\shaiya\packets\2200.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\220B.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\220E.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\220A.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2202.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2203.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2205.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2204.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2206.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\051D.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0605.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2605.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F90B.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\020E.h">
+    <ClInclude Include="include\shaiya\packets\0600.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synergy.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060A.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060B.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060C.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060D.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060E.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\060F.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0602.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0603.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0604.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0605.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0609.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0717.h">
+    <ClInclude Include="include\shaiya\packets\dbAgent\0600.h">
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
     <ClInclude Include="include\util.h">
@@ -428,143 +293,56 @@
     <ClInclude Include="include\shaiya\include\SSyncList.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2401.h">
+    <ClInclude Include="include\shaiya\packets\2400.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2402.h">
+    <ClInclude Include="include\shaiya\packets\2500.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2501.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2502.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0B0F.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0B10.h">
+    <ClInclude Include="include\shaiya\packets\0B00.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\0003.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0218.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0230.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0403.h">
+    <ClInclude Include="include\shaiya\packets\dbAgent\0400.h">
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0219.h">
+    <ClInclude Include="include\shaiya\packets\0900.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\021A.h">
-      <Filter>include\shaiya\packets</Filter>
+    <ClInclude Include="include\shaiya\packets\session\1B00.h">
+      <Filter>include\shaiya\packets\session</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0902.h">
-      <Filter>include\shaiya\packets</Filter>
+    <ClInclude Include="include\shaiya\packets\session\0100.h">
+      <Filter>include\shaiya\packets\session</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0E06.h">
+    <ClInclude Include="include\shaiya\packets\dbAgent\0E00.h">
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\1B01.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\1B02.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\1B03.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\0105.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2603.h">
+    <ClInclude Include="include\shaiya\packets\1100.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0E03.h">
+    <ClInclude Include="include\shaiya\packets\F100.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\F900.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\dbAgent\0300.h">
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2604.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1101.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F101.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1103.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F103.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1111.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F908.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F102.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1102.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F105.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1105.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1104.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F104.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1112.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1106.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1108.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F106.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0302.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\userLog\0302.h">
+    <ClInclude Include="include\shaiya\packets\userLog\0300.h">
       <Filter>include\shaiya\packets\userLog</Filter>
     </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0501.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0115.h">
+    <ClInclude Include="include\shaiya\packets\0500.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CZoneNode.h">
       <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0522.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\020A.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\020B.h">
-      <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Obelisk.h">
       <Filter>include\shaiya\include</Filter>
@@ -578,23 +356,26 @@
     <ClInclude Include="include\shaiya\include\CDead.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0401.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0229.h">
+    <ClInclude Include="include\shaiya\packets\0400.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Revenge.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0302.h">
+    <ClInclude Include="include\shaiya\packets\0300.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0D29.h">
+    <ClInclude Include="include\shaiya\packets\0D00.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0226.h">
+    <ClInclude Include="include\shaiya\packets\B100.h">
       <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\dbAgent\0700.h">
+      <Filter>include\shaiya\packets\dbAgent</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CObjectMgr.h">
+      <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,8 +3,8 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0303.h>
-#include <include/shaiya/packets/051D.h>
+#include <include/shaiya/packets/0300.h>
+#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
@@ -71,7 +71,7 @@ namespace user_shape
 
     void send_user_shape(CUser* user, CUser* target)
     {
-        UserShapeOutgoing packet{};
+        GetInfoUserShapeOutgoing packet{};
         packet.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
@@ -152,7 +152,7 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        UserShapeOutgoing packet{};
+        GetInfoUserShapeOutgoing packet{};
         packet.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)

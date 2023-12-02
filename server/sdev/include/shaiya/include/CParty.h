@@ -4,17 +4,9 @@
 
 namespace shaiya
 {
-    FWDDECL CUser;
+    struct CUser;
 
     #pragma pack(push, 1)
-    enum struct ItemDivType : UINT32
-    {
-        Group = 1,
-        Random,
-        Unknown,
-        Master
-    };
-
     struct PartySlot
     {
         UINT32 index;

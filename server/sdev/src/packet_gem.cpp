@@ -6,10 +6,8 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0806.h>
-#include <include/shaiya/packets/0807.h>
-#include <include/shaiya/packets/080D.h>
-#include <include/shaiya/packets/dbAgent/0717.h>
+#include <include/shaiya/packets/0800.h>
+#include <include/shaiya/packets/dbAgent/0700.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
@@ -484,8 +482,8 @@ namespace packet_gem
 
         SConnection::Send(&user->connection, &packet, sizeof(ItemComposeOutgoing));
 
-        SaveItemCraftNameIncoming packet2{ 0x717, user->userId, itemBag, itemSlot, item->craftName };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet2, sizeof(SaveItemCraftNameIncoming));
+        UserItemCraftNameIncoming packet2{ 0x717, user->userId, itemBag, itemSlot, item->craftName };
+        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet2, sizeof(UserItemCraftNameIncoming));
 
         CUser::ItemUseNSend(user, runeBag, runeSlot, false);
     }

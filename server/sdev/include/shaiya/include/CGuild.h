@@ -6,7 +6,7 @@
 
 namespace shaiya
 {
-    FWDDECL CItem;
+    struct CItem;
 
     typedef Array<char, 66> GuildRemark;
 

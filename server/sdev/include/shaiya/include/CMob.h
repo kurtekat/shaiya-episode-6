@@ -5,9 +5,9 @@
 
 namespace shaiya
 {
-    FWDDECL CDoor;
-    FWDDECL CUser;
-    FWDDECL CZone;
+    struct CDoor;
+    struct CUser;
+    struct CZone;
 
     #pragma pack(push, 1)
     enum struct MobLuaEvent : UINT32

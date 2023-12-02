@@ -69,9 +69,6 @@ defined SHAIYA_EP6_4_PT
 #define EXPAND(x, y) CONCAT(x, y)
 #define PAD(size) char EXPAND(pad, __LINE__)[size]
 
-// forward declaration
-#define FWDDECL struct
-
 #ifdef SHAIYA_EP6_4_PT
 #define ITEM_LIST_SIZE 17
 #elif defined SHAIYA_EP6_3 || defined SHAIYA_EP6_3_PT
@@ -79,6 +76,11 @@ defined SHAIYA_EP6_4_PT
 #else
 #define ITEM_LIST_SIZE 8
 #endif
+
+#define GUILD_WAREHOUSE_BAG 255
+#define ITEM_BANK_BAG 200
+#define WAREHOUSE_BAG 100
+
 #define MAX_CHARACTER_SLOT 5
 #define MAX_INVENTORY_BAG 6
 #define MAX_INVENTORY_SLOT 24
@@ -104,6 +106,7 @@ typedef Array<UINT8, 6> Gems;
 using CloakBadge = Gems;
 
 typedef Array<char, 25> GuildName;
+typedef Array<char, 51> Memo;
 typedef Array<char, 21> ProductCode;
 typedef Array<char, 32> Username;
 typedef Array<char, 16> Password;
@@ -153,6 +156,14 @@ enum struct Grow : UINT8
     Ultimate
 };
 
+enum struct ItemDivType : UINT32
+{
+    Group = 1,
+    Random,
+    Unknown,
+    Master
+};
+
 enum struct Job : UINT8
 {
     AttackFighter,
@@ -184,5 +195,21 @@ enum struct Sex : UINT8
 {
     Male,
     Female
+};
+
+enum struct ShapeType : UINT8
+{
+    None,
+    Chicken = 4,
+    Dog = 5,
+    Horse = 6,
+    Pig = 7,
+    Fox = 10,
+    Wolf = 11,
+    Knight = 12,
+    Stealth = 13,
+    Disguise = 100,
+    Degeneration,
+    Transformation,
 };
 #pragma pack(pop)

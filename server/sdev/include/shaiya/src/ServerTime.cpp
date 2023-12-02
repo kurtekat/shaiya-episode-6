@@ -1,4 +1,5 @@
 #include <chrono>
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
 
@@ -29,6 +30,27 @@ ULONG ServerTime::GetSystemTime()
 {
     typedef ULONG(__stdcall* LPFN)();
     return (*(LPFN)0x4E1A50)();
+}
+
+bool ServerTime::IsTimedItem(CGameData::ItemInfo* itemInfo)
+{
+    if (!itemInfo)
+        return false;
+
+    int days = itemInfo->range;
+    if (!days)
+        return false;
+
+    switch (static_cast<CGameData::ItemType>(itemInfo->type))
+    {
+    case CGameData::ItemType::Pet:
+    case CGameData::ItemType::Costume:
+        return true;
+    default:
+        break;
+    }
+
+    return false;
 }
 
 ULONG ServerTime::ServerTimeToSystemTime(ULONG time/*eax*/, LPSYSTEMTIME lpst/*ecx*/)

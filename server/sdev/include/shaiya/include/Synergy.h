@@ -8,7 +8,7 @@
 
 namespace shaiya
 {
-    FWDDECL CUser;
+    struct CUser;
 
     struct SynergyAbility
     {

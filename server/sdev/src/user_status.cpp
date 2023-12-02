@@ -4,7 +4,7 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0526.h>
+#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>

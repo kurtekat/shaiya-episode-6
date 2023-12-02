@@ -5,6 +5,7 @@
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
+#include <sdev/include/shaiya/packets/dbAgent/0400.h>
 #include <sdev/include/shaiya/include/SConnection.h>
 #include <sdev/include/shaiya/include/SDatabase.h>
 #include <sdev/include/shaiya/include/SDatabasePool.h>
@@ -12,16 +13,6 @@ using namespace shaiya;
 
 namespace character_create
 {
-    #pragma pack(push, 1)
-    // custom
-    struct NameAvailableOutgoing
-    {
-        UINT16 opcode{ 0x40D };
-        UserId userId;
-        bool available;
-    };
-    #pragma pack(pop)
-
     bool is_name_available(SQLPOINTER name)
     {
         auto db = SDatabasePool::AllocDB();
@@ -50,12 +41,12 @@ namespace character_create
 
     void name_available_handler(CUser* user, SQLPOINTER name)
     {
-        NameAvailableOutgoing packet{ 0x40D, user->userId, is_name_available(name) };
+        UserCharNameAvailableOutgoing packet{ 0x40D, user->userId, is_name_available(name) };
 
         if (!user->connection)
             return;
 
-        SConnection::Send(user->connection, &packet, sizeof(NameAvailableOutgoing));
+        SConnection::Send(user->connection, &packet, sizeof(UserCharNameAvailableOutgoing));
     }
 }
 

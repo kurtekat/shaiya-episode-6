@@ -4,7 +4,7 @@
 
 namespace shaiya
 {
-    FWDDECL QuestInfo;
+    struct QuestInfo;
 
     #pragma pack(push, 1)
     struct CQuest

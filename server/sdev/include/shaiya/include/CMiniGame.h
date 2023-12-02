@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    FWDDECL CUser;
+    struct CUser;
 
     #pragma pack(push, 1)
     enum struct MiniGameState : UINT32

@@ -3,8 +3,8 @@
 
 namespace shaiya
 {
-    FWDDECL CMap;
-    FWDDECL CZone;
+    struct CMap;
+    struct CZone;
 
     #pragma pack(push, 1)
     struct CZoneNode

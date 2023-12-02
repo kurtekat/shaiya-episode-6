@@ -4,12 +4,15 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0903.h>
+#include <include/shaiya/packets/0200.h>
+#include <include/shaiya/packets/0900.h>
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CQuest.h>
 #include <include/shaiya/include/CQuestData.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>
+#include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
 
 namespace npc_quest
@@ -71,6 +74,25 @@ namespace npc_quest
         #endif
 
         SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
+
+        #if defined WITH_EXTENDED_QUEST_RESULT && defined WITH_ITEM_DURATION
+        for (const auto& item0903 : packet.itemList)
+        {
+            auto itemInfo = CGameData::GetItemInfo(item0903.type, item0903.typeId);
+            if (!itemInfo)
+                continue;
+
+            if (ServerTime::IsTimedItem(itemInfo))
+            {
+                ItemDurationOutgoing packet{};
+                packet.bag = item0903.bag;
+                packet.slot = item0903.slot;
+                packet.fromDate = ServerTime::GetSystemTime();
+                packet.toDate = ServerTime::GetExpireTime(packet.fromDate, itemInfo->range);
+                SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+            }
+        }
+        #endif
     }
 }
 

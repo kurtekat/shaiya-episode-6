@@ -3,10 +3,8 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0A05.h>
-#include <include/shaiya/packets/0A09.h>
-#include <include/shaiya/packets/0A0A.h>
-#include <include/shaiya/packets/240D.h>
+#include <include/shaiya/packets/0A00.h>
+#include <include/shaiya/packets/2400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>
@@ -117,8 +115,11 @@ namespace packet_exchange
         packet.gems = item->gems;
 
         #ifdef WITH_ITEM_DURATION
-        packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
-        packet.fromDate = packet.toDate ? item->makeTime : 0;
+        if (ServerTime::IsTimedItem(item->itemInfo))
+        {
+            packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+            packet.fromDate = packet.toDate ? item->makeTime : 0;
+        }
         #endif
 
         packet.craftName = item->craftName;

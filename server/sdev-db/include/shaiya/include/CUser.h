@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    FWDDECL SConnection;
+    struct SConnection;
 
     #pragma pack(push, 1)
     struct Equipment

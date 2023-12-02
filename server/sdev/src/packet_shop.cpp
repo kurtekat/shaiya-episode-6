@@ -7,14 +7,14 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/2602.h>
-#include <include/shaiya/packets/2605.h>
-#include <include/shaiya/packets/dbAgent/0E06.h>
-#include <include/shaiya/packets/session/0105.h>
-#include <include/shaiya/packets/session/1B02.h>
-#include <include/shaiya/packets/session/1B03.h>
+#include <include/shaiya/packets/0200.h>
+#include <include/shaiya/packets/2600.h>
+#include <include/shaiya/packets/dbAgent/0E00.h>
+#include <include/shaiya/packets/session/0100.h>
+#include <include/shaiya/packets/session/1B00.h>
 #include <include/shaiya/include/CClientToMgr.h>
 #include <include/shaiya/include/CGameData.h>
+#include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
@@ -74,8 +74,8 @@ namespace packet_shop
 
     void send_reload_point(CUser* user)
     {
-        ReloadPointIncoming packet{ 0xE06, user->userId };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(ReloadPointIncoming));
+        UserPointReloadPointIncoming packet{ 0xE06, user->userId };
+        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointReloadPointIncoming));
     }
 
     void reload_point_handler(CUser* user, UINT32 points)
@@ -85,8 +85,8 @@ namespace packet_shop
 
         InterlockedExchange(&user->points, points);
 
-        CashPointOutgoing packet{ 0x2605, user->points };
-        SConnection::Send(&user->connection, &packet, sizeof(CashPointOutgoing));
+        PointOutgoing packet{ 0x2605, user->points };
+        SConnection::Send(&user->connection, &packet, sizeof(PointOutgoing));
     }
 
     void send_purchase(CUser* user, Packet buffer)
@@ -94,9 +94,9 @@ namespace packet_shop
         constexpr int packet_size_without_list = 37;
         constexpr int item_size_without_dates = 5;
 
-        ProductPurchaseOutgoing packet{};
+        PointPurchaseItemOutgoing packet{};
         packet.opcode = util::read_bytes<std::uint16_t>(buffer, 0);
-        packet.result = util::read_bytes<ProductPurchaseResult>(buffer, 2);
+        packet.result = util::read_bytes<PointPurchaseItemResult>(buffer, 2);
         packet.points = util::read_bytes<std::uint32_t>(buffer, 3);
         std::memcpy(&packet.productCode, &buffer[7], packet.productCode.size());
         packet.purchaseDate = util::read_bytes<std::uint32_t>(buffer, 28);
@@ -113,21 +113,44 @@ namespace packet_shop
             item2602.typeId = util::read_bytes<std::uint8_t>(buffer, 40 + offset);
             item2602.count = util::read_bytes<std::uint8_t>(buffer, 41 + offset);
 
-            #ifdef WITH_ITEM_DURATION
-            auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
-            if (itemInfo)
-            {
-                item2602.toDate = ServerTime::GetExpireTime(packet.purchaseDate, itemInfo->range);
-                item2602.fromDate = item2602.toDate ? packet.purchaseDate : 0;
-            }
-            #endif
-
             std::memcpy(&packet.itemList[i], &item2602, sizeof(Item2602));
             offset += item_size_without_dates;
         }
 
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item2602));
         SConnection::Send(&user->connection, &packet, length);
+
+        #ifdef WITH_ITEM_DURATION
+        for (const auto& item2602 : packet.itemList)
+        {
+            auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
+            if (!itemInfo)
+                continue;
+
+            if (ServerTime::IsTimedItem(itemInfo))
+            {
+                ItemDurationOutgoing packet{};
+                packet.bag = item2602.bag;
+                packet.slot = item2602.slot;
+                packet.fromDate = ServerTime::GetSystemTime();
+                packet.toDate = ServerTime::GetExpireTime(packet.fromDate, itemInfo->range);
+                SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+            }
+        }
+        #endif
+    }
+
+    void send_item_duration(CUser* user, CItem* item, Packet buffer)
+    {
+        if (ServerTime::IsTimedItem(item->itemInfo))
+        {
+            ItemDurationOutgoing packet{};
+            packet.bag = util::read_bytes<std::uint8_t>(buffer, 3);
+            packet.slot = util::read_bytes<std::uint8_t>(buffer, 4);
+            packet.fromDate = item->makeTime;
+            packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+        }
     }
 }
 
@@ -268,6 +291,53 @@ void __declspec(naked) naked_0x4886E0()
     }
 }
 
+unsigned u0x467F60 = 0x467F60;
+unsigned u0x488CCE = 0x488CCE;
+void __declspec(naked) naked_0x488CC9()
+{
+    __asm
+    {
+        call u0x467F60
+
+        pushad
+
+        lea eax,[esp+0x40]
+
+        push eax // packet
+        push ebp // item
+        push edi // user
+        call packet_shop::send_item_duration
+        add esp,0xC
+
+        popad
+
+        jmp u0x488CCE
+    }
+}
+
+unsigned u0x464B5F = 0x464B5F;
+void __declspec(naked) naked_0x464B5A()
+{
+    __asm
+    {
+        call u0x467F60
+
+        pushad
+
+        lea eax,[esp+0x30]
+
+        push eax // packet
+        push ebp // item
+        push edi // user
+        call packet_shop::send_item_duration
+        add esp,0xC
+
+        popad
+
+        jmp u0x464B5F
+    }
+}
+
 void hook::packet_shop()
 {
     // CUser::PacketCharacter case 0x104
@@ -287,5 +357,9 @@ void hook::packet_shop()
     #ifdef WITH_ITEM_DURATION
     // CUser::PacketShop case 0x2602
     util::detour((void*)0x4886E0, naked_0x4886E0, 5);
+    // CUser::PacketShop case 0x2607
+    util::detour((void*)0x488CC9, naked_0x488CC9, 5);
+    // CUser::PacketBilling
+    util::detour((void*)0x464B5A, naked_0x464B5A, 5);
     #endif
 }

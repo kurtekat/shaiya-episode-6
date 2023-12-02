@@ -5,10 +5,9 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0101.h>
-#include <include/shaiya/packets/0119.h>
-#include <include/shaiya/packets/0711.h>
-#include <include/shaiya/packets/dbAgent/0403.h>
+#include <include/shaiya/packets/0100.h>
+#include <include/shaiya/packets/0700.h>
+#include <include/shaiya/packets/dbAgent/0400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>
@@ -24,24 +23,14 @@ namespace packet_character
         constexpr int min_name_len = 3;
         constexpr int max_name_len = 13;
 
-        #pragma pack(push, 1)
-        // custom
-        struct DBNameAvailableIncoming
-        {
-            UINT16 opcode{ 0x40D };
-            UserId userId;
-            Array<char, 19> charName;
-        };
-        #pragma pack(pop)
-
-        DBNameAvailableIncoming request{};
+        UserCharNameAvailableIncoming request{};
         request.userId = user->userId;
 
         std::string charName(name);
         if (charName.length() < min_name_len || charName.length() > max_name_len)
         {
-            NameAvailableOutgoing packet{ 0x119, false };
-            SConnection::Send(&user->connection, &packet, sizeof(NameAvailableOutgoing));
+            CharNameAvailableOutgoing packet{ 0x119, false };
+            SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
@@ -54,23 +43,16 @@ namespace packet_character
     void send_name_available(CUser* user, Packet buffer)
     {
         auto available = util::read_bytes<bool>(buffer, 6);
-        NameAvailableOutgoing packet{ 0x119, available };
-        SConnection::Send(&user->connection, &packet, sizeof(NameAvailableOutgoing));
+        CharNameAvailableOutgoing packet{ 0x119, available };
+        SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
     }
 
     void send_warehouse(CUser* user)
     {
         constexpr int packet_size_without_list = 7;
-        // the packet length within the loop
-        // 
-        // ep5: 1657 = 7 + (33 * 50)
-        // ep6: 2057 = 7 + (41 * 50)
-        //
-        // 2057 bytes will crash ps_game (max is 2048)
-        // shen1l changed 50 to 40
-        constexpr int max_item_send_count = 40;
+        constexpr int max_item_list_count = 40;
 
-        UserStoredItemListOutgoing warehouse{};
+        UserBankItemListOutgoing warehouse{};
         warehouse.bankMoney = user->bankMoney;
         warehouse.itemCount = 0;
 
@@ -89,15 +71,18 @@ namespace packet_character
             item0711.count = item->count;
 
             #ifdef WITH_ITEM_DURATION
-            item0711.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
-            item0711.fromDate = item0711.toDate ? item->makeTime : 0;
+            if (ServerTime::IsTimedItem(item->itemInfo))
+            {
+                item0711.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                item0711.fromDate = item0711.toDate ? item->makeTime : 0;
+            }
             #endif
 
             item0711.craftName = item->craftName;
             std::memcpy(&warehouse.itemList[warehouse.itemCount], &item0711, sizeof(Item0711));
             ++warehouse.itemCount;
 
-            if (warehouse.itemCount != max_item_send_count)
+            if (warehouse.itemCount != max_item_list_count)
                 continue;
             else
             {

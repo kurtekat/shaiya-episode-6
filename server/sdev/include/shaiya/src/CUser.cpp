@@ -78,6 +78,51 @@ void CUser::ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBa
     (*(LPFN)0x4685A0)(user, srcBag, srcSlot, destBag, destSlot);
 }
 
+void CUser::ItemBagToBank(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/)
+{
+    Address u0x469400 = 0x469400;
+
+    __asm
+    {
+        mov ecx,destSlot
+        push destBag
+        push srcSlot
+        push srcBag
+        mov edx,user
+        call u0x469400
+    }
+}
+
+void CUser::ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ecx*/, int destBag, int destSlot)
+{
+    Address u0x468E80 = 0x468E80;
+
+    __asm
+    {
+        push destSlot
+        push destBag
+        mov ecx,srcSlot
+        push srcBag
+        mov edx,user
+        call u0x468E80
+    }
+}
+
+void CUser::ItemBankToBank(CUser* user/*esi*/, int srcBag/*100*/, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/)
+{
+    Address u0x469950 = 0x469950;
+
+    __asm
+    {
+        mov ecx,destSlot
+        push destBag
+        push srcSlot
+        push srcBag
+        mov esi,user
+        call u0x469950
+    }
+}
+
 bool CUser::ItemCreate(CUser* user/*ecx*/, CGameData::ItemInfo* info, int count)
 {
     typedef bool(__thiscall* LPFN)(CUser*, CGameData::ItemInfo*, int);

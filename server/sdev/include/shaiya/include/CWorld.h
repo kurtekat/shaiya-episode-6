@@ -6,11 +6,11 @@
 
 namespace shaiya
 {
-    FWDDECL CDead;
-    FWDDECL CMap;
-    FWDDECL CUser;
-    FWDDECL CZone;
-    FWDDECL CZoneNode;
+    struct CDead;
+    struct CMap;
+    struct CUser;
+    struct CZone;
+    struct CZoneNode;
 
     #define KILL_COUNT_UPDATE_INTERVAL 600000
 
@@ -48,8 +48,8 @@ namespace shaiya
         SSyncMap<const char*, CUser*> userMap2;  //0x58
         SSyncMap<ULONG, CUser*> billMap1;        //0xA0
         SSyncMap<const char*, CUser*> billMap2;  //0xE8
-        SSyncList<CUser> userList;               //0x130
-        SSyncList<CUser> billList;               //0x15C
+        SSyncList<CUser> list130;                //0x130
+        SSyncList<CUser> leaveList;              //0x15C
         SSyncList<CUser> waitList;               //0x188
         SSyncList<CDead> deadList;               //0x1B4
         // 0x1CC

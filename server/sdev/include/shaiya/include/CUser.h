@@ -14,12 +14,12 @@
 
 namespace shaiya
 {
-    FWDDECL CDamage;
-    FWDDECL CGuild;
-    FWDDECL CGuildCreate;
-    FWDDECL CItem;
-    FWDDECL CParty;
-    FWDDECL CZone;
+    struct CDamage;
+    struct CGuild;
+    struct CGuildCreate;
+    struct CItem;
+    struct CParty;
+    struct CZone;
 
     #pragma pack(push, 1)
     // custom
@@ -213,22 +213,6 @@ namespace shaiya
         Array<UINT32, 4> mapId;
         Array<SVector, 4> pos;
         // 0x40
-    };
-
-    enum struct ShapeType : UINT8
-    {
-        None,
-        Chicken = 4,
-        Dog = 5,
-        Horse = 6,
-        Pig = 7,
-        Fox = 10,
-        Wolf = 11,
-        Knight = 12,
-        Stealth = 13,
-        Disguise = 100,
-        Degeneration,
-        Transformation,
     };
 
     enum struct StateType : UINT32
@@ -663,6 +647,9 @@ namespace shaiya
         static void InitEquipment(CUser* user/*ecx*/);
         static void InitEquipment(CUser* user/*ecx*/, BOOL reset);
         static void ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag, int destSlot);
+        static void ItemBagToBank(CUser* user/*edx*/, int srcBag, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/);
+        static void ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ecx*/, int destBag, int destSlot);
+        static void ItemBankToBank(CUser* user/*esi*/, int srcBag/*100*/, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/);
         static bool ItemCreate(CUser* user/*ecx*/, CGameData::ItemInfo* info, int count);
         static bool ItemDelete(CUser* user, int type, int typeId);
         static void ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot);

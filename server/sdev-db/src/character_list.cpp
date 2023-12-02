@@ -6,7 +6,7 @@
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
-#include <sdev/include/shaiya/packets/dbAgent/0403.h>
+#include <sdev/include/shaiya/packets/dbAgent/0400.h>
 #include <sdev/include/shaiya/include/SConnection.h>
 using namespace shaiya;
 
@@ -18,7 +18,7 @@ namespace character_list
     {
         constexpr int packet_size_without_list = 8;
 
-        CharacterListOutgoing packet{};
+        UserCharListOutgoing packet{};
         packet.userId = user->userId;
         packet.sendCountry = sendCountry;
         packet.characterCount = 0;

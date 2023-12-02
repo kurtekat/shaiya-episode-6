@@ -3,8 +3,7 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0101.h>
-#include <include/shaiya/packets/0307.h>
+#include <include/shaiya/packets/0300.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
@@ -70,7 +69,7 @@ namespace user_equipment
     {
         constexpr int packet_size_without_list = 3;
 
-        UserInspectOutgoing packet{};
+        GetInfoInspectOutgoing packet{};
         packet.itemCount = 0;
 
         for (int slot = 0; slot < EquipmentSlot::Wings; ++slot)

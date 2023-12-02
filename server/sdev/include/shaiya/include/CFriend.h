@@ -3,8 +3,6 @@
 
 namespace shaiya
 {
-    typedef Array<char, 51> Memo;
-
     #pragma pack(push, 1)
     struct BlockList
     {
