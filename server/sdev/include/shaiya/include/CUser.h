@@ -339,8 +339,8 @@ namespace shaiya
         Job job;                           //0x134
         Sex sex;                           //0x135
         UINT16 level;                      //0x136
-        UINT16 statPoints;                 //0x138
-        UINT16 skillPoints;                //0x13A
+        UINT16 statPoint;                  //0x138
+        UINT16 skillPoint;                 //0x13A
         UINT32 exp;                        //0x13C
         UINT32 money;                      //0x140
         UINT32 bankMoney;                  //0x144

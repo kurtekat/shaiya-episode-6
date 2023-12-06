@@ -3,6 +3,7 @@
 
 namespace shaiya
 {
+    struct CItem;
     struct SConnection;
 
     #pragma pack(push, 1)
@@ -52,7 +53,12 @@ namespace shaiya
         UserId userId;                      //0x38
         PAD(36);
         CharId charId;                      //0x60
-        PAD(15112);
+        PAD(124);
+        // 0xE0
+        Array<Array<CItem*, 24>, 6> inventory;
+        Array<CItem*, 240> warehouse;       //0x320
+        // 0x6E0
+        PAD(13452);
         Array<Character, 5> characterList;  //0x3B6C
         // 0x3D38
         PAD(17340);
