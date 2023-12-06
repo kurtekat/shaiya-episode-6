@@ -4,6 +4,7 @@
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/packets/0200.h>
+#include <include/shaiya/packets/0700.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
@@ -25,7 +26,17 @@ namespace item_duration
         if (bag == WAREHOUSE_BAG)
         {
             packet.noticeType = ItemExpireNoticeType::DeletedFromWarehouse;
-            // bug: CUser::ItemRemove does not work with banks :/
+
+            UserItemBankToBankIncoming packet{};
+            packet.userId = user->userId;
+            packet.srcSlot = slot;
+            packet.srcCount = item->count;
+            packet.destSlot = slot;
+            packet.destCount = 0;
+            SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemBankToBankIncoming));
+
+            CObjectMgr::FreeItem(item);
+            user->warehouse[slot] = nullptr;
         }
         else
         {
