@@ -15,16 +15,6 @@ namespace shaiya
         ByDeath
     };
 
-    enum struct ItemMakeType : char
-    {
-        B = 66,
-        C,
-        D,
-        Q = 81,
-        S = 83,
-        X = 88
-    };
-
     struct CItem
     {
         SNode node;                //0x00

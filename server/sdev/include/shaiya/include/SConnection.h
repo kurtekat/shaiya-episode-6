@@ -18,6 +18,7 @@ namespace shaiya
 
         static void Send(SConnection* connection/*ecx*/, void* buf, int len);
         static void Close(SConnection* connection/*ecx*/, int closeType, int closeErr);
+        static bool IsConnected(SConnection* connection/*ecx*/);
     };
     #pragma pack(pop)
 }

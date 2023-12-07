@@ -12,3 +12,9 @@ void SConnection::Close(SConnection* connection/*ecx*/, int closeType, int close
     typedef void(__thiscall* LPFN)(SConnection*, int, int);
     (*(LPFN)0x4EC760)(connection, closeType, closeErr);
 }
+
+bool SConnection::IsConnected(SConnection* connection/*ecx*/)
+{
+    typedef bool(__thiscall* LPFN)(SConnection*);
+    return (*(LPFN)0x405920)(connection);
+}

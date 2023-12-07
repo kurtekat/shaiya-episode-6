@@ -110,6 +110,7 @@ typedef Array<char, 51> Memo;
 typedef Array<char, 21> ProductCode;
 typedef Array<char, 32> Username;
 typedef Array<char, 16> Password;
+typedef Array<char, 128> ChatMessage;
 
 #pragma pack(push, 1)
 enum struct Country : UINT8
@@ -162,6 +163,16 @@ enum struct ItemDivType : UINT32
     Random,
     Unknown,
     Master
+};
+
+enum struct ItemMakeType : char
+{
+    B = 66,
+    C,
+    D,
+    Q = 81,
+    S = 83,
+    X = 88
 };
 
 enum struct Job : UINT8
