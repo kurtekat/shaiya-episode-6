@@ -100,7 +100,7 @@ namespace shaiya
         ULONG charId;
         // w/ null terminator
         UINT8 memoLength;
-        Array<char, 51> memo;
+        Memo memo;
     };
 
     struct BlockSaveMemoOutgoing
@@ -109,7 +109,7 @@ namespace shaiya
         ULONG charId;
         // w/o null terminator
         UINT8 memoLength;
-        Array<char, 51> memo;
+        Memo memo;
     };
 
     struct BlockAddResultOutgoing

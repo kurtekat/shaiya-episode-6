@@ -6,15 +6,21 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct GameLogoutIncoming
+    struct DBAgentDisconnectIncoming
     {
         UINT16 opcode{ 0x302 };
         UserId userId;
     };
 
-    struct GameLogoutOutgoing
+    struct DBAgentDisconnectOutgoing
     {
         UINT16 opcode{ 0x302 };
+        UserId userId;
+    };
+
+    struct DBAgentLogoutIncoming
+    {
+        UINT16 opcode{ 0x304 };
         UserId userId;
     };
     #pragma pack(pop)

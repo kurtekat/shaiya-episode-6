@@ -10,9 +10,8 @@ namespace shaiya
     {
         UINT16 opcode{ 0x1101 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatNormalOutgoing
@@ -20,9 +19,8 @@ namespace shaiya
         UINT16 opcode{ 0x1101 };
         ULONG charId;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatWhisperIncoming
@@ -30,9 +28,8 @@ namespace shaiya
         UINT16 opcode{ 0x1102 };
         CharName senderName;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatWhisperOutgoing
@@ -41,18 +38,16 @@ namespace shaiya
         bool isToSender;
         CharName senderName;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatTradeIncoming
     {
         UINT16 opcode{ 0x1103 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatTradeOutgoing
@@ -60,18 +55,16 @@ namespace shaiya
         UINT16 opcode{ 0x1103 };
         CharName senderName;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatGuildIncoming
     {
         UINT16 opcode{ 0x1104 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatGuildOutgoing
@@ -79,18 +72,16 @@ namespace shaiya
         UINT16 opcode{ 0x1104 };
         ULONG charId;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatPartyIncoming
     {
         UINT16 opcode{ 0x1105 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatPartyOutgoing
@@ -98,9 +89,8 @@ namespace shaiya
         UINT16 opcode{ 0x1105 };
         ULONG charId;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatUserDoesNotExistOutgoing
@@ -114,18 +104,16 @@ namespace shaiya
         UINT16 opcode{ 0x1108 };
         CharName senderName;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatAreaIncoming
     {
         UINT16 opcode{ 0x1111 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatAreaOutgoing
@@ -133,18 +121,16 @@ namespace shaiya
         UINT16 opcode{ 0x1111 };
         CharName senderName;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatRaidIncoming
     {
         UINT16 opcode{ 0x1112 };
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
 
     struct ChatRaidOutgoing
@@ -152,9 +138,8 @@ namespace shaiya
         UINT16 opcode{ 0x1112 };
         ULONG charId;
         // w/ null-terminator
-        UINT8 textLength;
-        // size = textLength
-        Array<char, 128> text;
+        UINT8 messageLength;
+        ChatMessage message;
     };
     #pragma pack(pop)
 }

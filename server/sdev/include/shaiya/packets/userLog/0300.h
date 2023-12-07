@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct GameLogoutIncoming
+    struct SessionDisconnectIncoming
     {
         UINT16 opcode{ 0x302 };
         UserId userId;
@@ -13,7 +13,7 @@ namespace shaiya
         UINT32 closeErr;
     };
 
-    struct GameLogoutOutgoing
+    struct SessionDisconnectOutgoing
     {
         UINT16 opcode{ 0x302 };
         UserId userId;

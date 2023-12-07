@@ -56,11 +56,19 @@ namespace shaiya
         ULONG npcId;
     };
 
-    struct ItemBagToBagOutgoing
+    typedef struct ItemBagToBagOutgoing
     {
         UINT16 opcode{ 0x204 };
         Item0204 srcItem;
         Item0204 destItem;
+    } ItemBagToBankOutgoing, ItemBankToBankOutgoing;
+
+    struct ItemBankToBagOutgoing
+    {
+        UINT16 opcode{ 0x204 };
+        Item0204 srcItem;
+        Item0204 destItem;
+        UINT32 money;
     };
 
     struct ItemPickIncoming
@@ -152,7 +160,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x219 };
         bool success;
-        UINT8 statPoints;
+        UINT8 statPoint;
     };
 
     struct VetDeathRewardIncoming

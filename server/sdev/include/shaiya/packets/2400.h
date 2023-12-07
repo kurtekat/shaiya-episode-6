@@ -6,7 +6,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    enum struct PvPRequestResultResult : UINT8
+    enum struct PvPRequestResult : UINT8
     {
         Rejected,
         Accepted,
@@ -30,13 +30,13 @@ namespace shaiya
     struct PvPRequestResultIncoming
     {
         UINT16 opcode{ 0x2402 };
-        PvPRequestResultResult result;
+        PvPRequestResult result;
     };
 
     struct PvPRequestResultOutgoing
     {
         UINT16 opcode{ 0x2402 };
-        PvPRequestResultResult result;
+        PvPRequestResult result;
         CharId targetId;
     };
 
