@@ -1,5 +1,8 @@
 #pragma once
+#include <vector>
 #include <windows.h>
+
+inline std::vector<ULONG> g_users{};
 
 void Main(HMODULE hModule);
 

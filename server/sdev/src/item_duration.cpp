@@ -10,6 +10,7 @@
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CObjectMgr.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/CWorld.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -17,6 +18,9 @@ using namespace shaiya;
 
 namespace item_duration
 {
+    unsigned long world_thread_update_interval = 60000;
+    unsigned long world_thread_update_tick = 0;
+
     void send_delete_notice(CUser* user, CItem* item, int bag, int slot)
     {
         ItemExpireNoticeOutgoing packet{};
@@ -37,6 +41,13 @@ namespace item_duration
 
             CObjectMgr::FreeItem(item);
             user->warehouse[slot] = nullptr;
+
+            ItemBankToBankOutgoing packet2{};
+            packet2.srcItem.bag = bag;
+            packet2.srcItem.slot = slot;
+            packet2.destItem.bag = bag;
+            packet2.destItem.slot = slot;
+            SConnection::Send(&user->connection, &packet2, sizeof(ItemBankToBankOutgoing));
         }
         else
         {
@@ -49,11 +60,7 @@ namespace item_duration
 
     void send_expire_notice(CUser* user, CItem* item, int bag, int slot)
     {
-        int days = item->itemInfo->range;
-        if (!days)
-            return;
-
-        auto expireTime = ServerTime::GetExpireTime(item->makeTime, days);
+        auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
         if (!expireTime)
             return;
 
@@ -168,6 +175,75 @@ namespace item_duration
             SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
         }
     }
+
+    void world_thread_update()
+    {
+        auto now = GetTickCount();
+        if (now < world_thread_update_tick)
+            return;
+
+        world_thread_update_tick = now + world_thread_update_interval;
+
+        for (const auto& charId : g_users)
+        {
+            auto user = CWorld::FindUser(charId);
+            if (!user)
+            {
+                std::erase(g_users, charId);
+                continue;
+            }
+
+            if (user->logoutType != LogoutType::None)
+                continue;
+
+            for (int bag = 0; bag < MAX_INVENTORY_BAG; ++bag)
+            {
+                for (int slot = 0; slot < MAX_INVENTORY_SLOT; ++slot)
+                {
+                    auto& item = user->inventory[bag][slot];
+                    if (!item)
+                        continue;
+
+                    if (ServerTime::IsTimedItem(item->itemInfo))
+                    {
+                        auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                        if (!expireTime)
+                            continue;
+
+                        SYSTEMTIME st{};
+                        ServerTime::ServerTimeToSystemTime(expireTime, &st);
+                        Duration duration(&st);
+
+                        if (duration.expired())
+                            send_delete_notice(user, item, bag, slot);
+                    }
+                }
+            }
+
+            int warehouse_size = user->doubleWarehouse ? MAX_WAREHOUSE_SLOT : MIN_WAREHOUSE_SLOT;
+
+            for (int slot = 0; slot < warehouse_size; ++slot)
+            {
+                auto& item = user->warehouse[slot];
+                if (!item)
+                    continue;
+
+                if (ServerTime::IsTimedItem(item->itemInfo))
+                {
+                    auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                    if (!expireTime)
+                        continue;
+
+                    SYSTEMTIME st{};
+                    ServerTime::ServerTimeToSystemTime(expireTime, &st);
+                    Duration duration(&st);
+
+                    if (duration.expired())
+                        send_delete_notice(user, item, WAREHOUSE_BAG, slot);
+                }
+            }
+        }
+    }
 }
 
 unsigned u0x492500 = 0x492500;
@@ -240,6 +316,26 @@ void __declspec(naked) naked_0x46C22A()
     }
 }
 
+// CWorldThread::UpdateKillCount
+unsigned u0x4042A0 = 0x4042A0;
+unsigned u0x404076 = 0x404076;
+void __declspec(naked) naked_0x404071()
+{
+    __asm
+    {
+        // original
+        call u0x4042A0
+
+        pushad
+
+        call item_duration::world_thread_update
+
+        popad
+     
+        jmp u0x404076
+    }
+}
+
 void hook::item_duration()
 {
     // CUser::PacketUserDBChar
@@ -248,4 +344,6 @@ void hook::item_duration()
     util::detour((void*)0x46992F, naked_0x46992F, 5);
     // CUser::ItemCreate
     util::detour((void*)0x46C22A, naked_0x46C22A, 5);
+    // CWorldThread::Update
+    util::detour((void*)0x404071, naked_0x404071, 5);
 }

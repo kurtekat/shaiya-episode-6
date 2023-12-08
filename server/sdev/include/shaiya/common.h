@@ -87,6 +87,7 @@ defined SHAIYA_EP6_4_PT
 #define MAX_MYSHOP_SLOT 20
 #define MAX_REQWIS 99
 #define MAX_WAREHOUSE_SLOT 240
+#define MIN_WAREHOUSE_SLOT 120
 
 typedef unsigned Address;
 typedef unsigned long CharId;

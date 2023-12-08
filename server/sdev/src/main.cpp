@@ -5,16 +5,22 @@
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Revenge.h>
+#include <include/shaiya/include/ServerTime.h>
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 
 void enter_world_hook(CUser* user)
 {
     CUser::UpdateKCStatus(user);
+
+    if (std::find(g_users.begin(), g_users.end(), user->id) == g_users.end())
+        g_users.push_back(user->id);
 }
 
 void leave_world_hook(CUser* user)
 {
+    std::erase(g_users, user->id);
+
     #ifdef WITH_SET_ITEM
     g_appliedSynergies.erase(user->id);
     #endif
