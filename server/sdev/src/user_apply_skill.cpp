@@ -24,7 +24,7 @@ namespace user_apply_skill
         if (!user->activableSkill.triggered)
         {
             packet.targetType = static_cast<std::uint8_t>(skillInfo->targetType);
-            #ifdef WITH_EXTENDED_0511
+            #ifdef SHAIYA_EP6_0511
             packet.state = SkillUseState::Triggered;
             #endif
 
@@ -44,7 +44,7 @@ namespace user_apply_skill
         else
         {
             packet.targetType = static_cast<std::uint8_t>(skillInfo->targetType);
-            #ifdef WITH_EXTENDED_0511
+            #ifdef SHAIYA_EP6_0511
             packet.state = SkillUseState::Stopped;
             #endif
 

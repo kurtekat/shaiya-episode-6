@@ -20,7 +20,7 @@ namespace packet_myshop
         MyShopItemListOutgoing packet{};
         packet.itemCount = 0;
 
-        for (int slot = 0; slot < MAX_MYSHOP_SLOT; ++slot)
+        for (int slot = 0; slot < max_myshop_slot; ++slot)
         {
             auto srcBag = myShop->srcBag[slot];
             auto srcSlot = myShop->srcSlot[slot];
@@ -41,7 +41,7 @@ namespace packet_myshop
             item230B.quality = item->quality;
             item230B.gems = item->gems;
 
-            #ifdef WITH_ITEM_DURATION
+            #ifdef SHAIYA_EP6_ITEM_DURATION
             if (ServerTime::IsTimedItem(item->itemInfo))
             {
                 item230B.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);

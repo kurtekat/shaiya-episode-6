@@ -1,3 +1,4 @@
+#include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -19,10 +20,10 @@ int util::detour(Address addr, Function func, int size)
     auto dest = reinterpret_cast<unsigned>(func) - reinterpret_cast<unsigned>(addr);
     dest -= stmt_size;
 
-    memset(addr, nop, size);
-    memset(addr, jmp, 1);
+    std::memset(addr, nop, size);
+    std::memset(addr, jmp, 1);
     __asm { inc addr }
-    memcpy(addr, &dest, 4);
+    std::memcpy(addr, &dest, 4);
     __asm { dec addr }
 
     return VirtualProtect(addr, size, protect, &protect);

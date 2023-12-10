@@ -14,7 +14,7 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    constexpr int max_equipment_slot = ITEM_LIST_SIZE;
+    constexpr int max_equipment_slot = item_list_size;
 
     bool enable_slot(CGameData::ItemInfo* itemInfo, EquipmentSlot slot)
     {
@@ -351,14 +351,14 @@ void hook::user_equipment()
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
 
-    #ifdef WITH_SET_ITEM
+    #ifdef SHAIYA_EP6_ITEM_SET
     // CUser::ItemEquipmentAdd
     util::detour((void*)0x461640, naked_0x461640, 6);
     // CUser::ItemEquipmentRem
     util::detour((void*)0x461D10, naked_0x461D10, 6);
     #endif
 
-    std::uint8_t max_equipment_slot = ITEM_LIST_SIZE;
+    std::uint8_t max_equipment_slot = item_list_size;
     // CUser::InitEquipment (overload)
     util::write_memory((void*)0x4615B3, &max_equipment_slot, 1);
     // CUser::ItemBagToBag

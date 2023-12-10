@@ -23,41 +23,41 @@ defined SHAIYA_EP6_3_PT
 defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_4_PT
-#define WITH_EXTENDED_0511
+#define SHAIYA_EP6_0511
 #endif
 
 #if \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
-#define WITH_EXTENDED_EQUIPMENT
+#define SHAIYA_EP6_ITEM_DURATION
 #endif
 
 #if \
-defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_4_PT
-#define WITH_EXTENDED_QUEST_RESULT
+#define SHAIYA_EP6_ITEM_EFFECT
 #endif
 
 #if \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
-#define WITH_ITEM_DURATION
+#define SHAIYA_EP6_ITEM_LIST
 #endif
 
 #if \
 defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_4_PT
-#define WITH_SET_ITEM
+#define SHAIYA_EP6_ITEM_SET
 #endif
 
 #if \
+defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3 || \
 defined SHAIYA_EP6_4_PT
-#define WITH_TOWN_TELEPORT_SCROLL
+#define SHAIYA_EP6_QUEST_RESULT
 #endif
 
 #include <array>
@@ -69,159 +69,164 @@ defined SHAIYA_EP6_4_PT
 #define EXPAND(x, y) CONCAT(x, y)
 #define PAD(size) char EXPAND(pad, __LINE__)[size]
 
-#ifdef SHAIYA_EP6_4_PT
-#define ITEM_LIST_SIZE 17
-#elif defined SHAIYA_EP6_3 || defined SHAIYA_EP6_3_PT
-#define ITEM_LIST_SIZE 16
-#else
-#define ITEM_LIST_SIZE 8
-#endif
-
-#define GUILD_WAREHOUSE_BAG 255
-#define ITEM_BANK_BAG 200
-#define WAREHOUSE_BAG 100
-
-#define MAX_CHARACTER_SLOT 5
-#define MAX_INVENTORY_BAG 6
-#define MAX_INVENTORY_SLOT 24
-#define MAX_MYSHOP_SLOT 20
-#define MAX_REQWIS 99
-#define MAX_WAREHOUSE_SLOT 240
-#define MIN_WAREHOUSE_SLOT 120
-
-typedef unsigned Address;
-typedef unsigned long CharId;
-typedef unsigned long GuildId;
-typedef unsigned int ItemId;
-typedef unsigned char* Packet;
-typedef int Socket;
-typedef unsigned long TickCount;
-typedef unsigned long UserId;
-
 template<class T, int N>
 using Array = std::array<T, N>;
 
-typedef Array<char, 21> CharName;
-typedef Array<char, 21> CraftName;
-typedef Array<UINT8, 6> Gems;
-using CloakBadge = Gems;
+typedef unsigned Address;
+typedef ULONG TickCount;
 
-typedef Array<char, 25> GuildName;
-typedef Array<char, 51> Memo;
-typedef Array<char, 21> ProductCode;
-typedef Array<char, 32> Username;
-typedef Array<char, 16> Password;
-typedef Array<char, 128> ChatMessage;
-
-#pragma pack(push, 1)
-enum struct Country : UINT8
+namespace shaiya
 {
-    Light,
-    Fury,
-    Neutral
-};
+    #ifdef SHAIYA_EP6_4_PT
+    constexpr int item_list_size = 17;
+    #elif defined SHAIYA_EP6_3 || defined SHAIYA_EP6_3_PT
+    constexpr int item_list_size = 16;
+    #else
+    constexpr int item_list_size = 8;
+    #endif
 
-enum EquipmentSlot
-{
-    Helmet,     //0x1C0
-    UpperArmor, //0x1C4
-    LowerArmor, //0x1C8
-    Gloves,     //0x1CC
-    Shoes,      //0x1D0
-    Weapon,     //0x1D4
-    Shield,     //0x1D8
-    Cloak,      //0x1DC
-    Ring1,      //0x1E0
-    Ring2,      //0x1E4
-    Bracelet1,  //0x1E8
-    Bracelet2,  //0x1EC
-    Necklace,   //0x1F0
-    Vehicle,    //0x1F4
-    Pet,        //0x1F8
-    Costume,    //0x1FC
-    Wings       //0x200
-};
+    constexpr int guild_warehouse_bag = 255;
+    constexpr int item_bank_bag = 200;
+    constexpr int warehouse_bag = 100;
 
-enum struct Family : UINT8
-{
-    Human,
-    Elf,
-    Vail,
-    Deatheater
-};
+    constexpr int max_character_slot = 5;
+    constexpr int max_inventory_bag = 6;
+    constexpr int max_inventory_slot = 24;
+    constexpr int max_myshop_slot = 20;
+    constexpr int max_reqwis = 99;
+    constexpr int max_warehouse_slot = 240;
+    constexpr int min_warehouse_slot = 120;
 
-enum struct Grow : UINT8
-{
-    Easy,
-    Normal,
-    Hard,
-    Ultimate
-};
+    typedef UINT8* Packet;
+    typedef Array<char, 128> ChatMessage;
 
-enum struct ItemDivType : UINT32
-{
-    Group = 1,
-    Random,
-    Unknown,
-    Master
-};
+    typedef ULONG CharId;
+    typedef Array<char, 21> CharName;
+    typedef Array<char, 51> Memo;
 
-enum struct ItemMakeType : char
-{
-    B = 66,
-    C,
-    D,
-    Q = 81,
-    S = 83,
-    X = 88
-};
+    typedef ULONG GuildId;
+    typedef Array<char, 25> GuildName;
 
-enum struct Job : UINT8
-{
-    AttackFighter,
-    DefenseFighter,
-    PatrolRogue,
-    ShootRogue,
-    AttackMage,
-    DefenseMage
-};
+    typedef ULONG UserId;
+    typedef Array<char, 32> Username;
+    typedef Array<char, 16> Password;
 
-enum struct KillPC : UINT8
-{
-    To,
-    From
-};
+    typedef UINT32 ItemId;
+    typedef Array<char, 21> CraftName;
+    typedef Array<UINT8, 6> Gems;
+    using CloakBadge = Gems;
+    typedef Array<char, 21> ProductCode;
 
-enum struct Race : UINT8
-{
-    Human,
-    Elf,
-    Light,
-    DeathEater,
-    Vail,
-    Fury,
-    Neutral
-};
+    #pragma pack(push, 1)
+    enum struct Country : UINT8
+    {
+        Light,
+        Fury,
+        Neutral
+    };
 
-enum struct Sex : UINT8
-{
-    Male,
-    Female
-};
+    enum EquipmentSlot
+    {
+        Helmet,     //0x1C0
+        UpperArmor, //0x1C4
+        LowerArmor, //0x1C8
+        Gloves,     //0x1CC
+        Shoes,      //0x1D0
+        Weapon,     //0x1D4
+        Shield,     //0x1D8
+        Cloak,      //0x1DC
+        Ring1,      //0x1E0
+        Ring2,      //0x1E4
+        Bracelet1,  //0x1E8
+        Bracelet2,  //0x1EC
+        Necklace,   //0x1F0
+        Vehicle,    //0x1F4
+        Pet,        //0x1F8
+        Costume,    //0x1FC
+        Wings       //0x200
+    };
 
-enum struct ShapeType : UINT8
-{
-    None,
-    Chicken = 4,
-    Dog = 5,
-    Horse = 6,
-    Pig = 7,
-    Fox = 10,
-    Wolf = 11,
-    Knight = 12,
-    Stealth = 13,
-    Disguise = 100,
-    Degeneration,
-    Transformation,
-};
-#pragma pack(pop)
+    enum struct Family : UINT8
+    {
+        Human,
+        Elf,
+        Vail,
+        Deatheater
+    };
+
+    enum struct Grow : UINT8
+    {
+        Easy,
+        Normal,
+        Hard,
+        Ultimate
+    };
+
+    enum struct ItemDivType : UINT32
+    {
+        Group = 1,
+        Random,
+        Unknown,
+        Master
+    };
+
+    enum struct ItemMakeType : char
+    {
+        B = 66,
+        C,
+        D,
+        Q = 81,
+        S = 83,
+        X = 88
+    };
+
+    enum struct Job : UINT8
+    {
+        AttackFighter,
+        DefenseFighter,
+        PatrolRogue,
+        ShootRogue,
+        AttackMage,
+        DefenseMage
+    };
+
+    enum struct KillPC : UINT8
+    {
+        To,
+        From
+    };
+
+    enum struct Race : UINT8
+    {
+        Human,
+        Elf,
+        Light,
+        DeathEater,
+        Vail,
+        Fury,
+        Neutral
+    };
+
+    enum struct Sex : UINT8
+    {
+        Male,
+        Female
+    };
+
+    enum struct ShapeType : UINT8
+    {
+        None,
+        Chicken = 4,
+        Dog = 5,
+        Horse = 6,
+        Pig = 7,
+        Fox = 10,
+        Wolf = 11,
+        Knight = 12,
+        Stealth = 13,
+        Disguise = 100,
+        Degeneration,
+        Transformation,
+    };
+    #pragma pack(pop)
+}

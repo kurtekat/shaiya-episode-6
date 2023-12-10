@@ -43,7 +43,7 @@ namespace shaiya
         UINT8 partyType;
         Grow grow;
         UINT32 kills;
-        Array<Equipment0303, ITEM_LIST_SIZE> equipment;
+        Array<Equipment0303, item_list_size> equipment;
         CharName charName;
         CloakBadge cloakBadge;
         GuildName guildName;
@@ -69,8 +69,8 @@ namespace shaiya
     {
         UINT16 opcode{ 0x307 };
         UINT8 itemCount;
-        #ifdef WITH_EXTENDED_EQUIPMENT
-        Array<Item0307, ITEM_LIST_SIZE> itemList;
+        #ifdef SHAIYA_EP6_ITEM_LIST
+        Array<Item0307, item_list_size> itemList;
         #else
         Array<Item0307, 12> itemList;
         #endif

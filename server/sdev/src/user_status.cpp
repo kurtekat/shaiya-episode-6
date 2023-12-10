@@ -215,7 +215,7 @@ void hook::user_status()
     // CUser::SendRecoverChange
     util::detour((void*)0x4910CF, naked_0x4910CF, 5);
 
-    #ifdef WITH_SET_ITEM
+    #ifdef SHAIYA_EP6_ITEM_SET
     // CUser::StatResetStatus
     util::detour((void*)0x48F9BE, naked_0x48F9BE, 7);
     // CUser::StatResetSkill

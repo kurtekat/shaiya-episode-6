@@ -120,7 +120,7 @@ namespace packet_shop
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item2602));
         SConnection::Send(&user->connection, &packet, length);
 
-        #ifdef WITH_ITEM_DURATION
+        #ifdef SHAIYA_EP6_ITEM_DURATION
         for (const auto& item2602 : packet.itemList)
         {
             auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
@@ -354,7 +354,7 @@ void hook::packet_shop()
     // fake a 0x105 event
     packet_shop::present_enable_async(true);
 
-    #ifdef WITH_ITEM_DURATION
+    #ifdef SHAIYA_EP6_ITEM_DURATION
     // CUser::PacketShop case 0x2602
     util::detour((void*)0x4886E0, naked_0x4886E0, 5);
     // CUser::PacketShop case 0x2607

@@ -19,12 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\chat.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\gui.cpp" />
+    <ClCompile Include="src\item.cpp" />
+    <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\include\CCharacter.h" />
+    <ClInclude Include="include\shaiya\include\CNetwork.h" />
     <ClInclude Include="include\util.h" />
     <ClInclude Include="include\main.h" />
     <ClInclude Include="resources\resource.h" />

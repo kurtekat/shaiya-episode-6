@@ -101,7 +101,7 @@ namespace packet_exchange
         auto bag = util::read_bytes<std::uint8_t>(buffer, 2);
         auto slot = util::read_bytes<std::uint8_t>(buffer, 3);
 
-        if (!bag || bag > exchangeUser->bagsUnlocked || slot >= MAX_INVENTORY_SLOT)
+        if (!bag || bag > exchangeUser->bagsUnlocked || slot >= max_inventory_slot)
             return;
 
         auto& item = exchangeUser->inventory[bag][slot];
@@ -114,7 +114,7 @@ namespace packet_exchange
         packet.quality = item->quality;
         packet.gems = item->gems;
 
-        #ifdef WITH_ITEM_DURATION
+        #ifdef SHAIYA_EP6_ITEM_DURATION
         if (ServerTime::IsTimedItem(item->itemInfo))
         {
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
@@ -286,7 +286,7 @@ void hook::packet_exchange()
     // CUser::PacketExchange case 0xA07
     util::detour((void*)0x47DFC0, naked_0x47DFC0, 5);
 
-    #ifdef WITH_ITEM_DURATION
+    #ifdef SHAIYA_EP6_ITEM_DURATION
     // CUser::PacketExchange case 0xA06
     util::detour((void*)0x47DE7B, naked_0x47DE7B, 8);
     // CUser::PacketPvP case 0x240A

@@ -12,8 +12,6 @@ namespace shaiya
     struct CZone;
     struct CZoneNode;
 
-    #define KILL_COUNT_UPDATE_INTERVAL 600000
-
     #pragma pack(push, 1)
     struct InsZoneCount
     {

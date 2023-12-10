@@ -7,5 +7,9 @@
 void Main(HMODULE hModule)
 {
     DisableThreadLibraryCalls(hModule);
+
+    hook::chat();
     hook::gui();
+    hook::item();
+    hook::packet();
 }

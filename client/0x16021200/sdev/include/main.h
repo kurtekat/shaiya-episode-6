@@ -6,5 +6,8 @@ void Main(HMODULE hModule);
 
 namespace hook
 {
+    void chat();
     void gui();
+    void item();
+    void packet();
 }

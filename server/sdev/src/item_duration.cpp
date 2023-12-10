@@ -27,7 +27,7 @@ namespace item_duration
         packet.type = item->type;
         packet.typeId = item->typeId;
 
-        if (bag == WAREHOUSE_BAG)
+        if (bag == warehouse_bag)
         {
             packet.noticeType = ItemExpireNoticeType::DeletedFromWarehouse;
 
@@ -84,7 +84,7 @@ namespace item_duration
             {
                 packet.timeValue = static_cast<std::uint8_t>(duration.minutes);
 
-                if (bag == WAREHOUSE_BAG)
+                if (bag == warehouse_bag)
                     packet.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
                 else
                     packet.noticeType = ItemExpireNoticeType::MinutesLeftInventory;
@@ -93,7 +93,7 @@ namespace item_duration
             {
                 packet.timeValue = static_cast<std::uint8_t>(duration.hours);
 
-                if (bag == WAREHOUSE_BAG)
+                if (bag == warehouse_bag)
                     packet.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
                 else
                     packet.noticeType = ItemExpireNoticeType::HoursLeftInventory;
@@ -120,9 +120,9 @@ namespace item_duration
 
     void send_bag_and_bank(CUser* user)
     {
-        for (int bag = 0; bag < MAX_INVENTORY_BAG; ++bag)
+        for (int bag = 0; bag < max_inventory_bag; ++bag)
         {
-            for (int slot = 0; slot < MAX_INVENTORY_SLOT; ++slot)
+            for (int slot = 0; slot < max_inventory_slot; ++slot)
             {
                 auto& item = user->inventory[bag][slot];
                 if (!item)
@@ -132,20 +132,20 @@ namespace item_duration
             }
         }
 
-        for (int slot = 0; slot < MAX_WAREHOUSE_SLOT; ++slot)
+        for (int slot = 0; slot < max_warehouse_slot; ++slot)
         {
             auto& item = user->warehouse[slot];
             if (!item)
                 continue;
 
-            send(user, item, WAREHOUSE_BAG, slot);
+            send(user, item, warehouse_bag, slot);
         }
     }
 
     void send_bag_to_bank(CUser* user, Packet buffer)
     {
         auto slot = util::read_bytes<std::uint8_t>(buffer, 37);
-        if (slot >= MAX_WAREHOUSE_SLOT)
+        if (slot >= max_warehouse_slot)
             return;
 
         auto& item = user->warehouse[slot];
@@ -155,7 +155,7 @@ namespace item_duration
         if (ServerTime::IsTimedItem(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
-            packet.bag = WAREHOUSE_BAG;
+            packet.bag = warehouse_bag;
             packet.slot = slot;
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
@@ -196,9 +196,9 @@ namespace item_duration
             if (user->logoutType != LogoutType::None)
                 continue;
 
-            for (int bag = 0; bag < MAX_INVENTORY_BAG; ++bag)
+            for (int bag = 0; bag < max_inventory_bag; ++bag)
             {
-                for (int slot = 0; slot < MAX_INVENTORY_SLOT; ++slot)
+                for (int slot = 0; slot < max_inventory_slot; ++slot)
                 {
                     auto& item = user->inventory[bag][slot];
                     if (!item)
@@ -220,7 +220,7 @@ namespace item_duration
                 }
             }
 
-            int warehouse_size = user->doubleWarehouse ? MAX_WAREHOUSE_SLOT : MIN_WAREHOUSE_SLOT;
+            int warehouse_size = user->doubleWarehouse ? max_warehouse_slot : min_warehouse_slot;
 
             for (int slot = 0; slot < warehouse_size; ++slot)
             {
@@ -239,7 +239,7 @@ namespace item_duration
                     Duration duration(&st);
 
                     if (duration.expired())
-                        send_delete_notice(user, item, WAREHOUSE_BAG, slot);
+                        send_delete_notice(user, item, warehouse_bag, slot);
                 }
             }
         }

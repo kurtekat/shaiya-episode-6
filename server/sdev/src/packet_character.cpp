@@ -56,7 +56,7 @@ namespace packet_character
         warehouse.bankMoney = user->bankMoney;
         warehouse.itemCount = 0;
 
-        for (int slot = 0; slot < MAX_WAREHOUSE_SLOT; ++slot)
+        for (int slot = 0; slot < max_warehouse_slot; ++slot)
         {
             auto& item = user->warehouse[slot];
             if (!item)
@@ -70,7 +70,7 @@ namespace packet_character
             item0711.gems = item->gems;
             item0711.count = item->count;
 
-            #ifdef WITH_ITEM_DURATION
+            #ifdef SHAIYA_EP6_ITEM_DURATION
             if (ServerTime::IsTimedItem(item->itemInfo))
             {
                 item0711.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);

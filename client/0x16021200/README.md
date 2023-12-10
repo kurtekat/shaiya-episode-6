@@ -56,19 +56,3 @@ This is a 6.4 PT client that arrived in patch 182. The sections left over from p
 * Town Teleport Scrolls
 * Rune Combination
 * Revenge Mark
-
-# sdev.dll
-
-The project addresses the following issues:
-
-* Appearance/sex change bug
-
-* Weapon enchant bug
-
-* Disguise removal bug
-
-* Lag when adding/removing equipment
-
-* Market search index
-
-* Chat color exploit

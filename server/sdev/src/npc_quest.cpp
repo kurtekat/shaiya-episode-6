@@ -53,7 +53,7 @@ namespace npc_quest
         packet.gold = quest->questInfo->result[resultIndex].gold;
         auto& result = quest->questInfo->result[resultIndex];
 
-        #ifdef WITH_EXTENDED_QUEST_RESULT
+        #ifdef SHAIYA_EP6_QUEST_RESULT
         for (std::size_t i = 0; i < result.item.size(); ++i)
         {
             int type = result.item[i].type;
@@ -75,7 +75,7 @@ namespace npc_quest
 
         SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
 
-        #if defined WITH_EXTENDED_QUEST_RESULT && defined WITH_ITEM_DURATION
+        #if defined SHAIYA_EP6_QUEST_RESULT && defined SHAIYA_EP6_ITEM_DURATION
         for (const auto& item0903 : packet.itemList)
         {
             auto itemInfo = CGameData::GetItemInfo(item0903.type, item0903.typeId);

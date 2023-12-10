@@ -214,7 +214,7 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-        #ifdef WITH_EXTENDED_0511
+        #ifdef SHAIYA_EP6_0511
         SkillUseState state;
         #endif
     };

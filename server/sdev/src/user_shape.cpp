@@ -13,7 +13,7 @@ using namespace shaiya;
 
 namespace user_shape
 {
-    constexpr int max_equipment_slot = ITEM_LIST_SIZE;
+    constexpr int max_equipment_slot = item_list_size;
     #ifdef SHAIYA_EP6_4_PT
     constexpr int packet_size_without_cloak = 118;
     constexpr int packet_size_with_cloak = 124;

@@ -20,7 +20,7 @@ namespace packet_gem
 {
     int find_available_slot(CUser* user, int bag)
     {
-        for (int slot = 0; slot < MAX_INVENTORY_SLOT; ++slot)
+        for (int slot = 0; slot < max_inventory_slot; ++slot)
             if (!user->inventory[bag][slot])
                 return slot;
 
@@ -72,7 +72,7 @@ namespace packet_gem
         return false;
     }
 
-    void rune_combine_handler(CUser* user, Packet buffer)
+    void item_rune_combine_handler(CUser* user, Packet buffer)
     {
         if (!user->zone)
             return;
@@ -84,7 +84,7 @@ namespace packet_gem
         auto runeBag = util::read_bytes<std::uint8_t>(buffer, 2);
         auto runeSlot = util::read_bytes<std::uint8_t>(buffer, 3);
 
-        if (!runeBag || runeBag > user->bagsUnlocked || runeSlot >= MAX_INVENTORY_SLOT)
+        if (!runeBag || runeBag > user->bagsUnlocked || runeSlot >= max_inventory_slot)
             return;
 
         auto& rune = user->inventory[runeBag][runeSlot];
@@ -94,7 +94,13 @@ namespace packet_gem
         ItemRuneCombineOutgoing packet{};
         packet.result = ItemRuneCombineResult::Failure;
 
-        if (rune->count < 2 || rune->itemInfo->effect != CGameData::ItemEffect::ItemCompose)
+        if (rune->itemInfo->effect != CGameData::ItemEffect::ItemCompose)
+        {
+            SConnection::Send(&user->connection, &packet, 3);
+            return;
+        }
+
+        if (rune->count < 2)
         {
             SConnection::Send(&user->connection, &packet, 3);
             return;
@@ -103,7 +109,7 @@ namespace packet_gem
         auto vialBag = util::read_bytes<std::uint8_t>(buffer, 4);
         auto vialSlot = util::read_bytes<std::uint8_t>(buffer, 5);
 
-        if (!vialBag || vialBag > user->bagsUnlocked || vialSlot >= MAX_INVENTORY_SLOT)
+        if (!vialBag || vialBag > user->bagsUnlocked || vialSlot >= max_inventory_slot)
             return;
 
         auto& vial = user->inventory[vialBag][vialSlot];
@@ -137,34 +143,34 @@ namespace packet_gem
             return;
         }
 
-        if (itemInfo)
+        if (!itemInfo)
+            return;
+
+        packet.result = ItemRuneCombineResult::Success;
+        packet.bag = 1;
+        packet.slot = 0;
+        packet.type = itemInfo->type;
+        packet.typeId = itemInfo->typeId;
+        packet.count = 1;
+
+        while (packet.bag <= user->bagsUnlocked)
         {
-            packet.result = ItemRuneCombineResult::Success;
-            packet.bag = 1;
-            packet.slot = 0;
-            packet.type = itemInfo->type;
-            packet.typeId = itemInfo->typeId;
-            packet.count = 1;
+            packet.slot = find_available_slot(user, packet.bag);
 
-            while (packet.bag <= user->bagsUnlocked)
+            if (packet.slot != -1)
             {
-                packet.slot = find_available_slot(user, packet.bag);
-
-                if (packet.slot != -1)
-                {
-                    if (!CUser::ItemCreate(user, itemInfo, packet.count))
-                        break;
-
-                    CUser::ItemUseNSend(user, runeBag, runeSlot, false);
-                    CUser::ItemUseNSend(user, runeBag, runeSlot, false);
-                    CUser::ItemUseNSend(user, vialBag, vialSlot, false);
-
-                    SConnection::Send(&user->connection, &packet, sizeof(ItemRuneCombineOutgoing));
+                if (!CUser::ItemCreate(user, itemInfo, packet.count))
                     break;
-                }
 
-                ++packet.bag;
+                CUser::ItemUseNSend(user, runeBag, runeSlot, false);
+                CUser::ItemUseNSend(user, runeBag, runeSlot, false);
+                CUser::ItemUseNSend(user, vialBag, vialSlot, false);
+
+                SConnection::Send(&user->connection, &packet, sizeof(ItemRuneCombineOutgoing));
+                break;
             }
+
+            ++packet.bag;
         }
     }
 
@@ -173,7 +179,7 @@ namespace packet_gem
         auto runeBag = util::read_bytes<std::uint8_t>(buffer, 2);
         auto runeSlot = util::read_bytes<std::uint8_t>(buffer, 3);
 
-        if (!runeBag || runeBag > user->bagsUnlocked || runeSlot >= MAX_INVENTORY_SLOT)
+        if (!runeBag || runeBag > user->bagsUnlocked || runeSlot >= max_inventory_slot)
             return;
 
         auto& rune = user->inventory[runeBag][runeSlot];
@@ -183,7 +189,7 @@ namespace packet_gem
         auto itemBag = util::read_bytes<std::uint8_t>(buffer, 4);
         auto itemSlot = util::read_bytes<std::uint8_t>(buffer, 5);
 
-        if (itemBag > user->bagsUnlocked || itemSlot >= MAX_INVENTORY_SLOT)
+        if (itemBag > user->bagsUnlocked || itemSlot >= max_inventory_slot)
             return;
 
         auto& item = user->inventory[itemBag][itemSlot];
@@ -205,7 +211,7 @@ namespace packet_gem
             return;
         }
 
-        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis > MAX_REQWIS)
+        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis > max_reqwis)
         {
             SConnection::Send(&user->connection, &packet, 3);
             return;
@@ -499,8 +505,12 @@ void __declspec(naked) naked_0x479FB4()
         je case_0x80D
         cmp eax,0x830
         je case_0x830
+        cmp eax,0x831
+        je case_0x831
         cmp eax,0x832
         je case_0x832
+        cmp eax,0x833
+        je case_0x833
 
         // original
         add eax,-0x801
@@ -511,17 +521,17 @@ void __declspec(naked) naked_0x479FB4()
 
         push esi // packet
         push edi // user
-        call packet_gem::rune_combine_handler
+        call packet_gem::item_rune_combine_handler
         add esp,0x8
         
         popad
 
         jmp exit_switch
 
-        // chaotic squares
-
         case_0x830:
+        case_0x831:
         case_0x832:
+        case_0x833:
         exit_switch:
         pop edi
         pop esi

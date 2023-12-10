@@ -15,7 +15,7 @@ namespace shaiya
         UINT8 count;
     };
 
-    #ifdef WITH_EXTENDED_QUEST_RESULT
+    #ifdef SHAIYA_EP6_QUEST_RESULT
     struct QuestResult
     {
         UINT16 mobId;        //0x00
@@ -89,7 +89,7 @@ namespace shaiya
         UINT8 reqMobCount1;     //0x15A
         UINT8 reqMobCount2;     //0x15B
         PAD(4);
-        #ifdef WITH_EXTENDED_QUEST_RESULT
+        #ifdef SHAIYA_EP6_QUEST_RESULT
         // 0x160
         Array<QuestResult, 6> result;
         // 0x268

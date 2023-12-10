@@ -90,7 +90,7 @@ namespace shaiya
         PAD(1);
         UINT32 kills;             //0x14
         // 0x18
-        Array<CloneItem, ITEM_LIST_SIZE> equipment;
+        Array<CloneItem, item_list_size> equipment;
         // 6.4: 0x4B, 6.3: 0x48, 5.4: 0x30
         CharName charName;
         // 6.4: 0x60, 6.3: 0x5D, 5.4: 0x45

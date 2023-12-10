@@ -98,7 +98,7 @@ namespace item_effect
         auto bag = util::read_bytes<std::uint8_t>(buffer, 2);
         auto slot = util::read_bytes<std::uint8_t>(buffer, 3);
 
-        if (!bag || bag > user->bagsUnlocked || slot >= MAX_INVENTORY_SLOT)
+        if (!bag || bag > user->bagsUnlocked || slot >= max_inventory_slot)
             return;
 
         auto& item = user->inventory[bag][slot];

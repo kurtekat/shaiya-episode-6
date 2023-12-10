@@ -8,8 +8,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct Equipment0403
     {
-        Array<UINT8, ITEM_LIST_SIZE> type;
-        Array<UINT8, ITEM_LIST_SIZE> typeId;
+        Array<UINT8, item_list_size> type;
+        Array<UINT8, item_list_size> typeId;
     };
 
     struct Character0403

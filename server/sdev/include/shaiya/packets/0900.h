@@ -45,7 +45,7 @@ namespace shaiya
         UINT8 resultIndex;
         UINT32 exp;
         UINT32 gold;
-        #ifdef WITH_EXTENDED_QUEST_RESULT
+        #ifdef SHAIYA_EP6_QUEST_RESULT
         Array<Item0903, 3> itemList;
         #else
         UINT8 bag;

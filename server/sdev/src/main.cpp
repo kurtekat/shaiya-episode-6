@@ -21,7 +21,7 @@ void leave_world_hook(CUser* user)
 {
     std::erase(g_users, user->id);
 
-    #ifdef WITH_SET_ITEM
+    #ifdef SHAIYA_EP6_ITEM_SET
     g_appliedSynergies.erase(user->id);
     #endif
 
@@ -101,41 +101,40 @@ void Main(HMODULE hModule)
     hook::packet_exchange();
     hook::packet_shop();
 
-    #ifdef SHAIYA_EP6_4_PT
-    hook::packet_gem();
-    hook::packet_mailbox();
-    hook::packet_market();
-    hook::revenge_mark();
-    #endif
-
     #ifdef SHAIYA_EP6_COMMON
     hook::user_status();
     #endif
 
-    #ifdef WITH_EXTENDED_0511
+    #ifdef SHAIYA_EP6_4_PT
+    hook::packet_gem();
+    hook::packet_market();
+    hook::revenge_mark();
+    #endif
+
+    #ifdef SHAIYA_EP6_0511
     hook::user_apply_skill();
     #endif
 
-    #ifdef WITH_EXTENDED_QUEST_RESULT
+    #ifdef SHAIYA_EP6_QUEST_RESULT
     hook::npc_quest();
     #endif
 
-    #ifdef WITH_EXTENDED_EQUIPMENT
+    #ifdef SHAIYA_EP6_ITEM_DURATION
+    hook::item_duration();
+    hook::packet_myshop();
+    #endif
+
+    #ifdef SHAIYA_EP6_ITEM_EFFECT
+    hook::item_effect();
+    #endif
+
+    #ifdef SHAIYA_EP6_ITEM_LIST
     hook::packet_character();
     hook::user_equipment();
     hook::user_shape();
     #endif
 
-    #ifdef WITH_TOWN_TELEPORT_SCROLL
-    hook::item_effect();
-    #endif
-
-    #ifdef WITH_ITEM_DURATION
-    hook::item_duration();
-    hook::packet_myshop();
-    #endif
-
-    #ifdef WITH_SET_ITEM
+    #ifdef SHAIYA_EP6_ITEM_SET
     Synergy::init();
     #endif
 }
