@@ -35,9 +35,9 @@ namespace npc_quest
     void send_success_result(CUser* user, CQuest* quest, Packet buffer)
     {
         auto npcId = util::read_bytes<std::uint32_t>(buffer, 2);
-        auto resultIndex = util::read_bytes<std::uint8_t>(buffer, 9);
+        auto index = util::read_bytes<std::uint8_t>(buffer, 9);
 
-        if (resultIndex >= quest->questInfo->result.size())
+        if (index >= quest->questInfo->result.size())
         {
             send_failure_result(user, quest, npcId);
             return;
@@ -47,11 +47,12 @@ namespace npc_quest
         packet.npcId = npcId;
         packet.questId = quest->id;
         packet.success = true;
-        packet.resultIndex = resultIndex;
+        packet.index = index;
 
-        packet.exp = quest->questInfo->result[resultIndex].exp;
-        packet.gold = quest->questInfo->result[resultIndex].gold;
-        auto& result = quest->questInfo->result[resultIndex];
+        auto& result = quest->questInfo->result[index];
+
+        packet.exp = result.exp;
+        packet.gold = result.gold;
 
         #ifdef SHAIYA_EP6_QUEST_RESULT
         for (std::size_t i = 0; i < result.item.size(); ++i)
@@ -65,10 +66,10 @@ namespace npc_quest
             if (CUser::QuestAddItem(user, type, typeId, count, &bag, &slot, itemInfo.get()))
             {
                 packet.itemList[i].count = count;
-                packet.itemList[i].bag = static_cast<std::uint8_t>(bag);
-                packet.itemList[i].slot = static_cast<std::uint8_t>(slot);
-                packet.itemList[i].type = (*itemInfo)->type;
-                packet.itemList[i].typeId = (*itemInfo)->typeId;
+                packet.itemList[i].bag = bag;
+                packet.itemList[i].slot = slot;
+                packet.itemList[i].type = type;
+                packet.itemList[i].typeId = typeId;
             }
         }
         #endif

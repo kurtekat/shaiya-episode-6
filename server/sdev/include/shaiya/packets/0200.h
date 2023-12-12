@@ -139,6 +139,12 @@ namespace shaiya
         UINT32 kills;
     };
 
+    struct CharacterMoneyOutgoing
+    {
+        UINT16 opcode{ 0x213 };
+        UINT32 money;
+    };
+
     struct VetRewardLevelIncoming
     {
         UINT16 opcode{ 0x218 };

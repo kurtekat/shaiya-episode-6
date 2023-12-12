@@ -141,9 +141,6 @@
     <ClCompile Include="src\util.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\packet_mailbox.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\CNpc.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>

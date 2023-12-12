@@ -7,7 +7,7 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // inventory
-    struct UserItemDeleteIncoming
+    struct UserItemRemoveIncoming
     {
         UINT16 opcode{ 0x702 };
         UserId userId;
@@ -46,15 +46,6 @@ namespace shaiya
         UINT8 srcCount;
         UINT8 destSlot;
         UINT8 destCount;
-    };
-
-    struct UserItemCountIncoming
-    {
-        UINT16 opcode{ 0x707 };
-        UserId userId;
-        UINT8 bag;
-        UINT8 slot;
-        UINT8 count;
     };
 
     struct UserItemQualityIncoming

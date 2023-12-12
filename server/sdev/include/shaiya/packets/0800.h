@@ -26,6 +26,12 @@ namespace shaiya
         Failure
     };
 
+    enum struct ItemSynthesisResult : UINT8
+    {
+        Success = 1,
+        Failure
+    };
+
     struct ItemLapisianAddIncoming
     {
         UINT16 opcode{ 0x805 };
@@ -97,6 +103,80 @@ namespace shaiya
         Gems gems;
         UINT8 count;
         CraftName craftName;
+    };
+
+    struct ItemSynthesisListIncoming
+    {
+        UINT16 opcode{ 0x830 };
+        UINT8 squareBag;
+        UINT8 squareSlot;
+    };
+
+    struct ItemSynthesisListOutgoing
+    {
+        UINT16 opcode{ 0x830 };
+        Array<UINT8, 10> createType;
+        Array<UINT8, 10> createTypeId;
+        UINT32 goldPerPercentage;
+    };
+
+    struct ItemSynthesisMaterialIncoming
+    {
+        UINT16 opcode{ 0x831 };
+        UINT8 createType;
+        UINT8 createTypeId;
+        UINT32 index;
+    };
+
+    struct ItemSynthesisMaterialOutgoing
+    {
+        UINT16 opcode{ 0x831 };
+        // e.g. 10000 = 100%
+        UINT32 successRate;
+        Array<UINT8, 24> materialType;
+        UINT8 createType;
+        Array<UINT8, 24> materialTypeId;
+        UINT8 createTypeId;
+        Array<UINT8, 24> materialCount;
+        UINT8 createCount;
+    };
+
+    struct ItemSynthesisIncoming
+    {
+        UINT16 opcode{ 0x832 };
+        UINT8 squareBag;
+        UINT8 squareSlot;
+        // 0:5000
+        UINT32 money;
+        UINT32 index;
+        UINT8 hammerBag;
+        UINT8 hammerSlot;
+    };
+
+    struct ItemSynthesisOutgoing
+    {
+        UINT16 opcode{ 0x832 };
+        ItemSynthesisResult result;
+    };
+
+    struct ItemFreeSynthesisIncoming
+    {
+        UINT16 opcode{ 0x833 };
+        UINT8 squareBag;
+        UINT8 squareSlot;
+        // 0:5000
+        UINT32 money;
+        UINT8 hammerBag;
+        UINT8 hammerSlot;
+        Array<UINT8, 24> materialType;
+        Array<UINT8, 24> materialTypeId;
+        Array<UINT8, 24> materialCount;
+    };
+
+    struct ItemFreeSynthesisOutgoing
+    {
+        UINT16 opcode{ 0x833 };
+        ItemSynthesisResult result;
     };
     #pragma pack(pop)
 }

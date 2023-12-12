@@ -45,7 +45,6 @@
     <ClCompile Include="src\item_effect.cpp" />
     <ClCompile Include="src\npc_quest.cpp" />
     <ClCompile Include="src\packet_exchange.cpp" />
-    <ClCompile Include="src\packet_mailbox.cpp" />
     <ClCompile Include="src\packet_market.cpp" />
     <ClCompile Include="src\packet_myshop.cpp" />
     <ClCompile Include="src\revenge_mark.cpp" />
