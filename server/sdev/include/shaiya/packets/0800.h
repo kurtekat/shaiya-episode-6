@@ -46,6 +46,16 @@ namespace shaiya
         ULONG npcId;
     };
 
+    struct ItemComposeIncoming
+    {
+        UINT16 opcode{ 0x806 };
+        UINT8 runeBag;
+        UINT8 runeSlot;
+        UINT8 itemBag;
+        UINT8 itemSlot;
+        ULONG npcId;
+    };
+
     struct ItemComposeOutgoing
     {
         UINT16 opcode{ 0x806 };

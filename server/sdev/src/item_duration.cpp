@@ -21,7 +21,7 @@ namespace item_duration
     unsigned long world_thread_update_interval = 60000;
     unsigned long world_thread_update_tick = 0;
 
-    void send_delete_notice(CUser* user, CItem* item, int bag, int slot)
+    void send_delete_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
         ItemExpireNoticeOutgoing packet{};
         packet.type = item->type;
@@ -31,12 +31,7 @@ namespace item_duration
         {
             packet.noticeType = ItemExpireNoticeType::DeletedFromWarehouse;
 
-            UserItemBankToBankIncoming packet{};
-            packet.userId = user->userId;
-            packet.srcSlot = slot;
-            packet.srcCount = item->count;
-            packet.destSlot = slot;
-            packet.destCount = 0;
+            UserItemBankToBankIncoming packet{ 0x706, user->userId, slot, item->count, slot, 0 };
             SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemBankToBankIncoming));
 
             CObjectMgr::FreeItem(item);
@@ -58,7 +53,7 @@ namespace item_duration
         SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNoticeOutgoing));
     }
 
-    void send_expire_notice(CUser* user, CItem* item, int bag, int slot)
+    void send_expire_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
         auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
         if (!expireTime)
@@ -103,7 +98,7 @@ namespace item_duration
         }
     }
 
-    void send(CUser* user, CItem* item, int bag, int slot)
+    void send(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
         if (ServerTime::IsTimedItem(item->itemInfo))
         {

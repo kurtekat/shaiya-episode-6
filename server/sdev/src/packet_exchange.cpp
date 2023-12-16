@@ -13,83 +13,53 @@ using namespace shaiya;
 
 namespace packet_exchange
 {
-    void reset_state(CUser* user)
+    void send_cancel_ready(CUser* user)
     {
-        user->exchange.confirmState = 0;
-        ExchangeConfirmOutgoing packet{ 0xA0A, 1, 0 };
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        packet.state1 = 2;
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
         user->exchange.ready = false;
-        ExchangeOutgoing packet2{ 0xA05, 3, 1 };
-        SConnection::Send(&user->connection, &packet2, sizeof(ExchangeOutgoing));
-
-        user->exchange.user->exchange.confirmState = 0;
-        packet.state1 = 1;
-        packet.state2 = 0;
-        SConnection::Send(&user->exchange.user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        packet.state1 = 2;
-        SConnection::Send(&user->exchange.user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        user->exchange.user->exchange.ready = false;
-        SConnection::Send(&user->exchange.user->connection, &packet2, sizeof(ExchangeOutgoing));
+        ExchangeOutgoing packet{ 0xA05, ExchangeType::CancelReady, true };
+        SConnection::Send(&user->connection, &packet, sizeof(ExchangeOutgoing));
     }
 
-    void confirm_handler(CUser* user, Packet buffer)
+    void send_cancel_confirm(CUser* user, CUser* exchangeUser)
+    {
+        user->exchange.confirmed = false;
+        ExchangeConfirmOutgoing packet{ 0xA0A, ExchangeType::Sender, false };
+        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+
+        packet.excType = ExchangeType::Target;
+        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+
+        exchangeUser->exchange.confirmed = false;
+        packet.excType = ExchangeType::Sender;
+        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+
+        packet.excType = ExchangeType::Target;
+        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+    }
+
+    void send_cancel(CUser* user, CUser* exchangeUser)
+    {
+        send_cancel_ready(user);
+        send_cancel_ready(exchangeUser);
+        send_cancel_confirm(user, exchangeUser);
+    }
+
+    void confirm_handler(CUser* user, ExchangeConfirmIncoming* incoming)
     {
         if (!user->exchange.user)
             return;
 
-        auto state = util::read_bytes<std::uint8_t>(buffer, 2);
-
-        if (state)
+        if (incoming->confirmed)
         {
-            user->exchange.confirmState = 1;
-            ExchangeConfirmOutgoing packet{ 0xA0A, 1, 1 };
-            SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+            user->exchange.confirmed = true;
+            ExchangeConfirmOutgoing outgoing{ 0xA0A, ExchangeType::Sender, true };
+            SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-            packet.state1 = 2;
-            SConnection::Send(&user->exchange.user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+            outgoing.excType = ExchangeType::Target;
+            SConnection::Send(&user->exchange.user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else
-        {
-            reset_state(user);
-        }
-    }
-
-    void cancel_ready(CUser* user, CUser* exchangeUser)
-    {
-        user->exchange.confirmState = 0;
-        exchangeUser->exchange.confirmState = 0;
-
-        ExchangeConfirmOutgoing packet{ 0xA0A, 1, 0 };
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        packet.state1 = 2;
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        packet.state1 = 1;
-        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        packet.state1 = 2;
-        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
-
-        // original code
-
-        ExchangeOutgoing packet2{ 0xA05, 3, 1 };
-        SConnection::Send(&user->connection, &packet2, sizeof(ExchangeOutgoing));
-        SConnection::Send(&exchangeUser->connection, &packet2, sizeof(ExchangeOutgoing));
-    }
-
-    void maybe_reset_state(CUser* user)
-    {
-        if (!user->exchange.confirmState && !user->exchange.user->exchange.confirmState)
-            return;
-
-        reset_state(user);
+            send_cancel(user, user->exchange.user);
     }
 
     void send_item(CUser* user, CUser* exchangeUser, Packet buffer, bool pvp)
@@ -152,30 +122,6 @@ void __declspec(naked) naked_0x47D964()
     }
 }
 
-unsigned u0x47E25B = 0x47E25B;
-unsigned u0x47E263 = 0x47E263;
-void __declspec(naked) naked_0x47E253()
-{
-    __asm
-    {
-        // user->exchange.confirmState
-        cmp byte ptr[ecx+0x15E5],al
-        jne _0x47E263
-
-        // user->exchange.confirmState
-        cmp byte ptr[esi+0x15E5],al
-        jne _0x47E263
-
-        // user->exchange.ready
-        cmp byte ptr[ecx+0x15E4],al
-        jne _0x47E263
-        jmp u0x47E25B
-
-        _0x47E263:
-        jmp u0x47E263
-    }
-}
-
 unsigned u0x47E29D = 0x47E29D;
 void __declspec(naked) naked_0x47E26F()
 {
@@ -185,7 +131,7 @@ void __declspec(naked) naked_0x47E26F()
 
         push esi // exchange user
         push ecx // user
-        call packet_exchange::cancel_ready
+        call packet_exchange::send_cancel
         add esp,0x8
 
         popad
@@ -202,9 +148,10 @@ void __declspec(naked) naked_0x47DE08()
     {
         pushad
 
+        push esi // exchange user
         push ebx // user
-        call packet_exchange::maybe_reset_state
-        add esp,0x4
+        call packet_exchange::send_cancel
+        add esp,0x8
 
         popad
 
@@ -221,9 +168,10 @@ void __declspec(naked) naked_0x47DFC0()
     {
         pushad
 
+        push esi // exchange user
         push ebx // user
-        call packet_exchange::maybe_reset_state
-        add esp,0x4
+        call packet_exchange::send_cancel
+        add esp,0x8
 
         popad
 
@@ -277,8 +225,6 @@ void hook::packet_exchange()
 {
     // CUser::PacketExchange switch
     util::detour((void*)0x47D964, naked_0x47D964, 5);
-    // CUser::ExchangeCancelReady
-    util::detour((void*)0x47E253, naked_0x47E253, 6);
     // CUser::ExchangeCancelReady
     util::detour((void*)0x47E26F, naked_0x47E26F, 6);
     // CUser::PacketExchange case 0xA06

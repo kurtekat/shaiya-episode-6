@@ -6,17 +6,48 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    enum struct ExchangeRequestResult : UINT8
+    {
+        Accepted,
+        Rejected
+    };
+
+    enum struct ExchangeType : UINT8
+    {
+        Sender = 1,
+        Target,
+        CancelReady
+    };
+
+    struct ExchangeRequestIncoming
+    {
+        UINT16 opcode{ 0xA01 };
+        CharId targetId;
+    };
+
+    struct ExchangeRequestOutgoing
+    {
+        UINT16 opcode{ 0xA01 };
+        CharId targetId;
+    };
+
+    struct ExchangeRequestResultOutgoing
+    {
+        UINT16 opcode{ 0xA02 };
+        ExchangeRequestResult result;
+    };
+
     struct ExchangeIncoming
     {
         UINT16 opcode{ 0xA05 };
-        UINT8 state;
+        bool canceled;
     };
 
     struct ExchangeOutgoing
     {
         UINT16 opcode{ 0xA05 };
-        UINT8 state1;
-        UINT8 state2;
+        ExchangeType excType;
+        bool canceled;
     };
 
     struct ExchangeItemAddOutgoing
@@ -47,14 +78,14 @@ namespace shaiya
     struct ExchangeConfirmIncoming
     {
         UINT16 opcode{ 0xA0A };
-        UINT8 state;
+        bool confirmed;
     };
 
     struct ExchangeConfirmOutgoing
     {
         UINT16 opcode{ 0xA0A };
-        UINT8 state1;
-        UINT8 state2;
+        ExchangeType excType;
+        bool confirmed;
     };
     #pragma pack(pop)
 }

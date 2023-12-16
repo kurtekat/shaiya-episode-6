@@ -626,7 +626,7 @@ namespace shaiya
         TickCount reloadPointTime;         //0x5AC8
         Array<BillingItem, 240> giftBox;   //0x5ACC
         // custom
-        UINT32 townScrollLocation;         //0x5D9C
+        UINT32 townScrollGateIndex;        //0x5D9C
         ActivableSkill activableSkill;     //0x5DA0
         // 0x5DA8
         PAD(1188);

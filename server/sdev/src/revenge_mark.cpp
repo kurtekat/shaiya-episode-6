@@ -21,7 +21,7 @@ namespace revenge_mark
         if (auto it = g_revengeMark.find(killer->id); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&target](const Revenge& revenge) {
+                it->second.begin(), it->second.end(), [&target](const auto& revenge) {
                     return revenge.killerId == target->id;
                 }
             ); revenge != it->second.end())
@@ -36,7 +36,7 @@ namespace revenge_mark
         if (auto it = g_revengeMark.find(target->id); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&killer](const Revenge& revenge) {
+                it->second.begin(), it->second.end(), [&killer](const auto& revenge) {
                     return revenge.killerId == killer->id;
                 }
             ); revenge != it->second.end())

@@ -4,6 +4,7 @@
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/packets/0200.h>
+#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CNpcData.h>
@@ -13,7 +14,7 @@ using namespace shaiya;
 
 namespace item_effect
 {
-    int handler(CUser* user, CItem* item, CGameData::ItemEffect effect, int bag, int slot)
+    int handler(CUser* user, CItem* item, CGameData::ItemEffect effect, std::uint8_t bag, std::uint8_t slot)
     {
         switch (effect)
         {
@@ -24,45 +25,29 @@ namespace item_effect
             switch (item->itemInfo->itemId)
             {
             case 101102:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 111);
                 break;
-            }
             case 101103:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 112);
                 break;
-            }
             case 101104:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 101);
                 break;
-            }
             case 101105:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 102);
                 break;
-            }
             case 101106:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 103);
                 break;
-            }
             case 101107:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 104);
                 break;
-            }
             case 101108:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 105);
                 break;
-            }
             case 101109:
-            {
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 106);
                 break;
-            }
             default:
                 return 0;
             }
@@ -70,8 +55,8 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            user->recallMapId = gateKeeper->gate[user->townScrollLocation].mapId;
-            user->recallPos = gateKeeper->gate[user->townScrollLocation].outPos;
+            user->recallMapId = gateKeeper->gate[user->townScrollGateIndex].mapId;
+            user->recallPos = gateKeeper->gate[user->townScrollGateIndex].outPos;
             user->recallType = RecallType::TownTeleportScroll;
             user->recallTime = GetTickCount() + 5000;
 
@@ -84,41 +69,34 @@ namespace item_effect
         }
     }
 
-    void town_scroll_packet_handler(CUser* user, Packet buffer)
+    void town_scroll_handler(CUser* user, ItemTownScrollIncoming* incoming)
     {
         if (user->stateType == StateType::Death)
             return;
 
-        if (user->dbAgentDisconnect)
+        if (user->dbAgentDisconnect || user->debuffTypeDetail)
             return;
 
-        if (user->debuffTypeDetail)
+        if (!incoming->bag || incoming->bag > user->bagsUnlocked || incoming->slot >= max_inventory_slot)
             return;
 
-        auto bag = util::read_bytes<std::uint8_t>(buffer, 2);
-        auto slot = util::read_bytes<std::uint8_t>(buffer, 3);
-
-        if (!bag || bag > user->bagsUnlocked || slot >= max_inventory_slot)
-            return;
-
-        auto& item = user->inventory[bag][slot];
+        auto& item = user->inventory[incoming->bag][incoming->slot];
         if (!item)
             return;
 
         if (item->itemInfo->effect != CGameData::ItemEffect::TownTeleportScroll)
             return;
 
-        auto location = util::read_bytes<std::uint8_t>(buffer, 4);
-        if (location > 2)
+        if (incoming->gateIndex > 2)
             return;
 
-        user->recallItemBag = bag;
-        user->recallItemSlot = slot;
-        user->townScrollLocation = location;
+        user->recallItemBag = incoming->bag;
+        user->recallItemSlot = incoming->slot;
+        user->townScrollGateIndex = incoming->gateIndex;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, bag, slot, user->id, 0);
+        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
     }
 
     int town_scroll_event_handler(CUser* user)
@@ -188,7 +166,7 @@ void __declspec(naked) naked_0x4784D6()
 
         push ebp // packet
         push ecx // user
-        call item_effect::town_scroll_packet_handler
+        call item_effect::town_scroll_handler
         add esp,0x8
 
         popad
