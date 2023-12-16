@@ -16,14 +16,14 @@ namespace shaiya
 
     struct CExchange
     {
-        UINT32 state;        //0x15C0
+        PAD(4);              //0x15C0
         CUser* user;         //0x15C4
         UINT32 money;        //0x15C8
         // 0x15CC
         Array<ExcItem, 8> itemList;
         bool ready;          //0x15E4
         // custom
-        UINT8 confirmState;  //0x15E5
+        bool confirmed;      //0x15E5
         PAD(2);
         // 0x28
     };

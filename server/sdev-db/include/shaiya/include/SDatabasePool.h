@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <sdev/include/shaiya/common.h>
 #include <sdev/include/shaiya/include/SSyncList.h>
 
@@ -29,18 +28,7 @@ namespace shaiya
 
         static SDatabase* AllocDB();
         static void FreeDB(SDatabase* db);
-        static bool Connect(
-            int numConnection,
-            const std::string& server,
-            const std::string& dbName,
-            const std::string& username,
-            const std::string& password,
-            ULONG queryTimeout,
-            ULONG connectionTimeout
-        );
-        static void Disconnect();
-        static void Release();
     };
 
-    static SDatabasePool* g_DatabasePool = (SDatabasePool*)0x109BED0;
+    static SDatabasePool* g_DatabasePool = (SDatabasePool*)0x4930A8;
 }

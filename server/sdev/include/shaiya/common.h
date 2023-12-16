@@ -112,6 +112,8 @@ namespace shaiya
     typedef Array<char, 16> Password;
 
     typedef UINT32 ItemId;
+    typedef UINT8 Bag;
+    typedef UINT8 Slot;
     typedef Array<char, 21> CraftName;
     typedef Array<UINT8, 6> Gems;
     using CloakBadge = Gems;

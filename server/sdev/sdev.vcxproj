@@ -38,6 +38,8 @@
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
+    <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
+    <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
     <ClCompile Include="include\shaiya\src\ServerTime.cpp" />
     <ClCompile Include="include\shaiya\src\SVector.cpp" />
     <ClCompile Include="include\shaiya\src\Synergy.cpp" />

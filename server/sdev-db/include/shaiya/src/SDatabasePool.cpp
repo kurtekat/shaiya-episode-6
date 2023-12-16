@@ -1,5 +1,4 @@
-#include <sdev/include/shaiya/include/SDatabase.h>
-#include <sdev/include/shaiya/include/SDatabasePool.h>
+#include <include/shaiya/include/SDatabasePool.h>
 using namespace shaiya;
 
 SDatabase* SDatabasePool::AllocDB()

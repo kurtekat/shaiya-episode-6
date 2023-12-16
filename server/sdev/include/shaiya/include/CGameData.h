@@ -315,7 +315,7 @@ namespace shaiya
 
         enum struct ReqOg : UINT8
         {
-            Unbound,
+            Tradable,
             AccountBound,
             CharacterBound
         };
@@ -354,8 +354,8 @@ namespace shaiya
             UINT8 slotCount;         //0x47
             UINT8 speed;             //0x48
             UINT8 absorption;        //0x49
-            UINT8 maxOjCount;        //0x4A
-            UINT8 stackSize;         //0x4B
+            UINT8 composeCount;      //0x4A
+            UINT8 count;             //0x4B
             UINT16 maxQuality;       //0x4C
             UINT16 midQuality;       //0x4E
             UINT16 lowQuality;       //0x50

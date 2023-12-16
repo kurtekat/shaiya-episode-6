@@ -34,6 +34,7 @@
     <ClInclude Include="include\shaiya\include\CItem.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\DBCharacter.h" />
+    <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
     <ClInclude Include="include\util.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
