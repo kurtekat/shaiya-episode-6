@@ -6,7 +6,7 @@
 
 #include <include/util.h>
 
-int util::detour(Address addr, Function func, int size)
+int util::detour(Address addr, Function func, std::size_t size)
 {
     constexpr int stmt_size = 5;
     constexpr unsigned char nop = 0x90;
@@ -45,18 +45,18 @@ void util::log(const std::string& text)
 
 std::string util::read_pascal_string(std::ifstream& ifs)
 {
-    auto lengthPrefix = util::read_number<std::int32_t>(ifs);
-    return util::read_string(ifs, lengthPrefix);
+    auto size = util::read_number<LengthPrefix>(ifs);
+    return util::read_string(ifs, size);
 }
 
-std::string util::read_string(std::ifstream& ifs, std::size_t count)
+std::string util::read_string(std::ifstream& ifs, std::size_t size)
 {
-    std::string str(count, 0);
+    std::string str(size, 0);
     ifs.read(str.data(), str.size());
     return str;
 }
 
-int util::write_memory(Address addr, Buffer buffer, int size)
+int util::write_memory(Address addr, Buffer buffer, std::size_t size)
 {
     if (size < 1)
         return 0;

@@ -8,15 +8,16 @@ namespace util
     typedef void* Buffer;
     typedef unsigned char* ByteArray;
     typedef void* Function;
+    typedef unsigned int LengthPrefix;
 
-    int detour(Address addr, Function func, int size);
+    int detour(Address addr, Function func, std::size_t size);
     void log(const std::string& text);
 
     template<class T>
     auto read_bytes(ByteArray buffer, int offset)
     {
         T value{};
-        memcpy(&value, &buffer[offset], sizeof(T));
+        std::memcpy(&value, &buffer[offset], sizeof(T));
         return value;
     }
 
@@ -29,6 +30,6 @@ namespace util
     }
 
     std::string read_pascal_string(std::ifstream& ifs);
-    std::string read_string(std::ifstream& ifs, std::size_t count);
-    int write_memory(Address addr, Buffer buffer, int size);
+    std::string read_string(std::ifstream& ifs, std::size_t size);
+    int write_memory(Address addr, Buffer buffer, std::size_t size);
 }

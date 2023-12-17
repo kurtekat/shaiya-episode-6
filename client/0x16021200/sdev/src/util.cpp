@@ -4,7 +4,7 @@
 
 #include <include/util.h>
 
-int util::detour(Address addr, Function func, int size)
+int util::detour(Address addr, Function func, std::size_t size)
 {
     constexpr int stmt_size = 5;
     constexpr unsigned char nop = 0x90;
@@ -29,7 +29,7 @@ int util::detour(Address addr, Function func, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, Buffer buffer, int size)
+int util::write_memory(Address addr, Buffer buffer, std::size_t size)
 {
     if (size < 1)
         return 0;

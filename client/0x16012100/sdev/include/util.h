@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace util
 {
@@ -7,15 +8,15 @@ namespace util
     typedef unsigned char* ByteArray;
     typedef void* Function;
 
-    int detour(Address addr, Function func, int size);
+    int detour(Address addr, Function func, std::size_t size);
 
     template<class T>
     auto read_bytes(ByteArray buffer, int offset)
     {
         T value{};
-        memcpy(&value, &buffer[offset], sizeof(T));
+        std::memcpy(&value, &buffer[offset], sizeof(T));
         return value;
     }
 
-    int write_memory(Address addr, Buffer buffer, int size);
+    int write_memory(Address addr, Buffer buffer, std::size_t size);
 }
