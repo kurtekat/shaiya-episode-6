@@ -13,12 +13,6 @@
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 
-bool SynergyAbility::isNull()
-{
-    std::vector<char> vec(sizeof(SynergyAbility), 0);
-    return !std::memcmp(this, vec.data(), vec.size());
-}
-
 void Synergy::init()
 {
     std::filesystem::path path(std::filesystem::current_path().append("Data/SetItem.SData"));
@@ -32,21 +26,21 @@ void Synergy::init()
 
     try
     {
-        int entries = util::read_number<std::int32_t>(ifs);
+        auto entries = util::read_number<int>(ifs);
+
         for (int i = 0; i < entries; ++i)
         {
             Synergy synergy{};
-            synergy.id = util::read_number<std::int16_t>(ifs);
+            synergy.id = util::read_number<std::uint16_t>(ifs);
 
-            int lengthPrefix = util::read_number<std::int32_t>(ifs);
-            ifs.ignore(lengthPrefix);
+            util::read_pascal_string(ifs);
 
             for (int i = 0; i < 13; ++i)
             {
-                short type = util::read_number<std::int16_t>(ifs);
-                short typeId = util::read_number<std::int16_t>(ifs);
+                auto type = util::read_number<std::uint16_t>(ifs);
+                auto typeId = util::read_number<std::uint16_t>(ifs);
 
-                int itemId = (type * 1000) + typeId;
+                auto itemId = (type * 1000) + typeId;
                 synergy.set[i] = itemId;
             }
 
@@ -65,8 +59,6 @@ void Synergy::init()
 
 void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
 {
-    constexpr int expected_size = sizeof(SynergyAbility) / sizeof(int);
-
     auto text = util::read_pascal_string(ifs);
     if (text == "0" || text.empty())
         return;
@@ -76,7 +68,7 @@ void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
     for (std::string str; std::getline(iss, str, ','); )
         vec.push_back(std::atoi(str.c_str()));
 
-    if (vec.size() != expected_size)
+    if (vec.size() != ability.count())
         return;
 
     std::memcpy(&ability, vec.data(), sizeof(SynergyAbility));
@@ -156,7 +148,7 @@ void Synergy::removeSynergies(CUser* user)
 
 void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergies)
 {
-    std::set<int> equipment;
+    std::set<ItemId> equipment;
 
     auto& bag = user->inventory[0];
     for (const auto& item : bag)

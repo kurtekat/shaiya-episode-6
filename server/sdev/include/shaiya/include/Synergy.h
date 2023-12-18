@@ -25,12 +25,21 @@ namespace shaiya
         int rangedAttackPower;
         int magicPower;
 
-        bool isNull();
+        constexpr std::size_t count()
+        {
+            return sizeof(SynergyAbility) / sizeof(int);
+        }
+
+        bool isNull()
+        {
+            SynergyAbility ability{};
+            return !std::memcmp(this, &ability, sizeof(SynergyAbility));
+        }
     };
 
     struct Synergy
     {
-        short id;
+        std::uint16_t id;
         std::array<SynergyAbility, 13> ability{};
         std::array<ItemId, 13> set{};
 
@@ -39,6 +48,7 @@ namespace shaiya
         static void removeSynergies(CUser* user);
 
     private:
+
         static void getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergies);
         static void parseAbility(std::ifstream& ifs, SynergyAbility& ability);
     };
