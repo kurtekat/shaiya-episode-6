@@ -1,9 +1,9 @@
-name: Build 6.3 server libraries
+name: Build 6.3 US server libraries
 
 on: [push, pull_request]
 
 jobs:
-  build-6-3-server:
+  build-6-3-us-server:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
@@ -11,7 +11,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x86
-      - run: msbuild server/sdev.sln /p:configuration=release /p:platform="x86" /p:ShaiyaEpisode=6_3
+      - run: msbuild server/sdev.sln /p:configuration=release /p:platform="x86" /p:ShaiyaEpisode=6_3_US
       - uses: actions/upload-artifact@v1
         with:
           name: sdev.dll

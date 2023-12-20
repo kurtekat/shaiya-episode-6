@@ -27,8 +27,10 @@ namespace user_equipment
         case CGameData::ItemType::Costume:
             return slot == EquipmentSlot::Costume;
         default:
-            return true;
+            break;
         }
+
+        return true;
     }
 
     void send(CUser* user, EquipmentSlot slot)
@@ -88,7 +90,8 @@ namespace user_equipment
 
             item0307.gems = item->gems;
             item0307.craftName = item->craftName;
-            std::memcpy(&packet.itemList[packet.itemCount], &item0307, sizeof(Item0307));
+            packet.itemList[packet.itemCount] = item0307;
+
             ++packet.itemCount;
         }
 
@@ -358,15 +361,14 @@ void hook::user_equipment()
     util::detour((void*)0x461D10, naked_0x461D10, 6);
     #endif
 
-    std::uint8_t max_equipment_slot = item_list_size;
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, &max_equipment_slot, 1);
+    util::write_memory((void*)0x4615B3, item_list_size, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, &max_equipment_slot, 1);
-    util::write_memory((void*)0x468722, &max_equipment_slot, 1);
-    util::write_memory((void*)0x468955, &max_equipment_slot, 1);
+    util::write_memory((void*)0x46862D, item_list_size, 1);
+    util::write_memory((void*)0x468722, item_list_size, 1);
+    util::write_memory((void*)0x468955, item_list_size, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, &max_equipment_slot, 1);
+    util::write_memory((void*)0x46BCCF, item_list_size, 1);
     // CUser::PacketAdminCmdD
-    util::write_memory((void*)0x482896, &max_equipment_slot, 1);
+    util::write_memory((void*)0x482896, item_list_size, 1);
 }

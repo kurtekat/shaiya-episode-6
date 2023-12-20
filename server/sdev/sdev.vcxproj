@@ -74,6 +74,7 @@
     <ClInclude Include="include\shaiya\include\CGuildCreate.h" />
     <ClInclude Include="include\shaiya\include\CItem.h" />
     <ClInclude Include="include\shaiya\include\CItemDrop.h" />
+    <ClInclude Include="include\shaiya\include\CloneUser.h" />
     <ClInclude Include="include\shaiya\include\CMap.h" />
     <ClInclude Include="include\shaiya\include\CMiniGame.h" />
     <ClInclude Include="include\shaiya\include\CMob.h" />

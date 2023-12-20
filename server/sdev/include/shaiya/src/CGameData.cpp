@@ -25,7 +25,7 @@ CGameData::MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
     }
 }
 
-CGameData::KCStatus* CGameData::GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/)
+CGameData::KillCountStatus* CGameData::GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/)
 {
     Address u0x418FC0 = 0x418FC0;
 

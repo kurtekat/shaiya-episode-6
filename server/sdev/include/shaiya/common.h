@@ -1,61 +1,61 @@
 #pragma once
 #pragma warning(disable: 28159) // GetTickCount
 //#define SHAIYA_EP6
-//#define SHAIYA_EP6_3
+//#define SHAIYA_EP6_3_US
 //#define SHAIYA_EP6_3_PT
 //#define SHAIYA_EP6_4_PT
 
 #if \
 defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_COMMON
 #endif
 
 #if \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_3_PT
 #define SHAIYA_EP6_3_COMMON
 #endif
 
 #if \
 defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_0511
 #endif
 
 #if \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_ITEM_DURATION
 #endif
 
 #if \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_ITEM_EFFECT
 #endif
 
 #if \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_LIST
+#define SHAIYA_EP6_ITEM_EQUIPMENT
 #endif
 
 #if \
 defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_ITEM_SET
 #endif
 
 #if \
 defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3 || \
+defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_QUEST_RESULT
 #endif
@@ -69,17 +69,11 @@ defined SHAIYA_EP6_4_PT
 #define EXPAND(x, y) CONCAT(x, y)
 #define PAD(size) char EXPAND(pad, __LINE__)[size]
 
-template<class T, int N>
-using Array = std::array<T, N>;
-
-typedef unsigned Address;
-typedef ULONG TickCount;
-
 namespace shaiya
 {
     #ifdef SHAIYA_EP6_4_PT
     constexpr int item_list_size = 17;
-    #elif defined SHAIYA_EP6_3 || defined SHAIYA_EP6_3_PT
+    #elif defined SHAIYA_EP6_3_COMMON
     constexpr int item_list_size = 16;
     #else
     constexpr int item_list_size = 8;
@@ -97,7 +91,12 @@ namespace shaiya
     constexpr int max_warehouse_slot = 240;
     constexpr int min_warehouse_slot = 120;
 
+    template<class T, int N>
+    using Array = std::array<T, N>;
+
+    typedef ULONG Address;
     typedef UINT8* Packet;
+
     typedef Array<char, 128> ChatMessage;
 
     typedef ULONG CharId;
@@ -143,7 +142,15 @@ namespace shaiya
         Vehicle,    //0x1F4
         Pet,        //0x1F8
         Costume,    //0x1FC
-        Wings       //0x200
+        Wings,      //0x200
+        Index17,    //0x204
+        Index18,    //0x208
+        Index19,    //0x20C
+        Index20,    //0x210
+        Index21,    //0x214
+        Index22,    //0x218
+        Index23     //0x21C
+        // 0x220
     };
 
     enum struct Family : UINT8
@@ -172,12 +179,15 @@ namespace shaiya
 
     enum struct ItemMakeType : char
     {
-        B = 66,
-        C,
-        D,
-        Q = 81,
-        S = 83,
-        X = 88
+        Billing = 'B',
+        MobDrop = 'D',
+        G = 'G',
+        QuestResult = 'Q',
+        S = 'S',
+        Exchange = 'T',
+        UserDrop = 'U',
+        V = 'V',
+        CashShop = 'X'
     };
 
     enum struct Job : UINT8

@@ -50,7 +50,8 @@ namespace packet_myshop
             #endif
 
             item230B.craftName = item->craftName;
-            std::memcpy(&packet.itemList[packet.itemCount], &item230B, sizeof(Item230B));
+            packet.itemList[packet.itemCount] = item230B;
+
             ++packet.itemCount;
         }
 

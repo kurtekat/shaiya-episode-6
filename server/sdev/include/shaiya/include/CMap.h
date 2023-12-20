@@ -166,7 +166,7 @@ namespace shaiya
         MapCreateTime createTime;  //0x1A8
         PAD(38);
         // value * 60000 + 30000
-        TickCount expireTime;      //0x1D4
+        ULONG expireTime;          //0x1D4
         UINT32 minNumUsers;        //0x1D8
         UINT32 maxNumUsers;        //0x1DC
         PAD(40);

@@ -128,7 +128,7 @@ void Main(HMODULE hModule)
     hook::item_effect();
     #endif
 
-    #ifdef SHAIYA_EP6_ITEM_LIST
+    #ifdef SHAIYA_EP6_ITEM_EQUIPMENT
     hook::packet_character();
     hook::user_equipment();
     hook::user_shape();

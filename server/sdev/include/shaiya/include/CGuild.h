@@ -78,10 +78,13 @@ namespace shaiya
         Array<GuildNpc, 8> npc;        //0x47C
         CRITICAL_SECTION cs49C;        //0x49C
         GuildPvP pvp;                  //0x4B4
-        SSyncMap<ULONG, GuildUserInfo*> enterMap;  //0x4F4
-        SSyncMap<ULONG, GuildUserInfo*> leaveMap;  //0x53C
-        SSyncMap<ULONG, GuildUserInfo*> joinMap;   //0x584
-        CRITICAL_SECTION cs5CC;                    //0x5CC
+        // 0x4F4
+        SSyncMap<ULONG, GuildUserInfo*> enterMap;
+        // 0x53C
+        SSyncMap<ULONG, GuildUserInfo*> leaveMap;
+        // 0x584
+        SSyncMap<ULONG, GuildUserInfo*> joinMap;
+        CRITICAL_SECTION cs5CC;        //0x5CC
         // 0x5E4
 
         static int GetNumUsers(CGuild* guild/*ecx*/);

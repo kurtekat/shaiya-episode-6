@@ -38,7 +38,7 @@ namespace packet_shop
         CClientToMgr::OnRecv(&packet);
     }
 
-    void raise_event_1B03(CUser* user, const std::string& targetName, const std::string& productCode, int itemPrice)
+    void raise_event_1B03(CUser* user, const std::string& targetName, const std::string& productCode, std::uint32_t itemPrice)
     {
         PacketBuffer1B03 packet{};
         packet.userId = user->userId;
@@ -58,10 +58,10 @@ namespace packet_shop
             }).detach();
     }
 
-    void present_purchase_async(CUser* user, const char* targetName, const char* productCode, int usePoint)
+    void present_purchase_async(CUser* user, const char* targetName, const char* productCode, std::uint32_t itemPrice)
     {
         std::thread([=] {
-            raise_event_1B03(user, targetName, productCode, usePoint);
+            raise_event_1B03(user, targetName, productCode, itemPrice);
             }).detach();
     }
 
@@ -78,7 +78,7 @@ namespace packet_shop
         SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointReloadPointIncoming));
     }
 
-    void reload_point_handler(CUser* user, UINT32 points)
+    void reload_point_handler(CUser* user, std::uint32_t points)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
             return;
@@ -112,8 +112,8 @@ namespace packet_shop
             item2602.type = util::read_bytes<std::uint8_t>(buffer, 39 + offset);
             item2602.typeId = util::read_bytes<std::uint8_t>(buffer, 40 + offset);
             item2602.count = util::read_bytes<std::uint8_t>(buffer, 41 + offset);
+            packet.itemList[i] = item2602;
 
-            std::memcpy(&packet.itemList[i], &item2602, sizeof(Item2602));
             offset += item_size_without_dates;
         }
 

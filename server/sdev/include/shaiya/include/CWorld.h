@@ -13,7 +13,7 @@ namespace shaiya
     struct CZoneNode;
 
     #pragma pack(push, 1)
-    struct InsZoneCount
+    struct WorldInsZoneCount
     {
         UINT32 guildHouse;     //0x368
         UINT32 guildRank;      //0x36C
@@ -25,13 +25,13 @@ namespace shaiya
         // 0x1C
     };
 
-    struct KillCount
+    struct WorldKillCount
     {
-        UINT32 grade;          //0x00
-        UINT32 bless;          //0x04
-        UINT32 nextGrade;      //0x08
+        UINT32 grade;      //0x00
+        UINT32 bless;      //0x04
+        UINT32 nextGrade;  //0x08
         PAD(4);
-        TickCount updateTime;  //0x10 
+        DWORD updateTime;  //0x10
         PAD(112);
         // 0x84
     };
@@ -53,11 +53,11 @@ namespace shaiya
         // 0x1CC
         PAD(116);
         ULONG worldDay;                          //0x240
-        TickCount setWorldDayTime;               //0x244
+        DWORD setWorldDayTime;                   //0x244
         // AoL, UoF
-        Array<KillCount, 2> killCount;           //0x248
+        Array<WorldKillCount, 2> killCount;      //0x248
         CRITICAL_SECTION cs350;                  //0x350
-        InsZoneCount insZoneCount;               //0x368
+        WorldInsZoneCount insZoneCount;          //0x368
         // 0x384
         PAD(2204);
         Array<Obelisk::Zone, 64> obeliskZone;    //0xC20

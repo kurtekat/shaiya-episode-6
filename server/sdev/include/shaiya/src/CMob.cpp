@@ -12,7 +12,7 @@ int CMob::GetCountry(CMob* mob/*eax*/)
     }
 }
 
-void CMob::UseSkill(CMob* mob/*edi*/, TickCount time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/)
+void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/)
 {
     Address u0x4B9280 = 0x4B9280;
 

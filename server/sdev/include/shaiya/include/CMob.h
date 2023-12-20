@@ -31,13 +31,13 @@ namespace shaiya
 
     struct MobRespawn
     {
-        UINT32 mobId;    //0x00
+        UINT32 mobId;      //0x00
         PAD(8);
-        TickCount time;  //0x0C
+        DWORD time;        //0x0C
         PAD(4);
-        BOOL isObelisk;  //0x14
+        BOOL isObelisk;    //0x14
         PAD(4);
-        BOOL isBossMob;  //0x1C
+        BOOL isBossMob;    //0x1C
         PAD(4);
         // 0x24
     };
@@ -109,12 +109,12 @@ namespace shaiya
         PAD(52);
         CharId luaTargetId;              //0x308
         PAD(40);
-        TickCount lockOnTick;            //0x334
+        DWORD lockOnTime;                //0x334
         MobLuaEvent luaEvent;            //0x338
         PAD(2516);
         MobRespawn* mobRespawn;          //0xD10
         PAD(40);
-        TickCount destroyTime;           //0xD3C
+        DWORD destroyTime;               //0xD3C
         PAD(92);
         CRITICAL_SECTION csD9C;          //0xD9C
         // 0xDB4
@@ -122,7 +122,7 @@ namespace shaiya
         // 0xDF4
 
         static int GetCountry(CMob* mob/*eax*/);
-        static void UseSkill(CMob* mob/*edi*/, TickCount time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/);
+        static void UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/);
         static bool EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/);
         static void SetAttack(CMob* mob/*esi*/);
         static void SetSkillAbility(CMob* mob/*edx*/, int type/*ecx*/, int value/*eax*/);

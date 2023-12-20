@@ -14,13 +14,6 @@ using namespace shaiya;
 namespace user_shape
 {
     constexpr int max_equipment_slot = item_list_size;
-    #ifdef SHAIYA_EP6_4_PT
-    constexpr int packet_size_without_cloak = 118;
-    constexpr int packet_size_with_cloak = 124;
-    #else
-    constexpr int packet_size_without_cloak = 115;
-    constexpr int packet_size_with_cloak = 121;
-    #endif
 
     void init_clone_user(CUser* user, CUser* target)
     {
@@ -29,7 +22,7 @@ namespace user_shape
 
         std::memset(user->clone, 0, sizeof(CloneUser));
 
-        user->clone->dead = target->stateType == StateType::Death ? true : false;
+        user->clone->dead = target->stateType == UserStateType::Death ? true : false;
         user->clone->sitting = target->sitting;
         user->clone->country = target->country;
         user->clone->family = target->family;
@@ -59,13 +52,13 @@ namespace user_shape
         if (!item)
         {
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = packet_size_without_cloak;
+            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
         }
         else
         {
             user->clone->cloakBadge = item->gems;
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = packet_size_with_cloak;
+            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing);
         }
     }
 
@@ -92,22 +85,24 @@ namespace user_shape
             std::memcpy(&packet.equipment, &user->clone->equipment, sizeof(packet.equipment));
             packet.charName = user->clone->charName;
 
-            if (user->clone->packetLength == packet_size_with_cloak)
+            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
             {
                 packet.cloakBadge = user->clone->cloakBadge;
                 packet.guildName = user->clone->guildName;
-                SConnection::Send(&target->connection, &packet, packet_size_with_cloak);
+                SConnection::Send(&target->connection, &packet, sizeof(GetInfoUserShapeOutgoing));
             }
             else
             {
                 std::memcpy(&packet.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
-                SConnection::Send(&target->connection, &packet, packet_size_without_cloak);
+
+                int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+                SConnection::Send(&target->connection, &packet, length);
             }
 
             return;
         }
 
-        packet.dead = user->stateType == StateType::Death ? true : false;
+        packet.dead = user->stateType == UserStateType::Death ? true : false;
         packet.sitting = user->sitting;
         packet.country = user->country;
         packet.family = user->family;
@@ -137,13 +132,15 @@ namespace user_shape
         if (!item)
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&packet.cloakBadge));
-            SConnection::Send(&target->connection, &packet, packet_size_without_cloak);
+
+            int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+            SConnection::Send(&target->connection, &packet, length);
         }
         else
         {
             packet.cloakBadge = item->gems;
             CUser::GetGuildName(user, packet.guildName.data());
-            SConnection::Send(&target->connection, &packet, packet_size_with_cloak);
+            SConnection::Send(&target->connection, &packet, sizeof(GetInfoUserShapeOutgoing));
         }
     }
 
@@ -173,22 +170,24 @@ namespace user_shape
             std::memcpy(&packet.equipment, &user->clone->equipment, sizeof(packet.equipment));
             packet.charName = user->clone->charName;
 
-            if (user->clone->packetLength == packet_size_with_cloak)
+            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
             {
                 packet.cloakBadge = user->clone->cloakBadge;
                 packet.guildName = user->clone->guildName;
-                CZone::SendView(user->zone, &packet, packet_size_with_cloak, user->cellX, user->cellZ);
+                CZone::SendView(user->zone, &packet, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
             }
             else
             {
                 std::memcpy(&packet.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
-                CZone::SendView(user->zone, &packet, packet_size_without_cloak, user->cellX, user->cellZ);
+
+                int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+                CZone::SendView(user->zone, &packet, length, user->cellX, user->cellZ);
             }
 
             return;
         }
 
-        packet.dead = user->stateType == StateType::Death ? true : false;
+        packet.dead = user->stateType == UserStateType::Death ? true : false;
         packet.sitting = user->sitting;
         packet.country = user->country;
         packet.family = user->family;
@@ -218,13 +217,15 @@ namespace user_shape
         if (!item)
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&packet.cloakBadge));
-            CZone::SendView(user->zone, &packet, packet_size_without_cloak, user->cellX, user->cellZ);
+
+            int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+            CZone::SendView(user->zone, &packet, length, user->cellX, user->cellZ);
         }
         else
         {
             packet.cloakBadge = item->gems;
             CUser::GetGuildName(user, packet.guildName.data());
-            CZone::SendView(user->zone, &packet, packet_size_with_cloak, user->cellX, user->cellZ);
+            CZone::SendView(user->zone, &packet, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
         }
     }
 

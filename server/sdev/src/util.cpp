@@ -70,3 +70,16 @@ int util::write_memory(Address addr, Buffer buffer, std::size_t size)
 
     return VirtualProtect(addr, size, protect, &protect);
 }
+
+int util::write_memory(Address addr, std::uint8_t value, std::size_t size)
+{
+    if (size < 1)
+        return 0;
+
+    unsigned long protect;
+    if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
+        return 0;
+
+    std::memset(addr, value, size);
+    return VirtualProtect(addr, size, protect, &protect);
+}

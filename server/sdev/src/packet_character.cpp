@@ -20,14 +20,12 @@ namespace packet_character
     void name_available_handler(CUser* user, const char* name)
     {
         constexpr int packet_size_without_name = 6;
-        constexpr int min_name_len = 3;
-        constexpr int max_name_len = 13;
 
         UserCharNameAvailableIncoming request{};
         request.userId = user->userId;
 
         std::string charName(name);
-        if (charName.length() < min_name_len || charName.length() > max_name_len)
+        if (charName.length() < 3 || charName.length() > 13)
         {
             CharNameAvailableOutgoing packet{ 0x119, false };
             SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
@@ -79,7 +77,8 @@ namespace packet_character
             #endif
 
             item0711.craftName = item->craftName;
-            std::memcpy(&warehouse.itemList[warehouse.itemCount], &item0711, sizeof(Item0711));
+            warehouse.itemList[warehouse.itemCount] = item0711;
+
             ++warehouse.itemCount;
 
             if (warehouse.itemCount != max_item_list_count)
@@ -235,8 +234,7 @@ void hook::packet_character()
     // CUser::PacketUserDBChar
     util::detour((void*)0x47B3E7, naked_0x47B3E7, 5);
 
-    std::uint8_t character_0403_size = 104;
     // CUser::PacketUserDBChar
-    util::write_memory((void*)0x47B4EC, &character_0403_size, 1);
-    util::write_memory((void*)0x47B9C9, &character_0403_size, 1);
+    util::write_memory((void*)0x47B4EC, sizeof(Character0403), 1);
+    util::write_memory((void*)0x47B9C9, sizeof(Character0403), 1);
 }

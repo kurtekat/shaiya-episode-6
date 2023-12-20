@@ -56,8 +56,8 @@ namespace item_effect
                 return 0;
 
             user->recallMapId = gateKeeper->gate[user->townScrollGateIndex].mapId;
-            user->recallPos = gateKeeper->gate[user->townScrollGateIndex].outPos;
-            user->recallType = RecallType::TownTeleportScroll;
+            user->recallPos = gateKeeper->gate[user->townScrollGateIndex].pos;
+            user->recallType = UserRecallType::TownTeleportScroll;
             user->recallTime = GetTickCount() + 5000;
 
             ItemCastOutgoing packet{ 0x221, user->id };
@@ -71,7 +71,7 @@ namespace item_effect
 
     void town_scroll_handler(CUser* user, ItemTownScrollIncoming* incoming)
     {
-        if (user->stateType == StateType::Death)
+        if (user->stateType == UserStateType::Death)
             return;
 
         if (user->dbAgentDisconnect || user->debuffTypeDetail)

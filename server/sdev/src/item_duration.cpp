@@ -188,7 +188,7 @@ namespace item_duration
                 continue;
             }
 
-            if (user->logoutType != LogoutType::None)
+            if (user->logoutType != UserLogoutType::None)
                 continue;
 
             for (int bag = 0; bag < max_inventory_bag; ++bag)

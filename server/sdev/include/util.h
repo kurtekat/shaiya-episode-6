@@ -6,7 +6,6 @@ namespace util
 {
     typedef void* Address;
     typedef void* Buffer;
-    typedef unsigned char* ByteArray;
     typedef void* Function;
     typedef unsigned int LengthPrefix;
 
@@ -14,7 +13,7 @@ namespace util
     void log(const std::string& text);
 
     template<class T>
-    auto read_bytes(ByteArray buffer, int offset)
+    T read_bytes(std::uint8_t* buffer, int offset)
     {
         T value{};
         std::memcpy(&value, &buffer[offset], sizeof(T));
@@ -32,4 +31,5 @@ namespace util
     std::string read_pascal_string(std::ifstream& ifs);
     std::string read_string(std::ifstream& ifs, std::size_t size);
     int write_memory(Address addr, Buffer buffer, std::size_t size);
+    int write_memory(Address addr, std::uint8_t value, std::size_t size);
 }

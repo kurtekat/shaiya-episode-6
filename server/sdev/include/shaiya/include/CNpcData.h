@@ -5,7 +5,7 @@
 namespace shaiya
 {
     typedef Array<char, 256> NpcName;
-    typedef Array<char, 256> Location;
+    typedef Array<char, 256> NpcGateDesc;
 
     #pragma pack(push, 1)
     enum struct NpcCountry : UINT32
@@ -47,11 +47,11 @@ namespace shaiya
 
     struct NpcGate
     {
-        UINT16 mapId;       //0x00
+        UINT16 mapId;      //0x00
         PAD(2);
-        SVector outPos;     //0x04
-        Location location;  //0x10
-        UINT32 price;       //0x110
+        SVector pos;       //0x04
+        NpcGateDesc desc;  //0x10
+        UINT32 price;      //0x110
         // 0x114
     };
 

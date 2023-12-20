@@ -307,13 +307,13 @@ namespace shaiya
             Costume = 150
         };
 
-        enum struct PerfectLapisianType : UINT8
+        enum struct ItemPerfectLapisianType : UINT8
         {
             Weapon,
             Armor
         };
 
-        enum struct ReqOg : UINT8
+        enum struct ItemReqOg : UINT8
         {
             Tradable,
             AccountBound,
@@ -336,7 +336,7 @@ namespace shaiya
             PAD(1);
             UINT16 level;            //0x2E
             Grow grow;               //0x30
-            ReqOg reqOg;             //0x31
+            ItemReqOg reqOg;         //0x31
             UINT8 reqIg;             //0x32
             PAD(1);
             UINT16 reqVg;            //0x34
@@ -390,7 +390,7 @@ namespace shaiya
             // 0xA8
         };
 
-        struct KCStatus
+        struct KillCountStatus
         {
             UINT32 index;              //0x00
             UINT32 killCount;          //0x04
@@ -489,7 +489,7 @@ namespace shaiya
             UINT8 chaseRange;        //0x69 
             PAD(2);
             // 0x4A1A53
-            TickCount cooldown;      //0x6C
+            DWORD cooldown;          //0x6C
             PAD(8);
             UINT32 country;          //0x78
             // 0x7C
@@ -582,7 +582,7 @@ namespace shaiya
             FrenziedFortune
         };
 
-        enum struct StateType : UINT8
+        enum struct SkillStateType : UINT8
         {
             None,
             Sleep,
@@ -602,7 +602,7 @@ namespace shaiya
             Misfortune
         };
 
-        enum struct TargetType : UINT8
+        enum struct SkillTargetType : UINT8
         {
             None,
             Trap,
@@ -642,7 +642,7 @@ namespace shaiya
             UINT16 readyTime;         //0x48
             UINT16 resetTime;         //0x4A
             UINT8 attackRange;        //0x4C
-            StateType stateType;      //0x4D
+            SkillStateType stateType; //0x4D
             Attribute attribute;      //0x4E
             PAD(1);
             bool disable;             //0x50
@@ -650,7 +650,8 @@ namespace shaiya
             UINT16 prevSkillId;       //0x52
             UINT8 successType;        //0x54
             UINT8 successValue;       //0x55
-            TargetType targetType;    //0x56
+            // 0x56
+            SkillTargetType targetType;
             UINT8 applyRange;         //0x57
             UINT8 multiAttack;        //0x58
             PAD(3);
@@ -693,7 +694,7 @@ namespace shaiya
 
         static ItemInfo* GetItemInfo(int type/*eax*/, int typeId/*ecx*/);
         static MobInfo* GetMobInfo(int mobId/*eax*/);
-        static KCStatus* GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/);
+        static KillCountStatus* GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/);
         static int GetKCStatusMax(int country/*eax*/);
         static int GetKCStatusMaxKillCount(int country/*eax*/);
         static ProductInfo* GetProductInfo(const char* productCode/*eax*/);

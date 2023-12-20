@@ -8,16 +8,16 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CSkill
     {
-        SNode node;            //0x00
-        ULONG id;              //0x08
-        UINT32 skillId;        //0x0C
-        UINT32 skillLv;        //0x10
-        UINT32 skillIndex;     //0x14
+        SNode node;             //0x00
+        ULONG id;               //0x08
+        UINT32 skillId;         //0x0C
+        UINT32 skillLv;         //0x10
+        UINT32 skillIndex;      //0x14
         PAD(4);
-        TickCount resetTime;   //0x1C
+        DWORD resetTime;        //0x1C
         PAD(16);
         // CUser->id, CMob->id
-        ULONG debuffCasterId;  //0x30
+        ULONG debuffCasterId;   //0x30
         // 0x34
         CGameData::SkillInfo* skillInfo;
         // 0x38
