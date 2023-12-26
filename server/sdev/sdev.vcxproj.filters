@@ -34,6 +34,9 @@
     <Filter Include="include\shaiya\packets\userLog">
       <UniqueIdentifier>{b6c75488-bb27-4100-8a85-483a2aec988c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\shaiya\packets\gameLog">
+      <UniqueIdentifier>{a068d845-f5ee-47ff-8fb4-fb3f1e21a256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -382,6 +385,30 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CloneUser.h">
       <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0400.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0500.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0F00.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0E00.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0C00.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\F500.h">
+      <Filter>include\shaiya\packets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0800.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0900.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

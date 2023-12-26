@@ -23,5 +23,12 @@ namespace shaiya
         UINT16 opcode{ 0x304 };
         UserId userId;
     };
+
+    struct DBAgentAdminAuthStatusIncoming
+    {
+        UINT16 opcode{ 0x305 };
+        UINT16 authStatus;
+        Username username;
+    };
     #pragma pack(pop)
 }

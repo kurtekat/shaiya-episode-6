@@ -120,12 +120,12 @@ namespace shaiya
         UINT32 bankMoney;
     };
 
-    struct UserSetStatusKillPCIncoming
+    struct UserSetStatusPvPIncoming
     {
         UINT16 opcode{ 0x60C };
         UserId userId;
-        KillPC killPC;
-        UINT32 kills;
+        PvPStatusType statType;
+        UINT32 statCount;
     };
 
     struct UserSetStatusGrowIncoming

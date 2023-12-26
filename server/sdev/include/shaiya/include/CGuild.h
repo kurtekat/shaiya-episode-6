@@ -54,37 +54,36 @@ namespace shaiya
         // 0x3C
     };
 
+    typedef SSyncMap<ULONG, GuildUserInfo*> GuildUserInfoMap;
+
     struct CGuild
     {
-        SNode node;                    //0x00
-        GuildId id;                    //0x08
-        GuildName name;                //0x0C
-        CharName leaderName;           //0x25
+        SNode node;                 //0x00
+        GuildId id;                 //0x08
+        GuildName name;             //0x0C
+        CharName masterName;        //0x25
         PAD(2);
-        UINT32 numSubLeaders;          //0x3C
-        UINT32 country;                //0x40
-        UINT32 points;                 //0x44
-        UINT32 rank;                   //0x48
-        UINT32 etin;                   //0x4C
-        UINT32 keepEtin;               //0x50
-        bool hasHouse;                 //0x54
-        bool buyHouse;                 //0x55
-        GuildRemark remark;            //0x56
-        UINT32 guildRankPoints;        //0x98
-        UINT32 etinReturnCount;        //0x9C
-        UINT32 grbJoinCount;           //0xA0
-        Array<CItem*, 240> warehouse;  //0xA4
-        CRITICAL_SECTION cs464;        //0x464
-        Array<GuildNpc, 8> npc;        //0x47C
-        CRITICAL_SECTION cs49C;        //0x49C
-        GuildPvP pvp;                  //0x4B4
-        // 0x4F4
-        SSyncMap<ULONG, GuildUserInfo*> enterMap;
-        // 0x53C
-        SSyncMap<ULONG, GuildUserInfo*> leaveMap;
-        // 0x584
-        SSyncMap<ULONG, GuildUserInfo*> joinMap;
-        CRITICAL_SECTION cs5CC;        //0x5CC
+        UINT32 officerCount;        //0x3C
+        UINT32 country;             //0x40
+        UINT32 points;              //0x44
+        UINT32 rank;                //0x48
+        UINT32 etin;                //0x4C
+        UINT32 keepEtin;            //0x50
+        bool hasHouse;              //0x54
+        bool buyHouse;              //0x55
+        GuildRemark remark;         //0x56
+        UINT32 guildRankPoints;     //0x98
+        UINT32 etinReturnCount;     //0x9C
+        UINT32 grbJoinCount;        //0xA0
+        Warehouse warehouse;        //0xA4
+        CRITICAL_SECTION cs464;     //0x464
+        Array<GuildNpc, 8> npc;     //0x47C
+        CRITICAL_SECTION cs49C;     //0x49C
+        GuildPvP pvp;               //0x4B4
+        GuildUserInfoMap enterMap;  //0x4F4
+        GuildUserInfoMap leaveMap;  //0x53C
+        GuildUserInfoMap joinMap;   //0x584
+        CRITICAL_SECTION cs5CC;     //0x5CC
         // 0x5E4
 
         static int GetNumUsers(CGuild* guild/*ecx*/);

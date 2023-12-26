@@ -234,6 +234,51 @@ void CUser::SendAdminCmdError(CUser* user, UINT16 error/*ecx*/)
     }
 }
 
+void CUser::SendAdminCmdSuccess(CUser* user)
+{
+    typedef void(__stdcall* LPFN)(CUser*);
+    (*(LPFN)0x4807A0)(user);
+}
+
+void CUser::SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/)
+{
+    Address u0x4807D0 = 0x4807D0;
+
+    __asm
+    {
+        mov edi,desc
+        mov edx,user
+        call u0x4807D0
+    }
+}
+
+void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/)
+{
+    Address u0x4808A0 = 0x4808A0;
+
+    __asm
+    {
+        mov ebx,targetName
+        mov edi,desc
+        mov ecx,user
+        call u0x4808A0
+    }
+}
+
+void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/, const char* text)
+{
+    Address u0x480990 = 0x480990;
+
+    __asm
+    {
+        push text
+        mov ebx,targetName
+        mov edi,desc
+        mov ecx,user
+        call u0x480990
+    }
+}
+
 void CUser::SendCharacterHonor(CUser* user/*ecx*/)
 {
     Address u0x492FE0 = 0x492FE0;
@@ -477,6 +522,18 @@ void CUser::SetAttack(CUser* user/*esi*/)
     {
         mov esi,user
         call u0x460E40
+    }
+}
+
+void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
+{
+    Address u0x467F60 = 0x467F60;
+
+    __asm
+    {
+        mov esi,packet
+        mov edi,user
+        call u0x467F60
     }
 }
 

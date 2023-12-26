@@ -6,6 +6,7 @@
 #include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/0700.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
+#include <include/shaiya/packets/gameLog/0400.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CObjectMgr.h>
@@ -34,15 +35,29 @@ namespace item_duration
             UserItemBankToBankIncoming packet{ 0x706, user->userId, slot, item->count, slot, 0 };
             SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemBankToBankIncoming));
 
+            GameLogItemRemoveIncoming log{};
+            CUser::SetGameLogMain(user, &log);
+
+            log.itemUid = item->uniqueId;
+            log.itemId = item->itemInfo->itemId;
+            log.itemName = item->itemInfo->itemName;
+            log.gems = item->gems;
+            log.makeTime = item->makeTime;
+            log.craftName = item->craftName;
+            log.bag = bag;
+            log.slot = slot;
+            log.count = item->count;
+            SConnectionTBaseReconnect::Send(g_pClientToGameLog, &log, sizeof(GameLogItemRemoveIncoming));
+
             CObjectMgr::FreeItem(item);
             user->warehouse[slot] = nullptr;
 
-            ItemBankToBankOutgoing packet2{};
-            packet2.srcItem.bag = bag;
-            packet2.srcItem.slot = slot;
-            packet2.destItem.bag = bag;
-            packet2.destItem.slot = slot;
-            SConnection::Send(&user->connection, &packet2, sizeof(ItemBankToBankOutgoing));
+            ItemBankToBankOutgoing outgoing{};
+            outgoing.srcItem.bag = bag;
+            outgoing.srcItem.slot = slot;
+            outgoing.destItem.bag = bag;
+            outgoing.destItem.slot = slot;
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemBankToBankOutgoing));
         }
         else
         {

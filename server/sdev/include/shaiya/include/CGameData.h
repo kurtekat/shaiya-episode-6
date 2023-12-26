@@ -8,11 +8,6 @@ namespace shaiya
     // item effect 59 (EP5 itemId 100169)
     static Address g_ItemSpecialMoveWar = 0x56E668;
 
-    typedef Array<char, 32> ItemName;
-    typedef Array<char, 32> MobName;
-    typedef Array<char, 51> ProductName;
-    typedef Array<char, 32> SkillName;
-
     struct CGameData
     {
         enum struct Attribute : UINT8
@@ -323,7 +318,8 @@ namespace shaiya
         struct ItemInfo
         {
             UINT32 itemId;           //0x00
-            ItemName itemName;       //0x04
+            // 0x04
+            Array<char, 32> itemName;
             UINT8 type;              //0x24
             UINT8 typeId;            //0x25
             Race country;            //0x26
@@ -384,8 +380,10 @@ namespace shaiya
             UINT32 buy;              //0x80
             UINT32 sell;             //0x84
             PAD(24);
-            ItemRealType realType;      //0xA0
-            ItemMarketType marketType;  //0xA4
+            // 0xA0
+            ItemRealType realType;
+            // 0xA4
+            ItemMarketType marketType;
             PAD(3);
             // 0xA8
         };
@@ -456,7 +454,7 @@ namespace shaiya
         struct MobInfo
         {
             UINT16 mobId;            //0x00
-            MobName mobName;         //0x02
+            Array<char, 32> mobName; //0x02
             UINT16 level;            //0x22
             UINT16 exp;              //0x24
             UINT8 ai;                //0x26
@@ -508,7 +506,7 @@ namespace shaiya
             Array<UINT32, 24> itemId;    //0x18
             Array<UINT8, 24> itemCount;  //0x78
             UINT32 price;                //0x90
-            ProductName productName;     //0x94
+            Array<char, 51> productName; //0x94
             PAD(1);
             // 0xC8
         };
@@ -618,7 +616,8 @@ namespace shaiya
         {
             UINT16 skillId;           //0x00
             UINT8 skillLv;            //0x02
-            SkillName skillName;      //0x03
+            // 0x03
+            Array<char, 32> skillName;
             PAD(1);
             UINT16 level;             //0x24 
             UINT8 country;            //0x26

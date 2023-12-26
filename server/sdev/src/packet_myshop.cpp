@@ -16,25 +16,26 @@ namespace packet_myshop
     void send_item_list(CUser* user, MyShop* myShop)
     {
         constexpr int packet_size_without_list = 3;
+        constexpr int myshop_size = 20;
 
         MyShopItemListOutgoing packet{};
         packet.itemCount = 0;
 
-        for (int slot = 0; slot < max_myshop_slot; ++slot)
+        for (int i = 0; i < myshop_size; ++i)
         {
-            auto srcBag = myShop->srcBag[slot];
-            auto srcSlot = myShop->srcSlot[slot];
+            auto bag = myShop->srcBag[i];
+            auto slot = myShop->srcSlot[i];
 
-            if (!srcBag)
+            if (!bag)
                 continue;
 
-            auto& item = myShop->user->inventory[srcBag][srcSlot];
+            auto& item = myShop->user->inventory[bag][slot];
             if (!item)
                 continue;
 
             Item230B item230B{};
-            item230B.slot = slot;
-            item230B.price = myShop->price[slot];
+            item230B.slot = i;
+            item230B.price = myShop->price[i];
             item230B.type = item->type;
             item230B.typeId = item->typeId;
             item230B.count = item->count;

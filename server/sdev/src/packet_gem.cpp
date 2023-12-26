@@ -8,6 +8,7 @@
 #include <include/util.h>
 #include <include/shaiya/packets/0800.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
+#include <include/shaiya/packets/gameLog/0400.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
@@ -188,7 +189,7 @@ namespace packet_gem
             return;
         }
 
-        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis > max_reqwis)
+        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis >= 100)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
@@ -199,6 +200,13 @@ namespace packet_gem
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
         }
+
+        GameLogItemComposeIncoming log{};
+        CUser::SetGameLogMain(user, &log);
+
+        log.oldItemUid = item->uniqueId;
+        log.oldItemId = item->itemInfo->itemId;
+        log.oldCraftName = item->craftName;
 
         std::random_device seed;
         std::mt19937 eng(seed());
@@ -465,6 +473,14 @@ namespace packet_gem
 
         UserItemCraftNameIncoming packet{ 0x717, user->userId, incoming->itemBag, incoming->itemSlot, item->craftName };
         SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemCraftNameIncoming));
+
+        log.itemUid = item->uniqueId;
+        log.itemId = item->itemInfo->itemId;
+        log.itemName = item->itemInfo->itemName;
+        log.gems = item->gems;
+        log.makeTime = item->makeTime;
+        log.craftName = item->craftName;
+        SConnectionTBaseReconnect::Send(g_pClientToGameLog, &log, sizeof(GameLogItemComposeIncoming));
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }

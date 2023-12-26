@@ -132,11 +132,11 @@ namespace shaiya
         float destZ;
     };
 
-    struct KillPCOutgoing
+    struct CharacterPvPStatusOutgoing
     {
         UINT16 opcode{ 0x20E };
-        KillPC killPC;
-        UINT32 kills;
+        PvPStatusType statType;
+        UINT32 statCount;
     };
 
     struct CharacterMoneyOutgoing

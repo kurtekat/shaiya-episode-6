@@ -130,7 +130,15 @@
     <ClInclude Include="include\shaiya\packets\dbAgent\0400.h" />
     <ClInclude Include="include\shaiya\packets\dbAgent\0600.h" />
     <ClInclude Include="include\shaiya\packets\dbAgent\0E00.h" />
+    <ClInclude Include="include\shaiya\packets\F500.h" />
     <ClInclude Include="include\shaiya\packets\F900.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0400.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0500.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0800.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0900.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0C00.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0E00.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0F00.h" />
     <ClInclude Include="include\shaiya\packets\session\0100.h" />
     <ClInclude Include="include\shaiya\packets\session\1B00.h" />
     <ClInclude Include="include\shaiya\packets\userLog\0300.h" />
