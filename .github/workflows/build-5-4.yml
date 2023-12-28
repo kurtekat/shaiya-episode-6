@@ -1,9 +1,9 @@
 name: Build 5.4 server library
 
-on: [push, pull_request]
+on: [pull_request, workflow_dispatch]
 
 jobs:
-  build-5-4-server:
+  build-5-4:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
