@@ -38,9 +38,48 @@ namespace shaiya
         UINT16 stamina;
         Equipment0101 equipment;
         Array<char, 19> charName;
-        bool nameChange;
         bool deleted;
+        bool nameChange;
         CloakBadge cloakBadge;
+    };
+
+    struct CharacterDeleteIncoming
+    {
+        UINT16 opcode{ 0x103 };
+        ULONG charId;
+    };
+
+    struct CharacterDeleteOutgoing
+    {
+        UINT16 opcode{ 0x103 };
+        UINT8 unknown{ 0 };
+        ULONG charId;
+    };
+
+    struct CharacterNameChangeIncoming
+    {
+        UINT16 opcode{ 0x10E };
+        ULONG charId;
+        CharName charName;
+    };
+
+    struct CharacterNameChangeOutgoing
+    {
+        UINT16 opcode{ 0x10E };
+        bool success;
+    };
+
+    struct CharacterRestoreIncoming
+    {
+        UINT16 opcode{ 0x10F };
+        ULONG charId;
+    };
+
+    struct CharacterRestoreOutgoing
+    {
+        UINT16 opcode{ 0x10F };
+        UINT8 unknown{ 0 };
+        ULONG charId;
     };
 
     struct ServerTimeOutgoing

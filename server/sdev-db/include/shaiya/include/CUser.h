@@ -37,12 +37,12 @@ namespace shaiya
         UINT16 stamina;         //0x22
         UINT16 mapId;           //0x24
         PAD(2);
-        BOOL nameChange;        //0x28
+        ULONG deleteDate;       //0x28
         Equipment equipment;    //0x2C
         CloakBadge cloakBadge;  //0x3C
         CharName name;          //0x42
         PAD(1);
-        bool deleted;           //0x58
+        bool nameChange;        //0x58
         PAD(3);
         // 0x5C
     };

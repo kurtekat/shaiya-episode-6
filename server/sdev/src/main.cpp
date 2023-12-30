@@ -5,7 +5,6 @@
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Revenge.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 

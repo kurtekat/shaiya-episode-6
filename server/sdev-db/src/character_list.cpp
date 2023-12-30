@@ -23,42 +23,42 @@ namespace character_list
         packet.sendCountry = sendCountry;
         packet.characterCount = 0;
 
-        for (int slot = 0; slot < max_character_slot; ++slot)
+        for (const auto& character : user->characterList)
         {
-            if (!user->characterList[slot].id)
+            if (!character.id || character.slot >= user->characterList.size())
                 continue;
 
-            Character0403 character{};
-            character.id = user->characterList[slot].id;
-            character.regDate = user->characterList[slot].regDate;
-            character.deleted = user->characterList[slot].deleted;
-            character.slot = user->characterList[slot].slot;
-            character.family = user->characterList[slot].family;
-            character.grow = user->characterList[slot].grow;
-            character.hair = user->characterList[slot].hair;
-            character.face = user->characterList[slot].face;
-            character.size = user->characterList[slot].size;
-            character.job = user->characterList[slot].job;
-            character.sex = user->characterList[slot].sex;
-            character.level = user->characterList[slot].level;
-            character.strength = user->characterList[slot].strength;
-            character.dexterity = user->characterList[slot].dexterity;
-            character.reaction = user->characterList[slot].reaction;
-            character.intelligence = user->characterList[slot].intelligence;
-            character.wisdom = user->characterList[slot].wisdom;
-            character.luck = user->characterList[slot].luck;
-            character.health = user->characterList[slot].health;
-            character.mana = user->characterList[slot].mana;
-            character.stamina = user->characterList[slot].stamina;
-            character.mapId = user->characterList[slot].mapId;
-            character.nameChange = user->characterList[slot].nameChange;
+            Character0403 character0403{};
+            character0403.id = character.id;
+            character0403.regDate = character.regDate;
+            character0403.nameChange = character.nameChange;
+            character0403.slot = character.slot;
+            character0403.family = character.family;
+            character0403.grow = character.grow;
+            character0403.hair = character.hair;
+            character0403.face = character.face;
+            character0403.size = character.size;
+            character0403.job = character.job;
+            character0403.sex = character.sex;
+            character0403.level = character.level;
+            character0403.strength = character.strength;
+            character0403.dexterity = character.dexterity;
+            character0403.reaction = character.reaction;
+            character0403.intelligence = character.intelligence;
+            character0403.wisdom = character.wisdom;
+            character0403.luck = character.luck;
+            character0403.health = character.health;
+            character0403.mana = character.mana;
+            character0403.stamina = character.stamina;
+            character0403.mapId = character.mapId;
+            character0403.deleteDate = character.deleteDate;
 
             if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
-                character.equipment = it->second[slot];
+                character0403.equipment = it->second[character.slot];
 
-            character.cloakBadge = user->characterList[slot].cloakBadge;
-            character.charName = user->characterList[slot].name;
-            packet.characterList[slot] = character;
+            character0403.cloakBadge = character.cloakBadge;
+            character0403.charName = character.name;
+            packet.characterList[packet.characterCount] = character0403;
 
             ++packet.characterCount;
         }
@@ -78,10 +78,13 @@ namespace character_list
         g_equipment.insert_or_assign(user->userId, equipment);
     }
 
-    void init_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
+    void init_equipment(CUser* user, std::uint8_t characterSlot, std::uint8_t equipmentSlot, std::uint8_t type, std::uint8_t typeId)
     {
         if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
         {
+            if (characterSlot >= user->characterList.size() || equipmentSlot >= item_list_size)
+                return;
+
             it->second[characterSlot].type[equipmentSlot] = type;
             it->second[characterSlot].typeId[equipmentSlot] = typeId;
         }

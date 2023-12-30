@@ -16,7 +16,7 @@ namespace shaiya
     {
         CharId id;                //0x00
         ULONG regDate;            //0x04
-        bool deleted;             //0x08
+        bool nameChange;          //0x08
         UINT8 slot;               //0x09
         Family family;            //0x0A
         Grow grow;                //0x0B
@@ -36,7 +36,7 @@ namespace shaiya
         UINT16 mana;              //0x21
         UINT16 stamina;           //0x23
         UINT16 mapId;             //0x25
-        BOOL nameChange;          //0x27
+        ULONG deleteDate;         //0x27
         Equipment0403 equipment;  //0x2B
         // 6.4: 0x4D, 6.3: 0x4B, 5.4: 0x3B
         CloakBadge cloakBadge;
@@ -55,6 +55,34 @@ namespace shaiya
         bool sendCountry;
         UINT8 characterCount;
         Array<Character0403, 5> characterList;
+    };
+
+    struct UserCharDeleteIncoming
+    {
+        UINT16 opcode{ 0x40A };
+        UserId userId;
+        ULONG charId;
+    };
+
+    struct UserCharDeleteOutgoing
+    {
+        UINT16 opcode{ 0x40A };
+        UserId userId;
+        ULONG charId;
+    };
+
+    struct UserCharRestoreIncoming
+    {
+        UINT16 opcode{ 0x40B };
+        UserId userId;
+        ULONG charId;
+    };
+
+    struct UserCharRestoreOutgoing
+    {
+        UINT16 opcode{ 0x40B };
+        UserId userId;
+        ULONG charId;
     };
 
     // custom

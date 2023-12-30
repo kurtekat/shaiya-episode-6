@@ -126,8 +126,8 @@ namespace packet_character
         character.stamina = dbCharacter->stamina;
         std::memcpy(&character.equipment, &dbCharacter->equipment, sizeof(Equipment0403));
         StringCbCopyA(character.charName.data(), character.charName.size(), dbCharacter->charName.data());
-        character.deleted = dbCharacter->deleted;
         character.nameChange = dbCharacter->nameChange;
+        character.deleted = dbCharacter->deleteDate ? true : false;
         character.cloakBadge = dbCharacter->cloakBadge;
         SConnection::Send(&user->connection, &character, sizeof(CharacterOutgoing));
     }
