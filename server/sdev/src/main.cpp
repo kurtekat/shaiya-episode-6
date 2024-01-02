@@ -87,9 +87,8 @@ void __declspec(naked) naked_0x455165()
     }
 }
 
-void Main(HMODULE hModule)
+void Main()
 {
-    DisableThreadLibraryCalls(hModule);
     // CUser::EnterWorld
     util::detour((void*)0x455B00, naked_0x455B00, 6);
     // CUser::LeaveWorld

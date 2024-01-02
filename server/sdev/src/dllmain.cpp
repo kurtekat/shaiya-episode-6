@@ -9,7 +9,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
     case DLL_PROCESS_DETACH:
         break;
     case DLL_PROCESS_ATTACH:
-        Main(hModule);
+        DisableThreadLibraryCalls(hModule);
+        Main();
         break;
     case DLL_THREAD_DETACH:
     case DLL_THREAD_ATTACH:

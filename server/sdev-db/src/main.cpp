@@ -4,9 +4,8 @@
 #include <include/main.h>
 #include <sdev/include/shaiya/common.h>
 
-void Main(HMODULE hModule)
+void Main()
 {
-    DisableThreadLibraryCalls(hModule);
     #ifdef SHAIYA_EP6_4_PT
     hook::character_create();
     #endif
