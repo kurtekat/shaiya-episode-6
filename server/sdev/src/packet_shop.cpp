@@ -23,13 +23,6 @@ using namespace shaiya;
 
 namespace packet_shop
 {
-    void raise_event_0105(bool enable)
-    {
-        PacketBuffer0105 packet{};
-        packet.enable = enable;
-        CClientToMgr::OnRecv(&packet);
-    }
-
     void raise_event_1B02(CUser* user)
     {
         PacketBuffer1B02 packet{};
@@ -62,13 +55,6 @@ namespace packet_shop
     {
         std::thread([=] {
             raise_event_1B03(user, targetName, productCode, itemPrice);
-            }).detach();
-    }
-
-    void present_enable_async(bool enable)
-    {
-        std::thread([=] {
-            raise_event_0105(enable);
             }).detach();
     }
 
@@ -351,8 +337,12 @@ void hook::packet_shop()
     // CUser::PacketUserDBPoint case 0xE06
     util::detour((void*)0x47D525, naked_0x47D525, 5);
 
-    // fake a 0x105 event
-    packet_shop::present_enable_async(true);
+    // CClientToMgr::OnRecv case 0x105
+    util::write_memory((void*)0x4069CF, 0x90, 5);
+
+    // g_nPayLetterEnable
+    int enabled = true;
+    util::write_memory((void*)0x58799C, &enabled, 4);
 
     #ifdef SHAIYA_EP6_ITEM_DURATION
     // CUser::PacketShop case 0x2602
