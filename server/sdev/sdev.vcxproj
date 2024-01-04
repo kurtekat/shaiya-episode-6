@@ -120,6 +120,7 @@
     <ClInclude Include="include\shaiya\packets\B100.h" />
     <ClInclude Include="include\shaiya\packets\dbAgent\0300.h" />
     <ClInclude Include="include\shaiya\packets\dbAgent\0700.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0900.h" />
     <ClInclude Include="include\shaiya\packets\F100.h" />
     <ClInclude Include="include\shaiya\packets\2200.h" />
     <ClInclude Include="include\shaiya\packets\2300.h" />

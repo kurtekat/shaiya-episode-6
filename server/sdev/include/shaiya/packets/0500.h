@@ -131,7 +131,7 @@ namespace shaiya
         Provoke
     };
 
-    enum struct SkillUseState : UINT8
+    enum struct SkillUseFrenzyState : UINT8
     {
         Triggered = 1,
         Stopped = 3
@@ -192,6 +192,22 @@ namespace shaiya
         UINT8 enchantStep;
     };
 
+    struct SkillApplyOutgoing
+    {
+        UINT16 opcode{ 0x50D };
+        // CSkill->id
+        ULONG id;
+        UINT16 skillId;
+        UINT8 skillLv;
+    };
+
+    struct SkillRemoveOutgoing
+    {
+        UINT16 opcode{ 0x50E };
+        // CSkill->id
+        ULONG id;
+    };
+
     struct SkillKeepOutgoing
     {
         UINT16 opcode{ 0x50F };
@@ -201,6 +217,14 @@ namespace shaiya
         UINT16 health;
         UINT16 mana;
         UINT16 stamina;
+    };
+
+    struct SkillUseIncoming
+    {
+        UINT16 opcode{ 0x511 };
+        UINT8 skillIndex;
+        // 0 = caster
+        CharId targetId;
     };
 
     struct SkillUseOutgoing
@@ -215,7 +239,7 @@ namespace shaiya
         UINT16 stamina;
         UINT16 mana;
         #ifdef SHAIYA_EP6_0511
-        SkillUseState state;
+        SkillUseFrenzyState frenzyState;
         #endif
     };
 

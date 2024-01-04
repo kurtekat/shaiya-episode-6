@@ -410,6 +410,9 @@
     <ClInclude Include="include\shaiya\packets\gameLog\0900.h">
       <Filter>include\shaiya\packets\gameLog</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\packets\dbAgent\0900.h">
+      <Filter>include\shaiya\packets\dbAgent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">
