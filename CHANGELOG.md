@@ -1,5 +1,13 @@
 # sdev
 
+## 1.1.10.14
+
+Refactor frenzied skills
+
+Refactor main function to make export easier
+
+Assign g_nPayLetterEnable with write_memory instead of a session packet
+
 ## 1.1.9.13
 
 Fix character list packet
@@ -57,6 +65,10 @@ Fix conversion from days to seconds
 Increment major version
 
 # sdev-db
+
+## 1.0.3.5
+
+Refactor main function to make export easier
 
 ## 1.0.2.4
 
