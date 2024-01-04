@@ -44,10 +44,10 @@ namespace shaiya
     typedef Array<ProductItem, 10> ProductLog;
 
     // custom
-    struct UserActivableSkill
+    struct UserFrenzyApplySkill
     {
-        UINT16 id;
-        UINT8 level;
+        UINT16 skillId;
+        UINT8 skillLv;
         bool triggered;
         DWORD keepTime;
     };
@@ -582,7 +582,7 @@ namespace shaiya
         Bank storedPointItem;                //0x5ACC
         // custom
         UINT32 townScrollGateIndex;          //0x5D9C
-        UserActivableSkill activableSkill;   //0x5DA0
+        UserFrenzyApplySkill frenzy;         //0x5DA0
         // 0x5DA8
         PAD(1188);
         CRITICAL_SECTION cs624C;             //0x624C

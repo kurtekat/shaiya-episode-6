@@ -561,23 +561,15 @@ namespace shaiya
             ContinuousResurrection,
             BattlefieldRune,
             AbilityAbsorption,
-            // Curse of Goddess, etc.
-            BaseStatus
+            BaseStatus,
+            Frenzied = 70
         };
 
         struct SkillAbility
         {
-            UINT8 type;
+            SkillAbilityType type;
             PAD(1);
             UINT16 value;
-        };
-
-        enum SkillId
-        {
-            FrenziedForce = 398,
-            FrenziedFocus,
-            FrenziedFinesse,
-            FrenziedFortune
         };
 
         enum struct SkillStateType : UINT8
@@ -654,8 +646,7 @@ namespace shaiya
             UINT8 applyRange;         //0x57
             UINT8 multiAttack;        //0x58
             PAD(3);
-            UINT16 keepTime;          //0x5C
-            PAD(2);
+            ULONG keepTime;           //0x5C
             UINT8 weapon1;            //0x60
             UINT8 weapon2;            //0x61
             UINT8 weaponValue;        //0x62
