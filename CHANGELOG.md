@@ -1,5 +1,15 @@
 # sdev
 
+## 1.2.0.15
+
+Add DataFile class
+
+Update utilities
+
+Fix failure message when frenzy is triggered
+
+Increment major revision
+
 ## 1.1.10.14
 
 Refactor frenzied skills
