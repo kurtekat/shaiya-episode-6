@@ -1,6 +1,6 @@
 #include <chrono>
 #include <fstream>
-#include <string>
+#include <format>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -41,19 +41,6 @@ void util::log(const std::string& text)
         ofs << std::format("{:%Y-%m-%d %X}\n", time) << text << '\n';
         ofs.close();
     }
-}
-
-std::string util::read_pascal_string(std::ifstream& ifs)
-{
-    auto size = util::read_number<LengthPrefix>(ifs);
-    return util::read_string(ifs, size);
-}
-
-std::string util::read_string(std::ifstream& ifs, std::size_t size)
-{
-    std::string str(size, 0);
-    ifs.read(str.data(), str.size());
-    return str;
 }
 
 int util::write_memory(Address addr, Buffer buffer, std::size_t size)

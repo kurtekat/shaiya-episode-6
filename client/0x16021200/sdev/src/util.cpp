@@ -1,4 +1,6 @@
-#include <string>
+#include <chrono>
+#include <fstream>
+#include <format>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -27,6 +29,18 @@ int util::detour(Address addr, Function func, std::size_t size)
     __asm { dec addr }
 
     return VirtualProtect(addr, size, protect, &protect);
+}
+
+void util::log(const std::string& text)
+{
+    auto time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+    std::ofstream ofs("sdev.log.txt", std::ios::app);
+    
+    if (ofs)
+    {
+        ofs << std::format("{:%Y-%m-%d %X}\n", time) << text << '\n';
+        ofs.close();
+    }
 }
 
 int util::write_memory(Address addr, Buffer buffer, std::size_t size)

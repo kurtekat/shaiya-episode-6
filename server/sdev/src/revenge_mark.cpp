@@ -1,6 +1,7 @@
 #include <limits>
 #include <map>
 #include <vector>
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -10,8 +11,6 @@
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Revenge.h>
 #include <include/shaiya/include/SConnection.h>
-
-#undef max
 using namespace shaiya;
 
 namespace revenge_mark

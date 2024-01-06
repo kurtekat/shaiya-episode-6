@@ -34,8 +34,8 @@ namespace npc_quest
 
     void send_success_result(CUser* user, CQuest* quest, Packet buffer)
     {
-        auto npcId = util::read_bytes<std::uint32_t>(buffer, 2);
-        auto index = util::read_bytes<std::uint8_t>(buffer, 9);
+        auto npcId = util::deserialize<std::uint32_t>(buffer, 2);
+        auto index = util::deserialize<std::uint8_t>(buffer, 9);
 
         if (index >= quest->questInfo->result.size())
         {

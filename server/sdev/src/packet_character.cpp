@@ -40,7 +40,7 @@ namespace packet_character
 
     void send_name_available(CUser* user, Packet buffer)
     {
-        auto available = util::read_bytes<bool>(buffer, 6);
+        auto available = util::deserialize<bool>(buffer, 6);
         CharNameAvailableOutgoing packet{ 0x119, available };
         SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
     }

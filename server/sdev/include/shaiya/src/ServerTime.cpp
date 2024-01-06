@@ -1,4 +1,7 @@
 #include <chrono>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
@@ -38,7 +41,7 @@ bool ServerTime::IsTimedItem(CGameData::ItemInfo* itemInfo)
         return false;
 
     int days = itemInfo->range;
-    if (!days)
+    if (days <= 0)
         return false;
 
     switch (static_cast<CGameData::ItemType>(itemInfo->type))

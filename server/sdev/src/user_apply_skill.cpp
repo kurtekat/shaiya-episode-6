@@ -16,7 +16,6 @@ namespace user_apply_skill
     void frenzy_handler(CUser* user, CGameData::SkillInfo* skillInfo)
     {
         SkillUseOutgoing packet{};
-        packet.targetType = static_cast<std::uint8_t>(skillInfo->targetType);
         packet.senderId = user->id;
         packet.targetId = user->id;
         packet.skillId = skillInfo->skillId;
@@ -99,14 +98,14 @@ namespace user_apply_skill
             return frenzy_handler(sender, skillInfo);
 
         SkillUseOutgoing packet{};
-        packet.targetType = util::read_bytes<std::uint8_t>(buffer, 2);
+        packet.targetType = util::deserialize<std::uint8_t>(buffer, 2);
         packet.senderId = sender->id;
         packet.targetId = target->id;
-        packet.skillId = util::read_bytes<std::uint16_t>(buffer, 11);
-        packet.skillLv = util::read_bytes<std::uint8_t>(buffer, 13);
-        packet.health = util::read_bytes<std::uint16_t>(buffer, 14);
-        packet.stamina = util::read_bytes<std::uint16_t>(buffer, 16);
-        packet.mana = util::read_bytes<std::uint16_t>(buffer, 18);
+        packet.skillId = util::deserialize<std::uint16_t>(buffer, 11);
+        packet.skillLv = util::deserialize<std::uint8_t>(buffer, 13);
+        packet.health = util::deserialize<std::uint16_t>(buffer, 14);
+        packet.stamina = util::deserialize<std::uint16_t>(buffer, 16);
+        packet.mana = util::deserialize<std::uint16_t>(buffer, 18);
 
         if (!sender->zone)
             return;

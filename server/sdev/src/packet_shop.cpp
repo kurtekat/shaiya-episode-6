@@ -81,23 +81,23 @@ namespace packet_shop
         constexpr int item_size_without_dates = 5;
 
         PointPurchaseItemOutgoing packet{};
-        packet.opcode = util::read_bytes<std::uint16_t>(buffer, 0);
-        packet.result = util::read_bytes<PointPurchaseItemResult>(buffer, 2);
-        packet.points = util::read_bytes<std::uint32_t>(buffer, 3);
+        packet.opcode = util::deserialize<std::uint16_t>(buffer, 0);
+        packet.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
+        packet.points = util::deserialize<std::uint32_t>(buffer, 3);
         std::memcpy(&packet.productCode, &buffer[7], packet.productCode.size());
-        packet.purchaseDate = util::read_bytes<std::uint32_t>(buffer, 28);
-        packet.itemPrice = util::read_bytes<std::uint32_t>(buffer, 32);
-        packet.itemCount = util::read_bytes<std::uint8_t>(buffer, 36);
+        packet.purchaseDate = util::deserialize<std::uint32_t>(buffer, 28);
+        packet.itemPrice = util::deserialize<std::uint32_t>(buffer, 32);
+        packet.itemCount = util::deserialize<std::uint8_t>(buffer, 36);
 
         int offset = 0;
         for (int i = 0; i < packet.itemCount; ++i)
         {
             Item2602 item2602{};
-            item2602.bag = util::read_bytes<std::uint8_t>(buffer, 37 + offset);
-            item2602.slot = util::read_bytes<std::uint8_t>(buffer, 38 + offset);
-            item2602.type = util::read_bytes<std::uint8_t>(buffer, 39 + offset);
-            item2602.typeId = util::read_bytes<std::uint8_t>(buffer, 40 + offset);
-            item2602.count = util::read_bytes<std::uint8_t>(buffer, 41 + offset);
+            item2602.bag = util::deserialize<std::uint8_t>(buffer, 37 + offset);
+            item2602.slot = util::deserialize<std::uint8_t>(buffer, 38 + offset);
+            item2602.type = util::deserialize<std::uint8_t>(buffer, 39 + offset);
+            item2602.typeId = util::deserialize<std::uint8_t>(buffer, 40 + offset);
+            item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset);
             packet.itemList[i] = item2602;
 
             offset += item_size_without_dates;
@@ -131,8 +131,8 @@ namespace packet_shop
         if (ServerTime::IsTimedItem(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
-            packet.bag = util::read_bytes<std::uint8_t>(buffer, 3);
-            packet.slot = util::read_bytes<std::uint8_t>(buffer, 4);
+            packet.bag = util::deserialize<std::uint8_t>(buffer, 3);
+            packet.slot = util::deserialize<std::uint8_t>(buffer, 4);
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
             SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));

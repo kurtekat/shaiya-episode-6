@@ -82,6 +82,13 @@ namespace packet_gem
         if (!rune)
             return;
 
+        if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked || incoming->vialSlot >= max_inventory_slot)
+            return;
+
+        auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
+        if (!vial)
+            return;
+
         ItemRuneCombineOutgoing outgoing{};
         outgoing.result = ItemRuneCombineResult::Failure;
 
@@ -90,13 +97,6 @@ namespace packet_gem
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
         }
-
-        if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked || incoming->vialSlot >= max_inventory_slot)
-            return;
-
-        auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
-        if (!vial)
-            return;
 
         CGameData::ItemInfo* itemInfo = nullptr;
 

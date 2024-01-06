@@ -16,12 +16,11 @@ namespace packet_myshop
     void send_item_list(CUser* user, MyShop* myShop)
     {
         constexpr int packet_size_without_list = 3;
-        constexpr int myshop_size = 20;
 
         MyShopItemListOutgoing packet{};
         packet.itemCount = 0;
 
-        for (int i = 0; i < myshop_size; ++i)
+        for (int i = 0; i < 20; ++i)
         {
             auto bag = myShop->srcBag[i];
             auto slot = myShop->srcSlot[i];

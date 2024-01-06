@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <include/shaiya/common.h>
+#include <include/shaiya/include/DataFile.h>
 
 namespace shaiya
 {
@@ -37,7 +38,7 @@ namespace shaiya
         }
     };
 
-    struct Synergy
+    struct Synergy : DataFile
     {
         std::uint16_t id;
         std::array<SynergyAbility, 13> ability{};

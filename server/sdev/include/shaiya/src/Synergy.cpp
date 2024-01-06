@@ -26,19 +26,19 @@ void Synergy::init()
 
     try
     {
-        auto entries = util::read_number<int>(ifs);
+        auto entries = readNumber<int>(ifs);
 
         for (int i = 0; i < entries; ++i)
         {
             Synergy synergy{};
-            synergy.id = util::read_number<std::uint16_t>(ifs);
+            synergy.id = readNumber<std::uint16_t>(ifs);
 
-            util::read_pascal_string(ifs);
+            readPascalString(ifs);
 
             for (int i = 0; i < 13; ++i)
             {
-                auto type = util::read_number<std::uint16_t>(ifs);
-                auto typeId = util::read_number<std::uint16_t>(ifs);
+                auto type = readNumber<std::uint16_t>(ifs);
+                auto typeId = readNumber<std::uint16_t>(ifs);
 
                 auto itemId = (type * 1000) + typeId;
                 synergy.set[i] = itemId;
@@ -55,11 +55,13 @@ void Synergy::init()
         std::string text("Synergy::init read failure\n");
         util::log(text.append(ex.what()));
     }
+
+    ifs.close();
 }
 
 void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
 {
-    auto text = util::read_pascal_string(ifs);
+    auto text = readPascalString(ifs);
     if (text == "0" || text.empty())
         return;
 

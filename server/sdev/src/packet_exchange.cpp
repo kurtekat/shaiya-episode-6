@@ -66,10 +66,10 @@ namespace packet_exchange
     {
         ExchangeItemOutgoing packet{};
         packet.opcode = pvp ? 0x240D : 0xA09;
-        packet.destSlot = util::read_bytes<std::uint8_t>(buffer, 5);
+        packet.destSlot = util::deserialize<std::uint8_t>(buffer, 5);
 
-        auto bag = util::read_bytes<std::uint8_t>(buffer, 2);
-        auto slot = util::read_bytes<std::uint8_t>(buffer, 3);
+        auto bag = util::deserialize<std::uint8_t>(buffer, 2);
+        auto slot = util::deserialize<std::uint8_t>(buffer, 3);
 
         if (!bag || bag > exchangeUser->bagsUnlocked || slot >= max_inventory_slot)
             return;
@@ -80,7 +80,7 @@ namespace packet_exchange
 
         packet.type = item->type;
         packet.typeId = item->typeId;
-        packet.count = util::read_bytes<std::uint8_t>(buffer, 4);
+        packet.count = util::deserialize<std::uint8_t>(buffer, 4);
         packet.quality = item->quality;
         packet.gems = item->gems;
 

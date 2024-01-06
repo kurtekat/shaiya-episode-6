@@ -2,7 +2,9 @@
 #include <vector>
 
 void Main();
-inline std::vector<unsigned long> g_users{};
+
+using CharId = unsigned long;
+inline std::vector<CharId> g_users{};
 
 namespace hook
 {

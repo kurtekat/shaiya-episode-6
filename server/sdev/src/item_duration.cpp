@@ -154,7 +154,7 @@ namespace item_duration
 
     void send_bag_to_bank(CUser* user, Packet buffer)
     {
-        auto slot = util::read_bytes<std::uint8_t>(buffer, 37);
+        auto slot = util::deserialize<std::uint8_t>(buffer, 37);
         if (slot >= max_warehouse_slot)
             return;
 
@@ -178,8 +178,8 @@ namespace item_duration
         if (ServerTime::IsTimedItem(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
-            packet.bag = util::read_bytes<std::uint8_t>(buffer, 2);
-            packet.slot = util::read_bytes<std::uint8_t>(buffer, 3);
+            packet.bag = util::deserialize<std::uint8_t>(buffer, 2);
+            packet.slot = util::deserialize<std::uint8_t>(buffer, 3);
             packet.fromDate = item->makeTime;
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
             SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
