@@ -1,5 +1,11 @@
 # sdev
 
+## 1.2.1.16
+
+Add initialization file class
+
+Add an empty export
+
 ## 1.2.0.15
 
 Add DataFile class
