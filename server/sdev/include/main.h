@@ -2,6 +2,7 @@
 #include <vector>
 
 void Main();
+extern "C" __declspec(dllexport) void DllExport();
 
 using CharId = unsigned long;
 inline std::vector<CharId> g_users{};
