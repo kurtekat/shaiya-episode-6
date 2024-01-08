@@ -165,6 +165,9 @@
     <ClCompile Include="include\shaiya\src\DataFile.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\Ini.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -417,6 +420,9 @@
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\DataFile.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\Ini.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
