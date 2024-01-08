@@ -4,10 +4,8 @@
 #include <include/main.h>
 #include <include/util.h>
 
-void Main(HMODULE hModule)
+void Main()
 {
-    DisableThreadLibraryCalls(hModule);
-
     hook::chat();
     hook::gui();
     hook::item();

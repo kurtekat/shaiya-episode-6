@@ -2,6 +2,10 @@
 #include <windows.h>
 #include <include/main.h>
 
+void DllExport()
+{
+}
+
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
     switch (dwReason)
