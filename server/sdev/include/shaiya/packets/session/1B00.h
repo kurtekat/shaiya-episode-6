@@ -25,7 +25,7 @@ namespace shaiya
         ULONG u0x08;
         ULONG u0x0C{ 0x1B010000 };
         UserId userId;  // ebx+0x02
-        UINT8 result;   // ebx+0x06
+        INT8 unknown;   // ebx+0x06
         UINT32 points;  // ebx+0x07
         // 0x0B
     };
@@ -40,17 +40,15 @@ namespace shaiya
         void* p0x04{ &u0x0C };
         ULONG u0x08;
         ULONG u0x0C{ 0x1B020000 };
-        UserId userId;     // ebx+0x02
-        ULONG charId;      // ebx+0x06
-        UINT8 result;      // ebx+0x0A
-        ItemKey itemKey;   // ebx+0x0B
-        UINT32 u0x32;      // ebx+0x24
-        // ebx+0x28
-        OrderNumber orderNumber;
-        // user->id
-        ULONG id;          // ebx+0x38
-        UINT32 u0x4A;      // ebx+0x3C
-        UINT32 itemCount;  // ebx+0x40
+        UserId userId;            // ebx+0x02
+        CharId charId;            // ebx+0x06
+        INT8 unknown;             // ebx+0x0A
+        ItemKey itemKey;          // ebx+0x0B
+        UINT32 points;            // ebx+0x24
+        OrderNumber orderNumber;  // ebx+0x28
+        CharId targetId;          // ebx+0x38
+        ULONG purchaseDate;       // ebx+0x3C
+        UINT32 purchaseNumber;    // ebx+0x40
         // 0x52
     };
 

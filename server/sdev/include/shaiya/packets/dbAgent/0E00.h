@@ -29,5 +29,20 @@ namespace shaiya
         UserId userId;
         UINT32 points;
     };
+
+    struct UserPoint0E09Incoming
+    {
+        UINT16 opcode{ 0xE09 };
+        UserId userId;
+        CharId targetId;
+        ULONG purchaseDate;
+        UINT32 purchaseNumber;
+    };
+
+    struct UserPoint0E0AIncoming
+    {
+        UINT16 opcode{ 0xE0A };
+        UserId userId;
+    };
     #pragma pack(pop)
 }

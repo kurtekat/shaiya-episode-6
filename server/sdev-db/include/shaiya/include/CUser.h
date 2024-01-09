@@ -128,8 +128,9 @@ namespace shaiya
         ULONG giftPurchaseDate;           //0x8290
         UINT32 giftPurchaseNumber;        //0x8294
         Warehouse storedPointItem;        //0x8298
-        // 0x8658
-        PAD(416);
+        CharId purchaseTargetId;          //0x8658
+        UINT32 purchaseNumber;            //0x865C
+        PAD(408);
         SConnection* connection;          //0x87F8
         PAD(92);
         // 0x8858

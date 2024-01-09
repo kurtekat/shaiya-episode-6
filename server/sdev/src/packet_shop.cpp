@@ -28,6 +28,7 @@ namespace packet_shop
         PacketBuffer1B02 packet{};
         packet.userId = user->userId;
         packet.charId = user->charId;
+        packet.targetId = user->id;
         CClientToMgr::OnRecv(&packet);
     }
 
