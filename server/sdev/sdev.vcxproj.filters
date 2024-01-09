@@ -51,9 +51,6 @@
     <ClCompile Include="src\user_shape.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CClientToMgr.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\CGameData.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
@@ -175,9 +172,6 @@
   <ItemGroup>
     <ClInclude Include="include\main.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CClientToMgr.h">
-      <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CDoor.h">
       <Filter>include\shaiya\include</Filter>

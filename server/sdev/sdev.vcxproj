@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\shaiya\src\DataFile.cpp" />
-    <ClCompile Include="include\shaiya\src\CClientToMgr.cpp" />
     <ClCompile Include="include\shaiya\src\CGameData.cpp" />
     <ClCompile Include="include\shaiya\src\CGuild.cpp" />
     <ClCompile Include="include\shaiya\src\CItem.cpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
     <ClInclude Include="include\shaiya\include\DataFile.h" />
-    <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
     <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
     <ClInclude Include="include\shaiya\include\CExchange.h" />

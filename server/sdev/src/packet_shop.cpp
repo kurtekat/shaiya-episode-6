@@ -1,6 +1,5 @@
-#include <array>
+﻿#include <array>
 #include <string>
-#include <thread>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <strsafe.h>
@@ -10,9 +9,6 @@
 #include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/2600.h>
 #include <include/shaiya/packets/dbAgent/0E00.h>
-#include <include/shaiya/packets/session/0100.h>
-#include <include/shaiya/packets/session/1B00.h>
-#include <include/shaiya/include/CClientToMgr.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
@@ -23,41 +19,6 @@ using namespace shaiya;
 
 namespace packet_shop
 {
-    void raise_event_1B02(CUser* user)
-    {
-        PacketBuffer1B02 packet{};
-        packet.userId = user->userId;
-        packet.charId = user->charId;
-        CClientToMgr::OnRecv(&packet);
-    }
-
-    void raise_event_1B03(CUser* user, const std::string& targetName, const std::string& productCode, std::uint32_t itemPrice)
-    {
-        PacketBuffer1B03 packet{};
-        packet.userId = user->userId;
-
-        StringCbCopyA(packet.productCode.data(), packet.productCode.size(), productCode.data());
-        StringCbCopyA(packet.targetName.data(), packet.targetName.size(), targetName.data());
-
-        packet.itemPrice = itemPrice;
-        packet.points = user->points;
-        CClientToMgr::OnRecv(&packet);
-    }
-
-    void product_purchase_async(CUser* user)
-    {
-        std::thread([=] {
-            raise_event_1B02(user);
-            }).detach();
-    }
-
-    void present_purchase_async(CUser* user, const char* targetName, const char* productCode, std::uint32_t itemPrice)
-    {
-        std::thread([=] {
-            raise_event_1B03(user, targetName, productCode, itemPrice);
-            }).detach();
-    }
-
     void send_reload_point(CUser* user)
     {
         UserPointReloadPointIncoming packet{ 0xE06, user->userId };
@@ -78,7 +39,6 @@ namespace packet_shop
     void send_purchase(CUser* user, Packet buffer)
     {
         constexpr int packet_size_without_list = 37;
-        constexpr int item_size_without_dates = 5;
 
         PointPurchaseItemOutgoing packet{};
         packet.opcode = util::deserialize<std::uint16_t>(buffer, 0);
@@ -100,7 +60,7 @@ namespace packet_shop
             item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset);
             packet.itemList[i] = item2602;
 
-            offset += item_size_without_dates;
+            offset += 5;
         }
 
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item2602));
@@ -124,6 +84,32 @@ namespace packet_shop
             }
         }
         #endif
+    }
+
+    void send_purchase2(CUser* user)
+    {
+        UserPointSaveBuyPointItemIncoming packet{ 0xE0A, user->userId };
+        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointSaveBuyPointItemIncoming));
+
+        send_reload_point(user);
+
+        InterlockedExchange(&user->disableShop, 0);
+    }
+
+    void send_purchase3(CUser* user, const char* targetName, const char* productCode, std::uint32_t itemPrice)
+    {
+        auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
+
+        UserPointSaveGiftPointItemIncoming packet{};
+        packet.userId = user->userId;
+        StringCbCopyA(packet.targetName.data(), packet.targetName.size(), targetName);
+        StringCbCopyA(packet.productCode.data(), packet.productCode.size(), productCode);
+        packet.itemPrice = itemPrice;
+        packet.purchaseDate = ServerTime::GetSystemTime();
+        packet.purchaseNumber = purchaseNumber;
+        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
+
+        InterlockedExchange(&user->disableShop, 0);
     }
 
     void send_item_duration(CUser* user, CItem* item, Packet buffer)
@@ -169,7 +155,7 @@ void __declspec(naked) naked_0x48876F()
         pushad
 
         push edi // user
-        call packet_shop::product_purchase_async
+        call packet_shop::send_purchase2
         add esp,0x4
 
         popad
@@ -192,30 +178,13 @@ void __declspec(naked) naked_0x488A80()
         lea eax,[esp+0x167]
         push eax // targetName
         push edi // user
-        call packet_shop::present_purchase_async
+        call packet_shop::send_purchase3
         add esp,0x10
 
         popad
 
         // original
         jmp u0x488D5F
-    }
-}
-
-unsigned u0x47D3DC = 0x47D3DC;
-void __declspec(naked) naked_0x47D3D7()
-{
-    __asm
-    {
-        // user->disableShop
-        mov [ebx+0x5AC4],0x0
-        // original
-        mov al,0x1
-        pop edi
-        pop ebp
-        pop ebx
-
-        jmp u0x47D3DC
     }
 }
 
@@ -332,8 +301,6 @@ void hook::packet_shop()
     util::detour((void*)0x48876F, naked_0x48876F, 5);
     // CUser::PacketShop case 0x2603
     util::detour((void*)0x488A80, naked_0x488A80, 5);
-    // CUser::PacketUserDBPoint case 0xE03
-    util::detour((void*)0x47D3D7, naked_0x47D3D7, 5);
     // CUser::PacketUserDBPoint case 0xE06
     util::detour((void*)0x47D525, naked_0x47D525, 5);
 
