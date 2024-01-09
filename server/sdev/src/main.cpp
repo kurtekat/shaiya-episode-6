@@ -6,6 +6,7 @@
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Revenge.h>
 #include <include/shaiya/include/Synergy.h>
+#include <include/shaiya/include/Synthesis.h>
 using namespace shaiya;
 
 void enter_world_hook(CUser* user)
@@ -134,5 +135,9 @@ void Main()
 
     #ifdef SHAIYA_EP6_ITEM_SET
     Synergy::init();
+    #endif
+
+    #ifdef SHAIYA_EP6_ITEM_SYNTHESIS
+    Synthesis::init();
     #endif
 }

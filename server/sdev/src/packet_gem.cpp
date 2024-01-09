@@ -15,6 +15,7 @@
 #include <include/shaiya/include/CZone.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
+#include <include/shaiya/include/Synthesis.h>
 using namespace shaiya;
 
 namespace packet_gem
@@ -484,6 +485,192 @@ namespace packet_gem
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }
+
+    void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
+    {
+        if (user->stateType == UserStateType::Death)
+            return;
+
+        if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
+            return;
+
+        auto& square = user->inventory[incoming->squareBag][incoming->squareSlot];
+        if (!square)
+            return;
+
+        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+            return;
+
+        auto synthesis = g_synthesis.find(square->itemInfo->itemId);
+        if (synthesis == g_synthesis.end())
+            return;
+
+        user->recallItemBag = incoming->squareBag;
+        user->recallItemSlot = incoming->squareSlot;
+
+        CUser::CancelActionExc(user);
+        MyShop::Ended(&user->myShop);
+
+        ItemSynthesisListOutgoing outgoing{};
+        outgoing.goldPerPercentage = synthesis_min_money;
+
+        int count = 0;
+        for (const auto& synthesis : synthesis->second)
+        {
+            outgoing.createType[count] = synthesis.createType;
+            outgoing.createTypeId[count] = synthesis.createTypeId;
+
+            ++count;
+
+            if (count < 10)
+                continue;
+            else
+            {
+                SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
+
+                outgoing.createType.fill(0);
+                outgoing.createTypeId.fill(0);
+                count = 0;
+            }
+        }
+
+        if (count <= 0)
+            return;
+
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
+    }
+
+    void item_synthesis_material_handler(CUser* user, ItemSynthesisMaterialIncoming* incoming)
+    {
+        auto& square = user->inventory[user->recallItemBag][user->recallItemSlot];
+        if (!square)
+            return;
+
+        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+            return;
+
+        auto it = g_synthesis.find(square->itemInfo->itemId);
+        if (it == g_synthesis.end())
+            return;
+
+        if (incoming->index >= it->second.size())
+            return;
+
+        auto& synthesis = it->second[incoming->index];
+        if (incoming->createType != synthesis.createType || incoming->createTypeId != synthesis.createTypeId)
+            return;
+
+        ItemSynthesisMaterialOutgoing outgoing{};
+        outgoing.successRate = synthesis.successRate;
+        outgoing.materialType = synthesis.materialType;
+        outgoing.createType = synthesis.createType;
+        outgoing.materialTypeId = synthesis.materialTypeId;
+        outgoing.createTypeId = synthesis.createTypeId;
+        outgoing.materialCount = synthesis.materialCount;
+        outgoing.createCount = synthesis.createCount;
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
+    }
+
+    void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
+    {
+        if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
+            return;
+
+        auto& square = user->inventory[incoming->squareBag][incoming->squareSlot];
+        if (!square)
+            return;
+
+        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+            return;
+
+        if (incoming->money > user->money)
+            return;
+
+        auto it = g_synthesis.find(square->itemInfo->itemId);
+        if (it == g_synthesis.end())
+            return;
+
+        if (incoming->index >= it->second.size())
+            return;
+
+        auto& synthesis = it->second[incoming->index];
+        auto itemInfo = CGameData::GetItemInfo(synthesis.createType, synthesis.createTypeId);
+        if (!itemInfo)
+            return;
+
+        auto money = (incoming->money > synthesis_max_money) ? synthesis_max_money : incoming->money;
+        auto successRate = synthesis.successRate;
+
+        if (money >= synthesis_min_money)
+            successRate += (money / synthesis_min_money) * 100;
+
+        if (incoming->hammerBag > user->bagsUnlocked || incoming->hammerSlot >= max_inventory_slot)
+            return;
+
+        if (incoming->hammerBag > 0)
+        {
+            auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
+            if (!hammer)
+                return;
+
+            if (hammer->itemInfo->effect != CGameData::ItemEffect::CraftingHammer)
+                return;
+
+            if (hammer->itemInfo->itemId == 102074)
+                successRate += 500;
+            else if (hammer->itemInfo->itemId == 102075)
+                successRate += 1000;
+
+            CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
+        }
+
+        CUser::ItemUseNSend(user, incoming->squareBag, incoming->squareSlot, false);
+
+        user->money -= money;
+        CUser::SendDBMoney(user);
+
+        int randomRate = 0;
+        if (successRate < synthesis_max_success_rate)
+        {
+            std::random_device seed;
+            std::mt19937 eng(seed());
+
+            std::uniform_int_distribution<int> uni(
+                synthesis_min_success_rate, 
+                synthesis_max_success_rate
+            );
+
+            randomRate = uni(eng);
+        }
+
+        bool hasMaterials = false;
+        for (int i = 0; i < 24; ++i)
+        {
+            auto type = synthesis.materialType[i];
+            auto typeId = synthesis.materialTypeId[i];
+            auto count = synthesis.materialCount[i];
+
+            if (!type || !typeId || !count)
+                continue;
+
+            hasMaterials = Synthesis::useMaterial(user, type, typeId, count);
+        }
+
+        ItemSynthesisOutgoing outgoing{};
+        outgoing.result = ItemSynthesisResult::Failure;
+
+        if (hasMaterials && randomRate <= successRate)
+        {
+            CUser::ItemCreate(user, itemInfo, synthesis.createCount);
+            outgoing.result = ItemSynthesisResult::Success;
+        }
+
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisOutgoing));
+    }
+
+    void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
+    {
+    }
 }
 
 unsigned u0x479FBC = 0x479FBC;
@@ -519,10 +706,54 @@ void __declspec(naked) naked_0x479FB4()
 
         jmp exit_switch
 
+        // chaotic squares
+
         case_0x830:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_synthesis_list_handler
+        add esp,0x8
+        
+        popad
+
+        jmp exit_switch
+
         case_0x831:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_synthesis_material_handler
+        add esp,0x8
+        
+        popad
+
+        jmp exit_switch
+
         case_0x832:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_synthesis_handler
+        add esp,0x8
+        
+        popad
+
+        jmp exit_switch
+
         case_0x833:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_free_synthesis_handler
+        add esp,0x8
+        
+        popad
+
         exit_switch:
         pop edi
         pop esi

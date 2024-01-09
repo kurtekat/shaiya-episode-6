@@ -45,6 +45,7 @@
     <ClCompile Include="include\shaiya\src\ServerTime.cpp" />
     <ClCompile Include="include\shaiya\src\SVector.cpp" />
     <ClCompile Include="include\shaiya\src\Synergy.cpp" />
+    <ClCompile Include="include\shaiya\src\Synthesis.cpp" />
     <ClCompile Include="src\item_duration.cpp" />
     <ClCompile Include="src\item_effect.cpp" />
     <ClCompile Include="src\npc_quest.cpp" />
@@ -108,6 +109,7 @@
     <ClInclude Include="include\shaiya\include\SSyncMap.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
+    <ClInclude Include="include\shaiya\include\Synthesis.h" />
     <ClInclude Include="include\shaiya\packets\0003.h" />
     <ClInclude Include="include\shaiya\packets\0100.h" />
     <ClInclude Include="include\shaiya\packets\0200.h" />
