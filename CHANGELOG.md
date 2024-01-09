@@ -1,5 +1,9 @@
 # sdev
 
+## 1.2.2.17
+
+Fix null target id when buying point items
+
 ## 1.2.1.16
 
 Add initialization file class
