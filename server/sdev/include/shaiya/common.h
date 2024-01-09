@@ -54,6 +54,11 @@ defined SHAIYA_EP6_4_PT
 #endif
 
 #if \
+defined SHAIYA_EP6_4_PT
+#define SHAIYA_EP6_ITEM_SYNTHESIS
+#endif
+
+#if \
 defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3_US || \
 defined SHAIYA_EP6_4_PT
@@ -93,7 +98,7 @@ namespace shaiya
     template<class T, int N>
     using Array = std::array<T, N>;
 
-    typedef ULONG Address;
+    typedef unsigned Address;
     typedef UINT8* Packet;
     typedef Array<char, 128> ChatMessage;
 
