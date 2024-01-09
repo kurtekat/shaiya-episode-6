@@ -1,5 +1,9 @@
 # sdev
 
+## 1.3.0.18
+
+Add chaotic square support (see wiki)
+
 ## 1.2.2.17
 
 Fix null target id when buying point items
