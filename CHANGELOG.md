@@ -1,12 +1,23 @@
 # sdev
 
+## 1.3.1.19
+
+Fix item mall bugs reported by users
+
+* Remove session packet buffers
+* Remove CClientToMgr buffer hacks
+* Rewrite item mall code to behave like episode 4
+* Fix incorrect value assignment at address 00407942 in dbAgent
+* Replace dbAgent binary
+* Update [dbo].[usp_Save_User_BuyPointItems2]
+
 ## 1.3.0.18
 
 Add chaotic square support (see wiki)
 
 ## 1.2.2.17
 
-Fix null target id when buying point items
+~~Fix null target id when buying point items~~
 
 ## 1.2.1.16
 
