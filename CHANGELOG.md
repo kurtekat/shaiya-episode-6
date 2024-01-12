@@ -1,5 +1,9 @@
 # sdev
 
+## 1.3.2.20
+
+Fix filesystem failures (dll import)
+
 ## 1.3.1.19
 
 Fix item mall bugs reported by users
