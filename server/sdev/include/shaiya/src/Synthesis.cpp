@@ -22,7 +22,13 @@ using namespace shaiya;
 
 void Synthesis::init()
 {
-    std::filesystem::path path(std::filesystem::current_path().append("Data/ItemSynthesis.ini"));
+    std::vector<char> vec(MAX_PATH);
+    GetModuleFileNameA(nullptr, vec.data(), vec.size());
+
+    std::filesystem::path path(vec.data());
+    path.remove_filename();
+    path.append("Data/ItemSynthesis.ini");
+
     if (!std::filesystem::exists(path))
     {
         util::log("Synthesis::init file not found");

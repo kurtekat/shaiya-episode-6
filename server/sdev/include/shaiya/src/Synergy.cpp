@@ -15,17 +15,27 @@ using namespace shaiya;
 
 void Synergy::init()
 {
-    std::filesystem::path path(std::filesystem::current_path().append("Data/SetItem.SData"));
-    std::ifstream ifs(path, std::ios::binary);
+    std::vector<char> vec(MAX_PATH);
+    GetModuleFileNameA(nullptr, vec.data(), vec.size());
 
-    if (ifs.fail())
+    std::filesystem::path path(vec.data());
+    path.remove_filename();
+    path.append("Data/SetItem.SData");
+
+    if (!std::filesystem::exists(path))
     {
-        util::log("Synergy::init open failure");
+        util::log("Synergy::init file not found");
         return;
     }
 
     try
     {
+        std::ifstream ifs;
+        ifs.open(path, std::ios::binary);
+
+        if (ifs.fail())
+            return;
+
         auto entries = readNumber<int>(ifs);
 
         for (int i = 0; i < entries; ++i)
@@ -49,14 +59,13 @@ void Synergy::init()
 
             g_synergies.push_back(synergy);
         }
+
+        ifs.close();
     }
     catch (const std::exception& ex)
     {
-        std::string text("Synergy::init read failure\n");
-        util::log(text.append(ex.what()));
+        util::log(ex.what());
     }
-
-    ifs.close();
 }
 
 void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
