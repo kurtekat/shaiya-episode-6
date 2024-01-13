@@ -73,7 +73,7 @@ namespace packet_shop
             if (!itemInfo)
                 continue;
 
-            if (ServerTime::IsTimedItem(itemInfo))
+            if (ServerTime::HasDuration(itemInfo))
             {
                 ItemDurationOutgoing packet{};
                 packet.bag = item2602.bag;
@@ -114,7 +114,7 @@ namespace packet_shop
 
     void send_item_duration(CUser* user, CItem* item, Packet buffer)
     {
-        if (ServerTime::IsTimedItem(item->itemInfo))
+        if (ServerTime::HasDuration(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
             packet.bag = util::deserialize<std::uint8_t>(buffer, 3);

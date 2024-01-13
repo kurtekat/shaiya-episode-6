@@ -69,7 +69,7 @@ namespace packet_character
             item0711.count = item->count;
 
             #ifdef SHAIYA_EP6_ITEM_DURATION
-            if (ServerTime::IsTimedItem(item->itemInfo))
+            if (ServerTime::HasDuration(item->itemInfo))
             {
                 item0711.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
                 item0711.fromDate = item0711.toDate ? item->makeTime : 0;

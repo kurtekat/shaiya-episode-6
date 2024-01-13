@@ -31,7 +31,7 @@ namespace shaiya
             return sizeof(SynergyAbility) / sizeof(int);
         }
 
-        bool isNull()
+        bool isNull() const noexcept
         {
             SynergyAbility ability{};
             return !std::memcmp(this, &ability, sizeof(SynergyAbility));

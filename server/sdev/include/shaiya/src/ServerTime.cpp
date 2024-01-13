@@ -6,13 +6,15 @@
 #include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
 
-ULONG ServerTime::GetExpireTime(ULONG makeTime, int days)
+ULONG ServerTime::GetExpireTime(ULONG time, int days)
 {
+    using namespace std::chrono_literals;
+
     if (days <= 0)
         return 0;
 
     SYSTEMTIME st{};
-    ServerTime::ServerTimeToSystemTime(makeTime, &st);
+    ServerTime::ServerTimeToSystemTime(time, &st);
 
     FILETIME ft{};
     SystemTimeToFileTime(&st, &ft);
@@ -20,7 +22,7 @@ ULONG ServerTime::GetExpireTime(ULONG makeTime, int days)
     ULARGE_INTEGER li{ ft.dwLowDateTime, ft.dwHighDateTime };
 
     auto seconds = std::chrono::seconds(std::chrono::days(days)).count();
-    li.QuadPart += seconds * std::chrono::microseconds(std::chrono::seconds(10)).count();
+    li.QuadPart += seconds * std::chrono::microseconds(10s).count();
 
     ft.dwLowDateTime = li.LowPart;
     ft.dwHighDateTime = li.HighPart;
@@ -35,7 +37,7 @@ ULONG ServerTime::GetSystemTime()
     return (*(LPFN)0x4E1A50)();
 }
 
-bool ServerTime::IsTimedItem(CGameData::ItemInfo* itemInfo)
+bool ServerTime::HasDuration(CGameData::ItemInfo* itemInfo)
 {
     if (!itemInfo)
         return false;
@@ -56,25 +58,25 @@ bool ServerTime::IsTimedItem(CGameData::ItemInfo* itemInfo)
     return false;
 }
 
-ULONG ServerTime::ServerTimeToSystemTime(ULONG time/*eax*/, LPSYSTEMTIME lpst/*ecx*/)
+ULONG ServerTime::ServerTimeToSystemTime(ULONG serverTime/*eax*/, LPSYSTEMTIME systemTime/*ecx*/)
 {
     Address u0x4E1CA0 = 0x4E1CA0;
 
     __asm
     {
-        mov eax,time
-        mov ecx,lpst
+        mov eax,serverTime
+        mov ecx,systemTime
         call u0x4E1CA0
     }
 }
 
-ULONG ServerTime::SystemTimeToServerTime(LPSYSTEMTIME lpst/*ecx*/)
+ULONG ServerTime::SystemTimeToServerTime(LPSYSTEMTIME systemTime/*ecx*/)
 {
     Address u0x4E1CF0 = 0x4E1CF0;
 
     __asm
     {
-        mov ecx,lpst
+        mov ecx,systemTime
         call u0x4E1CF0
     }
 }

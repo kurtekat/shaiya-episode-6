@@ -1,5 +1,4 @@
 #include <filesystem>
-#include <format>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -49,7 +48,7 @@ void Synthesis::init()
             continue;
 
         auto itemId = std::strtoul(vec[0].value.c_str(), nullptr, 10);
-        int successRate = std::atoi(vec[1].value.c_str());
+        auto successRate = std::atoi(vec[1].value.c_str());
         successRate = (successRate > 100) ? 100 : successRate;
 
         Synthesis synthesis{};
@@ -89,7 +88,7 @@ void Synthesis::parseMaterial(const std::string& text, std::array<std::uint8_t, 
 
 bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId, std::uint8_t count)
 {
-    auto itemId = (type * 1000) + typeId;
+    auto itemId = (type * 1000U) + typeId;
 
     for (std::uint8_t bag = 1; bag < max_inventory_bag; ++bag)
     {

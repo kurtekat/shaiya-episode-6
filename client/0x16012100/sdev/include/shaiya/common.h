@@ -9,11 +9,11 @@
 #define EXPAND(x, y) CONCAT(x, y)
 #define PAD(size) char EXPAND(pad, __LINE__)[size]
 
-template<class T, int N>
-using Array = std::array<T, N>;
-
 namespace shaiya
 {
+    template<class T, int N>
+    using Array = std::array<T, N>;
+
     typedef UINT8* Packet;
 
     typedef ULONG CharId;

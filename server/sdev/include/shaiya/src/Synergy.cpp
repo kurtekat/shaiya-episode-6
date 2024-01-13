@@ -50,7 +50,7 @@ void Synergy::init()
                 auto type = readNumber<std::uint16_t>(ifs);
                 auto typeId = readNumber<std::uint16_t>(ifs);
 
-                auto itemId = (type * 1000) + typeId;
+                auto itemId = (type * 1000U) + typeId;
                 synergy.set[i] = itemId;
             }
 

@@ -24,7 +24,7 @@ namespace npc_quest
         SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
+    void send_failure_result(CUser* user, CQuest* quest, std::uint32_t npcId)
     {
         QuestEndResultOutgoing packet{};
         packet.npcId = npcId;
@@ -83,7 +83,7 @@ namespace npc_quest
             if (!itemInfo)
                 continue;
 
-            if (ServerTime::IsTimedItem(itemInfo))
+            if (ServerTime::HasDuration(itemInfo))
             {
                 ItemDurationOutgoing packet{};
                 packet.bag = item0903.bag;

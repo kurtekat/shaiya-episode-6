@@ -5,6 +5,7 @@
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <uchar.h>
 
 #include <include/shaiya/include/Ini.h>
 using namespace shaiya;
@@ -16,7 +17,7 @@ auto Ini::getInt(const std::string& section, const std::string& key, int _defaul
 
 std::string Ini::getString(const std::string& section, const std::string& key)
 {
-    std::vector<char> vec(std::numeric_limits<char8_t>::max());
+    std::vector<char> vec(std::numeric_limits<std::uint8_t>::max());
     auto count = GetPrivateProfileStringA(section.c_str(), key.c_str(), nullptr, vec.data(), vec.size(), this->path.string().c_str());
     return std::string(vec.data(), count);
 }
@@ -45,7 +46,7 @@ void Ini::getSection(const std::string& section, std::vector<KeyValPair>& output
 
 void Ini::getSectionNames(std::vector<std::string>& output)
 {
-    std::vector<char> vec(std::numeric_limits<char16_t>::max());
+    std::vector<char> vec(std::numeric_limits<short>::max());
     auto count = GetPrivateProfileSectionNamesA(vec.data(), vec.size(), this->path.string().c_str());
     if (!count)
         return;

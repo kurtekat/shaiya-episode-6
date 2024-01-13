@@ -85,7 +85,7 @@ namespace packet_exchange
         packet.gems = item->gems;
 
         #ifdef SHAIYA_EP6_ITEM_DURATION
-        if (ServerTime::IsTimedItem(item->itemInfo))
+        if (ServerTime::HasDuration(item->itemInfo))
         {
             packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
             packet.fromDate = packet.toDate ? item->makeTime : 0;

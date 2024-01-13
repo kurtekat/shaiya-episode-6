@@ -42,7 +42,7 @@ namespace packet_myshop
             item230B.gems = item->gems;
 
             #ifdef SHAIYA_EP6_ITEM_DURATION
-            if (ServerTime::IsTimedItem(item->itemInfo))
+            if (ServerTime::HasDuration(item->itemInfo))
             {
                 item230B.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
                 item230B.fromDate = item230B.toDate ? item->makeTime : 0;

@@ -1,3 +1,4 @@
+#include <chrono>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -19,9 +20,6 @@ using namespace shaiya;
 
 namespace item_duration
 {
-    unsigned long world_thread_update_interval = 60000;
-    unsigned long world_thread_update_tick = 0;
-
     void send_delete_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
         ItemExpireNoticeOutgoing packet{};
@@ -76,7 +74,7 @@ namespace item_duration
 
         SYSTEMTIME st{};
         ServerTime::ServerTimeToSystemTime(expireTime, &st);
-        Duration duration(&st);
+        Duration duration(st);
 
         if (duration.expired())
         {
@@ -115,7 +113,7 @@ namespace item_duration
 
     void send(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
-        if (ServerTime::IsTimedItem(item->itemInfo))
+        if (ServerTime::HasDuration(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
             packet.bag = bag;
@@ -162,7 +160,7 @@ namespace item_duration
         if (!item)
             return;
 
-        if (ServerTime::IsTimedItem(item->itemInfo))
+        if (ServerTime::HasDuration(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
             packet.bag = warehouse_bag;
@@ -175,7 +173,7 @@ namespace item_duration
 
     void send_item_create(CUser* user, CItem* item, Packet buffer)
     {
-        if (ServerTime::IsTimedItem(item->itemInfo))
+        if (ServerTime::HasDuration(item->itemInfo))
         {
             ItemDurationOutgoing packet{};
             packet.bag = util::deserialize<std::uint8_t>(buffer, 2);
@@ -188,11 +186,11 @@ namespace item_duration
 
     void world_thread_update()
     {
-        auto now = GetTickCount();
-        if (now < world_thread_update_tick)
+        auto now = std::chrono::system_clock::now();
+        if (now < g_world_thread_update_time_point)
             return;
 
-        world_thread_update_tick = now + world_thread_update_interval;
+        g_world_thread_update_time_point = now + std::chrono::minutes(1);
 
         for (const auto& charId : g_users)
         {
@@ -214,7 +212,7 @@ namespace item_duration
                     if (!item)
                         continue;
 
-                    if (ServerTime::IsTimedItem(item->itemInfo))
+                    if (ServerTime::HasDuration(item->itemInfo))
                     {
                         auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
                         if (!expireTime)
@@ -222,7 +220,7 @@ namespace item_duration
 
                         SYSTEMTIME st{};
                         ServerTime::ServerTimeToSystemTime(expireTime, &st);
-                        Duration duration(&st);
+                        Duration duration(st);
 
                         if (duration.expired())
                             send_delete_notice(user, item, bag, slot);
@@ -238,7 +236,7 @@ namespace item_duration
                 if (!item)
                     continue;
 
-                if (ServerTime::IsTimedItem(item->itemInfo))
+                if (ServerTime::HasDuration(item->itemInfo))
                 {
                     auto expireTime = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
                     if (!expireTime)
@@ -246,7 +244,7 @@ namespace item_duration
 
                     SYSTEMTIME st{};
                     ServerTime::ServerTimeToSystemTime(expireTime, &st);
-                    Duration duration(&st);
+                    Duration duration(st);
 
                     if (duration.expired())
                         send_delete_notice(user, item, warehouse_bag, slot);
