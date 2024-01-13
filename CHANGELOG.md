@@ -1,5 +1,11 @@
 # sdev
 
+## 1.3.3.21
+
+Refactor Duration class
+
+Use std::chrono instead of GetTickCount in world_thread_update
+
 ## 1.3.2.20
 
 Fix filesystem failures (dll import)
