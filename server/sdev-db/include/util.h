@@ -18,5 +18,5 @@ namespace util
     int detour(Address addr, Function func, std::size_t size);
     void log(const std::string& text);
     int write_memory(Address addr, Buffer buffer, std::size_t size);
-    int write_memory(Address addr, std::uint8_t value, std::size_t size);
+    int write_memory(Address addr, int value, std::size_t size);
 }

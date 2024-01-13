@@ -8,19 +8,16 @@
 
 int util::detour(Address addr, Function func, std::size_t size)
 {
-    constexpr int stmt_size = 5;
-    constexpr unsigned char nop = 0x90;
-    constexpr unsigned char jmp = 0xE9;
+    constexpr int nop = 0x90;
+    constexpr int jmp = 0xE9;
+    auto dest = (unsigned(func) - unsigned(addr)) - 5;
 
-    if (size < stmt_size)
+    if (size < 5)
         return 0;
 
     unsigned long protect;
     if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
-
-    auto dest = reinterpret_cast<unsigned>(func) - reinterpret_cast<unsigned>(addr);
-    dest -= stmt_size;
 
     std::memset(addr, nop, size);
     std::memset(addr, jmp, 1);
@@ -58,7 +55,7 @@ int util::write_memory(Address addr, Buffer buffer, std::size_t size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, std::uint8_t value, std::size_t size)
+int util::write_memory(Address addr, int value, std::size_t size)
 {
     if (size < 1)
         return 0;
