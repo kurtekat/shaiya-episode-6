@@ -1,5 +1,11 @@
 # sdev
 
+## 1.3.4.22
+
+Add ItemDuration class and function
+
+Refactor ServerTime class
+
 ## 1.3.3.21
 
 Refactor Duration class
