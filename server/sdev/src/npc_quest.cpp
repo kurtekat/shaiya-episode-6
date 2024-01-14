@@ -1,3 +1,4 @@
+#include <chrono>
 #include <memory>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -11,6 +12,7 @@
 #include <include/shaiya/include/CQuest.h>
 #include <include/shaiya/include/CQuestData.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
@@ -83,13 +85,20 @@ namespace npc_quest
             if (!itemInfo)
                 continue;
 
-            if (ServerTime::HasDuration(itemInfo))
+            if (ItemHasDuration(itemInfo))
             {
+                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->range)).count();
+                auto now = ServerTime::GetSystemTime();
+
+                auto expireTime = ServerTime::Add(now, seconds);
+                if (!expireTime)
+                    continue;
+
                 ItemDurationOutgoing packet{};
                 packet.bag = item0903.bag;
                 packet.slot = item0903.slot;
-                packet.fromDate = ServerTime::GetSystemTime();
-                packet.toDate = ServerTime::GetExpireTime(packet.fromDate, itemInfo->range);
+                packet.fromDate = now;
+                packet.toDate = expireTime;
                 SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
             }
         }

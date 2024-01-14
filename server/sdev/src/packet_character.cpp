@@ -1,3 +1,4 @@
+#include <chrono>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -10,6 +11,7 @@
 #include <include/shaiya/packets/dbAgent/0400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -69,9 +71,10 @@ namespace packet_character
             item0711.count = item->count;
 
             #ifdef SHAIYA_EP6_ITEM_DURATION
-            if (ServerTime::HasDuration(item->itemInfo))
+            if (ItemHasDuration(item->itemInfo))
             {
-                item0711.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                item0711.toDate = ServerTime::Add(item->makeTime, seconds);
                 item0711.fromDate = item0711.toDate ? item->makeTime : 0;
             }
             #endif

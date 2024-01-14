@@ -168,6 +168,9 @@
     <ClCompile Include="include\shaiya\src\Synthesis.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\ItemDuration.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -368,7 +371,7 @@
     <ClInclude Include="include\shaiya\packets\0400.h">
       <Filter>include\shaiya\packets</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\Revenge.h">
+    <ClInclude Include="include\shaiya\include\RevengeMark.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\0300.h">
@@ -423,6 +426,9 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synthesis.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ItemDuration.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

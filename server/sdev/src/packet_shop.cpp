@@ -1,4 +1,5 @@
 ﻿#include <array>
+#include <chrono>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -12,6 +13,7 @@
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -73,13 +75,20 @@ namespace packet_shop
             if (!itemInfo)
                 continue;
 
-            if (ServerTime::HasDuration(itemInfo))
+            if (ItemHasDuration(itemInfo))
             {
+                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->range)).count();
+                auto now = ServerTime::GetSystemTime();
+
+                auto expireTime = ServerTime::Add(now, seconds);
+                if (!expireTime)
+                    continue;
+
                 ItemDurationOutgoing packet{};
                 packet.bag = item2602.bag;
                 packet.slot = item2602.slot;
-                packet.fromDate = ServerTime::GetSystemTime();
-                packet.toDate = ServerTime::GetExpireTime(packet.fromDate, itemInfo->range);
+                packet.fromDate = now;
+                packet.toDate = expireTime;
                 SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
             }
         }
@@ -114,13 +123,19 @@ namespace packet_shop
 
     void send_item_duration(CUser* user, CItem* item, Packet buffer)
     {
-        if (ServerTime::HasDuration(item->itemInfo))
+        if (ItemHasDuration(item->itemInfo))
         {
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+
+            auto expireTime = ServerTime::Add(item->makeTime, seconds);
+            if (!expireTime)
+                return;
+
             ItemDurationOutgoing packet{};
             packet.bag = util::deserialize<std::uint8_t>(buffer, 3);
             packet.slot = util::deserialize<std::uint8_t>(buffer, 4);
             packet.fromDate = item->makeTime;
-            packet.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+            packet.toDate = expireTime;
             SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
         }
     }

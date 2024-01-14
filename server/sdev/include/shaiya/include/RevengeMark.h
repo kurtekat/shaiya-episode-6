@@ -6,11 +6,11 @@
 
 namespace shaiya
 {
-    struct Revenge
+    struct RevengeMark
     {
         CharId killerId;
         UINT32 killCount;
     };
 
-    inline std::map<CharId, std::vector<Revenge>> g_revengeMark;
+    inline std::map<CharId, std::vector<RevengeMark>> g_revengeMark;
 }

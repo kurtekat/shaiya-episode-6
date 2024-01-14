@@ -1,3 +1,4 @@
+#include <chrono>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -6,6 +7,7 @@
 #include <include/shaiya/packets/2300.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/MyShop.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -42,9 +44,10 @@ namespace packet_myshop
             item230B.gems = item->gems;
 
             #ifdef SHAIYA_EP6_ITEM_DURATION
-            if (ServerTime::HasDuration(item->itemInfo))
+            if (ItemHasDuration(item->itemInfo))
             {
-                item230B.toDate = ServerTime::GetExpireTime(item->makeTime, item->itemInfo->range);
+                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                item230B.toDate = ServerTime::Add(item->makeTime, seconds);
                 item230B.fromDate = item230B.toDate ? item->makeTime : 0;
             }
             #endif

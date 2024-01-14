@@ -35,6 +35,7 @@
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
+    <ClCompile Include="include\shaiya\src\ItemDuration.cpp" />
     <ClCompile Include="include\shaiya\src\Ini.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
@@ -93,10 +94,11 @@
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
+    <ClInclude Include="include\shaiya\include\ItemDuration.h" />
     <ClInclude Include="include\shaiya\include\Ini.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
     <ClInclude Include="include\shaiya\include\Obelisk.h" />
-    <ClInclude Include="include\shaiya\include\Revenge.h" />
+    <ClInclude Include="include\shaiya\include\RevengeMark.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
     <ClInclude Include="include\shaiya\include\SDatabase.h" />
     <ClInclude Include="include\shaiya\include\SDatabasePool.h" />

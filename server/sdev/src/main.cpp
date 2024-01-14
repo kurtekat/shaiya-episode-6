@@ -1,10 +1,12 @@
+#include <map>
+#include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #include <include/main.h>
 #include <include/util.h>
 #include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/Revenge.h>
+#include <include/shaiya/include/RevengeMark.h>
 #include <include/shaiya/include/Synergy.h>
 #include <include/shaiya/include/Synthesis.h>
 using namespace shaiya;

@@ -9,7 +9,7 @@
 #include <include/util.h>
 #include <include/shaiya/packets/0200.h>
 #include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/Revenge.h>
+#include <include/shaiya/include/RevengeMark.h>
 #include <include/shaiya/include/SConnection.h>
 using namespace shaiya;
 
