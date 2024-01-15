@@ -533,7 +533,7 @@ namespace shaiya
         PAD(4);
         Username username;                   //0x5834
         PAD(1);
-        bool isInitEquipment;                //0x5855
+        bool initEquipment;                  //0x5855
         PAD(34);
         UserLogoutType logoutType;           //0x5878
         DWORD logoutTime;                    //0x587C
