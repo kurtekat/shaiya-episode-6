@@ -1,3 +1,4 @@
+#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -14,8 +15,6 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    constexpr int max_equipment_slot = item_list_size;
-
     bool enable_slot(CGameData::ItemInfo* itemInfo, EquipmentSlot slot)
     {
         switch (static_cast<CGameData::ItemType>(itemInfo->type))
@@ -49,11 +48,11 @@ namespace user_equipment
 
     void init(CUser* user)
     {
-        user->isInitEquipment = true;
+        user->initEquipment = true;
 
-        for (int slot = 0; slot < max_equipment_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->inventory[0])))
         {
-            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
 
@@ -63,7 +62,7 @@ namespace user_equipment
             CUser::ItemEquipmentAdd(user, item, slot);
         }
 
-        user->isInitEquipment = false;
+        user->initEquipment = false;
         CUser::SetAttack(user);
     }
 
@@ -74,25 +73,31 @@ namespace user_equipment
         GetInfoInspectOutgoing packet{};
         packet.itemCount = 0;
 
-        for (int slot = 0; slot < EquipmentSlot::Wings; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->inventory[0])))
         {
-            auto& item = target->inventory[0][slot];
             if (!item)
                 continue;
 
-            Item0307 item0307{};
-            item0307.slot = slot;
-            item0307.type = item->type;
-            item0307.typeId = item->typeId;
+            if (std::size_t(slot) >= packet.itemList.size())
+                break;
 
-            if (slot < EquipmentSlot::Vehicle)
-                item0307.quality = item->quality;
+            if (slot < EquipmentSlot::Wings)
+            {
+                Item0307 item0307{};
+                item0307.slot = slot;
+                item0307.type = item->type;
+                item0307.typeId = item->typeId;
 
-            item0307.gems = item->gems;
-            item0307.craftName = item->craftName;
-            packet.itemList[packet.itemCount] = item0307;
+                if (slot < EquipmentSlot::Vehicle)
+                    item0307.quality = item->quality;
 
-            ++packet.itemCount;
+                item0307.gems = item->gems;
+                item0307.craftName = item->craftName;
+                packet.itemList[packet.itemCount] = item0307;
+
+                ++packet.itemCount;
+            }
         }
 
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item0307));

@@ -5,7 +5,6 @@
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <uchar.h>
 
 #include <include/shaiya/include/Ini.h>
 using namespace shaiya;

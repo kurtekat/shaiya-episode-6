@@ -36,26 +36,24 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        auto entries = readNumber<int>(ifs);
-
-        for (int i = 0; i < entries; ++i)
+        auto records = readNumber<std::uint32_t>(ifs);
+        for (auto i = 0U; i < records; ++i)
         {
             Synergy synergy{};
             synergy.id = readNumber<std::uint16_t>(ifs);
 
             readPascalString(ifs);
 
-            for (int i = 0; i < 13; ++i)
+            for (auto& itemId : synergy.set)
             {
                 auto type = readNumber<std::uint16_t>(ifs);
                 auto typeId = readNumber<std::uint16_t>(ifs);
 
-                auto itemId = (type * 1000U) + typeId;
-                synergy.set[i] = itemId;
+                itemId = (type * 1000) + typeId;
             }
 
-            for (int i = 0; i < 13; ++i)
-                Synergy::parseAbility(ifs, synergy.ability[i]);
+            for (auto& ability : synergy.ability)
+                Synergy::parseAbility(ifs, ability);
 
             g_synergies.push_back(synergy);
         }
@@ -160,9 +158,7 @@ void Synergy::removeSynergies(CUser* user)
 void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergies)
 {
     std::set<ItemId> equipment;
-
-    auto& bag = user->inventory[0];
-    for (const auto& item : bag)
+    for (const auto& item : user->inventory[0])
     {
         if (!item)
             continue;

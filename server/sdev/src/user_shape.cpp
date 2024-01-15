@@ -1,3 +1,4 @@
+#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -13,8 +14,6 @@ using namespace shaiya;
 
 namespace user_shape
 {
-    constexpr int max_equipment_slot = item_list_size;
-
     void init_clone_user(CUser* user, CUser* target)
     {
         if (!user->clone)
@@ -34,12 +33,15 @@ namespace user_shape
         user->clone->partyType = CUser::GetPartyType(target);
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
-        
-        for (int slot = 0; slot < max_equipment_slot; ++slot)
+
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(target->inventory[0])))
         {
-            auto& item = target->inventory[0][slot];
             if (!item)
                 continue;
+
+            if (std::size_t(slot) >= user->clone->equipment.size())
+                break;
 
             user->clone->equipment[slot].type = item->type;
             user->clone->equipment[slot].typeId = item->typeId;
@@ -115,11 +117,14 @@ namespace user_shape
         packet.grow = user->grow;
         packet.kills = user->kills;
 
-        for (int slot = 0; slot < max_equipment_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->inventory[0])))
         {
-            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
+
+            if (std::size_t(slot) >= packet.equipment.size())
+                break;
 
             packet.equipment[slot].type = item->type;
             packet.equipment[slot].typeId = item->typeId;
@@ -200,11 +205,14 @@ namespace user_shape
         packet.grow = user->grow;
         packet.kills = user->kills;
 
-        for (int slot = 0; slot < max_equipment_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->inventory[0])))
         {
-            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
+
+            if (std::size_t(slot) >= packet.equipment.size())
+                break;
 
             packet.equipment[slot].type = item->type;
             packet.equipment[slot].typeId = item->typeId;
@@ -237,11 +245,8 @@ namespace user_shape
         
         #ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
-        if (vehicle)
-        {
-            packet.vehicleType = vehicle->type;
-            packet.vehicleTypeId = vehicle->typeId;
-        }
+        packet.vehicleType = !vehicle ? 0 : vehicle->type;
+        packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
         #endif
 
         if (!user->zone)
@@ -258,11 +263,8 @@ namespace user_shape
 
         #ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
-        if (vehicle)
-        {
-            packet.vehicleType = vehicle->type;
-            packet.vehicleTypeId = vehicle->typeId;
-        }
+        packet.vehicleType = !vehicle ? 0 : vehicle->type;
+        packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
         #endif
 
         SConnection::Send(&target->connection, &packet, sizeof(UserShapeTypeOutgoing));

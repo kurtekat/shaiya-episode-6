@@ -1,4 +1,5 @@
 #include <chrono>
+#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -22,21 +23,30 @@ namespace packet_myshop
         MyShopItemListOutgoing packet{};
         packet.itemCount = 0;
 
-        for (int i = 0; i < 20; ++i)
+        const auto& market = std::ranges::views::zip(
+            std::as_const(myShop->srcBag),
+            std::as_const(myShop->srcSlot),
+            std::as_const(myShop->price)
+        );
+
+        for (int slot = 0; const auto& [srcBag, srcSlot, price] : market)
         {
-            auto bag = myShop->srcBag[i];
-            auto slot = myShop->srcSlot[i];
-
-            if (!bag)
+            if (!srcBag || srcBag > user->bagsUnlocked || srcSlot >= max_inventory_slot)
+            {
+                ++slot;
                 continue;
+            }
 
-            auto& item = myShop->user->inventory[bag][slot];
+            auto& item = myShop->user->inventory[srcBag][srcSlot];
             if (!item)
+            {
+                ++slot;
                 continue;
+            }
 
             Item230B item230B{};
-            item230B.slot = i;
-            item230B.price = myShop->price[i];
+            item230B.slot = slot;
+            item230B.price = price;
             item230B.type = item->type;
             item230B.typeId = item->typeId;
             item230B.count = item->count;
@@ -56,6 +66,7 @@ namespace packet_myshop
             packet.itemList[packet.itemCount] = item230B;
 
             ++packet.itemCount;
+            ++slot;
         }
 
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item230B));

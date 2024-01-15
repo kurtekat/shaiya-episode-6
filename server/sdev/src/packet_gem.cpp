@@ -1,5 +1,6 @@
 #include <map>
 #include <random>
+#include <ranges>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -232,7 +233,7 @@ namespace packet_gem
                 CItem::ReGenerationCraftExpansion(item, true);
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -265,7 +266,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -300,7 +301,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -335,7 +336,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -370,7 +371,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -405,7 +406,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -440,7 +441,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->isInitEquipment)
+                if (!user->initEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -514,15 +515,15 @@ namespace packet_gem
         ItemSynthesisListOutgoing outgoing{};
         outgoing.goldPerPercentage = synthesis_min_money;
 
-        int count = 0;
+        int index = 0;
         for (const auto& synthesis : synthesis->second)
         {
-            outgoing.createType[count] = synthesis.createType;
-            outgoing.createTypeId[count] = synthesis.createTypeId;
+            outgoing.createType[index] = synthesis.createType;
+            outgoing.createTypeId[index] = synthesis.createTypeId;
 
-            ++count;
+            ++index;
 
-            if (count < 10)
+            if (index < 10)
                 continue;
             else
             {
@@ -530,11 +531,11 @@ namespace packet_gem
 
                 outgoing.createType.fill(0);
                 outgoing.createTypeId.fill(0);
-                count = 0;
+                index = 0;
             }
         }
 
-        if (count <= 0)
+        if (!index)
             return;
 
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
@@ -643,13 +644,15 @@ namespace packet_gem
             randomRate = uni(eng);
         }
 
-        bool hasMaterials = false;
-        for (int i = 0; i < 24; ++i)
-        {
-            auto type = synthesis.materialType[i];
-            auto typeId = synthesis.materialTypeId[i];
-            auto count = synthesis.materialCount[i];
+        const auto& materials = std::ranges::views::zip(
+            std::as_const(synthesis.materialType),
+            std::as_const(synthesis.materialTypeId),
+            std::as_const(synthesis.materialCount)
+        );
 
+        bool hasMaterials = false;
+        for (const auto& [type, typeId, count] : materials)
+        {
             if (!type || !typeId || !count)
                 continue;
 

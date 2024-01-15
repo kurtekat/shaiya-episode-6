@@ -6,8 +6,6 @@ namespace shaiya
 {
     struct DataFile
     {
-        using LengthPrefix = std::uint_least32_t;
-
         template<class Data>
         static Data readNumber(std::ifstream& ifs)
         {

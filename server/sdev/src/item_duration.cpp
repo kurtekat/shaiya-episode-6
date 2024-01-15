@@ -1,4 +1,5 @@
 #include <chrono>
+#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -137,11 +138,12 @@ namespace item_duration
 
     void send_bag_and_bank(CUser* user)
     {
-        for (int bag = 0; bag < max_inventory_bag; ++bag)
+        for (const auto& [bag, items] : std::views::enumerate(
+            std::as_const(user->inventory)))
         {
-            for (int slot = 0; slot < max_inventory_slot; ++slot)
+            for (const auto& [slot, item] : std::views::enumerate(
+                std::as_const(items)))
             {
-                auto& item = user->inventory[bag][slot];
                 if (!item)
                     continue;
 
@@ -149,9 +151,9 @@ namespace item_duration
             }
         }
 
-        for (int slot = 0; slot < max_warehouse_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->warehouse)))
         {
-            auto& item = user->warehouse[slot];
             if (!item)
                 continue;
 
@@ -162,7 +164,7 @@ namespace item_duration
     void send_bag_to_bank(CUser* user, Packet buffer)
     {
         auto slot = util::deserialize<std::uint8_t>(buffer, 37);
-        if (slot >= max_warehouse_slot)
+        if (slot >= user->warehouse.size())
             return;
 
         auto& item = user->warehouse[slot];
@@ -225,11 +227,12 @@ namespace item_duration
             if (user->logoutType != UserLogoutType::None)
                 continue;
 
-            for (int bag = 0; bag < max_inventory_bag; ++bag)
+            for (const auto& [bag, items] : std::views::enumerate(
+                std::as_const(user->inventory)))
             {
-                for (int slot = 0; slot < max_inventory_slot; ++slot)
+                for (const auto& [slot, item] : std::views::enumerate(
+                    std::as_const(items)))
                 {
-                    auto& item = user->inventory[bag][slot];
                     if (!item)
                         continue;
 
@@ -251,11 +254,12 @@ namespace item_duration
                 }
             }
 
-            int warehouse_size = user->doubleWarehouse ? max_warehouse_slot : min_warehouse_slot;
-
-            for (int slot = 0; slot < warehouse_size; ++slot)
+            for (const auto& [slot, item] : std::views::enumerate(
+                std::as_const(user->warehouse)))
             {
-                auto& item = user->warehouse[slot];
+                if (!user->doubleWarehouse && slot >= min_warehouse_slot)
+                    break;
+
                 if (!item)
                     continue;
 

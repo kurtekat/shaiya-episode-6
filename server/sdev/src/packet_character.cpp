@@ -1,4 +1,5 @@
 #include <chrono>
+#include <ranges>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -50,15 +51,14 @@ namespace packet_character
     void send_warehouse(CUser* user)
     {
         constexpr int packet_size_without_list = 7;
-        constexpr int max_item_list_count = 40;
 
         UserBankItemListOutgoing warehouse{};
         warehouse.bankMoney = user->bankMoney;
         warehouse.itemCount = 0;
 
-        for (int slot = 0; slot < max_warehouse_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(user->warehouse)))
         {
-            auto& item = user->warehouse[slot];
             if (!item)
                 continue;
 
@@ -84,7 +84,7 @@ namespace packet_character
 
             ++warehouse.itemCount;
 
-            if (warehouse.itemCount != max_item_list_count)
+            if (warehouse.itemCount != warehouse.itemList.size())
                 continue;
             else
             {
@@ -96,7 +96,7 @@ namespace packet_character
             }
         }
 
-        if (warehouse.itemCount <= 0)
+        if (!warehouse.itemCount)
             return;
 
         int length = packet_size_without_list + (warehouse.itemCount * sizeof(Item0711));

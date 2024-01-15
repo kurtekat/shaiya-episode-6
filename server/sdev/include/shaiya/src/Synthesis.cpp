@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <ranges>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -90,11 +91,12 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
 {
     auto itemId = (type * 1000U) + typeId;
 
-    for (std::uint8_t bag = 1; bag < max_inventory_bag; ++bag)
+    for (const auto& [bag, items] : std::views::enumerate(
+        std::as_const(user->inventory)))
     {
-        for (std::uint8_t slot = 0; slot < max_inventory_slot; ++slot)
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(items)))
         {
-            auto& item = user->inventory[bag][slot];
             if (!item)
                 continue;
 
@@ -103,7 +105,7 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
 
             item->count -= count;
 
-            UserItemRemoveIncoming packet{ 0x702, user->userId, bag, slot, count };
+            UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
             SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemRemoveIncoming));
 
             GameLogItemRemoveIncoming log{};
@@ -122,7 +124,7 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
 
             if (!item->count)
             {
-                ItemRemoveOutgoing outgoing{ 0x206, bag, slot, 0, 0, 0 };
+                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), 0, 0, 0 };
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
 
                 CObjectMgr::FreeItem(item);
@@ -130,7 +132,7 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
             }
             else
             {
-                ItemRemoveOutgoing outgoing{ 0x206, bag, slot, item->type, item->typeId, item->count };
+                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), item->type, item->typeId, item->count };
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
             }
 
