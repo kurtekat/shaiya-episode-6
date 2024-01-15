@@ -1,5 +1,9 @@
 # sdev
 
+## 1.3.5.24
+
+Add range checks that were overlooked in version 1.3.5.23
+
 ## 1.3.5.23
 
 Upgrade to C++ 23
