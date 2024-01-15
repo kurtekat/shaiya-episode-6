@@ -86,9 +86,9 @@ namespace shaiya
     constexpr int item_list_size = 8;
     #endif
 
-    constexpr int guild_warehouse_bag = 255;
-    constexpr int item_bank_bag = 200;
     constexpr int warehouse_bag = 100;
+    constexpr int bank_bag = 200;
+    constexpr int guild_warehouse_bag = 255;
 
     constexpr int max_inventory_bag = 6;
     constexpr int max_inventory_slot = 24;
