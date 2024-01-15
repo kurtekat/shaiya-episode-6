@@ -1,5 +1,9 @@
 # sdev
 
+## 1.3.5.23
+
+Upgrade to C++ 23
+
 ## 1.3.4.22
 
 Add ItemDuration class and function
