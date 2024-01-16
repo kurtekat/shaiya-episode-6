@@ -6,13 +6,13 @@ namespace shaiya
 {
     struct CUser;
 
-    #pragma pack(push, 1)
     struct PartySlot
     {
         UINT32 index;
         CUser* user;
     };
 
+    #pragma pack(push, 1)
     struct CParty
     {
         SNode node;                 //0x00

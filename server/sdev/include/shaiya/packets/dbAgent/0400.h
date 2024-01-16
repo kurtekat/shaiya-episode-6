@@ -11,7 +11,9 @@ namespace shaiya
         Array<UINT8, item_list_size> type;
         Array<UINT8, item_list_size> typeId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Character0403
     {
         CharId id;                //0x00
@@ -47,7 +49,9 @@ namespace shaiya
         #endif
         // 6.4, 6.3: 0x68, 5.4: 0x56
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserCharListOutgoing
     {
         UINT16 opcode{ 0x403 };
@@ -56,35 +60,45 @@ namespace shaiya
         UINT8 characterCount;
         Array<Character0403, 5> characterList;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserCharDeleteIncoming
     {
         UINT16 opcode{ 0x40A };
         UserId userId;
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserCharDeleteOutgoing
     {
         UINT16 opcode{ 0x40A };
         UserId userId;
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserCharRestoreIncoming
     {
         UINT16 opcode{ 0x40B };
         UserId userId;
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserCharRestoreOutgoing
     {
         UINT16 opcode{ 0x40B };
         UserId userId;
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // custom
     struct UserCharNameAvailableIncoming
     {
@@ -92,7 +106,9 @@ namespace shaiya
         UserId userId;
         Array<char, 19> charName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // custom
     struct UserCharNameAvailableOutgoing
     {

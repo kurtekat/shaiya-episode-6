@@ -12,7 +12,9 @@ namespace shaiya
         ULONG targetId;
         CharName targetName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 124
     struct GameLogPvPWinIncoming
     {
@@ -21,7 +23,9 @@ namespace shaiya
         ULONG killerId;
         CharName killerName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 125
     struct GameLogPvPLeaveIncoming
     {

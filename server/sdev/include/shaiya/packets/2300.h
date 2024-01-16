@@ -21,7 +21,9 @@ namespace shaiya
         Gems gems;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct MyShopItemListOutgoing
     {
         UINT16 opcode{ 0x230B };

@@ -29,9 +29,11 @@ namespace shaiya
         UINT8 typeId;
         UINT8 count;
     };
+    #pragma pack(pop)
 
     typedef Array<BillingItem, 240> Bank;
 
+    #pragma pack(push, 1)
     struct ProductItem
     {
         ProductCode productCode;  //0x00
@@ -40,9 +42,11 @@ namespace shaiya
         UINT32 itemPrice;         //0x1C
         // 0x20
     };
+    #pragma pack(pop)
 
     typedef Array<ProductItem, 10> ProductLog;
 
+    #pragma pack(push, 1)
     // custom
     struct UserFrenzyApplySkill
     {
@@ -51,6 +55,7 @@ namespace shaiya
         bool triggered;
         DWORD keepTime;
     };
+    #pragma pack(pop)
 
     enum struct UserAttackType : UINT32
     {
@@ -111,6 +116,7 @@ namespace shaiya
         Exchange
     };
 
+    #pragma pack(push, 1)
     struct UserQuickSlot
     {
         UINT8 bag;
@@ -120,6 +126,7 @@ namespace shaiya
         UINT16 srcSlot;
         // 0x06
     };
+    #pragma pack(pop)
 
     enum struct UserRecallType : UINT32
     {
@@ -165,12 +172,14 @@ namespace shaiya
         Combat
     };
 
+    #pragma pack(push, 1)
     struct UserSavePoint
     {
         Array<UINT32, 4> mapId;
         Array<SVector, 4> pos;
         // 0x40
     };
+    #pragma pack(pop)
 
     enum struct UserStateType : UINT32
     {
@@ -186,6 +195,7 @@ namespace shaiya
         Mob
     };
 
+    #pragma pack(push, 1)
     struct UserKillCountStatus
     {
         PAD(4);                    //0x14D4
@@ -215,6 +225,7 @@ namespace shaiya
         PAD(16);
         // 0x70
     };
+    #pragma pack(pop)
 
     enum struct UserVehicleState : UINT32
     {
@@ -223,6 +234,7 @@ namespace shaiya
         Riding
     };
 
+    #pragma pack(push, 1)
     struct UserWeaponMasterySpeed
     {
         PAD(1);
@@ -243,7 +255,9 @@ namespace shaiya
         UINT8 knuckles;
         PAD(4);
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserWeaponMasteryPower
     {
         PAD(1);
@@ -264,6 +278,7 @@ namespace shaiya
         UINT8 knuckles;
         PAD(4);
     };
+    #pragma pack(pop)
 
     enum struct UserWhere : UINT32
     {
@@ -274,6 +289,7 @@ namespace shaiya
         ZoneEnter
     };
 
+    #pragma pack(push, 1)
     struct CUser
     {
         SConnection connection;              //0x00

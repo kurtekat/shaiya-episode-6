@@ -12,7 +12,9 @@ namespace shaiya
         Array<UINT8, 8> type;
         Array<UINT8, 8> typeId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Character
     {
         CharId id;              //0x00
@@ -46,7 +48,9 @@ namespace shaiya
         PAD(3);
         // 0x5C
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ProductItem
     {
         BOOL unknown;             //0x00
@@ -56,9 +60,11 @@ namespace shaiya
         UINT32 itemPrice;         //0x20
         // 0x24
     };
+    #pragma pack(pop)
 
     typedef Array<ProductItem, 10> ProductLog;
 
+    #pragma pack(push, 1)
     struct CUser
     {
         PAD(56);

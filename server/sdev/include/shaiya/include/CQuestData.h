@@ -14,8 +14,10 @@ namespace shaiya
         UINT8 typeId;
         UINT8 count;
     };
+    #pragma pack(pop)
 
     #ifdef SHAIYA_EP6_QUEST_RESULT
+    #pragma pack(push, 1)
     struct QuestResult
     {
         UINT16 mobId;        //0x00
@@ -32,7 +34,9 @@ namespace shaiya
         PAD(4);
         // 0x2C = size
     };
+    #pragma pack(pop)
     #else
+    #pragma pack(push, 1)
     struct QuestResult
     {
         UINT16 mobId;        //0x00
@@ -47,8 +51,10 @@ namespace shaiya
         UINT16 nextQuestId;  //0x1E
         // 0x20 = size
     };
+    #pragma pack(pop)
     #endif
 
+    #pragma pack(push, 1)
     struct QuestInfo
     {
         UINT16 questId;         //0x00
@@ -103,10 +109,10 @@ namespace shaiya
         // 0x1D0 = size
         #endif
     };
+    #pragma pack(pop)
 
     struct CQuestData
     {
         static QuestInfo* GetQuest(int questId/*eax*/);
     };
-    #pragma pack(pop)
 }

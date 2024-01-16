@@ -13,7 +13,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatNormalOutgoing
     {
         UINT16 opcode{ 0x1101 };
@@ -22,7 +24,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatWhisperIncoming
     {
         UINT16 opcode{ 0x1102 };
@@ -31,7 +35,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatWhisperOutgoing
     {
         UINT16 opcode{ 0x1102 };
@@ -41,7 +47,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatTradeIncoming
     {
         UINT16 opcode{ 0x1103 };
@@ -49,7 +57,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatTradeOutgoing
     {
         UINT16 opcode{ 0x1103 };
@@ -58,7 +68,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatGuildIncoming
     {
         UINT16 opcode{ 0x1104 };
@@ -66,7 +78,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatGuildOutgoing
     {
         UINT16 opcode{ 0x1104 };
@@ -75,7 +89,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatPartyIncoming
     {
         UINT16 opcode{ 0x1105 };
@@ -83,7 +99,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatPartyOutgoing
     {
         UINT16 opcode{ 0x1105 };
@@ -92,13 +110,17 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatUserDoesNotExistOutgoing
     {
         UINT16 opcode{ 0x1106 };
         UINT8 result{ 1 };
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatMessageToServerOutgoing
     {
         UINT16 opcode{ 0x1108 };
@@ -107,7 +129,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatAreaIncoming
     {
         UINT16 opcode{ 0x1111 };
@@ -115,7 +139,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatAreaOutgoing
     {
         UINT16 opcode{ 0x1111 };
@@ -124,7 +150,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatRaidIncoming
     {
         UINT16 opcode{ 0x1112 };
@@ -132,7 +160,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ChatRaidOutgoing
     {
         UINT16 opcode{ 0x1112 };

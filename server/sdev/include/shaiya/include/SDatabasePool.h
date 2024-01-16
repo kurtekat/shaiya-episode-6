@@ -8,6 +8,7 @@ namespace shaiya
     struct SDatabase;
     struct SLog;
 
+    #pragma pack(push, 1)
     struct SDatabasePool
     {
         SDatabase* db;              //0x00
@@ -41,6 +42,7 @@ namespace shaiya
         static void Disconnect();
         static void Release();
     };
+    #pragma pack(pop)
 
     static SDatabasePool* g_DatabasePool = (SDatabasePool*)0x109BED0;
 }

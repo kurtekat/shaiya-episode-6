@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct ExchangeRequestResult : UINT8
     {
         Accepted,
@@ -19,37 +18,48 @@ namespace shaiya
         CancelReady
     };
 
+    #pragma pack(push, 1)
     struct ExchangeRequestIncoming
     {
         UINT16 opcode{ 0xA01 };
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeRequestOutgoing
     {
         UINT16 opcode{ 0xA01 };
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeRequestResultOutgoing
     {
         UINT16 opcode{ 0xA02 };
         ExchangeRequestResult result;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeIncoming
     {
         UINT16 opcode{ 0xA05 };
         bool canceled;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeOutgoing
     {
         UINT16 opcode{ 0xA05 };
         ExchangeType excType;
         bool canceled;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeItemAddOutgoing
     {
         UINT16 opcode{ 0xA06 };
@@ -58,7 +68,9 @@ namespace shaiya
         UINT8 count;
         UINT8 destSlot;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeItemOutgoing
     {
         UINT16 opcode{ 0xA09 };
@@ -74,13 +86,17 @@ namespace shaiya
         Gems gems;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeConfirmIncoming
     {
         UINT16 opcode{ 0xA0A };
         bool confirmed;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ExchangeConfirmOutgoing
     {
         UINT16 opcode{ 0xA0A };

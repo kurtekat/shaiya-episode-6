@@ -11,7 +11,9 @@ namespace shaiya
         UINT16 opcode{ 0x302 };
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GetInfoTargetOutgoing
     {
         UINT16 opcode{ 0x302 };
@@ -19,14 +21,18 @@ namespace shaiya
         UINT32 maxHealth;
         UINT32 health;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Equipment0303
     {
         UINT8 type;
         UINT8 typeId;
         UINT8 enchantStep;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GetInfoUserShapeOutgoing
     {
         UINT16 opcode{ 0x303 };
@@ -48,7 +54,9 @@ namespace shaiya
         CloakBadge cloakBadge;
         GuildName guildName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Item0307
     {
         UINT8 slot;
@@ -58,13 +66,17 @@ namespace shaiya
         Gems gems;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GetInfoInspectIncoming
     {
         UINT16 opcode{ 0x307 };
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GetInfoInspectOutgoing
     {
         UINT16 opcode{ 0x307 };

@@ -5,7 +5,6 @@ namespace shaiya
 {
     struct CMonster;
 
-    #pragma pack(push, 1)
     enum struct ActionType : UINT32
     {
         None,
@@ -152,11 +151,14 @@ namespace shaiya
         Rebirth
     };
 
+    #pragma pack(push, 1)
     struct GuildName
     {
         Array<char, 32> text;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CCharacter
     {
         PAD(16);

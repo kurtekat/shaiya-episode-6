@@ -5,7 +5,6 @@ namespace shaiya
 {
     struct CUser;
 
-    #pragma pack(push, 1)
     enum struct MyShopState : UINT32
     {
         None,
@@ -13,6 +12,7 @@ namespace shaiya
         Open
     };
 
+    #pragma pack(push, 1)
     struct MyShop
     {
         CUser* user;                 //0x00

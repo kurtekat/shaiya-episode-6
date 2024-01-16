@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct UserSetStatusGroup
     {
         // hg
@@ -14,6 +13,7 @@ namespace shaiya
         Other = 2,
     };
 
+    #pragma pack(push, 1)
     struct UserSetStatusIncoming
     {
         UINT16 opcode{ 0x601 };
@@ -32,21 +32,27 @@ namespace shaiya
         UINT16 mana;
         UINT16 stamina;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusExpIncoming
     {
         UINT16 opcode{ 0x602 };
         UserId userId;
         UINT32 exp;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusMoneyIncoming
     {
         UINT16 opcode{ 0x603 };
         UserId userId;
         UINT32 money;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusUpIncoming
     {
         UINT16 opcode{ 0x604 };
@@ -59,7 +65,9 @@ namespace shaiya
         UINT16 wisdom;
         UINT16 luck;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusGroupIncoming
     {
         UINT16 opcode{ 0x605 };
@@ -67,7 +75,9 @@ namespace shaiya
         UserSetStatusGroup group;
         UINT16 value;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusHpMpSpIncoming
     {
         UINT16 opcode{ 0x606 };
@@ -76,7 +86,9 @@ namespace shaiya
         UINT16 mana;
         UINT16 stamina;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusLocationIncoming
     {
         UINT16 opcode{ 0x607 };
@@ -87,7 +99,9 @@ namespace shaiya
         float y;
         float z;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusQuickSlot
     {
         UINT8 bag;
@@ -95,7 +109,9 @@ namespace shaiya
         UINT8 srcBag;
         UINT16 srcSlot;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusQuickSlotIncoming
     {
         UINT16 opcode{ 0x609 };
@@ -104,14 +120,18 @@ namespace shaiya
         // size = quickSlotCount
         Array<UserSetStatusQuickSlot, 128> quickSlot;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusLevelIncoming
     {
         UINT16 opcode{ 0x60A };
         UserId userId;
         UINT32 level;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // not implemented
     struct UserSetStatusBankMoneyIncoming
     {
@@ -119,7 +139,9 @@ namespace shaiya
         UserId userId;
         UINT32 bankMoney;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusPvPIncoming
     {
         UINT16 opcode{ 0x60C };
@@ -127,21 +149,27 @@ namespace shaiya
         PvPStatusType statType;
         UINT32 statCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusGrowIncoming
     {
         UINT16 opcode{ 0x60D };
         UserId userId;
         UINT32 grow;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusSkillPointIncoming
     {
         UINT16 opcode{ 0x60E };
         UserId userId;
         UINT32 skillPoint;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserSetStatusStatPointIncoming
     {
         UINT16 opcode{ 0x60F };

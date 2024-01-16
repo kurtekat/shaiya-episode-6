@@ -19,7 +19,9 @@ namespace shaiya
         AuthStatus authStatus;
         Array<char, 32> desc;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 180
     struct GameLogAdminCmd2Incoming
     {
@@ -36,7 +38,9 @@ namespace shaiya
         Array<char, 32> desc;
         CharName targetName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 180
     struct GameLogAdminCmd3Incoming
     {

@@ -11,7 +11,9 @@ namespace shaiya
         Array<UINT8, item_list_size> type;
         Array<UINT8, item_list_size> typeId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterOutgoing
     {
         UINT16 opcode{ 0x101 };
@@ -42,58 +44,76 @@ namespace shaiya
         bool nameChange;
         CloakBadge cloakBadge;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterDeleteIncoming
     {
         UINT16 opcode{ 0x103 };
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterDeleteOutgoing
     {
         UINT16 opcode{ 0x103 };
         UINT8 unknown{ 0 };
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterNameChangeIncoming
     {
         UINT16 opcode{ 0x10E };
         ULONG charId;
         CharName charName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterNameChangeOutgoing
     {
         UINT16 opcode{ 0x10E };
         bool success;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterRestoreIncoming
     {
         UINT16 opcode{ 0x10F };
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharacterRestoreOutgoing
     {
         UINT16 opcode{ 0x10F };
         UINT8 unknown{ 0 };
         ULONG charId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ServerTimeOutgoing
     {
         UINT16 opcode{ 0x115 };
         ULONG time;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharNameAvailableIncoming
     {
         UINT16 opcode{ 0x119 };
         Array<char, 19> name;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CharNameAvailableOutgoing
     {
         UINT16 opcode{ 0x119 };

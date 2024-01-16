@@ -11,7 +11,9 @@ namespace shaiya
         UINT8 typeId;
         UINT8 enchantStep;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CloneUser
     {
         SNode node;               //0x00
@@ -38,7 +40,7 @@ namespace shaiya
         GuildName guildName;
         // 6.4: 0x7F, 6.3: 0x7C, 5.4: 0x64
         UINT8 packetLength;
-        #ifdef SHAIYA_EP6_3_COMMON
+        #ifndef SHAIYA_EP6_CLONE_SIZE_128
         PAD(3);
         #endif
         // 6.4, 6.3: 0x80, 5.4: 0x68

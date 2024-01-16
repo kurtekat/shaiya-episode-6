@@ -16,7 +16,9 @@ namespace shaiya
         UINT8 count;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GuildBankItemListOutgoing
     {
         UINT16 opcode{ 0xD29 };

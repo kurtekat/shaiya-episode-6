@@ -10,7 +10,6 @@ namespace shaiya
 
     typedef Array<char, 66> GuildRemark;
 
-    #pragma pack(push, 1)
     enum struct GuildPvPState : UINT32
     {
         None,
@@ -20,13 +19,16 @@ namespace shaiya
         Start
     };
 
+    #pragma pack(push, 1)
     struct GuildNpc
     {
         NpcType type;
         UINT8 level;
         UINT8 number;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GuildPvP
     {
         GuildPvPState state;        //0x4B4
@@ -38,7 +40,9 @@ namespace shaiya
         UINT32 userCount;           //0x4D4
         Array<CharId, 7> userList;  //0x4D8
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GuildUserInfo
     {
         SNode node;         //0x00
@@ -53,9 +57,11 @@ namespace shaiya
         PAD(15);
         // 0x3C
     };
+    #pragma pack(pop)
 
     typedef SSyncMap<ULONG, GuildUserInfo*> GuildUserInfoMap;
 
+    #pragma pack(push, 1)
     struct CGuild
     {
         SNode node;                 //0x00

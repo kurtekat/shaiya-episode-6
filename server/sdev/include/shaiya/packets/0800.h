@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct ItemComposeResult : UINT8
     {
         Success,
@@ -32,6 +31,7 @@ namespace shaiya
         Failure
     };
 
+    #pragma pack(push, 1)
     struct ItemLapisianAddIncoming
     {
         UINT16 opcode{ 0x805 };
@@ -45,7 +45,9 @@ namespace shaiya
         UINT8 unknown;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemComposeIncoming
     {
         UINT16 opcode{ 0x806 };
@@ -55,7 +57,9 @@ namespace shaiya
         UINT8 itemSlot;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemComposeOutgoing
     {
         UINT16 opcode{ 0x806 };
@@ -64,7 +68,9 @@ namespace shaiya
         UINT8 slot;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRemakeIncoming
     {
         UINT16 opcode{ 0x807 };
@@ -76,7 +82,9 @@ namespace shaiya
         UINT8 slot3;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRemakeOutgoing
     {
         UINT16 opcode{ 0x807 };
@@ -90,7 +98,9 @@ namespace shaiya
         UINT8 count;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRuneCombineIncoming
     {
         UINT16 opcode{ 0x80D };
@@ -100,7 +110,9 @@ namespace shaiya
         UINT8 vialSlot;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRuneCombineOutgoing
     {
         UINT16 opcode{ 0x80D };
@@ -114,14 +126,18 @@ namespace shaiya
         UINT8 count;
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisListIncoming
     {
         UINT16 opcode{ 0x830 };
         UINT8 squareBag;
         UINT8 squareSlot;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisListOutgoing
     {
         UINT16 opcode{ 0x830 };
@@ -129,7 +145,9 @@ namespace shaiya
         Array<UINT8, 10> createTypeId;
         UINT32 goldPerPercentage;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisMaterialIncoming
     {
         UINT16 opcode{ 0x831 };
@@ -137,7 +155,9 @@ namespace shaiya
         UINT8 createTypeId;
         UINT32 index;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisMaterialOutgoing
     {
         UINT16 opcode{ 0x831 };
@@ -150,7 +170,9 @@ namespace shaiya
         Array<UINT8, 24> materialCount;
         UINT8 createCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisIncoming
     {
         UINT16 opcode{ 0x832 };
@@ -162,13 +184,17 @@ namespace shaiya
         UINT8 hammerBag;
         UINT8 hammerSlot;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemSynthesisOutgoing
     {
         UINT16 opcode{ 0x832 };
         ItemSynthesisResult result;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemFreeSynthesisIncoming
     {
         UINT16 opcode{ 0x833 };
@@ -182,7 +208,9 @@ namespace shaiya
         Array<UINT8, 24> materialTypeId;
         Array<UINT8, 24> materialCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemFreeSynthesisOutgoing
     {
         UINT16 opcode{ 0x833 };

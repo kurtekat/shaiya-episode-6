@@ -16,7 +16,9 @@ namespace shaiya
         ULONG purchaseDate;
         UINT32 purchaseNumber;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPointItemGetIncoming
     {
         UINT16 opcode{ 0xE05 };
@@ -34,27 +36,35 @@ namespace shaiya
         ULONG makeTime;
         ItemMakeType makeType;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPointReloadPointIncoming
     {
         UINT16 opcode{ 0xE06 };
         UserId userId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPointReloadPointOutgoing
     {
         UINT16 opcode{ 0xE06 };
         UserId userId;
         UINT32 points;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPointAddPointOutgoing
     {
         UINT16 opcode{ 0xE08 };
         UserId userId;
         UINT32 addPoints;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPoint0E09Incoming
     {
         UINT16 opcode{ 0xE09 };
@@ -63,7 +73,9 @@ namespace shaiya
         ULONG purchaseDate;
         UINT32 purchaseNumber;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserPointSaveBuyPointItemIncoming
     {
         UINT16 opcode{ 0xE0A };

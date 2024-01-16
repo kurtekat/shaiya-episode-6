@@ -5,13 +5,13 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct ZoneEnterItemDropType : UINT8
     {
         User = 1,
         Mob
     };
 
+    #pragma pack(push, 1)
     struct ZoneEnterItemOutgoing
     {
         UINT16 opcode{ 0x401 };
@@ -24,7 +24,9 @@ namespace shaiya
         float y;
         float z;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ZoneLeaveItemOutgoing
     {
         UINT16 opcode{ 0x402 };

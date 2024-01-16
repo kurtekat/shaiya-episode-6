@@ -13,7 +13,9 @@ namespace shaiya
         UINT8 slot;
         UINT8 count;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CExchange
     {
         PAD(4);              //0x15C0
@@ -27,7 +29,9 @@ namespace shaiya
         PAD(2);
         // 0x28
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CExchangePvP
     {
         CExchange exchange;  //0x15E8

@@ -14,7 +14,9 @@ namespace shaiya
         UINT32 npcType;
         Array<char, 32> npcName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 133
     struct GameLogQuestEndIncoming
     {

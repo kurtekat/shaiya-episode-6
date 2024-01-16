@@ -14,7 +14,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct GameLogChatToIncoming
     {
         UINT16 opcode{ 0x902 };

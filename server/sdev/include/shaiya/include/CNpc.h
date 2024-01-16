@@ -9,7 +9,6 @@ namespace shaiya
     struct CMap;
     struct CUser;
 
-    #pragma pack(push, 1)
     enum struct NpcStatus : UINT32
     {
         Idle,
@@ -18,6 +17,7 @@ namespace shaiya
         ReturnHome
     };
 
+    #pragma pack(push, 1)
     struct CNpc
     {
         SNode node;              //0x00

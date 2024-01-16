@@ -3,7 +3,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     static Address g_GameData = 0x587C68;
     // item effect 59 (EP5 itemId 100169)
     static Address g_ItemSpecialMoveWar = 0x56E668;
@@ -315,6 +314,7 @@ namespace shaiya
             CharacterBound
         };
 
+        #pragma pack(push, 1)
         struct ItemInfo
         {
             UINT32 itemId;           //0x00
@@ -387,7 +387,9 @@ namespace shaiya
             PAD(3);
             // 0xA8
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct KillCountStatus
         {
             UINT32 index;              //0x00
@@ -423,13 +425,17 @@ namespace shaiya
             UINT32 itemCastTime;       //0x78
             // 0x7C
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct MobQuestItem
         {
             UINT8 type;
             UINT8 typeId;
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct MobAttack
         {
             PAD(4);
@@ -444,13 +450,17 @@ namespace shaiya
             Attribute attribute;
             UINT8 special;
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct MobItem
         {
             UINT32 grade;
             UINT32 dropRate;
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct MobInfo
         {
             UINT16 mobId;            //0x00
@@ -498,7 +508,9 @@ namespace shaiya
             Array<MobItem, 9> mobItem;
             // 0x10C
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct ProductInfo
         {
             ProductCode productCode;     //0x00
@@ -510,6 +522,7 @@ namespace shaiya
             PAD(1);
             // 0xC8
         };
+        #pragma pack(pop)
 
         enum struct SkillAbilityType : UINT8
         {
@@ -565,12 +578,14 @@ namespace shaiya
             Frenzied = 70
         };
 
+        #pragma pack(push, 1)
         struct SkillAbility
         {
             SkillAbilityType type;
             PAD(1);
             UINT16 value;
         };
+        #pragma pack(pop)
 
         enum struct SkillStateType : UINT8
         {
@@ -604,6 +619,7 @@ namespace shaiya
             EnemiesNearTarget
         };
 
+        #pragma pack(push, 1)
         struct SkillInfo
         {
             UINT16 skillId;           //0x00
@@ -681,6 +697,7 @@ namespace shaiya
             PAD(8);
             // 0xA4
         };
+        #pragma pack(pop)
 
         static ItemInfo* GetItemInfo(int type/*eax*/, int typeId/*ecx*/);
         static MobInfo* GetMobInfo(int mobId/*eax*/);
@@ -690,5 +707,4 @@ namespace shaiya
         static ProductInfo* GetProductInfo(const char* productCode/*eax*/);
         static SkillInfo* GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/);
     };
-    #pragma pack(pop)
 }

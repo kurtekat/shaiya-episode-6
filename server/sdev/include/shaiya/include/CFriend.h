@@ -11,7 +11,9 @@ namespace shaiya
         Memo memo;          //0x19
         // 0x4C
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CFriend
     {
         ULONG charId;       //0x00

@@ -12,7 +12,9 @@ namespace shaiya
         UINT32 pickMoney;
         UINT32 money;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 162
     struct GameLog0802Incoming
     {
@@ -28,7 +30,9 @@ namespace shaiya
         UINT8 slot;
         UINT8 count;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 163
     struct GameLogMoneyExcToIncoming
     {
@@ -39,7 +43,9 @@ namespace shaiya
         ULONG excCharId;
         CharName excCharName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 164
     struct GameLogMoneyExcFromIncoming
     {
@@ -52,7 +58,9 @@ namespace shaiya
         // to-do?
         PAD(19);
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 164
     struct GameLogMoneyExcPvPFromIncoming
     {

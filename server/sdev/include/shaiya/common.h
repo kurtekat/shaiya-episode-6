@@ -65,6 +65,12 @@ defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_QUEST_RESULT
 #endif
 
+#if \
+defined SHAIYA_EP6_3_PT || \
+defined SHAIYA_EP6_4_PT
+#define SHAIYA_EP6_CLONE_SIZE_128
+#endif
+
 #include <array>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -122,7 +128,6 @@ namespace shaiya
     typedef Array<Array<CItem*, 24>, 6> Inventory;
     typedef Array<CItem*, 240> Warehouse;
 
-    #pragma pack(push, 1)
     enum struct AuthStatus : UINT8
     {
         AdminA = 1,
@@ -152,6 +157,7 @@ namespace shaiya
         Neutral
     };
 
+    #pragma pack(push, 1)
     struct GameLogMain
     {
         ULONG userId;
@@ -166,6 +172,7 @@ namespace shaiya
         float z;
         ULONG actionTime;
     };
+    #pragma pack(pop)
 
     enum EquipmentSlot
     {
@@ -283,5 +290,4 @@ namespace shaiya
         Degeneration,
         Transformation,
     };
-    #pragma pack(pop)
 }

@@ -8,7 +8,6 @@ namespace shaiya
 
     typedef Array<char, 256> SvMapName;
 
-    #pragma pack(push, 1)
     enum MapId
     {
         DWaterBorderland,
@@ -116,6 +115,7 @@ namespace shaiya
         Peace    // P
     };
 
+    #pragma pack(push, 1)
     struct MapCreateTime
     {
         UINT16 day;
@@ -124,13 +124,17 @@ namespace shaiya
         // hours
         UINT16 duration;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct MapRebirth
     {
         UINT32 mapId;
         SVector pos;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CMap
     {
         PAD(4);

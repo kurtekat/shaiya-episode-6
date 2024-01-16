@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct MotionType : UINT8
     {
         None,
@@ -137,6 +136,7 @@ namespace shaiya
         Stopped = 3
     };
 
+    #pragma pack(push, 1)
     struct UserMoveIncoming
     {
         UINT16 opcode{ 0x501 };
@@ -147,7 +147,9 @@ namespace shaiya
         float y;
         float z;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserMoveOutgoing
     {
         UINT16 opcode{ 0x501 };
@@ -159,7 +161,9 @@ namespace shaiya
         float y;
         float z;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct RecoverAddOutgoing
     {
         UINT16 opcode{ 0x505 };
@@ -168,20 +172,26 @@ namespace shaiya
         int mana;
         int stamina;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserMotionIncoming
     {
         UINT16 opcode{ 0x506 };
         MotionType motionType;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserMotionOutgoing
     {
         UINT16 opcode{ 0x506 };
         ULONG charId;
         MotionType motionType;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserEquipmentOutgoing
     {
         UINT16 opcode{ 0x507 };
@@ -191,7 +201,9 @@ namespace shaiya
         UINT8 typeId;
         UINT8 enchantStep;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct SkillApplyOutgoing
     {
         UINT16 opcode{ 0x50D };
@@ -200,14 +212,18 @@ namespace shaiya
         UINT16 skillId;
         UINT8 skillLv;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct SkillRemoveOutgoing
     {
         UINT16 opcode{ 0x50E };
         // CSkill->id
         ULONG id;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct SkillKeepOutgoing
     {
         UINT16 opcode{ 0x50F };
@@ -218,7 +234,9 @@ namespace shaiya
         UINT16 mana;
         UINT16 stamina;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct SkillUseIncoming
     {
         UINT16 opcode{ 0x511 };
@@ -226,7 +244,9 @@ namespace shaiya
         // 0 = caster
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct SkillUseOutgoing
     {
         UINT16 opcode{ 0x511 };
@@ -242,7 +262,9 @@ namespace shaiya
         SkillUseFrenzyState frenzyState;
         #endif
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserShapeTypeOutgoing
     {
         UINT16 opcode{ 0x51D };
@@ -253,7 +275,9 @@ namespace shaiya
         UINT32 vehicleTypeId;
         #endif
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct RecoverSetOutgoing
     {
         UINT16 opcode{ 0x521 };
@@ -261,14 +285,18 @@ namespace shaiya
         UINT32 mana;
         UINT32 stamina;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserKillCountOutgoing
     {
         UINT16 opcode{ 0x522 };
         ULONG charId;
         UINT32 kills;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserStatusOutgoing
     {
         UINT16 opcode{ 0x526 };
@@ -285,7 +313,9 @@ namespace shaiya
         UINT32 defense;
         UINT32 resistance;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRepairIncoming
     {
         UINT16 opcode{ 0x554 };
@@ -293,7 +323,9 @@ namespace shaiya
         UINT8 slot;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemRepairOutgoing
     {
         UINT16 opcode{ 0x554 };
@@ -301,7 +333,9 @@ namespace shaiya
         UINT8 slot;
         UINT32 money;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemTownScrollIncoming
     {
         UINT16 opcode{ 0x55A };

@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct PortalCountry : UINT32
     {
         Neutral,
@@ -13,6 +12,7 @@ namespace shaiya
         Fury,
     };
 
+    #pragma pack(push, 1)
     struct CDoor
     {
         Obelisk::InsZoneId insZoneId;  //0x00

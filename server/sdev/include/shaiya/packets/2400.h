@@ -5,7 +5,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct PvPRequestResult : UINT8
     {
         Rejected,
@@ -14,32 +13,41 @@ namespace shaiya
         DidNotRespond
     };
 
+    #pragma pack(push, 1)
     struct PvPRequestIncoming
     {
         UINT16 opcode{ 0x2401 };
         CharId senderId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct PvPRequestOutgoing
     {
         UINT16 opcode{ 0x2401 };
         CharId senderId;
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct PvPRequestResultIncoming
     {
         UINT16 opcode{ 0x2402 };
         PvPRequestResult result;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct PvPRequestResultOutgoing
     {
         UINT16 opcode{ 0x2402 };
         PvPRequestResult result;
         CharId targetId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct PvPExchangeItemOutgoing
     {
         UINT16 opcode{ 0x240D };

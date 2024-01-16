@@ -8,13 +8,13 @@ namespace shaiya
 {
     struct CZone;
 
-    #pragma pack(push, 1)
     enum struct ItemDropType : UINT8
     {
         ByUser = 2,
         ByDeath
     };
 
+    #pragma pack(push, 1)
     struct CItem
     {
         SNode node;                  //0x00

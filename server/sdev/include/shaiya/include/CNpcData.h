@@ -7,7 +7,6 @@ namespace shaiya
     typedef Array<char, 256> NpcName;
     typedef Array<char, 256> NpcGateDesc;
 
-    #pragma pack(push, 1)
     enum struct NpcCountry : UINT32
     {
         Neutral,
@@ -32,6 +31,7 @@ namespace shaiya
         SkillReset
     };
 
+    #pragma pack(push, 1)
     struct Npc
     {
         NpcType type;        //0x00
@@ -44,7 +44,9 @@ namespace shaiya
         PAD(16);
         // 0x124
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct NpcGate
     {
         UINT16 mapId;      //0x00
@@ -54,7 +56,9 @@ namespace shaiya
         UINT32 price;      //0x110
         // 0x114
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct NpcGateKeeper
     {
         Npc npc;
@@ -62,13 +66,17 @@ namespace shaiya
         Array<NpcGate, 3> gate;
         // 0x460
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct NpcItem
     {
         UINT8 type;
         UINT8 typeId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct NpcShop
     {
         Npc npc;            //0x00
@@ -77,6 +85,7 @@ namespace shaiya
         NpcItem* itemList;  //0x12C
         // 0x130
     };
+    #pragma pack(pop)
 
     template<typename T>
     struct CNpcData
@@ -96,5 +105,4 @@ namespace shaiya
             call u0x424450
         }
     }
-    #pragma pack(pop)
 }

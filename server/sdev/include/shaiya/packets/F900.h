@@ -14,7 +14,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct AdminCmdNoticeToOutgoing
     {
         UINT16 opcode{ 0xF908 };
@@ -22,7 +24,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct AdminCmdNoticeAllIncoming
     {
         UINT16 opcode{ 0xF90B };
@@ -31,7 +35,9 @@ namespace shaiya
         UINT8 messageLength;
         ChatMessage message;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct AdminCmdNoticeAllOutgoing
     {
         UINT16 opcode{ 0xF90B };

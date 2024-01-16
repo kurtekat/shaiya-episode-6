@@ -22,7 +22,6 @@ namespace shaiya
 
     typedef Array<UINT32, 6> Clothes;
 
-    #pragma pack(push, 1)
     enum struct Country : UINT8
     {
         Light,
@@ -85,5 +84,4 @@ namespace shaiya
         Disguise = 100,
         Transformation = 102,
     };
-    #pragma pack(pop)
 }

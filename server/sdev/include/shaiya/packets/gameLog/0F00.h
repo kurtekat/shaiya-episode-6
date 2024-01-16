@@ -11,7 +11,9 @@ namespace shaiya
         GameLogMain main;
         ULONG partyId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 211
     struct GameLogLeaveRaidPartyIncoming
     {

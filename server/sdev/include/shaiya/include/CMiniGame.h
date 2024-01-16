@@ -5,7 +5,6 @@ namespace shaiya
 {
     struct CUser;
 
-    #pragma pack(push, 1)
     enum struct MiniGameState : UINT32
     {
         GameExit,
@@ -15,6 +14,7 @@ namespace shaiya
         CardNext
     };
 
+    #pragma pack(push, 1)
     struct CMiniGame
     {
         MiniGameState state;  //0x00

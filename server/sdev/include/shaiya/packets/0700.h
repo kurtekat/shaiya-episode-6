@@ -14,7 +14,9 @@ namespace shaiya
         UINT8 count;
         ULONG npcId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct ItemBagToNpcShopOutgoing
     {
         UINT16 opcode{ 0x703 };
@@ -26,7 +28,9 @@ namespace shaiya
         UINT8 count;
         UINT32 money;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Item0711
     {
         UINT8 slot;
@@ -41,7 +45,9 @@ namespace shaiya
         #endif
         CraftName craftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserBankItemListOutgoing
     {
         UINT16 opcode{ 0x711 };

@@ -9,7 +9,6 @@ namespace shaiya
     struct CUser;
     struct CZone;
 
-    #pragma pack(push, 1)
     enum struct MobLuaEvent : UINT32
     {
         OnMoveEnd,
@@ -29,6 +28,7 @@ namespace shaiya
         Unknown100 = 100
     };
 
+    #pragma pack(push, 1)
     struct MobRespawn
     {
         UINT32 mobId;      //0x00
@@ -41,7 +41,9 @@ namespace shaiya
         PAD(4);
         // 0x24
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CMob
     {
         PAD(124);

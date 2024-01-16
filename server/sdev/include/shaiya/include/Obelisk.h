@@ -4,7 +4,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     struct Obelisk
     {
         enum struct InsZoneId : UINT32
@@ -39,6 +38,7 @@ namespace shaiya
             Fury
         };
 
+        #pragma pack(push, 1)
         struct Mob
         {
             SVector pos;              //0x00
@@ -50,7 +50,9 @@ namespace shaiya
             PAD(212);
             // 0x12C
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         // boss mob subsection
         struct RandomRespawn
         {
@@ -60,7 +62,9 @@ namespace shaiya
             SVector pos2;  //0x130
             SVector pos3;  //0x13C
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct BossMob
         {
             UINT32 id;                    //0x00
@@ -81,7 +85,9 @@ namespace shaiya
             PAD(4);
             // 0x26CC
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         // 0x18C6E38
         struct Boss
         {
@@ -90,13 +96,17 @@ namespace shaiya
             Array<BossMob, 64> bossMob;  //0x08
             // 0x9B308
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct PortalRelic
         {
             UINT32 mapId;
             UINT32 id;
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         // 0x5845C0
         struct Portal
         {
@@ -107,7 +117,9 @@ namespace shaiya
             Array<PortalRelic, 8> relic;  //0x0C
             // 0x4C
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct RelicMob
         {
             SVector pos;          //0x00
@@ -118,7 +130,9 @@ namespace shaiya
             UINT32 count;         //0x1C
             // 0x20
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         struct Relic
         {
             UINT32 id;                //0x00
@@ -131,7 +145,9 @@ namespace shaiya
             Array<RelicMob, 64> mob;  //0x24
             // 0x824
         };
+        #pragma pack(pop)
 
+        #pragma pack(push, 1)
         // 0x10A2C38
         struct Zone
         {
@@ -140,6 +156,6 @@ namespace shaiya
             Array<Relic, 64> relic;  //0x08
             // 0x20908
         };
+        #pragma pack(pop)
     };
-    #pragma pack(pop)
 }

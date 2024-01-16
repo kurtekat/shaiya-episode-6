@@ -15,7 +15,9 @@ namespace shaiya
         UINT8 slot;
         UINT8 count;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserItemBagToBankIncoming
     {
         UINT16 opcode{ 0x704 };
@@ -26,7 +28,9 @@ namespace shaiya
         UINT8 destSlot;
         UINT8 destCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserItemBankToBagIncoming
     {
         UINT16 opcode{ 0x705 };
@@ -37,7 +41,9 @@ namespace shaiya
         UINT8 destSlot;
         UINT8 destCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserItemBankToBankIncoming
     {
         UINT16 opcode{ 0x706 };
@@ -47,7 +53,9 @@ namespace shaiya
         UINT8 destSlot;
         UINT8 destCount;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserItemQualityIncoming
     {
         UINT16 opcode{ 0x70C };
@@ -56,7 +64,9 @@ namespace shaiya
         UINT8 equipmentSlot;
         UINT16 quality;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // aka bank teller
     struct UserItemBoxToBagIncoming
     {
@@ -76,7 +86,9 @@ namespace shaiya
         ULONG makeTime;
         ItemMakeType makeType;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct UserItemCraftNameIncoming
     {
         UINT16 opcode{ 0x717 };

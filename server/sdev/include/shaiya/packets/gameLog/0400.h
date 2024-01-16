@@ -3,7 +3,6 @@
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
     enum struct GameLogType0401 : UINT8
     {
         None,
@@ -11,6 +10,7 @@ namespace shaiya
         Remake
     };
 
+    #pragma pack(push, 1)
     // ActionType 111
     struct GameLogItemCreateIncoming
     {
@@ -25,7 +25,9 @@ namespace shaiya
         GameLogType0401 type;
         UINT8 count;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 112
     struct GameLogItemRemoveIncoming
     {
@@ -41,7 +43,9 @@ namespace shaiya
         UINT8 slot;
         UINT8 count;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 213
     struct GameLogItemComposeIncoming
     {
@@ -57,7 +61,9 @@ namespace shaiya
         UINT32 oldItemId;
         CraftName oldCraftName;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     // ActionType 215
     struct GameLogItemRemakeIncoming
     {

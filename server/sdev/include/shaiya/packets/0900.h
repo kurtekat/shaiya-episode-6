@@ -12,14 +12,18 @@ namespace shaiya
         ULONG npcId;
         UINT16 questId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct QuestStartOutgoing
     {
         UINT16 opcode{ 0x902 };
         ULONG npcId;
         UINT16 questId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct Item0903
     {
         UINT8 count;
@@ -28,14 +32,18 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct QuestEndResultIncoming
     {
         UINT16 opcode{ 0x903 };
         ULONG npcId;
         UINT16 questId;
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct QuestEndResultOutgoing
     {
         UINT16 opcode{ 0x903 };

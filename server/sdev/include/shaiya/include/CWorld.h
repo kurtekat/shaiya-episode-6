@@ -24,7 +24,9 @@ namespace shaiya
         UINT32 all;            //0x380
         // 0x1C
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct WorldKillCount
     {
         UINT32 grade;      //0x00
@@ -35,7 +37,9 @@ namespace shaiya
         PAD(112);
         // 0x84
     };
+    #pragma pack(pop)
 
+    #pragma pack(push, 1)
     struct CWorld
     {
         UINT32 zoneCount;                        //0x00
