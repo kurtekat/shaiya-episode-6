@@ -6,7 +6,6 @@
 
 void Main()
 {
-    hook::chat();
     hook::gui();
     hook::item();
     hook::packet();

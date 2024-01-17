@@ -22,6 +22,16 @@ namespace shaiya
 
     typedef Array<UINT32, 6> Clothes;
 
+    enum struct AuthStatus : UINT32
+    {
+        AdminA = 1,
+        AdminB,
+        AdminC,
+        AdminD,
+        AdminE,
+        None = 11
+    };
+
     enum struct Country : UINT8
     {
         Light,
@@ -52,16 +62,6 @@ namespace shaiya
         ShootRogue,
         AttackMage,
         DefenseMage
-    };
-
-    enum struct Permission : UINT32
-    {
-        AdminA = 1,
-        AdminB,
-        AdminC,
-        AdminD,
-        AdminE,
-        None = 11
     };
 
     enum struct Sex : UINT8

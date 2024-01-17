@@ -39,9 +39,6 @@
     <ClCompile Include="src\packet.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
