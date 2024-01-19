@@ -67,6 +67,7 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\include\CMapRegion.h" />
     <ClInclude Include="include\shaiya\include\DataFile.h" />
     <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="include\shaiya\packets\gameLog\0500.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0800.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0900.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0A00.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0C00.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0E00.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0F00.h" />

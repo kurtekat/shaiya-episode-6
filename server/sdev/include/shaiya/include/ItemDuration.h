@@ -4,11 +4,10 @@
 #include <windows.h>
 
 #include <include/shaiya/common.h>
+#include <include/shaiya/include/CGameData.h>
 
 namespace shaiya
 {
-    struct CGameData;
-
     class ItemDuration
     {
     public:

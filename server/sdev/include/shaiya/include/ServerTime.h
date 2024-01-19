@@ -7,8 +7,6 @@
 
 namespace shaiya
 {
-    struct CGameData;
-
     struct ServerTime
     {
         static ULONG Add(ULONG base, long long seconds);

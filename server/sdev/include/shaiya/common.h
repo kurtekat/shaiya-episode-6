@@ -219,6 +219,31 @@ namespace shaiya
         Ultimate
     };
 
+    enum struct InsZoneId : UINT32
+    {
+        // boss mobs
+
+        Number1001 = 1001,
+        Number1002,
+        Number1003,
+        Number1004,
+        Number1005,
+        Number1006,
+        Number1007,
+        Number1008,
+        Number1009,
+        Number2000 = 2000,
+
+        // portals
+
+        DeepDesertLight = 1010,
+        DeepDesertFury = 1020,
+        StableErdeLight = 1011,
+        StableErdeFury = 1021,
+        PalaionRegnumLight = 1060,
+        ValdemarRegnumFury = 1061
+    };
+
     enum struct ItemDivType : UINT32
     {
         Group = 1,

@@ -1,6 +1,8 @@
+#include <include/shaiya/include/CMap.h>
 #include <include/shaiya/include/CMob.h>
 #include <include/shaiya/include/CNpc.h>
 #include <include/shaiya/include/CZone.h>
+#include <include/shaiya/include/Obelisk.h>
 #include <include/shaiya/include/SVector.h>
 using namespace shaiya;
 
@@ -20,6 +22,18 @@ CUser* CZone::FindUser(CZone* zone/*ecx*/, ULONG id/*CUser->id*/)
 {
     typedef CUser* (__thiscall* LPFN)(CZone*, ULONG);
     return (*(LPFN)0x41C6E0)(zone, id);
+}
+
+MapBoss* CZone::GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/)
+{
+    Address u0x4224C0 = 0x4224C0;
+
+    __asm
+    {
+        mov eax,index
+        mov ecx,zone
+        call u0x4224C0
+    }
 }
 
 int CZone::GetCurUserCount(CZone* zone/*ecx*/)

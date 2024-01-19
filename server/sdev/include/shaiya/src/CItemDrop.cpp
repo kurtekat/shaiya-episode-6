@@ -1,3 +1,4 @@
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItemDrop.h>
 using namespace shaiya;
 

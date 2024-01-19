@@ -1,3 +1,4 @@
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CMob.h>
 using namespace shaiya;
 
@@ -35,6 +36,22 @@ bool CMob::EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/)
         mov eax,base
         mov ecx,user
         call u0x4BAED0
+    }
+}
+
+void CMob::SendLogBossMob(CMob* mob/*edx*/, const char* text3/*edi*/, int byAction, const char* text4, int damage)
+{
+    Address u0x4B62C0 = 0x4B62C0;
+
+    __asm
+    {
+        push damage
+        push text4
+        push byAction
+
+        lea edi,[text3]
+        mov edx,mob
+        call u0x4B62C0
     }
 }
 

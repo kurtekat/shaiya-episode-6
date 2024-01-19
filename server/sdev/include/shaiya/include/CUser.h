@@ -1,12 +1,10 @@
 #pragma once
 #include <include/shaiya/common.h>
 #include <include/shaiya/include/CExchange.h>
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CFriend.h>
 #include <include/shaiya/include/CloneUser.h>
-#include <include/shaiya/include/CMap.h>
 #include <include/shaiya/include/CMiniGame.h>
-#include <include/shaiya/include/CQuest.h>
-#include <include/shaiya/include/CSkill.h>
 #include <include/shaiya/include/MyShop.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SNode.h>
@@ -19,7 +17,9 @@ namespace shaiya
     struct CGuild;
     struct CGuildCreate;
     struct CItem;
+    struct CQuest;
     struct CParty;
+    struct CSkill;
     struct CZone;
 
     #pragma pack(push, 1)

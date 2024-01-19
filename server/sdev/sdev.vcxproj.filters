@@ -431,6 +431,12 @@
     <ClInclude Include="include\shaiya\include\ItemDuration.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\packets\gameLog\0A00.h">
+      <Filter>include\shaiya\packets\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CMapRegion.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">

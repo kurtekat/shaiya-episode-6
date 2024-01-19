@@ -1,12 +1,13 @@
 #pragma once
 #include <include/shaiya/common.h>
+#include <include/shaiya/include/CMap.h>
 #include <include/shaiya/include/SSyncList.h>
 #include <include/shaiya/include/SSyncMap.h>
 
 namespace shaiya
 {
     struct CItem;
-    struct CMap;
+    struct CMapRegion;
     struct CMob;
     struct CNpc;
     struct CTrap;
@@ -32,15 +33,23 @@ namespace shaiya
         SSyncList<CItem> itemList;        //0x208
         SSyncList<CTrap> trapList;        //0x234
         SSyncList<void> list260;          //0x260
-        // 0x2A4
-        PAD(116);
+        Array<MapPortal, 10> portal;      //0x28C
+        UINT32 mobAreaCount;              //0x2DC
+        MapMob* mobArea;                  //0x2E0
+        UINT32 mapBossCount;              //0x2E4
+        MapBoss* mapBoss;                 //0x2E8
+        MapWeather weather;               //0x2EC
+        PAD(8);
+        UINT32 regionCount;               //0x310
+        CMapRegion* region;               //0x314
         // 0x318
 
         static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
         static CNpc* FindNpc(CZone* zone/*ecx*/, ULONG id/*CNpc->id*/);
         static CUser* FindUser(CZone* zone/*ecx*/, ULONG id/*CUser->id*/);
+        static MapBoss* GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/);
         static int GetCurUserCount(CZone* zone/*ecx*/);
-        static int GetInsZonePortalCountry(CZone* zone/*esi*/, int id/*edx*/); 
+        static int GetInsZonePortalCountry(CZone* zone/*esi*/, int id/*edx*/);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
         static bool MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);

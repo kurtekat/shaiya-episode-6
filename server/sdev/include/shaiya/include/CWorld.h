@@ -64,8 +64,8 @@ namespace shaiya
         WorldInsZoneCount insZoneCount;          //0x368
         // 0x384
         PAD(2204);
-        Array<Obelisk::Zone, 64> obeliskZone;    //0xC20
-        Array<Obelisk::Boss, 64> obeliskBoss;    //0x824E20
+        Array<ObeliskZone, 64> obeliskZone;      //0xC20
+        Array<ObeliskBoss, 64> obeliskBoss;      //0x824E20
         // 0x3F93038 (end)
 
         static CUser* FindUser(ULONG id/*CUser->id*/);
