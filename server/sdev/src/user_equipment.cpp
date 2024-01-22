@@ -74,7 +74,7 @@ namespace user_equipment
         packet.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(user->inventory[0])))
+            std::as_const(target->inventory[0])))
         {
             if (!item)
                 continue;
