@@ -23,7 +23,7 @@ namespace shaiya
             ofs.write(reinterpret_cast<char*>(&data), sizeof(Data));
         }
 
-        static void writePascalString(std::ofstream& ofs, const std::string& str);
+        static void writePascalString(std::ofstream& ofs, const std::string& str, std::size_t size);
         static void writeString(std::ofstream& ofs, const std::string& str, std::size_t size);
     };
 }

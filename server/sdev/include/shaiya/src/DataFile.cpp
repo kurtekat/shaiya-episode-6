@@ -17,10 +17,9 @@ std::string DataFile::readString(std::ifstream& ifs, std::size_t size)
     return str;
 }
 
-void DataFile::writePascalString(std::ofstream & ofs, const std::string & str)
+void DataFile::writePascalString(std::ofstream& ofs, const std::string& str, std::size_t size)
 {
-    auto size = static_cast<std::uint32_t>(str.length() + 1);
-    writeNumber(ofs, size);
+    writeNumber(ofs, std::uint32_t(size));
     writeString(ofs, str, size);
 }
 
