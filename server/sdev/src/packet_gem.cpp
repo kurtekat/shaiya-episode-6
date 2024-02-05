@@ -617,11 +617,7 @@ namespace packet_gem
             if (hammer->itemInfo->effect != CGameData::ItemEffect::CraftingHammer)
                 return;
 
-            if (hammer->itemInfo->itemId == 102074)
-                successRate += 500;
-            else if (hammer->itemInfo->itemId == 102075)
-                successRate += 1000;
-
+            successRate += hammer->itemInfo->reqVg * 100;
             CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
         }
 
