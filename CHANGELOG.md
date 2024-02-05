@@ -1,5 +1,9 @@
 # sdev
 
+## 1.3.7.26
+
+Update the crafting hammer logic (see wiki)
+
 ## 1.3.6.25
 
 Fix incorrect inspection items
