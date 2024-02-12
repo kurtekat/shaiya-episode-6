@@ -10,8 +10,8 @@ namespace shaiya
     struct CItem;
     struct CUser;
 
-    constexpr int synthesis_min_money = 1000;
-    constexpr int synthesis_max_money = 5000;
+    constexpr auto synthesis_min_money = 100000000U;
+    constexpr auto synthesis_max_money = 500000000U;
     constexpr int synthesis_min_success_rate = 100;
     constexpr int synthesis_max_success_rate = 10000;
 
