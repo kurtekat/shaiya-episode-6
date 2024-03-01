@@ -87,7 +87,7 @@ namespace npc_quest
 
             if (ItemHasDuration(itemInfo))
             {
-                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->range)).count();
+                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->exp)).count();
                 auto now = ServerTime::GetSystemTime();
 
                 auto expireTime = ServerTime::Add(now, seconds);

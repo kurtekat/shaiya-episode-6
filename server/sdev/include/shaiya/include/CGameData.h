@@ -349,7 +349,7 @@ namespace shaiya
             ItemEffect effect;       //0x46
             UINT8 slotCount;         //0x47
             UINT8 speed;             //0x48
-            UINT8 absorption;        //0x49
+            UINT8 exp;               //0x49
             UINT8 composeCount;      //0x4A
             UINT8 count;             //0x4B
             UINT16 maxQuality;       //0x4C

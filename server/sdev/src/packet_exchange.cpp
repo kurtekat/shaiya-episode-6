@@ -89,7 +89,7 @@ namespace packet_exchange
         #ifdef SHAIYA_EP6_ITEM_DURATION
         if (ItemHasDuration(item->itemInfo))
         {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
             packet.toDate = ServerTime::Add(item->makeTime, seconds);
             packet.fromDate = packet.toDate ? item->makeTime : 0;
         }

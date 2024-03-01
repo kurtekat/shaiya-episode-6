@@ -77,7 +77,7 @@ namespace packet_shop
 
             if (ItemHasDuration(itemInfo))
             {
-                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->range)).count();
+                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->exp)).count();
                 auto now = ServerTime::GetSystemTime();
 
                 auto expireTime = ServerTime::Add(now, seconds);
@@ -125,7 +125,7 @@ namespace packet_shop
     {
         if (ItemHasDuration(item->itemInfo))
         {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
             auto expireTime = ServerTime::Add(item->makeTime, seconds);
             if (!expireTime)

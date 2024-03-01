@@ -6,17 +6,9 @@ bool shaiya::ItemHasDuration(CGameData::ItemInfo* itemInfo)
     if (!itemInfo)
         return false;
 
-    if (!itemInfo->range)
+    // see absorption lapis
+    if (itemInfo->type == 30 || !itemInfo->exp)
         return false;
 
-    switch (static_cast<CGameData::ItemType>(itemInfo->type))
-    {
-    case CGameData::ItemType::Pet:
-    case CGameData::ItemType::Costume:
-        return true;
-    default:
-        break;
-    }
-
-    return false;
+    return true;
 }

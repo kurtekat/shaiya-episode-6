@@ -56,7 +56,7 @@ namespace packet_myshop
             #ifdef SHAIYA_EP6_ITEM_DURATION
             if (ItemHasDuration(item->itemInfo))
             {
-                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
                 item230B.toDate = ServerTime::Add(item->makeTime, seconds);
                 item230B.fromDate = item230B.toDate ? item->makeTime : 0;
             }

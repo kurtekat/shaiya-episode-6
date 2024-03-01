@@ -73,7 +73,7 @@ namespace packet_character
             #ifdef SHAIYA_EP6_ITEM_DURATION
             if (ItemHasDuration(item->itemInfo))
             {
-                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
                 item0711.toDate = ServerTime::Add(item->makeTime, seconds);
                 item0711.fromDate = item0711.toDate ? item->makeTime : 0;
             }

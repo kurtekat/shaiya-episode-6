@@ -70,7 +70,7 @@ namespace item_duration
 
     void send_expire_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
     {
-        auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+        auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
         auto expireTime = ServerTime::Add(item->makeTime, seconds);
         if (!expireTime)
@@ -119,7 +119,7 @@ namespace item_duration
     {
         if (ItemHasDuration(item->itemInfo))
         {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
             auto expireTime = ServerTime::Add(item->makeTime, seconds);
             if (!expireTime)
@@ -173,7 +173,7 @@ namespace item_duration
 
         if (ItemHasDuration(item->itemInfo))
         {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
             auto expireTime = ServerTime::Add(item->makeTime, seconds);
             if (!expireTime)
@@ -192,7 +192,7 @@ namespace item_duration
     {
         if (ItemHasDuration(item->itemInfo))
         {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
             auto expireTime = ServerTime::Add(item->makeTime, seconds);
             if (!expireTime)
@@ -238,7 +238,7 @@ namespace item_duration
 
                     if (ItemHasDuration(item->itemInfo))
                     {
-                        auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                        auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
                         auto expireTime = ServerTime::Add(item->makeTime, seconds);
                         if (!expireTime)
@@ -265,7 +265,7 @@ namespace item_duration
 
                 if (ItemHasDuration(item->itemInfo))
                 {
-                    auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->range)).count();
+                    auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
 
                     auto expireTime = ServerTime::Add(item->makeTime, seconds);
                     if (!expireTime)
