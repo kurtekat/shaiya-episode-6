@@ -211,8 +211,8 @@ namespace shaiya
         UINT8 weaponType;             //0x1AD
         UINT8 shieldType;             //0x1AE
         UINT8 mantleType;             //0x1AF
-        UINT8 vehicleType;            //0x1B0
         PAD(5);
+        UINT8 vehicleType;            //0x1B5
         UINT8 petType;                //0x1B6
         UINT8 clothesType;            //0x1B7
         UINT8 wingsType;              //0x1B8
@@ -224,8 +224,8 @@ namespace shaiya
         UINT8 weaponTypeId;           //0x1BE
         UINT8 shieldTypeId;           //0x1BF
         UINT8 mantleTypeId;           //0x1C0
-        UINT8 vehicleTypeId;          //0x1C1
         PAD(5);
+        UINT8 vehicleTypeId;          //0x1C6
         UINT8 petTypeId;              //0x1C7
         UINT8 clothesTypeId;          //0x1C8
         UINT8 wingsTypeId;            //0x1C9
