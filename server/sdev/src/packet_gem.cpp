@@ -678,8 +678,10 @@ void __declspec(naked) naked_0x479FB4()
     __asm
     {
         movzx eax,word ptr[esi]
+#ifdef SHAIYA_EP6_BLACKSMITH
         cmp eax,0x80D
         je case_0x80D
+#endif
         cmp eax,0x830
         je case_0x830
         cmp eax,0x831
@@ -693,6 +695,7 @@ void __declspec(naked) naked_0x479FB4()
         add eax,-0x801
         jmp u0x479FBC
 
+#ifdef SHAIYA_EP6_BLACKSMITH
         case_0x80D:
         pushad
 
@@ -704,6 +707,7 @@ void __declspec(naked) naked_0x479FB4()
         popad
 
         jmp exit_switch
+#endif
 
         // chaotic squares
 
@@ -817,8 +821,11 @@ void hook::packet_gem()
 {
     // CUser::PacketGem
     util::detour((void*)0x479FB4, naked_0x479FB4, 8);
+
+    #ifdef SHAIYA_EP6_BLACKSMITH
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
     // CUser::ItemLapisianAdd
     util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
+    #endif
 }

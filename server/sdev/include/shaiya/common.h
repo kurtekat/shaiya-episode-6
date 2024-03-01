@@ -5,6 +5,8 @@
 //#define SHAIYA_EP6_3_PT
 //#define SHAIYA_EP6_4_PT
 
+#define SHAIYA_EP6_BLACKSMITH
+
 #if \
 defined SHAIYA_EP6 || \
 defined SHAIYA_EP6_3_US || \
