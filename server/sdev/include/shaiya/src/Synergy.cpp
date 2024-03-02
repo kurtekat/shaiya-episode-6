@@ -163,7 +163,8 @@ void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergi
         if (!item)
             continue;
 
-        equipment.insert(item->itemInfo->itemId);
+        auto itemId = (item->type * 1000U) + item->typeId;
+        equipment.insert(itemId);
     }
 
     for (auto& synergy : g_synergies)
