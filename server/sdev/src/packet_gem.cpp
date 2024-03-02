@@ -30,51 +30,6 @@ namespace packet_gem
         return -1;
     }
 
-    bool is_perfect_lapisian(CItem* lapisian, CItem* upgradeItem)
-    {
-        auto enchantStep = CItem::GetEnchantStep(upgradeItem);
-        auto lapisianType = static_cast<CGameData::ItemPerfectLapisianType>(lapisian->itemInfo->country);
-
-        if (CItem::IsWeapon(upgradeItem))
-        {
-            if (enchantStep < 10)
-            {
-                switch (lapisian->itemInfo->itemId)
-                {
-                case 95004:
-                case 95005:
-                    return true;
-                default:
-                    break;
-                }
-            }
-
-            if (enchantStep == lapisian->itemInfo->range)
-                if (lapisianType == CGameData::ItemPerfectLapisianType::Weapon)
-                    return true;
-        }
-        else
-        {
-            if (enchantStep < 10)
-            {
-                switch (lapisian->itemInfo->itemId)
-                {
-                case 95005:
-                case 95009:
-                    return true;
-                default:
-                    break;
-                }
-            }
-
-            if (enchantStep == lapisian->itemInfo->range)
-                if (lapisianType == CGameData::ItemPerfectLapisianType::Armor)
-                    return true;
-        }
-
-        return false;
-    }
-
     void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -783,49 +738,13 @@ void __declspec(naked) naked_0x47A003()
     }
 }
 
-unsigned u0x47AAE0 = 0x47AAE0;
-unsigned u0x46CCF5 = 0x46CCF5;
-unsigned u0x46CD83 = 0x46CD83;
-void __declspec(naked) naked_0x46CCF0()
-{
-    __asm
-    {
-        // original
-        call u0x47AAE0
-
-        pushad
-
-        mov eax,[esp+0x3C]
-        push eax // item
-        push esi // lapisian
-        call packet_gem::is_perfect_lapisian
-        add esp,0x8
-        test al,al
-        
-        popad
-
-        jne add_enchant_step
-        jmp u0x46CCF5
-
-        add_enchant_step:
-        // isWeapon
-        movzx ecx,byte ptr[esp+0x18]
-        // enchant step
-        movzx edx,byte ptr[esp+0x13]
-        lea edx,[ecx+edx*2]
-        jmp u0x46CD83
-    }
-}
-
 void hook::packet_gem()
 {
     // CUser::PacketGem
     util::detour((void*)0x479FB4, naked_0x479FB4, 8);
 
-    #ifdef SHAIYA_EP6_BLACKSMITH
+#ifdef SHAIYA_EP6_BLACKSMITH
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
-    // CUser::ItemLapisianAdd
-    util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
-    #endif
+#endif
 }
