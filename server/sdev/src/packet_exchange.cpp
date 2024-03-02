@@ -8,9 +8,7 @@
 #include <include/shaiya/packets/2400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
 
 namespace packet_exchange
@@ -85,16 +83,6 @@ namespace packet_exchange
         packet.count = util::deserialize<std::uint8_t>(buffer, 4);
         packet.quality = item->quality;
         packet.gems = item->gems;
-
-        #ifdef SHAIYA_EP6_ITEM_DURATION
-        if (ItemHasDuration(item->itemInfo))
-        {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
-            packet.toDate = ServerTime::Add(item->makeTime, seconds);
-            packet.fromDate = packet.toDate ? item->makeTime : 0;
-        }
-        #endif
-
         packet.craftName = item->craftName;
         SConnection::Send(&user->connection, &packet, sizeof(ExchangeItemOutgoing));
     }
@@ -235,10 +223,10 @@ void hook::packet_exchange()
     // CUser::PacketExchange case 0xA07
     util::detour((void*)0x47DFC0, naked_0x47DFC0, 5);
 
-    #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
     // CUser::PacketExchange case 0xA06
     util::detour((void*)0x47DE7B, naked_0x47DE7B, 8);
     // CUser::PacketPvP case 0x240A
     util::detour((void*)0x48C69A, naked_0x48C69A, 8);
-    #endif
+#endif
 }

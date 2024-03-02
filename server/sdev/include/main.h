@@ -14,7 +14,6 @@ namespace hook
 
     // ep6 functions
 
-    void item_duration();
     void item_effect();
     void npc_quest();
     void packet_character();

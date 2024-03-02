@@ -126,9 +126,6 @@
     <ClCompile Include="src\npc_quest.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\item_duration.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\ServerTime.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
@@ -166,9 +163,6 @@
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\Synthesis.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
-    <ClCompile Include="include\shaiya\src\ItemDuration.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -426,9 +420,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synthesis.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\ItemDuration.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\gameLog\0A00.h">

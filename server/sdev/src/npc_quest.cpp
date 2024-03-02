@@ -5,16 +5,13 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/0900.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CQuest.h>
 #include <include/shaiya/include/CQuestData.h>
 #include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/ServerTime.h>
 using namespace shaiya;
 
 namespace npc_quest
@@ -56,7 +53,7 @@ namespace npc_quest
         packet.exp = result.exp;
         packet.gold = result.gold;
 
-        #ifdef SHAIYA_EP6_QUEST_RESULT
+#ifdef SHAIYA_EP6_COMMON
         for (std::size_t i = 0; i < result.item.size(); ++i)
         {
             int type = result.item[i].type;
@@ -74,35 +71,9 @@ namespace npc_quest
                 packet.itemList[i].typeId = typeId;
             }
         }
-        #endif
+#endif
 
         SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
-
-        #if defined SHAIYA_EP6_QUEST_RESULT && defined SHAIYA_EP6_ITEM_DURATION
-        for (const auto& item0903 : packet.itemList)
-        {
-            auto itemInfo = CGameData::GetItemInfo(item0903.type, item0903.typeId);
-            if (!itemInfo)
-                continue;
-
-            if (ItemHasDuration(itemInfo))
-            {
-                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->exp)).count();
-                auto now = ServerTime::GetSystemTime();
-
-                auto expireTime = ServerTime::Add(now, seconds);
-                if (!expireTime)
-                    continue;
-
-                ItemDurationOutgoing packet{};
-                packet.bag = item0903.bag;
-                packet.slot = item0903.slot;
-                packet.fromDate = now;
-                packet.toDate = expireTime;
-                SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
-            }
-        }
-        #endif
     }
 }
 

@@ -7,13 +7,11 @@
 
 #include <include/main.h>
 #include <include/util.h>
-#include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/2600.h>
 #include <include/shaiya/packets/dbAgent/0E00.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -67,32 +65,6 @@ namespace packet_shop
 
         int length = packet_size_without_list + (packet.itemCount * sizeof(Item2602));
         SConnection::Send(&user->connection, &packet, length);
-
-        #ifdef SHAIYA_EP6_ITEM_DURATION
-        for (const auto& item2602 : packet.itemList)
-        {
-            auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
-            if (!itemInfo)
-                continue;
-
-            if (ItemHasDuration(itemInfo))
-            {
-                auto seconds = std::chrono::seconds(std::chrono::days(itemInfo->exp)).count();
-                auto now = ServerTime::GetSystemTime();
-
-                auto expireTime = ServerTime::Add(now, seconds);
-                if (!expireTime)
-                    continue;
-
-                ItemDurationOutgoing packet{};
-                packet.bag = item2602.bag;
-                packet.slot = item2602.slot;
-                packet.fromDate = now;
-                packet.toDate = expireTime;
-                SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
-            }
-        }
-        #endif
     }
 
     void send_purchase2(CUser* user)
@@ -119,25 +91,6 @@ namespace packet_shop
         SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
-    }
-
-    void send_item_duration(CUser* user, CItem* item, Packet buffer)
-    {
-        if (ItemHasDuration(item->itemInfo))
-        {
-            auto seconds = std::chrono::seconds(std::chrono::days(item->itemInfo->exp)).count();
-
-            auto expireTime = ServerTime::Add(item->makeTime, seconds);
-            if (!expireTime)
-                return;
-
-            ItemDurationOutgoing packet{};
-            packet.bag = util::deserialize<std::uint8_t>(buffer, 3);
-            packet.slot = util::deserialize<std::uint8_t>(buffer, 4);
-            packet.fromDate = item->makeTime;
-            packet.toDate = expireTime;
-            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
-        }
     }
 }
 
@@ -261,53 +214,6 @@ void __declspec(naked) naked_0x4886E0()
     }
 }
 
-unsigned u0x467F60 = 0x467F60;
-unsigned u0x488CCE = 0x488CCE;
-void __declspec(naked) naked_0x488CC9()
-{
-    __asm
-    {
-        call u0x467F60
-
-        pushad
-
-        lea eax,[esp+0x40]
-
-        push eax // packet
-        push ebp // item
-        push edi // user
-        call packet_shop::send_item_duration
-        add esp,0xC
-
-        popad
-
-        jmp u0x488CCE
-    }
-}
-
-unsigned u0x464B5F = 0x464B5F;
-void __declspec(naked) naked_0x464B5A()
-{
-    __asm
-    {
-        call u0x467F60
-
-        pushad
-
-        lea eax,[esp+0x30]
-
-        push eax // packet
-        push ebp // item
-        push edi // user
-        call packet_shop::send_item_duration
-        add esp,0xC
-
-        popad
-
-        jmp u0x464B5F
-    }
-}
-
 void hook::packet_shop()
 {
     // CUser::PacketCharacter case 0x104
@@ -326,12 +232,8 @@ void hook::packet_shop()
     int enabled = true;
     util::write_memory((void*)0x58799C, &enabled, 4);
 
-    #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
     // CUser::PacketShop case 0x2602
     util::detour((void*)0x4886E0, naked_0x4886E0, 5);
-    // CUser::PacketShop case 0x2607
-    util::detour((void*)0x488CC9, naked_0x488CC9, 5);
-    // CUser::PacketBilling
-    util::detour((void*)0x464B5A, naked_0x464B5A, 5);
-    #endif
+#endif
 }
