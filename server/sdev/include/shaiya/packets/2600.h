@@ -44,10 +44,10 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 count;
-        #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         ULONG fromDate;
         ULONG toDate;
-        #endif
+#endif
     };
     #pragma pack(pop)
 

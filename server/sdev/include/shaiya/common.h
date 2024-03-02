@@ -1,76 +1,13 @@
 #pragma once
 #pragma warning(disable: 28159) // GetTickCount
 //#define SHAIYA_EP6
-//#define SHAIYA_EP6_3_US
-//#define SHAIYA_EP6_3_PT
 //#define SHAIYA_EP6_4_PT
-
-#define SHAIYA_EP6_BLACKSMITH
+//#define SHAIYA_EP6_BLACKSMITH
 
 #if \
 defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_3_PT || \
 defined SHAIYA_EP6_4_PT
 #define SHAIYA_EP6_COMMON
-#endif
-
-#if \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_3_PT
-#define SHAIYA_EP6_3_COMMON
-#endif
-
-#if \
-defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_0511
-#endif
-
-#if \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_3_PT || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_DURATION
-#endif
-
-#if \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_EFFECT
-#endif
-
-#if \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_3_PT || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_EQUIPMENT
-#endif
-
-#if \
-defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_SET
-#endif
-
-#if \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_ITEM_SYNTHESIS
-#endif
-
-#if \
-defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_3_US || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_QUEST_RESULT
-#endif
-
-#if \
-defined SHAIYA_EP6_3_PT || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_CLONE_SIZE_128
 #endif
 
 #include <array>
@@ -86,13 +23,11 @@ namespace shaiya
 {
     struct CItem;
 
-    #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
     constexpr int item_list_size = 17;
-    #elif defined SHAIYA_EP6_3_COMMON
-    constexpr int item_list_size = 16;
-    #else
+#else
     constexpr int item_list_size = 8;
-    #endif
+#endif
 
     constexpr int warehouse_bag = 100;
     constexpr int bank_bag = 200;

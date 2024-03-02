@@ -243,11 +243,11 @@ namespace user_shape
         packet.charId = user->id;
         packet.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
-        #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         packet.vehicleType = !vehicle ? 0 : vehicle->type;
         packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-        #endif
+#endif
 
         if (!user->zone)
             return;
@@ -261,11 +261,11 @@ namespace user_shape
         packet.charId = user->id;
         packet.shapeType = shapeType;
 
-        #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         packet.vehicleType = !vehicle ? 0 : vehicle->type;
         packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-        #endif
+#endif
 
         SConnection::Send(&target->connection, &packet, sizeof(UserShapeTypeOutgoing));
     }
@@ -424,12 +424,12 @@ void hook::user_shape()
     // CUser::CheckTargetUser case 2
     util::detour((void*)0x45A365, naked_0x45A365, 7);
 
-    #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
     // CUser::SendShape
     util::detour((void*)0x491490, naked_0x491490, 6);
     //
     util::detour((void*)0x42A56C, naked_0x42A56C, 6);
     // CZone::SendMoveUser
     util::detour((void*)0x4263AD, naked_0x4263AD, 6);
-    #endif
+#endif
 }

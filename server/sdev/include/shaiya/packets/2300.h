@@ -14,10 +14,10 @@ namespace shaiya
         UINT8 typeId;
         UINT8 count;
         UINT16 quality;
-        #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         ULONG fromDate;
         ULONG toDate;
-        #endif
+#endif
         Gems gems;
         CraftName craftName;
     };

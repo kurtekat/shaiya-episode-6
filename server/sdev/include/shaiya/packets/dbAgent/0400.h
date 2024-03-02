@@ -40,14 +40,11 @@ namespace shaiya
         UINT16 mapId;             //0x25
         ULONG deleteDate;         //0x27
         Equipment0403 equipment;  //0x2B
-        // 6.4: 0x4D, 6.3: 0x4B, 5.4: 0x3B
+        // 6.4: 0x4D, 5.4: 0x3B
         CloakBadge cloakBadge;
-        // 6.4: 0x53, 6.3: 0x51, 5.4: 0x41
+        // 6.4: 0x53, 5.4: 0x41
         CharName charName;
-        #ifdef SHAIYA_EP6_3_COMMON
-        PAD(2);
-        #endif
-        // 6.4, 6.3: 0x68, 5.4: 0x56
+        // 6.4: 0x68, 5.4: 0x56
     };
     #pragma pack(pop)
 

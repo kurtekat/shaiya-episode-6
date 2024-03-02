@@ -81,11 +81,11 @@ namespace shaiya
     {
         UINT16 opcode{ 0x307 };
         UINT8 itemCount;
-        #ifdef SHAIYA_EP6_ITEM_EQUIPMENT
+#ifdef SHAIYA_EP6_4_PT
         Array<Item0307, item_list_size> itemList;
-        #else
+#else
         Array<Item0307, 12> itemList;
-        #endif
+#endif
     };
     #pragma pack(pop)
 }

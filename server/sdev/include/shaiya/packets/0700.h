@@ -39,10 +39,10 @@ namespace shaiya
         UINT16 quality;
         Gems gems;
         UINT8 count;
-        #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         ULONG fromDate;
         ULONG toDate;
-        #endif
+#endif
         CraftName craftName;
     };
     #pragma pack(pop)
@@ -53,11 +53,11 @@ namespace shaiya
         UINT16 opcode{ 0x711 };
         UINT32 bankMoney;
         UINT8 itemCount;
-        #ifdef SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         Array<Item0711, 40> itemList;
-        #else
+#else
         Array<Item0711, 50> itemList;
-        #endif
+#endif
     };
     #pragma pack(pop)
 }

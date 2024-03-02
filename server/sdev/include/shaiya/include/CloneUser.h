@@ -32,18 +32,18 @@ namespace shaiya
         UINT32 kills;             //0x14
         // 0x18
         Array<CloneItem, item_list_size> equipment;
-        // 6.4: 0x4B, 6.3: 0x48, 5.4: 0x30
+        // 6.4: 0x4B, 5.4: 0x30
         CharName charName;
-        // 6.4: 0x60, 6.3: 0x5D, 5.4: 0x45
+        // 6.4: 0x60, 5.4: 0x45
         CloakBadge cloakBadge;
-        // 6.4: 0x66, 6.3: 0x63, 5.4: 0x4B
+        // 6.4: 0x66, 5.4: 0x4B
         GuildName guildName;
-        // 6.4: 0x7F, 6.3: 0x7C, 5.4: 0x64
+        // 6.4: 0x7F, 5.4: 0x64
         UINT8 packetLength;
-        #ifndef SHAIYA_EP6_CLONE_SIZE_128
+        #ifndef SHAIYA_EP6_4_PT
         PAD(3);
         #endif
-        // 6.4, 6.3: 0x80, 5.4: 0x68
+        // 6.4: 0x80, 5.4: 0x68
     };
     #pragma pack(pop)
 }

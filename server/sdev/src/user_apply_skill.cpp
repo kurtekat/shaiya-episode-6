@@ -23,9 +23,9 @@ namespace user_apply_skill
 
         if (!user->frenzy.triggered)
         {
-            #ifdef SHAIYA_EP6_0511
+#ifdef SHAIYA_EP6_COMMON
             packet.frenzyState = SkillUseFrenzyState::Triggered;
-            #endif
+#endif
 
             user->frenzy.triggered = true;
             user->frenzy.skillId = packet.skillId;
@@ -41,9 +41,9 @@ namespace user_apply_skill
         }
         else
         {
-            #ifdef SHAIYA_EP6_0511
+#ifdef SHAIYA_EP6_COMMON
             packet.frenzyState = SkillUseFrenzyState::Stopped;
-            #endif
+#endif
 
             user->frenzy.triggered = false;
             user->frenzy.skillId = 0;

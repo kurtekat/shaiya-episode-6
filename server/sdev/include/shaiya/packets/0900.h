@@ -53,14 +53,14 @@ namespace shaiya
         UINT8 index;
         UINT32 exp;
         UINT32 gold;
-        #ifdef SHAIYA_EP6_QUEST_RESULT
+#ifdef SHAIYA_EP6_COMMON
         Array<Item0903, 3> itemList;
-        #else
+#else
         UINT8 bag;
         UINT8 slot;
         UINT8 type;
         UINT8 typeId;
-        #endif
+#endif
     };
     #pragma pack(pop)
 }

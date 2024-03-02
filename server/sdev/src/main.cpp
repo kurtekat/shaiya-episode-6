@@ -23,13 +23,13 @@ void leave_world_hook(CUser* user)
 {
     std::erase(g_users, user->id);
 
-    #ifdef SHAIYA_EP6_ITEM_SET
+#ifdef SHAIYA_EP6_COMMON
     g_appliedSynergies.erase(user->id);
-    #endif
+#endif
 
-    #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
     g_revengeMark.erase(user->id);
-    #endif
+#endif
 }
 
 unsigned u0x455B06 = 0x455B06;
@@ -102,44 +102,25 @@ void Main()
     hook::packet_exchange();
     hook::packet_shop();
 
-    #ifdef SHAIYA_EP6_COMMON
-    hook::user_status();
-    #endif
-
-    #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
+    hook::item_effect();
+    hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
-    hook::revenge_mark();
-    #endif
-
-    #ifdef SHAIYA_EP6_0511
-    hook::user_apply_skill();
-    #endif
-
-    #ifdef SHAIYA_EP6_QUEST_RESULT
-    hook::npc_quest();
-    #endif
-
-    #ifdef SHAIYA_EP6_ITEM_DURATION
-    hook::item_duration();
     hook::packet_myshop();
-    #endif
-
-    #ifdef SHAIYA_EP6_ITEM_EFFECT
-    hook::item_effect();
-    #endif
-
-    #ifdef SHAIYA_EP6_ITEM_EQUIPMENT
-    hook::packet_character();
+    hook::revenge_mark();
     hook::user_equipment();
     hook::user_shape();
-    #endif
+#endif
 
-    #ifdef SHAIYA_EP6_ITEM_SET
+#ifdef SHAIYA_EP6_COMMON
+    hook::npc_quest();
+    hook::user_apply_skill();
+    hook::user_status();
     Synergy::init();
-    #endif
+#endif
 
-    #ifdef SHAIYA_EP6_ITEM_SYNTHESIS
+#ifdef SHAIYA_EP6_4_PT
     Synthesis::init();
-    #endif
+#endif
 }

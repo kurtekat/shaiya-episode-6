@@ -80,8 +80,6 @@ void __declspec(naked) naked_0x4061D3()
 
 void hook::character_create()
 {
-    #ifdef SHAIYA_EP6_4_PT
     // CUser::PacketUserChar switch
     util::detour((void*)0x4061D3, naked_0x4061D3, 6);
-    #endif
 }

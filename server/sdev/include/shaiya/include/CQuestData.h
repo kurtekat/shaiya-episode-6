@@ -16,7 +16,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #ifdef SHAIYA_EP6_QUEST_RESULT
+    #ifdef SHAIYA_EP6_COMMON
     #pragma pack(push, 1)
     struct QuestResult
     {
@@ -95,7 +95,7 @@ namespace shaiya
         UINT8 reqMobCount1;     //0x15A
         UINT8 reqMobCount2;     //0x15B
         PAD(4);
-        #ifdef SHAIYA_EP6_QUEST_RESULT
+        #ifdef SHAIYA_EP6_COMMON
         // 0x160
         Array<QuestResult, 6> result;
         // 0x268

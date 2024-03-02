@@ -9,7 +9,6 @@
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 
@@ -358,14 +357,10 @@ void hook::user_equipment()
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
-
-    #ifdef SHAIYA_EP6_ITEM_SET
     // CUser::ItemEquipmentAdd
     util::detour((void*)0x461640, naked_0x461640, 6);
     // CUser::ItemEquipmentRem
     util::detour((void*)0x461D10, naked_0x461D10, 6);
-    #endif
-
     // CUser::InitEquipment (overload)
     util::write_memory((void*)0x4615B3, item_list_size, 1);
     // CUser::ItemBagToBag
