@@ -2,6 +2,10 @@
 
 An open source effort to make episode 5 servers compatible with episode 6 clients.
 
+## Introduction
+
+The reason I started this project was to replace the [pet](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4102262-release-shen1ls-wings.html) library with an open source alternative. See [this](https://forum.shaiya.gg/threads/an-open-source-effort-to-make-episode-5-servers-compatible-with-episode-6-clients.10/) post in the Shaiya.gg forum for a list of contributors that helped me in some way or another.
+
 ## Environment
 
 Windows 10
@@ -10,9 +14,13 @@ Visual Studio 2022
 
 C++ 23
 
-## Documentation
+## Prerequisites
 
-Please read the [wiki](https://github.com/kurtekat/shaiya-episode-6/wiki) before getting started.
+[Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x86.exe)
+
+## Injection
+
+Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the application or the libraries. The libraries have an export defined in the main headers.
 
 ## Inspiration
 
@@ -22,16 +30,14 @@ Please read the [wiki](https://github.com/kurtekat/shaiya-episode-6/wiki) before
 
 [shen1l](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/3669922-release-ep6-itemmall-fixed.html)
 
-## Goal
-
-To build a stable library that replaces pet.dll and exceeds its capabilities.
-
 ## References
 
 [Eden](https://github.com/tristonplummer/Eden)
 
 [Teos](https://github.com/ShaiyaTeos/Teos)
 
-[Imgeneus](https://github.com/vbasik08/SH.Imgeneus)
-
 [Parsec](https://github.com/matigramirez/Parsec)
+
+## Contributors
+
+Please don't submit a pull request unless I invite you to contribute. I can't disable the pull request tab to prevent unwanted contributions.
