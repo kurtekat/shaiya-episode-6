@@ -2,6 +2,8 @@
 
 This file has been modified to support level 80 as well as the episode 6 NpcQuest format (experimental).
 
+# Notes
+
 ## StatusDefs
 
 ### Method
@@ -77,6 +79,17 @@ struct StatusDefs
 | 3    | 0x588DA8    | 0x588F88    | 0x1E0    |
 | 4    | 0x588F88    | 0x589168    | 0x1E0    |
 | 5    | 0x589168    | 0x589348    | 0x1E0    |
+
+### Points per level
+
+| Job  | HP     | SP    | MP    |
+|------|--------|-------|-------|
+| 0    | 66     | 15    | 7     |
+| 1    | 110    | 5     | 11    |
+| 2    | 90     | 25    | 7     |
+| 3    | 82     | 40    | 20    |
+| 4    | 51     | 4     | 75    |
+| 5    | 59     | 5     | 65    |
 
 ## ExpDefs
 
