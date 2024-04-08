@@ -39,10 +39,6 @@
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
