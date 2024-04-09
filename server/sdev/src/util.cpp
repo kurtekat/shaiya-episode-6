@@ -1,12 +1,9 @@
-#include <chrono>
-#include <fstream>
-#include <format>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #include <include/util.h>
 
-int util::detour(Address addr, Function func, std::size_t size)
+int util::detour(Address addr, Function func, int size)
 {
     constexpr int nop = 0x90;
     constexpr int jmp = 0xE9;
@@ -19,28 +16,16 @@ int util::detour(Address addr, Function func, std::size_t size)
     if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    std::memset(addr, nop, size);
-    std::memset(addr, jmp, 1);
+    memset(addr, nop, size);
+    memset(addr, jmp, 1);
     __asm { inc addr }
-    std::memcpy(addr, &dest, 4);
+    memcpy(addr, &dest, 4);
     __asm { dec addr }
 
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-void util::log(const std::string& text)
-{
-    auto time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
-    std::ofstream ofs("sdev.log.txt", std::ios::app);
-    
-    if (ofs)
-    {
-        ofs << std::format("{:%Y-%m-%d %X}\n", time) << text << '\n';
-        ofs.close();
-    }
-}
-
-int util::write_memory(Address addr, Buffer buffer, std::size_t size)
+int util::write_memory(Address addr, Buffer buffer, int size)
 {
     if (size < 1)
         return 0;
@@ -55,15 +40,15 @@ int util::write_memory(Address addr, Buffer buffer, std::size_t size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, int value, std::size_t size)
+int util::write_memory(Address addr, int value, int count)
 {
-    if (size < 1)
+    if (count < 1)
         return 0;
 
     unsigned long protect;
-    if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
+    if (!VirtualProtect(addr, count, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    std::memset(addr, value, size);
-    return VirtualProtect(addr, size, protect, &protect);
+    memset(addr, value, count);
+    return VirtualProtect(addr, count, protect, &protect);
 }
