@@ -165,6 +165,9 @@
     <ClCompile Include="include\shaiya\src\Synthesis.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\SLog.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -426,6 +429,9 @@
       <Filter>include\shaiya\packets\gameLog</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CMapRegion.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SLog.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

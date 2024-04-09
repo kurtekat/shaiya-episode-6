@@ -25,40 +25,6 @@ CGameData::MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
     }
 }
 
-CGameData::KillCountStatus* CGameData::GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/)
-{
-    Address u0x418FC0 = 0x418FC0;
-
-    __asm
-    {
-        mov eax,country
-        mov ebx,killCount
-        call u0x418FC0
-    }
-}
-
-int CGameData::GetKCStatusMax(int country/*eax*/)
-{
-    Address u0x419020 = 0x419020;
-
-    __asm
-    {
-        mov eax,country
-        call u0x419020
-    }
-}
-
-int CGameData::GetKCStatusMaxKillCount(int country/*eax*/)
-{
-    Address u0x4033E0 = 0x4033E0;
-
-    __asm
-    {
-        mov eax,country
-        call u0x4033E0
-    }
-}
-
 CGameData::ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
 {
     Address u0x47A5F0 = 0x47A5F0;

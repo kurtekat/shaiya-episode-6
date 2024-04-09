@@ -10,6 +10,8 @@
 #include <include/util.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/SConnectionTBaseReconnect.h>
+#include <include/shaiya/include/SLog.h>
 #include <include/shaiya/include/Synergy.h>
 using namespace shaiya;
 
@@ -24,7 +26,7 @@ void Synergy::init()
 
     if (!std::filesystem::exists(path))
     {
-        util::log("Synergy::init file not found");
+        SLog::PrintFileDirect(&g_pClientToLog->log, "cannot %s %s: %s", "open", ".\\Data\\SetItem.SData", "No such file or directory");
         return;
     }
 
@@ -60,9 +62,8 @@ void Synergy::init()
 
         ifs.close();
     }
-    catch (const std::exception& ex)
+    catch (...)
     {
-        util::log(ex.what());
     }
 }
 

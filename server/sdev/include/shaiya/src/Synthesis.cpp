@@ -17,6 +17,7 @@
 #include <include/shaiya/include/Ini.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
+#include <include/shaiya/include/SLog.h>
 #include <include/shaiya/include/Synthesis.h>
 using namespace shaiya;
 
@@ -31,7 +32,7 @@ void Synthesis::init()
 
     if (!std::filesystem::exists(path))
     {
-        util::log("Synthesis::init file not found");
+        SLog::PrintFileDirect(&g_pClientToLog->log, "cannot %s %s: %s", "open", ".\\Data\\ItemSynthesis.ini", "No such file or directory");
         return;
     }
 

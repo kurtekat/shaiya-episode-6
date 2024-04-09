@@ -390,44 +390,6 @@ namespace shaiya
         #pragma pack(pop)
 
         #pragma pack(push, 1)
-        struct KillCountStatus
-        {
-            UINT32 index;              //0x00
-            UINT32 killCount;          //0x04
-            UINT32 grade;              //0x08
-            PAD(4);
-            UINT32 health;             //0x10
-            UINT32 stamina;            //0x14
-            UINT32 mana;               //0x18
-            UINT32 strength;           //0x1C
-            UINT32 reaction;           //0x20
-            UINT32 intelligence;       //0x24
-            UINT32 wisdom;             //0x28
-            UINT32 dexterity;          //0x2C
-            UINT32 luck;               //0x30
-            UINT32 sitHpRecovery;      //0x34
-            UINT32 sitSpRecovery;      //0x38
-            UINT32 sitMpRecovery;      //0x3C
-            UINT32 combatHpRecovery;   //0x40
-            UINT32 combatSpRecovery;   //0x44
-            UINT32 combatMpRecovery;   //0x48
-            UINT32 criticalHitRate;    //0x4C
-            UINT32 hitRate;            //0x50
-            UINT32 defense;            //0x54
-            UINT32 rangedDefense;      //0x58
-            UINT32 magicResistance;    //0x5C
-            UINT32 evasionRate;        //0x60
-            UINT32 rangedEvasionRate;  //0x64
-            UINT32 magicEvasionRate;   //0x68
-            UINT32 linkSuccessRate;    //0x6C
-            UINT32 expLossRate;        //0x70
-            UINT32 repairCost;         //0x74
-            UINT32 itemCastTime;       //0x78
-            // 0x7C
-        };
-        #pragma pack(pop)
-
-        #pragma pack(push, 1)
         struct MobQuestItem
         {
             UINT8 type;
@@ -701,9 +663,6 @@ namespace shaiya
 
         static ItemInfo* GetItemInfo(int type/*eax*/, int typeId/*ecx*/);
         static MobInfo* GetMobInfo(int mobId/*eax*/);
-        static KillCountStatus* GetKCStatusByCount(int country/*eax*/, ULONG killCount/*ebx*/);
-        static int GetKCStatusMax(int country/*eax*/);
-        static int GetKCStatusMaxKillCount(int country/*eax*/);
         static ProductInfo* GetProductInfo(const char* productCode/*eax*/);
         static SkillInfo* GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/);
     };
