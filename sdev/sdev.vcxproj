@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\shaiya\src\DataFile.cpp" />
+    <ClCompile Include="include\shaiya\src\CGameData.cpp" />
+    <ClCompile Include="include\shaiya\src\CGuild.cpp" />
+    <ClCompile Include="include\shaiya\src\CItem.cpp" />
+    <ClCompile Include="include\shaiya\src\CItemDrop.cpp" />
+    <ClCompile Include="include\shaiya\src\CMap.cpp" />
+    <ClCompile Include="include\shaiya\src\CMob.cpp" />
+    <ClCompile Include="include\shaiya\src\CNpc.cpp" />
+    <ClCompile Include="include\shaiya\src\CObject.cpp" />
+    <ClCompile Include="include\shaiya\src\CObjectMgr.cpp" />
+    <ClCompile Include="include\shaiya\src\CParty.cpp" />
+    <ClCompile Include="include\shaiya\src\CQuestData.cpp" />
+    <ClCompile Include="include\shaiya\src\CTrap.cpp" />
+    <ClCompile Include="include\shaiya\src\CUser.cpp" />
+    <ClCompile Include="include\shaiya\src\CWorld.cpp" />
+    <ClCompile Include="include\shaiya\src\CZone.cpp" />
+    <ClCompile Include="include\shaiya\src\Ini.cpp" />
+    <ClCompile Include="include\shaiya\src\MyShop.cpp" />
+    <ClCompile Include="include\shaiya\src\SConnection.cpp" />
+    <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
+    <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
+    <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
+    <ClCompile Include="include\shaiya\src\ServerTime.cpp" />
+    <ClCompile Include="include\shaiya\src\SLog.cpp" />
+    <ClCompile Include="include\shaiya\src\SVector.cpp" />
+    <ClCompile Include="include\shaiya\src\Synergy.cpp" />
+    <ClCompile Include="include\shaiya\src\Synthesis.cpp" />
+    <ClCompile Include="src\item_effect.cpp" />
+    <ClCompile Include="src\npc_quest.cpp" />
+    <ClCompile Include="src\packet_exchange.cpp" />
+    <ClCompile Include="src\packet_market.cpp" />
+    <ClCompile Include="src\packet_myshop.cpp" />
+    <ClCompile Include="src\revenge_mark.cpp" />
+    <ClCompile Include="src\user_equipment.cpp" />
+    <ClCompile Include="src\packet_character.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\packet_gem.cpp" />
+    <ClCompile Include="src\packet_shop.cpp" />
+    <ClCompile Include="src\user_apply_skill.cpp" />
+    <ClCompile Include="src\user_status.cpp" />
+    <ClCompile Include="src\user_shape.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\main.h" />
+    <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\include\CMapRegion.h" />
+    <ClInclude Include="include\shaiya\include\DataFile.h" />
+    <ClInclude Include="include\shaiya\include\CDead.h" />
+    <ClInclude Include="include\shaiya\include\CDoor.h" />
+    <ClInclude Include="include\shaiya\include\CExchange.h" />
+    <ClInclude Include="include\shaiya\include\CFriend.h" />
+    <ClInclude Include="include\shaiya\include\CGameData.h" />
+    <ClInclude Include="include\shaiya\include\CGuild.h" />
+    <ClInclude Include="include\shaiya\include\CGuildCreate.h" />
+    <ClInclude Include="include\shaiya\include\CItem.h" />
+    <ClInclude Include="include\shaiya\include\CItemDrop.h" />
+    <ClInclude Include="include\shaiya\include\CloneUser.h" />
+    <ClInclude Include="include\shaiya\include\CMap.h" />
+    <ClInclude Include="include\shaiya\include\CMiniGame.h" />
+    <ClInclude Include="include\shaiya\include\CMob.h" />
+    <ClInclude Include="include\shaiya\include\CNpc.h" />
+    <ClInclude Include="include\shaiya\include\CNpcData.h" />
+    <ClInclude Include="include\shaiya\include\CObject.h" />
+    <ClInclude Include="include\shaiya\include\CObjectMgr.h" />
+    <ClInclude Include="include\shaiya\include\CParty.h" />
+    <ClInclude Include="include\shaiya\include\CQuest.h" />
+    <ClInclude Include="include\shaiya\include\CQuestData.h" />
+    <ClInclude Include="include\shaiya\include\CSkill.h" />
+    <ClInclude Include="include\shaiya\include\CTrap.h" />
+    <ClInclude Include="include\shaiya\include\CUser.h" />
+    <ClInclude Include="include\shaiya\include\CWorld.h" />
+    <ClInclude Include="include\shaiya\include\CZone.h" />
+    <ClInclude Include="include\shaiya\include\CZoneNode.h" />
+    <ClInclude Include="include\shaiya\include\Ini.h" />
+    <ClInclude Include="include\shaiya\include\MyShop.h" />
+    <ClInclude Include="include\shaiya\include\Obelisk.h" />
+    <ClInclude Include="include\shaiya\include\RevengeMark.h" />
+    <ClInclude Include="include\shaiya\include\SConnection.h" />
+    <ClInclude Include="include\shaiya\include\SDatabase.h" />
+    <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
+    <ClInclude Include="include\shaiya\include\ServerTime.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionTBaseReconnect.h" />
+    <ClInclude Include="include\shaiya\include\SLog.h" />
+    <ClInclude Include="include\shaiya\include\SNode.h" />
+    <ClInclude Include="include\shaiya\include\SSyncList.h" />
+    <ClInclude Include="include\shaiya\include\SSyncMap.h" />
+    <ClInclude Include="include\shaiya\include\SVector.h" />
+    <ClInclude Include="include\shaiya\include\Synergy.h" />
+    <ClInclude Include="include\shaiya\include\Synthesis.h" />
+    <ClInclude Include="include\shaiya\packets\0003.h" />
+    <ClInclude Include="include\shaiya\packets\0100.h" />
+    <ClInclude Include="include\shaiya\packets\0200.h" />
+    <ClInclude Include="include\shaiya\packets\0300.h" />
+    <ClInclude Include="include\shaiya\packets\0400.h" />
+    <ClInclude Include="include\shaiya\packets\0500.h" />
+    <ClInclude Include="include\shaiya\packets\0600.h" />
+    <ClInclude Include="include\shaiya\packets\0700.h" />
+    <ClInclude Include="include\shaiya\packets\0800.h" />
+    <ClInclude Include="include\shaiya\packets\0900.h" />
+    <ClInclude Include="include\shaiya\packets\0A00.h" />
+    <ClInclude Include="include\shaiya\packets\0B00.h" />
+    <ClInclude Include="include\shaiya\packets\0D00.h" />
+    <ClInclude Include="include\shaiya\packets\B100.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0300.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0700.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0900.h" />
+    <ClInclude Include="include\shaiya\packets\F100.h" />
+    <ClInclude Include="include\shaiya\packets\2200.h" />
+    <ClInclude Include="include\shaiya\packets\2300.h" />
+    <ClInclude Include="include\shaiya\packets\2400.h" />
+    <ClInclude Include="include\shaiya\packets\2500.h" />
+    <ClInclude Include="include\shaiya\packets\2600.h" />
+    <ClInclude Include="include\shaiya\packets\1100.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0400.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0600.h" />
+    <ClInclude Include="include\shaiya\packets\dbAgent\0E00.h" />
+    <ClInclude Include="include\shaiya\packets\F500.h" />
+    <ClInclude Include="include\shaiya\packets\F900.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0400.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0500.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0800.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0900.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0A00.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0C00.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0E00.h" />
+    <ClInclude Include="include\shaiya\packets\gameLog\0F00.h" />
+    <ClInclude Include="include\shaiya\packets\session\0100.h" />
+    <ClInclude Include="include\shaiya\packets\session\1B00.h" />
+    <ClInclude Include="include\shaiya\packets\userLog\0300.h" />
+    <ClInclude Include="resources\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\sdev.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{cc07fbe2-8d59-47af-8344-a80f5c1c3414}</ProjectGuid>
+    <RootNamespace>sdev</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <TargetFrameworkVersion>
+    </TargetFrameworkVersion>
+    <ProjectName>sdev</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Release;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Debug;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Release;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

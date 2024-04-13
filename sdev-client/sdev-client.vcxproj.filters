@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{68513513-d4e8-47c8-baec-e11ad6768888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya">
+      <UniqueIdentifier>{84e1ba66-ddf6-4f25-98e3-89a0bb316e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\include">
+      <UniqueIdentifier>{70582268-59a2-4fef-85b2-9638afc8f291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\src">
+      <UniqueIdentifier>{b78fdabe-c3b9-4511-8b28-843deaa34ee7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\main.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CCharacter.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CNetwork.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\resource.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\common.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dllmain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\item.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\packet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\CNetwork.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\sdev.rc">
+      <Filter>resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
