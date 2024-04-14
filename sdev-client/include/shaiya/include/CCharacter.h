@@ -5,167 +5,18 @@ namespace shaiya
 {
     struct CMonster;
 
-    enum struct ActionType : UINT32
-    {
-        None,
-        Move,
-        Attack,
-        Jump,
-        SitDown = 5,
-        StandUp,
-        Break,
-        Cast,
-        UseSkill
-    };
-
-    enum struct Animation : UINT32
-    {
-        None,
-        Walk,
-        Run,
-        WalkBack,
-        WalkLeft,
-        WalkRight,
-        Wade,
-        Swim,
-        Jump,
-        Death,
-        SitDown,
-        StandUp,
-        Break,
-        JumpBack,
-        JumpLeft,
-        JumpRight,
-        Idle1,
-        Idle2,
-        Climb,
-        SelectionScreen,
-        VehicleRunMode,
-        Vehicle,
-        Snowboard,
-        TwoHandedAtkMode,
-        TwoHandedAttack1,
-        TwoHandedAttack2,
-        TwoHandedAttack3,
-        TwoHandedAttack4,
-        TwoHandedDamage,
-        TwoHandedRunMode,
-        BowAtkMode,
-        BowAttack,
-        BowDamage,
-        BowRunMode,
-        OneHandedAtkMode,
-        OneHandedAttack1,
-        OneHandedAttack2,
-        OneHandedAttack3,
-        OneHandedAttack4,
-        OneHandedDamage,
-        OneHandedRunMode,
-        DualWieldAtkMode,
-        DualWieldAttack1,
-        DualWieldAttack2,
-        DualWieldAttack3,
-        DualWieldAttack4,
-        DualWieldDamage,
-        DualWieldRunMode,
-        SpearAtkMode,
-        SpearAttack1,
-        SpearAttack2,
-        SpearAttack3,
-        SpearAttack4,
-        SpearDamage,
-        SpearRunMode,
-        JavelinAtkMode,
-        JavelinAttack,
-        JavelinDamage,
-        JavelinRunMode,
-        StaffAtkMode,
-        StaffAttack1,
-        StaffAttack2,
-        StaffDamage,
-        StaffRunMode,
-        ReverseAtkMode,
-        ReverseAttack1,
-        ReverseAttack2,
-        ReverseAttack3,
-        ReverseAttack4,
-        ReverseDamage,
-        ReverseRunMode,
-        KnuckleAtkMode,
-        KnuckleAttack1,
-        KnuckleAttack2,
-        KnuckleAttack3,
-        KnuckleAttack4,
-        KnuckleDamage,
-        KnuckleRunMode,
-        DaggerAtkMode,
-        DaggerAttack1,
-        DaggerAttack2,
-        DaggerAttack3,
-        DaggerAttack4,
-        DaggerDamage,
-        DaggerRunMode,
-        Cast85,
-        Cast86,
-        UseSkill87,
-        Cast88,
-        Cast89,
-        UseSkill90,
-        Cast91,
-        Cast92,
-        UseSkill93,
-        Cast94,
-        Cast95,
-        UseSkill96,
-        Cast97,
-        Cast98,
-        UseSkill99,
-        Skill100,
-        Skill101,
-        Skill102,
-        Skill103,
-        Skill104,
-        Skill105,
-        Skill106,
-        Skill107,
-        Skill108,
-        Skill109,
-        Skill110,
-        Beg = 116,
-        Victory,
-        Laugh,
-        Love,
-        Greet,
-        Clap,
-        Defeat,
-        Start,
-        Insult,
-        Provoke
-    };
-
-    enum struct EventType : UINT32
-    {
-        None,
-        Unknown,
-        Death,
-        Rebirth
-    };
+    typedef Array<UINT32, 6> Clothes;
+    typedef Array<char, 51> ShapeName;
 
     #pragma pack(push, 1)
-    struct GuildName
-    {
-        Array<char, 32> text;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
+    // 00419800 ctor
     struct CCharacter
     {
         PAD(16);
         D3DVECTOR pos;                //0x10
         D3DVECTOR dir;                //0x1C
         D3DVECTOR up;                 //0x28
-        CharId id;                    //0x34
+        ULONG id;                     //0x34
         UINT32 upperModel;            //0x38
         UINT32 handsModel;            //0x3C
         UINT32 lowerModel;            //0x40
@@ -176,12 +27,7 @@ namespace shaiya
         BOOL enableClothes;           //0xAC
         Clothes clothes;              //0xB0
         // 0xC8
-        PAD(32);
-        Animation ani;                //0xE8
-        Animation nextAni;            //0xEC
-        PAD(8);
-        ActionType actionType;        //0xF8
-        PAD(16);
+        PAD(68);
         CharName charName;            //0x10C
         ShapeName shapeName;          //0x121
         PAD(4);
@@ -235,15 +81,14 @@ namespace shaiya
         Country country;              //0x2B7
         Family family;                //0x2B8
         Grow grow;                    //0x2B9
-        PAD(6);
-        EventType eventType;          //0x2C0
+        PAD(10);
         BOOL visible;                 //0x2C4
         PAD(12);
         bool isAdmin;                 //0x2D4
         PAD(23);
         ShapeType shapeType;          //0x2EC
         PAD(31);
-        GuildName* guildName;         //0x30C
+        char* guildName;              //0x30C
         ULONG guildId;                //0x310
         PAD(32);
         UINT32 kills;                 //0x334
