@@ -391,7 +391,7 @@ void __declspec(naked) naked_0x4263AD()
         mov [esp+0x43],eax
 
         // user->inventory[0][13]
-        mov eax,[edi+0x1F0]
+        mov eax,[edi+0x1F4]
         test eax,eax
         je without_vehicle
 
@@ -427,7 +427,7 @@ void hook::user_shape()
 #ifdef SHAIYA_EP6_4_PT
     // CUser::SendShape
     util::detour((void*)0x491490, naked_0x491490, 6);
-    //
+    // CCell::SendCellInfoEnter
     util::detour((void*)0x42A56C, naked_0x42A56C, 6);
     // CZone::SendMoveUser
     util::detour((void*)0x4263AD, naked_0x4263AD, 6);
