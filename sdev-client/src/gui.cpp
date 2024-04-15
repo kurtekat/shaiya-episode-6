@@ -61,10 +61,15 @@ void hook::gui()
     // message box
     util::detour((void*)0x47E07F, naked_0x47E07F, 5);
 
-    // move when using cash shop
-    std::array<std::uint8_t, 2> a00{ 0xEB, 0x2A };
-    util::write_memory((void*)0x44565D, &a00, 2);
-    // remove ep6 vehicles (auction board)
-    std::array<std::uint8_t, 1> a01{ 0x07 };
-    util::write_memory((void*)0x463FE0, &a01, 1);
+    // remove ep6 vehicle section (auction board)
+    util::write_memory((void*)0x463FE0, 0x07, 1);
+    // speed recreation
+    util::write_memory((void*)0x4C4D2F, 0x02, 1);
+    // speed enhance
+    util::write_memory((void*)0x501600, 0x02, 1);
+    util::write_memory((void*)0x501602, 0x02, 1);
+    util::write_memory((void*)0x501631, 0x02, 1);
+    util::write_memory((void*)0x501633, 0x02, 1);
+    util::write_memory((void*)0x501644, 0x03, 1);
+    util::write_memory((void*)0x50164D, 0x03, 1);
 }
