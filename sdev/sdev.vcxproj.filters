@@ -37,6 +37,9 @@
     <Filter Include="include\shaiya\packets\gameLog">
       <UniqueIdentifier>{a068d845-f5ee-47ff-8fb4-fb3f1e21a256}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\shaiya\packets\login">
+      <UniqueIdentifier>{06963bf9-bdbe-496e-a111-de58c111b0f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SLog.h">
       <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\login\A102.h">
+      <Filter>include\shaiya\packets\login</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
