@@ -2,10 +2,6 @@
 
 An open source effort to make episode 5 servers compatible with episode 6 clients.
 
-## Introduction
-
-The reason I started this project was to replace the [pet](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4102262-release-shen1ls-wings.html) library with an open source alternative. See [this](https://forum.shaiya.gg/threads/an-open-source-effort-to-make-episode-5-servers-compatible-with-episode-6-clients.10/) post in the Shaiya.gg forum for a list of contributors that helped me in some way or another.
-
 ## Environment
 
 Windows 10
