@@ -54,7 +54,7 @@ namespace shaiya
 
     typedef ULONG UserId;
     typedef Array<char, 32> Username;
-    typedef Array<char, 16> Password;
+    typedef Array<char, 32> Password;
 
     typedef UINT32 ItemId;
     typedef Array<char, 21> CraftName;
