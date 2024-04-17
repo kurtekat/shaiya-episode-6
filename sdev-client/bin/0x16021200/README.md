@@ -20,6 +20,22 @@ It appears the original import address table was wiped from the file when it was
 
 7: `.code` (IAT, EP and a PE header)
 
+## Imports
+
+There are two duplicate imports. I recommend editing one of them instead of adding a new import to the table.
+
+| DllName     | Function          | Thunk RVA    |
+|-------------|-------------------|--------------|
+| kernel32    | VirtualProtect    | 0x2732F00    |
+| kernel32    | Sleep             | 0x2732F04    |
+
+Example:
+
+| DllName     | Function          | Thunk RVA    |
+|-------------|-------------------|--------------|
+| kernel32    | VirtualProtect    | 0x2732F00    |
+| sdev        | DllExport         | 0x2732F04    |
+
 ## SData Specifications
 
 | Name          | Format   |
@@ -41,7 +57,7 @@ It appears the original import address table was wiped from the file when it was
 * Rune Combination
 * Revenge Mark
 
-### Entry Point
+## Entry Point
 
 ```
 02B31600  60             PUSHAD // EP
@@ -61,6 +77,8 @@ It appears the original import address table was wiped from the file when it was
 02B31627  E9 3C66B0FD    JMP game.00637C68 // OEP
 ```
 
+## Notes
+
 The following patch fixes the recovery packet handler.
 
 ```
@@ -75,7 +93,6 @@ This modification is in the library. I'll leave this note here in case someone w
 // speed recreation
 004C4D2E  6A 02  PUSH 2
 ```
-
 ```
 // speed enhance
 005015FF  6A 02  PUSH 2
