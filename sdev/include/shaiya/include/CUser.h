@@ -599,8 +599,10 @@ namespace shaiya
         // custom
         UINT32 townScrollGateIndex;          //0x5D9C
         UserFrenzyApplySkill frenzy;         //0x5DA0
-        // 0x5DA8
-        PAD(1188);
+        Array<UINT8, 24> itemQualityLvEx;    //0x5DA8
+        Array<UINT16, 24> itemQualityEx;     //0x5D0C
+        // 0x5DF0
+        PAD(1116);
         CRITICAL_SECTION cs624C;             //0x624C
         // 0x6264
         PAD(32);

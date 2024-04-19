@@ -72,6 +72,24 @@ void __declspec(naked) naked_0x455C40()
     }
 }
 
+void user_ctor_hook(CUser* user)
+{
+    user->exchange.confirmed = false;
+
+#ifdef SHAIYA_EP6_COMMON
+    user->frenzy.skillId = 0;
+    user->frenzy.skillLv = 0;
+    user->frenzy.triggered = false;
+    user->frenzy.keepTime = 0;
+#endif
+
+#ifdef SHAIYA_EP6_4_PT
+    user->townScrollGateIndex = 0;
+    user->itemQualityEx.fill(0);
+    user->itemQualityLvEx.fill(0);
+#endif
+}
+
 unsigned u0x45516B = 0x45516B;
 void __declspec(naked) naked_0x455165()
 {
@@ -80,11 +98,13 @@ void __declspec(naked) naked_0x455165()
         // original
         mov [edi+0x6264],ebx
 
-        // initialize memory
-        mov [edi+0x15E4],ebx
-        mov [edi+0x5D9C],ebx
-        mov [edi+0x5DA0],ebx
-        mov [edi+0x5DA4],ebx
+        pushad
+
+        push edi // user
+        call user_ctor_hook
+        add esp,0x4
+
+        popad
 
         jmp u0x45516B
     }

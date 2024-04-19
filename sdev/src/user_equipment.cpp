@@ -1,3 +1,4 @@
+#include <array>
 #include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -56,7 +57,7 @@ namespace user_equipment
                 continue;
 
             if (slot < EquipmentSlot::Vehicle)
-                user->itemQuality[slot] = item->quality;
+                user->itemQualityEx[slot] = item->quality;
 
             CUser::ItemEquipmentAdd(user, item, slot);
         }
@@ -192,80 +193,6 @@ void __declspec(naked) naked_0x468AFA()
     }
 }
 
-unsigned u0x468A6E = 0x468A6E;
-unsigned u0x468AC0 = 0x468AC0;
-void __declspec(naked) naked_0x468A66()
-{
-    __asm
-    {
-        // slot
-        cmp ebx,0x8
-        jge _0x468AC0
-
-        // original
-        mov cx,[esi+ebx*2+0x1A6]
-        jmp u0x468A6E
-
-        _0x468AC0:
-        jmp u0x468AC0
-    }
-}
-
-unsigned u0x468669 = 0x468669;
-unsigned u0x4686BA = 0x4686BA;
-void __declspec(naked) naked_0x468661()
-{
-    __asm
-    {
-        // slot
-        cmp ebx,0x8
-        jge _0x4686BA
-
-        // original
-        mov di,[esi+ebx*2+0x1A6]
-        jmp u0x468669
-
-        _0x4686BA:
-        jmp u0x4686BA
-    }
-}
-
-unsigned u0x468817 = 0x468817;
-unsigned u0x4687CF = 0x4687CF;
-void __declspec(naked) naked_0x4687C7()
-{
-    __asm
-    {
-        // slot
-        cmp ebx,0x8
-        jge _0x468817
-
-        // original
-        mov dx,[esi+ebx*2+0x1A6]
-        jmp u0x4687CF
-
-        _0x468817:
-        jmp u0x468817
-    }
-}
-
-unsigned u0x46899A = 0x46899A;
-void __declspec(naked) naked_0x468992()
-{
-    __asm
-    {
-        // slot
-        cmp ebx,0x8
-        jge _0x46899A
-
-        // original
-        mov [esi+ebx*2+0x1A6],cx
-
-        _0x46899A:
-        jmp u0x46899A
-    }
-}
-
 unsigned u0x46153E = 0x46153E;
 void __declspec(naked) naked_0x4614E3()
 {
@@ -349,10 +276,6 @@ void hook::user_equipment()
     util::detour((void*)0x4686C4, naked_0x4686C4, 5);
     util::detour((void*)0x4689CF, naked_0x4689CF, 5);
     util::detour((void*)0x468AFA, naked_0x468AFA, 5);
-    util::detour((void*)0x468A66, naked_0x468A66, 8);
-    util::detour((void*)0x468661, naked_0x468661, 8);
-    util::detour((void*)0x4687C7, naked_0x4687C7, 8);
-    util::detour((void*)0x468992, naked_0x468992, 8);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
@@ -371,4 +294,89 @@ void hook::user_equipment()
     util::write_memory((void*)0x46BCCF, item_list_size, 1);
     // CUser::PacketAdminCmdD
     util::write_memory((void*)0x482896, item_list_size, 1);
+
+    // change 0x199 (user->itemQualityLv) to 0x5DA8
+    std::array<std::uint8_t, 2> a00{ 0xA8, 0x5D };
+    
+    // CUser::ItemEquipmentAdd
+    util::write_memory((void*)0x46166A, &a00, 2);
+    util::write_memory((void*)0x4617FB, &a00, 2);
+    util::write_memory((void*)0x46194C, &a00, 2);
+    util::write_memory((void*)0x461962, &a00, 2);
+    // CUser::ItemEquipmentRem
+    util::write_memory((void*)0x461ED4, &a00, 2);
+    util::write_memory((void*)0x461EEA, &a00, 2);
+    util::write_memory((void*)0x462662, &a00, 2);
+    // CUser::ItemEquipmentAttackAdd
+    util::write_memory((void*)0x462DD9, &a00, 2);
+    util::write_memory((void*)0x462DEF, &a00, 2);
+    util::write_memory((void*)0x462E51, &a00, 2);
+    util::write_memory((void*)0x462E67, &a00, 2);
+    util::write_memory((void*)0x462E8C, &a00, 2);
+    util::write_memory((void*)0x462EA2, &a00, 2);
+    // CUser::QualityDec
+    util::write_memory((void*)0x4682DE, &a00, 2);
+    util::write_memory((void*)0x468305, &a00, 2);
+    // CUser::ItemGeMRemoveAll
+    util::write_memory((void*)0x4703CB, &a00, 2);
+    util::write_memory((void*)0x4703E1, &a00, 2);
+    util::write_memory((void*)0x470428, &a00, 2);
+    util::write_memory((void*)0x471438, &a00, 2);
+    util::write_memory((void*)0x471450, &a00, 2);
+    util::write_memory((void*)0x471497, &a00, 2);
+    util::write_memory((void*)0x471E3A, &a00, 2);
+    util::write_memory((void*)0x471E5F, &a00, 2);
+    util::write_memory((void*)0x4720AC, &a00, 2);
+    util::write_memory((void*)0x4720E7, &a00, 2);
+    util::write_memory((void*)0x47395E, &a00, 2);
+    util::write_memory((void*)0x47398F, &a00, 2);
+
+    // change 0x1A6 (user->itemQuality) to 0x5D0C
+    std::array<std::uint8_t, 2> a01{ 0x0C, 0x5D };
+
+    // CUser::ItemDropByUserDeath
+    util::write_memory((void*)0x46754C, &a01, 2);
+    util::write_memory((void*)0x467587, &a01, 2);
+    // CUser::ItemDropByMobDeath
+    util::write_memory((void*)0x46798C, &a01, 2);
+    util::write_memory((void*)0x4679C7, &a01, 2);
+    // CUser::ItemBagToBag
+    util::write_memory((void*)0x468665, &a01, 2);
+    util::write_memory((void*)0x4686B6, &a01, 2);
+    util::write_memory((void*)0x4687CB, &a01, 2);
+    util::write_memory((void*)0x468813, &a01, 2);
+    util::write_memory((void*)0x468996, &a01, 2);
+    util::write_memory((void*)0x468A6A, &a01, 2);
+    util::write_memory((void*)0x468ABA, &a01, 2);
+    // CUser::ItemDrop
+    util::write_memory((void*)0x469C64, &a01, 2);
+    util::write_memory((void*)0x469CA4, &a01, 2);
+    // CUser::ItemRemove
+    util::write_memory((void*)0x46C2DC, &a01, 2);
+    util::write_memory((void*)0x46C317, &a01, 2);
+    // CUser::ItemRemoveFree
+    util::write_memory((void*)0x46C50C, &a01, 2);
+    util::write_memory((void*)0x46C547, &a01, 2);
+    // CUser::ItemLapisianAdd
+    util::write_memory((void*)0x46D3D8, &a01, 2);
+    util::write_memory((void*)0x46D413, &a01, 2);
+    // CUser::ItemRemake
+    util::write_memory((void*)0x46DB52, &a01, 2);
+    util::write_memory((void*)0x46DB99, &a01, 2);
+    // CUser::ItemGemAdd
+    util::write_memory((void*)0x46EDE7, &a01, 2);
+    util::write_memory((void*)0x46EE22, &a01, 2);
+    // CUser::ItemGemRemoveAll
+    util::write_memory((void*)0x470A32, &a01, 2);
+    util::write_memory((void*)0x470A78, &a01, 2);
+    // CUser::ItemGemRemovePos
+    util::write_memory((void*)0x4718B1, &a01, 2);
+    util::write_memory((void*)0x4718F1, &a01, 2);
+    // CUser::ItemRepair
+    util::write_memory((void*)0x471DC5, &a01, 2);
+    util::write_memory((void*)0x472092, &a01, 2);
+    // CUser::ItemUse
+    util::write_memory((void*)0x473912, &a01, 2);
+    // CUser::SendDBAgentCharGetInfo
+    util::write_memory((void*)0x47AE7B, &a01, 2);
 }
