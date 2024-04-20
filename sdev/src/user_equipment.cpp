@@ -32,20 +32,6 @@ namespace user_equipment
         return true;
     }
 
-    void send(CUser* user, EquipmentSlot slot)
-    {
-        switch (slot)
-        {
-        case EquipmentSlot::Pet:
-        case EquipmentSlot::Costume:
-        case EquipmentSlot::Wings:
-            CUser::SendEquipment(user, slot);
-            break;
-        default:
-            break;
-        }
-    }
-
     void init(CUser* user)
     {
         user->initEquipment = true;
@@ -133,66 +119,6 @@ void __declspec(naked) naked_0x46846F()
     }
 }
 
-unsigned u0x4686C9 = 0x4686C9;
-void __declspec(naked) naked_0x4686C4()
-{
-    __asm
-    {
-        pushad
-            
-        push ebx
-        push esi
-        call user_equipment::send
-        add esp,0x8
-
-        popad
-
-        // original
-        mov ecx,0x703
-        jmp u0x4686C9
-    }
-}
-
-unsigned u0x4689D4 = 0x4689D4;
-void __declspec(naked) naked_0x4689CF()
-{
-    __asm
-    {
-        pushad
-            
-        push ebx
-        push esi
-        call user_equipment::send
-        add esp,0x8
-
-        popad
-
-        // original
-        mov edx,0x703
-        jmp u0x4689D4
-    }
-}
-
-unsigned u0x468AFF = 0x468AFF;
-void __declspec(naked) naked_0x468AFA()
-{
-    __asm
-    {
-        pushad
-            
-        push ebx
-        push esi
-        call user_equipment::send
-        add esp,0x8
-
-        popad
-
-        // original
-        mov eax,0x703
-        jmp u0x468AFF
-    }
-}
-
 unsigned u0x46153E = 0x46153E;
 void __declspec(naked) naked_0x4614E3()
 {
@@ -268,14 +194,96 @@ void __declspec(naked) naked_0x461D10()
     }
 }
 
+unsigned u0x46EE2B = 0x46EE2B;
+void __declspec(naked) naked_0x46EE26()
+{
+    __asm
+    {
+        mov eax,[esp+0x14]
+        lea edx,[eax+eax*0x2]
+        lea ecx,[ebx+edx*0x8]
+
+        xor eax,eax
+        mov [ebp+ecx*0x4+0x1C0],eax
+
+        // original
+        push ebx
+        mov ecx,esi
+        mov edx,ebp
+
+        jmp u0x46EE2B
+    }
+}
+
+unsigned u0x46D41C = 0x46D41C;
+void __declspec(naked) naked_0x46D417()
+{
+    __asm
+    {
+        mov eax,[esp+0x18]
+        lea edx,[eax+eax*0x2]
+        lea ecx,[ebx+edx*0x8]
+
+        xor eax,eax
+        mov [ebp+ecx*0x4+0x1C0],eax
+
+        // original
+        push ebx
+        mov ecx,esi
+        mov edx,ebp
+
+        jmp u0x46D41C
+    }
+}
+
+unsigned u0x470A81 = 0x470A81;
+void __declspec(naked) naked_0x470A7C()
+{
+    __asm
+    {
+        mov eax,[esp+0x1C]
+        mov ecx,[esp+0x18]
+        lea edx,[eax+eax*0x2]
+        lea edx,[ecx+edx*0x8]
+
+        xor eax,eax
+        mov [edi+edx*0x4+0x1C0],eax
+
+        // original
+        mov eax,[esp+0x18]
+        push eax
+        mov ecx,ebp
+        mov edx,edi
+
+        jmp u0x470A81
+    }
+}
+
+unsigned u0x4718ED = 0x4718ED;
+void __declspec(naked) naked_0x4718E8()
+{
+    __asm
+    {
+        mov eax,[esp+0x18]
+        lea ecx,[eax+eax*0x2]
+        lea edx,[ebx+ecx*0x8]
+
+        xor eax,eax
+        mov [edi+edx*0x4+0x1C0],eax
+
+        // original
+        push ebx
+        mov ecx,ebp
+        mov edx,edi
+
+        jmp u0x4718ED
+    }
+}
+
 void hook::user_equipment()
 {
     // CUser::EnableEquipment default case (slot)
     util::detour((void*)0x46846F, naked_0x46846F, 5);
-    // CUser::ItemBagToBag
-    util::detour((void*)0x4686C4, naked_0x4686C4, 5);
-    util::detour((void*)0x4689CF, naked_0x4689CF, 5);
-    util::detour((void*)0x468AFA, naked_0x468AFA, 5);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
@@ -284,16 +292,28 @@ void hook::user_equipment()
     util::detour((void*)0x461640, naked_0x461640, 6);
     // CUser::ItemEquipmentRem
     util::detour((void*)0x461D10, naked_0x461D10, 6);
+    // CUser::ItemGemAdd
+    util::detour((void*)0x46EE26, naked_0x46EE26, 5);
+    // CUser::ItemLapisianAdd
+    util::detour((void*)0x46D417, naked_0x46D417, 5);
+    // CUser::ItemGemRemoveAll
+    util::detour((void*)0x470A7C, naked_0x470A7C, 5);
+    // CUser::ItemGemRemovePos
+    util::detour((void*)0x4718E8, naked_0x4718E8, 5);
+
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, item_list_size, 1);
+    util::write_memory((void*)0x4615B3, max_inventory_slot, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, item_list_size, 1);
-    util::write_memory((void*)0x468722, item_list_size, 1);
-    util::write_memory((void*)0x468955, item_list_size, 1);
+    util::write_memory((void*)0x46862D, max_inventory_slot, 1);
+    util::write_memory((void*)0x468722, max_inventory_slot, 1);
+    util::write_memory((void*)0x4688B0, max_inventory_slot, 1);
+    util::write_memory((void*)0x468955, max_inventory_slot, 1);
+    util::write_memory((void*)0x468A2B, max_inventory_slot, 1);
+    util::write_memory((void*)0x468B5D, max_inventory_slot, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, item_list_size, 1);
+    util::write_memory((void*)0x46BCCF, max_inventory_slot, 1);
     // CUser::PacketAdminCmdD
-    util::write_memory((void*)0x482896, item_list_size, 1);
+    util::write_memory((void*)0x482896, max_inventory_slot, 1);
 
     // change 0x199 (user->itemQualityLv) to 0x5DA8
     std::array<std::uint8_t, 2> a00{ 0xA8, 0x5D };
