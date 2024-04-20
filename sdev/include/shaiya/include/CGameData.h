@@ -146,9 +146,9 @@ namespace shaiya
             Cloak,
             Shield,
             Necklace,
-            #ifdef SHAIYA_EP6_4_PT
+#ifdef SHAIYA_EP6_4_PT
             Vehicle,
-            #endif
+#endif
             Ring,
             Bracelet,
             Lapis,

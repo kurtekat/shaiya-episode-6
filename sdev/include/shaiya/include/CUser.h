@@ -626,6 +626,7 @@ namespace shaiya
         static bool ItemCreate(CUser* user/*ecx*/, CGameData::ItemInfo* info, int count);
         static bool ItemDelete(CUser* user, int type, int typeId);
         static void ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot);
+        static void ItemEquipmentRem(CUser* user/*edx*/, CItem* item/*ecx*/, int slot);
         static void ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemEquipmentOptionRem(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemGet(CUser* user/*ecx*/, CItem* item);

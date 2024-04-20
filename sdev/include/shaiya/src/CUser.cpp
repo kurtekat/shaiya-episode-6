@@ -148,6 +148,19 @@ void CUser::ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot)
     }
 }
 
+void CUser::ItemEquipmentRem(CUser* user/*edx*/, CItem* item/*ecx*/, int slot)
+{
+    Address u0x461D10 = 0x461D10;
+
+    __asm
+    {
+        push slot
+        mov ecx,item
+        mov edx,user
+        call u0x461D10
+    }
+}
+
 void CUser::ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/)
 {
     Address u0x462720 = 0x462720;
