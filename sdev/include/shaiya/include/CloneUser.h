@@ -31,7 +31,7 @@ namespace shaiya
         PAD(1);
         UINT32 kills;             //0x14
         // 0x18
-        Array<CloneItem, item_list_size> equipment;
+        Array<CloneItem, max_equipment_slot> equipment;
         // 6.4: 0x4B, 5.4: 0x30
         CharName charName;
         // 6.4: 0x60, 5.4: 0x45
@@ -40,9 +40,9 @@ namespace shaiya
         GuildName guildName;
         // 6.4: 0x7F, 5.4: 0x64
         UINT8 packetLength;
-        #ifndef SHAIYA_EP6_4_PT
+#ifndef SHAIYA_EP6_4_PT
         PAD(3);
-        #endif
+#endif
         // 6.4: 0x80, 5.4: 0x68
     };
     #pragma pack(pop)

@@ -72,19 +72,19 @@ namespace character_list
         g_equipment.erase(user->userId);
     }
 
-    void make_equipment(CUser* user)
+    void insert_equipment(CUser* user)
     {
         std::array<Equipment0403, 5> equipment{};
         g_equipment.insert_or_assign(user->userId, equipment);
     }
 
-    void init_equipment(CUser* user, std::uint8_t characterSlot, std::uint8_t equipmentSlot, std::uint8_t type, std::uint8_t typeId)
+    void assign_equipment(CUser* user, std::uint8_t characterSlot, std::uint8_t equipmentSlot, std::uint8_t type, std::uint8_t typeId)
     {
+        if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
+            return;
+
         if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
         {
-            if (characterSlot >= user->characterList.size() || equipmentSlot >= item_list_size)
-                return;
-
             it->second[characterSlot].type[equipmentSlot] = type;
             it->second[characterSlot].typeId[equipmentSlot] = typeId;
         }
@@ -118,7 +118,7 @@ void __declspec(naked) naked_0x421AA5()
         pushad
 
         push edi // user
-        call character_list::make_equipment
+        call character_list::insert_equipment
         add esp,0x4
 
         popad
@@ -146,7 +146,7 @@ void __declspec(naked) naked_0x4223F7()
         movzx edx,byte ptr[esp+0x54]
         push edx // characterSlot
         push edi // user
-        call character_list::init_equipment
+        call character_list::assign_equipment
         add esp,0x14
 
         popad
@@ -167,5 +167,5 @@ void hook::character_list()
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
 
     // DBCharacter::LoadCharacterList
-    util::write_memory((void*)0x42220B, item_list_size, 1);
+    util::write_memory((void*)0x42220B, max_equipment_slot, 1);
 }

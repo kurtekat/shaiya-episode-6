@@ -4,10 +4,8 @@
 //#define SHAIYA_EP6_4_PT
 //#define SHAIYA_EP6_BLACKSMITH
 
-#if \
-defined SHAIYA_EP6 || \
-defined SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6_4_PT
+#define SHAIYA_EP6
 #endif
 
 #include <array>
@@ -24,9 +22,9 @@ namespace shaiya
     struct CItem;
 
 #ifdef SHAIYA_EP6_4_PT
-    constexpr int item_list_size = 17;
+    constexpr int max_equipment_slot = 17;
 #else
-    constexpr int item_list_size = 8;
+    constexpr int max_equipment_slot = 8;
 #endif
 
     constexpr int warehouse_bag = 100;

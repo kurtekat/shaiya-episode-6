@@ -302,18 +302,18 @@ void hook::user_equipment()
     util::detour((void*)0x4718E8, naked_0x4718E8, 5);
 
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, max_inventory_slot, 1);
+    util::write_memory((void*)0x4615B3, max_equipment_slot, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, max_inventory_slot, 1);
-    util::write_memory((void*)0x468722, max_inventory_slot, 1);
-    util::write_memory((void*)0x4688B0, max_inventory_slot, 1);
-    util::write_memory((void*)0x468955, max_inventory_slot, 1);
-    util::write_memory((void*)0x468A2B, max_inventory_slot, 1);
-    util::write_memory((void*)0x468B5D, max_inventory_slot, 1);
+    util::write_memory((void*)0x46862D, max_equipment_slot, 1);
+    util::write_memory((void*)0x468722, max_equipment_slot, 1);
+    util::write_memory((void*)0x4688B0, max_equipment_slot, 1);
+    util::write_memory((void*)0x468955, max_equipment_slot, 1);
+    util::write_memory((void*)0x468A2B, max_equipment_slot, 1);
+    util::write_memory((void*)0x468B5D, max_equipment_slot, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, max_inventory_slot, 1);
+    util::write_memory((void*)0x46BCCF, max_equipment_slot, 1);
     // CUser::PacketAdminCmdD
-    util::write_memory((void*)0x482896, max_inventory_slot, 1);
+    util::write_memory((void*)0x482896, max_equipment_slot, 1);
 
     // change 0x199 (user->itemQualityLv) to 0x5DA8
     std::array<std::uint8_t, 2> a00{ 0xA8, 0x5D };
