@@ -115,7 +115,8 @@ namespace packet_character
         character.health = dbCharacter->health;
         character.mana = dbCharacter->mana;
         character.stamina = dbCharacter->stamina;
-        std::memcpy(&character.equipment, &dbCharacter->equipment, sizeof(Equipment0403));
+        std::copy_n(dbCharacter->equipment.type.begin(), character.equipment.type.size(), character.equipment.type.begin());
+        std::copy_n(dbCharacter->equipment.typeId.begin(), character.equipment.typeId.size(), character.equipment.typeId.begin());
         StringCbCopyA(character.charName.data(), character.charName.size(), dbCharacter->charName.data());
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;
