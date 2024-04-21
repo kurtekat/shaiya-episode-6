@@ -53,7 +53,7 @@ namespace npc_quest
         packet.exp = result.exp;
         packet.gold = result.gold;
 
-#ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
         for (std::size_t i = 0; i < result.item.size(); ++i)
         {
             int type = result.item[i].type;

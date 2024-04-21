@@ -16,7 +16,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
     #pragma pack(push, 1)
     struct QuestResult
     {
@@ -35,7 +35,7 @@ namespace shaiya
         // 0x2C = size
     };
     #pragma pack(pop)
-    #else
+#else
     #pragma pack(push, 1)
     struct QuestResult
     {
@@ -52,7 +52,7 @@ namespace shaiya
         // 0x20 = size
     };
     #pragma pack(pop)
-    #endif
+#endif
 
     #pragma pack(push, 1)
     struct QuestInfo
@@ -95,19 +95,19 @@ namespace shaiya
         UINT8 reqMobCount1;     //0x15A
         UINT8 reqMobCount2;     //0x15B
         PAD(4);
-        #ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
         // 0x160
         Array<QuestResult, 6> result;
         // 0x268
         PAD(28);
         // 0x284 = size
-        #else
+#else
         // 0x160
         Array<QuestResult, 3> result;
         // 0x1C0
         PAD(16);
         // 0x1D0 = size
-        #endif
+#endif
     };
     #pragma pack(pop)
 

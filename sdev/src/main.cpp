@@ -23,7 +23,7 @@ void leave_world_hook(CUser* user)
 {
     std::erase(g_users, user->id);
 
-#ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
     g_appliedSynergies.erase(user->id);
 #endif
 
@@ -76,7 +76,7 @@ void user_ctor_hook(CUser* user)
 {
     user->exchange.confirmed = false;
 
-#ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
     user->frenzy.skillId = 0;
     user->frenzy.skillLv = 0;
     user->frenzy.triggered = false;
@@ -133,7 +133,7 @@ void Main()
     hook::user_shape();
 #endif
 
-#ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
     hook::npc_quest();
     hook::user_apply_skill();
     hook::user_status();

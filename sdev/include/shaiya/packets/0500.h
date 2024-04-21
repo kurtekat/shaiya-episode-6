@@ -258,7 +258,7 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-#ifdef SHAIYA_EP6_COMMON
+#ifdef SHAIYA_EP6
         SkillUseFrenzyState frenzyState;
 #endif
     };
