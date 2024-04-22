@@ -80,7 +80,7 @@ namespace character_list
 
     void assign_equipment(CUser* user, std::uint8_t characterSlot, std::uint8_t equipmentSlot, std::uint8_t type, std::uint8_t typeId)
     {
-        if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
+        if (characterSlot >= user->characterList.size() || equipmentSlot >= sizeof(Equipment0403) / 2)
             return;
 
         if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
@@ -167,5 +167,5 @@ void hook::character_list()
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
 
     // DBCharacter::LoadCharacterList
-    util::write_memory((void*)0x42220B, max_equipment_slot, 1);
+    util::write_memory((void*)0x42220B, sizeof(Equipment0403) / 2, 1);
 }
