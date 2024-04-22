@@ -1,4 +1,3 @@
-#include <chrono>
 #include <ranges>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
@@ -18,32 +17,33 @@ using namespace shaiya;
 
 namespace packet_character
 {
-    void name_available_handler(CUser* user, const char* name)
+    void name_available_handler(CUser* user, CharNameAvailableIncoming* incoming)
     {
         constexpr int packet_size_without_name = 6;
 
         UserCharNameAvailableIncoming request{};
         request.userId = user->userId;
 
-        std::string charName(name);
-        if (charName.length() < 3 || charName.length() > 13)
+        incoming->name[incoming->name.size() - 1] = '\0';
+        auto nameLength = std::strlen(incoming->name.data());
+
+        if (nameLength < 3 || nameLength > 13)
         {
             CharNameAvailableOutgoing packet{ 0x119, false };
             SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
-        StringCbCopyA(request.charName.data(), request.charName.size(), charName.data());
+        StringCbCopyA(request.name.data(), request.name.size(), incoming->name.data());
 
-        int length = packet_size_without_name + charName.length() + 1;
+        int length = packet_size_without_name + nameLength + 1;
         SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &request, length);
     }
 
-    void send_name_available(CUser* user, Packet buffer)
+    void send_name_available(CUser* user, UserCharNameAvailableOutgoing* response)
     {
-        auto available = util::deserialize<bool>(buffer, 6);
-        CharNameAvailableOutgoing packet{ 0x119, available };
-        SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
+        CharNameAvailableOutgoing outgoing{ 0x119, response->available };
+        SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
     void send_warehouse(CUser* user)
@@ -142,8 +142,7 @@ void __declspec(naked) naked_0x47A231()
         case_0x119:
         pushad
 
-        lea eax,[edi+0x2]
-        push eax // name
+        push edi // packet
         push esi // user
         call packet_character::name_available_handler
         add esp,0x8

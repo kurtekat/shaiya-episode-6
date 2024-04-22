@@ -56,14 +56,14 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\character_create.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\SDatabase.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp">
       <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\user_character.cpp">
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\character_list.cpp">
       <Filter>src</Filter>

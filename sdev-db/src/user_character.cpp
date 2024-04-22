@@ -1,6 +1,8 @@
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <sql.h>
+#include <sqlext.h>
 
 #include <include/main.h>
 #include <include/shaiya/include/CUser.h>
@@ -11,9 +13,9 @@
 #include <util/include/util.h>
 using namespace shaiya;
 
-namespace character_create
+namespace user_character
 {
-    bool is_name_available(SQLPOINTER name)
+    bool is_name_available(char* name)
     {
         auto db = SDatabasePool::AllocDB();
         if (!db)
@@ -21,9 +23,10 @@ namespace character_create
 
         SDatabase::Prepare(db);
 
-        std::string query("SELECT CharName FROM [PS_GameData].[dbo].[Chars] WHERE CharName=CAST(? AS VARCHAR) AND Del=0;");
-        SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, 19, 0, name, 0, nullptr);
-        SQLPrepareA(db->stmt, reinterpret_cast<SQLCHAR*>(query.data()), SQL_NTS);
+        std::string query("SELECT CharName FROM [PS_GameData].[dbo].[Chars] WHERE CharName=? AND Del=0;");
+        SQLPrepareA(db->stmt, reinterpret_cast<unsigned char*>(query.data()), SQL_NTS);
+
+        SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(name), 0, name, 19, nullptr);
 
         if (SQLExecute(db->stmt))
         {
@@ -32,21 +35,23 @@ namespace character_create
             return false;
         }
 
-        SQLINTEGER rowCount = -1;
+        long rowCount = -1;
         SQLRowCount(db->stmt, &rowCount);
 
         SDatabasePool::FreeDB(db);
         return !rowCount;
     }
 
-    void name_available_handler(CUser* user, SQLPOINTER name)
+    void name_available_handler(CUser* user, UserCharNameAvailableIncoming* incoming)
     {
-        UserCharNameAvailableOutgoing packet{ 0x40D, user->userId, is_name_available(name) };
+        incoming->name[incoming->name.size() - 1] = '\0';
+        bool available = is_name_available(incoming->name.data());
 
         if (!user->connection)
             return;
 
-        SConnection::Send(user->connection, &packet, sizeof(UserCharNameAvailableOutgoing));
+        UserCharNameAvailableOutgoing outgoing{ 0x40D, user->userId, available };
+        SConnection::Send(user->connection, &outgoing, sizeof(UserCharNameAvailableOutgoing));
     }
 }
 
@@ -64,11 +69,9 @@ void __declspec(naked) naked_0x4061D3()
         case_0x40D:
         pushad
 
-        lea edx,[eax+0x6]
-
-        push edx // name
+        push eax // packet
         push ecx // user
-        call character_create::name_available_handler
+        call user_character::name_available_handler
         add esp,0x8
 
         popad
@@ -78,7 +81,7 @@ void __declspec(naked) naked_0x4061D3()
     }
 }
 
-void hook::character_create()
+void hook::user_character()
 {
     // CUser::PacketUserChar switch
     util::detour((void*)0x4061D3, naked_0x4061D3, 6);

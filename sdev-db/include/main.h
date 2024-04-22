@@ -5,6 +5,6 @@ extern "C" __declspec(dllexport) void DllExport();
 
 namespace hook
 {
-    void character_create();
+    void user_character();
     void character_list();
 }
