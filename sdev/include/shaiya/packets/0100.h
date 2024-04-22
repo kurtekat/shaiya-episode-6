@@ -8,8 +8,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct Equipment0101
     {
-        Array<UINT8, max_equipment_slot> type;
-        Array<UINT8, max_equipment_slot> typeId;
+#ifdef SHAIYA_EP6_4_PT
+        Array<UINT8, 17> type;
+        Array<UINT8, 17> typeId;
+#else
+        Array<UINT8, 8> type;
+        Array<UINT8, 8> typeId;
+#endif
     };
     #pragma pack(pop)
 
@@ -43,6 +48,22 @@ namespace shaiya
         bool deleted;
         bool nameChange;
         CloakBadge cloakBadge;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharacterCreateIncoming
+    {
+        UINT16 opcode{ 0x102 };
+        UINT8 slot;
+        Family family;
+        Grow grow;
+        UINT8 hair;
+        UINT8 face;
+        UINT8 size;
+        Job job;
+        Sex sex;
+        CharName charName;
     };
     #pragma pack(pop)
 

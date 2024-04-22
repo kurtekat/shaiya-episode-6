@@ -5,11 +5,23 @@
 
 namespace shaiya
 {
+    enum struct UserCharCreateResult : UINT8
+    {
+        Success,
+        Failure,
+        NullUser = 3
+    };
+
     #pragma pack(push, 1)
     struct Equipment0403
     {
-        Array<UINT8, max_equipment_slot> type;
-        Array<UINT8, max_equipment_slot> typeId;
+#ifdef SHAIYA_EP6_4_PT
+        Array<UINT8, 17> type;
+        Array<UINT8, 17> typeId;
+#else
+        Array<UINT8, 8> type;
+        Array<UINT8, 8> typeId;
+#endif
     };
     #pragma pack(pop)
 
@@ -60,6 +72,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct UserCharCreateResultOutgoing
+    {
+        UINT16 opcode{ 0x404 };
+        UserId userId;
+        UserCharCreateResult result;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct UserCharDeleteIncoming
     {
         UINT16 opcode{ 0x40A };
@@ -101,7 +122,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x40D };
         UserId userId;
-        Array<char, 19> charName;
+        Array<char, 19> name;
     };
     #pragma pack(pop)
 
