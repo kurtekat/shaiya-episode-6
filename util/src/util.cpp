@@ -1,3 +1,4 @@
+#include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <include/util.h>
@@ -15,10 +16,10 @@ int util::detour(Address addr, Function func, int size)
     if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    memset(addr, nop, size);
-    memset(addr, jmp, 1);
+    std::memset(addr, nop, size);
+    std::memset(addr, jmp, 1);
     __asm { inc addr }
-    memcpy(addr, &dest, 4);
+    std::memcpy(addr, &dest, 4);
     __asm { dec addr }
 
     return VirtualProtect(addr, size, protect, &protect);
@@ -39,7 +40,7 @@ int util::write_memory(Address addr, Buffer buffer, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, Byte value, int count)
+int util::write_memory(Address addr, int value, int count)
 {
     if (count < 1)
         return 0;
@@ -48,6 +49,6 @@ int util::write_memory(Address addr, Byte value, int count)
     if (!VirtualProtect(addr, count, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    memset(addr, value, count);
+    std::memset(addr, value, count);
     return VirtualProtect(addr, count, protect, &protect);
 }
