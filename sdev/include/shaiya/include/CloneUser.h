@@ -31,7 +31,11 @@ namespace shaiya
         PAD(1);
         UINT32 kills;             //0x14
         // 0x18
-        Array<CloneItem, max_equipment_slot> equipment;
+#ifdef SHAIYA_EP6_4_PT
+        Array<CloneItem, 17> equipment;
+#else
+        Array<CloneItem, 8> equipment;
+#endif
         // 6.4: 0x4B, 5.4: 0x30
         CharName charName;
         // 6.4: 0x60, 5.4: 0x45
