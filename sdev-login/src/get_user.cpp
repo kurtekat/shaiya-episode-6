@@ -9,16 +9,17 @@
 #include <util/include/util.h>
 using namespace shaiya;
 
-SQLRETURN get_user_ex(SDatabase* db, SQLPOINTER username, SQLPOINTER password, DWORD lowPart, LONG highPart, SQLPOINTER ipv4Addr)
+short get_user_hook(SDatabase* db, char* username, char* password, unsigned long lowPart, long highPart, char* ipv4Addr)
 {
     LARGE_INTEGER sessionId{ lowPart, highPart };
-    std::string query("EXEC usp_Try_GameLogin_Taiwan ?,?,?,?");
 
-    SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, 32, 0, username, 0, nullptr);
-    SQLBindParameter(db->stmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, 32, 0, password, 0, nullptr);
+    std::string query("EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,?,?");
+    SQLPrepareA(db->stmt, reinterpret_cast<unsigned char*>(query.data()), SQL_NTS);
+
+    SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(username), 0, username, 32, nullptr);
+    SQLBindParameter(db->stmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(password), 0, password, 32, nullptr);
     SQLBindParameter(db->stmt, 3, SQL_PARAM_INPUT, SQL_C_SBIGINT, SQL_BIGINT, 0, 0, &sessionId, 0, nullptr);
-    SQLBindParameter(db->stmt, 4, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, 15, 0, ipv4Addr, 0, nullptr);
-    SQLPrepareA(db->stmt, reinterpret_cast<SQLCHAR*>(query.data()), SQL_NTS);
+    SQLBindParameter(db->stmt, 4, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(ipv4Addr), 0, ipv4Addr, 16, nullptr);
     return SQLExecute(db->stmt);
 }
 
@@ -45,7 +46,7 @@ void __declspec(naked) naked_0x406A8C()
         push esi // password
         push edi // username
         push ebx // database
-        call get_user_ex
+        call get_user_hook
         add esp,0x18
         test ax,ax
 
