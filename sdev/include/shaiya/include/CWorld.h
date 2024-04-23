@@ -1,6 +1,5 @@
 #pragma once
 #include <include/shaiya/common.h>
-#include <include/shaiya/include/Obelisk.h>
 #include <include/shaiya/include/SSyncList.h>
 #include <include/shaiya/include/SSyncMap.h>
 
@@ -11,20 +10,6 @@ namespace shaiya
     struct CUser;
     struct CZone;
     struct CZoneNode;
-
-    #pragma pack(push, 1)
-    struct WorldInsZoneCount
-    {
-        UINT32 guildHouse;     //0x368
-        UINT32 guildRank;      //0x36C
-        UINT32 guildHouseMax;  //0x370
-        UINT32 guildRankMax;   //0x374
-        UINT32 party;          //0x378
-        UINT32 partyMax;       //0x37C
-        UINT32 all;            //0x380
-        // 0x1C
-    };
-    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct WorldKillCount
@@ -61,12 +46,14 @@ namespace shaiya
         // AoL, UoF
         Array<WorldKillCount, 2> killCount;      //0x248
         CRITICAL_SECTION cs350;                  //0x350
-        WorldInsZoneCount insZoneCount;          //0x368
+        UINT32 guildHouseCount;                  //0x368
+        UINT32 guildRankCount;                   //0x36C
+        UINT32 guildHouseMaxCount;               //0x370
+        UINT32 guildRankMaxCount;                //0x374
+        UINT32 partyCount;                       //0x378
+        UINT32 partyMaxCount;                    //0x37C
+        UINT32 allCount;                         //0x380
         // 0x384
-        PAD(2204);
-        Array<ObeliskZone, 64> obeliskZone;      //0xC20
-        Array<ObeliskBoss, 64> obeliskBoss;      //0x824E20
-        // 0x3F93038 (end)
 
         static CUser* FindUser(ULONG id/*CUser->id*/);
         static CUser* FindUser(const char* charName/*eax*/);
@@ -80,5 +67,5 @@ namespace shaiya
     #pragma pack(pop)
 
     // 0x587960
-    static CWorld* g_pWorld = (CWorld*)0x10A2018;
+    static auto g_pWorld = (CWorld*)0x10A2018;
 }

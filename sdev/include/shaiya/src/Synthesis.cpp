@@ -9,9 +9,12 @@
 #include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
 #include <include/shaiya/packets/gameLog/0400.h>
+#include <include/shaiya/include/CClientToDBAgent.h>
+#include <include/shaiya/include/CClientToGameLog.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CObjectMgr.h>
+#include <include/shaiya/include/CLogConnection.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Ini.h>
 #include <include/shaiya/include/SConnection.h>

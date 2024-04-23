@@ -9,6 +9,8 @@
 #include <include/shaiya/packets/0800.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
 #include <include/shaiya/packets/gameLog/0400.h>
+#include <include/shaiya/include/CClientToDBAgent.h>
+#include <include/shaiya/include/CClientToGameLog.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>

@@ -65,7 +65,13 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\include\CClientToDBAgent.h" />
+    <ClInclude Include="include\shaiya\include\CClientToGameLog.h" />
+    <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
+    <ClInclude Include="include\shaiya\include\CLogConnection.h" />
     <ClInclude Include="include\shaiya\include\CMapRegion.h" />
+    <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
+    <ClInclude Include="include\shaiya\include\CServer.h" />
     <ClInclude Include="include\shaiya\include\DataFile.h" />
     <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
@@ -106,6 +112,7 @@
     <ClInclude Include="include\shaiya\include\SNode.h" />
     <ClInclude Include="include\shaiya\include\SSyncList.h" />
     <ClInclude Include="include\shaiya\include\SSyncMap.h" />
+    <ClInclude Include="include\shaiya\include\SThread.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\include\Synthesis.h" />

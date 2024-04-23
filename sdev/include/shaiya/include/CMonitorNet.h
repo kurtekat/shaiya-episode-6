@@ -4,9 +4,12 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct SConnectionTBaseReconnect
+    struct CMonitorNet
     {
-        static void Send(void* clientTo, void* buf, int len);
+        PAD(136);
+        // 0x88
     };
     #pragma pack(pop)
+
+    static auto g_pMonitorNet = (CMonitorNet*)0x10A28F8;
 }

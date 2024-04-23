@@ -55,7 +55,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 0x10A2C38
+    // 0x10A2C38 g_pObeliskZone
     struct ObeliskZone
     {
         UINT32 id;                   //0x00
@@ -66,7 +66,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 0x18C6E38
+    // 0x18C6E38 g_pObeliskBoss
     struct ObeliskBoss
     {
         UINT32 mapId;                //0x00

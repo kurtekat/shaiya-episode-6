@@ -8,6 +8,7 @@
 #include <include/shaiya/packets/0100.h>
 #include <include/shaiya/packets/0700.h>
 #include <include/shaiya/packets/dbAgent/0400.h>
+#include <include/shaiya/include/CClientToDBAgent.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>

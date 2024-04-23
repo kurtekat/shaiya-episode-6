@@ -8,6 +8,7 @@
 #include <vector>
 
 #include <include/shaiya/include/CItem.h>
+#include <include/shaiya/include/CLogConnection.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/SLog.h>
