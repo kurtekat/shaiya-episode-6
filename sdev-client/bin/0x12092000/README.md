@@ -1,6 +1,14 @@
-# Build Version
+# Documentation
+
+## Build Version
 
 `0x12092000`
+
+## Client
+
+https://archive.openshaiya.org/#shaiya-phoenix/clients/
+
+https://archive.openshaiya.org/#shaiya-us/patches/ps0193-4-9-2012/
 
 # Notes
 
