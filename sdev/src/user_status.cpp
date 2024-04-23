@@ -160,50 +160,6 @@ void __declspec(naked) naked_0x4910CF()
     }
 }
 
-// CUser::InitEquipment
-unsigned u0x461010 = 0x461010;
-unsigned u0x48F9C5 = 0x48F9C5;
-void __declspec(naked) naked_0x48F9BE()
-{
-    __asm
-    {
-        pushad
-
-        push edi
-        call Synergy::removeSynergies
-        add esp,0x4
-
-        popad
-
-        // original
-        mov eax,edi
-        call u0x461010
-
-        jmp u0x48F9C5
-    }
-}
-
-unsigned u0x48FCDA = 0x48FCDA;
-void __declspec(naked) naked_0x48FCD3()
-{
-    __asm
-    {
-        pushad
-
-        push esi
-        call Synergy::removeSynergies
-        add esp,0x4
-
-        popad
-
-        // original
-        mov eax,esi
-        call u0x461010
-
-        jmp u0x48FCDA
-    }
-}
-
 void hook::user_status()
 {
     // CUser::SetAttack
@@ -214,8 +170,4 @@ void hook::user_status()
     util::detour((void*)0x490FA6, naked_0x490FA6, 5);
     // CUser::SendRecoverChange
     util::detour((void*)0x4910CF, naked_0x4910CF, 5);
-    // CUser::StatResetStatus
-    util::detour((void*)0x48F9BE, naked_0x48F9BE, 7);
-    // CUser::StatResetSkill
-    util::detour((void*)0x48FCD3, naked_0x48FCD3, 7);
 }
