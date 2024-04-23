@@ -9,6 +9,7 @@
 
 namespace shaiya
 {
+    struct CItem;
     struct CUser;
 
     struct SynergyAbility
@@ -45,12 +46,12 @@ namespace shaiya
         std::array<ItemId, 13> set{};
 
         static void init();
-        static void applySynergies(CUser* user);
+        static void applySynergies(CUser* user, CItem* item, bool itemRemove);
         static void removeSynergies(CUser* user);
 
     private:
 
-        static void getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergies);
+        static void getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyAbility>& synergies);
         static void parseAbility(std::ifstream& ifs, SynergyAbility& ability);
     };
 

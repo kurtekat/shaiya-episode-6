@@ -85,12 +85,12 @@ void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
     std::memcpy(&ability, vec.data(), sizeof(SynergyAbility));
 }
 
-void Synergy::applySynergies(CUser* user)
+void Synergy::applySynergies(CUser* user, CItem* item, bool itemRemove)
 {
     Synergy::removeSynergies(user);
 
     std::vector<SynergyAbility> synergies{};
-    Synergy::getWornSynergies(user, synergies);
+    Synergy::getWornSynergies(user, item, itemRemove, synergies);
 
     if (synergies.empty())
         return;
@@ -157,15 +157,18 @@ void Synergy::removeSynergies(CUser* user)
     g_appliedSynergies.erase(user->id);
 }
 
-void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergies)
+void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyAbility>& synergies)
 {
     std::set<ItemId> equipment;
-    for (const auto& item : user->inventory[0])
+    for (const auto& wornItem : user->inventory[0])
     {
-        if (!item)
+        if (!wornItem)
             continue;
 
-        auto itemId = (item->type * 1000U) + item->typeId;
+        if (itemRemove && item == wornItem)
+            continue;
+
+        auto itemId = (wornItem->type * 1000U) + wornItem->typeId;
         equipment.insert(itemId);
     }
 
@@ -181,10 +184,11 @@ void Synergy::getWornSynergies(CUser* user, std::vector<SynergyAbility>& synergi
 
         for (int i = wornCount - 1; i > 0; --i)
         {
-            if (synergy.ability[i].isNull())
+            auto& ability = synergy.ability[i];
+            if (ability.isNull())
                 continue;
             
-            synergies.push_back(synergy.ability[i]);
+            synergies.push_back(ability);
             break;
         }
     }

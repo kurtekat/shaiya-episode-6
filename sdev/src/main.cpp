@@ -129,13 +129,13 @@ void Main()
     hook::packet_market();
     hook::packet_myshop();
     hook::revenge_mark();
-    hook::user_equipment();
     hook::user_shape();
 #endif
 
 #ifdef SHAIYA_EP6
     hook::npc_quest();
     hook::user_apply_skill();
+    hook::user_equipment();
     hook::user_status();
     Synergy::init();
 #endif

@@ -161,9 +161,11 @@ void __declspec(naked) naked_0x461640()
     {
         pushad
 
-        push edi
+        push 0x0 // itemRemove
+        push eax // item
+        push edi // user
         call Synergy::applySynergies
-        add esp,0x4
+        add esp,0xC
 
         popad
 
@@ -181,9 +183,11 @@ void __declspec(naked) naked_0x461D10()
     {
         pushad
 
-        push edx
+        push 0x1 // itemRemove
+        push ecx // item
+        push edx // user
         call Synergy::applySynergies
-        add esp,0x4
+        add esp,0xC
 
         popad
 
@@ -194,112 +198,68 @@ void __declspec(naked) naked_0x461D10()
     }
 }
 
-unsigned u0x46EE2B = 0x46EE2B;
-void __declspec(naked) naked_0x46EE26()
+// CUser::InitEquipment
+unsigned u0x461010 = 0x461010;
+unsigned u0x48F9C5 = 0x48F9C5;
+void __declspec(naked) naked_0x48F9BE()
 {
     __asm
     {
-        mov eax,[esp+0x14]
-        lea edx,[eax+eax*0x2]
-        lea ecx,[ebx+edx*0x8]
+        pushad
 
-        xor eax,eax
-        mov [ebp+ecx*0x4+0x1C0],eax
+        push edi
+        call Synergy::removeSynergies
+        add esp,0x4
+
+        popad
 
         // original
-        push ebx
-        mov ecx,esi
-        mov edx,ebp
+        mov eax,edi
+        call u0x461010
 
-        jmp u0x46EE2B
+        jmp u0x48F9C5
     }
 }
 
-unsigned u0x46D41C = 0x46D41C;
-void __declspec(naked) naked_0x46D417()
+unsigned u0x48FCDA = 0x48FCDA;
+void __declspec(naked) naked_0x48FCD3()
 {
     __asm
     {
-        mov eax,[esp+0x18]
-        lea edx,[eax+eax*0x2]
-        lea ecx,[ebx+edx*0x8]
+        pushad
 
-        xor eax,eax
-        mov [ebp+ecx*0x4+0x1C0],eax
+        push esi
+        call Synergy::removeSynergies
+        add esp,0x4
 
-        // original
-        push ebx
-        mov ecx,esi
-        mov edx,ebp
-
-        jmp u0x46D41C
-    }
-}
-
-unsigned u0x470A81 = 0x470A81;
-void __declspec(naked) naked_0x470A7C()
-{
-    __asm
-    {
-        mov eax,[esp+0x1C]
-        mov ecx,[esp+0x18]
-        lea edx,[eax+eax*0x2]
-        lea edx,[ecx+edx*0x8]
-
-        xor eax,eax
-        mov [edi+edx*0x4+0x1C0],eax
+        popad
 
         // original
-        mov eax,[esp+0x18]
-        push eax
-        mov ecx,ebp
-        mov edx,edi
+        mov eax,esi
+        call u0x461010
 
-        jmp u0x470A81
-    }
-}
-
-unsigned u0x4718ED = 0x4718ED;
-void __declspec(naked) naked_0x4718E8()
-{
-    __asm
-    {
-        mov eax,[esp+0x18]
-        lea ecx,[eax+eax*0x2]
-        lea edx,[ebx+ecx*0x8]
-
-        xor eax,eax
-        mov [edi+edx*0x4+0x1C0],eax
-
-        // original
-        push ebx
-        mov ecx,ebp
-        mov edx,edi
-
-        jmp u0x4718ED
+        jmp u0x48FCDA
     }
 }
 
 void hook::user_equipment()
 {
+    // CUser::ItemEquipmentAdd
+    util::detour((void*)0x461640, naked_0x461640, 6);
+    // CUser::ItemEquipmentRem
+    util::detour((void*)0x461D10, naked_0x461D10, 6);
+    // CUser::StatResetStatus
+    util::detour((void*)0x48F9BE, naked_0x48F9BE, 7);
+    // CUser::StatResetSkill
+    util::detour((void*)0x48FCD3, naked_0x48FCD3, 7);
+
+#ifdef SHAIYA_EP6_4_PT
     // CUser::EnableEquipment default case (slot)
     util::detour((void*)0x46846F, naked_0x46846F, 5);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
-    // CUser::ItemEquipmentAdd
-    util::detour((void*)0x461640, naked_0x461640, 6);
-    // CUser::ItemEquipmentRem
-    util::detour((void*)0x461D10, naked_0x461D10, 6);
-    // CUser::ItemGemAdd
-    util::detour((void*)0x46EE26, naked_0x46EE26, 5);
-    // CUser::ItemLapisianAdd
-    util::detour((void*)0x46D417, naked_0x46D417, 5);
-    // CUser::ItemGemRemoveAll
-    util::detour((void*)0x470A7C, naked_0x470A7C, 5);
-    // CUser::ItemGemRemovePos
-    util::detour((void*)0x4718E8, naked_0x4718E8, 5);
 
     // CUser::InitEquipment (overload)
     util::write_memory((void*)0x4615B3, max_equipment_slot, 1);
@@ -399,4 +359,5 @@ void hook::user_equipment()
     util::write_memory((void*)0x473912, &a01, 2);
     // CUser::SendDBAgentCharGetInfo
     util::write_memory((void*)0x47AE7B, &a01, 2);
+#endif
 }
