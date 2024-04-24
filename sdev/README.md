@@ -57,7 +57,7 @@ The kill count will determine which effect will be rendered. Notice effects are 
 | 7                 | RevengeMark_Loop_07.EFT    |
 | 8 (or greater)    | RevengeMark_Loop_08.EFT    |
 
-The 6.4 PT clients in this repository support message 508, but do not support message 509.
+The 6.4 PT client in this repository supports message 508, but does not support message 509.
 
 ```
 508    "Your revenge to <t> has succeeded!"
