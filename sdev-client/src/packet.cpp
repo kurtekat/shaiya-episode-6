@@ -1,6 +1,8 @@
 #include <include/main.h>
+#include <include/shaiya/static.h>
 #include <include/shaiya/include/CCharacter.h>
 #include <include/shaiya/include/CNetwork.h>
+#include <include/shaiya/include/CWorldMgr.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -30,6 +32,16 @@ namespace packet
 
         if (!user->wingsType)
             user->wings = nullptr;
+    }
+
+    void revenge_message(CCharacter* killer, std::uint32_t killCount)
+    {
+        std::copy_n(killer->charName.begin(), killer->charName.size(), g_static->t.begin());
+        g_static->v = killCount;
+
+        // 509    "<t> killed  you <v> time(s)."
+        typedef void(__cdecl* LPFN)(int, int, int);
+        (*(LPFN)0x423150)(5, 509, 1);
     }
 }
 
@@ -97,6 +109,27 @@ void __declspec(naked) naked_0x5933F8()
     }
 }
 
+unsigned u0x4EF315 = 0x4EF315;
+void __declspec(naked) naked_0x4EF2F3()
+{
+    __asm
+    {
+        // original
+        mov [eax+0x10],ebx
+
+        pushad
+
+        push ebx // killCount
+        push edi // killer
+        call packet::revenge_message
+        add esp,0x8
+
+        popad
+
+        jmp u0x4EF315
+    }
+}
+
 void hook::packet()
 {
     // recv default case
@@ -105,4 +138,6 @@ void hook::packet()
     util::detour((void*)0x5933F8, naked_0x5933F8, 6);
     // appearance/sex change bug
     util::detour((void*)0x59F896, naked_0x59F896, 6);
+    // revenge message 509
+    util::detour((void*)0x4EF2F3, naked_0x4EF2F3, 5);
 }
