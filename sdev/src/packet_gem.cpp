@@ -431,7 +431,7 @@ namespace packet_gem
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemComposeOutgoing));
 
         UserItemCraftNameIncoming packet{ 0x717, user->userId, incoming->itemBag, incoming->itemSlot, item->craftName };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemCraftNameIncoming));
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemCraftNameIncoming));
 
         log.itemUid = item->uniqueId;
         log.itemId = item->itemInfo->itemId;
@@ -439,7 +439,7 @@ namespace packet_gem
         log.gems = item->gems;
         log.makeTime = item->makeTime;
         log.craftName = item->craftName;
-        SConnectionTBaseReconnect::Send(g_pClientToGameLog, &log, sizeof(GameLogItemComposeIncoming));
+        SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemComposeIncoming));
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }

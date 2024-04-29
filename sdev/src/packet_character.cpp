@@ -38,7 +38,7 @@ namespace packet_character
         StringCbCopyA(request.name.data(), request.name.size(), incoming->name.data());
 
         int length = packet_size_without_name + nameLength + 1;
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &request, length);
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &request, length);
     }
 
     void send_name_available(CUser* user, UserCharNameAvailableOutgoing* response)

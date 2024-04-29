@@ -110,7 +110,7 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
             item->count -= count;
 
             UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
-            SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserItemRemoveIncoming));
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemRemoveIncoming));
 
             GameLogItemRemoveIncoming log{};
             CUser::SetGameLogMain(user, &log);
@@ -124,7 +124,7 @@ bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId,
             log.bag = bag;
             log.slot = slot;
             log.count = count;
-            SConnectionTBaseReconnect::Send(g_pClientToGameLog, &log, sizeof(GameLogItemRemoveIncoming));
+            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
 
             if (!item->count)
             {

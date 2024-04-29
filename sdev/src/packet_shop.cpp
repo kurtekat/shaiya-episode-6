@@ -1,5 +1,4 @@
 ﻿#include <array>
-#include <chrono>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -23,7 +22,7 @@ namespace packet_shop
     void send_reload_point(CUser* user)
     {
         UserPointReloadPointIncoming packet{ 0xE06, user->userId };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointReloadPointIncoming));
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointReloadPointIncoming));
     }
 
     void reload_point_handler(CUser* user, std::uint32_t points)
@@ -71,7 +70,7 @@ namespace packet_shop
     void send_purchase2(CUser* user)
     {
         UserPointSaveBuyPointItemIncoming packet{ 0xE0A, user->userId };
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointSaveBuyPointItemIncoming));
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointSaveBuyPointItemIncoming));
 
         send_reload_point(user);
 
@@ -89,7 +88,7 @@ namespace packet_shop
         packet.itemPrice = itemPrice;
         packet.purchaseDate = ServerTime::GetSystemTime();
         packet.purchaseNumber = purchaseNumber;
-        SConnectionTBaseReconnect::Send(g_pClientToDBAgent, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
     }
