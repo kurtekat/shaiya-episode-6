@@ -325,7 +325,7 @@ namespace shaiya
         UINT16 mapId;                        //0x160
         UINT16 direction;                    //0x162
         UINT16 honor;                        //0x164
-        UINT16 vg;                           //0x166
+        INT16 vg;                            //0x166
         UINT8 cg;                            //0x168
         UINT8 og;                            //0x169
         UINT16 ig;                           //0x16A
@@ -550,7 +550,10 @@ namespace shaiya
         Username username;                   //0x5834
         PAD(1);
         bool initEquipment;                  //0x5855
-        PAD(34);
+        PAD(14);
+        UINT32 questKillPCCount;             //0x5864
+        UINT32 questKillMobCount;            //0x5868
+        PAD(12);
         UserLogoutType logoutType;           //0x5878
         DWORD logoutTime;                    //0x587C
         BOOL dbAgentDisconnect;              //0x5880
@@ -634,6 +637,7 @@ namespace shaiya
         static void ItemUse(CUser* user, int bag, int slot, ULONG targetId, int byTargetType);
         static void ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap);
         static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, CGameData::ItemInfo** outInfo);
+        static CQuest* QuestFind(CUser* user/*edi*/, int questId);
         static void RemApplySkillBuff(CUser* user/*ecx*/, CGameData::SkillInfo* skillInfo);
         static void RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, CGameData::SkillInfo* skillInfo/*edx*/);
         static void SendAdminCmdError(CUser* user, UINT16 error/*ecx*/);

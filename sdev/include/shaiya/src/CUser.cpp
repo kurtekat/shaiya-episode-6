@@ -216,6 +216,18 @@ bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, in
     return (*(LPFN)0x48D5E0)(typeId, outSlot, user, type, count, outBag, outInfo);
 }
 
+CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
+{
+    Address u0x48D3A0 = 0x48D3A0;
+
+    __asm
+    {
+        mov edi,user
+        push questId
+        call u0x48D3A0
+    }
+}
+
 void CUser::RemApplySkillBuff(CUser* user/*ecx*/, CGameData::SkillInfo* skillInfo)
 {
     typedef void(__thiscall* LPFN)(CUser*, CGameData::SkillInfo*);

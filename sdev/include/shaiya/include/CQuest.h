@@ -10,8 +10,16 @@ namespace shaiya
     struct CQuest
     {
         SNode node;            //0x00
-        UINT16 id;             //0x08
-        PAD(22);
+        UINT32 id;             //0x08
+        UINT8 bySuccess;       //0x0C
+        PAD(3);
+        DWORD makeTime;        //0x10
+        DWORD delay;           //0x14
+        DWORD keepTime;        //0x18
+        UINT8 count1;          //0x1C
+        UINT8 count2;          //0x1D
+        UINT8 count3;          //0x1E
+        PAD(1);
         QuestInfo* questInfo;  //0x20
         // 0x24
     };

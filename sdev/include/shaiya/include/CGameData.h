@@ -323,12 +323,7 @@ namespace shaiya
             UINT8 type;              //0x24
             UINT8 typeId;            //0x25
             Race country;            //0x26
-            bool attackFighter;      //0x27
-            bool defenseFighter;     //0x28
-            bool patrolRogue;        //0x29
-            bool shootRogue;         //0x2A
-            bool attackMage;         //0x2B
-            bool defenseMage;        //0x2C
+            ReqJob job;              //0x27
             PAD(1);
             UINT16 level;            //0x2E
             Grow grow;               //0x30
@@ -591,12 +586,7 @@ namespace shaiya
             PAD(1);
             UINT16 level;             //0x24 
             UINT8 country;            //0x26
-            bool attackFighter;       //0x27
-            bool defenseFighter;      //0x28
-            bool patrolRogue;         //0x29
-            bool shootRogue;          //0x2A
-            bool attackMage;          //0x2B
-            bool defenseMage;         //0x2C
+            ReqJob job;               //0x27
             Grow grow;                //0x2D
             UINT8 skillPoint;         //0x2E
             UINT8 typeShow;           //0x2F

@@ -63,4 +63,29 @@ namespace shaiya
 #endif
     };
     #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct QuestEndSelectIncoming
+    {
+        UINT16 opcode{ 0x907 };
+        UINT16 questId;
+        UINT8 byResultIndex;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct QuestEndSelectOutgoing
+    {
+        UINT16 opcode{ 0x907 };
+        UINT16 questId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct QuestGiveUpIncoming
+    {
+        UINT16 opcode{ 0x908 };
+        UINT16 questId;
+    };
+    #pragma pack(pop)
 }

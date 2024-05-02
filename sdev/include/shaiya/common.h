@@ -229,6 +229,18 @@ namespace shaiya
         Neutral
     };
 
+    #pragma pack(push, 1)
+    struct ReqJob
+    {
+        bool attackFighter;
+        bool defenseFighter;
+        bool patrolRogue;
+        bool shootRogue;
+        bool attackMage;
+        bool defenseMage;
+    };
+    #pragma pack(pop)
+
     enum struct Sex : UINT8
     {
         Male,
