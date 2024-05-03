@@ -1,5 +1,5 @@
-#include <include/shaiya/include/CNpc.h>
-#include <include/shaiya/include/CUser.h>
+#include "include/shaiya/include/CNpc.h"
+#include "include/shaiya/include/CUser.h"
 using namespace shaiya;
 
 void CNpc::SetStatus(CNpc* npc/*eax*/, int status/*ecx*/)

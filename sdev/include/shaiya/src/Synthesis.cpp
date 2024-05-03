@@ -1,148 +1,125 @@
 #include <filesystem>
 #include <ranges>
 #include <string>
-#include <sstream>
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/dbAgent/0700.h>
-#include <include/shaiya/packets/gameLog/0400.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CClientToGameLog.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CObjectMgr.h>
-#include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/Ini.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/SLog.h>
-#include <include/shaiya/include/Synthesis.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/SLog.h>
+#include "include/shaiya/include/CLogConnection.h"
+#include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
 void Synthesis::init()
 {
-    std::vector<char> vec(MAX_PATH);
-    GetModuleFileNameA(nullptr, vec.data(), vec.size());
+    std::vector<char> fileName(MAX_PATH);
+    GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
 
-    std::filesystem::path path(vec.data());
+    std::filesystem::path path(fileName.data());
     path.remove_filename();
-    path.append("Data/ItemSynthesis.ini");
+    path.append("Data");
+    path.append("ChaoticSquare.ini");
 
     if (!std::filesystem::exists(path))
     {
-        SLog::PrintFileDirect(&g_pClientToLog->log, "cannot %s %s: %s", "open", ".\\Data\\ItemSynthesis.ini", "No such file or directory");
+        SLog::PrintFileDirect(&g_pClientToLog->log, "Synthesis::init : %s does not exist", path.string().c_str());
         return;
     }
 
-    Ini ini(path);
-
-    std::vector<std::string> sections;
-    ini.getSectionNames(sections);
-
-    for (const auto& section : sections)
-    {
-        std::vector<Ini::KeyValPair> vec;
-        ini.getSection(section, vec);
-
-        if (vec.size() != 8)
-            continue;
-
-        auto itemId = std::strtoul(vec[0].value.c_str(), nullptr, 10);
-        auto successRate = std::atoi(vec[1].value.c_str());
-        successRate = (successRate > 100) ? 100 : successRate;
-
-        Synthesis synthesis{};
-        synthesis.successRate = successRate * 100;
-
-        Synthesis::parseMaterial(vec[2].value, synthesis.materialType);
-        Synthesis::parseMaterial(vec[3].value, synthesis.materialTypeId);
-        Synthesis::parseMaterial(vec[4].value, synthesis.materialCount);
-
-        synthesis.createType = std::atoi(vec[5].value.c_str());
-        synthesis.createTypeId = std::atoi(vec[6].value.c_str());
-        synthesis.createCount = std::atoi(vec[7].value.c_str());
-
-        auto it = g_synthesis.find(itemId);
-        if (it != g_synthesis.end())
-            it->second.push_back(synthesis);
-        else
-            g_synthesis.insert({ itemId, { synthesis } });
-    }
-}
-
-void Synthesis::parseMaterial(const std::string& text, std::array<std::uint8_t, 24>& output)
-{
-    if (text.empty())
+    std::error_code ec;
+    auto size = std::filesystem::file_size(path, ec);
+    if (size == -1)
         return;
 
-    std::istringstream iss(text);
-    std::vector<int> vec{};
-    for (std::string str; std::getline(iss, str, ','); )
-        vec.push_back(std::atoi(str.c_str()));
-
-    if (vec.size() != output.size())
+    std::vector<char> output(static_cast<size_t>(size));
+    auto count = GetPrivateProfileSectionNamesA(output.data(), output.size(), path.string().c_str());
+    if (!count)
         return;
 
-    std::copy(vec.begin(), vec.end(), output.begin());
-}
-
-bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId, std::uint8_t count)
-{
-    auto itemId = (type * 1000U) + typeId;
-
-    for (const auto& [bag, items] : std::views::enumerate(
-        std::as_const(user->inventory)))
+    try
     {
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(items)))
+        std::istringstream iss(std::string(output.data(), count + 1));
+        std::vector<std::string> sections;
+
+        for (std::string str; std::getline(iss, str, '\0'); )
+            sections.push_back(str);
+
+        for (const auto& section : sections)
         {
-            if (!item)
+            std::vector<char> vec(INT16_MAX);
+            auto count = GetPrivateProfileSectionA(section.c_str(), vec.data(), vec.size(), path.string().c_str());
+            if (!count)
                 continue;
 
-            if (item->itemInfo->itemId != itemId || item->count < count)
-                continue;
+            std::istringstream iss(std::string(vec.data(), count + 1));
+            std::vector<std::pair<std::string, std::string>> kvp;
 
-            item->count -= count;
-
-            UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemRemoveIncoming));
-
-            GameLogItemRemoveIncoming log{};
-            CUser::SetGameLogMain(user, &log);
-
-            log.itemUid = item->uniqueId;
-            log.itemId = item->itemInfo->itemId;
-            log.itemName = item->itemInfo->itemName;
-            log.gems = item->gems;
-            log.makeTime = item->makeTime;
-            log.craftName = item->craftName;
-            log.bag = bag;
-            log.slot = slot;
-            log.count = count;
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
-
-            if (!item->count)
+            for (std::string str; std::getline(iss, str, '\0'); )
             {
-                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), 0, 0, 0 };
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+                auto offest = str.find_first_of('=');
+                if (offest == std::string::npos)
+                    continue;
 
-                CObjectMgr::FreeItem(item);
-                user->inventory[bag][slot] = nullptr;
+                auto key = str.substr(0, offest);
+                auto value = str.substr(offest + 1);
+                kvp.push_back({ key, value });
             }
+
+            if (kvp.size() != 8)
+                continue;
+
+            auto itemId = std::atoi(kvp[0].second.c_str());
+            auto successRate = std::atoi(kvp[1].second.c_str());
+            successRate = (successRate > 100) ? 100 : successRate;
+
+            Synthesis synthesis{};
+            synthesis.successRate = successRate * 100;
+
+            auto itemList = std::ranges::views::zip(
+                synthesis.materialType,
+                synthesis.materialTypeId,
+                synthesis.materialCount
+            );
+
+            std::vector<int> vec1{};
+            for (const auto& token : std::views::split(kvp[2].second, ','))
+                vec1.push_back(std::atoi(token.data()));
+
+            if (vec1.size() != itemList.size())
+                continue;
+
+            std::vector<int> vec2{};
+            for (const auto& token : std::views::split(kvp[3].second, ','))
+                vec2.push_back(std::atoi(token.data()));
+
+            if (vec2.size() != itemList.size())
+                continue;
+
+            std::vector<int> vec3{};
+            for (const auto& token : std::views::split(kvp[4].second, ','))
+                vec3.push_back(std::atoi(token.data()));
+
+            if (vec3.size() != itemList.size())
+                continue;
+
+            for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
+            {
+                std::get<0>(itemList[i]) = vec1[i];
+                std::get<1>(itemList[i]) = vec2[i];
+                std::get<2>(itemList[i]) = vec3[i];
+            }
+
+            synthesis.createType = std::atoi(kvp[5].second.c_str());
+            synthesis.createTypeId = std::atoi(kvp[6].second.c_str());
+            synthesis.createCount = std::atoi(kvp[7].second.c_str());
+
+            if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
+                it->second.push_back(synthesis);
             else
-            {
-                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), item->type, item->typeId, item->count };
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-            }
-
-            return true;
+                g_synthesis.insert({ itemId, { synthesis } });
         }
     }
-
-    return false;
+    catch (const std::exception& ex)
+    {
+        SLog::PrintFileDirect(&g_pClientToLog->log, "Synthesis::init : %s", ex.what());
+    }
 }

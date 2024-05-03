@@ -1,94 +1,82 @@
-﻿#include <array>
-#include <string>
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <strsafe.h>
-
-#include <include/main.h>
-#include <include/shaiya/packets/2600.h>
-#include <include/shaiya/packets/dbAgent/0E00.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/ServerTime.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/SConnection.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/ServerTime.h"
+#include "include/shaiya/include/network/dbAgent/incoming/0E00.h"
+#include "include/shaiya/include/network/game/outgoing/2600.h"
 using namespace shaiya;
 
 namespace packet_shop
 {
     void send_reload_point(CUser* user)
     {
-        UserPointReloadPointIncoming packet{ 0xE06, user->userId };
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointReloadPointIncoming));
+        DBAgentReloadPointIncoming packet(user->userId);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentReloadPointIncoming));
     }
 
-    void reload_point_handler(CUser* user, std::uint32_t points)
+    void reload_point_handler(CUser* user, uint32_t points)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
             return;
 
         InterlockedExchange(&user->points, points);
 
-        PointOutgoing packet{ 0x2605, user->points };
-        SConnection::Send(&user->connection, &packet, sizeof(PointOutgoing));
+        PointOutgoing outgoing(user->points);
+        SConnection::Send(&user->connection, &outgoing, sizeof(PointOutgoing));
     }
 
     void send_purchase(CUser* user, Packet buffer)
     {
-        constexpr int packet_size_without_list = 37;
-
-        PointPurchaseItemOutgoing packet{};
-        packet.opcode = util::deserialize<std::uint16_t>(buffer, 0);
-        packet.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
-        packet.points = util::deserialize<std::uint32_t>(buffer, 3);
-        std::memcpy(&packet.productCode, &buffer[7], packet.productCode.size());
-        packet.purchaseDate = util::deserialize<std::uint32_t>(buffer, 28);
-        packet.itemPrice = util::deserialize<std::uint32_t>(buffer, 32);
-        packet.itemCount = util::deserialize<std::uint8_t>(buffer, 36);
+        PointPurchaseItemOutgoing outgoing{};
+        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
+        outgoing.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
+        outgoing.points = util::deserialize<uint32_t>(buffer, 3);
+        std::memcpy(&outgoing.productCode, &buffer[7], outgoing.productCode.size());
+        outgoing.purchaseDate = util::deserialize<unsigned long>(buffer, 28);
+        outgoing.itemPrice = util::deserialize<uint32_t>(buffer, 32);
+        outgoing.itemCount = util::deserialize<uint8_t>(buffer, 36);
 
         int offset = 0;
-        for (int i = 0; i < packet.itemCount; ++i)
+        for (int i = 0; i < outgoing.itemCount; ++i)
         {
             Item2602 item2602{};
-            item2602.bag = util::deserialize<std::uint8_t>(buffer, 37 + offset);
-            item2602.slot = util::deserialize<std::uint8_t>(buffer, 38 + offset);
-            item2602.type = util::deserialize<std::uint8_t>(buffer, 39 + offset);
-            item2602.typeId = util::deserialize<std::uint8_t>(buffer, 40 + offset);
-            item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset);
-            packet.itemList[i] = item2602;
-
+            item2602.bag = util::deserialize<uint8_t>(buffer, 37 + offset);
+            item2602.slot = util::deserialize<uint8_t>(buffer, 38 + offset);
+            item2602.type = util::deserialize<uint8_t>(buffer, 39 + offset);
+            item2602.typeId = util::deserialize<uint8_t>(buffer, 40 + offset);
+            item2602.count = util::deserialize<uint8_t>(buffer, 41 + offset);
+            outgoing.itemList[i] = item2602;
             offset += 5;
         }
 
-        int length = packet_size_without_list + (packet.itemCount * sizeof(Item2602));
-        SConnection::Send(&user->connection, &packet, length);
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item2602));
+        SConnection::Send(&user->connection, &outgoing, length);
     }
 
     void send_purchase2(CUser* user)
     {
-        UserPointSaveBuyPointItemIncoming packet{ 0xE0A, user->userId };
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointSaveBuyPointItemIncoming));
+        DBAgentSaveBuyPointItemIncoming packet(user->userId);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveBuyPointItemIncoming));
 
         send_reload_point(user);
 
         InterlockedExchange(&user->disableShop, 0);
     }
 
-    void send_purchase3(CUser* user, const char* targetName, const char* productCode, std::uint32_t itemPrice)
+    void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
+        auto purchaseDate = ServerTime::now();
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
-        UserPointSaveGiftPointItemIncoming packet{};
-        packet.userId = user->userId;
-        StringCbCopyA(packet.targetName.data(), packet.targetName.size(), targetName);
-        StringCbCopyA(packet.productCode.data(), packet.productCode.size(), productCode);
-        packet.itemPrice = itemPrice;
-        packet.purchaseDate = ServerTime::GetSystemTime();
-        packet.purchaseNumber = purchaseNumber;
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
+        DBAgentSaveGiftPointItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveGiftPointItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
     }

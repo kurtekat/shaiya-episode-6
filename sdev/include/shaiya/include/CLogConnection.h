@@ -1,7 +1,7 @@
 #pragma once
-#include <include/shaiya/common.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SLog.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/common/SLog.h>
 
 namespace shaiya
 {
@@ -17,5 +17,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    static auto g_pClientToLog = (CLogConnection*)0x10A2710;
+    static_assert(sizeof(CLogConnection) == 0x108);
+    static auto g_pClientToLog = (CLogConnection*)0x10A2710; // 0x587970 (userLog)
 }

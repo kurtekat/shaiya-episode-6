@@ -1,9 +1,0 @@
-#pragma once
-
-void Main();
-extern "C" __declspec(dllexport) void DllExport();
-
-namespace hook
-{
-    void get_user();
-}

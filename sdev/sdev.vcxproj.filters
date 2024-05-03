@@ -18,27 +18,36 @@
     <Filter Include="include\shaiya\src">
       <UniqueIdentifier>{38f006ba-69d0-4fd2-a81d-a241176b24d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets">
-      <UniqueIdentifier>{e3d3aa8b-c223-469f-a071-a914a12a5bab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="resources">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="include\shaiya\packets\dbAgent">
-      <UniqueIdentifier>{ab28d908-8385-4b38-82b5-62f25276723e}</UniqueIdentifier>
+    <Filter Include="include\shaiya\include\network">
+      <UniqueIdentifier>{290aa20e-eff7-4f5e-9c08-8b83915dcf6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets\session">
-      <UniqueIdentifier>{7de60dcc-362b-4a20-86ac-3c45dccde63b}</UniqueIdentifier>
+    <Filter Include="include\shaiya\include\network\dbAgent">
+      <UniqueIdentifier>{8e61052d-5794-4f04-b232-d48c872a50e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets\userLog">
-      <UniqueIdentifier>{b6c75488-bb27-4100-8a85-483a2aec988c}</UniqueIdentifier>
+    <Filter Include="include\shaiya\include\network\game">
+      <UniqueIdentifier>{306a10ac-c505-47ff-9dbe-94bc4273ca3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets\gameLog">
-      <UniqueIdentifier>{a068d845-f5ee-47ff-8fb4-fb3f1e21a256}</UniqueIdentifier>
+    <Filter Include="include\shaiya\include\network\gameLog">
+      <UniqueIdentifier>{24dd5180-25c8-4435-8bf5-62d8dc3b1c00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\packets\login">
-      <UniqueIdentifier>{06963bf9-bdbe-496e-a111-de58c111b0f4}</UniqueIdentifier>
+    <Filter Include="include\shaiya\include\network\dbAgent\incoming">
+      <UniqueIdentifier>{6d2fa7dc-3e2d-46f0-aa33-887834c9f22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\include\network\dbAgent\outgoing">
+      <UniqueIdentifier>{9e4f6155-f62c-42b2-b773-07a65016e773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\include\network\game\incoming">
+      <UniqueIdentifier>{035ee9c9-a7be-4ceb-8cd6-3d7a12df2b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\include\network\game\outgoing">
+      <UniqueIdentifier>{0f260598-48be-4f05-9597-f7ea07422303}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\shaiya\include\network\gameLog\incoming">
+      <UniqueIdentifier>{7facd629-cc59-4c5e-8393-f9acecf565a1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -141,9 +150,6 @@
     <ClCompile Include="include\shaiya\src\CNpc.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CTrap.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\revenge_mark.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -156,17 +162,17 @@
     <ClCompile Include="include\shaiya\src\SDatabase.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\DataFile.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
-    <ClCompile Include="include\shaiya\src\Ini.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\Synthesis.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\SLog.cpp">
       <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\Helpers.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\packet_party.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,146 +245,26 @@
     <ClInclude Include="include\shaiya\include\SVector.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\common.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0100.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2600.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0800.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0A00.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0700.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2300.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\CObject.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ServerTime.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0200.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SDatabase.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SDatabasePool.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SConnection.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2200.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0600.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\Synergy.h">
       <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0600.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CExchange.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\SNode.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SSyncList.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2400.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\2500.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0B00.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0003.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0400.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0900.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\1B00.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\session\0100.h">
-      <Filter>include\shaiya\packets\session</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0E00.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\1100.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F100.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F900.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0300.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\userLog\0300.h">
-      <Filter>include\shaiya\packets\userLog</Filter>
-    </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0500.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CZoneNode.h">
-      <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Obelisk.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\SSyncMap.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CTrap.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CDead.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0400.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\RevengeMark.h">
       <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0300.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\0D00.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\B100.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0700.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CObjectMgr.h">
       <Filter>include\shaiya\include</Filter>
@@ -386,53 +272,8 @@
     <ClInclude Include="include\shaiya\include\CloneUser.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0400.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0500.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0F00.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0E00.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0C00.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\F500.h">
-      <Filter>include\shaiya\packets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0800.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0900.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0900.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\DataFile.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\Ini.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\Synthesis.h">
       <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\gameLog\0A00.h">
-      <Filter>include\shaiya\packets\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CMapRegion.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SLog.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\packets\login\A102.h">
-      <Filter>include\shaiya\packets\login</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CClientToMgr.h">
       <Filter>include\shaiya\include</Filter>
@@ -452,11 +293,194 @@
     <ClInclude Include="include\shaiya\include\CMonitorNet.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\SThread.h">
+    <ClInclude Include="include\shaiya\include\ItemInfo.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\dbAgent\0A00.h">
-      <Filter>include\shaiya\packets\dbAgent</Filter>
+    <ClInclude Include="include\shaiya\include\MobInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SkillInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ProductInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CDamageMob.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CUserCrypto.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\GameLogMain.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\Helpers.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ItemEnchant.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\TownMoveScroll.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0E00.h">
+      <Filter>include\shaiya\include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0400.h">
+      <Filter>include\shaiya\include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0600.h">
+      <Filter>include\shaiya\include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0700.h">
+      <Filter>include\shaiya\include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\outgoing\0E00.h">
+      <Filter>include\shaiya\include\network\dbAgent\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\dbAgent\outgoing\0400.h">
+      <Filter>include\shaiya\include\network\dbAgent\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0A00.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0B00.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\1F00.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0003.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0100.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0200.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0300.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0500.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0700.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0800.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\0900.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\1100.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\2200.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\2500.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\2600.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\B100.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\F100.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\F900.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0A00.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0B00.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0D00.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\1F00.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0100.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0200.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0300.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0400.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0500.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0600.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0700.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0800.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0900.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\1100.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\2200.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\2300.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\2400.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\2500.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\2600.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\B100.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\F100.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\F500.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\F900.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0A00.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0C00.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0E00.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0400.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0500.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0900.h">
+      <Filter>include\shaiya\include\network\gameLog\incoming</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

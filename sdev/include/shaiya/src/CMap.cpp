@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CMap.h>
+#include "include/shaiya/include/CMap.h"
 using namespace shaiya;
 
 CDoor* CMap::GetPortal(CMap* map/*ecx*/, int index/*eax*/)
@@ -13,13 +13,13 @@ CDoor* CMap::GetPortal(CMap* map/*ecx*/, int index/*eax*/)
     }
 }
 
-CDoor* CMap::GetPortalById(CMap* map/*ecx*/, int insZoneId/*edi*/)
+CDoor* CMap::GetPortalById(CMap* map/*ecx*/, int id/*edi*/)
 {
     Address u0x430230 = 0x430230;
 
     __asm
     {
-        mov edi,insZoneId
+        mov edi,id
         mov ecx,map
         call u0x430230
     }

@@ -1,19 +1,8 @@
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CMob.h>
+#include "include/shaiya/include/CMob.h"
+#include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-int CMob::GetCountry(CMob* mob/*eax*/)
-{
-    Address u0x457CE0 = 0x457CE0;
-
-    __asm
-    {
-        mov eax,mob
-        call u0x457CE0
-    }
-}
-
-void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/)
+void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
 {
     Address u0x4B9280 = 0x4B9280;
 
@@ -27,19 +16,7 @@ void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData:
     }
 }
 
-bool CMob::EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/)
-{
-    Address u0x4BAED0 = 0x4BAED0;
-
-    __asm
-    {
-        mov eax,base
-        mov ecx,user
-        call u0x4BAED0
-    }
-}
-
-void CMob::SendLogBossMob(CMob* mob/*edx*/, const char* text3/*edi*/, int byAction, const char* text4, int damage)
+void CMob::SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage)
 {
     Address u0x4B62C0 = 0x4B62C0;
 

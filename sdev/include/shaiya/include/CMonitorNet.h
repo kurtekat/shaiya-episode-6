@@ -1,5 +1,5 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -11,5 +11,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(CMonitorNet) == 0x88);
     static auto g_pMonitorNet = (CMonitorNet*)0x10A28F8;
 }

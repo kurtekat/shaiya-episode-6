@@ -1,6 +1,6 @@
 #pragma once
-#include <include/shaiya/common.h>
-#include <include/shaiya/include/SConnection.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SConnection.h>
 
 namespace shaiya
 {
@@ -13,6 +13,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x587974
-    static auto g_pClientToGameLog = (CClientToGameLog*)0x10A2818;
+    static_assert(sizeof(CClientToGameLog) == 0xE0);
+    static auto g_pClientToGameLog = (CClientToGameLog*)0x10A2818; // 0x587974
 }

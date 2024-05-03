@@ -1,16 +1,17 @@
 #pragma once
 #include <map>
 #include <vector>
-
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
     struct RevengeMark
     {
-        CharId killerId;
+        ULONG killerId;
         UINT32 killCount;
     };
+    #pragma pack(pop)
 
     inline std::map<CharId, std::vector<RevengeMark>> g_revengeMark;
 }

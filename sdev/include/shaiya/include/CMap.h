@@ -1,97 +1,13 @@
 #pragma once
-#include <include/shaiya/common.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
     struct CDoor;
-
-    typedef Array<char, 256> SvMapName;
-
-    enum MapId
-    {
-        DWaterBorderland,
-        Erina,
-        Reikeuseu,
-        TragosCavum1,
-        TragosCavum2,
-        CornwellsRuin1,
-        CornwellsRuin2,
-        ArgillaRuin1,
-        ArgillaRuin2,
-        WaterDragonLair1,
-        WaterDragonLair2,
-        WaterDragonLair3,
-        CloronsLair1,
-        CloronsLair2,
-        CloronsLair3,
-        FantasmasLair1,
-        FantasmasLair2,
-        FantasmasLair3,
-        ProeliumFrontier,
-        Willieoseu,
-        Keuraijen,
-        Maitreyan1,
-        Maitreyan2,
-        AidionNeckria1,
-        AidionNeckria2,
-        ElementalCave,
-        RuberChaos,
-        Adellia = 28,
-        Adeurian,
-        Cantabilian,
-        TempleOfPharos,
-        MazeOfRapioru,
-        SenechioCave,
-        KalumusHouse,
-        Apulune,
-        Iris,
-        CaveOfStigma,
-        AurizenRuin,
-        UndergroundStadium = 40,
-        SecretPrison,
-        VaultGuildAuctionHouse,
-        Skulleron,
-        Astenes,
-        DeepDesert1,
-        DeepDesert2,
-        StableErde,
-        LightCrypticThrone,
-        FuryCrypticThrone,
-        GuildRankingBattle,
-        LightGuildHouse,
-        FuryGuildHouse,
-        LightGuildMgrOffice,
-        FuryGuildMgrOffice,
-        CaelumGreendieta1 = 56,
-        CaelumGreendieta2,
-        CaelumGreendieta3,
-        GardenOfGoddess,
-        OblivioInsula = 64,
-        CaelumSacra1,
-        CaelumSacra2,
-        CaelumSacra3,
-        ValdemarRegnum,
-        PalaionRegnum,
-        KanosIlium,
-        QueenCaput,
-        QueenServus,
-        ZeharrsMine,
-        DimensionCrack,
-        Pantanasa,
-        Theodores,
-
-        // MapWar
-
-        ProeliumFrontierBattleZone = 102,
-        CantabilianBattleZone,
-        DWaterBorderlandBattleZone,
-        GoddessBattleZone,
-        RewardMap,
-        WaitingRoom = 108,
-        StableErdeBattleZone
-    };
+    struct CZone;
+    struct MobInfo;
 
     enum struct MapCreateType : UINT32
     {
@@ -102,13 +18,6 @@ namespace shaiya
         Guild,      // G
         Restricted, // R
         House       // H
-    };
-
-    enum struct MapPortalCountry : UINT32
-    {
-        Neutral,
-        Light,
-        Fury
     };
 
     enum struct MapType : UINT32
@@ -135,13 +44,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBossMob
     {
-        SVector pos;              //0x00
-        float radius;             //0x0C
+        SVector pos;               //0x00
+        float radius;              //0x0C
         PAD(4);
-        UINT32 count;             //0x14
-        Array<UINT32, 16> mobId;  //0x18
-        // 0x58
-        Array<CGameData::MobInfo*, 16> mobInfo;
+        UINT32 count;              //0x14
+        Array<UINT32, 16> mobId;   //0x18
+        Array<MobInfo*, 16> mobs;  //0x58
         // 0x98
         PAD(148);
         // 0x12C
@@ -163,23 +71,22 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBoss
     {
-        UINT32 id;                        //0x00
-        UINT32 count;                     //0x04
-        UINT32 respawnTime;               //0x08
-        UINT32 portalMapId;               //0x0C
-        InsZoneId portalInsZoneId;        //0x10
+        UINT32 id;                         //0x00
+        UINT32 count;                      //0x04
+        ULONG cooldown;                    //0x08
+        UINT32 portalMapId;                //0x0C
+        UINT32 portalInsZoneId;            //0x10
         PAD(4);
-        UINT32 changeMobCount;            //0x18
-        SVector pos;                      //0x1C
+        UINT32 changeMobCount;             //0x18
+        SVector pos;                       //0x1C
         PAD(12);
-        Array<UINT32, 16> mobId;          //0x34
-        // 0x74
-        Array<CGameData::MobInfo*, 16> mobInfo;
+        Array<UINT32, 16> mobId;           //0x34
+        Array<MobInfo*, 16> mobs;          //0x74
         // 0xB4
         PAD(100);
-        BOOL enableRandomRespawn;         //0x118
-        MapRandomRespawn randomRespawn;   //0x11C
-        Array<MapBossMob, 32> changeMob;  //0x148
+        BOOL enableRandomRespawn;          //0x118
+        MapRandomRespawn randomRespawn;    //0x11C
+        Array<MapBossMob, 32> changeMobs;  //0x148
         PAD(4);
         // 0x26CC
     };
@@ -200,7 +107,6 @@ namespace shaiya
     struct MapLadder
     {
         SVector pos;
-        // 0xC
     };
     #pragma pack(pop)
 
@@ -217,12 +123,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapMob
     {
-        SVector v;     //0x00
-        SVector w;     //0x0C
-        UINT32 cellX;  //0x18
-        UINT32 cellZ;  //0x1C
-        UINT32 count;  //0x20
-        MapMob2* mob;  //0x24
+        SVector v;      //0x00
+        SVector w;      //0x0C
+        UINT32 cellX;   //0x18
+        UINT32 cellZ;   //0x1C
+        UINT32 count;   //0x20
+        MapMob2* mobs;  //0x24
         // 0x28
     };
     #pragma pack(pop)
@@ -230,8 +136,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapNamedArea
     {
-        SVector v;     //0x00
-        SVector w;     //0x0C
+        SVector v;  //0x00
+        SVector w;  //0x0C
         PAD(16);
         // 0x28
     };
@@ -242,8 +148,8 @@ namespace shaiya
     {
         UINT32 type;
         UINT32 typeId;
-        UINT32 posCount;
-        SVector* pos;
+        UINT32 positionCount;
+        SVector* positions;
         PAD(4);
         // 0x14
     };
@@ -269,7 +175,7 @@ namespace shaiya
     struct MapPortal
     {
         UINT32 id;
-        MapPortalCountry country;
+        Country2 country;
     };
     #pragma pack(pop)
 
@@ -292,7 +198,7 @@ namespace shaiya
         DWORD noneDelay;
         bool update;
         PAD(3);
-        DWORD updateTime;
+        DWORD updateTick;
         // 0x1C
     };
     #pragma pack(pop)
@@ -300,44 +206,46 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CMap
     {
-        PAD(4);
+        CZone* zone;               //0x00
         UINT32 size;               //0x04
         PAD(12);
         UINT32 mobAreaCount;       //0x14
-        MapMob* mobArea;           //0x18
+        MapMob* mobAreas;          //0x18
         PAD(8);
         MapWeather weather;        //0x24
         UINT32 npcCount;           //0x40
-        MapNpc* npc;               //0x44
+        MapNpc* npcs;              //0x44
         PAD(8);
         UINT32 portalCount;        //0x50 
-        CDoor* portal;             //0x54
-        UINT32 bindCount;          //0x58
-        MapBind* bind;             //0x5C
+        CDoor* portals;            //0x54
+        UINT32 spawnAreaCount;     //0x58
+        MapBind* spawnAreas;       //0x5C
         UINT32 ladderCount;        //0x60
-        MapLadder* ladder;         //0x64
+        MapLadder* ladders;        //0x64
         PAD(8);
         UINT32 namedAreaCount;     //0x70
-        MapNamedArea* namedArea;   //0x74
+        MapNamedArea* namedAreas;  //0x74
         ULONG id;                  //0x78
         MapWarType warType;        //0x7C
         MapType mapType;           //0x80
-        SvMapName svMapName;       //0x84
+        CharArray<256> svMapName;  //0x84
         MapRebirth rebirth1;       //0x184
         MapRebirth rebirth2;       //0x194
         MapCreateType createType;  //0x1A4
         MapCreateTime createTime;  //0x1A8
         PAD(38);
         // value * 60000 + 30000
-        DWORD expireTime;          //0x1D4
+        ULONG expireTime;          //0x1D4
         UINT32 minUserCount;       //0x1D8
         UINT32 maxUserCount;       //0x1DC
         PAD(40);
         // 0x208
 
         static CDoor* GetPortal(CMap* map/*ecx*/, int index/*eax*/);
-        static CDoor* GetPortalById(CMap* map/*ecx*/, int insZoneId/*edi*/);
+        static CDoor* GetPortalById(CMap* map/*ecx*/, int id/*edi*/);
         static bool IsStatic(CMap* map/*ecx*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMap) == 0x208);
 }

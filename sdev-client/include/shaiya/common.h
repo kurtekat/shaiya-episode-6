@@ -1,7 +1,7 @@
 #pragma once
-#include <array>
 #pragma warning(disable: 4005)
 #define DIRECTINPUT_VERSION 0x800
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <mmsystem.h>
@@ -13,80 +13,33 @@
 #include <dinput.h>
 #include <dsound.h>
 #include <dwrite.h>
-
-// thanks, Cups ^^
-#define CONCAT(x, y) x ## y
-#define EXPAND(x, y) CONCAT(x, y)
-#define PAD(size) char EXPAND(pad, __LINE__)[size]
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
-    template<class T, int N>
-    using Array = std::array<T, N>;
-
-    typedef UINT8* Packet;
-    typedef Array<char, 21> CharName;
-
-    enum struct AuthStatus : UINT32
+    #pragma pack(push, 1)
+    struct BoundingBox
     {
-        AdminA = 1,
-        AdminB,
-        AdminC,
-        AdminD,
-        AdminE,
-        None = 11
+        D3DVECTOR lowerLimit;
+        D3DVECTOR upperLimit;
     };
+    #pragma pack(pop)
 
-    enum struct Country : UINT8
+    #pragma pack(push, 1)
+    struct MeshFace
     {
-        Light,
-        Fury
+        UINT16 vertexIndex1;
+        UINT16 vertexIndex2;
+        UINT16 vertexIndex3;
     };
+    #pragma pack(pop)
 
-    enum struct Family : UINT8
+    enum struct TargetType : UINT32
     {
-        Human,
-        Elf,
-        Deatheater,
-        Vail
-    };
-
-    enum struct Grow : UINT8
-    {
-        Easy,
-        Normal,
-        Hard,
-        Ultimate
-    };
-
-    enum struct Job : UINT8
-    {
-        AttackFighter,
-        DefenseFighter,
-        PatrolRogue,
-        ShootRogue,
-        AttackMage,
-        DefenseMage
-    };
-
-    enum struct Sex : UINT8
-    {
-        Male,
-        Female
-    };
-
-    enum struct ShapeType : UINT8
-    {
-        None,
-        Chicken = 4,
-        Dog,
-        Horse,
-        Pig,
-        Fox = 10,
-        Wolf,
-        Knight,
-        Stealth,
-        Disguise = 100,
-        Transformation = 102,
+        Mob,
+        Item,
+        User,
+        Npc,
+        Default = UINT_MAX
     };
 }

@@ -1,59 +1,51 @@
 #include <ranges>
 #include <string>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <strsafe.h>
-
-#include <include/main.h>
-#include <include/shaiya/packets/0100.h>
-#include <include/shaiya/packets/0700.h>
-#include <include/shaiya/packets/dbAgent/0400.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/SConnection.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/ItemEnchant.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/network/game/incoming/0100.h"
+#include "include/shaiya/include/network/game/outgoing/0100.h"
+#include "include/shaiya/include/network/game/outgoing/0700.h"
+#include "include/shaiya/include/network/dbAgent/incoming/0400.h"
+#include "include/shaiya/include/network/dbAgent/outgoing/0400.h"
 using namespace shaiya;
 
 namespace packet_character
 {
     void name_available_handler(CUser* user, CharNameAvailableIncoming* incoming)
     {
-        constexpr int packet_size_without_name = 6;
-
-        UserCharNameAvailableIncoming request{};
-        request.userId = user->userId;
-
         incoming->name[incoming->name.size() - 1] = '\0';
         auto nameLength = std::strlen(incoming->name.data());
 
         if (nameLength < 3 || nameLength > 13)
         {
-            CharNameAvailableOutgoing packet{ 0x119, false };
-            SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
+            CharNameAvailableOutgoing outgoing(false);
+            SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
-        StringCbCopyA(request.name.data(), request.name.size(), incoming->name.data());
-
-        int length = packet_size_without_name + nameLength + 1;
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &request, length);
+        DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
+        int length = request.size_without_name() + nameLength + 1;
+        Helpers::SendDBAgent(&request, length);
     }
 
-    void send_name_available(CUser* user, UserCharNameAvailableOutgoing* response)
+    void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
     {
-        CharNameAvailableOutgoing outgoing{ 0x119, response->available };
+        CharNameAvailableOutgoing outgoing(response->available);
         SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
     void send_warehouse(CUser* user)
     {
-        constexpr int packet_size_without_list = 7;
-
-        UserBankItemListOutgoing warehouse{};
-        warehouse.bankMoney = user->bankMoney;
-        warehouse.itemCount = 0;
+        UserBankItemListOutgoing outgoing{};
+        outgoing.bankMoney = user->bankMoney;
+        outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->warehouse)))
@@ -69,27 +61,37 @@ namespace packet_character
             item0711.gems = item->gems;
             item0711.count = item->count;
             item0711.craftName = item->craftName;
-            warehouse.itemList[warehouse.itemCount] = item0711;
+            outgoing.itemList[outgoing.itemCount] = item0711;
 
-            ++warehouse.itemCount;
+            ++outgoing.itemCount;
 
-            if (warehouse.itemCount != warehouse.itemList.size())
+            if (outgoing.itemCount < outgoing.itemList.size())
                 continue;
             else
             {
-                int length = packet_size_without_list + (warehouse.itemCount * sizeof(Item0711));
-                SConnection::Send(&user->connection, &warehouse, length);
+                int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+                SConnection::Send(&user->connection, &outgoing, length);
 
-                std::memset(&warehouse.itemList, 0, sizeof(warehouse.itemList));
-                warehouse.itemCount = 0;
+                std::memset(&outgoing.itemList, 0, sizeof(outgoing.itemList));
+                outgoing.itemCount = 0;
             }
         }
 
-        if (!warehouse.itemCount)
+        if (!outgoing.itemCount)
             return;
 
-        int length = packet_size_without_list + (warehouse.itemCount * sizeof(Item0711));
-        SConnection::Send(&user->connection, &warehouse, length);
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+        SConnection::Send(&user->connection, &outgoing, length);
+    }
+
+    void send_weapon_step_add_value(CUser* user)
+    {
+        LapisianEnchantWeaponStepOutgoing outgoing{};
+
+        for (int i = 0; std::cmp_less(i, outgoing.addValue.size()); ++i)
+            outgoing.addValue[i] = g_LapisianEnchantAddValue->step[i].weapon;
+
+        SConnection::Send(&user->connection, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
     }
 
     void send_character(CUser* user, Character0403* dbCharacter)
@@ -215,6 +217,26 @@ void __declspec(naked) naked_0x47B3E7()
     }
 }
 
+unsigned u0x4920F0 = 0x4920F0;
+unsigned u0x47BCED = 0x47BCED;
+void __declspec(naked) naked_0x47BCE8()
+{
+    __asm
+    {
+        call u0x4920F0
+
+        pushad
+
+        push ebp
+        call packet_character::send_weapon_step_add_value
+        add esp,0x4
+
+        popad
+
+        jmp u0x47BCED
+    }
+}
+
 void hook::packet_character()
 {
     // CUser::PacketCharacter switch
@@ -223,8 +245,10 @@ void hook::packet_character()
     util::detour((void*)0x492660, naked_0x492660, 6);
     // CUser::PacketUserDBChar case 0x403
     util::detour((void*)0x47B8FB, naked_0x47B8FB, 6);
-    // CUser::PacketUserDBChar
+    // CUser::PacketUserDBChar switch
     util::detour((void*)0x47B3E7, naked_0x47B3E7, 5);
+    // CUser::PacketUserDBChar case 0x407
+    util::detour((void*)0x47BCE8, naked_0x47BCE8, 5);
 
     // CUser::PacketUserDBChar
     util::write_memory((void*)0x47B4EC, sizeof(Character0403), 1);

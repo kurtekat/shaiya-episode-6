@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CObject.h>
+#include "include/shaiya/include/CObject.h"
 using namespace shaiya;
 
 void CObject::PSendViewCombat(CUser* user, void* data, int len)

@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CQuestData.h>
+#include "include/shaiya/include/CQuestData.h"
 using namespace shaiya;
 
 QuestInfo* CQuestData::GetQuest(int questId/*eax*/)

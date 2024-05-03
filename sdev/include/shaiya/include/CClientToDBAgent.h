@@ -1,6 +1,6 @@
 #pragma once
-#include <include/shaiya/common.h>
-#include <include/shaiya/include/SConnection.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SConnection.h>
 
 namespace shaiya
 {
@@ -13,6 +13,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x58796C
-    static auto g_pClientToDBAgent = (CClientToDBAgent*)0x10A2628;
+    static_assert(sizeof(CClientToDBAgent) == 0xE8);
+    static auto g_pClientToDBAgent = (CClientToDBAgent*)0x10A2628; // 0x58796C
 }

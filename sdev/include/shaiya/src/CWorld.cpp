@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CWorld.h>
+#include "include/shaiya/include/CWorld.h"
 using namespace shaiya;
 
 CUser* CWorld::FindUser(ULONG id/*CUser->id*/)
@@ -55,7 +55,7 @@ void CWorld::SendAll(void* data/*ecx*/, int len/*eax*/)
     }
 }
 
-void CWorld::SendAllCountry(void* data/*ecx*/, int len/*eax*/, int country)
+void CWorld::SendAllCountry(void* data/*ecx*/, int len/*eax*/, int byCountry)
 {
     Address u0x4191B0 = 0x4191B0;
 
@@ -64,6 +64,7 @@ void CWorld::SendAllCountry(void* data/*ecx*/, int len/*eax*/, int country)
         mov esi,g_pWorld
         mov eax,len
         mov ecx,[data]
+        push byCountry
         call u0x4191B0
     }
 }

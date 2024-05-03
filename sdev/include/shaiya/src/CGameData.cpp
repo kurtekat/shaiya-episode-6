@@ -1,7 +1,11 @@
-#include <include/shaiya/include/CGameData.h>
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/MobInfo.h"
+#include "include/shaiya/include/ProductInfo.h"
+#include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-CGameData::ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
+ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
 {
     Address u0x4059B0 = 0x4059B0;
 
@@ -13,7 +17,7 @@ CGameData::ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
     }
 }
 
-CGameData::MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
+MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
 {
     Address u0x408C00 = 0x408C00;
 
@@ -25,7 +29,7 @@ CGameData::MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
     }
 }
 
-CGameData::ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
+ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
 {
     Address u0x47A5F0 = 0x47A5F0;
 
@@ -36,7 +40,7 @@ CGameData::ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/
     }
 }
 
-CGameData::SkillInfo* CGameData::GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/)
+SkillInfo* CGameData::GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/)
 {
     Address u0x41BB30 = 0x41BB30;
 

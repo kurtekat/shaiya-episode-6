@@ -1,22 +1,20 @@
-#include <limits>
 #include <map>
 #include <vector>
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/RevengeMark.h>
-#include <include/shaiya/include/SConnection.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/SConnection.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/RevengeMark.h"
+#include "include/shaiya/include/network/game/outgoing/0200.h"
 using namespace shaiya;
 
 namespace revenge_mark
 {
     void send(CUser* target, CUser* killer)
     {
+        // see game.004E77F4
+        constexpr int max_kill_count = 999;
+
         if (auto it = g_revengeMark.find(killer->id); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
@@ -27,8 +25,8 @@ namespace revenge_mark
             {
                 it->second.erase(revenge);
 
-                RevengeMarkOutgoing packet{ 0x229, target->id, 0 };
-                SConnection::Send(&killer->connection, &packet, sizeof(RevengeMarkOutgoing));
+                RevengeMarkOutgoing outgoing(target->id, 0);
+                SConnection::Send(&killer->connection, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
 
@@ -40,28 +38,28 @@ namespace revenge_mark
                 }
             ); revenge != it->second.end())
             {
-                if (revenge->killCount < std::numeric_limits<std::uint32_t>::max())
+                if (revenge->killCount < max_kill_count)
                 {
                     ++revenge->killCount;
 
-                    RevengeMarkOutgoing packet{ 0x229, revenge->killerId, revenge->killCount };
-                    SConnection::Send(&target->connection, &packet, sizeof(RevengeMarkOutgoing));
+                    RevengeMarkOutgoing outgoing(revenge->killerId, revenge->killCount);
+                    SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
                 }
             }
             else
             {
                 it->second.push_back({ killer->id, 1 });
 
-                RevengeMarkOutgoing packet{ 0x229, killer->id, 1 };
-                SConnection::Send(&target->connection, &packet, sizeof(RevengeMarkOutgoing));
+                RevengeMarkOutgoing outgoing(killer->id, 1);
+                SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
         else
         {
             g_revengeMark.insert({ target->id, {{ killer->id, 1 }} });
 
-            RevengeMarkOutgoing packet{ 0x229, killer->id, 1 };
-            SConnection::Send(&target->connection, &packet, sizeof(RevengeMarkOutgoing));
+            RevengeMarkOutgoing outgoing(killer->id, 1);
+            SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
         }
     }
 }
@@ -78,7 +76,7 @@ void __declspec(naked) naked_0x467D8E()
         pushad
 
         push edi // killer
-        push ebp // user
+        push ebp // target
         call revenge_mark::send
         add esp,0x8
 

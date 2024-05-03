@@ -1,94 +1,126 @@
 # Documentation
 
-This library is for the **game** service. Macros are used to represent the differences in the episode 6 packets, etc.
+This library is for the game service. Incoming and outgoing packet types are named relative to the services.
 
-## Macros
+## Environment
 
-To use this library with episode 5 clients, comment the episode 6 macros. This is the default.
+Windows 10
 
-```cpp
-// sdev/include/shaiya/common.h
-//#define SHAIYA_EP6
-//#define SHAIYA_EP6_4_PT
-```
+Visual Studio 2022
 
-For episode 6.4 clients, expose the `SHAIYA_EP6_4_PT` macro.
+C++ 23
 
-```cpp
-// sdev/include/shaiya/common.h
-//#define SHAIYA_EP6
-#define SHAIYA_EP6_4_PT
-```
+## Prerequisites
 
-Do not expose the `SHAIYA_EP6_BLACKSMITH` macro if you use Cheat Engine scripts for the blacksmith.
+[Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x86.exe)
 
-```cpp
-// sdev/include/shaiya/common.h
-//#define SHAIYA_EP6_BLACKSMITH
-```
+## Binaries
 
-## Item Mall
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep5
 
-The procedures in the [sql](https://github.com/kurtekat/shaiya-episode-6/tree/main/server/sdev/sql) directory need to be installed. If you skip this step, the item mall will not work. If you receive an error, change `ALTER` to `CREATE` and try again. This solution does not require a connection to SQL Server.
+| NpcQuest | Max Level |
+|----------|-----------|
+| EP5      | 70        |
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep6
+
+| NpcQuest | Max Level |
+|----------|-----------|
+| EP6      | 80        |
 
 # Features
 
-## NpcQuest
-
-The episode 6 format has 6 quest results, each containing up to 3 items. The library reads the item count from memory. The original code passes 1 to **CUser::QuestAddItem**, which is why increasing the item count has no effect.
-
 ## Item Duration
 
-This feature was removed.
+[item-duration.zip](https://github.com/user-attachments/files/16827094/item-duration.zip)
+
+## Item Mall
+
+Install the following procedures:
+
+```
+[dbo].[usp_Read_User_CashPoint_UsersMaster]
+[dbo].[usp_Save_User_BuyPointItems2]
+[dbo].[usp_Save_User_GiftPointItems2]
+[dbo].[usp_Update_UserPoint]
+```
+
+If you receive an error, change `ALTER` to `CREATE` and try again.
+
+## Rune Combination
+
+The function that adds support for episode 6.4 recreation runes is disabled by default.
+
+```cpp
+// sdev\src\packet_gem.cpp
+//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
+```
+
+## NpcQuest
+
+The episode 6 format has 6 quest results, each containing up to 3 items. The following items are supported:
+
+| ItemId | SkillId | SkillLv |
+|--------|---------|---------|
+| 101112 | 432     | 2       |
+| 101113 | 432     | 3       |
+
+The library will divide the ability value by 100.
 
 ## Revenge Mark
 
-The kill count will determine which effect will be rendered. Notice effects are not supported.
+The kill count will determine which effect(s) will be rendered. The library will increment the kill count until 999.
 
-| KillCount         | Effect                     |
-|-------------------|----------------------------|
-| 0                 | N/A                        |
-| 1                 | RevengeMark_Loop_01.EFT    |
-| 2                 | RevengeMark_Loop_02.EFT    |
-| 3                 | RevengeMark_Loop_03.EFT    |
-| 4                 | RevengeMark_Loop_04.EFT    |
-| 5                 | RevengeMark_Loop_05.EFT    |
-| 6                 | RevengeMark_Loop_06.EFT    |
-| 7                 | RevengeMark_Loop_07.EFT    |
-| 8 (or greater)    | RevengeMark_Loop_08.EFT    |
+| KillCount | EffectName                | EffectDataId |
+|-----------|---------------------------|--------------|
+| 1         | RevengeMark_Loop_01.EFT   | 265          |     
+| 2         | RevengeMark_Loop_02.EFT   | 266          |
+| 3         | RevengeMark_Loop_03.EFT   | 267          |
+| 4         | RevengeMark_Loop_04.EFT   | 268          |
+| 5         | RevengeMark_Loop_05.EFT   | 269          |
+| 6         | RevengeMark_Loop_06.EFT   | 270          |
+| 7         | RevengeMark_Loop_07.EFT   | 271          |
+| 8-999     | RevengeMark_Loop_08.EFT   | 272          |
+| odd       | RevengeMark_Notice_01.EFT | 262          |
+| even      | RevengeMark_Notice_02.EFT | 263          |
+| 999       | RevengeMark_Notice_03.EFT | 264          |
 
-The 6.4 PT client in this repository supports message 508, but does not support message 509.
+The client library adds support for system message 509.
 
 ```
 508    "Your revenge to <t> has succeeded!"
 509    "<t> killed  you <v> time(s)."
 ```
 
-## Frenzied Skills
+## Skill Abilities
 
-Skill ability 70 will be used for evaluation. The following skills are supported.
-
-| SkillID    | SkillName           |
-|------------|---------------------|
-| 398        | Frenzied Force      |
-| 399        | Frenzied Focus      |
-| 400        | Frenzied Finesse    |
-| 401        | Frenzied Fortune    |
-
-## Mailbox
-
-This feature will not be implemented.
+| SkillId | Ability | Supported          |
+|---------|---------|--------------------|
+| 375     | 52      | :x:                |
+| 376     | 53      | :x:                |
+| 377     | 54      | :x:                |
+| 378     | 55      | :x:                |
+| 379     | 56      | :x:                |
+| 380     | 57      | :x:                |
+| 398     | 70      | :white_check_mark: |
+| 399     | 70      | :white_check_mark: |
+| 400     | 70      | :white_check_mark: |
+| 401     | 70      | :white_check_mark: |
+| 396     | 73      | :x:                |
+| 397     | 74      | :x:                |
+| 412     | 78      | :x:                |
+| 432     | 87      | :white_check_mark: |
 
 ## Chaotic Squares
 
-### ItemSynthesis.ini
+### ChaoticSquare.ini
 
-Use the following example to get started.
+Use the following example to get started:
 
 ```ini
-;PSM_Client\Bin\Data\ItemSynthesis.ini
+;PSM_Client\Bin\Data\ChaoticSquare.ini
 
-[ItemSynthesis_0]
+[ChaoticSquare_1]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -98,7 +130,7 @@ CreateType=30
 CreateTypeID=6
 CreateCount=1
 
-[ItemSynthesis_1]
+[ChaoticSquare_2]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -108,7 +140,7 @@ CreateType=30
 CreateTypeID=13
 CreateCount=1
 
-[ItemSynthesis_2]
+[ChaoticSquare_3]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -118,7 +150,7 @@ CreateType=30
 CreateTypeID=20
 CreateCount=1
 
-[ItemSynthesis_3]
+[ChaoticSquare_4]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -128,7 +160,7 @@ CreateType=30
 CreateTypeID=27
 CreateCount=1
 
-[ItemSynthesis_4]
+[ChaoticSquare_5]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -138,7 +170,7 @@ CreateType=30
 CreateTypeID=34
 CreateCount=1
 
-[ItemSynthesis_5]
+[ChaoticSquare_6]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -149,37 +181,30 @@ CreateTypeID=41
 CreateCount=1
 ```
 
-### Free Combination
-
-This feature will not be implemented.
-
 ### Money
 
-The client uses the following math to determine the maximum gold input.
-
-```
-goldPerPercentage * 4 + goldPerPercentage
-```
-
-Set the minimum and maximum constants in **Synthesis.h** to change the result. The minimum will be used as a divisor (see packet_gem.cpp line 561), so don't set it to zero. The maximum money is the same as the official server.
+The gold per percentage value in the library is the same as the official server.
 
 ```cpp
-constexpr auto synthesis_min_money = 100000000U;
-constexpr auto synthesis_max_money = 500000000U;
+constexpr auto gold_per_percentage = 100'000'000;
 ```
 
 ### Crafting Hammers
 
-The item effect is expected to be 102. Use the **ReqVg** column in the **Items** table to store the success rate. The library will multiply the value by 100.
+The **ReqVg** value is the success rate. The library will multiply the value by 100.
 
-| ItemID    | ReqVg    |
-|-----------|----------|
-| 102074    | 5        |
-| 102075    | 10       |
+| ItemId | Effect | ReqVg |
+|--------|--------|-------|
+| 102074 | 102    | 5     |
+| 102075 | 102    | 10    |
+
+### Free Combination
+
+This feature will not be implemented.
 
 ## Synergy
 
-The library expects **SetItem.SData** to be in the **PSM_Client/Bin/Data** directory. I chose binary format because it's less error-prone than fetching the values from a database.
+The library expects **SetItem.SData** to be in the **PSM_Client/Bin/Data** directory.
 
 ### Client Format
 
@@ -191,26 +216,64 @@ The client expects the file to be encrypted.
 
 `" Sinergia [5]\n- LUC +20\n- DEX +50\n- STR +70"`
 
-
 ### Server Format
 
 The library expects the file to be decrypted. The bonus text is expected to be 12 comma-separated values.
 
 ![Capture](https://github.com/kurtekat/shaiya-episode-6/assets/142125482/a0a0c116-c5a0-4443-953e-35077e29f065)
 
-The values are signed 32-bit integers, expected to be in the following order.
+The values are signed 32-bit integers, expected to be in the following order:
 
-```cpp
-int strength;
-int dexterity;
-int intelligence;
-int wisdom;
-int reaction;
-int luck;
-int health;
-int mana;
-int stamina;
-int attackPower;
-int rangedAttackPower;
-int magicPower;
-```
+* strength
+* dexterity
+* intelligence
+* wisdom
+* reaction
+* luck
+* health
+* mana
+* stamina
+* attackPower
+* rangedAttackPower
+* magicPower
+
+## Item Ability Transfer
+
+Use item `101150` to activate the window. The `CraftName` and `Gems` will be removed from the original item if the transfer is successful.
+
+| ItemId | Effect |
+|--------|--------|
+| 101150 | 105    |
+
+### Success Rate
+
+The base success rate is 30 percent.
+
+| ItemId  | Effect | ReqVg | Success Rate |
+|---------|--------|-------|--------------|
+| 101156  | 106    | 20    | 50           |
+| 101157  | 106    | 50    | 80           |
+| 101158  | 106    | 60    | 90           |
+
+### Clients
+
+| Locale | Patch | Supported          |
+|--------|-------|--------------------|
+| ES     | 171   | :white_check_mark: |
+| PT     | 182   | :x:                |
+| PT     | 189   | :x:                |
+
+## Perfect Lapisian Combination
+
+Use item `101101` to activate the window. The `ReqLuc` value is the number of lapisian required for combination. See system message 510 for more information.
+
+## Safety Enchant Scroll
+
+| ItemId | Effect |
+|--------|--------|
+| 101090 | 103    |
+| 101132 | 103    |
+
+## Mailbox
+
+This feature will not be implemented.

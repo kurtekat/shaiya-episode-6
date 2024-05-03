@@ -1,9 +1,9 @@
-#include <include/shaiya/include/CMap.h>
-#include <include/shaiya/include/CMob.h>
-#include <include/shaiya/include/CNpc.h>
-#include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/Obelisk.h>
-#include <include/shaiya/include/SVector.h>
+#include "include/shaiya/include/CMap.h"
+#include "include/shaiya/include/CMob.h"
+#include "include/shaiya/include/CNpc.h"
+#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/Obelisk.h"
+#include "include/shaiya/include/SVector.h"
 using namespace shaiya;
 
 CMob* CZone::FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
@@ -92,43 +92,20 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
     return (*(LPFN)0x425430)(zone, id);
 }
 
-void CZone::MoveMob(CMob* mob/*eax*/, float x, float y, float z, int motion)
-{
-    Address u0x41D150 = 0x41D150;
-    auto zone = mob->zone;
-
-    __asm
-    {
-        sub esp,0xC
-
-        push motion
-        fld[z]
-        fstp[esp+0x8]
-        fld[y]
-        fstp[esp+0x4]
-        fld[x]
-        fstp[esp]
-        push zone
-
-        mov eax, mob
-        call u0x41D150
-    }
-}
-
-void CZone::MoveNpc(CNpc* npc/*ebx*/, float x, float y, float z, int motion)
-{
-    typedef void(__stdcall* LPFN)(CMap*, float, float, float, int);
-    __asm { mov ebx,npc }
-    (*(LPFN)0x41D650)(npc->map, x, y, z, motion);
-}
-
-void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/)
+void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/)
 {
     pos->y -= 0.9f;
 
-    typedef void(__thiscall* LPFN)(CZone*, int, int);
-    __asm { mov edi,pos }
-    (*(LPFN)0x4255D0)(zone, npcType, npcId);
+    Address u0x4255D0 = 0x4255D0;
+
+    __asm
+    {
+        push npcTypeId
+        push npcType
+        mov edi,pos
+        mov ecx,zone
+        call u0x4255D0
+    }
 }
 
 bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos)

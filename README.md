@@ -1,6 +1,6 @@
 # Shaiya Episode 6
 
-An open source effort to make episode 5 servers compatible with episode 6 clients.
+An open-source effort to make episode 5 servers compatible with episode 6 clients.
 
 ## Environment
 
@@ -13,8 +13,6 @@ C++ 23
 ## Prerequisites
 
 [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x86.exe)
-
-[Microsoft DirectX SDK (June 2010)](https://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
 ## Injection
 
@@ -36,6 +34,22 @@ Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the a
 
 [Parsec](https://github.com/matigramirez/Parsec)
 
-## Contributors
+## Pull Requests
 
-Please don't submit a pull request unless I invite you to contribute. I can't disable the pull request tab to prevent unwanted contributions.
+Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be disabled.
+
+## Configuration
+
+### Episode 5.4
+
+```cpp
+// shaiya\include\common.h
+//#define SHAIYA_EP6_4_PT
+```
+
+### Episode 6.4
+
+```cpp
+// shaiya\include\common.h
+#define SHAIYA_EP6_4_PT
+```

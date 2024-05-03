@@ -1,16 +1,13 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
 
 unsigned u0x486320 = 0x486320;
 void __declspec(naked) naked_0x486319()
 {
     __asm
     {
-        // search index
         movzx eax,byte ptr[ebp+0x5]
+        // ItemMarketType::Vehicle
         cmp eax,0x13
         jge decrement
 

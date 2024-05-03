@@ -1,5 +1,5 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -12,7 +12,8 @@ namespace shaiya
 
         static double EuclideanDistance(SVector* u, SVector* v);
         static double Length(SVector* v);
-        static void Normalize(SVector* v/*esi*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SVector) == 0xC);
 }

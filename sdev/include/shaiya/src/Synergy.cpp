@@ -2,18 +2,18 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <ranges>
 #include <set>
-#include <sstream>
 #include <string>
 #include <vector>
-
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/SLog.h>
-#include <include/shaiya/include/Synergy.h>
-#include <util/include/util.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <shaiya/include/common/SLog.h>
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CLogConnection.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
+#include "include/shaiya/include/Synergy.h"
 using namespace shaiya;
 
 void Synergy::init()
@@ -23,11 +23,12 @@ void Synergy::init()
 
     std::filesystem::path path(vec.data());
     path.remove_filename();
-    path.append("Data/SetItem.SData");
+    path.append("Data");
+    path.append("SetItem.SData");
 
     if (!std::filesystem::exists(path))
     {
-        SLog::PrintFileDirect(&g_pClientToLog->log, "cannot %s %s: %s", "open", ".\\Data\\SetItem.SData", "No such file or directory");
+        SLog::PrintFileDirect(&g_pClientToLog->log, "Synergy::init : %s does not exist", path.string().c_str());
         return;
     }
 
@@ -39,88 +40,126 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        auto records = readNumber<std::uint32_t>(ifs);
-        for (auto i = 0U; i < records; ++i)
+        uint32_t records{};
+        ifs.read(reinterpret_cast<char*>(&records), 4);
+
+        for (int i = 0; std::cmp_less(i, records); ++i)
         {
             Synergy synergy{};
-            synergy.id = readNumber<std::uint16_t>(ifs);
+            ifs.read(reinterpret_cast<char*>(&synergy.id), 2);
 
-            readPascalString(ifs);
+            uint32_t length{};
+            ifs.read(reinterpret_cast<char*>(&length), 4);
+            ifs.ignore(length);
 
             for (auto& itemId : synergy.set)
             {
-                auto type = readNumber<std::uint16_t>(ifs);
-                auto typeId = readNumber<std::uint16_t>(ifs);
-
+                uint16_t type{}, typeId{};
+                ifs.read(reinterpret_cast<char*>(&type), 2);
+                ifs.read(reinterpret_cast<char*>(&typeId), 2);
                 itemId = (type * 1000) + typeId;
             }
 
-            for (auto& ability : synergy.ability)
-                Synergy::parseAbility(ifs, ability);
+            for (auto& effect : synergy.effects)
+            {
+                uint32_t length{};
+                ifs.read(reinterpret_cast<char*>(&length), 4);
+
+                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
+                std::string text(length, '\0');
+                ifs.read(text.data(), text.size());
+
+                std::vector<int> vec{};
+                for (const auto& token : std::views::split(text, ','))
+                    vec.push_back(std::atoi(token.data()));
+
+                if (vec.size() != 12)
+                    continue;
+
+                effect.none = std::all_of(vec.begin(), vec.end(), [](int& effect) {
+                    return !effect;
+                    });
+
+                if (effect.none)
+                    continue;
+
+                effect.strength = vec[0];
+                effect.dexterity = vec[1];
+                effect.reaction = vec[2];
+                effect.intelligence = vec[3];
+                effect.wisdom = vec[4];
+                effect.luck = vec[5];
+                effect.health = vec[6];
+                effect.mana = vec[7];
+                effect.stamina = vec[8];
+                effect.attackPower = vec[9];
+                effect.rangedAttackPower = vec[10];
+                effect.magicPower = vec[11];
+            }
 
             g_synergies.push_back(synergy);
         }
 
         ifs.close();
     }
-    catch (...)
+    catch (const std::exception& ex)
     {
+        SLog::PrintFileDirect(&g_pClientToLog->log, "Synergy::init : %s", ex.what());
     }
 }
 
-void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
-{
-    auto text = readPascalString(ifs);
-    if (text == "0" || text.empty())
-        return;
-
-    std::istringstream iss(text);
-    std::vector<int> vec{};
-    for (std::string str; std::getline(iss, str, ','); )
-        vec.push_back(std::atoi(str.c_str()));
-
-    if (vec.size() != ability.count())
-        return;
-
-    std::memcpy(&ability, vec.data(), sizeof(SynergyAbility));
-}
-
-void Synergy::applySynergies(CUser* user, CItem* item, bool itemRemove)
+void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
 {
     Synergy::removeSynergies(user);
 
-    std::vector<SynergyAbility> synergies{};
-    Synergy::getWornSynergies(user, item, itemRemove, synergies);
+    std::vector<SynergyEffect> effects{};
+    Synergy::getWornSynergies(user, item, effects, removeFlag);
 
-    if (synergies.empty())
+    if (effects.empty())
         return;
 
-    for (const auto& ability : synergies)
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
+    for (const auto& effect : effects)
     {
-        user->abilityStrength += ability.strength;
-        user->abilityDexterity += ability.dexterity;
-        user->abilityReaction += ability.reaction;
-        user->abilityIntelligence += ability.intelligence;
-        user->abilityWisdom += ability.wisdom;
-        user->abilityLuck += ability.luck;
-        user->maxHealth += ability.health;
-        user->maxMana += ability.mana;
-        user->maxStamina += ability.stamina;
-        user->abilityAttackPower += ability.attackPower;
-        user->abilityRangedAttackPower += ability.rangedAttackPower;
-        user->abilityMagicPower += ability.magicPower;
+        user->abilityStrength += effect.strength;
+        user->abilityDexterity += effect.dexterity;
+        user->abilityReaction += effect.reaction;
+        user->abilityIntelligence += effect.intelligence;
+        user->abilityWisdom += effect.wisdom;
+        user->abilityLuck += effect.luck;
+        user->maxHealth += effect.health;
+        user->maxMana += effect.mana;
+        user->maxStamina += effect.stamina;
+        user->abilityAttackPower += effect.attackPower;
+        user->abilityRangedAttackPower += effect.rangedAttackPower;
+        user->abilityMagicPower += effect.magicPower;
 
-        if (ability.reaction)
-            user->maxHealth += ability.reaction * 5;
+        if (effect.reaction)
+            user->maxHealth += effect.reaction * 5;
 
-        if (ability.wisdom)
-            user->maxMana += ability.wisdom * 5;
+        if (effect.wisdom)
+            user->maxMana += effect.wisdom * 5;
 
-        if (ability.dexterity)
-            user->maxStamina += ability.dexterity * 5;
+        if (effect.dexterity)
+            user->maxStamina += effect.dexterity * 5;
     }
 
-    g_appliedSynergies.insert_or_assign(user->id, synergies);
+    if (!user->ignoreMaxHpMpSpSpeed)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
+            CUser::SendMaxSP(user);
+    }
+
+    g_appliedSynergies.insert_or_assign(user->id, effects);
 }
 
 void Synergy::removeSynergies(CUser* user)
@@ -129,35 +168,51 @@ void Synergy::removeSynergies(CUser* user)
     if (it == g_appliedSynergies.end())
         return;
 
-    for (const auto& ability : it->second)
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
+    for (const auto& effect : it->second)
     {
-        user->abilityStrength -= ability.strength;
-        user->abilityDexterity -= ability.dexterity;
-        user->abilityReaction -= ability.reaction;
-        user->abilityIntelligence -= ability.intelligence;
-        user->abilityWisdom -= ability.wisdom;
-        user->abilityLuck -= ability.luck;
-        user->maxHealth -= ability.health;
-        user->maxMana -= ability.mana;
-        user->maxStamina -= ability.stamina;
-        user->abilityAttackPower -= ability.attackPower;
-        user->abilityRangedAttackPower -= ability.rangedAttackPower;
-        user->abilityMagicPower -= ability.magicPower;
+        user->abilityStrength -= effect.strength;
+        user->abilityDexterity -= effect.dexterity;
+        user->abilityReaction -= effect.reaction;
+        user->abilityIntelligence -= effect.intelligence;
+        user->abilityWisdom -= effect.wisdom;
+        user->abilityLuck -= effect.luck;
+        user->maxHealth -= effect.health;
+        user->maxMana -= effect.mana;
+        user->maxStamina -= effect.stamina;
+        user->abilityAttackPower -= effect.attackPower;
+        user->abilityRangedAttackPower -= effect.rangedAttackPower;
+        user->abilityMagicPower -= effect.magicPower;
 
-        if (ability.reaction)
-            user->maxHealth -= ability.reaction * 5;
+        if (effect.reaction)
+            user->maxHealth -= effect.reaction * 5;
 
-        if (ability.wisdom)
-            user->maxMana -= ability.wisdom * 5;
+        if (effect.wisdom)
+            user->maxMana -= effect.wisdom * 5;
 
-        if (ability.dexterity)
-            user->maxStamina -= ability.dexterity * 5;
+        if (effect.dexterity)
+            user->maxStamina -= effect.dexterity * 5;
+    }
+
+    if (!user->ignoreMaxHpMpSpSpeed)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
+            CUser::SendMaxSP(user);
     }
 
     g_appliedSynergies.erase(user->id);
 }
 
-void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyAbility>& synergies)
+void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag)
 {
     std::set<ItemId> equipment;
     for (const auto& wornItem : user->inventory[0])
@@ -165,10 +220,13 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
         if (!wornItem)
             continue;
 
-        if (itemRemove && item == wornItem)
-            continue;
+        if (removeFlag)
+        {
+            if (wornItem == item)
+                continue;
+        }
 
-        auto itemId = (wornItem->type * 1000U) + wornItem->typeId;
+        auto itemId = (wornItem->type * 1000) + wornItem->typeId;
         equipment.insert(itemId);
     }
 
@@ -176,19 +234,22 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
     {
         int wornCount = 0;
         for (const auto& itemId : synergy.set)
+        {
             if (equipment.count(itemId))
                 ++wornCount;
+        }
 
-        if (wornCount < 2)
+        int index = wornCount - 1;
+        if (index < 1 || index >= int(synergy.effects.size()))
             continue;
 
-        for (int i = wornCount - 1; i > 0; --i)
+        for (int i = index; i > 0; --i)
         {
-            auto& ability = synergy.ability[i];
-            if (ability.isNull())
+            auto& effect = synergy.effects[i];
+            if (effect.none)
                 continue;
-            
-            synergies.push_back(ability);
+
+            effects.push_back(effect);
             break;
         }
     }

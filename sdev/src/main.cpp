@@ -1,33 +1,24 @@
+#include <array>
 #include <map>
 #include <vector>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/RevengeMark.h>
-#include <include/shaiya/include/Synergy.h>
-#include <include/shaiya/include/Synthesis.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/RevengeMark.h"
+#include "include/shaiya/include/Synergy.h"
+#include "include/shaiya/include/Synthesis.h"
+#include "include/shaiya/include/TownMoveScroll.h"
 using namespace shaiya;
 
 void enter_world_hook(CUser* user)
 {
     CUser::UpdateKCStatus(user);
-
-    if (std::find(g_users.begin(), g_users.end(), user->id) == g_users.end())
-        g_users.push_back(user->id);
 }
 
 void leave_world_hook(CUser* user)
 {
-    std::erase(g_users, user->id);
-
-#ifdef SHAIYA_EP6
-    g_appliedSynergies.erase(user->id);
-#endif
-
 #ifdef SHAIYA_EP6_4_PT
+    g_appliedSynergies.erase(user->id);
     g_revengeMark.erase(user->id);
 #endif
 }
@@ -72,21 +63,23 @@ void __declspec(naked) naked_0x455C40()
     }
 }
 
-void user_ctor_hook(CUser* user)
+void user_hook(CUser* user)
 {
     user->exchange.confirmed = false;
 
-#ifdef SHAIYA_EP6
-    user->frenzy.skillId = 0;
-    user->frenzy.skillLv = 0;
-    user->frenzy.triggered = false;
-    user->frenzy.keepTime = 0;
-#endif
-
 #ifdef SHAIYA_EP6_4_PT
-    user->townScrollGateIndex = 0;
     user->itemQualityEx.fill(0);
     user->itemQualityLvEx.fill(0);
+
+    user->townMoveScroll.bag = 0;
+    user->townMoveScroll.slot = 0;
+    user->townMoveScroll.gateIndex = 0;
+
+    user->skillAbility.type70.skillId = 0;
+    user->skillAbility.type70.skillLv = 0;
+    user->skillAbility.type70.triggered = false;
+    user->skillAbility.type70.keepTick = 0;
+    user->skillAbility.type87QuestExpRate = 0;
 #endif
 }
 
@@ -101,12 +94,33 @@ void __declspec(naked) naked_0x455165()
         pushad
 
         push edi // user
-        call user_ctor_hook
+        call user_hook
         add esp,0x4
 
         popad
 
         jmp u0x45516B
+    }
+}
+
+unsigned u0x455316 = 0x455316;
+void __declspec(naked) naked_0x455310()
+{
+    __asm
+    {
+        pushad
+
+        push edi // user
+        call user_hook
+        add esp,0x4
+
+        popad
+
+        // original
+        sub esp,0x10
+        push ebx
+        xor ebx,ebx
+        jmp u0x455316
     }
 }
 
@@ -118,29 +132,31 @@ void Main()
     util::detour((void*)0x455C40, naked_0x455C40, 6);
     // CUser::CUser
     util::detour((void*)0x455165, naked_0x455165, 6);
+    // CUser::ResetCharacter
+    util::detour((void*)0x455310, naked_0x455310, 6);
 
     hook::packet_exchange();
     hook::packet_shop();
 
 #ifdef SHAIYA_EP6_4_PT
+    // change 0x62A0 to 0x6300
+    std::array<uint8_t, 2> a00{ 0x00, 0x63 };
+    // SSyncHeap<CUser>::Alloc
+    util::write_memory((void*)0x411F74, &a00, 2);
+
     hook::item_effect();
+    hook::npc_quest();
     hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
     hook::packet_myshop();
+    hook::packet_party();
     hook::revenge_mark();
-    hook::user_shape();
-#endif
-
-#ifdef SHAIYA_EP6
-    hook::npc_quest();
     hook::user_apply_skill();
     hook::user_equipment();
+    hook::user_shape();
     hook::user_status();
     Synergy::init();
-#endif
-
-#ifdef SHAIYA_EP6_4_PT
     Synthesis::init();
 #endif
 }

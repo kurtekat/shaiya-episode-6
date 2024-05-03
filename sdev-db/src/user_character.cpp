@@ -3,14 +3,14 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CUser.h>
-#include <sdev/include/shaiya/packets/dbAgent/0400.h>
-#include <sdev/include/shaiya/include/SConnection.h>
-#include <sdev/include/shaiya/include/SDatabase.h>
-#include <sdev/include/shaiya/include/SDatabasePool.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/common/SDatabase.h>
+#include <shaiya/include/common/SDatabasePool.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/network/incoming/0400.h"
+#include "include/shaiya/include/network/outgoing/0400.h"
 using namespace shaiya;
 
 namespace user_character
@@ -24,25 +24,36 @@ namespace user_character
         SDatabase::Prepare(db);
 
         std::string query("SELECT CharName FROM [PS_GameData].[dbo].[Chars] WHERE CharName=? AND Del=0;");
-        SQLPrepareA(db->stmt, reinterpret_cast<unsigned char*>(query.data()), SQL_NTS);
-
-        SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(name), 0, name, 19, nullptr);
-
-        if (SQLExecute(db->stmt))
+        if (SDatabase::PrepareSql(db, query.c_str()))
         {
-            SDatabase::WriteErrorLog(db);
             SDatabasePool::FreeDB(db);
             return false;
         }
 
-        long rowCount = -1;
-        SQLRowCount(db->stmt, &rowCount);
+        if (FAILED(SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(name), 0, name, 19, nullptr)))
+        {
+            SDatabasePool::FreeDB(db);
+            return false;
+        }
+
+        if (SDatabase::ExecuteSql(db))
+        {
+            SDatabasePool::FreeDB(db);
+            return false;
+        }
+
+        long rowCount = SQL_NULL_DATA;
+        if (FAILED(SQLRowCount(db->stmt, &rowCount)))
+        {
+            SDatabasePool::FreeDB(db);
+            return false;
+        }
 
         SDatabasePool::FreeDB(db);
         return !rowCount;
     }
 
-    void name_available_handler(CUser* user, UserCharNameAvailableIncoming* incoming)
+    void name_available_handler(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
         bool available = is_name_available(incoming->name.data());
@@ -50,8 +61,8 @@ namespace user_character
         if (!user->connection)
             return;
 
-        UserCharNameAvailableOutgoing outgoing{ 0x40D, user->userId, available };
-        SConnection::Send(user->connection, &outgoing, sizeof(UserCharNameAvailableOutgoing));
+        DBAgentCharNameAvailableOutgoing outgoing(user->userId, available);
+        SConnection::Send(user->connection, &outgoing, sizeof(DBAgentCharNameAvailableOutgoing));
     }
 }
 

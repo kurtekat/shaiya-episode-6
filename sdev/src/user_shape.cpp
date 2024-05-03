@@ -1,15 +1,15 @@
 #include <ranges>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/packets/0300.h>
-#include <include/shaiya/packets/0500.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/SConnection.h>
-#include <util/include/util.h>
+#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/SConnection.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/network/game/outgoing/0300.h"
+#include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
 
 namespace user_shape
@@ -21,7 +21,7 @@ namespace user_shape
 
         std::memset(user->clone, 0, sizeof(CloneUser));
 
-        user->clone->dead = target->stateType == UserStateType::Death ? true : false;
+        user->clone->dead = target->status == UserStatus::Death ? true : false;
         user->clone->sitting = target->sitting;
         user->clone->country = target->country;
         user->clone->family = target->family;
@@ -30,7 +30,7 @@ namespace user_shape
         user->clone->size = target->size;
         user->clone->job = target->job;
         user->clone->sex = target->sex;
-        user->clone->partyType = CUser::GetPartyType(target);
+        user->clone->partyType = static_cast<PartyType>(CUser::GetPartyType(target));
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
 
@@ -40,7 +40,7 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= user->clone->equipment.size())
+            if (std::cmp_greater_equal(slot, user->clone->equipment.size()))
                 break;
 
             user->clone->equipment[slot].type = item->type;
@@ -66,56 +66,56 @@ namespace user_shape
 
     void send_user_shape(CUser* user, CUser* target)
     {
-        GetInfoUserShapeOutgoing packet{};
-        packet.charId = user->id;
+        GetInfoUserShapeOutgoing outgoing{};
+        outgoing.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
-            packet.dead = user->clone->dead;
-            packet.sitting = user->clone->sitting;
-            packet.country = user->clone->country;
-            packet.family = user->clone->family;
-            packet.hair = user->clone->hair;
-            packet.face = user->clone->face;
-            packet.size = user->clone->size;
-            packet.job = user->clone->job;
-            packet.sex = user->clone->sex;
-            packet.partyType = user->clone->partyType;
-            packet.grow = user->clone->grow;
-            packet.kills = user->clone->kills;
+            outgoing.dead = user->clone->dead;
+            outgoing.sitting = user->clone->sitting;
+            outgoing.country = user->clone->country;
+            outgoing.family = user->clone->family;
+            outgoing.hair = user->clone->hair;
+            outgoing.face = user->clone->face;
+            outgoing.size = user->clone->size;
+            outgoing.job = user->clone->job;
+            outgoing.sex = user->clone->sex;
+            outgoing.partyType = user->clone->partyType;
+            outgoing.grow = user->clone->grow;
+            outgoing.kills = user->clone->kills;
 
-            std::memcpy(&packet.equipment, &user->clone->equipment, sizeof(packet.equipment));
-            packet.charName = user->clone->charName;
+            std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
+            outgoing.charName = user->clone->charName;
 
             if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
             {
-                packet.cloakBadge = user->clone->cloakBadge;
-                packet.guildName = user->clone->guildName;
-                SConnection::Send(&target->connection, &packet, sizeof(GetInfoUserShapeOutgoing));
+                outgoing.cloakBadge = user->clone->cloakBadge;
+                outgoing.guildName = user->clone->guildName;
+                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing));
             }
             else
             {
-                std::memcpy(&packet.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
+                std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
                 int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
-                SConnection::Send(&target->connection, &packet, length);
+                SConnection::Send(&target->connection, &outgoing, length);
             }
 
             return;
         }
 
-        packet.dead = user->stateType == UserStateType::Death ? true : false;
-        packet.sitting = user->sitting;
-        packet.country = user->country;
-        packet.family = user->family;
-        packet.hair = user->hair;
-        packet.face = user->face;
-        packet.size = user->size;
-        packet.job = user->job;
-        packet.sex = user->sex;
-        packet.partyType = CUser::GetPartyType(user);
-        packet.grow = user->grow;
-        packet.kills = user->kills;
+        outgoing.dead = user->status == UserStatus::Death ? true : false;
+        outgoing.sitting = user->sitting;
+        outgoing.country = user->country;
+        outgoing.family = user->family;
+        outgoing.hair = user->hair;
+        outgoing.face = user->face;
+        outgoing.size = user->size;
+        outgoing.job = user->job;
+        outgoing.sex = user->sex;
+        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
+        outgoing.grow = user->grow;
+        outgoing.kills = user->kills;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->inventory[0])))
@@ -123,29 +123,29 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= packet.equipment.size())
+            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
                 break;
 
-            packet.equipment[slot].type = item->type;
-            packet.equipment[slot].typeId = item->typeId;
-            packet.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+            outgoing.equipment[slot].type = item->type;
+            outgoing.equipment[slot].typeId = item->typeId;
+            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
         }
 
-        packet.charName = user->charName;
+        outgoing.charName = user->charName;
 
         auto& item = user->inventory[0][EquipmentSlot::Cloak];
         if (!item)
         {
-            CUser::GetGuildName(user, reinterpret_cast<char*>(&packet.cloakBadge));
+            CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
             int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
-            SConnection::Send(&target->connection, &packet, length);
+            SConnection::Send(&target->connection, &outgoing, length);
         }
         else
         {
-            packet.cloakBadge = item->gems;
-            CUser::GetGuildName(user, packet.guildName.data());
-            SConnection::Send(&target->connection, &packet, sizeof(GetInfoUserShapeOutgoing));
+            outgoing.cloakBadge = item->gems;
+            CUser::GetGuildName(user, outgoing.guildName.data());
+            SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing));
         }
     }
 
@@ -154,56 +154,56 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        GetInfoUserShapeOutgoing packet{};
-        packet.charId = user->id;
+        GetInfoUserShapeOutgoing outgoing{};
+        outgoing.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
-            packet.dead = user->clone->dead;
-            packet.sitting = user->clone->sitting;
-            packet.country = user->clone->country;
-            packet.family = user->clone->family;
-            packet.hair = user->clone->hair;
-            packet.face = user->clone->face;
-            packet.size = user->clone->size;
-            packet.job = user->clone->job;
-            packet.sex = user->clone->sex;
-            packet.partyType = user->clone->partyType;
-            packet.grow = user->clone->grow;
-            packet.kills = user->clone->kills;
+            outgoing.dead = user->clone->dead;
+            outgoing.sitting = user->clone->sitting;
+            outgoing.country = user->clone->country;
+            outgoing.family = user->clone->family;
+            outgoing.hair = user->clone->hair;
+            outgoing.face = user->clone->face;
+            outgoing.size = user->clone->size;
+            outgoing.job = user->clone->job;
+            outgoing.sex = user->clone->sex;
+            outgoing.partyType = user->clone->partyType;
+            outgoing.grow = user->clone->grow;
+            outgoing.kills = user->clone->kills;
 
-            std::memcpy(&packet.equipment, &user->clone->equipment, sizeof(packet.equipment));
-            packet.charName = user->clone->charName;
+            std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
+            outgoing.charName = user->clone->charName;
 
             if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
             {
-                packet.cloakBadge = user->clone->cloakBadge;
-                packet.guildName = user->clone->guildName;
-                CZone::SendView(user->zone, &packet, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
+                outgoing.cloakBadge = user->clone->cloakBadge;
+                outgoing.guildName = user->clone->guildName;
+                CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
             }
             else
             {
-                std::memcpy(&packet.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
+                std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
                 int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
-                CZone::SendView(user->zone, &packet, length, user->cellX, user->cellZ);
+                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
             }
 
             return;
         }
 
-        packet.dead = user->stateType == UserStateType::Death ? true : false;
-        packet.sitting = user->sitting;
-        packet.country = user->country;
-        packet.family = user->family;
-        packet.hair = user->hair;
-        packet.face = user->face;
-        packet.size = user->size;
-        packet.job = user->job;
-        packet.sex = user->sex;
-        packet.partyType = CUser::GetPartyType(user);
-        packet.grow = user->grow;
-        packet.kills = user->kills;
+        outgoing.dead = user->status == UserStatus::Death ? true : false;
+        outgoing.sitting = user->sitting;
+        outgoing.country = user->country;
+        outgoing.family = user->family;
+        outgoing.hair = user->hair;
+        outgoing.face = user->face;
+        outgoing.size = user->size;
+        outgoing.job = user->job;
+        outgoing.sex = user->sex;
+        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
+        outgoing.grow = user->grow;
+        outgoing.kills = user->kills;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->inventory[0])))
@@ -211,63 +211,59 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= packet.equipment.size())
+            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
                 break;
 
-            packet.equipment[slot].type = item->type;
-            packet.equipment[slot].typeId = item->typeId;
-            packet.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+            outgoing.equipment[slot].type = item->type;
+            outgoing.equipment[slot].typeId = item->typeId;
+            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
         }
 
-        packet.charName = user->charName;
+        outgoing.charName = user->charName;
 
         auto& item = user->inventory[0][EquipmentSlot::Cloak];
         if (!item)
         {
-            CUser::GetGuildName(user, reinterpret_cast<char*>(&packet.cloakBadge));
+            CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
             int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
-            CZone::SendView(user->zone, &packet, length, user->cellX, user->cellZ);
+            CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
         }
         else
         {
-            packet.cloakBadge = item->gems;
-            CUser::GetGuildName(user, packet.guildName.data());
-            CZone::SendView(user->zone, &packet, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
+            outgoing.cloakBadge = item->gems;
+            CUser::GetGuildName(user, outgoing.guildName.data());
+            CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
         }
     }
 
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
-        UserShapeTypeOutgoing packet{};
-        packet.charId = user->id;
-        packet.shapeType = util::deserialize<ShapeType>(buffer, 6);
+        UserShapeTypeOutgoing outgoing{};
+        outgoing.charId = user->id;
+        outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
-#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
-        packet.vehicleType = !vehicle ? 0 : vehicle->type;
-        packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-#endif
+        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
         if (!user->zone)
             return;
 
-        CZone::SendView(user->zone, &packet, sizeof(UserShapeTypeOutgoing), user->cellX, user->cellZ);
+        CZone::SendView(user->zone, &outgoing, sizeof(UserShapeTypeOutgoing), user->cellX, user->cellZ);
     }
 
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
-        UserShapeTypeOutgoing packet{};
-        packet.charId = user->id;
-        packet.shapeType = shapeType;
+        UserShapeTypeOutgoing outgoing{};
+        outgoing.charId = user->id;
+        outgoing.shapeType = shapeType;
 
-#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
-        packet.vehicleType = !vehicle ? 0 : vehicle->type;
-        packet.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-#endif
+        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
-        SConnection::Send(&target->connection, &packet, sizeof(UserShapeTypeOutgoing));
+        SConnection::Send(&target->connection, &outgoing, sizeof(UserShapeTypeOutgoing));
     }
 }
 
