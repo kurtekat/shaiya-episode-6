@@ -458,6 +458,18 @@
     <ClInclude Include="include\shaiya\packets\dbAgent\0A00.h">
       <Filter>include\shaiya\packets\dbAgent</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\ItemInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\MobInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SkillInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ProductInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">

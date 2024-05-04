@@ -4,21 +4,21 @@
 #include <include/main.h>
 #include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/0500.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CNpcData.h>
 #include <include/shaiya/include/CObject.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
 namespace item_effect
 {
-    int handler(CUser* user, CItem* item, CGameData::ItemEffect effect, std::uint8_t bag, std::uint8_t slot)
+    int handler(CUser* user, CItem* item, ItemEffect effect, std::uint8_t bag, std::uint8_t slot)
     {
         switch (effect)
         {
-        case CGameData::ItemEffect::TownTeleportScroll:
+        case ItemEffect::TownTeleportScroll:
         {
             NpcGateKeeper* gateKeeper = nullptr;
 
@@ -71,7 +71,7 @@ namespace item_effect
 
     void town_scroll_handler(CUser* user, ItemTownScrollIncoming* incoming)
     {
-        if (user->stateType == UserStateType::Death)
+        if (user->status == UserStatus::Death)
             return;
 
         if (user->dbAgentDisconnect || user->debuffTypeDetail)
@@ -84,7 +84,7 @@ namespace item_effect
         if (!item)
             return;
 
-        if (item->itemInfo->effect != CGameData::ItemEffect::TownTeleportScroll)
+        if (item->itemInfo->effect != ItemEffect::TownTeleportScroll)
             return;
 
         if (incoming->gateIndex > 2)
@@ -105,10 +105,10 @@ namespace item_effect
         if (!item)
             return 0;
 
-        if (item->itemInfo->realType != CGameData::ItemRealType::Teleportation)
+        if (item->itemInfo->realType != ItemRealType::Teleportation)
             return 0;
 
-        if (item->itemInfo->effect != CGameData::ItemEffect::TownTeleportScroll)
+        if (item->itemInfo->effect != ItemEffect::TownTeleportScroll)
             return 0;
 
         CUser::ItemUseNSend(user, user->recallItemBag, user->recallItemSlot, false);

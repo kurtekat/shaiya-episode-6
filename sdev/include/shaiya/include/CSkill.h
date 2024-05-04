@@ -1,10 +1,11 @@
 #pragma once
 #include <include/shaiya/common.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/SNode.h>
 
 namespace shaiya
 {
+    struct SkillInfo;
+
     #pragma pack(push, 1)
     struct CSkill
     {
@@ -19,8 +20,7 @@ namespace shaiya
         PAD(8);
         // CUser->id, CMob->id
         ULONG debuffCasterId;  //0x30
-        // 0x34
-        CGameData::SkillInfo* skillInfo;
+        SkillInfo* skillInfo;  //0x34
         // 0x38
     };
     #pragma pack(pop)

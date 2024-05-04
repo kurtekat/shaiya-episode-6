@@ -1,7 +1,6 @@
 #pragma once
 #include <include/shaiya/common.h>
 #include <include/shaiya/include/CExchange.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CFriend.h>
 #include <include/shaiya/include/CloneUser.h>
 #include <include/shaiya/include/CMiniGame.h>
@@ -21,6 +20,8 @@ namespace shaiya
     struct CParty;
     struct CSkill;
     struct CZone;
+    struct ItemInfo;
+    struct SkillInfo;
 
     #pragma pack(push, 1)
     struct BillingItem
@@ -181,7 +182,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct UserStateType : UINT32
+    enum struct UserStatus : UINT32
     {
         None,
         Death,
@@ -466,7 +467,7 @@ namespace shaiya
         UINT32 magicResistance;              //0x142C
         UINT32 magicCriticalHitRate;         //0x1430
         PAD(16);
-        UserStateType stateType;             //0x1444
+        UserStatus status;                   //0x1444
         PAD(4);
         bool sitting;                        //0x144C
         UINT8 unknown144D;                   //0x144D
@@ -613,8 +614,8 @@ namespace shaiya
         PAD(4);
         // 0x62A0
 
-        static void AddApplySkillBuff(CUser* user, CGameData::SkillInfo* skillInfo);
-        static void AddApplySkillDebuff(CUser* user, CSkill* skill, CGameData::SkillInfo* skillInfo);
+        static void AddApplySkillBuff(CUser* user, SkillInfo* skillInfo);
+        static void AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo);
         static void CancelActionExc(CUser* user/*edi*/);
         static bool DamageByKeepSkill(CUser* user/*edi*/, int type, ULONG id/*CUser->id*/, CDamage* damage);
         static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);
@@ -626,7 +627,7 @@ namespace shaiya
         static void ItemBagToBank(CUser* user/*edx*/, int srcBag, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/);
         static void ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ecx*/, int destBag, int destSlot);
         static void ItemBankToBank(CUser* user/*esi*/, int srcBag/*100*/, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/);
-        static bool ItemCreate(CUser* user/*ecx*/, CGameData::ItemInfo* info, int count);
+        static bool ItemCreate(CUser* user/*ecx*/, ItemInfo* info, int count);
         static bool ItemDelete(CUser* user, int type, int typeId);
         static void ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot);
         static void ItemEquipmentRem(CUser* user/*edx*/, CItem* item/*ecx*/, int slot);
@@ -636,10 +637,10 @@ namespace shaiya
         static void ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/);
         static void ItemUse(CUser* user, int bag, int slot, ULONG targetId, int byTargetType);
         static void ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap);
-        static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, CGameData::ItemInfo** outInfo);
+        static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo** outInfo);
         static CQuest* QuestFind(CUser* user/*edi*/, int questId);
-        static void RemApplySkillBuff(CUser* user/*ecx*/, CGameData::SkillInfo* skillInfo);
-        static void RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, CGameData::SkillInfo* skillInfo/*edx*/);
+        static void RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo);
+        static void RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/);
         static void SendAdminCmdError(CUser* user, UINT16 error/*ecx*/);
         static void SendAdminCmdSuccess(CUser* user);
         static void SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/);
@@ -675,7 +676,7 @@ namespace shaiya
         static void StatResetStatus(CUser* user/*edi*/, BOOL event);
         static void TauntMob(CUser* user, float dist, int aggro);
         static void UpdateKCStatus(CUser* user/*eax*/);
-        static void UseItemSkill(CUser* user/*edi*/, CGameData::SkillInfo* info/*eax*/);
+        static void UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);
     };
     #pragma pack(pop)
 }

@@ -5,7 +5,7 @@
 
 namespace shaiya
 {
-    enum struct MotionType : UINT8
+    enum struct Animation : UINT8
     {
         None,
         Walk,
@@ -136,6 +136,24 @@ namespace shaiya
         Stopped = 3
     };
 
+    // Credit: Anna Melashkina (Imgeneus)
+    enum struct UserAttackSuccessResult : UINT8
+    {
+        Normal,
+        Critical,
+        Miss,
+        Failed,
+        SuccessBuff,
+        InsufficientRange,
+        NotEnoughMPSP,
+        WrongEquipment,
+        PreviousSkillRequired,
+        CooldownNotOver,
+        CannotAttack,
+        WrongTarget,
+        TooFastAttack
+    };
+
     #pragma pack(push, 1)
     struct UserMoveIncoming
     {
@@ -164,6 +182,48 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct UserAttackUserIncoming
+    {
+        UINT16 opcode{ 0x502 };
+        ULONG targetId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserAttackUserOutgoing
+    {
+        UINT16 opcode{ 0x502 };
+        UserAttackSuccessResult result;
+        ULONG charId;
+        ULONG targetId;
+        UINT16 targetDmgHP;
+        UINT16 targetDmgSP;
+        UINT16 targetDmgMP;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserAttackMobIncoming
+    {
+        UINT16 opcode{ 0x503 };
+        ULONG targetId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserAttackMobOutgoing
+    {
+        UINT16 opcode{ 0x503 };
+        UserAttackSuccessResult result;
+        ULONG charId;
+        ULONG targetId;
+        UINT16 targetDmgHP;
+        UINT16 targetDmgSP;
+        UINT16 targetDmgMP;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct RecoverAddOutgoing
     {
         UINT16 opcode{ 0x505 };
@@ -178,7 +238,7 @@ namespace shaiya
     struct UserMotionIncoming
     {
         UINT16 opcode{ 0x506 };
-        MotionType motionType;
+        Animation animation;
     };
     #pragma pack(pop)
 
@@ -187,7 +247,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x506 };
         ULONG charId;
-        MotionType motionType;
+        Animation animation;
     };
     #pragma pack(pop)
 

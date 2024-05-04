@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\include\3dc.h" />
     <ClInclude Include="include\shaiya\include\CDataFile.h" />
     <ClInclude Include="include\shaiya\include\CWindow.h" />
     <ClInclude Include="include\shaiya\include\CCharacter.h" />
@@ -31,6 +32,11 @@
     <ClInclude Include="include\shaiya\include\CNpc.h" />
     <ClInclude Include="include\shaiya\include\CTexture.h" />
     <ClInclude Include="include\shaiya\include\CWorldMgr.h" />
+    <ClInclude Include="include\shaiya\include\ItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\MobInfo.h" />
+    <ClInclude Include="include\shaiya\include\SkillInfo.h" />
+    <ClInclude Include="include\shaiya\include\SModel.h" />
+    <ClInclude Include="include\shaiya\include\STexture.h" />
     <ClInclude Include="include\shaiya\static.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>

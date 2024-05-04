@@ -21,7 +21,7 @@ namespace user_shape
 
         std::memset(user->clone, 0, sizeof(CloneUser));
 
-        user->clone->dead = target->stateType == UserStateType::Death ? true : false;
+        user->clone->dead = target->status == UserStatus::Death ? true : false;
         user->clone->sitting = target->sitting;
         user->clone->country = target->country;
         user->clone->family = target->family;
@@ -104,7 +104,7 @@ namespace user_shape
             return;
         }
 
-        packet.dead = user->stateType == UserStateType::Death ? true : false;
+        packet.dead = user->status == UserStatus::Death ? true : false;
         packet.sitting = user->sitting;
         packet.country = user->country;
         packet.family = user->family;
@@ -192,7 +192,7 @@ namespace user_shape
             return;
         }
 
-        packet.dead = user->stateType == UserStateType::Death ? true : false;
+        packet.dead = user->status == UserStatus::Death ? true : false;
         packet.sitting = user->sitting;
         packet.country = user->country;
         packet.family = user->family;

@@ -11,7 +11,7 @@ namespace shaiya
         D3DVECTOR pos;       //0x04
         D3DVECTOR dir;       //0x10
         D3DVECTOR up;        //0x1C
-        PAD(4);
+        ULONG id;            //0x28
         UINT32 mobId;        //0x2C
         PAD(28);
         UINT32 status;       //0x4C

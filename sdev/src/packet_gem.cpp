@@ -15,6 +15,7 @@
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/Synthesis.h>
@@ -51,32 +52,32 @@ namespace packet_gem
         ItemRuneCombineOutgoing outgoing{};
         outgoing.result = ItemRuneCombineResult::Failure;
 
-        if (rune->count < 2 || rune->itemInfo->effect != CGameData::ItemEffect::ItemCompose)
+        if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::ItemCompose)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
         }
 
-        CGameData::ItemInfo* itemInfo = nullptr;
+        ItemInfo* itemInfo = nullptr;
 
         switch (vial->itemInfo->effect)
         {
-        case CGameData::ItemEffect::ItemRemakeStr:
+        case ItemEffect::ItemRemakeStr:
             itemInfo = CGameData::GetItemInfo(101, 1);
             break;
-        case CGameData::ItemEffect::ItemRemakeDex:
+        case ItemEffect::ItemRemakeDex:
             itemInfo = CGameData::GetItemInfo(101, 2);
             break;
-        case CGameData::ItemEffect::ItemRemakeInt:
+        case ItemEffect::ItemRemakeInt:
             itemInfo = CGameData::GetItemInfo(101, 3);
             break;
-        case CGameData::ItemEffect::ItemRemakeWis:
+        case ItemEffect::ItemRemakeWis:
             itemInfo = CGameData::GetItemInfo(101, 4);
             break;
-        case CGameData::ItemEffect::ItemRemakeRec:
+        case ItemEffect::ItemRemakeRec:
             itemInfo = CGameData::GetItemInfo(101, 5);
             break;
-        case CGameData::ItemEffect::ItemRemakeLuc:
+        case ItemEffect::ItemRemakeLuc:
             itemInfo = CGameData::GetItemInfo(101, 6);
             break;
         default:
@@ -136,7 +137,7 @@ namespace packet_gem
         ItemComposeOutgoing outgoing{};
         outgoing.result = ItemComposeResult::Failure;
 
-        if (item->itemInfo->realType > CGameData::ItemRealType::Bracelet)
+        if (item->itemInfo->realType > ItemRealType::Bracelet)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
@@ -183,7 +184,7 @@ namespace packet_gem
 
         switch (rune->itemInfo->effect)
         {
-        case CGameData::ItemEffect::ItemCompose:
+        case ItemEffect::ItemCompose:
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
@@ -209,7 +210,7 @@ namespace packet_gem
             CItem::ReGenerationCraftExpansion(item, true);
 
             break;
-        case CGameData::ItemEffect::ItemComposeStr:
+        case ItemEffect::ItemComposeStr:
             if (!item->craftStrength)
                 return;
 
@@ -244,7 +245,7 @@ namespace packet_gem
             item->craftName[1] = text[1];
 
             break;
-        case CGameData::ItemEffect::ItemComposeDex:
+        case ItemEffect::ItemComposeDex:
             if (!item->craftDexterity)
                 return;
 
@@ -279,7 +280,7 @@ namespace packet_gem
             item->craftName[3] = text[1];
 
             break;
-        case CGameData::ItemEffect::ItemComposeInt:
+        case ItemEffect::ItemComposeInt:
             if (!item->craftIntelligence)
                 return;
 
@@ -314,7 +315,7 @@ namespace packet_gem
             item->craftName[7] = text[1];
 
             break;
-        case CGameData::ItemEffect::ItemComposeWis:
+        case ItemEffect::ItemComposeWis:
             if (!item->craftWisdom)
                 return;
 
@@ -349,7 +350,7 @@ namespace packet_gem
             item->craftName[9] = text[1];
 
             break;
-        case CGameData::ItemEffect::ItemComposeRec:
+        case ItemEffect::ItemComposeRec:
             if (!item->craftReaction)
                 return;
 
@@ -384,7 +385,7 @@ namespace packet_gem
             item->craftName[5] = text[1];
 
             break;
-        case CGameData::ItemEffect::ItemComposeLuc:
+        case ItemEffect::ItemComposeLuc:
             if (!item->craftLuck)
                 return;
 
@@ -446,7 +447,7 @@ namespace packet_gem
 
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
-        if (user->stateType == UserStateType::Death)
+        if (user->status == UserStatus::Death)
             return;
 
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
@@ -456,7 +457,7 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
             return;
 
         auto synthesis = g_synthesis.find(square->itemInfo->itemId);
@@ -504,7 +505,7 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
             return;
 
         auto it = g_synthesis.find(square->itemInfo->itemId);
@@ -538,7 +539,7 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (square->itemInfo->effect != CGameData::ItemEffect::ChaoticSquare)
+        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
             return;
 
         if (incoming->money > user->money)
@@ -571,7 +572,7 @@ namespace packet_gem
             if (!hammer)
                 return;
 
-            if (hammer->itemInfo->effect != CGameData::ItemEffect::CraftingHammer)
+            if (hammer->itemInfo->effect != ItemEffect::CraftingHammer)
                 return;
 
             successRate += hammer->itemInfo->reqVg * 100;

@@ -4,11 +4,11 @@
 
 #include <include/main.h>
 #include <include/shaiya/packets/0900.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CQuest.h>
 #include <include/shaiya/include/CQuestData.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
 #include <util/include/util.h>
 using namespace shaiya;
@@ -60,7 +60,7 @@ namespace npc_quest
             int count = result.item[i].count;
 
             int bag, slot;
-            auto itemInfo = std::make_unique<CGameData::ItemInfo*>();
+            auto itemInfo = std::make_unique<ItemInfo*>();
             if (CUser::QuestAddItem(user, type, typeId, count, &bag, &slot, itemInfo.get()))
             {
                 packet.itemList[i].count = count;

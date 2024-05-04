@@ -5,9 +5,9 @@
 
 #include <include/main.h>
 #include <include/shaiya/packets/0300.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/Synergy.h>
 #include <util/include/util.h>
@@ -15,15 +15,15 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    bool enable_slot(CGameData::ItemInfo* itemInfo, EquipmentSlot slot)
+    bool enable_slot(ItemInfo* itemInfo, EquipmentSlot slot)
     {
-        switch (static_cast<CGameData::ItemType>(itemInfo->type))
+        switch (static_cast<ItemType>(itemInfo->type))
         {
-        case CGameData::ItemType::Pet:
+        case ItemType::Pet:
             return slot == EquipmentSlot::Pet;
-        case CGameData::ItemType::Wings:
+        case ItemType::Wings:
             return slot == EquipmentSlot::Wings;
-        case CGameData::ItemType::Costume:
+        case ItemType::Costume:
             return slot == EquipmentSlot::Costume;
         default:
             break;

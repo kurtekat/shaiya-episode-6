@@ -4,9 +4,9 @@
 
 #include <include/main.h>
 #include <include/shaiya/packets/0500.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/Synergy.h>
 #include <util/include/util.h>
@@ -49,9 +49,9 @@ namespace user_status
         {
             switch (weapon->itemInfo->realType)
             {
-            case CGameData::ItemRealType::Javelin:
-            case CGameData::ItemRealType::Bow:
-            case CGameData::ItemRealType::Crossbow:
+            case ItemRealType::Javelin:
+            case ItemRealType::Bow:
+            case ItemRealType::Crossbow:
                 attackPower = user->minRangedAttackPower;
                 break;
             default:

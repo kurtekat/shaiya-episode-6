@@ -1,17 +1,18 @@
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemInfo.h>
+#include <include/shaiya/include/SkillInfo.h>
 using namespace shaiya;
 
-void CUser::AddApplySkillBuff(CUser* user, CGameData::SkillInfo* skillInfo)
+void CUser::AddApplySkillBuff(CUser* user, SkillInfo* skillInfo)
 {
-    typedef void(__stdcall* LPFN)(CUser*, CGameData::SkillInfo*);
+    typedef void(__stdcall* LPFN)(CUser*, SkillInfo*);
     (*(LPFN)0x494140)(user, skillInfo);
 }
 
-void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, CGameData::SkillInfo* skillInfo)
+void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo)
 {
-    typedef void(__stdcall* LPFN)(CUser*, CSkill*, CGameData::SkillInfo*);
+    typedef void(__stdcall* LPFN)(CUser*, CSkill*, SkillInfo*);
     (*(LPFN)0x494BD0)(user, skill, skillInfo);
 }
 
@@ -123,9 +124,9 @@ void CUser::ItemBankToBank(CUser* user/*esi*/, int srcBag/*100*/, int srcSlot, i
     }
 }
 
-bool CUser::ItemCreate(CUser* user/*ecx*/, CGameData::ItemInfo* info, int count)
+bool CUser::ItemCreate(CUser* user/*ecx*/, ItemInfo* info, int count)
 {
-    typedef bool(__thiscall* LPFN)(CUser*, CGameData::ItemInfo*, int);
+    typedef bool(__thiscall* LPFN)(CUser*, ItemInfo*, int);
     return (*(LPFN)0x46BD10)(user, info, count);
 }
 
@@ -210,9 +211,9 @@ void CUser::ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap)
     (*(LPFN)0x4728E0)(user, bag, slot, moveMap);
 }
 
-bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, CGameData::ItemInfo** outInfo)
+bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo** outInfo)
 {
-    typedef bool(__fastcall* LPFN)(int, int*, CUser*, int, int, int*, CGameData::ItemInfo**);
+    typedef bool(__fastcall* LPFN)(int, int*, CUser*, int, int, int*, ItemInfo**);
     return (*(LPFN)0x48D5E0)(typeId, outSlot, user, type, count, outBag, outInfo);
 }
 
@@ -228,13 +229,13 @@ CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
     }
 }
 
-void CUser::RemApplySkillBuff(CUser* user/*ecx*/, CGameData::SkillInfo* skillInfo)
+void CUser::RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo)
 {
-    typedef void(__thiscall* LPFN)(CUser*, CGameData::SkillInfo*);
+    typedef void(__thiscall* LPFN)(CUser*, SkillInfo*);
     (*(LPFN)0x494760)(user, skillInfo);
 }
 
-void CUser::RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, CGameData::SkillInfo* skillInfo/*edx*/)
+void CUser::RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/)
 {
     Address u0x494EB0 = 0x494EB0;
 
@@ -617,7 +618,7 @@ void CUser::UpdateKCStatus(CUser* user/*eax*/)
     }
 }
 
-void CUser::UseItemSkill(CUser* user/*edi*/, CGameData::SkillInfo* info/*eax*/)
+void CUser::UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/)
 {
     Address u0x4725B0 = 0x4725B0;
 

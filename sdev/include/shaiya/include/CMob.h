@@ -1,6 +1,5 @@
 #pragma once
 #include <include/shaiya/common.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/SVector.h>
 
 namespace shaiya
@@ -8,6 +7,8 @@ namespace shaiya
     struct CDoor;
     struct CUser;
     struct CZone;
+    struct MobInfo;
+    struct SkillInfo;
 
     enum struct MobLuaEvent : UINT32
     {
@@ -23,7 +24,7 @@ namespace shaiya
     {
         Idle,
         Chase,
-        FindTarget,
+        Death,
         ReturnHome,
         Unknown100 = 100
     };
@@ -53,7 +54,7 @@ namespace shaiya
         UINT32 cellX;                    //0x90
         UINT32 cellZ;                    //0x94
         PAD(60);
-        CGameData::MobInfo* mobInfo;     //0xD4
+        MobInfo* mobInfo;                //0xD4
         PAD(208);
         MobStatus status;                //0x1A8
         PAD(4);
@@ -125,7 +126,7 @@ namespace shaiya
         // 0xDF4
 
         static int GetCountry(CMob* mob/*eax*/);
-        static void UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/);
+        static void UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
         static bool EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/);
         static void SendLogBossMob(CMob* mob/*edx*/, const char* text3/*edi*/, int byAction, const char* text4, int damage);
         static void SetAttack(CMob* mob/*esi*/);

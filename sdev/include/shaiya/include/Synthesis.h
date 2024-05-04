@@ -7,7 +7,6 @@
 
 namespace shaiya
 {
-    struct CItem;
     struct CUser;
 
     constexpr auto synthesis_min_money = 100000000U;

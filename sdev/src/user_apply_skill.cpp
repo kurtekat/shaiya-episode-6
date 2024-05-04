@@ -8,12 +8,13 @@
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
 #include <include/shaiya/include/SConnection.h>
+#include <include/shaiya/include/SkillInfo.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
 namespace user_apply_skill
 {
-    void frenzy_handler(CUser* user, CGameData::SkillInfo* skillInfo)
+    void frenzy_handler(CUser* user, SkillInfo* skillInfo)
     {
         SkillUseOutgoing packet{};
         packet.senderId = user->id;
@@ -92,9 +93,9 @@ namespace user_apply_skill
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 
-    void send_view(CUser* sender, CUser* target, CGameData::SkillInfo* skillInfo, Packet buffer)
+    void send_view(CUser* sender, CUser* target, SkillInfo* skillInfo, Packet buffer)
     {
-        if (skillInfo->ability[0].type == CGameData::SkillAbilityType::Frenzied)
+        if (skillInfo->ability[0].type == SkillAbilityType::Frenzied)
             return frenzy_handler(sender, skillInfo);
 
         SkillUseOutgoing packet{};

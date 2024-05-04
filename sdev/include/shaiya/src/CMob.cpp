@@ -1,5 +1,5 @@
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CMob.h>
+#include <include/shaiya/include/SkillInfo.h>
 using namespace shaiya;
 
 int CMob::GetCountry(CMob* mob/*eax*/)
@@ -13,7 +13,7 @@ int CMob::GetCountry(CMob* mob/*eax*/)
     }
 }
 
-void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, CGameData::SkillInfo* info/*eax*/)
+void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
 {
     Address u0x4B9280 = 0x4B9280;
 

@@ -1,6 +1,4 @@
-﻿#include <array>
-#include <string>
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <strsafe.h>
 
@@ -8,7 +6,6 @@
 #include <include/shaiya/packets/2600.h>
 #include <include/shaiya/packets/dbAgent/0E00.h>
 #include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/SConnection.h>

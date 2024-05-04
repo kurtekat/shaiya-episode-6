@@ -27,6 +27,19 @@ namespace shaiya
     typedef UINT8* Packet;
     typedef Array<char, 21> CharName;
 
+    enum struct Attribute : UINT8
+    {
+        None,
+        Fire1,
+        Water1,
+        Earth1,
+        Wind1,
+        Fire2,
+        Water2,
+        Earth2,
+        Wind2
+    };
+
     enum struct AuthStatus : UINT32
     {
         AdminA = 1,
@@ -69,6 +82,18 @@ namespace shaiya
         DefenseMage
     };
 
+    #pragma pack(push, 1)
+    struct ReqJob
+    {
+        bool attackFighter;
+        bool defenseFighter;
+        bool patrolRogue;
+        bool shootRogue;
+        bool attackMage;
+        bool defenseMage;
+    };
+    #pragma pack(pop)
+
     enum struct Sex : UINT8
     {
         Male,
@@ -89,4 +114,21 @@ namespace shaiya
         Disguise = 100,
         Transformation = 102,
     };
+
+    #pragma pack(push, 1)
+    struct BoundingBox
+    {
+        D3DVECTOR lowerLimit;
+        D3DVECTOR upperLimit;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct MeshFace
+    {
+        UINT16 vertexIndex1;
+        UINT16 vertexIndex2;
+        UINT16 vertexIndex3;
+    };
+    #pragma pack(pop)
 }

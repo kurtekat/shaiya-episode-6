@@ -1,11 +1,11 @@
 #pragma once
 #include <include/shaiya/common.h>
-#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/SVector.h>
 
 namespace shaiya
 {
     struct CDoor;
+    struct MobInfo;
 
     typedef Array<char, 256> SvMapName;
 
@@ -135,13 +135,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBossMob
     {
-        SVector pos;              //0x00
-        float radius;             //0x0C
+        SVector pos;                  //0x00
+        float radius;                 //0x0C
         PAD(4);
-        UINT32 count;             //0x14
-        Array<UINT32, 16> mobId;  //0x18
-        // 0x58
-        Array<CGameData::MobInfo*, 16> mobInfo;
+        UINT32 count;                 //0x14
+        Array<UINT32, 16> mobId;      //0x18
+        Array<MobInfo*, 16> mobInfo;  //0x58
         // 0x98
         PAD(148);
         // 0x12C
@@ -173,8 +172,7 @@ namespace shaiya
         SVector pos;                      //0x1C
         PAD(12);
         Array<UINT32, 16> mobId;          //0x34
-        // 0x74
-        Array<CGameData::MobInfo*, 16> mobInfo;
+        Array<MobInfo*, 16> mobInfo;      //0x74
         // 0xB4
         PAD(100);
         BOOL enableRandomRespawn;         //0x118
