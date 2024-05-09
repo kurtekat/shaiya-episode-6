@@ -130,6 +130,25 @@ void __declspec(naked) naked_0x4EF2F3()
     }
 }
 
+unsigned u0x593D15 = 0x593D15;
+unsigned u0x593D73 = 0x593D73;
+void __declspec(naked) naked_0x593D0F()
+{
+    __asm
+    {
+        // original
+        push 0x0 // arg #16
+        cmp al,0xB
+        jne _0x593D73
+
+        push 0x0 // arg #15
+        jmp u0x593D15
+
+        _0x593D73:
+        jmp u0x593D73
+    }
+}
+
 void hook::packet()
 {
     // recv default case
@@ -140,4 +159,14 @@ void hook::packet()
     util::detour((void*)0x59F896, naked_0x59F896, 6);
     // revenge message 509
     util::detour((void*)0x4EF2F3, naked_0x4EF2F3, 5);
+    // javelin attack bug (0x502 handler)
+    util::detour((void*)0x593D0F, naked_0x593D0F, 6);
+
+    // javelin attack bug
+
+    // increase the stack offsets (see detour)
+    util::write_memory((void*)0x593D46, 0x3C, 1);
+    util::write_memory((void*)0x593D4D, 0x4C, 1);
+    // remove argument #8
+    util::write_memory((void*)0x593D4F, 0x90, 2);
 }
