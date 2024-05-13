@@ -158,7 +158,8 @@
     <ClInclude Include="include\shaiya\packets\gameLog\0C00.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0E00.h" />
     <ClInclude Include="include\shaiya\packets\gameLog\0F00.h" />
-    <ClInclude Include="include\shaiya\packets\login\A102.h" />
+    <ClInclude Include="include\shaiya\packets\login\A100.h" />
+    <ClInclude Include="include\shaiya\packets\login\A200.h" />
     <ClInclude Include="include\shaiya\packets\session\0100.h" />
     <ClInclude Include="include\shaiya\packets\session\1B00.h" />
     <ClInclude Include="include\shaiya\packets\userLog\0300.h" />

@@ -431,7 +431,7 @@
     <ClInclude Include="include\shaiya\include\SLog.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\packets\login\A102.h">
+    <ClInclude Include="include\shaiya\packets\login\A100.h">
       <Filter>include\shaiya\packets\login</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CClientToMgr.h">
@@ -469,6 +469,9 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ProductInfo.h">
       <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\packets\login\A200.h">
+      <Filter>include\shaiya\packets\login</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

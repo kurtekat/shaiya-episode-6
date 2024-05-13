@@ -17,7 +17,7 @@ namespace shaiya
     struct LoginResponse
     {
         UINT16 opcode{ 0xA102 };
-        UINT8 status;
+        UINT8 userStatus;
         UserId userId;
         AuthStatus authStatus;
         std::bitset<128> identity;
