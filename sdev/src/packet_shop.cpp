@@ -3,11 +3,15 @@
 #include <strsafe.h>
 
 #include <include/main.h>
+#include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/2600.h>
 #include <include/shaiya/packets/dbAgent/0E00.h>
 #include <include/shaiya/include/CClientToDBAgent.h>
+#include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
@@ -55,8 +59,18 @@ namespace packet_shop
             item2602.type = util::deserialize<std::uint8_t>(buffer, 39 + offset);
             item2602.typeId = util::deserialize<std::uint8_t>(buffer, 40 + offset);
             item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset);
-            packet.itemList[i] = item2602;
 
+#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+            auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
+            if (itemInfo && itemInfo->duration)
+            {
+                auto now = ServerTime::GetSystemTime();
+                item2602.toDate = ServerTime::Add(now, itemInfo->duration);
+                item2602.fromDate = item2602.toDate ? now : 0;
+            }
+#endif
+
+            packet.itemList[i] = item2602;
             offset += 5;
         }
 
@@ -88,6 +102,23 @@ namespace packet_shop
         SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserPointSaveGiftPointItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
+    }
+
+    void send_item_duration(CUser* user, CItem* item, Packet buffer)
+    {
+        if (!item->itemInfo->duration)
+            return;
+
+        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+        if (!expireTime)
+            return;
+
+        ItemDurationOutgoing packet{};
+        packet.bag = util::deserialize<std::uint8_t>(buffer, 3);
+        packet.slot = util::deserialize<std::uint8_t>(buffer, 4);
+        packet.fromDate = item->makeTime;
+        packet.toDate = expireTime;
+        SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
     }
 }
 
@@ -211,6 +242,53 @@ void __declspec(naked) naked_0x4886E0()
     }
 }
 
+unsigned u0x467F60 = 0x467F60;
+unsigned u0x488CCE = 0x488CCE;
+void __declspec(naked) naked_0x488CC9()
+{
+    __asm
+    {
+        call u0x467F60
+
+        pushad
+
+        lea eax,[esp+0x40]
+
+        push eax // packet
+        push ebp // item
+        push edi // user
+        call packet_shop::send_item_duration
+        add esp,0xC
+
+        popad
+
+        jmp u0x488CCE
+    }
+}
+
+unsigned u0x464B5F = 0x464B5F;
+void __declspec(naked) naked_0x464B5A()
+{
+    __asm
+    {
+        call u0x467F60
+
+        pushad
+
+        lea eax,[esp+0x30]
+
+        push eax // packet
+        push ebp // item
+        push edi // user
+        call packet_shop::send_item_duration
+        add esp,0xC
+
+        popad
+
+        jmp u0x464B5F
+    }
+}
+
 void hook::packet_shop()
 {
     // CUser::PacketCharacter case 0x104
@@ -232,5 +310,9 @@ void hook::packet_shop()
 #ifdef SHAIYA_EP6_4_PT
     // CUser::PacketShop case 0x2602
     util::detour((void*)0x4886E0, naked_0x4886E0, 5);
+    // CUser::PacketShop case 0x2607
+    util::detour((void*)0x488CC9, naked_0x488CC9, 5);
+    // CUser::PacketBilling
+    util::detour((void*)0x464B5A, naked_0x464B5A, 5);
 #endif
 }

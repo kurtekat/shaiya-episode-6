@@ -6,8 +6,11 @@
 #include <include/shaiya/packets/2300.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/MyShop.h>
 #include <include/shaiya/include/SConnection.h>
+#include <include/shaiya/include/ServerTime.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -49,6 +52,15 @@ namespace packet_myshop
             item230B.count = item->count;
             item230B.quality = item->quality;
             item230B.gems = item->gems;
+
+#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+            if (item->itemInfo->duration)
+            {
+                item230B.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+                item230B.fromDate = item230B.toDate ? item->makeTime : 0;
+            }
+#endif
+
             item230B.craftName = item->craftName;
             packet.itemList[packet.itemCount] = item230B;
 

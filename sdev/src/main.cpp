@@ -123,6 +123,7 @@ void Main()
     hook::packet_shop();
 
 #ifdef SHAIYA_EP6_4_PT
+    hook::item_duration();
     hook::item_effect();
     hook::packet_character();
     hook::packet_gem();

@@ -6,7 +6,10 @@
 #include <include/shaiya/packets/2400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/ItemDuration.h>
+#include <include/shaiya/include/ItemInfo.h>
 #include <include/shaiya/include/SConnection.h>
+#include <include/shaiya/include/ServerTime.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -82,6 +85,15 @@ namespace packet_exchange
         packet.count = util::deserialize<std::uint8_t>(buffer, 4);
         packet.quality = item->quality;
         packet.gems = item->gems;
+
+#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+        if (item->itemInfo->duration)
+        {
+            packet.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+            packet.fromDate = packet.toDate ? item->makeTime : 0;
+        }
+#endif
+
         packet.craftName = item->craftName;
         SConnection::Send(&user->connection, &packet, sizeof(ExchangeItemOutgoing));
     }

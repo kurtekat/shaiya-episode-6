@@ -46,6 +46,7 @@
     <ClCompile Include="include\shaiya\src\SVector.cpp" />
     <ClCompile Include="include\shaiya\src\Synergy.cpp" />
     <ClCompile Include="include\shaiya\src\Synthesis.cpp" />
+    <ClCompile Include="src\item_duration.cpp" />
     <ClCompile Include="src\item_effect.cpp" />
     <ClCompile Include="src\npc_quest.cpp" />
     <ClCompile Include="src\packet_exchange.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\Ini.h" />
+    <ClInclude Include="include\shaiya\include\ItemDuration.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />

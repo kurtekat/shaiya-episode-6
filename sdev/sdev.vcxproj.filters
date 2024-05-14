@@ -168,6 +168,9 @@
     <ClCompile Include="include\shaiya\src\SLog.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\item_duration.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -468,6 +471,9 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ProductInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ItemDuration.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\packets\login\A200.h">
