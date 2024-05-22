@@ -1,6 +1,6 @@
 # Shaiya Episode 6
 
-An open source effort to make episode 5 servers compatible with episode 6 clients.
+An open-source effort to make episode 5 servers compatible with episode 6 clients.
 
 ## Environment
 
@@ -38,4 +38,8 @@ Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the a
 
 ## Contributors
 
-Please don't submit a pull request unless I invite you to contribute. I can't disable the pull request tab to prevent unwanted contributions.
+Please don't submit a pull request unless I invite you to contribute. I can't disable the pull request tab to prevent unwanted contributions. Don't open issues to ask off-topic questions.
+
+## Support
+
+Please describe the issue(s) clearly and provide reproduction steps. The moment the conversation starts to go in circles, it's over. Older versions of the software are not supported.
