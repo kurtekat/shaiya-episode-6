@@ -6,6 +6,26 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    struct UserItemCreateIncoming
+    {
+        UINT16 opcode{ 0x701 };
+        UserId userId;
+        UINT64 uniqueId;
+        UINT32 itemId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT8 count;
+        UINT16 quality;
+        Gems gems;
+        CraftName craftName;
+        ULONG makeTime;
+        ItemMakeType makeType;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // inventory
     struct UserItemRemoveIncoming
     {
@@ -56,6 +76,29 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct UserItemCountIncoming
+    {
+        UINT16 opcode{ 0x707 };
+        UserId userId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 count;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserItemGemRemoveAllIncoming
+    {
+        UINT16 opcode{ 0x709 };
+        UserId userId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT16 quality;
+        UINT32 money;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct UserItemQualityIncoming
     {
         UINT16 opcode{ 0x70C };
@@ -85,6 +128,31 @@ namespace shaiya
         CraftName craftName;
         ULONG makeTime;
         ItemMakeType makeType;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserItemGemsIncoming
+    {
+        UINT16 opcode{ 0x711 };
+        UserId userId;
+        UINT8 bag;
+        UINT8 slot;
+        Gems gems;
+        UINT32 money;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserItemGemRemovePosIncoming
+    {
+        UINT16 opcode{ 0x715 };
+        UserId userId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 gemPos;
+        UINT16 quality;
+        UINT32 money;
     };
     #pragma pack(pop)
 

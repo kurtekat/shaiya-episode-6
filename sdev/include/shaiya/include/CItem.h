@@ -67,6 +67,7 @@ namespace shaiya
         static char GetEnchantStep(CItem* item/*edx*/);
         static int GetGemCount(CItem* item/*ecx*/);
         static int GetGemSlot(CItem* item/*ecx*/);
+        static void InitCraftExpansion(CItem* item/*eax*/);
         /*itemInfo->itemRealType == 22 or 23 or 25*/
         static bool IsAccessory(CItem* item/*eax*/);
         /*itemInfo->itemRealType >= 1 and <= 25*/

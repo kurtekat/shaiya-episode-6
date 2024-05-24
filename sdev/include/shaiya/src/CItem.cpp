@@ -24,6 +24,17 @@ int CItem::GetGemSlot(CItem* item/*ecx*/)
     return (*(LPFN)0x4D2240)(item);
 }
 
+void CItem::InitCraftExpansion(CItem* item/*eax*/)
+{
+    Address u0x4D2470 = 0x4D2470;
+
+    __asm
+    {
+        mov eax,item
+        call u0x4D2470
+    }
+}
+
 bool CItem::IsAccessory(CItem* item/*eax*/)
 {
     Address u0x4D2110 = 0x4D2110;
