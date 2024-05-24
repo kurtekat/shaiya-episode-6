@@ -31,6 +31,12 @@ namespace shaiya
         Failure
     };
 
+    enum struct ItemAbilityTransferResult : UINT8
+    {
+        Success,
+        Failure
+    };
+
     #pragma pack(push, 1)
     struct ItemLapisianAddIncoming
     {
@@ -125,6 +131,33 @@ namespace shaiya
         Gems gems;
         UINT8 count;
         CraftName craftName;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemAbilityTransferIncoming
+    {
+        UINT16 opcode{ 0x811 };
+        UINT8 cubeBag;
+        UINT8 cubeSlot;
+        UINT8 fromBag;
+        UINT8 fromSlot;
+        UINT8 toBag;
+        UINT8 toSlot;
+        UINT8 catalystBag;
+        UINT8 catalystSlot;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemAbilityTransferOutgoing
+    {
+        UINT16 opcode{ 0x811 };
+        ItemAbilityTransferResult result;
+        UINT8 fromBag;
+        UINT8 fromSlot;
+        UINT8 toBag;
+        UINT8 toSlot;
     };
     #pragma pack(pop)
 

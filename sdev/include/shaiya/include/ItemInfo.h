@@ -107,6 +107,8 @@ namespace shaiya
         CraftingHammer = 102,
         SafetyEnchant,
         TownTeleportScroll,
+        TransferRubiksCube,
+        Catalyst,
         EnchantEnhancer = 107,
         Dye = 110,
         HaloReactor,

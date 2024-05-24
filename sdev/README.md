@@ -269,6 +269,28 @@ int rangedAttackPower;
 int magicPower;
 ```
 
+## Item Ability Transfer
+
+Use item `101150` to activate the window. The `CraftName` and `Gems` are removed from the original item if the transfer is successful.
+
+### Success Rate
+
+The base success rate is 30 percent.
+
+| ItemID    | ItemName        | ReqVg    | Rate    |
+|-----------|-----------------|----------|---------|
+| 101156    | Catalyst Lv1    | 20       | 50      |
+| 101157    | Catalyst Lv2    | 50       | 80      |
+| 101158    | Catalyst Lv3    | 60       | 90      |
+
+### Client Versions
+
+| Version       | Supported    |
+|---------------|--------------|
+| 0x16012100    | Yes          |
+| 0x16021200    | No           |
+| 0x16032100    | No           |
+
 # Notes
 
 This section will document some things that may be of interest. Some of the notes are based on modifications.

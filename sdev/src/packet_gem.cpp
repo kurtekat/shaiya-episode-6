@@ -149,7 +149,7 @@ namespace packet_gem
             return;
         }
 
-        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis >= 100)
+        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis > 99)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
@@ -628,6 +628,232 @@ namespace packet_gem
     void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
     {
     }
+
+    void item_ability_transfer_handler(CUser* user, ItemAbilityTransferIncoming* incoming)
+    {
+        constexpr int base_success_rate = 30;
+        constexpr int max_success_rate = 100;
+
+        if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
+            return;
+
+        auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
+        if (!cube)
+            return;
+
+        if (cube->itemInfo->effect != ItemEffect::TransferRubiksCube)
+            return;
+
+        if (incoming->fromBag > user->bagsUnlocked || incoming->fromSlot >= max_inventory_slot)
+            return;
+
+        auto& from = user->inventory[incoming->fromBag][incoming->fromSlot];
+        if (!from)
+            return;
+
+        if (incoming->toBag > user->bagsUnlocked || incoming->toSlot >= max_inventory_slot)
+            return;
+
+        auto& to = user->inventory[incoming->toBag][incoming->toSlot];
+        if (!to)
+            return;
+
+        if (from->itemInfo->realType != to->itemInfo->realType)
+            return;
+
+        if (to->itemInfo->level < from->itemInfo->level)
+            return;
+
+        if (to->itemInfo->slotCount < from->itemInfo->slotCount)
+            return;
+
+        if (!to->itemInfo->composeCount || to->itemInfo->composeCount < from->itemInfo->composeCount)
+            return;
+
+        if (to->itemInfo->reqWis <= 0 || to->itemInfo->reqWis > 99 || to->itemInfo->reqWis < from->itemInfo->reqWis)
+            return;
+
+        if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
+            return;
+
+        int successRate = base_success_rate;
+
+        if (incoming->catalystSlot != 255)
+        {
+            if (incoming->catalystSlot >= max_inventory_slot)
+                return;
+
+            auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];
+            if (!catalyst)
+                return;
+
+            if (catalyst->itemInfo->effect != ItemEffect::Catalyst)
+                return;
+
+            successRate += catalyst->itemInfo->reqVg;
+            CUser::ItemUseNSend(user, incoming->catalystBag, incoming->catalystSlot, false);
+        }
+
+        CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
+
+        int randomRate = 0;
+        if (successRate < max_success_rate)
+        {
+            std::random_device seed;
+            std::mt19937 eng(seed());
+
+            std::uniform_int_distribution<int> uni(1, max_success_rate);
+            randomRate = uni(eng);
+        }
+
+        GameLogItemComposeIncoming log1{};
+        CUser::SetGameLogMain(user, &log1);
+
+        log1.oldItemUid = to->uniqueId;
+        log1.oldItemId = to->itemInfo->itemId;
+        log1.oldCraftName = to->craftName;
+
+        GameLogItemComposeIncoming log2{};
+        CUser::SetGameLogMain(user, &log2);
+
+        log2.oldItemUid = from->uniqueId;
+        log2.oldItemId = from->itemInfo->itemId;
+        log2.oldCraftName = from->craftName;
+
+        ItemAbilityTransferOutgoing outgoing{};
+        outgoing.result = ItemAbilityTransferResult::Failure;
+        outgoing.fromBag = incoming->fromBag;
+        outgoing.fromSlot = incoming->fromSlot;
+        outgoing.toBag = incoming->toBag;
+        outgoing.toSlot = incoming->toSlot;
+
+        if (randomRate <= successRate)
+        {
+            outgoing.result = ItemAbilityTransferResult::Success;
+
+            auto maxHealth = user->maxHealth;
+            auto maxMana = user->maxHealth;
+            auto maxStamina = user->maxHealth;
+
+            if (!incoming->toBag)
+            {
+                CUser::ItemEquipmentOptionRem(user, to);
+
+                to->gems = from->gems;
+                to->craftName = from->craftName;
+                to->craftStrength = from->craftStrength;
+                to->craftDexterity = from->craftDexterity;
+                to->craftReaction = from->craftReaction;
+                to->craftIntelligence = from->craftIntelligence;
+                to->craftWisdom = from->craftWisdom;
+                to->craftLuck = from->craftLuck;
+                to->craftHealth = from->craftHealth;
+                to->craftMana = from->craftMana;
+                to->craftStamina = from->craftStamina;
+                to->craftAttackPower = from->craftAttackPower;
+                to->craftAbsorption = from->craftAbsorption;
+
+                CUser::ItemEquipmentOptionAdd(user, to);
+            }
+            else
+            {
+                to->gems = from->gems;
+                to->craftName = from->craftName;
+                to->craftStrength = from->craftStrength;
+                to->craftDexterity = from->craftDexterity;
+                to->craftReaction = from->craftReaction;
+                to->craftIntelligence = from->craftIntelligence;
+                to->craftWisdom = from->craftWisdom;
+                to->craftLuck = from->craftLuck;
+                to->craftHealth = from->craftHealth;
+                to->craftMana = from->craftMana;
+                to->craftStamina = from->craftStamina;
+                to->craftAttackPower = from->craftAttackPower;
+                to->craftAbsorption = from->craftAbsorption;
+            }
+            
+            if (!incoming->fromBag)
+            {
+                CUser::ItemEquipmentOptionRem(user, from);
+
+                from->gems.fill(0);
+                CItem::InitCraftExpansion(from);
+                from->craftStrength = 0;
+                from->craftDexterity = 0;
+                from->craftReaction = 0;
+                from->craftIntelligence = 0;
+                from->craftWisdom = 0;
+                from->craftLuck = 0;
+                from->craftHealth = 0;
+                from->craftMana = 0;
+                from->craftStamina = 0;
+                from->craftAttackPower = 0;
+                from->craftAbsorption = 0;
+
+                CUser::ItemEquipmentOptionAdd(user, from);
+            }
+            else
+            {
+                from->gems.fill(0);
+                CItem::InitCraftExpansion(from);
+                from->craftStrength = 0;
+                from->craftDexterity = 0;
+                from->craftReaction = 0;
+                from->craftIntelligence = 0;
+                from->craftWisdom = 0;
+                from->craftLuck = 0;
+                from->craftHealth = 0;
+                from->craftMana = 0;
+                from->craftStamina = 0;
+                from->craftAttackPower = 0;
+                from->craftAbsorption = 0;
+            }
+
+            if (!user->initEquipment)
+            {
+                if (maxHealth != user->maxHealth)
+                    CUser::SendMaxHP(user);
+
+                if (maxMana != user->maxMana)
+                    CUser::SendMaxMP(user);
+
+                if (maxStamina != user->maxStamina)
+                    CUser::SendMaxSP(user);
+            }
+
+            CUser::SetAttack(user);
+
+            UserItemCraftNameIncoming packet1{ 0x717, user->userId, incoming->toBag, incoming->toSlot, to->craftName };
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet1, sizeof(UserItemCraftNameIncoming));
+
+            UserItemGemsIncoming packet2{ 0x711, user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money };
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet2, sizeof(UserItemGemsIncoming));
+
+            UserItemCraftNameIncoming packet3{ 0x717, user->userId, incoming->fromBag, incoming->fromSlot, from->craftName };
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet3, sizeof(UserItemCraftNameIncoming));
+
+            UserItemGemsIncoming packet4{ 0x711, user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money };
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet4, sizeof(UserItemGemsIncoming));
+
+            log1.itemUid = to->uniqueId;
+            log1.itemId = to->itemInfo->itemId;
+            log1.itemName = to->itemInfo->itemName;
+            log1.gems = to->gems;
+            log1.makeTime = to->makeTime;
+            log1.craftName = to->craftName;
+            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log1, sizeof(GameLogItemComposeIncoming));
+
+            log2.itemUid = from->uniqueId;
+            log2.itemId = from->itemInfo->itemId;
+            log2.itemName = from->itemInfo->itemName;
+            log2.gems = from->gems;
+            log2.makeTime = from->makeTime;
+            log2.craftName = from->craftName;
+            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log2, sizeof(GameLogItemComposeIncoming));
+        }
+
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemAbilityTransferOutgoing));
+    }
 }
 
 unsigned u0x479FBC = 0x479FBC;
@@ -640,6 +866,8 @@ void __declspec(naked) naked_0x479FB4()
         cmp eax,0x80D
         je case_0x80D
 #endif
+        cmp eax,0x811
+        je case_0x811
         cmp eax,0x830
         je case_0x830
         cmp eax,0x831
@@ -713,6 +941,18 @@ void __declspec(naked) naked_0x479FB4()
         call packet_gem::item_free_synthesis_handler
         add esp,0x8
         
+        popad
+
+        jmp exit_switch
+
+        case_0x811:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_ability_transfer_handler
+        add esp,0x8
+
         popad
 
         exit_switch:
