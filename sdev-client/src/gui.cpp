@@ -78,6 +78,26 @@ void __declspec(naked) naked_0x4B8755()
     }
 }
 
+unsigned u0x41F9ED = 0x41F9ED;
+unsigned u0x41F9C9 = 0x41F9C9;
+void __declspec(naked) naked_0x41F9C0()
+{
+    __asm
+    {
+        // character->wings
+        cmp dword ptr[esi+0x434],0x0
+        jne _0x41F9ED
+
+        // original
+        mov edx,[esi+0x10]
+        fld dword ptr ds:[0x748160]
+        jmp u0x41F9C9
+
+        _0x41F9ED:
+        jmp u0x41F9ED
+    }
+}
+
 void hook::gui()
 {
     // chat color bug workaround
@@ -88,6 +108,8 @@ void hook::gui()
     util::detour((void*)0x47E07F, naked_0x47E07F, 5);
     // weapon enchant bug
     util::detour((void*)0x4B8755, naked_0x4B8755, 5);
+    // dungeon wings shadow workaround
+    util::detour((void*)0x41F9C0, naked_0x41F9C0, 9);
 
     // remove ep6 vehicle section (auction board)
     util::write_memory((void*)0x463FE0, 0x07, 1);
