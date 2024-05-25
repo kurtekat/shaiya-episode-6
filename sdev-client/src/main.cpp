@@ -3,6 +3,5 @@
 void Main()
 {
     hook::gui();
-    hook::item();
     hook::packet();
 }

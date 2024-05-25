@@ -4,6 +4,7 @@
 namespace shaiya
 {
     struct CMonster;
+    struct CStaticText;
 
     typedef Array<UINT32, 6> Clothes;
     typedef Array<char, 51> ShapeName;
@@ -247,7 +248,11 @@ namespace shaiya
         PAD(31);
         char* guildName;              //0x30C
         ULONG guildId;                //0x310
-        PAD(32);
+        CStaticText* charNameText;    //0x314
+        long charNamePointX;          //0x318
+        CStaticText* guildNameText;   //0x31C
+        long guildNamePointX;         //0x320
+        PAD(16);
         UINT32 kills;                 //0x334
         PAD(136);
         UINT8 vehicleSeats;           //0x3C0

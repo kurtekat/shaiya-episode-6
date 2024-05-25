@@ -3,6 +3,8 @@
 
 namespace shaiya
 {
+    struct CStaticText;
+
     typedef Array<char, 52> NpcName;
 
     enum struct NpcType : UINT32
@@ -36,7 +38,12 @@ namespace shaiya
         UINT8 type;             //0x60
         PAD(1);
         UINT16 typeId;          //0x62
-        PAD(200);
+        PAD(168);
+        CStaticText* typeText;  //0x10C
+        long typePointX;        //0x110
+        CStaticText* nameText;  //0x114
+        long namePointX;        //0x118
+        PAD(16);
         // 0x12C
     };
     #pragma pack(pop)

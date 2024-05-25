@@ -1,5 +1,5 @@
 #include <include/main.h>
-#include <include/shaiya/static.h>
+#include <include/static.h>
 #include <include/shaiya/include/CCharacter.h>
 #include <include/shaiya/include/CNetwork.h>
 #include <include/shaiya/include/CWorldMgr.h>
@@ -38,10 +38,7 @@ namespace packet
     {
         std::copy_n(killer->charName.begin(), killer->charName.size(), g_static->t.begin());
         g_static->v = killCount;
-
-        // 509    "<t> killed  you <v> time(s)."
-        typedef void(__cdecl* LPFN)(int, int, int);
-        (*(LPFN)0x423150)(5, 509, 1);
+        Static::GetMsg(5, 509, 1);
     }
 }
 

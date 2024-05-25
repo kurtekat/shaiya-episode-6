@@ -5,6 +5,19 @@
 #include <include/main.h>
 #include <util/include/util.h>
 
+const std::array<std::uint16_t, 21> g_weapon_step
+{
+    0, 7, 14, 21, 31, 41, 51, 64, 77, 90, 106, 122, 138, 157, 176, 195, 217, 239, 261, 286, 311
+};
+
+int get_weapon_step(std::uint8_t step)
+{
+    if (step >= g_weapon_step.size())
+        return 0;
+
+    return g_weapon_step[step];
+}
+
 void format_chat_color_size(char* text)
 {
     auto len = std::strlen(&text[8]);
@@ -52,6 +65,19 @@ void __declspec(naked) naked_0x47E07F()
     }
 }
 
+unsigned u0x4B8766 = 0x4B8766;
+void __declspec(naked) naked_0x4B8755()
+{
+    __asm
+    {
+        push eax // step
+        call get_weapon_step
+        add esp,0x4
+
+        jmp u0x4B8766
+    }
+}
+
 void hook::gui()
 {
     // chat color bug workaround
@@ -60,6 +86,8 @@ void hook::gui()
     util::detour((void*)0x57C565, naked_0x57C565, 5);
     // message box
     util::detour((void*)0x47E07F, naked_0x47E07F, 5);
+    // weapon enchant bug
+    util::detour((void*)0x4B8755, naked_0x4B8755, 5);
 
     // remove ep6 vehicle section (auction board)
     util::write_memory((void*)0x463FE0, 0x07, 1);
@@ -72,4 +100,9 @@ void hook::gui()
     util::write_memory((void*)0x501633, 0x02, 1);
     util::write_memory((void*)0x501644, 0x03, 1);
     util::write_memory((void*)0x50164D, 0x03, 1);
+    // costume lag workaround
+    util::write_memory((void*)0x56F38D, 0x75, 1);
+    util::write_memory((void*)0x583DED, 0x75, 1);
+    // pet/wing lag workaround
+    util::write_memory((void*)0x5881EE, 0x85, 1);
 }

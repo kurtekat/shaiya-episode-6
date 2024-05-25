@@ -154,7 +154,9 @@ namespace shaiya
         PAD(96);
         LPDIRECT3D9 d3d9;          //0x22B6DC0  0x410
         LPDIRECT3DDEVICE9 device;  //0x22B6DC4  0x414
-        PAD(3088);
+        PAD(8);
+        void* staticText;          //0x22B6DD0  0x420
+        PAD(3076);
         LPDIRECTDRAW directDraw;   //0x22B79D8  0x1028
         PAD(1544);
         // 0x1634
@@ -228,6 +230,8 @@ namespace shaiya
         PAD(708);
         HMODULE hModule;                    //0x22FFA48
         //
+
+        static void GetMsg(int type, int line, int unknown);
     };
     #pragma pack(pop)
 }
