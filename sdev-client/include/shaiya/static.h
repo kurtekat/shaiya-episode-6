@@ -134,31 +134,29 @@ namespace shaiya
         // Character->pos
         D3DVECTOR target;          //0x22B6AA0  0xF0
         D3DMATRIX mat1;            //0x22B6AAC  0xFC
-        D3DMATRIX mat2;            //0x22B6AFC  0x13C
-        D3DMATRIX mat3;            //0x22B6B4C  0x17C
-        D3DMATRIX mat4;            //0x22B6B9C  0x1BC
-        // 0x22B6BDC  0x1FC
-        PAD(276);
-        D3DCOLOR fogColor;         //0x22B6CF0  0x310
-        PAD(20);
-        // 0x22B6D08  0x328
+        D3DMATRIX mat2;            //0x22B6AEC  0x13C
+        D3DMATRIX mat3;            //0x22B6B2C  0x17C
+        D3DMATRIX mat4;            //0x22B6B6C  0x1BC
+        // 0x22B6BAC  0x1FC
+        PAD(348);
+        // 0x22B6D08  0x358
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer1;
-        // 0x22B6D0C  0x32C
+        // 0x22B6D0C  0x35C
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer2;
         PAD(4);
-        // 0x22B6D14  0x334
+        // 0x22B6D14  0x364
         D3DPRESENT_PARAMETERS presentParameters;
-        LPD3DXFONT font1;          //0x22B6D4C  0x36C
-        LPD3DXFONT font2;          //0x22B6D50  0x370
-        LPD3DXFONT font3;          //0x22B6D54  0x374
-        LPD3DXFONT font4;          //0x22B6D58  0x378
-        HFONT hFont;               //0x22B6D5C  0x37C
+        LPD3DXFONT font1;          //0x22B6D4C  0x39C
+        LPD3DXFONT font2;          //0x22B6D50  0x3A0
+        LPD3DXFONT font3;          //0x22B6D54  0x3A4
+        LPD3DXFONT font4;          //0x22B6D58  0x3A8
+        HFONT hFont;               //0x22B6D5C  0x3AC
         PAD(96);
-        LPDIRECT3D9 d3d9;          //0x22B6DC0  0x3E0
-        LPDIRECT3DDEVICE9 device;  //0x22B6DC4  0x3E4
+        LPDIRECT3D9 d3d9;          //0x22B6DC0  0x410
+        LPDIRECT3DDEVICE9 device;  //0x22B6DC4  0x414
         PAD(3088);
-        LPDIRECTDRAW directDraw;   //0x22B79D8  0xFF8
-        PAD(1592);
+        LPDIRECTDRAW directDraw;   //0x22B79D8  0x1028
+        PAD(1544);
         // 0x1634
     };
     #pragma pack(pop)
