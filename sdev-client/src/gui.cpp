@@ -98,6 +98,30 @@ void __declspec(naked) naked_0x41F9C0()
     }
 }
 
+unsigned u0x41BB40 = 0x41BB40;
+unsigned u0x4110F0 = 0x4110F0;
+unsigned u0x41F5E6 = 0x41F5E6;
+unsigned u0x41E2CD = 0x41E2CD;
+void __declspec(naked) naked_0x41E2BB()
+{
+    __asm
+    {
+        // original
+        mov ecx,esi
+        call u0x41BB40
+        test eax,eax
+        jne original
+        // continue
+        jmp u0x41E2CD
+
+        original:
+        mov ecx,esi
+        call u0x4110F0
+        // exit
+        jmp u0x41F5E6
+    }
+}
+
 void hook::gui()
 {
     // chat color bug workaround
@@ -110,6 +134,8 @@ void hook::gui()
     util::detour((void*)0x4B8755, naked_0x4B8755, 5);
     // dungeon wings shadow workaround
     util::detour((void*)0x41F9C0, naked_0x41F9C0, 9);
+    // evolution bug
+    util::detour((void*)0x41E2BB, naked_0x41E2BB, 7);
 
     // remove ep6 vehicle section (auction board)
     util::write_memory((void*)0x463FE0, 0x07, 1);
