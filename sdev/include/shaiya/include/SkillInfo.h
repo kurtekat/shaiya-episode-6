@@ -129,7 +129,7 @@ namespace shaiya
         UINT8 skillLv;            //0x02
         SkillName skillName;      //0x03
         PAD(1);
-        UINT16 level;             //0x24
+        UINT16 reqLevel;          //0x24
         UINT8 country;            //0x26
         ReqJob job;               //0x27
         Grow grow;                //0x2D
