@@ -554,3 +554,70 @@ function WhileCombat(dwTime, dwHPPercent, dwAttackedCount)
     end
 end
 ```
+
+## Sending Notices
+
+```cpp
+#include <string>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+#include <include/main.h>
+#include <include/shaiya/packets/F900.h>
+#include <include/shaiya/include/CUser.h>
+#include <include/shaiya/include/CWorld.h>
+#include <include/shaiya/include/SConnection.h>
+using namespace shaiya;
+
+void sendNoticeAll(const std::string& message)
+{
+    constexpr int length_without_message = 3;
+
+    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
+    if (messageLength > sizeof(ChatMessage))
+        return;
+
+    AdminCmdNoticeAllOutgoing notice{};
+    notice.messageLength = messageLength;
+    std::copy(message.begin(), message.end(), notice.message.begin());
+
+    int length = notice.messageLength + length_without_message;
+    CWorld::SendAll(&notice, length);
+}
+
+void sendNoticeTo(CUser* user, const std::string& message)
+{
+    constexpr int length_without_message = 3;
+
+    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
+    if (messageLength > sizeof(ChatMessage))
+        return;
+
+    AdminCmdNoticeToOutgoing notice{};
+    notice.messageLength = messageLength;
+    std::copy(message.begin(), message.end(), notice.message.begin());
+
+    int length = notice.messageLength + length_without_message;
+    SConnection::Send(&user->connection, &notice, length);
+}
+
+void sendNoticeTo(std::uint32_t charId, const std::string& message)
+{
+    constexpr int length_without_message = 3;
+
+    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
+    if (messageLength > sizeof(ChatMessage))
+        return;
+
+    auto user = CWorld::FindUser(charId);
+    if (!user)
+        return;
+
+    AdminCmdNoticeToOutgoing notice{};
+    notice.messageLength = messageLength;
+    std::copy(message.begin(), message.end(), notice.message.begin());
+
+    int length = notice.messageLength + length_without_message;
+    SConnection::Send(&user->connection, &notice, length);
+}
+```
