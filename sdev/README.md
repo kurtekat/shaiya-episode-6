@@ -291,6 +291,10 @@ The base success rate is 30 percent.
 | 0x16021200    | No           |
 | 0x16032100    | No           |
 
+## Perfect Lapisian Cube
+
+Use item 101101 to activate the window. There is no item effect. See system message 510 for more information.
+
 # Notes
 
 This section will document some things that may be of interest. Some of the notes are based on modifications.

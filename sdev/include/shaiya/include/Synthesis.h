@@ -25,7 +25,6 @@ namespace shaiya
         std::uint8_t createCount;
 
         static void init();
-        static bool useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId, std::uint8_t count);
 
     private:
 

@@ -6,6 +6,7 @@
 #include <windows.h>
 
 #include <include/main.h>
+#include <include/shaiya/packets/0200.h>
 #include <include/shaiya/packets/0800.h>
 #include <include/shaiya/packets/dbAgent/0700.h>
 #include <include/shaiya/packets/gameLog/0400.h>
@@ -13,6 +14,7 @@
 #include <include/shaiya/include/CClientToGameLog.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CItem.h>
+#include <include/shaiya/include/CObjectMgr.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
 #include <include/shaiya/include/ItemInfo.h>
@@ -31,6 +33,66 @@ namespace packet_gem
                 return slot;
 
         return -1;
+    }
+
+    bool use_material(CUser* user, ItemInfo* itemInfo, std::uint8_t count)
+    {
+        if (!itemInfo || !count)
+            return false;
+
+        for (const auto& [bag, items] : std::views::enumerate(
+            std::as_const(user->inventory)))
+        {
+            if (!bag)
+                continue;
+
+            for (const auto& [slot, item] : std::views::enumerate(
+                std::as_const(items)))
+            {
+                if (!item)
+                    continue;
+
+                if (item->itemInfo->itemId != itemInfo->itemId || item->count < count)
+                    continue;
+
+                item->count -= count;
+
+                UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
+                SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemRemoveIncoming));
+
+                GameLogItemRemoveIncoming log{};
+                CUser::SetGameLogMain(user, &log);
+
+                log.itemUid = item->uniqueId;
+                log.itemId = item->itemInfo->itemId;
+                log.itemName = item->itemInfo->itemName;
+                log.gems = item->gems;
+                log.makeTime = item->makeTime;
+                log.craftName = item->craftName;
+                log.bag = bag;
+                log.slot = slot;
+                log.count = count;
+                SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
+
+                if (!item->count)
+                {
+                    ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), 0, 0, 0 };
+                    SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+
+                    CObjectMgr::FreeItem(item);
+                    user->inventory[bag][slot] = nullptr;
+                }
+                else
+                {
+                    ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), item->type, item->typeId, item->count };
+                    SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
@@ -118,6 +180,82 @@ namespace packet_gem
         }
     }
 
+    void item_lapisian_combine_handler(CUser* user, ItemLapisianCombineIncoming* incoming)
+    {
+        if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
+            return;
+
+        auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
+        if (!cube)
+            return;
+
+        // no effect :/
+        if (cube->itemInfo->itemId != 101101)
+            return;
+
+        if (incoming->lapisianType != std::to_underlying(ItemType::Lapisian))
+            return;
+
+        auto itemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId);
+        if (!itemInfo)
+            return;
+
+        auto lapisianLv = itemInfo->attackTime;
+        if (lapisianLv < 6 || lapisianLv > 19)
+            return;
+
+        int requiredCount = 0;
+        if (lapisianLv >= 6 && lapisianLv <= 10)
+            requiredCount = 3;
+        else if (lapisianLv >= 11 && lapisianLv <= 15)
+            requiredCount = 4;
+        else if (lapisianLv >= 16 && lapisianLv <= 19)
+            requiredCount = 5;
+        
+        if (!requiredCount)
+            return;
+
+        auto createType = incoming->lapisianType;
+        auto createTypeId = incoming->lapisianTypeId + 1;
+
+        auto createInfo = CGameData::GetItemInfo(createType, createTypeId);
+        if (!createInfo)
+            return;
+
+        CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
+
+        bool hasMaterials = false;
+        for (int i = 0; i < requiredCount; ++i)
+            hasMaterials = use_material(user, itemInfo, 1);
+
+        if (hasMaterials)
+        {
+            ItemLapisianCombineOutgoing outgoing{};
+            outgoing.result = ItemLapisianCombineResult::Success;
+            outgoing.bag = 1;
+            outgoing.slot = 0;
+            outgoing.type = createInfo->type;
+            outgoing.typeId = createInfo->typeId;
+            outgoing.count = 1;
+
+            while (outgoing.bag <= user->bagsUnlocked)
+            {
+                outgoing.slot = find_available_slot(user, outgoing.bag);
+
+                if (outgoing.slot != -1)
+                {
+                    if (!CUser::ItemCreate(user, createInfo, outgoing.count))
+                        break;
+
+                    SConnection::Send(&user->connection, &outgoing, sizeof(ItemLapisianCombineOutgoing));
+                    break;
+                }
+
+                ++outgoing.bag;
+            }
+        }
+    }
+
     void item_compose_handler(CUser* user, ItemComposeIncoming* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -137,12 +275,6 @@ namespace packet_gem
         ItemComposeOutgoing outgoing{};
         outgoing.result = ItemComposeResult::Failure;
 
-        if (item->itemInfo->realType > ItemRealType::Bracelet)
-        {
-            SConnection::Send(&user->connection, &outgoing, 3);
-            return;
-        }
-
         if (!item->itemInfo->composeCount)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
@@ -155,6 +287,7 @@ namespace packet_gem
             return;
         }
 
+        // optional
         if (item->makeType == ItemMakeType::QuestResult)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
@@ -607,10 +740,11 @@ namespace packet_gem
         bool hasMaterials = false;
         for (const auto& [type, typeId, count] : materials)
         {
-            if (!type || !typeId || !count)
+            auto itemInfo = CGameData::GetItemInfo(type, typeId);
+            if (!itemInfo || !count)
                 continue;
 
-            hasMaterials = Synthesis::useMaterial(user, type, typeId, count);
+            hasMaterials = use_material(user, itemInfo, count);
         }
 
         ItemSynthesisOutgoing outgoing{};
@@ -658,7 +792,7 @@ namespace packet_gem
         if (!to)
             return;
 
-        if (from->itemInfo->realType != to->itemInfo->realType)
+        if (to->itemInfo->realType != from->itemInfo->realType)
             return;
 
         if (to->itemInfo->level < from->itemInfo->level)
@@ -866,6 +1000,8 @@ void __declspec(naked) naked_0x479FB4()
         cmp eax,0x80D
         je case_0x80D
 #endif
+        cmp eax,0x80E
+        je case_0x80E
         cmp eax,0x811
         je case_0x811
         cmp eax,0x830
@@ -894,6 +1030,30 @@ void __declspec(naked) naked_0x479FB4()
 
         jmp exit_switch
 #endif
+
+        case_0x80E:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_lapisian_combine_handler
+        add esp,0x8
+        
+        popad
+
+        jmp exit_switch
+
+        case_0x811:
+        pushad
+
+        push esi // packet
+        push edi // user
+        call packet_gem::item_ability_transfer_handler
+        add esp,0x8
+
+        popad
+
+        jmp exit_switch
 
         // chaotic squares
 
@@ -941,18 +1101,6 @@ void __declspec(naked) naked_0x479FB4()
         call packet_gem::item_free_synthesis_handler
         add esp,0x8
         
-        popad
-
-        jmp exit_switch
-
-        case_0x811:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_ability_transfer_handler
-        add esp,0x8
-
         popad
 
         exit_switch:

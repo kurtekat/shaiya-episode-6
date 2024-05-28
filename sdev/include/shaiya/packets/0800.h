@@ -25,6 +25,14 @@ namespace shaiya
         Failure
     };
 
+    enum struct ItemLapisianCombineResult : UINT8
+    {
+        Success,
+        Unknown1,
+        Unknown2,
+        Unknown3,
+    };
+
     enum struct ItemSynthesisResult : UINT8
     {
         Success = 1,
@@ -123,6 +131,33 @@ namespace shaiya
     {
         UINT16 opcode{ 0x80D };
         ItemRuneCombineResult result;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT16 quality;
+        Gems gems;
+        UINT8 count;
+        CraftName craftName;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianCombineIncoming
+    {
+        UINT16 opcode{ 0x80E };
+        UINT8 cubeBag;
+        UINT8 cubeSlot;
+        UINT8 lapisianType;
+        UINT8 lapisianTypeId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianCombineOutgoing
+    {
+        UINT16 opcode{ 0x80E };
+        ItemLapisianCombineResult result;
         UINT8 bag;
         UINT8 slot;
         UINT8 type;

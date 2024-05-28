@@ -6,19 +6,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/dbAgent/0700.h>
-#include <include/shaiya/packets/gameLog/0400.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CClientToGameLog.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CObjectMgr.h>
 #include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/Ini.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/SLog.h>
 #include <include/shaiya/include/Synthesis.h>
 #include <util/include/util.h>
@@ -89,60 +78,4 @@ void Synthesis::parseMaterial(const std::string& text, std::array<std::uint8_t, 
         return;
 
     std::copy(vec.begin(), vec.end(), output.begin());
-}
-
-bool Synthesis::useMaterial(CUser* user, std::uint8_t type, std::uint8_t typeId, std::uint8_t count)
-{
-    auto itemId = (type * 1000U) + typeId;
-
-    for (const auto& [bag, items] : std::views::enumerate(
-        std::as_const(user->inventory)))
-    {
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(items)))
-        {
-            if (!item)
-                continue;
-
-            if (item->itemInfo->itemId != itemId || item->count < count)
-                continue;
-
-            item->count -= count;
-
-            UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemRemoveIncoming));
-
-            GameLogItemRemoveIncoming log{};
-            CUser::SetGameLogMain(user, &log);
-
-            log.itemUid = item->uniqueId;
-            log.itemId = item->itemInfo->itemId;
-            log.itemName = item->itemInfo->itemName;
-            log.gems = item->gems;
-            log.makeTime = item->makeTime;
-            log.craftName = item->craftName;
-            log.bag = bag;
-            log.slot = slot;
-            log.count = count;
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
-
-            if (!item->count)
-            {
-                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), 0, 0, 0 };
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-
-                CObjectMgr::FreeItem(item);
-                user->inventory[bag][slot] = nullptr;
-            }
-            else
-            {
-                ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), item->type, item->typeId, item->count };
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-            }
-
-            return true;
-        }
-    }
-
-    return false;
 }
