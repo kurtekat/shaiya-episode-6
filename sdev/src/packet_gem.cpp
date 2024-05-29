@@ -95,6 +95,49 @@ namespace packet_gem
         return false;
     }
 
+    bool enable_perfect_enchant_step(CItem* lapisian, CItem* item)
+    {
+        constexpr int max_enchant_step = 20;
+
+        auto enchantStep = CItem::GetEnchantStep(item);
+        if (enchantStep >= max_enchant_step)
+            return false;
+
+        auto successRate = lapisian->itemInfo->reqRec;
+        if (successRate != 10000)
+            return false;
+
+        auto lapisianLv = lapisian->itemInfo->attackTime;
+        if (!lapisianLv || lapisianLv > max_enchant_step)
+            return false;
+
+        // Hot Time Lapisia +1
+        if (enchantStep < 10 && lapisian->itemInfo->itemId == 95005)
+            return true;
+
+        auto lapisianStep = lapisian->itemInfo->range;
+        auto lapisianType = static_cast<std::uint8_t>(lapisian->itemInfo->country);
+
+        if (CItem::IsWeapon(item))
+        {
+            // Weapon Lapisia +1
+            if (enchantStep < 10 && lapisian->itemInfo->itemId == 95004)
+                return true;
+            else if (enchantStep == lapisianStep && lapisianType == 0)
+                return true;
+        }
+        else
+        {
+            // Armor Lapisia +1
+            if (enchantStep < 10 && lapisian->itemInfo->itemId == 95009)
+                return true;
+            else if (enchantStep == lapisianStep && lapisianType == 1)
+                return true;    
+        }
+
+        return false;
+    }
+
     void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -198,6 +241,10 @@ namespace packet_gem
 
         auto itemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId);
         if (!itemInfo)
+            return;
+
+        auto successRate = itemInfo->reqRec;
+        if (successRate != 10000)
             return;
 
         auto lapisianLv = itemInfo->attackTime;
@@ -1129,6 +1176,40 @@ void __declspec(naked) naked_0x47A003()
     }
 }
 
+unsigned u0x47AAE0 = 0x47AAE0;
+unsigned u0x46CCF5 = 0x46CCF5;
+unsigned u0x46CD83 = 0x46CD83;
+void __declspec(naked) naked_0x46CCF0()
+{
+    __asm
+    {
+        // original
+        call u0x47AAE0
+
+        pushad
+
+        mov eax,[esp+0x3C]
+        push eax // item
+        push esi // lapisian
+        call packet_gem::enable_perfect_enchant_step
+        add esp,0x8
+        test al,al
+
+        popad
+
+        jne add_enchant_step
+        jmp u0x46CCF5
+
+        add_enchant_step:
+        // isWeapon
+        movzx ecx,byte ptr[esp+0x18]
+        // enchant step
+        movzx edx,byte ptr[esp+0x13]
+        lea edx,[ecx+edx*2]
+        jmp u0x46CD83
+    }
+}
+
 void hook::packet_gem()
 {
     // CUser::PacketGem
@@ -1137,5 +1218,7 @@ void hook::packet_gem()
 #ifdef SHAIYA_EP6_BLACKSMITH
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
+    // CUser::ItemLapisianAdd
+    util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
 #endif
 }
