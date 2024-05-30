@@ -311,8 +311,8 @@ void hook::user_equipment()
     util::write_memory((void*)0x47395E, &a00, 2);
     util::write_memory((void*)0x47398F, &a00, 2);
 
-    // change 0x1A6 (user->itemQuality) to 0x5D0C
-    std::array<std::uint8_t, 2> a01{ 0x0C, 0x5D };
+    // change 0x1A6 (user->itemQuality) to 0x5DC0
+    std::array<std::uint8_t, 2> a01{ 0xC0, 0x5D };
 
     // CUser::ItemDropByUserDeath
     util::write_memory((void*)0x46754C, &a01, 2);
