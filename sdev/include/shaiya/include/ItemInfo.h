@@ -1,132 +1,62 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <array>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Attribute.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/item/ExtDuration.h>
+#include <shaiya/include/item/ItemEffect.h>
+#include <shaiya/include/item/ItemType.h>
+#include <shaiya/include/item/ReqOg.h>
 
 namespace shaiya
 {
-    typedef Array<char, 32> ItemName;
+    using ItemName = std::array<char, 32>;
 
     enum ItemCooldown
     {
-        Zero = 0,      // 0x581D84
-        One = 15000,   // 0x581D88
-        Two = 20000,   // 0x581D8C
-        Three = 25000, // 0x581D90
-        Four = 30000,  // 0x581D94
-        Five = 60000,  // 0x581D98
-        Six = 120000,  // 0x581D9C
-        Seven = 0,     // 0x581DA0
-        Eight = 0,     // 0x581DA4
-        Nine = 0,      // 0x581DA8
-        Ten = 600000,  // 0x581DAC
-        Eleven = 2000  // 0x581DB0
+        ReqIg_0 = 0,        // 0x581D84
+        ReqIg_1 = 15000,    // 0x581D88
+        ReqIg_2 = 20000,    // 0x581D8C
+        ReqIg_3 = 25000,    // 0x581D90
+        ReqIg_4 = 30000,    // 0x581D94
+        ReqIg_5 = 60000,    // 0x581D98
+        ReqIg_6 = 120000,   // 0x581D9C
+        ReqIg_7 = 0,        // 0x581DA0
+        ReqIg_8 = 0,        // 0x581DA4
+        ReqIg_9 = 0,        // 0x581DA8
+        ReqIg_10 = 600000,  // 0x581DAC
+        ReqIg_11 = 2000     // 0x581DB0
     };
 
-    enum struct ItemCountry : UINT8
+    enum struct ItemRealType : UINT32
     {
-        Human,
-        Elf,
-        Light,
-        DeathEater,
-        Vail,
-        Fury,
-        Neutral
-    };
-
-    enum struct ItemEffect : UINT8
-    {
-        HypnosisCure = 1,
-        StunCure,
-        SilenceCure,
-        DarknessCure,
-        StopCure,
-        SlowCure,
-        ProtectedFaint,
-        ProtectedDeath,
-        VenomCure,
-        DiseaseCure,
-        DisorderCure,
-        ArcanePotion = 17,
-        CurePotion,
-        DispelPotion,
-        AbolishingPotion,
-        BlessingPotion,
-        HolyPotion,
-        PerfectCure = 26,
-        GoddessBlessing = 30,
-        PartyMemberSummon,
-        PartyMemberMoveTo,
-        SkillReset,
-        StatReset,
-        WarehouseRecall,
-        LinkingHammer,
-        Resurrection,
-        MessageToServer,
-        Teleportation,
-        RepairHammer,
-        TargetResurrect,
-        ItemCreate,
-        IncreaseFame,
-        AppearanceChange,
-        SexChange,
-        Firework,
-        CapitalRecall,
-        BootleggeryRecall,
-        ArenaRecall,
-        ExpRemoval,
-        NameChange,
-        Etin1,
-        Etin10,
-        Etin100,
-        Etin1000,
-        GuildHouseRecall,
-        LuckyCharm,
-        ExtractionHammer,
-        MoveWar,
-        ItemCompose = 62,
-        Promotion,
-        EquipMale,
-        EquipFemale,
-        PerfectLinkingHammer = 69,
-        MobGen = 73,
-        CrowleyEssence = 85,
-        ItemComposeStr,
-        ItemComposeDex,
-        ItemComposeInt,
-        ItemComposeWis,
-        ItemComposeRec,
-        ItemComposeLuc,
-        CrowleyLiquid,
-        ItemRemakeStr,
-        ItemRemakeDex,
-        ItemRemakeInt,
-        ItemRemakeWis,
-        ItemRemakeRec,
-        ItemRemakeLuc,
-        ChaoticSquare,
-        DungeonMap,
-        CraftingHammer = 102,
-        SafetyEnchant,
-        TownTeleportScroll,
-        TransferRubiksCube,
-        Catalyst,
-        EnchantEnhancer,
-        Dye = 110,
-        HaloReactor,
-        Spellbook,
-        EternalContinuousResurrect,
-        EternalPreventItemDrop,
-        EternalPreventExpDrop,
-        TyrosStone,
-        AbsoluteRecreationRune,
-        NpcRecall = 200,
-        Item500 = 210
-    };
-
-    enum struct ItemExtDuration : UINT8
-    {
-        None,
-        Unexpandable,
-        Expandable
+        OneHandedSword = 1,
+        TwoHandedSword,
+        OneHandedAxe,
+        TwoHandedAxe,
+        DualWeapon,
+        Spear,
+        OneHandedBlunt,
+        TwoHandedBlunt,
+        ReverseDagger,
+        Dagger,
+        Javelin,
+        Staff,
+        Bow,
+        Crossbow,
+        Knuckles,
+        Helmet,
+        UpperArmor,
+        LowerArmor,
+        Shield,
+        Gloves,
+        Shoes,
+        Ring,
+        Necklace,
+        Cloak,
+        Bracelet,
+        Teleportation
     };
 
     enum struct ItemMarketType : UINT8
@@ -161,158 +91,6 @@ namespace shaiya
         HighQuality
     };
 
-    enum struct ItemRealType : UINT32
-    {
-        OneHandedSword = 1,
-        TwoHandedSword,
-        OneHandedAxe,
-        TwoHandedAxe,
-        DualWeapon,
-        Spear,
-        OneHandedBlunt,
-        TwoHandedBlunt,
-        ReverseDagger,
-        Dagger,
-        Javelin,
-        Staff,
-        Bow,
-        Crossbow,
-        Knuckles,
-        Helmet,
-        UpperArmor,
-        LowerArmor,
-        Shield,
-        Gloves,
-        Shoes,
-        Ring,
-        Necklace,
-        Cloak,
-        Bracelet,
-        Teleportation
-    };
-
-    enum struct ItemType : UINT8
-    {
-        OneHandedSword = 1,
-        TwoHandedSword,
-        OneHandedAxe,
-        TwoHandedAxe,
-        DualWield,
-        Spear,
-        OneHandedBlunt,
-        TwoHandedBlunt,
-        ReverseDagger,
-        Dagger,
-        Javelin,
-        Staff,
-        Bow,
-        Crossbow,
-        Knuckles,
-        LightHelmet,
-        LightUpperArmor,
-        LightLowerArmor,
-        LightShield,
-        LightGloves,
-        LightShoes,
-        Ring,
-        Necklace,
-        LightCloak,
-        Consumable25,
-        Gold,
-        Quest27,
-        Quest28,
-        Quest29,
-        Gem,
-        FuryHelmet,
-        FuryUpperArmor,
-        FuryLowerArmor,
-        Unknown34,
-        FuryGloves,
-        FuryShoes,
-        Ring2,
-        Consumable38,
-        FuryCloak,
-        Bracelet,
-        Consumable41,
-        Vehicle,
-        Etin,
-        Consumable44,
-        OneHandedSword2,
-        TwoHandedSword2,
-        OneHandedAxe2,
-        TwoHandedAxe2,
-        DualWield2,
-        DualWield3,
-        Spear2,
-        Spear3,
-        OneHandedBlunt2,
-        OneHandedBlunt3,
-        TwoHandedBlunt2,
-        TwoHandedBlunt3,
-        ReverseDagger2,
-        Dagger2,
-        Javelin2,
-        Staff2,
-        Staff3,
-        Bow2,
-        Bow3,
-        Crossbow2,
-        Knuckles2,
-        Unknown66,
-        LightUpperArmor2,
-        LightLowerArmor2,
-        LightShield2,
-        LightGloves2,
-        LightBoots2,
-        LightHelmet3,
-        LightUpperArmor3,
-        LightLowerArmor3,
-        Unknown75,
-        LightGloves3,
-        LightShoes3,
-        Unknown78,
-        Unknown79,
-        Unknown80,
-        Unknown81,
-        FuryUpperArmor2,
-        FuryLowerArmor2,
-        FuryShield2,
-        FuryGloves2,
-        FuryShoes2,
-        FuryHelmet3,
-        FuryUpperArmor3,
-        FuryLowerArmor3,
-        Unknown90,
-        FuryGloves3,
-        FuryShoes3,
-        Unknown93,
-        GoldBar,
-        Lapisian,
-        Necklace2,
-        Bracelet2,
-        Unknown98,
-        Quest99,
-        Special100,
-        Special101,
-        Special102,
-        Pet = 120,
-        Wings,
-        Costume = 150
-    };
-
-    enum struct ItemPerfectLapisianType : UINT8
-    {
-        Weapon,
-        Armor
-    };
-
-    enum struct ItemReqOg : UINT8
-    {
-        Tradable,
-        AccountBound,
-        CharacterBound
-    };
-
     #pragma pack(push, 1)
     struct ItemInfo
     {
@@ -320,12 +98,17 @@ namespace shaiya
         ItemName itemName;          //0x04
         UINT8 type;                 //0x24
         UINT8 typeId;               //0x25
-        ItemCountry country;        //0x26
-        ReqJob job;                 //0x27
+        Country3 country;           //0x26
+        bool attackFighter;         //0x27
+        bool defenseFighter;        //0x28
+        bool patrolRogue;           //0x29
+        bool shootRogue;            //0x2A
+        bool attackMage;            //0x2B
+        bool defenseMage;;          //0x2C
         PAD(1);
-        UINT16 level;               //0x2E
+        UINT16 reqLevel;            //0x2E
         Grow grow;                  //0x30
-        ItemReqOg reqOg;            //0x31
+        ReqOg reqOg;                //0x31
         UINT8 reqIg;                //0x32
         PAD(1);
         UINT16 reqVg;               //0x34
@@ -373,8 +156,7 @@ namespace shaiya
         UINT32 sell;                //0x84
         // custom
         UINT32 duration;            //0x88
-        // 0x8C
-        ItemExtDuration extDuration;
+        ExtDuration extDuration;    //0x8C
         PAD(19);
         ItemRealType realType;      //0xA0
         ItemMarketType marketType;  //0xA4

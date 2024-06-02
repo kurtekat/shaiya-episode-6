@@ -1,140 +1,23 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Family.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/Sex.h>
+#include <shaiya/include/user/MotionType.h>
+#include <shaiya/include/user/ShapeType.h>
 
 namespace shaiya
 {
     struct CMonster;
     struct CStaticText;
 
-    typedef Array<UINT32, 6> Clothes;
-    typedef Array<char, 51> ShapeName;
+    using Clothes = std::array<UINT32, 6>;
+    using ShapeName = std::array<char, 51>;
 
-    enum struct CharacterAnimation : UINT32
-    {
-        None,
-        Walk,
-        Run,
-        WalkBack,
-        WalkLeft,
-        WalkRight,
-        Wade,
-        Swim,
-        Jump,
-        Death,
-        SitDown,
-        StandUp,
-        Break,
-        JumpBack,
-        JumpLeft,
-        JumpRight,
-        Idle1,
-        Idle2,
-        Climb,
-        SelectionScreen,
-        VehicleRunMode,
-        Vehicle,
-        Snowboard,
-        TwoHandedAtkMode,
-        TwoHandedAttack1,
-        TwoHandedAttack2,
-        TwoHandedAttack3,
-        TwoHandedAttack4,
-        TwoHandedDamage,
-        TwoHandedRunMode,
-        BowAtkMode,
-        BowAttack,
-        BowDamage,
-        BowRunMode,
-        OneHandedAtkMode,
-        OneHandedAttack1,
-        OneHandedAttack2,
-        OneHandedAttack3,
-        OneHandedAttack4,
-        OneHandedDamage,
-        OneHandedRunMode,
-        DualWieldAtkMode,
-        DualWieldAttack1,
-        DualWieldAttack2,
-        DualWieldAttack3,
-        DualWieldAttack4,
-        DualWieldDamage,
-        DualWieldRunMode,
-        SpearAtkMode,
-        SpearAttack1,
-        SpearAttack2,
-        SpearAttack3,
-        SpearAttack4,
-        SpearDamage,
-        SpearRunMode,
-        JavelinAtkMode,
-        JavelinAttack,
-        JavelinDamage,
-        JavelinRunMode,
-        StaffAtkMode,
-        StaffAttack1,
-        StaffAttack2,
-        StaffDamage,
-        StaffRunMode,
-        ReverseAtkMode,
-        ReverseAttack1,
-        ReverseAttack2,
-        ReverseAttack3,
-        ReverseAttack4,
-        ReverseDamage,
-        ReverseRunMode,
-        KnuckleAtkMode,
-        KnuckleAttack1,
-        KnuckleAttack2,
-        KnuckleAttack3,
-        KnuckleAttack4,
-        KnuckleDamage,
-        KnuckleRunMode,
-        DaggerAtkMode,
-        DaggerAttack1,
-        DaggerAttack2,
-        DaggerAttack3,
-        DaggerAttack4,
-        DaggerDamage,
-        DaggerRunMode,
-        Cast85,
-        Cast86,
-        UseSkill87,
-        Cast88,
-        Cast89,
-        UseSkill90,
-        Cast91,
-        Cast92,
-        UseSkill93,
-        Cast94,
-        Cast95,
-        UseSkill96,
-        Cast97,
-        Cast98,
-        UseSkill99,
-        Skill100,
-        Skill101,
-        Skill102,
-        Skill103,
-        Skill104,
-        Skill105,
-        Skill106,
-        Skill107,
-        Skill108,
-        Skill109,
-        Skill110,
-        Beg = 116,
-        Victory,
-        Laugh,
-        Love,
-        Greet,
-        Clap,
-        Defeat,
-        Start,
-        Insult,
-        Provoke
-    };
-
-    enum struct CharacterAction : UINT32
+    enum struct CharacterActionType : UINT32
     {
         Idle,
         Move,
@@ -167,12 +50,11 @@ namespace shaiya
         Clothes clothes;              //0xB0
         // 0xC8
         PAD(32);
-        // 0xE8
-        CharacterAnimation animation;
-        // 0xEC
-        CharacterAnimation animation2;
+        MotionType32 motionType1;     //0xE8
+        MotionType32 motionType2;     //0xEC
         PAD(8);
-        CharacterAction action;       //0xF8
+        // 0xF8
+        CharacterActionType actionType1;
         PAD(16);
         CharName charName;            //0x10C
         ShapeName shapeName;          //0x121
@@ -224,7 +106,8 @@ namespace shaiya
         PAD(18);
         DWORD attackTime;             //0x1DC
         DWORD actionTime;             //0x1E0
-        CharacterAction action2;      //0x1E4
+        // 0x1E4
+        CharacterActionType actionType2;
         bool isEmoteAction;           //0x1E8
         PAD(3);
         ULONG attackTargetId;         //0x1EC
@@ -255,7 +138,7 @@ namespace shaiya
         PAD(16);
         UINT32 kills;                 //0x334
         PAD(136);
-        UINT8 vehicleSeats;           //0x3C0
+        UINT8 vehicleSeatCount;       //0x3C0
         UINT8 vehicleModel;           //0x3C1
         PAD(2);
         UINT32 vehicleSpeed;          //0x3C4

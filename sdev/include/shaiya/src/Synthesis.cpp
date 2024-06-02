@@ -64,7 +64,7 @@ void Synthesis::init()
     }
 }
 
-void Synthesis::parseMaterial(const std::string& text, std::array<std::uint8_t, 24>& output)
+void Synthesis::parseMaterial(const std::string& text, std::array<UINT8, 24>& output)
 {
     if (text.empty())
         return;

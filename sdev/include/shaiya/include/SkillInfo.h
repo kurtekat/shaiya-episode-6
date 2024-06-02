@@ -1,63 +1,16 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Attribute.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/skill/NeedWeapon.h>
+#include <shaiya/include/skill/SkillAbilityType.h>
+#include <shaiya/include/skill/SkillStatusType.h>
+#include <shaiya/include/skill/SkillTargetType.h>
 
 namespace shaiya
 {
-    typedef Array<char, 32> SkillName;
-
-    enum struct SkillAbilityType : UINT8
-    {
-        MaxHealth = 1,
-        MaxMana,
-        MaxStamina,
-        AbilityStrength,
-        AbilityReaction,
-        AbilityIntelligence,
-        AbilityWisdom,
-        AbilityDexterity,
-        AbilityLuck,
-        AddHpRecovery,
-        AddSpRecovery,
-        AddMpRecovery,
-        DecreaseSpCostPercentage,
-        DecreaseMpCostPercentage,
-        AbilityAttackRange,
-        AbilityAttackSpeed,
-        AbilityMoveSpeed,
-        AbilityCriticalHitRate,
-        DecreaseSkillResetTime,
-        AbilityHitRate,
-        AbilityRangedHitRate,
-        AbilityMagicHitRate,
-        AbilityAttackPower,
-        AbilityRangedAttackPower,
-        AbilityMagicPower,
-        AbilityAddDefense,
-        AbilityAddRangedDefense,
-        AbilityMagicResistance,
-        AbilityEvasionRate,
-        AbilityRangedEvasionRate,
-        AbilityMagicEvasionRate,
-        AttackBlinded,
-        RangedAttackBlinded,
-        Silenced,
-        IncreaseExpRate,
-        EternalEndurance,
-        PreventItemDrop,
-        PreventExpLoss,
-        RecallWarehouse,
-        WhiteTigerCharm,
-        BlueDragonCharm,
-        RedPhoenixCharm,
-        DoubleWarehouse,
-        IncreaseGoldRate,
-        PreventEquipmentDrop,
-        ContinuousResurrection,
-        BattlefieldRune,
-        AbilityAbsorption,
-        BaseStatus,
-        Frenzied = 70
-    };
+    using SkillName = std::array<char, 32>;
 
     #pragma pack(push, 1)
     struct SkillAbility
@@ -65,60 +18,6 @@ namespace shaiya
         SkillAbilityType type;
         PAD(1);
         UINT16 value;
-    };
-    #pragma pack(pop)
-
-    enum struct SkillStateType : UINT8
-    {
-        None,
-        Sleep,
-        Unconscious,
-        Silence,
-        Darkness,
-        Pause,
-        Slow,
-        Dying,
-        Death,
-        Poison,
-        Illness,
-        Delusion,
-        Doom,
-        Fear,
-        Dull,
-        Misfortune
-    };
-
-    enum struct SkillTargetType : UINT8
-    {
-        None,
-        Trap,
-        Caster,
-        Target,
-        AlliesNearCaster,
-        Allies,
-        EnemiesNearCaster,
-        EnemiesNearTarget
-    };
-
-    #pragma pack(push, 1)
-    struct SkillWeapon
-    {
-        bool oneHandedSword;
-        bool twoHandedSword;
-        bool oneHandedAxe;
-        bool twoHandedAxe;
-        bool dualWeapon;
-        bool spear;
-        bool oneHandedBlunt;
-        bool twoHandedBlunt;
-        bool reverseDagger;
-        bool dagger;
-        bool javelin;
-        bool staff;
-        bool bow;
-        bool crossbow;
-        bool knuckles;
-        bool shield;
     };
     #pragma pack(pop)
 
@@ -130,21 +29,27 @@ namespace shaiya
         SkillName skillName;      //0x03
         PAD(1);
         UINT16 reqLevel;          //0x24
-        UINT8 country;            //0x26
-        ReqJob job;               //0x27
+        Country3 country;         //0x26
+        bool attackFighter;       //0x27
+        bool defenseFighter;      //0x28
+        bool patrolRogue;         //0x29
+        bool shootRogue;          //0x2A
+        bool attackMage;          //0x2B
+        bool defenseMage;;        //0x2C
         Grow grow;                //0x2D
         UINT8 skillPoint;         //0x2E
         UINT8 typeShow;           //0x2F
         UINT8 typeAttack;         //0x30
         UINT8 typeEffect;         //0x31
         UINT16 typeDetail;        //0x32
-        SkillWeapon needWeapon;   //0x34
+        NeedWeapon needWeapon;    //0x34
         UINT16 stamina;           //0x44
         UINT16 mana;              //0x46
         UINT16 readyTime;         //0x48
         UINT16 resetTime;         //0x4A
         UINT8 attackRange;        //0x4C
-        SkillStateType stateType; //0x4D
+        // 0x4D
+        SkillStatusType statusType;
         Attribute attribute;      //0x4E
         PAD(1);
         bool disable;             //0x50
@@ -176,7 +81,7 @@ namespace shaiya
         UINT16 addDmgStamina;     //0x78
         UINT16 addDmgMana;        //0x7A
         // 0x7C
-        Array<SkillAbility, 3> ability;
+        std::array<SkillAbility, 3> abilities;
         UINT16 healHealth;        //0x88
         UINT16 healStamina;       //0x8A
         UINT16 healMana;          //0x8C

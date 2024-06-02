@@ -1,10 +1,10 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
 
 namespace shaiya
 {
-    typedef Array<char, 25> GuildName;
-    typedef Array<char, 65> GuildRemark;
+    using GuildRemark = std::array<char, 65>;
 
     #pragma pack(push, 1)
     struct CGuild

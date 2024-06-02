@@ -6,10 +6,6 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/0800.h>
-#include <include/shaiya/packets/dbAgent/0700.h>
-#include <include/shaiya/packets/gameLog/0400.h>
 #include <include/shaiya/include/CClientToDBAgent.h>
 #include <include/shaiya/include/CClientToGameLog.h>
 #include <include/shaiya/include/CGameData.h>
@@ -18,9 +14,17 @@
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/Synthesis.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/item/ItemEffect.h>
+#include <shaiya/include/item/ItemType.h>
+#include <shaiya/include/item/MakeType.h>
+#include <shaiya/include/network/dbAgent/incoming/0700.h>
+#include <shaiya/include/network/game/incoming/0800.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/0800.h>
+#include <shaiya/include/network/gameLog/incoming/0400.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -29,17 +33,16 @@ namespace packet_gem
     int find_available_slot(CUser* user, int bag)
     {
         for (int slot = 0; slot < max_inventory_slot; ++slot)
+        {
             if (!user->inventory[bag][slot])
                 return slot;
+        }
 
         return -1;
     }
 
-    bool use_material(CUser* user, ItemInfo* itemInfo, std::uint8_t count)
+    bool item_remove(CUser* user, ItemInfo* itemInfo, UINT8 count)
     {
-        if (!itemInfo || !count)
-            return false;
-
         for (const auto& [bag, items] : std::views::enumerate(
             std::as_const(user->inventory)))
         {
@@ -57,26 +60,15 @@ namespace packet_gem
 
                 item->count -= count;
 
-                UserItemRemoveIncoming packet{ 0x702, user->userId, std::uint8_t(bag), std::uint8_t(slot), count };
-                SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemRemoveIncoming));
+                DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
+                SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemRemoveIncoming));
 
-                GameLogItemRemoveIncoming log{};
-                CUser::SetGameLogMain(user, &log);
-
-                log.itemUid = item->uniqueId;
-                log.itemId = item->itemInfo->itemId;
-                log.itemName = item->itemInfo->itemName;
-                log.gems = item->gems;
-                log.makeTime = item->makeTime;
-                log.craftName = item->craftName;
-                log.bag = bag;
-                log.slot = slot;
-                log.count = count;
+                GameLogItemRemoveIncoming log(user, item, bag, slot, count);
                 SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
 
                 if (!item->count)
                 {
-                    ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), 0, 0, 0 };
+                    ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
                     SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
 
                     CObjectMgr::FreeItem(item);
@@ -84,7 +76,7 @@ namespace packet_gem
                 }
                 else
                 {
-                    ItemRemoveOutgoing outgoing{ 0x206, std::uint8_t(bag), std::uint8_t(slot), item->type, item->typeId, item->count };
+                    ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
                     SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
                 }
 
@@ -116,7 +108,7 @@ namespace packet_gem
             return true;
 
         auto lapisianStep = lapisian->itemInfo->range;
-        auto lapisianType = static_cast<std::uint8_t>(lapisian->itemInfo->country);
+        auto lapisianType = static_cast<UINT8>(lapisian->itemInfo->country);
 
         if (CItem::IsWeapon(item))
         {
@@ -195,22 +187,19 @@ namespace packet_gem
             return;
         }
 
-        outgoing.result = ItemRuneCombineResult::Success;
-        outgoing.bag = 1;
-        outgoing.slot = 0;
-        outgoing.type = itemInfo->type;
-        outgoing.typeId = itemInfo->typeId;
-        outgoing.count = 1;
+        auto result = ItemRuneCombineResult::Success;
+        UINT8 bag = 1;
 
-        while (outgoing.bag <= user->bagsUnlocked)
+        while (bag <= user->bagsUnlocked)
         {
-            outgoing.slot = find_available_slot(user, outgoing.bag);
+            auto slot = find_available_slot(user, bag);
 
-            if (outgoing.slot != -1)
+            if (slot != -1)
             {
-                if (!CUser::ItemCreate(user, itemInfo, outgoing.count))
+                if (!CUser::ItemCreate(user, itemInfo, 1))
                     break;
 
+                ItemRuneCombineOutgoing outgoing(result, bag, slot, itemInfo->type, itemInfo->typeId, 1);
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemRuneCombineOutgoing));
 
                 CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
@@ -219,7 +208,7 @@ namespace packet_gem
                 break;
             }
 
-            ++outgoing.bag;
+            ++bag;
         }
     }
 
@@ -273,32 +262,28 @@ namespace packet_gem
 
         bool hasMaterials = false;
         for (int i = 0; i < requiredCount; ++i)
-            hasMaterials = use_material(user, itemInfo, 1);
+            hasMaterials = item_remove(user, itemInfo, 1);
 
         if (hasMaterials)
         {
-            ItemLapisianCombineOutgoing outgoing{};
-            outgoing.result = ItemLapisianCombineResult::Success;
-            outgoing.bag = 1;
-            outgoing.slot = 0;
-            outgoing.type = createInfo->type;
-            outgoing.typeId = createInfo->typeId;
-            outgoing.count = 1;
+            auto result = ItemLapisianCombineResult::Success;
+            UINT8 bag = 1;
 
-            while (outgoing.bag <= user->bagsUnlocked)
+            while (bag <= user->bagsUnlocked)
             {
-                outgoing.slot = find_available_slot(user, outgoing.bag);
+                auto slot = find_available_slot(user, bag);
 
-                if (outgoing.slot != -1)
+                if (slot != -1)
                 {
-                    if (!CUser::ItemCreate(user, createInfo, outgoing.count))
+                    if (!CUser::ItemCreate(user, createInfo, 1))
                         break;
 
+                    ItemLapisianCombineOutgoing outgoing(result, bag, slot, createInfo->type, createInfo->typeId, 1);
                     SConnection::Send(&user->connection, &outgoing, sizeof(ItemLapisianCombineOutgoing));
                     break;
                 }
 
-                ++outgoing.bag;
+                ++bag;
             }
         }
     }
@@ -335,24 +320,21 @@ namespace packet_gem
         }
 
         // optional
-        if (item->makeType == ItemMakeType::QuestResult)
+        if (item->makeType == MakeType::QuestResult)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
         }
 
-        GameLogItemComposeIncoming log{};
-        CUser::SetGameLogMain(user, &log);
-
-        log.oldItemUid = item->uniqueId;
-        log.oldItemId = item->itemInfo->itemId;
-        log.oldCraftName = item->craftName;
+        auto oldItemUid = item->uniqueId;
+        auto oldItemId = item->itemInfo->itemId;
+        auto oldCraftName = item->craftName;
 
         std::random_device seed;
         std::mt19937 eng(seed());
 
         std::uniform_int_distribution<int> uni(1, item->itemInfo->reqWis);
-        std::uint8_t bonus = uni(eng);
+        UINT8 bonus = uni(eng);
         std::string text = std::to_string(bonus);
 
         if (bonus < 10)
@@ -611,15 +593,10 @@ namespace packet_gem
         outgoing.craftName = item->craftName;
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemComposeOutgoing));
 
-        UserItemCraftNameIncoming packet{ 0x717, user->userId, incoming->itemBag, incoming->itemSlot, item->craftName };
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(UserItemCraftNameIncoming));
+        DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemCraftNameIncoming));
 
-        log.itemUid = item->uniqueId;
-        log.itemId = item->itemInfo->itemId;
-        log.itemName = item->itemInfo->itemName;
-        log.gems = item->gems;
-        log.makeTime = item->makeTime;
-        log.craftName = item->craftName;
+        GameLogItemComposeIncoming log(user, item, oldItemUid, oldItemId, oldCraftName);
         SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemComposeIncoming));
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
@@ -699,14 +676,7 @@ namespace packet_gem
         if (incoming->createType != synthesis.createType || incoming->createTypeId != synthesis.createTypeId)
             return;
 
-        ItemSynthesisMaterialOutgoing outgoing{};
-        outgoing.successRate = synthesis.successRate;
-        outgoing.materialType = synthesis.materialType;
-        outgoing.createType = synthesis.createType;
-        outgoing.materialTypeId = synthesis.materialTypeId;
-        outgoing.createTypeId = synthesis.createTypeId;
-        outgoing.materialCount = synthesis.materialCount;
-        outgoing.createCount = synthesis.createCount;
+        ItemSynthesisMaterialOutgoing outgoing(synthesis);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
     }
 
@@ -791,7 +761,7 @@ namespace packet_gem
             if (!itemInfo || !count)
                 continue;
 
-            hasMaterials = use_material(user, itemInfo, count);
+            hasMaterials = item_remove(user, itemInfo, count);
         }
 
         ItemSynthesisOutgoing outgoing{};
@@ -799,8 +769,8 @@ namespace packet_gem
 
         if (hasMaterials && randomRate <= successRate)
         {
-            CUser::ItemCreate(user, itemInfo, synthesis.createCount);
-            outgoing.result = ItemSynthesisResult::Success;
+            if (CUser::ItemCreate(user, itemInfo, synthesis.createCount))
+                outgoing.result = ItemSynthesisResult::Success;
         }
 
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisOutgoing));
@@ -842,7 +812,7 @@ namespace packet_gem
         if (to->itemInfo->realType != from->itemInfo->realType)
             return;
 
-        if (to->itemInfo->level < from->itemInfo->level)
+        if (to->itemInfo->reqLevel < from->itemInfo->reqLevel)
             return;
 
         if (to->itemInfo->slotCount < from->itemInfo->slotCount)
@@ -887,26 +857,16 @@ namespace packet_gem
             randomRate = uni(eng);
         }
 
-        GameLogItemComposeIncoming log1{};
-        CUser::SetGameLogMain(user, &log1);
+        auto toOldItemUid = to->uniqueId;
+        auto toOldItemId = to->itemInfo->itemId;
+        auto toOldCraftName = to->craftName;
 
-        log1.oldItemUid = to->uniqueId;
-        log1.oldItemId = to->itemInfo->itemId;
-        log1.oldCraftName = to->craftName;
+        auto fromOldItemUid = from->uniqueId;
+        auto fromOldItemId = from->itemInfo->itemId;
+        auto fromOldCraftName = from->craftName;
 
-        GameLogItemComposeIncoming log2{};
-        CUser::SetGameLogMain(user, &log2);
-
-        log2.oldItemUid = from->uniqueId;
-        log2.oldItemId = from->itemInfo->itemId;
-        log2.oldCraftName = from->craftName;
-
-        ItemAbilityTransferOutgoing outgoing{};
-        outgoing.result = ItemAbilityTransferResult::Failure;
-        outgoing.fromBag = incoming->fromBag;
-        outgoing.fromSlot = incoming->fromSlot;
-        outgoing.toBag = incoming->toBag;
-        outgoing.toSlot = incoming->toSlot;
+        auto result = ItemAbilityTransferResult::Failure;
+        ItemAbilityTransferOutgoing outgoing(result, incoming->fromBag, incoming->fromSlot, incoming->toBag, incoming->toSlot);
 
         if (randomRate <= successRate)
         {
@@ -1004,32 +964,22 @@ namespace packet_gem
 
             CUser::SetAttack(user);
 
-            UserItemCraftNameIncoming packet1{ 0x717, user->userId, incoming->toBag, incoming->toSlot, to->craftName };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet1, sizeof(UserItemCraftNameIncoming));
+            DBAgentItemCraftNameIncoming packet1(user->userId, incoming->toBag, incoming->toSlot, to->craftName);
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet1, sizeof(DBAgentItemCraftNameIncoming));
 
-            UserItemGemsIncoming packet2{ 0x711, user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet2, sizeof(UserItemGemsIncoming));
+            DBAgentItemGemsIncoming packet2(user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money);
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet2, sizeof(DBAgentItemGemsIncoming));
 
-            UserItemCraftNameIncoming packet3{ 0x717, user->userId, incoming->fromBag, incoming->fromSlot, from->craftName };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet3, sizeof(UserItemCraftNameIncoming));
-
-            UserItemGemsIncoming packet4{ 0x711, user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet4, sizeof(UserItemGemsIncoming));
-
-            log1.itemUid = to->uniqueId;
-            log1.itemId = to->itemInfo->itemId;
-            log1.itemName = to->itemInfo->itemName;
-            log1.gems = to->gems;
-            log1.makeTime = to->makeTime;
-            log1.craftName = to->craftName;
+            GameLogItemComposeIncoming log1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
             SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log1, sizeof(GameLogItemComposeIncoming));
 
-            log2.itemUid = from->uniqueId;
-            log2.itemId = from->itemInfo->itemId;
-            log2.itemName = from->itemInfo->itemName;
-            log2.gems = from->gems;
-            log2.makeTime = from->makeTime;
-            log2.craftName = from->craftName;
+            DBAgentItemCraftNameIncoming packet3(user->userId, incoming->fromBag, incoming->fromSlot, from->craftName);
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet3, sizeof(DBAgentItemCraftNameIncoming));
+
+            DBAgentItemGemsIncoming packet4(user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money);
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet4, sizeof(DBAgentItemGemsIncoming));
+
+            GameLogItemComposeIncoming log2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
             SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log2, sizeof(GameLogItemComposeIncoming));
         }
 

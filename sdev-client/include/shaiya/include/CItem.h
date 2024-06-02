@@ -3,10 +3,6 @@
 
 namespace shaiya
 {
-    typedef Array<char, 21> CraftName;
-    typedef Array<UINT8, 6> Gems;
-    using CloakBadge = Gems;
-
     #pragma pack(push, 1)
     struct CItem
     {

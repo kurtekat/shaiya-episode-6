@@ -1,16 +1,18 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/CNpcData.h>
-#include <include/shaiya/include/SNode.h>
-#include <include/shaiya/include/SSyncMap.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/common/SSyncMap.h>
 
 namespace shaiya
 {
     struct CItem;
 
-    typedef Array<char, 66> GuildRemark;
+    using GuildRemark = std::array<char, 66>;
+    using GuildWarehouse = std::array<CItem*, 240>;
 
-    enum struct GuildPvPState : UINT32
+    enum struct GuildPvPStatusType : UINT32
     {
         None,
         RequestSent,
@@ -22,23 +24,22 @@ namespace shaiya
     #pragma pack(push, 1)
     struct GuildNpc
     {
-        NpcType type;
-        UINT8 level;
-        UINT8 number;
+        UINT16 type;
+        UINT16 level;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct GuildPvP
     {
-        GuildPvPState state;        //0x4B4
-        CharId requestSenderId;     //0x4B8
-        GuildId targetId;           //0x4BC
-        CharId requestTargetId;     //0x4C0
-        SVector area;               //0x4C4
-        UINT32 mapId;               //0x4D0
-        UINT32 userCount;           //0x4D4
-        Array<CharId, 7> userList;  //0x4D8
+        GuildPvPStatusType statusType;  //0x4B4
+        ULONG requestSenderId;          //0x4B8
+        ULONG targetId;                 //0x4BC
+        ULONG requestTargetId;          //0x4C0
+        SVector area;                   //0x4C4
+        UINT32 mapId;                   //0x4D0
+        UINT32 userCount;               //0x4D4
+        std::array<ULONG, 7> userList;  //0x4D8
     };
     #pragma pack(pop)
 
@@ -59,13 +60,11 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    typedef SSyncMap<ULONG, GuildUserInfo*> GuildUserInfoMap;
-
     #pragma pack(push, 1)
     struct CGuild
     {
         SNode node;                 //0x00
-        GuildId id;                 //0x08
+        ULONG id;                   //0x08
         GuildName name;             //0x0C
         CharName masterName;        //0x25
         PAD(2);
@@ -81,14 +80,18 @@ namespace shaiya
         UINT32 guildRankPoints;     //0x98
         UINT32 etinReturnCount;     //0x9C
         UINT32 grbJoinCount;        //0xA0
-        Warehouse warehouse;        //0xA4
+        GuildWarehouse warehouse;   //0xA4
         CRITICAL_SECTION cs464;     //0x464
-        Array<GuildNpc, 8> npc;     //0x47C
+        // 0x47C
+        std::array<GuildNpc, 8> npcList;
         CRITICAL_SECTION cs49C;     //0x49C
         GuildPvP pvp;               //0x4B4
-        GuildUserInfoMap enterMap;  //0x4F4
-        GuildUserInfoMap leaveMap;  //0x53C
-        GuildUserInfoMap joinMap;   //0x584
+        // 0x4F4
+        SSyncMap<ULONG, GuildUserInfo*> online;
+        // 0x53C
+        SSyncMap<ULONG, GuildUserInfo*> offline;
+        // 0x584
+        SSyncMap<ULONG, GuildUserInfo*> joinRequests;
         CRITICAL_SECTION cs5CC;     //0x5CC
         // 0x5E4
 

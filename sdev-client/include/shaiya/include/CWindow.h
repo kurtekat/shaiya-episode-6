@@ -3,33 +3,6 @@
 
 namespace shaiya
 {
-    enum struct WindowType : UINT32
-    {
-        None,
-        Teleportation = 17,
-        CashShop,
-        GiftBox,
-        AppearanceChange,
-        SexChange,
-        Talk = 100,
-        Merchant,
-        Blacksmith,
-        Warehouse,
-        LinkAndExtract,
-        Priest,
-        GamblingHouse,
-        GateKeeper,
-        VetManager,
-        BadgeMerchant,
-        BankTeller,
-        GuildMaster,
-        AuctionBoard = 117,
-        ProBlacksmith = 120,
-        Recreation,
-        Creation,
-        RuneCombination = 126,
-    };
-
     #pragma pack(push, 1)
     struct CWindow
     {

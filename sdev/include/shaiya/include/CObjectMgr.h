@@ -1,5 +1,5 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {

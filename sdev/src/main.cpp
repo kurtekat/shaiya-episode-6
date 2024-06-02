@@ -77,10 +77,10 @@ void user_ctor_hook(CUser* user)
     user->exchange.confirmed = false;
 
 #ifdef SHAIYA_EP6
-    user->frenzy.skillId = 0;
-    user->frenzy.skillLv = 0;
-    user->frenzy.triggered = false;
-    user->frenzy.keepTime = 0;
+    user->skillAbility70.skillId = 0;
+    user->skillAbility70.skillLv = 0;
+    user->skillAbility70.triggered = false;
+    user->skillAbility70.keepTime = 0;
 #endif
 
 #ifdef SHAIYA_EP6_4_PT

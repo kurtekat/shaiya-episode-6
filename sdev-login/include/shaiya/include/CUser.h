@@ -1,6 +1,6 @@
 #pragma once
-#include <sdev/include/shaiya/common.h>
-#include <sdev/include/shaiya/include/SConnection.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SConnection.h>
 
 namespace shaiya
 {
@@ -13,7 +13,7 @@ namespace shaiya
         CRITICAL_SECTION csDC;   //0xDC
         // 0xF4
         PAD(12);
-        UserId userId;           //0x100
+        ULONG userId;            //0x100
         PAD(36);
         UINT64 sessionId;        //0x128
         PAD(8);

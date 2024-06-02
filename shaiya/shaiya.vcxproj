@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\common.h" />
+    <ClInclude Include="include\common\Attribute.h" />
+    <ClInclude Include="include\common\BillingItem.h" />
+    <ClInclude Include="include\common\ChatType.h" />
+    <ClInclude Include="include\common\Country.h" />
+    <ClInclude Include="include\common\Family.h" />
+    <ClInclude Include="include\common\Grow.h" />
+    <ClInclude Include="include\common\Job.h" />
+    <ClInclude Include="include\common\SConnection.h" />
+    <ClInclude Include="include\common\SDatabase.h" />
+    <ClInclude Include="include\common\SDatabasePool.h" />
+    <ClInclude Include="include\common\Sex.h" />
+    <ClInclude Include="include\common\SNode.h" />
+    <ClInclude Include="include\common\SSyncList.h" />
+    <ClInclude Include="include\common\SSyncMap.h" />
+    <ClInclude Include="include\item\ExtDuration.h" />
+    <ClInclude Include="include\item\ItemEffect.h" />
+    <ClInclude Include="include\item\ItemType.h" />
+    <ClInclude Include="include\item\MakeType.h" />
+    <ClInclude Include="include\item\ReqOg.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0400.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0600.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0700.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0E00.h" />
+    <ClInclude Include="include\network\dbAgent\outgoing\0400.h" />
+    <ClInclude Include="include\network\dbAgent\outgoing\0E00.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0400.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0800.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0900.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0A00.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0C00.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0E00.h" />
+    <ClInclude Include="include\network\game\incoming\0003.h" />
+    <ClInclude Include="include\network\game\incoming\0100.h" />
+    <ClInclude Include="include\network\game\incoming\0200.h" />
+    <ClInclude Include="include\network\game\incoming\0300.h" />
+    <ClInclude Include="include\network\game\incoming\0500.h" />
+    <ClInclude Include="include\network\game\incoming\0700.h" />
+    <ClInclude Include="include\network\game\incoming\0800.h" />
+    <ClInclude Include="include\network\game\incoming\0900.h" />
+    <ClInclude Include="include\network\game\incoming\0A00.h" />
+    <ClInclude Include="include\network\game\incoming\0B00.h" />
+    <ClInclude Include="include\network\game\incoming\1100.h" />
+    <ClInclude Include="include\network\game\incoming\2200.h" />
+    <ClInclude Include="include\network\game\incoming\2500.h" />
+    <ClInclude Include="include\network\game\incoming\2600.h" />
+    <ClInclude Include="include\network\game\incoming\B100.h" />
+    <ClInclude Include="include\network\game\incoming\F100.h" />
+    <ClInclude Include="include\network\game\incoming\F900.h" />
+    <ClInclude Include="include\network\game\outgoing\0100.h" />
+    <ClInclude Include="include\network\game\outgoing\0200.h" />
+    <ClInclude Include="include\network\game\outgoing\0300.h" />
+    <ClInclude Include="include\network\game\outgoing\0400.h" />
+    <ClInclude Include="include\network\game\outgoing\0500.h" />
+    <ClInclude Include="include\network\game\outgoing\0600.h" />
+    <ClInclude Include="include\network\game\outgoing\0700.h" />
+    <ClInclude Include="include\network\game\outgoing\0800.h" />
+    <ClInclude Include="include\network\game\outgoing\0900.h" />
+    <ClInclude Include="include\network\game\outgoing\0A00.h" />
+    <ClInclude Include="include\network\game\outgoing\0B00.h" />
+    <ClInclude Include="include\network\game\outgoing\0D00.h" />
+    <ClInclude Include="include\network\game\outgoing\1100.h" />
+    <ClInclude Include="include\network\game\outgoing\2200.h" />
+    <ClInclude Include="include\network\game\outgoing\2300.h" />
+    <ClInclude Include="include\network\game\outgoing\2400.h" />
+    <ClInclude Include="include\network\game\outgoing\2500.h" />
+    <ClInclude Include="include\network\game\outgoing\2600.h" />
+    <ClInclude Include="include\network\game\outgoing\B100.h" />
+    <ClInclude Include="include\network\game\outgoing\F100.h" />
+    <ClInclude Include="include\network\game\outgoing\F500.h" />
+    <ClInclude Include="include\network\game\outgoing\F900.h" />
+    <ClInclude Include="include\network\login\incoming\A100.h" />
+    <ClInclude Include="include\network\login\incoming\A200.h" />
+    <ClInclude Include="include\network\login\outgoing\A100.h" />
+    <ClInclude Include="include\network\login\outgoing\A200.h" />
+    <ClInclude Include="include\npc\NpcType.h" />
+    <ClInclude Include="include\skill\NeedWeapon.h" />
+    <ClInclude Include="include\skill\SkillAbilityType.h" />
+    <ClInclude Include="include\skill\SkillStatusType.h" />
+    <ClInclude Include="include\skill\SkillTargetType.h" />
+    <ClInclude Include="include\user\AuthStatus.h" />
+    <ClInclude Include="include\user\MotionType.h" />
+    <ClInclude Include="include\user\ShapeType.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{29537cbc-49d6-400e-8649-fa38ded6e750}</ProjectGuid>
+    <RootNamespace>shaiya</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

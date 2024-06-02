@@ -6,10 +6,11 @@
 
 #include <include/main.h>
 #include <include/shaiya/include/CUser.h>
-#include <sdev/include/shaiya/packets/dbAgent/0400.h>
-#include <sdev/include/shaiya/include/SConnection.h>
-#include <sdev/include/shaiya/include/SDatabase.h>
-#include <sdev/include/shaiya/include/SDatabasePool.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/common/SDatabase.h>
+#include <shaiya/include/common/SDatabasePool.h>
+#include <shaiya/include/network/dbAgent/incoming/0400.h>
+#include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -42,7 +43,7 @@ namespace user_character
         return !rowCount;
     }
 
-    void name_available_handler(CUser* user, UserCharNameAvailableIncoming* incoming)
+    void name_available_handler(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
         bool available = is_name_available(incoming->name.data());
@@ -50,8 +51,8 @@ namespace user_character
         if (!user->connection)
             return;
 
-        UserCharNameAvailableOutgoing outgoing{ 0x40D, user->userId, available };
-        SConnection::Send(user->connection, &outgoing, sizeof(UserCharNameAvailableOutgoing));
+        DBAgentCharNameAvailableOutgoing outgoing(user->userId, available);
+        SConnection::Send(user->connection, &outgoing, sizeof(DBAgentCharNameAvailableOutgoing));
     }
 }
 

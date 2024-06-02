@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
 
 namespace shaiya
@@ -25,7 +26,7 @@ namespace shaiya
     {
         UINT32 numTextures;              //0x00
         SModelTexture* textures;         //0x04
-        Array<char, 256> fileName;       //0x08
+        std::array<char, 256> fileName;  //0x08
         D3DVECTOR center;                //0x108
         float distanceToCenter;          //0x114
         BoundingBox viewBox;             //0x118

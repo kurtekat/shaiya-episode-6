@@ -3,16 +3,16 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/0900.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CQuest.h>
 #include <include/shaiya/include/CQuestData.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/ServerTime.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/0900.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -20,65 +20,64 @@ namespace npc_quest
 {
     void send_admin_remove(CUser* user, CQuest* quest)
     {
-        QuestEndResultOutgoing packet{};
-        packet.questId = quest->id;
-        SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
+        QuestEndResultOutgoing outgoing{};
+        outgoing.questId = quest->id;
+        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_failure_result(CUser* user, CQuest* quest, std::uint32_t npcId)
+    void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
     {
-        QuestEndResultOutgoing packet{};
-        packet.npcId = npcId;
-        packet.questId = quest->id;
-        SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
+        QuestEndResultOutgoing outgoing{};
+        outgoing.npcId = npcId;
+        outgoing.questId = quest->id;
+        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
     void send_success_result(CUser* user, CQuest* quest, Packet buffer)
     {
-        auto npcId = util::deserialize<std::uint32_t>(buffer, 2);
-        auto index = util::deserialize<std::uint8_t>(buffer, 9);
+        auto npcId = util::deserialize<ULONG>(buffer, 2);
+        auto index = util::deserialize<UINT8>(buffer, 9);
 
-        if (index >= quest->questInfo->result.size())
+        if (index >= quest->questInfo->resultList.size())
         {
             send_failure_result(user, quest, npcId);
             return;
         }
 
-        QuestEndResultOutgoing packet{};
-        packet.npcId = npcId;
-        packet.questId = quest->id;
-        packet.success = true;
-        packet.index = index;
+        QuestEndResultOutgoing outgoing{};
+        outgoing.npcId = npcId;
+        outgoing.questId = quest->id;
+        outgoing.success = true;
+        outgoing.index = index;
 
-        auto& result = quest->questInfo->result[index];
-
-        packet.exp = result.exp;
-        packet.gold = result.gold;
+        auto& result = quest->questInfo->resultList[index];
+        outgoing.exp = result.exp;
+        outgoing.gold = result.gold;
 
 #ifdef SHAIYA_EP6
-        for (std::size_t i = 0; i < result.item.size(); ++i)
+        for (std::size_t i = 0; i < result.itemList.size(); ++i)
         {
-            int type = result.item[i].type;
-            int typeId = result.item[i].typeId;
-            int count = result.item[i].count;
+            int type = result.itemList[i].type;
+            int typeId = result.itemList[i].typeId;
+            int count = result.itemList[i].count;
 
             int bag, slot;
             auto itemInfo = std::make_unique<ItemInfo*>();
             if (CUser::QuestAddItem(user, type, typeId, count, &bag, &slot, itemInfo.get()))
             {
-                packet.itemList[i].count = count;
-                packet.itemList[i].bag = bag;
-                packet.itemList[i].slot = slot;
-                packet.itemList[i].type = type;
-                packet.itemList[i].typeId = typeId;
+                outgoing.itemList[i].count = count;
+                outgoing.itemList[i].bag = bag;
+                outgoing.itemList[i].slot = slot;
+                outgoing.itemList[i].type = type;
+                outgoing.itemList[i].typeId = typeId;
             }
         }
 #endif
 
-        SConnection::Send(&user->connection, &packet, sizeof(QuestEndResultOutgoing));
+        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
 
 #if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
-        for (const auto& item0903 : packet.itemList)
+        for (const auto& item0903 : outgoing.itemList)
         {
             auto itemInfo = CGameData::GetItemInfo(item0903.type, item0903.typeId);
             if (!itemInfo)
@@ -93,12 +92,8 @@ namespace npc_quest
             if (!expireTime)
                 continue;
 
-            ItemDurationOutgoing packet{};
-            packet.bag = item0903.bag;
-            packet.slot = item0903.slot;
-            packet.fromDate = now;
-            packet.toDate = expireTime;
-            SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+            ItemDurationOutgoing outgoing(item0903.bag, item0903.slot, now, expireTime);
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
         }
 #endif
 

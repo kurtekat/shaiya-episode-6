@@ -1,9 +1,32 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <array>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Attribute.h>
 
 namespace shaiya
 {
-    typedef Array<char, 32> MobName;
+    using MobName = std::array<char, 32>;
+
+    enum struct MobCooldown : ULONG
+    {
+        AttackSpecial3_0 = 5000,
+        AttackSpecial3_1 = 30000,
+        AttackSpecial3_2 = 60000,
+        AttackSpecial3_3 = 180000,
+        AttackSpecial3_4 = 300000,
+        AttackSpecial3_5 = 600000,
+        AttackSpecial3_6 = 900000,
+        AttackSpecial3_7 = 1800000,
+        AttackSpecial3_8 = 3600000,
+        AttackSpecial3_9 = 14400000,
+        AttackSpecial3_10 = 43200000,
+        AttackSpecial3_11 = 86400000,
+        AttackSpecial3_12 = 259200000,
+        AttackSpecial3_13 = 7200000,
+        AttackSpecial3_14 = 0,
+        AttackSpecial3_15 = 604800000,
+        Default = 15000
+    };
 
     #pragma pack(push, 1)
     struct MobQuestItem
@@ -64,26 +87,27 @@ namespace shaiya
         UINT16 defense;          //0x42
         UINT16 resistance;       //0x44
         // 0x46
-        Array<bool, 15> resistState;
+        std::array<bool, 15> resistState;
         // 0x55
-        Array<UINT8, 6> resistSkill;
+        std::array<UINT8, 6> resistSkill;
+        PAD(1);
         UINT32 normalTime;       //0x5C
         UINT8 normalStep;        //0x60
         PAD(3);
         UINT32 chaseTime;        //0x64
         UINT8 chaseStep;         //0x68
-        UINT8 chaseRange;        //0x69 
+        UINT8 chaseRange;        //0x69
         PAD(2);
         // 0x4A1A53
-        DWORD cooldown;          //0x6C
+        MobCooldown cooldown;    //0x6C
         PAD(8);
         UINT32 country;          //0x78
         // 0x7C
-        Array<MobAttack, 3> attack;
+        std::array<MobAttack, 3> attack;
         // 0xB8
         PAD(12);
         // 0xC4
-        Array<MobItem, 9> mobItem;
+        std::array<MobItem, 9> dropList;
         // 0x10C
     };
     #pragma pack(pop)

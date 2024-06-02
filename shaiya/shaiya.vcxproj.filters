@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="include\common">
+      <UniqueIdentifier>{00a0a9e7-3372-40cf-89df-0f5a7cd1a7da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{66e915e8-b533-4933-b592-78251769f060}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network">
+      <UniqueIdentifier>{862fa2e9-4bc6-4b77-a2a2-15285f593ad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\dbAgent">
+      <UniqueIdentifier>{eef79f73-44fb-4784-8784-45ade35b8dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\game">
+      <UniqueIdentifier>{447ff6c3-8a61-43c7-ad33-52d0f951264e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\login">
+      <UniqueIdentifier>{23a1c9bd-a0c1-469c-a15a-08f951c3f5ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\gameLog">
+      <UniqueIdentifier>{658609cd-32c3-4975-b0af-6713b6736852}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\dbAgent\incoming">
+      <UniqueIdentifier>{be29631f-d0b7-4217-b917-98b21677354c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\dbAgent\outgoing">
+      <UniqueIdentifier>{b9b1d8c1-c16a-459c-8555-ff3ba33b631e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\game\incoming">
+      <UniqueIdentifier>{05f667b5-2fbc-4fe0-be97-e95df4e76fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\game\outgoing">
+      <UniqueIdentifier>{abb8b91c-f98b-429a-ac92-f8ffc5b458e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\gameLog\incoming">
+      <UniqueIdentifier>{bdfb4d69-79d3-4c67-b8d0-1adad9f44c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\login\incoming">
+      <UniqueIdentifier>{c80e77a0-f43d-496b-a64b-bd068f56c228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\login\outgoing">
+      <UniqueIdentifier>{66925f53-da2f-4bd4-8033-e31039363618}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\gameLog\outgoing">
+      <UniqueIdentifier>{f22e6c64-fa12-4422-97d1-541bbbc2ce3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\item">
+      <UniqueIdentifier>{609d713f-ae28-4b07-8a5d-ab087eb46f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\skill">
+      <UniqueIdentifier>{9cab4995-c5c1-4a01-b451-ee2c3f304764}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\npc">
+      <UniqueIdentifier>{26e461ca-da16-4dde-9205-019f670de594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\user">
+      <UniqueIdentifier>{1f6ba93f-ea29-4d6b-858b-c0a697ab86c0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\common\SConnection.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SDatabase.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SDatabasePool.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SNode.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SSyncList.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SSyncMap.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Attribute.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Country.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Family.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Grow.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Job.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Sex.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\BillingItem.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ChatType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\login\incoming\A100.h">
+      <Filter>include\network\login\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\login\incoming\A200.h">
+      <Filter>include\network\login\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\login\outgoing\A100.h">
+      <Filter>include\network\login\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\login\outgoing\A200.h">
+      <Filter>include\network\login\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0A00.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0C00.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0E00.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0400.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0800.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0900.h">
+      <Filter>include\network\gameLog\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\incoming\0E00.h">
+      <Filter>include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\incoming\0400.h">
+      <Filter>include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\incoming\0600.h">
+      <Filter>include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\incoming\0700.h">
+      <Filter>include\network\dbAgent\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\outgoing\0E00.h">
+      <Filter>include\network\dbAgent\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\dbAgent\outgoing\0400.h">
+      <Filter>include\network\dbAgent\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0A00.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0B00.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0003.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0100.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0200.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0300.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0500.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0700.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0800.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\0900.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\1100.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\2200.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\2500.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\2600.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\B100.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\F100.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\F900.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0A00.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0B00.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0D00.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0100.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0200.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0300.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0400.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0500.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0600.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0700.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0800.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\0900.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\1100.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\2200.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\2300.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\2400.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\2500.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\2600.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\B100.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\F100.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\F500.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\F900.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\ExtDuration.h">
+      <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\ItemEffect.h">
+      <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\ItemType.h">
+      <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\MakeType.h">
+      <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\ReqOg.h">
+      <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\npc\NpcType.h">
+      <Filter>include\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skill\NeedWeapon.h">
+      <Filter>include\skill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skill\SkillAbilityType.h">
+      <Filter>include\skill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skill\SkillStatusType.h">
+      <Filter>include\skill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skill\SkillTargetType.h">
+      <Filter>include\skill</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user\AuthStatus.h">
+      <Filter>include\user</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user\MotionType.h">
+      <Filter>include\user</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user\ShapeType.h">
+      <Filter>include\user</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

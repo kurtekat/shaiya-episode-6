@@ -1,4 +1,4 @@
-#include <sdev/include/shaiya/include/SDatabase.h>
+#include <shaiya/include/common/SDatabase.h>
 using namespace shaiya;
 
 int SDatabase::Prepare(SDatabase* db/*ecx*/)

@@ -1,6 +1,6 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -32,13 +32,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MobRespawn
     {
-        UINT32 mobId;      //0x00
+        UINT32 mobId;    //0x00
         PAD(8);
-        DWORD time;        //0x0C
+        DWORD time;      //0x0C
         PAD(4);
-        BOOL isObelisk;    //0x14
+        BOOL isObelisk;  //0x14
         PAD(4);
-        BOOL isBossMob;    //0x1C
+        BOOL isBossMob;  //0x1C
         PAD(4);
         // 0x24
     };
@@ -58,7 +58,7 @@ namespace shaiya
         PAD(208);
         MobStatus status;                //0x1A8
         PAD(4);
-        CharId targetId;                 //0x1B0
+        ULONG targetId;                  //0x1B0
         PAD(4);
         BOOL attackBlinded;              //0x1B8
         UINT32 hitRate;                  //0x1BC
@@ -110,7 +110,7 @@ namespace shaiya
         BOOL unconscious;                //0x2CC
         BOOL sleeping;                   //0x2D0
         PAD(52);
-        CharId luaTargetId;              //0x308
+        ULONG luaTargetId;               //0x308
         PAD(40);
         DWORD lockOnTime;                //0x334
         MobLuaEvent luaEvent;            //0x338
@@ -121,8 +121,8 @@ namespace shaiya
         PAD(92);
         CRITICAL_SECTION csD9C;          //0xD9C
         // gameLog
-        Array<char, 32> text3;           //0xDB4
-        Array<char, 32> text4;           //0xDD4
+        std::array<char, 32> text3;      //0xDB4
+        std::array<char, 32> text4;      //0xDD4
         // 0xDF4
 
         static int GetCountry(CMob* mob/*eax*/);

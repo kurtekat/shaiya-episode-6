@@ -1,4 +1,4 @@
-#include <include/shaiya/include/SConnection.h>
+#include <shaiya/include/common/SConnection.h>
 using namespace shaiya;
 
 void SConnection::Send(SConnection* connection/*ecx*/, void* buf, int len)

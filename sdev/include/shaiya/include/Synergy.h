@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/DataFile.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -41,8 +41,8 @@ namespace shaiya
 
     struct Synergy : DataFile
     {
-        std::uint16_t id;
-        std::array<SynergyAbility, 13> ability{};
+        UINT16 id;
+        std::array<SynergyAbility, 13> abilities{};
         std::array<ItemId, 13> set{};
 
         static void init();

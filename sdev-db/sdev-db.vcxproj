@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\shaiya\src\DBCharacter.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
@@ -32,8 +31,6 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\include\CItem.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
-    <ClInclude Include="include\shaiya\include\DBCharacter.h" />
-    <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>

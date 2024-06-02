@@ -2,52 +2,71 @@
 
 This library is for the **game** service. Macros are used to represent the differences in the episode 6 packets, etc.
 
-## Macros
+## Configuration
 
-To use this library with episode 5 clients, comment the episode 6 macros. This is the default.
+### Episode 5.4
 
 ```cpp
-// sdev/include/shaiya/common.h
+// shaiya/include/common.h
 //#define SHAIYA_EP6
 //#define SHAIYA_EP6_4_PT
+//#define SHAIYA_EP6_BLACKSMITH
+//#define SHAIYA_EP6_ITEM_DURATION
 ```
 
-For episode 6.4 clients, expose the `SHAIYA_EP6_4_PT` macro.
+### Episode 6.0
 
 ```cpp
-// sdev/include/shaiya/common.h
+// shaiya/include/common.h
+#define SHAIYA_EP6
+//#define SHAIYA_EP6_4_PT
+//#define SHAIYA_EP6_BLACKSMITH
+//#define SHAIYA_EP6_ITEM_DURATION
+```
+
+### Episode 6.4
+
+```cpp
+// shaiya/include/common.h
 //#define SHAIYA_EP6
 #define SHAIYA_EP6_4_PT
+#define SHAIYA_EP6_BLACKSMITH
+#define SHAIYA_EP6_ITEM_DURATION
 ```
 
 Do not expose the `SHAIYA_EP6_BLACKSMITH` macro if you use Cheat Engine scripts for the blacksmith.
 
 ```cpp
-// sdev/include/shaiya/common.h
+// shaiya/include/common.h
+//#define SHAIYA_EP6
+#define SHAIYA_EP6_4_PT
 //#define SHAIYA_EP6_BLACKSMITH
+#define SHAIYA_EP6_ITEM_DURATION
 ```
+
+The **sdev-db** library adds support for the character list packet and the name availability packet.
 
 ## ps_game
 
-### v1
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v1
 
 | NpcQuest    | Max Level    |
 |-------------|--------------|
 | EP5         | 70           |
 
-### v2
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2
 
 | NpcQuest    | Max Level    |
 |-------------|--------------|
 | EP6         | 70           |
 
-### v3
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v3
 
 | NpcQuest    | Max Level    | Item Duration    |
 |-------------|--------------|------------------|
 | EP6         | 80           | No               |
 
-### v4
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v4
 
 | NpcQuest    | Max Level    | Item Duration    |
 |-------------|--------------|------------------|
@@ -55,7 +74,7 @@ Do not expose the `SHAIYA_EP6_BLACKSMITH` macro if you use Cheat Engine scripts 
 
 ## Item Mall
 
-The procedures in the [SQL](https://github.com/kurtekat/shaiya-episode-6/tree/main/server/sdev/sql) directory need to be installed. If you skip this step, the item mall will not work. If you receive an error, change `ALTER` to `CREATE` and try again. This solution does not require a connection to SQL Server.
+The procedures in the [SQL](https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/sql) directory need to be installed. If you skip this step, the item mall will not work. If you receive an error, change `ALTER` to `CREATE` and try again. This solution does not require a connection to SQL Server.
 
 # Features
 
@@ -65,10 +84,13 @@ The episode 6 format has 6 quest results, each containing up to 3 items. The lib
 
 ## Item Duration
 
-Expose the `SHAIYA_EP6_ITEM_DURATION` macro to enable the code. The SQL procedures, items table, and **game** service in [this](https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v4) directory are required to support the additional database columns. Warning: the **Items** script will create an empty table.
+Expose the `SHAIYA_EP6_ITEM_DURATION` macro. The SQL procedures, items table, and **game** service in [this](https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v4) directory are required to support the additional database columns. Warning: the **Items** script will create an empty table.
 
 ```cpp
-// sdev/include/shaiya/common.h
+// shaiya/include/common.h
+//#define SHAIYA_EP6
+#define SHAIYA_EP6_4_PT
+#define SHAIYA_EP6_BLACKSMITH
 #define SHAIYA_EP6_ITEM_DURATION
 ```
 
@@ -111,7 +133,7 @@ The kill count will determine which effect will be rendered. Notice effects are 
 | 7                 | RevengeMark_Loop_07.EFT    |
 | 8 (or greater)    | RevengeMark_Loop_08.EFT    |
 
-The 6.4 PT client in this repository supports message 508, but does not support message 509.
+The **sdev-client** library adds support for system message 509.
 
 ```
 508    "Your revenge to <t> has succeeded!"
@@ -209,13 +231,13 @@ This feature will not be implemented.
 
 ### Money
 
-The client uses the following math to determine the maximum gold input.
+The client does the following math to determine the maximum gold input.
 
 ```
-goldPerPercentage * 4 + goldPerPercentage
+ItemSynthesisListOutgoing::goldPerPercentage * 5
 ```
 
-Set the minimum and maximum constants in **Synthesis.h** to change the result. The minimum will be used as a divisor (see packet_gem.cpp line 561), so don't set it to zero. The maximum money is the same as the official server.
+Set the minimum and maximum constants in **Synthesis.h** to change the result. The minimum will be used as a divisor, so don't set it to zero. The maximum money is the same as the official server.
 
 ```cpp
 constexpr auto synthesis_min_money = 100000000U;
@@ -254,20 +276,18 @@ The library expects the file to be decrypted. The bonus text is expected to be 1
 
 The values are signed 32-bit integers, expected to be in the following order.
 
-```cpp
-int strength;
-int dexterity;
-int intelligence;
-int wisdom;
-int reaction;
-int luck;
-int health;
-int mana;
-int stamina;
-int attackPower;
-int rangedAttackPower;
-int magicPower;
-```
+* strength
+* dexterity
+* intelligence
+* wisdom
+* reaction
+* luck
+* health
+* mana
+* stamina
+* attackPower
+* rangedAttackPower
+* magicPower
 
 ## Item Ability Transfer
 
@@ -557,71 +577,4 @@ function WhileCombat(dwTime, dwHPPercent, dwAttackedCount)
         end
     end
 end
-```
-
-## Sending Notices
-
-```cpp
-#include <string>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/packets/F900.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/CWorld.h>
-#include <include/shaiya/include/SConnection.h>
-using namespace shaiya;
-
-void sendNoticeAll(const std::string& message)
-{
-    constexpr int length_without_message = 3;
-
-    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
-    if (messageLength > sizeof(ChatMessage))
-        return;
-
-    AdminCmdNoticeAllOutgoing notice{};
-    notice.messageLength = messageLength;
-    std::copy(message.begin(), message.end(), notice.message.begin());
-
-    int length = notice.messageLength + length_without_message;
-    CWorld::SendAll(&notice, length);
-}
-
-void sendNoticeTo(CUser* user, const std::string& message)
-{
-    constexpr int length_without_message = 3;
-
-    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
-    if (messageLength > sizeof(ChatMessage))
-        return;
-
-    AdminCmdNoticeToOutgoing notice{};
-    notice.messageLength = messageLength;
-    std::copy(message.begin(), message.end(), notice.message.begin());
-
-    int length = notice.messageLength + length_without_message;
-    SConnection::Send(&user->connection, &notice, length);
-}
-
-void sendNoticeTo(std::uint32_t charId, const std::string& message)
-{
-    constexpr int length_without_message = 3;
-
-    auto messageLength = static_cast<std::uint8_t>(message.length()) + 1;
-    if (messageLength > sizeof(ChatMessage))
-        return;
-
-    auto user = CWorld::FindUser(charId);
-    if (!user)
-        return;
-
-    AdminCmdNoticeToOutgoing notice{};
-    notice.messageLength = messageLength;
-    std::copy(message.begin(), message.end(), notice.message.begin());
-
-    int length = notice.messageLength + length_without_message;
-    SConnection::Send(&user->connection, &notice, length);
-}
 ```

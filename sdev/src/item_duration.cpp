@@ -4,10 +4,6 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/0700.h>
-#include <include/shaiya/packets/dbAgent/0700.h>
-#include <include/shaiya/packets/gameLog/0400.h>
 #include <include/shaiya/include/CClientToDBAgent.h>
 #include <include/shaiya/include/CClientToGameLog.h>
 #include <include/shaiya/include/CItem.h>
@@ -16,9 +12,12 @@
 #include <include/shaiya/include/CWorld.h>
 #include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/dbAgent/incoming/0700.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/gameLog/incoming/0400.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -26,7 +25,7 @@ namespace item_duration
 {
     inline std::chrono::system_clock::time_point g_world_thread_update_time_point{};
 
-    void send_delete_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
+    void send_delete_notice(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
     {
         ItemExpireNoticeOutgoing outgoing{};
         outgoing.type = item->type;
@@ -36,32 +35,21 @@ namespace item_duration
         {
             outgoing.noticeType = ItemExpireNoticeType::DeletedFromWarehouse;
 
-            UserItemBankToBankIncoming dbPacket{ 0x706, user->userId, slot, item->count, slot, 0 };
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &dbPacket, sizeof(UserItemBankToBankIncoming));
+            DBAgentItemBankToBankIncoming packet(user->userId, slot, item->count, slot, 0);
+            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemBankToBankIncoming));
 
-            GameLogItemRemoveIncoming logPacket{};
-            CUser::SetGameLogMain(user, &logPacket);
-
-            logPacket.itemUid = item->uniqueId;
-            logPacket.itemId = item->itemInfo->itemId;
-            logPacket.itemName = item->itemInfo->itemName;
-            logPacket.gems = item->gems;
-            logPacket.makeTime = item->makeTime;
-            logPacket.craftName = item->craftName;
-            logPacket.bag = bag;
-            logPacket.slot = slot;
-            logPacket.count = item->count;
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &logPacket, sizeof(GameLogItemRemoveIncoming));
+            GameLogItemRemoveIncoming log(user, item, bag, slot, item->count);
+            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
 
             CObjectMgr::FreeItem(item);
             user->warehouse[slot] = nullptr;
 
-            ItemBankToBankOutgoing packet{};
-            packet.srcItem.bag = bag;
-            packet.srcItem.slot = slot;
-            packet.destItem.bag = bag;
-            packet.destItem.slot = slot;
-            SConnection::Send(&user->connection, &packet, sizeof(ItemBankToBankOutgoing));
+            ItemBankToBankOutgoing outgoing{};
+            outgoing.srcItem.bag = bag;
+            outgoing.srcItem.slot = slot;
+            outgoing.destItem.bag = bag;
+            outgoing.destItem.slot = slot;
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemBankToBankOutgoing));
         }
         else
         {
@@ -72,7 +60,7 @@ namespace item_duration
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
     }
 
-    void send_expire_notice(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
+    void send_expire_notice(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
     {
         if (!item->itemInfo->duration)
             return;
@@ -93,34 +81,34 @@ namespace item_duration
 
         if (!duration.days)
         {
-            ItemExpireNoticeOutgoing packet{};
-            packet.type = item->type;
-            packet.typeId = item->typeId;
+            ItemExpireNoticeOutgoing outgoing{};
+            outgoing.type = item->type;
+            outgoing.typeId = item->typeId;
 
             if (!duration.hours)
             {
-                packet.timeValue = static_cast<std::uint8_t>(duration.minutes);
+                outgoing.timeValue = static_cast<UINT8>(duration.minutes);
 
                 if (bag == warehouse_bag)
-                    packet.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
+                    outgoing.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
                 else
-                    packet.noticeType = ItemExpireNoticeType::MinutesLeftInventory;
+                    outgoing.noticeType = ItemExpireNoticeType::MinutesLeftInventory;
             }
             else
             {
-                packet.timeValue = static_cast<std::uint8_t>(duration.hours);
+                outgoing.timeValue = static_cast<UINT8>(duration.hours);
 
                 if (bag == warehouse_bag)
-                    packet.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
+                    outgoing.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
                 else
-                    packet.noticeType = ItemExpireNoticeType::HoursLeftInventory;
+                    outgoing.noticeType = ItemExpireNoticeType::HoursLeftInventory;
             }
 
-            SConnection::Send(&user->connection, &packet, sizeof(ItemExpireNoticeOutgoing));
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
         }
     }
 
-    void send(CUser* user, CItem* item, std::uint8_t bag, std::uint8_t slot)
+    void send(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
     {
         if (!item->itemInfo->duration)
             return;
@@ -129,12 +117,8 @@ namespace item_duration
         if (!expireTime)
             return;
 
-        ItemDurationOutgoing packet{};
-        packet.bag = bag;
-        packet.slot = slot;
-        packet.fromDate = item->makeTime;
-        packet.toDate = expireTime;
-        SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
 
         send_expire_notice(user, item, bag, slot);
     }
@@ -166,7 +150,7 @@ namespace item_duration
 
     void send_bag_to_bank(CUser* user, Packet buffer)
     {
-        auto slot = util::deserialize<std::uint8_t>(buffer, 37);
+        auto slot = util::deserialize<UINT8>(buffer, 37);
         if (slot >= user->warehouse.size())
             return;
 
@@ -181,12 +165,8 @@ namespace item_duration
         if (!expireTime)
             return;
 
-        ItemDurationOutgoing packet{};
-        packet.bag = warehouse_bag;
-        packet.slot = slot;
-        packet.fromDate = item->makeTime;
-        packet.toDate = expireTime;
-        SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+        ItemDurationOutgoing outgoing(warehouse_bag, slot, item->makeTime, expireTime);
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
 
     void send_item_create(CUser* user, CItem* item, Packet buffer)
@@ -198,12 +178,11 @@ namespace item_duration
         if (!expireTime)
             return;
 
-        ItemDurationOutgoing packet{};
-        packet.bag = util::deserialize<std::uint8_t>(buffer, 2);
-        packet.slot = util::deserialize<std::uint8_t>(buffer, 3);
-        packet.fromDate = item->makeTime;
-        packet.toDate = expireTime;
-        SConnection::Send(&user->connection, &packet, sizeof(ItemDurationOutgoing));
+        auto bag = util::deserialize<UINT8>(buffer, 2);
+        auto slot = util::deserialize<UINT8>(buffer, 3);
+
+        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
 
     void world_thread_update()

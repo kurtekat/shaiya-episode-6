@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
 
 namespace shaiya
@@ -7,8 +8,8 @@ namespace shaiya
     struct STexture
     {
         PAD(4);                              //0x00
-        Array<char, 256> fileName;           //0x04
-        Array<char, 256> path;               //0x104
+        std::array<char, 256> fileName;      //0x04
+        std::array<char, 256> path;          //0x104
         LPDIRECT3DBASETEXTURE9 baseTexture;  //0x204
         // 0x208
     };

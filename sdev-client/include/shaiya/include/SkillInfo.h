@@ -1,35 +1,20 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
+#include <shaiya/include/common/Attribute.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/skill/NeedWeapon.h>
+#include <shaiya/include/skill/SkillAbilityType.h>
+#include <shaiya/include/skill/SkillStatusType.h>
+#include <shaiya/include/skill/SkillTargetType.h>
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     struct SkillAbility
     {
-        Array<UINT8, 10> type;
-        Array<UINT16, 10> value;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct SkillWeapon
-    {
-        bool oneHandedSword;
-        bool twoHandedSword;
-        bool oneHandedAxe;
-        bool twoHandedAxe;
-        bool dualWeapon;
-        bool spear;
-        bool oneHandedBlunt;
-        bool twoHandedBlunt;
-        bool reverseDagger;
-        bool dagger;
-        bool javelin;
-        bool staff;
-        bool bow;
-        bool crossbow;
-        bool knuckles;
-        bool shield;
+        std::array<SkillAbilityType, 10> type;
+        std::array<UINT16, 10> value;
     };
     #pragma pack(pop)
 
@@ -49,7 +34,7 @@ namespace shaiya
         UINT8 typeAttack;        //0x1E
         UINT8 typeEffect;        //0x1F
         UINT16 typeDetail;       //0x20
-        SkillWeapon needWeapon;  //0x22
+        NeedWeapon needWeapon;   //0x22
         UINT16 stamina;          //0x32
         UINT16 mana;             //0x34
         UINT16 readyTime;        //0x36
@@ -60,7 +45,7 @@ namespace shaiya
         PAD(6);
         UINT32 damage;           //0x52
         PAD(16);
-        SkillAbility ability;    //0x66
+        SkillAbility abilities;  //0x66
         // 0x84
         PAD(24);
         // 0x9C

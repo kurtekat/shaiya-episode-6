@@ -1,7 +1,8 @@
 #pragma once
-#include <include/shaiya/common.h>
-#include <include/shaiya/include/SNode.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/item/MakeType.h>
 
 namespace shaiya
 {
@@ -36,7 +37,7 @@ namespace shaiya
         CraftName craftName;       //0x4C
         PAD(3);
         ULONG makeTime;            //0x64
-        ItemMakeType makeType;     //0x68
+        MakeType makeType;         //0x68
         PAD(3);
         DWORD enablePickTime;      //0x6C
         ULONG enablePickCharId;    //0x70

@@ -1,24 +1,15 @@
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <strsafe.h>
+
 #include <include/main.h>
 #include <include/static.h>
 #include <include/shaiya/include/CCharacter.h>
-#include <include/shaiya/include/CNetwork.h>
-#include <include/shaiya/include/CWorldMgr.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
 namespace packet
 {
-    void process_incoming(std::uint16_t opcode, Packet packet)
-    {
-        switch (opcode)
-        {
-        case 0xFFFF:
-            break;
-        default:
-            break;
-        }
-    }
-
     void remove_disguise(CCharacter* user)
     {
         if (!user->petType)
@@ -34,34 +25,11 @@ namespace packet
             user->wings = nullptr;
     }
 
-    void revenge_message(CCharacter* killer, std::uint32_t killCount)
+    void revenge_message(CCharacter* killer, UINT32 killCount)
     {
-        std::copy_n(killer->charName.begin(), killer->charName.size(), g_static->t.begin());
+        StringCbCopyA(g_static->t.data(), g_static->t.size(), killer->charName.data());
         g_static->v = killCount;
         Static::GetMsg(5, 509, 1);
-    }
-}
-
-unsigned u0x5F3A41 = 0x5F3A41;
-void __declspec(naked) naked_0x5F3A3B()
-{
-    __asm
-    {
-        pushad
-
-        movzx edx,word ptr[esp+0x50]
-        lea eax,[esp+0x52]
-
-        push eax // packet
-        push edx // opcode
-        call packet::process_incoming
-        add esp,0x8
-
-        popad
-
-        // original
-        mov ecx,dword ptr ds:[0x22FA2F0]
-        jmp u0x5F3A41
     }
 }
 
@@ -148,8 +116,6 @@ void __declspec(naked) naked_0x593D0F()
 
 void hook::packet()
 {
-    // recv default case
-    util::detour((void*)0x5F3A3B, naked_0x5F3A3B, 6);
     // disguise bug
     util::detour((void*)0x5933F8, naked_0x5933F8, 6);
     // appearance/sex change bug

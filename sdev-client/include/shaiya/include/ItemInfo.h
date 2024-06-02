@@ -1,33 +1,15 @@
 #pragma once
 #include <include/shaiya/common.h>
+#include <shaiya/include/common/Attribute.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/item/ExtDuration.h>
+#include <shaiya/include/item/ItemEffect.h>
+#include <shaiya/include/item/ItemType.h>
+#include <shaiya/include/item/ReqOg.h>
 
 namespace shaiya
 {
-    enum struct ItemCountry : UINT8
-    {
-        Human,
-        Elf,
-        Light,
-        DeathEater,
-        Vail,
-        Fury,
-        Neutral
-    };
-
-    enum struct ItemExtDuration : UINT8
-    {
-        None,
-        Unexpandable,
-        Expandable
-    };
-
-    enum struct ItemReqOg : UINT8
-    {
-        Tradable,
-        AccountBound,
-        CharacterBound
-    };
-
     #pragma pack(push, 1)
     struct ItemInfo
     {
@@ -37,10 +19,14 @@ namespace shaiya
         UINT8 typeId;           //0x09
         UINT8 model;            //0x0A
         UINT8 icon;             //0x0B
-        UINT8 level;            //0x0C
-        PAD(1);
-        ItemCountry country;    //0x0E
-        ReqJob job;             //0x0F
+        UINT16 reqLevel;        //0x0C
+        Country3 country;       //0x0E
+        bool attackFighter;     //0x0F
+        bool defenseFighter;    //0x10
+        bool patrolRogue;       //0x11
+        bool shootRogue;        //0x12
+        bool attackMage;        //0x13
+        bool defenseMage;;      //0x14
         Grow grow;              //0x15
         UINT16 reqStr;          //0x16
         UINT16 reqDex;          //0x18
@@ -49,12 +35,12 @@ namespace shaiya
         UINT16 reqWis;          //0x1E
         INT32 reqLuc;           //0x20
         INT16 reqVg;            //0x24
-        ItemReqOg reqOg;        //0x26
+        ReqOg reqOg;            //0x26
         UINT8 reqIg;            //0x27
         UINT16 range;           //0x28
         UINT8 attackTime;       //0x2A
         Attribute attribute;    //0x2B
-        UINT8 special;          //0x2C
+        ItemEffect effect;      //0x2C
         UINT8 slotCount;        //0x2D
         UINT16 quality;         //0x2E
         UINT16 effect1;         //0x30
@@ -70,7 +56,7 @@ namespace shaiya
         PAD(2);
         UINT32 duration;        //0x5C
         // 0x60
-        ItemExtDuration extDuration;
+        ExtDuration extDuration;
         PAD(47);
         UINT8 vehicleModel;     //0x90
         PAD(3);

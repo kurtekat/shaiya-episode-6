@@ -1,8 +1,5 @@
 #pragma once
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {

@@ -1,97 +1,14 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
 
 namespace shaiya
 {
     struct CDoor;
     struct MobInfo;
 
-    typedef Array<char, 256> SvMapName;
-
-    enum MapId
-    {
-        DWaterBorderland,
-        Erina,
-        Reikeuseu,
-        TragosCavum1,
-        TragosCavum2,
-        CornwellsRuin1,
-        CornwellsRuin2,
-        ArgillaRuin1,
-        ArgillaRuin2,
-        WaterDragonLair1,
-        WaterDragonLair2,
-        WaterDragonLair3,
-        CloronsLair1,
-        CloronsLair2,
-        CloronsLair3,
-        FantasmasLair1,
-        FantasmasLair2,
-        FantasmasLair3,
-        ProeliumFrontier,
-        Willieoseu,
-        Keuraijen,
-        Maitreyan1,
-        Maitreyan2,
-        AidionNeckria1,
-        AidionNeckria2,
-        ElementalCave,
-        RuberChaos,
-        Adellia = 28,
-        Adeurian,
-        Cantabilian,
-        TempleOfPharos,
-        MazeOfRapioru,
-        SenechioCave,
-        KalumusHouse,
-        Apulune,
-        Iris,
-        CaveOfStigma,
-        AurizenRuin,
-        UndergroundStadium = 40,
-        SecretPrison,
-        VaultGuildAuctionHouse,
-        Skulleron,
-        Astenes,
-        DeepDesert1,
-        DeepDesert2,
-        StableErde,
-        LightCrypticThrone,
-        FuryCrypticThrone,
-        GuildRankingBattle,
-        LightGuildHouse,
-        FuryGuildHouse,
-        LightGuildMgrOffice,
-        FuryGuildMgrOffice,
-        CaelumGreendieta1 = 56,
-        CaelumGreendieta2,
-        CaelumGreendieta3,
-        GardenOfGoddess,
-        OblivioInsula = 64,
-        CaelumSacra1,
-        CaelumSacra2,
-        CaelumSacra3,
-        ValdemarRegnum,
-        PalaionRegnum,
-        KanosIlium,
-        QueenCaput,
-        QueenServus,
-        ZeharrsMine,
-        DimensionCrack,
-        Pantanasa,
-        Theodores,
-
-        // MapWar
-
-        ProeliumFrontierBattleZone = 102,
-        CantabilianBattleZone,
-        DWaterBorderlandBattleZone,
-        GoddessBattleZone,
-        RewardMap,
-        WaitingRoom = 108,
-        StableErdeBattleZone
-    };
+    using SvMapName = std::array<char, 256>;
 
     enum struct MapCreateType : UINT32
     {
@@ -102,13 +19,6 @@ namespace shaiya
         Guild,      // G
         Restricted, // R
         House       // H
-    };
-
-    enum struct MapPortalCountry : UINT32
-    {
-        Neutral,
-        Light,
-        Fury
     };
 
     enum struct MapType : UINT32
@@ -135,12 +45,14 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBossMob
     {
-        SVector pos;                  //0x00
-        float radius;                 //0x0C
+        SVector pos;   //0x00
+        float radius;  //0x0C
         PAD(4);
-        UINT32 count;                 //0x14
-        Array<UINT32, 16> mobId;      //0x18
-        Array<MobInfo*, 16> mobInfo;  //0x58
+        UINT32 count;  //0x14
+        // 0x18
+        std::array<UINT32, 16> mobId;
+        // 0x58
+        std::array<MobInfo*, 16> mobList;
         // 0x98
         PAD(148);
         // 0x12C
@@ -162,22 +74,26 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBoss
     {
-        UINT32 id;                        //0x00
-        UINT32 count;                     //0x04
-        UINT32 respawnTime;               //0x08
-        UINT32 portalMapId;               //0x0C
-        InsZoneId portalInsZoneId;        //0x10
+        UINT32 id;                 //0x00
+        UINT32 count;              //0x04
+        UINT32 respawnTime;        //0x08
+        UINT32 portalMapId;        //0x0C
+        UINT32 portalInsZoneId;    //0x10
         PAD(4);
-        UINT32 changeMobCount;            //0x18
-        SVector pos;                      //0x1C
+        UINT32 changeMobCount;     //0x18
+        SVector pos;               //0x1C
         PAD(12);
-        Array<UINT32, 16> mobId;          //0x34
-        Array<MobInfo*, 16> mobInfo;      //0x74
+        // 0x34
+        std::array<UINT32, 16> mobId;
+        // 0x74
+        std::array<MobInfo*, 16> mobList;
         // 0xB4
         PAD(100);
-        BOOL enableRandomRespawn;         //0x118
-        MapRandomRespawn randomRespawn;   //0x11C
-        Array<MapBossMob, 32> changeMob;  //0x148
+        BOOL enableRandomRespawn;  //0x118
+        // 0x11C
+        MapRandomRespawn randomRespawn;
+        // 0x148
+        std::array<MapBossMob, 32> changeMobList;
         PAD(4);
         // 0x26CC
     };
@@ -215,12 +131,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapMob
     {
-        SVector v;     //0x00
-        SVector w;     //0x0C
-        UINT32 cellX;  //0x18
-        UINT32 cellZ;  //0x1C
-        UINT32 count;  //0x20
-        MapMob2* mob;  //0x24
+        SVector v;         //0x00
+        SVector w;         //0x0C
+        UINT32 cellX;      //0x18
+        UINT32 cellZ;      //0x1C
+        UINT32 count;      //0x20
+        MapMob2* mobList;  //0x24
         // 0x28
     };
     #pragma pack(pop)
@@ -228,8 +144,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapNamedArea
     {
-        SVector v;     //0x00
-        SVector w;     //0x0C
+        SVector v;  //0x00
+        SVector w;  //0x0C
         PAD(16);
         // 0x28
     };
@@ -241,7 +157,7 @@ namespace shaiya
         UINT32 type;
         UINT32 typeId;
         UINT32 posCount;
-        SVector* pos;
+        SVector* posList;
         PAD(4);
         // 0x14
     };
@@ -267,7 +183,7 @@ namespace shaiya
     struct MapPortal
     {
         UINT32 id;
-        MapPortalCountry country;
+        Country2 country;
     };
     #pragma pack(pop)
 
@@ -302,21 +218,22 @@ namespace shaiya
         UINT32 size;               //0x04
         PAD(12);
         UINT32 mobAreaCount;       //0x14
-        MapMob* mobArea;           //0x18
+        MapMob* mobAreaList;       //0x18
         PAD(8);
         MapWeather weather;        //0x24
         UINT32 npcCount;           //0x40
-        MapNpc* npc;               //0x44
+        MapNpc* npcList;           //0x44
         PAD(8);
         UINT32 portalCount;        //0x50 
-        CDoor* portal;             //0x54
+        CDoor* portalList;         //0x54
         UINT32 bindCount;          //0x58
-        MapBind* bind;             //0x5C
+        MapBind* bindList;         //0x5C
         UINT32 ladderCount;        //0x60
-        MapLadder* ladder;         //0x64
+        MapLadder* ladderList;     //0x64
         PAD(8);
         UINT32 namedAreaCount;     //0x70
-        MapNamedArea* namedArea;   //0x74
+        // 0x74
+        MapNamedArea* namedAreaList;
         ULONG id;                  //0x78
         MapWarType warType;        //0x7C
         MapType mapType;           //0x80

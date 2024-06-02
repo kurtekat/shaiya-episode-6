@@ -4,12 +4,13 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0300.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/Synergy.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/item/ItemType.h>
+#include <shaiya/include/network/game/outgoing/0300.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -54,10 +55,8 @@ namespace user_equipment
 
     void send_inspect(CUser* user, CUser* target)
     {
-        constexpr int packet_size_without_list = 3;
-
-        GetInfoInspectOutgoing packet{};
-        packet.itemCount = 0;
+        GetInfoInspectOutgoing outgoing{};
+        outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(target->inventory[0])))
@@ -65,7 +64,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= packet.itemList.size())
+            if (std::size_t(slot) >= outgoing.itemList.size())
                 break;
 
             if (slot < EquipmentSlot::Wings)
@@ -80,14 +79,14 @@ namespace user_equipment
 
                 item0307.gems = item->gems;
                 item0307.craftName = item->craftName;
-                packet.itemList[packet.itemCount] = item0307;
+                outgoing.itemList[outgoing.itemCount] = item0307;
 
-                ++packet.itemCount;
+                ++outgoing.itemCount;
             }
         }
 
-        int length = packet_size_without_list + (packet.itemCount * sizeof(Item0307));
-        SConnection::Send(&user->connection, &packet, length);
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0307));
+        SConnection::Send(&user->connection, &outgoing, length);
     }
 }
 

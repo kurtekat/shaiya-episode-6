@@ -1,7 +1,7 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/CMap.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -21,14 +21,15 @@ namespace shaiya
     #pragma pack(push, 1)
     struct Obelisk
     {
-        UINT32 id;                  //0x00
+        UINT32 id;            //0x00
         PAD(4);
-        SVector pos;                //0x08
-        UINT32 neutralMobId;        //0x14
-        UINT32 lightMobId;          //0x18
-        UINT32 furyMobId;           //0x1C
-        UINT32 mobCount;            //0x20
-        Array<ObeliskMob, 64> mob;  //0x24
+        SVector pos;          //0x08
+        UINT32 neutralMobId;  //0x14
+        UINT32 lightMobId;    //0x18
+        UINT32 furyMobId;     //0x1C
+        UINT32 mobCount;      //0x20
+        // 0x24
+        std::array<ObeliskMob, 64> mobList;
         // 0x824
     };
     #pragma pack(pop)
@@ -45,11 +46,12 @@ namespace shaiya
     // 0x5845C0
     struct ObeliskPortal
     {
-        UINT8 id;                    //0x00
+        UINT8 id;          //0x00
         PAD(3);
-        UINT32 mapId;                //0x04
-        InsZoneId insZoneId;         //0x08
-        Array<Obelisk2, 8> obelisk;  //0x0C
+        UINT32 mapId;      //0x04
+        UINT32 insZoneId;  //0x08
+        // 0x0C
+        std::array<Obelisk2, 8> obeliskList;
         // 0x4C
     };
     #pragma pack(pop)
@@ -58,9 +60,10 @@ namespace shaiya
     // 0x10A2C38 g_pObeliskZone
     struct ObeliskZone
     {
-        UINT32 id;                   //0x00
-        UINT32 obeliskCount;         //0x04
-        Array<Obelisk, 64> obelisk;  //0x08
+        UINT32 id;            //0x00
+        UINT32 obeliskCount;  //0x04
+        // 0x08
+        std::array<Obelisk, 64> obeliskList;
         // 0x20908
     };
     #pragma pack(pop)
@@ -69,9 +72,10 @@ namespace shaiya
     // 0x18C6E38 g_pObeliskBoss
     struct ObeliskBoss
     {
-        UINT32 mapId;                //0x00
-        UINT32 bossMobCount;         //0x04
-        Array<MapBoss, 64> bossMob;  //0x08
+        UINT32 mapId;         //0x00
+        UINT32 bossMobCount;  //0x04
+        // 0x08
+        std::array<MapBoss, 64> bossMobList;
         // 0x9B308
     };
     #pragma pack(pop)

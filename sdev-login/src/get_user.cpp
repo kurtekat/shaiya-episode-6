@@ -5,7 +5,7 @@
 #include <sqlext.h>
 
 #include <include/main.h>
-#include <sdev/include/shaiya/include/SDatabase.h>
+#include <shaiya/include/common/SDatabase.h>
 #include <util/include/util.h>
 using namespace shaiya;
 

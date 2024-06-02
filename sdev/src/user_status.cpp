@@ -3,12 +3,12 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/Synergy.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/game/outgoing/0500.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -16,31 +16,31 @@ namespace user_status
 {
     void send(CUser* user)
     {
-        UserStatusOutgoing packet{};
+        UserStatusOutgoing outgoing{};
 
         auto strength = user->abilityStrength;
         strength -= user->strength;
-        packet.strength = strength;
+        outgoing.strength = strength;
 
         auto reaction = user->abilityReaction;
         reaction -= user->reaction;
-        packet.reaction = reaction;
+        outgoing.reaction = reaction;
 
         auto intelligence = user->abilityIntelligence;
         intelligence -= user->intelligence;
-        packet.intelligence = intelligence;
+        outgoing.intelligence = intelligence;
 
         auto wisdom = user->abilityWisdom;
         wisdom -= user->wisdom;
-        packet.wisdom = wisdom;
+        outgoing.wisdom = wisdom;
 
         auto dexterity = user->abilityDexterity;
         dexterity -= user->dexterity;
-        packet.dexterity = dexterity;
+        outgoing.dexterity = dexterity;
 
         auto luck = user->abilityLuck;
         luck -= user->luck;
-        packet.luck = luck;
+        outgoing.luck = luck;
 
         auto attackPower = user->minAttackPower;
 
@@ -59,19 +59,19 @@ namespace user_status
             }
         }
 
-        packet.minAttackPower = attackPower;
+        outgoing.minAttackPower = attackPower;
         attackPower += user->maxAddAttackPower;
-        packet.maxAttackPower = attackPower;
+        outgoing.maxAttackPower = attackPower;
 
         auto magicPower = user->minMagicPower;
-        packet.minMagicPower = magicPower;
+        outgoing.minMagicPower = magicPower;
         magicPower += user->maxAddAttackPower;
-        packet.maxMagicPower = magicPower;
+        outgoing.maxMagicPower = magicPower;
 
-        packet.defense = user->defense;
-        packet.resistance = user->magicResistance;
+        outgoing.defense = user->defense;
+        outgoing.resistance = user->magicResistance;
 
-        SConnection::Send(&user->connection, &packet, sizeof(UserStatusOutgoing));
+        SConnection::Send(&user->connection, &outgoing, sizeof(UserStatusOutgoing));
     }
 
     void send_recover_set(CUser* user)

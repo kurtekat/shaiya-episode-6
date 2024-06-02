@@ -5,17 +5,19 @@
 #include <strsafe.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0100.h>
-#include <include/shaiya/packets/0700.h>
-#include <include/shaiya/packets/dbAgent/0400.h>
 #include <include/shaiya/include/CClientToDBAgent.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SConnectionTBaseReconnect.h>
 #include <include/shaiya/include/ServerTime.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/dbAgent/incoming/0400.h>
+#include <shaiya/include/network/dbAgent/outgoing/0400.h>
+#include <shaiya/include/network/game/incoming/0100.h>
+#include <shaiya/include/network/game/outgoing/0100.h>
+#include <shaiya/include/network/game/outgoing/0700.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -23,40 +25,32 @@ namespace packet_character
 {
     void name_available_handler(CUser* user, CharNameAvailableIncoming* incoming)
     {
-        constexpr int packet_size_without_name = 6;
-
-        UserCharNameAvailableIncoming request{};
-        request.userId = user->userId;
-
         incoming->name[incoming->name.size() - 1] = '\0';
         auto nameLength = std::strlen(incoming->name.data());
 
         if (nameLength < 3 || nameLength > 13)
         {
-            CharNameAvailableOutgoing packet{ 0x119, false };
-            SConnection::Send(&user->connection, &packet, sizeof(CharNameAvailableOutgoing));
+            CharNameAvailableOutgoing outgoing(false);
+            SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
-        StringCbCopyA(request.name.data(), request.name.size(), incoming->name.data());
-
-        int length = packet_size_without_name + nameLength + 1;
+        DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
+        int length = request.size_without_name() + nameLength + 1;
         SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &request, length);
     }
 
-    void send_name_available(CUser* user, UserCharNameAvailableOutgoing* response)
+    void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
     {
-        CharNameAvailableOutgoing outgoing{ 0x119, response->available };
+        CharNameAvailableOutgoing outgoing(response->available);
         SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
     void send_warehouse(CUser* user)
     {
-        constexpr int packet_size_without_list = 7;
-
-        UserBankItemListOutgoing warehouse{};
-        warehouse.bankMoney = user->bankMoney;
-        warehouse.itemCount = 0;
+        UserBankItemListOutgoing outgoing{};
+        outgoing.bankMoney = user->bankMoney;
+        outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->warehouse)))
@@ -81,27 +75,27 @@ namespace packet_character
 #endif
 
             item0711.craftName = item->craftName;
-            warehouse.itemList[warehouse.itemCount] = item0711;
+            outgoing.itemList[outgoing.itemCount] = item0711;
 
-            ++warehouse.itemCount;
+            ++outgoing.itemCount;
 
-            if (warehouse.itemCount != warehouse.itemList.size())
+            if (outgoing.itemCount != outgoing.itemList.size())
                 continue;
             else
             {
-                int length = packet_size_without_list + (warehouse.itemCount * sizeof(Item0711));
-                SConnection::Send(&user->connection, &warehouse, length);
+                int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+                SConnection::Send(&user->connection, &outgoing, length);
 
-                std::memset(&warehouse.itemList, 0, sizeof(warehouse.itemList));
-                warehouse.itemCount = 0;
+                std::memset(&outgoing.itemList, 0, sizeof(outgoing.itemList));
+                outgoing.itemCount = 0;
             }
         }
 
-        if (!warehouse.itemCount)
+        if (!outgoing.itemCount)
             return;
 
-        int length = packet_size_without_list + (warehouse.itemCount * sizeof(Item0711));
-        SConnection::Send(&user->connection, &warehouse, length);
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+        SConnection::Send(&user->connection, &outgoing, length);
     }
 
     void send_character(CUser* user, Character0403* dbCharacter)

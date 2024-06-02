@@ -1,5 +1,8 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/Job.h>
 
 namespace shaiya
 {

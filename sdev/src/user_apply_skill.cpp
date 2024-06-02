@@ -2,116 +2,120 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CGameData.h>
 #include <include/shaiya/include/CSkill.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/SkillInfo.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/game/outgoing/0500.h>
+#include <shaiya/include/skill/SkillAbilityType.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
 namespace user_apply_skill
 {
-    void frenzy_handler(CUser* user, SkillInfo* skillInfo)
+    void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
-        SkillUseOutgoing packet{};
-        packet.senderId = user->id;
-        packet.targetId = user->id;
-        packet.skillId = skillInfo->skillId;
-        packet.skillLv = skillInfo->skillLv;
+        SkillUseOutgoing outgoing{};
+        outgoing.senderId = user->id;
+        outgoing.targetId = user->id;
+        outgoing.skillId = skillInfo->skillId;
+        outgoing.skillLv = skillInfo->skillLv;
 
-        if (!user->frenzy.triggered)
+        if (!user->skillAbility70.triggered)
         {
 #ifdef SHAIYA_EP6
-            packet.frenzyState = SkillUseFrenzyState::Triggered;
+            outgoing.statusType = SkillUseStatusType::Triggered;
 #endif
 
-            user->frenzy.triggered = true;
-            user->frenzy.skillId = packet.skillId;
-            user->frenzy.skillLv = packet.skillLv;
-            user->frenzy.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
+            user->skillAbility70.triggered = true;
+            user->skillAbility70.skillId = outgoing.skillId;
+            user->skillAbility70.skillLv = outgoing.skillLv;
+            user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            SConnection::Send(&user->connection, &packet, sizeof(SkillUseOutgoing));
+            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::AddApplySkillBuff(user, skillInfo);
 
-            auto percentage = (user->health * skillInfo->ability[0].value) / 100;
+            auto percentage = (user->health * skillInfo->abilities[0].value) / 100;
             user->health -= percentage;
             CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
         }
         else
         {
 #ifdef SHAIYA_EP6
-            packet.frenzyState = SkillUseFrenzyState::Stopped;
+            outgoing.statusType = SkillUseStatusType::Stopped;
 #endif
 
-            user->frenzy.triggered = false;
-            user->frenzy.skillId = 0;
-            user->frenzy.skillLv = 0;
-            user->frenzy.keepTime = 0;
+            user->skillAbility70.triggered = false;
+            user->skillAbility70.skillId = 0;
+            user->skillAbility70.skillLv = 0;
+            user->skillAbility70.keepTime = 0;
 
-            SConnection::Send(&user->connection, &packet, sizeof(SkillUseOutgoing));
+            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::RemApplySkillBuff(user, skillInfo);
         }
     }
 
-    void frenzy_update(CUser* user)
+    void ability_70_update(CUser* user)
     {
         if (!user)
             return;
 
         auto now = GetTickCount();
-        if (!user->frenzy.triggered || now < user->frenzy.keepTime)
+        if (!user->skillAbility70.triggered || now < user->skillAbility70.keepTime)
             return;
 
-        auto skillInfo = CGameData::GetSkillInfo(user->frenzy.skillId, user->frenzy.skillLv);
+        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
         if (!skillInfo)
             return;
 
-        auto percentage = (user->health * skillInfo->ability[0].value) / 100;
+        auto percentage = (user->health * skillInfo->abilities[0].value) / 100;
         user->health -= percentage;
         CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
 
-        user->frenzy.keepTime = now + (skillInfo->keepTime * 1000);
+        user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
     }
 
-    void frenzy_remove(CUser* user)
+    void ability_70_remove(CUser* user)
     {
-        if (!user->frenzy.triggered)
+        if (!user->skillAbility70.triggered)
             return;
 
-        auto skillInfo = CGameData::GetSkillInfo(user->frenzy.skillId, user->frenzy.skillLv);
+        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
         if (!skillInfo)
             return;
 
-        user->frenzy.triggered = false;
-        user->frenzy.skillId = 0;
-        user->frenzy.skillLv = 0;
-        user->frenzy.keepTime = 0;
+        user->skillAbility70.triggered = false;
+        user->skillAbility70.skillId = 0;
+        user->skillAbility70.skillLv = 0;
+        user->skillAbility70.keepTime = 0;
 
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 
     void send_view(CUser* sender, CUser* target, SkillInfo* skillInfo, Packet buffer)
     {
-        if (skillInfo->ability[0].type == SkillAbilityType::Frenzied)
-            return frenzy_handler(sender, skillInfo);
+        if (skillInfo->abilities[0].type == SkillAbilityType::Frenzied)
+        {
+            ability_70_handler(sender, skillInfo);
+            return;
+        }
 
-        SkillUseOutgoing packet{};
-        packet.targetType = util::deserialize<std::uint8_t>(buffer, 2);
-        packet.senderId = sender->id;
-        packet.targetId = target->id;
-        packet.skillId = util::deserialize<std::uint16_t>(buffer, 11);
-        packet.skillLv = util::deserialize<std::uint8_t>(buffer, 13);
-        packet.health = util::deserialize<std::uint16_t>(buffer, 14);
-        packet.stamina = util::deserialize<std::uint16_t>(buffer, 16);
-        packet.mana = util::deserialize<std::uint16_t>(buffer, 18);
+        SkillUseOutgoing outgoing{};
+        outgoing.targetType = util::deserialize<UINT8>(buffer, 2);
+        outgoing.senderId = sender->id;
+        outgoing.targetId = target->id;
+        outgoing.skillId = util::deserialize<UINT16>(buffer, 11);
+        outgoing.skillLv = util::deserialize<UINT8>(buffer, 13);
+        outgoing.health = util::deserialize<UINT16>(buffer, 14);
+        outgoing.stamina = util::deserialize<UINT16>(buffer, 16);
+        outgoing.mana = util::deserialize<UINT16>(buffer, 18);
 
         if (!sender->zone)
             return;
 
-        CZone::PSendView(sender->zone, &packet, sizeof(SkillUseOutgoing), &sender->pos, 60, sender->id, target->id, 5);
+        CZone::PSendView(sender->zone, &outgoing, sizeof(SkillUseOutgoing), &sender->pos, 60, sender->id, target->id, 5);
     }
 }
 
@@ -171,7 +175,7 @@ void __declspec(naked) naked_0x428AD5()
 
         lea edx,[esi-0xD0]
         push edx // user
-        call user_apply_skill::frenzy_update
+        call user_apply_skill::ability_70_update
         add esp,0x4
 
         popad
@@ -188,7 +192,7 @@ void __declspec(naked) naked_0x49861D()
         pushad
 
         push esi // user
-        call user_apply_skill::frenzy_remove
+        call user_apply_skill::ability_70_remove
         add esp,0x4
 
         popad

@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
 
 namespace shaiya
@@ -21,7 +22,7 @@ namespace shaiya
         UINT32 numBones;                       //0x28
         D3DMATRIX* bones;                      //0x2C
         PAD(8);
-        Array<char, MAX_PATH> path;            //0x38
+        std::array<char, MAX_PATH> path;       //0x38
         UINT16 unknown;                        //0x13C
         PAD(2);
         _3dcVersion version;                   //0x140

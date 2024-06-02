@@ -1,41 +1,24 @@
 #pragma once
+#include <array>
 #include <include/shaiya/common.h>
+#include <shaiya/include/npc/NpcType.h>
 
 namespace shaiya
 {
     struct CStaticText;
 
-    typedef Array<char, 52> NpcName;
-
-    enum struct NpcType : UINT32
-    {
-        None,
-        Merchant,
-        GateKeeper,
-        Blacksmith,
-        VetManager,
-        GamblingHouse,
-        Warehouse,
-        Normal,
-        Guard,
-        Animal,
-        Apprentice,
-        GuildMaster,
-        Dead,
-        SkillReset
-    };
+    using NpcName = std::array<char, 52>;
 
     #pragma pack(push, 1)
     // 0049AB60 ctor
     struct CNpc
     {
-        PAD(4);
-        NpcName name;           //0x04
+        PAD(56);
         D3DVECTOR pos;          //0x38
         D3DVECTOR dir;          //0x44
         D3DVECTOR up;           //0x50
         ULONG id;               //0x5C
-        UINT8 type;             //0x60
+        NpcType8 type;          //0x60
         PAD(1);
         UINT16 typeId;          //0x62
         PAD(168);

@@ -1,8 +1,8 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/CMap.h>
-#include <include/shaiya/include/SSyncList.h>
-#include <include/shaiya/include/SSyncMap.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/SSyncList.h>
+#include <shaiya/include/common/SSyncMap.h>
 
 namespace shaiya
 {
@@ -23,25 +23,26 @@ namespace shaiya
         CMap* map;                        //0x28
         PAD(12);
         SSyncList<void> list38;           //0x38
-        SSyncMap<ULONG, CUser*> userMap;  //0x64
-        SSyncMap<ULONG, CMob*> mobMap;    //0xAC
-        SSyncMap<ULONG, CNpc*> npcMap;    //0xF4
-        SSyncMap<ULONG, CItem*> itemMap;  //0x13C
+        SSyncMap<ULONG, CUser*> users;    //0x64
+        SSyncMap<ULONG, CMob*> mobs;      //0xAC
+        SSyncMap<ULONG, CNpc*> npcs;      //0xF4
+        SSyncMap<ULONG, CItem*> items;    //0x13C
         SSyncList<CUser> userList;        //0x184
         SSyncList<CMob> mobList;          //0x1B0
         SSyncList<CNpc> npcList;          //0x1DC
         SSyncList<CItem> itemList;        //0x208
         SSyncList<CTrap> trapList;        //0x234
         SSyncList<void> list260;          //0x260
-        Array<MapPortal, 10> portal;      //0x28C
+        // 0x28C
+        std::array<MapPortal, 10> portalList;
         UINT32 mobAreaCount;              //0x2DC
-        MapMob* mobArea;                  //0x2E0
-        UINT32 mapBossCount;              //0x2E4
-        MapBoss* mapBoss;                 //0x2E8
+        MapMob* mobAreaList;              //0x2E0
+        UINT32 bossMobCount;              //0x2E4
+        MapBoss* bossMobList;             //0x2E8
         MapWeather weather;               //0x2EC
         PAD(8);
         UINT32 regionCount;               //0x310
-        CMapRegion* region;               //0x314
+        CMapRegion* regionList;           //0x314
         // 0x318
 
         static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);

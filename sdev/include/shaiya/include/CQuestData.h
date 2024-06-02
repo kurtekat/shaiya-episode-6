@@ -1,11 +1,13 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
 
 namespace shaiya
 {
     static Address g_QuestData = 0x4093300;
 
-    typedef Array<char, 256> QuestName;
+    using QuestName =  std::array<char, 256>;
 
     #pragma pack(push, 1)
     struct QuestItem
@@ -13,6 +15,18 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 count;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct QuestJob
+    {
+        bool attackFighter;
+        bool defenseFighter;
+        bool patrolRogue;
+        bool shootRogue;
+        bool attackMage;
+        bool defenseMage;
     };
     #pragma pack(pop)
 
@@ -28,7 +42,7 @@ namespace shaiya
         UINT32 exp;          //0x14
         UINT32 gold;         //0x18
         // 0x1C
-        Array<QuestItem, 3> item;
+        std::array<QuestItem, 3> itemList;
         PAD(1);
         UINT16 nextQuestId;  //0x26
         PAD(4);
@@ -65,7 +79,7 @@ namespace shaiya
         Grow grow;              //0x107
         bool male;              //0x108
         bool female;            //0x109
-        ReqJob job;             //0x10A
+        QuestJob job;           //0x10A
         UINT16 hg;              //0x110
         INT16 vg;               //0x112
         UINT8 cg;               //0x114
@@ -74,7 +88,7 @@ namespace shaiya
         PAD(1);
         UINT16 prevQuestId;     //0x118
         bool partyRequired;     //0x11A
-        ReqJob partyJob;        //0x11B
+        QuestJob partyJob;      //0x11B
         PAD(3);
         UINT32 minimumTime;     //0x124
         UINT32 delay;           //0x128
@@ -86,13 +100,13 @@ namespace shaiya
         UINT8 startItemType;    //0x13C
         UINT8 startItemTypeId;  //0x13D
         // 0x13E
-        Array<QuestItem, 3> reqItem;
+        std::array<QuestItem, 3> itemList;
         UINT8 endType;          //0x147
         UINT8 endNpcType;       //0x148
         PAD(1);
         UINT16 endNpcTypeId;    //0x14A
         // 0x14C
-        Array<QuestItem, 3> farmItem;
+        std::array<QuestItem, 3> farmList;
         UINT8 pvpKillCount;     //0x155
         UINT16 reqMobId1;       //0x156
         UINT16 reqMobId2;       //0x158
@@ -101,13 +115,13 @@ namespace shaiya
         PAD(4);
 #ifdef SHAIYA_EP6
         // 0x160
-        Array<QuestResult, 6> result;
+        std::array<QuestResult, 6> resultList;
         // 0x268
         PAD(28);
         // 0x284 = size
 #else
         // 0x160
-        Array<QuestResult, 3> result;
+        std::array<QuestResult, 3> resultList;
         // 0x1C0
         PAD(16);
         // 0x1D0 = size

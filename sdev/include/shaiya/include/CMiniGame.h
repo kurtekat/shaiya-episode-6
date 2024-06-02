@@ -1,11 +1,11 @@
 #pragma once
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     struct CUser;
 
-    enum struct MiniGameState : UINT32
+    enum struct MiniGameStatusType : UINT32
     {
         GameExit,
         GameEnter,
@@ -17,7 +17,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CMiniGame
     {
-        MiniGameState state;  //0x00
+        MiniGameStatusType statusType;
         UINT32 houseId;       //0x04
         UINT32 bettingMoney;  //0x08
         UINT32 numBets;       //0x0C

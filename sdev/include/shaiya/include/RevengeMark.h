@@ -2,13 +2,13 @@
 #include <map>
 #include <vector>
 
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     struct RevengeMark
     {
-        CharId killerId;
+        ULONG killerId;
         UINT32 killCount;
     };
 

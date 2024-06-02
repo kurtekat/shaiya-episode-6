@@ -2,19 +2,20 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0200.h>
-#include <include/shaiya/packets/0500.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CNpcData.h>
 #include <include/shaiya/include/CObject.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemInfo.h>
+#include <shaiya/include/item/ItemEffect.h>
+#include <shaiya/include/network/game/incoming/0500.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
 namespace item_effect
 {
-    int handler(CUser* user, CItem* item, ItemEffect effect, std::uint8_t bag, std::uint8_t slot)
+    int handler(CUser* user, CItem* item, ItemEffect effect, UINT8 bag, UINT8 slot)
     {
         switch (effect)
         {
@@ -55,13 +56,13 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            user->recallMapId = gateKeeper->gate[user->townScrollGateIndex].mapId;
-            user->recallPos = gateKeeper->gate[user->townScrollGateIndex].pos;
+            user->recallMapId = gateKeeper->gateList[user->townScrollGateIndex].mapId;
+            user->recallPos = gateKeeper->gateList[user->townScrollGateIndex].pos;
             user->recallType = UserRecallType::TownTeleportScroll;
             user->recallTime = GetTickCount() + 5000;
 
-            ItemCastOutgoing packet{ 0x221, user->id };
-            CObject::PSendViewCombat(user, &packet, sizeof(ItemCastOutgoing));
+            ItemCastOutgoing outgoing(user->id);
+            CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
             return 1;
         }
         default:

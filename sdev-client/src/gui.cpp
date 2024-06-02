@@ -1,21 +1,22 @@
 #include <array>
 #include <format>
-#include <string>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 #include <include/main.h>
 #include <util/include/util.h>
 
-const std::array<std::uint16_t, 21> g_weapon_step
+const std::array<UINT16, 21> g_weapon_step
 {
     0, 7, 14, 21, 31, 41, 51, 64, 77, 90, 106, 122, 138, 157, 176, 195, 217, 239, 261, 286, 311
 };
 
-int get_weapon_step(std::uint8_t step)
+int get_weapon_step(UINT8 enchantStep)
 {
-    if (step >= g_weapon_step.size())
+    if (enchantStep >= g_weapon_step.size())
         return 0;
 
-    return g_weapon_step[step];
+    return g_weapon_step[enchantStep];
 }
 
 void format_chat_color_size(char* text)

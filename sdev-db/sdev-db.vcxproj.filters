@@ -27,9 +27,6 @@
     <ClInclude Include="include\shaiya\include\CUser.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\DBCharacter.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\main.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -39,14 +36,8 @@
     <ClInclude Include="include\shaiya\include\CItem.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\SDatabasePool.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\shaiya\src\DBCharacter.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\SConnection.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>

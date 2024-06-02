@@ -9,8 +9,8 @@ void __declspec(naked) naked_0x486319()
 {
     __asm
     {
-        // search index
         movzx eax,byte ptr[ebp+0x5]
+        // ItemMarketType::Vehicle
         cmp eax,0x13
         jge decrement
 

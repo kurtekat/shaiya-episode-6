@@ -1,45 +1,24 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/npc/NpcType.h>
 
 namespace shaiya
 {
-    typedef Array<char, 256> NpcName;
-    typedef Array<char, 256> NpcGateDesc;
-
-    enum struct NpcCountry : UINT32
-    {
-        Neutral,
-        Light,
-        Fury
-    };
-
-    enum struct NpcType : UINT16
-    {
-        Merchant = 1,
-        GateKeeper,
-        Blacksmith,
-        VetManager,
-        GamblingHouse,
-        Warehouse,
-        Normal,
-        Guard,
-        Animal,
-        Apprentice,
-        GuildMaster,
-        Dead,
-        SkillReset
-    };
+    using NpcName = std::array<char, 256>;
+    using NpcGateDesc = std::array<char, 256>;
 
     #pragma pack(push, 1)
     struct Npc
     {
-        NpcType type;        //0x00
-        UINT16 typeId;       //0x02
-        UINT32 shape;        //0x04
+        NpcType8 type;     //0x00
+        PAD(1);
+        UINT16 typeId;     //0x02
+        UINT32 shape;      //0x04
         PAD(8);
-        NpcCountry country;  //0x10
-        NpcName name;        //0x14
+        Country2 country;  //0x10
+        NpcName name;      //0x14
         // 0x114
         PAD(16);
         // 0x124
@@ -63,7 +42,7 @@ namespace shaiya
     {
         Npc npc;
         // 0x124
-        Array<NpcGate, 3> gate;
+        std::array<NpcGate, 3> gateList;
         // 0x460
     };
     #pragma pack(pop)
@@ -80,7 +59,8 @@ namespace shaiya
     struct NpcShop
     {
         Npc npc;            //0x00
-        UINT32 shopType;    //0x124
+        UINT8 shopType;     //0x124
+        PAD(3);
         UINT32 itemCount;   //0x128
         NpcItem* itemList;  //0x12C
         // 0x130

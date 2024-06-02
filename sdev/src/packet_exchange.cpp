@@ -2,14 +2,15 @@
 #include <windows.h>
 
 #include <include/main.h>
-#include <include/shaiya/packets/0A00.h>
-#include <include/shaiya/packets/2400.h>
 #include <include/shaiya/include/CItem.h>
 #include <include/shaiya/include/CUser.h>
 #include <include/shaiya/include/ItemDuration.h>
 #include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnection.h>
 #include <include/shaiya/include/ServerTime.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/network/game/incoming/0A00.h>
+#include <shaiya/include/network/game/outgoing/0A00.h>
+#include <shaiya/include/network/game/outgoing/2400.h>
 #include <util/include/util.h>
 using namespace shaiya;
 
@@ -18,25 +19,25 @@ namespace packet_exchange
     void send_cancel_ready(CUser* user)
     {
         user->exchange.ready = false;
-        ExchangeOutgoing packet{ 0xA05, ExchangeType::CancelReady, true };
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeOutgoing));
+        ExchangeOutgoing outgoing(ExchangeType::CancelReady, true);
+        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeOutgoing));
     }
 
     void send_cancel_confirm(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
-        ExchangeConfirmOutgoing packet{ 0xA0A, ExchangeType::Sender, false };
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+        ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, false);
+        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        packet.excType = ExchangeType::Target;
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+        outgoing.excType = ExchangeType::Target;
+        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
-        packet.excType = ExchangeType::Sender;
-        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+        outgoing.excType = ExchangeType::Sender;
+        SConnection::Send(&exchangeUser->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        packet.excType = ExchangeType::Target;
-        SConnection::Send(&exchangeUser->connection, &packet, sizeof(ExchangeConfirmOutgoing));
+        outgoing.excType = ExchangeType::Target;
+        SConnection::Send(&exchangeUser->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
     void send_cancel(CUser* user, CUser* exchangeUser)
@@ -54,7 +55,7 @@ namespace packet_exchange
         if (incoming->confirmed)
         {
             user->exchange.confirmed = true;
-            ExchangeConfirmOutgoing outgoing{ 0xA0A, ExchangeType::Sender, true };
+            ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, true);
             SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
             outgoing.excType = ExchangeType::Target;
@@ -66,12 +67,12 @@ namespace packet_exchange
 
     void send_item(CUser* user, CUser* exchangeUser, Packet buffer, bool pvp)
     {
-        ExchangeItemOutgoing packet{};
-        packet.opcode = pvp ? 0x240D : 0xA09;
-        packet.destSlot = util::deserialize<std::uint8_t>(buffer, 5);
+        ExchangeItemOutgoing outgoing{};
+        outgoing.opcode = pvp ? 0x240D : 0xA09;
+        outgoing.destSlot = util::deserialize<UINT8>(buffer, 5);
 
-        auto bag = util::deserialize<std::uint8_t>(buffer, 2);
-        auto slot = util::deserialize<std::uint8_t>(buffer, 3);
+        auto bag = util::deserialize<UINT8>(buffer, 2);
+        auto slot = util::deserialize<UINT8>(buffer, 3);
 
         if (!bag || bag > exchangeUser->bagsUnlocked || slot >= max_inventory_slot)
             return;
@@ -80,22 +81,22 @@ namespace packet_exchange
         if (!item)
             return;
 
-        packet.type = item->type;
-        packet.typeId = item->typeId;
-        packet.count = util::deserialize<std::uint8_t>(buffer, 4);
-        packet.quality = item->quality;
-        packet.gems = item->gems;
+        outgoing.type = item->type;
+        outgoing.typeId = item->typeId;
+        outgoing.count = util::deserialize<UINT8>(buffer, 4);
+        outgoing.quality = item->quality;
+        outgoing.gems = item->gems;
 
 #if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
         if (item->itemInfo->duration)
         {
-            packet.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-            packet.fromDate = packet.toDate ? item->makeTime : 0;
+            outgoing.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+            outgoing.fromDate = outgoing.toDate ? item->makeTime : 0;
         }
 #endif
 
-        packet.craftName = item->craftName;
-        SConnection::Send(&user->connection, &packet, sizeof(ExchangeItemOutgoing));
+        outgoing.craftName = item->craftName;
+        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeItemOutgoing));
     }
 }
 

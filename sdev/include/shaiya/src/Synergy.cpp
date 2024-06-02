@@ -39,23 +39,22 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        auto records = readNumber<std::uint32_t>(ifs);
+        auto records = readNumber<UINT32>(ifs);
         for (auto i = 0U; i < records; ++i)
         {
             Synergy synergy{};
-            synergy.id = readNumber<std::uint16_t>(ifs);
+            synergy.id = readNumber<UINT16>(ifs);
 
             readPascalString(ifs);
 
             for (auto& itemId : synergy.set)
             {
-                auto type = readNumber<std::uint16_t>(ifs);
-                auto typeId = readNumber<std::uint16_t>(ifs);
-
+                auto type = readNumber<UINT16>(ifs);
+                auto typeId = readNumber<UINT16>(ifs);
                 itemId = (type * 1000) + typeId;
             }
 
-            for (auto& ability : synergy.ability)
+            for (auto& ability : synergy.abilities)
                 Synergy::parseAbility(ifs, ability);
 
             g_synergies.push_back(synergy);
@@ -174,17 +173,19 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
 
     for (auto& synergy : g_synergies)
     {
-        int wornCount = 0;
+        auto wornCount = 0U;
         for (const auto& itemId : synergy.set)
+        {
             if (equipment.count(itemId))
                 ++wornCount;
+        }
 
-        if (wornCount < 2)
+        if (wornCount < 2 || wornCount >= synergy.abilities.size())
             continue;
 
-        for (int i = wornCount - 1; i > 0; --i)
+        for (auto i = wornCount - 1; i > 0; --i)
         {
-            auto& ability = synergy.ability[i];
+            auto& ability = synergy.abilities[i];
             if (ability.isNull())
                 continue;
             

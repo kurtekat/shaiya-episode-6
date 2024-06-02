@@ -1,14 +1,23 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <include/shaiya/include/CExchange.h>
 #include <include/shaiya/include/CFriend.h>
 #include <include/shaiya/include/CloneUser.h>
 #include <include/shaiya/include/CMiniGame.h>
 #include <include/shaiya/include/MyShop.h>
-#include <include/shaiya/include/SConnection.h>
-#include <include/shaiya/include/SNode.h>
-#include <include/shaiya/include/SSyncList.h>
+#include <include/shaiya/include/SkillAbility70.h>
 #include <include/shaiya/include/SVector.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/BillingItem.h>
+#include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Family.h>
+#include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/common/SSyncList.h>
+#include <shaiya/include/user/AuthStatus.h>
+#include <shaiya/include/user/ShapeType.h>
 
 namespace shaiya
 {
@@ -23,16 +32,17 @@ namespace shaiya
     struct ItemInfo;
     struct SkillInfo;
 
-    #pragma pack(push, 1)
-    struct BillingItem
-    {
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 count;
-    };
-    #pragma pack(pop)
+    using Inventory = std::array<std::array<CItem*, 24>, 6>;
+    using Warehouse = std::array<CItem*, 240>;
 
-    typedef Array<BillingItem, 240> Bank;
+    using ItemQualityLv = std::array<UINT8, 13>;
+    using ItemQuality = std::array<UINT16, 13>;
+
+    using ItemQualityLvEx = std::array<UINT8, 24>;
+    using ItemQualityEx = std::array<UINT16, 24>;
+
+    using Bank = std::array<BillingItem, 240>;
+    using StoredPointItems = Bank;
 
     #pragma pack(push, 1)
     struct ProductItem
@@ -45,18 +55,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    typedef Array<ProductItem, 10> ProductLog;
-
-    #pragma pack(push, 1)
-    // custom
-    struct UserFrenzyApplySkill
-    {
-        UINT16 skillId;
-        UINT8 skillLv;
-        bool triggered;
-        DWORD keepTime;
-    };
-    #pragma pack(pop)
+    using ProductLog = std::array<ProductItem, 10>;
 
     enum struct UserAttackType : UINT32
     {
@@ -107,7 +106,7 @@ namespace shaiya
         Leader
     };
 
-    enum struct UserPvPState : UINT32
+    enum struct UserPvPStatusType : UINT32
     {
         None,
         RequestSent,
@@ -176,8 +175,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct UserSavePoint
     {
-        Array<UINT32, 4> mapId;
-        Array<SVector, 4> pos;
+        std::array<UINT32, 4> mapId;
+        std::array<SVector, 4> pos;
         // 0x40
     };
     #pragma pack(pop)
@@ -228,7 +227,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct UserVehicleState : UINT32
+    enum struct UserVehicleStatusType : UINT32
     {
         None,
         Summon,
@@ -295,12 +294,12 @@ namespace shaiya
     {
         SConnection connection;              //0x00
         SVector pos;                         //0xD0
-        CharId id;                           //0xDC
+        ULONG id;                            //0xDC
         CZone* zone;                         //0xE0
         UINT32 cellX;                        //0xE4
         UINT32 cellZ;                        //0xE8
         PAD(60);
-        CharId charId;                       //0x128
+        ULONG charId;                        //0x128
         UINT8 slot;                          //0x12C
         Country country;                     //0x12D
         Family family;                       //0x12E
@@ -340,18 +339,19 @@ namespace shaiya
         UINT32 maxMana;                      //0x17C
         UINT32 maxStamina;                   //0x180
         CharName charName;                   //0x184
-        Array<UINT8, 13> itemQualityLv;      //0x199
-        Array<UINT16, 13> itemQuality;       //0x1A6
+        ItemQualityLv itemQualityLv;         //0x199
+        ItemQuality itemQuality;             //0x1A6
         Inventory inventory;                 //0x1C0
         Warehouse warehouse;                 //0x400
         Bank bank;                           //0x7C0
         SSyncList<CSkill> applySkillList;    //0xA90
         UINT32 skillCount;                   //0xABC
-        Array<CSkill*, 256> skill;           //0xAC0
+        std::array<CSkill*, 256> skillList;  //0xAC0
         UINT32 quickSlotCount;               //0xEC0
-        Array<UserQuickSlot, 128> quickSlot; //0xEC4
-        SSyncList<CQuest> finishQuestList;   //0x11C4
-        SSyncList<CQuest> activeQuestList;   //0x11F0
+        // 0xEC4
+        std::array<UserQuickSlot, 128> quickSlotList;
+        SSyncList<CQuest> finishedQuestList; //0x11C4
+        SSyncList<CQuest> questList;         //0x11F0
         UINT32 abilityStrength;              //0x121C
         UINT32 abilityDexterity;             //0x1220
         UINT32 abilityIntelligence;          //0x1224
@@ -483,17 +483,18 @@ namespace shaiya
         DWORD rebirthTimeout;                //0x1470
         BOOL leaderResurrect;                //0x1474
         UINT32 expLossRate;                  //0x1478
-        UserVehicleState vehicleState;       //0x147C
+        // 0x147C
+        UserVehicleStatusType vehicleStatusType;
         DWORD vehicleRideTime;               //0x1480
         UINT32 vehicleShapeType;             //0x1484
         UINT32 vehicleShapeTypeAdd;          //0x1488
-        CharId vehicleRideAlongId;           //0x148C
-        CharId vehicleRideRequestId;         //0x1490
+        ULONG vehicleRideAlongId;            //0x148C
+        ULONG vehicleRideRequestId;          //0x1490
         DWORD vehicleRideReqTimeout;         //0x1494
-        CharId partySummonRequestId;         //0x1498
+        ULONG partySummonRequestId;          //0x1498
         DWORD partySummonReqTimeout;         //0x149C
         DWORD nextRecoveryTime;              //0x14A0
-        Array<DWORD, 12> itemCooldown;       //0x14A4
+        std::array<DWORD, 12> itemCooldown;  //0x14A4
         UserKillCountStatus kcStatus;        //0x14D4
         // 0x1544
         PAD(16);
@@ -505,7 +506,7 @@ namespace shaiya
         CExchangePvP exchangePvP;            //0x15E8
         MyShop myShop;                       //0x1634
         CParty* party;                       //0x17F4
-        CharId partyRequestId;               //0x17F8
+        ULONG partyRequestId;                //0x17F8
         bool partySearchEnabled;             //0x17FC
         PAD(3);
         ULONG guildId;                       //0x1800
@@ -515,19 +516,20 @@ namespace shaiya
         CGuildCreate* guildCreate;           //0x1814
         CMiniGame miniGame;                  //0x1818
         UINT32 buddyCount;                   //0x1838
-        Array<CFriend, 100> buddyList;       //0x183C
+        std::array<CFriend, 100> buddyList;  //0x183C
         UINT32 blockCount;                   //0x377C
-        Array<BlockList, 100> blockList;     //0x3780
-        CharId buddyRequestId;               //0x5530
+        // 0x3780
+        std::array<BlockList, 100> blockList;
+        ULONG buddyRequestId;                //0x5530
         PAD(76);
         BOOL joinGuildDisabled;              //0x5580
         BOOL grbZoneEnterFlag;               //0x5584
         BOOL insZoneEnterFlag;               //0x5588
-        UserPvPState pvpState;               //0x558C
+        UserPvPStatusType pvpStatusType;     //0x558C
         DWORD pvpRequestTimeout;             //0x5590
-        CharId pvpTargetId;                  //0x5594
+        ULONG pvpTargetId;                   //0x5594
         SVector pvpPos;                      //0x5598
-        GuildId gvgTargetId;                 //0x55A4
+        ULONG gvgTargetId;                   //0x55A4
         SVector gvgPos;                      //0x55A8
         DWORD gvgRequestTimeout;             //0x55B4
         PAD(572);
@@ -537,16 +539,16 @@ namespace shaiya
         AuthStatus authStatus;               //0x5808
         PAD(3);
         ULONG questionId;                    //0x580C
-        CharId chatSendToId;                 //0x5810
+        ULONG chatSendToId;                  //0x5810
         bool visible;                        //0x5814
         bool attackable;                     //0x5815
         PAD(2);
         DWORD enableMoveTime;                //0x5818
         DWORD enableChatTime;                //0x581C
-        CharId chatListenToId;               //0x5820
-        CharId chatListenFromId;             //0x5824
+        ULONG chatListenToId;                //0x5820
+        ULONG chatListenFromId;              //0x5824
         PAD(4);
-        UserId userId;                       //0x582C
+        ULONG userId;                        //0x582C
         PAD(4);
         Username username;                   //0x5834
         PAD(1);
@@ -599,12 +601,12 @@ namespace shaiya
         UINT32 points;                       //0x5AC0
         volatile UINT disableShop;           //0x5AC4
         DWORD reloadPointTime;               //0x5AC8
-        Bank storedPointItem;                //0x5ACC
+        StoredPointItems storedPointItems;   //0x5ACC
         // custom
         UINT32 townScrollGateIndex;          //0x5D9C
-        UserFrenzyApplySkill frenzy;         //0x5DA0
-        Array<UINT8, 24> itemQualityLvEx;    //0x5DA8
-        Array<UINT16, 24> itemQualityEx;     //0x5D0C
+        SkillAbility70 skillAbility70;       //0x5DA0
+        ItemQualityLvEx itemQualityLvEx;     //0x5DA8
+        ItemQualityEx itemQualityEx;         //0x5DC0
         // 0x5DF0
         PAD(1116);
         CRITICAL_SECTION cs624C;             //0x624C

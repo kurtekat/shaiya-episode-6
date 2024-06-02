@@ -3,12 +3,10 @@
 #include <map>
 #include <vector>
 
-#include <include/shaiya/common.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
-    struct CUser;
-
     constexpr auto synthesis_min_money = 100000000U;
     constexpr auto synthesis_max_money = 500000000U;
     constexpr int synthesis_min_success_rate = 100;
@@ -17,18 +15,18 @@ namespace shaiya
     struct Synthesis
     {
         int successRate;
-        std::array<std::uint8_t, 24> materialType;
-        std::array<std::uint8_t, 24> materialTypeId;
-        std::array<std::uint8_t, 24> materialCount;
-        std::uint8_t createType;
-        std::uint8_t createTypeId;
-        std::uint8_t createCount;
+        std::array<UINT8, 24> materialType;
+        std::array<UINT8, 24> materialTypeId;
+        std::array<UINT8, 24> materialCount;
+        UINT8 createType;
+        UINT8 createTypeId;
+        UINT8 createCount;
 
         static void init();
 
     private:
 
-        static void parseMaterial(const std::string& text, std::array<std::uint8_t, 24>& output);
+        static void parseMaterial(const std::string& text, std::array<UINT8, 24>& output);
     };
 
     inline std::map<ItemId, std::vector<Synthesis>> g_synthesis;
