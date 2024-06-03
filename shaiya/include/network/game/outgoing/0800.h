@@ -1,11 +1,18 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <sdev/include/shaiya/include/CItem.h>
 #include <sdev/include/shaiya/include/Synthesis.h>
 
 // CUser::PacketGem
 
 namespace shaiya
 {
+    enum struct ItemLapisianAddResult : UINT8
+    {
+        Failure,
+        Success
+    };
+
     enum struct ItemComposeResult : UINT8
     {
         Success,
@@ -45,6 +52,24 @@ namespace shaiya
         Success,
         Failure
     };
+
+    #pragma pack(push, 1)
+    struct ItemLapisianAddOutgoing
+    {
+        UINT16 opcode{ 0x805 };
+        ItemLapisianAddResult result;
+        UINT8 lapisianBag;
+        UINT8 lapisianSlot;
+        UINT8 lapisianCount;
+        UINT8 enchantBag;
+        UINT8 enchantSlot;
+        UINT8 enchantCount;
+        UINT8 equipmentBag;
+        UINT8 equipmentSlot;
+        UINT32 money;
+        CraftName craftName;
+    };
+    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct ItemComposeOutgoing

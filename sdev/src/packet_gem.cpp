@@ -41,7 +41,7 @@ namespace packet_gem
         return -1;
     }
 
-    bool item_remove(CUser* user, ItemInfo* itemInfo, UINT8 count)
+    bool find_and_remove_item(CUser* user, ItemInfo* itemInfo, UINT8 count)
     {
         for (const auto& [bag, items] : std::views::enumerate(
             std::as_const(user->inventory)))
@@ -85,6 +85,21 @@ namespace packet_gem
         }
 
         return false;
+    }
+
+    bool remove_item_101132(CUser* user, ItemLapisianAddIncoming* incoming)
+    {
+        if (!incoming->luckyCharm)
+            return false;
+
+        auto itemInfo = CGameData::GetItemInfo(101, 132);
+        if (!itemInfo)
+            return false;
+
+        if (itemInfo->effect != ItemEffect::LapisianLuckyCharm)
+            return false;
+
+        return find_and_remove_item(user, itemInfo, 1);
     }
 
     bool enable_perfect_enchant_step(CItem* lapisian, CItem* item)
@@ -262,7 +277,7 @@ namespace packet_gem
 
         bool hasMaterials = false;
         for (int i = 0; i < requiredCount; ++i)
-            hasMaterials = item_remove(user, itemInfo, 1);
+            hasMaterials = find_and_remove_item(user, itemInfo, 1);
 
         if (hasMaterials)
         {
@@ -761,7 +776,7 @@ namespace packet_gem
             if (!itemInfo || !count)
                 continue;
 
-            hasMaterials = item_remove(user, itemInfo, count);
+            hasMaterials = find_and_remove_item(user, itemInfo, count);
         }
 
         ItemSynthesisOutgoing outgoing{};
@@ -1160,6 +1175,52 @@ void __declspec(naked) naked_0x46CCF0()
     }
 }
 
+unsigned u0x46D598 = 0x46D598;
+void __declspec(naked) naked_0x46D117()
+{
+    __asm
+    {
+        pushad
+
+        push ebx // packet
+        push ebp // user
+        call packet_gem::remove_item_101132
+        add esp,0x8
+
+        popad
+
+        // original
+        jmp u0x46D598
+    }
+}
+
+unsigned u0x46D3C4 = 0x46D3C4;
+void __declspec(naked) naked_0x46D3BC()
+{
+    __asm
+    {
+        pushad
+
+        push ebx // packet
+        push ebp // user
+        call packet_gem::remove_item_101132
+        add esp,0x8
+        test al,al
+
+        popad
+
+        jne _0x46D598
+
+        // original
+        movzx eax,byte ptr[ebx+0x7]
+        movzx ebx,byte ptr[ebx+0x8]
+        jmp u0x46D3C4
+
+        _0x46D598:
+        jmp u0x46D598
+    }
+}
+
 void hook::packet_gem()
 {
     // CUser::PacketGem
@@ -1170,5 +1231,9 @@ void hook::packet_gem()
     util::detour((void*)0x47A003, naked_0x47A003, 9);
     // CUser::ItemLapisianAdd
     util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
+    // CUser::ItemLapisianAdd (success)
+    util::detour((void*)0x46D117, naked_0x46D117, 5);
+    // CUser::ItemLapisianAdd (failure)
+    util::detour((void*)0x46D3BC, naked_0x46D3BC, 8);
 #endif
 }

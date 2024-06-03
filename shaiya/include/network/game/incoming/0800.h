@@ -11,12 +11,14 @@ namespace shaiya
         UINT16 opcode{ 0x805 };
         UINT8 lapisianBag;
         UINT8 lapisianSlot;
-        UINT8 enchantItemBag;
-        UINT8 enchantItemSlot;
-        UINT8 enchantItemCount;
-        UINT8 upgradeItemBag;
-        UINT8 upgradeItemSlot;
-        UINT8 unknown;
+        UINT8 enchantBag;
+        UINT8 enchantSlot;
+        UINT8 enchantCount;
+        UINT8 equipmentBag;
+        UINT8 equipmentSlot;
+        // EP6
+        bool luckyCharm;
+        // EP6.4
         ULONG npcId;
     };
     #pragma pack(pop)

@@ -79,7 +79,7 @@ namespace shaiya
         ChaoticSquare,
         DungeonMap,
         CraftingHammer = 102,
-        SafetyEnchant,
+        LapisianLuckyCharm,
         TownTeleportScroll,
         TransferRubiksCube,
         Catalyst,
