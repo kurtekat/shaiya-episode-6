@@ -104,6 +104,19 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct ItemUseOutgoing
+    {
+        UINT16 opcode{ 0x50A };
+        ULONG charId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT8 count;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct SkillApplyOutgoing
     {
         UINT16 opcode{ 0x50D };
