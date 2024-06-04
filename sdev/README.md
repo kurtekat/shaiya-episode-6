@@ -205,17 +205,10 @@ This feature will not be implemented.
 
 ### Money
 
-The client does the following math to determine the maximum gold input.
-
-```
-ItemSynthesisListOutgoing::goldPerPercentage * 5
-```
-
-Set the minimum and maximum constants in **Synthesis.h** to change the result. The minimum will be used as a divisor, so don't set it to zero. The maximum money is the same as the official server.
+Set the `gold_per_percentage` constants in **packet_gem.cpp** to change the result. The value in the library is the same as the official server.
 
 ```cpp
-constexpr auto synthesis_min_money = 100000000U;
-constexpr auto synthesis_max_money = 500000000U;
+constexpr auto gold_per_percentage = 100000000;
 ```
 
 ### Crafting Hammers
