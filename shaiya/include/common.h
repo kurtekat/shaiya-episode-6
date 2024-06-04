@@ -1,6 +1,6 @@
 #pragma once
 #pragma warning(disable: 28159) // GetTickCount
-#define SHAIYA_EP6_4_PT
+//#define SHAIYA_EP6_4_PT
 
 #include <array>
 #define WIN32_LEAN_AND_MEAN
