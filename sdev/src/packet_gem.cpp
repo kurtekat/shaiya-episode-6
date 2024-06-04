@@ -87,7 +87,7 @@ namespace packet_gem
         return false;
     }
 
-    bool remove_item_101132(CUser* user, ItemLapisianAddIncoming* incoming)
+    bool remove_enchant_charm(CUser* user, ItemLapisianAddIncoming* incoming)
     {
         if (!incoming->luckyCharm)
             return false;
@@ -620,9 +620,6 @@ namespace packet_gem
 
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
-        if (user->status == UserStatus::Death)
-            return;
-
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
 
@@ -1001,122 +998,76 @@ namespace packet_gem
 
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemAbilityTransferOutgoing));
     }
+
+    void extended_handler(CUser* user, Packet packet)
+    {
+        auto opcode = util::deserialize<UINT16>(packet, 0);
+        switch (opcode)
+        {
+        case 0x80D:
+        {
+            auto incoming = reinterpret_cast<ItemRuneCombineIncoming*>(packet);
+            item_rune_combine_handler(user, incoming);
+            break;
+        }
+        case 0x80E:
+        {
+            auto incoming = reinterpret_cast<ItemLapisianCombineIncoming*>(packet);
+            item_lapisian_combine_handler(user, incoming);
+            break;
+        }
+        case 0x811:
+        {
+            auto incoming = reinterpret_cast<ItemAbilityTransferIncoming*>(packet);
+            item_ability_transfer_handler(user, incoming);
+            break;
+        }
+        case 0x830:
+        {
+            auto incoming = reinterpret_cast<ItemSynthesisListIncoming*>(packet);
+            item_synthesis_list_handler(user, incoming);
+            break;
+        }
+        case 0x831:
+        {
+            auto incoming = reinterpret_cast<ItemSynthesisMaterialIncoming*>(packet);
+            item_synthesis_material_handler(user, incoming);
+            break;
+        }
+        case 0x832:
+        {
+            auto incoming = reinterpret_cast<ItemSynthesisIncoming*>(packet);
+            item_synthesis_handler(user, incoming);
+            break;
+        }
+        case 0x833:
+        {
+            auto incoming = reinterpret_cast<ItemFreeSynthesisIncoming*>(packet);
+            item_free_synthesis_handler(user, incoming);
+            break;
+        }
+        default:
+            SConnection::Close(&user->connection, 9, 0);
+            break;
+        }
+    }
 }
 
-unsigned u0x479FBC = 0x479FBC;
-void __declspec(naked) naked_0x479FB4()
+unsigned u0x47A04B = 0x47A04B;
+void __declspec(naked) naked_0x47A040()
 {
     __asm
     {
-        movzx eax,word ptr[esi]
-        cmp eax,0x80D
-        je case_0x80D
-        cmp eax,0x80E
-        je case_0x80E
-        cmp eax,0x811
-        je case_0x811
-        cmp eax,0x830
-        je case_0x830
-        cmp eax,0x831
-        je case_0x831
-        cmp eax,0x832
-        je case_0x832
-        cmp eax,0x833
-        je case_0x833
-
-        // original
-        add eax,-0x801
-        jmp u0x479FBC
-
-        case_0x80D:
         pushad
 
         push esi // packet
         push edi // user
-        call packet_gem::item_rune_combine_handler
-        add esp,0x8
-        
-        popad
-
-        jmp exit_switch
-
-        case_0x80E:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_lapisian_combine_handler
-        add esp,0x8
-        
-        popad
-
-        jmp exit_switch
-
-        case_0x811:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_ability_transfer_handler
+        call packet_gem::extended_handler
         add esp,0x8
 
         popad
 
-        jmp exit_switch
-
-        // chaotic squares
-
-        case_0x830:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_synthesis_list_handler
-        add esp,0x8
-        
-        popad
-
-        jmp exit_switch
-
-        case_0x831:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_synthesis_material_handler
-        add esp,0x8
-        
-        popad
-
-        jmp exit_switch
-
-        case_0x832:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_synthesis_handler
-        add esp,0x8
-        
-        popad
-
-        jmp exit_switch
-
-        case_0x833:
-        pushad
-
-        push esi // packet
-        push edi // user
-        call packet_gem::item_free_synthesis_handler
-        add esp,0x8
-        
-        popad
-
-        exit_switch:
-        pop edi
-        pop esi
-        pop ecx
-        retn
+        jmp u0x47A04B
     }
 }
 
@@ -1181,7 +1132,7 @@ void __declspec(naked) naked_0x46D117()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_item_101132
+        call packet_gem::remove_enchant_charm
         add esp,0x8
 
         popad
@@ -1200,7 +1151,7 @@ void __declspec(naked) naked_0x46D3BC()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_item_101132
+        call packet_gem::remove_enchant_charm
         add esp,0x8
         test al,al
 
@@ -1220,8 +1171,12 @@ void __declspec(naked) naked_0x46D3BC()
 
 void hook::packet_gem()
 {
-    // CUser::PacketGem
-    util::detour((void*)0x479FB4, naked_0x479FB4, 8);
+    // CUser::PacketGem (default case)
+    util::detour((void*)0x47A040, naked_0x47A040, 6);
+
+    // comment the 0x806 detour to use recreation CTs
+    // comment the others as needed
+    
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
     // CUser::ItemLapisianAdd
