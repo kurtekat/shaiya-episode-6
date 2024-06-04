@@ -42,4 +42,4 @@ Please don't submit a pull request unless I invite you to contribute. I can't di
 
 ## Support
 
-Please describe the issue(s) clearly and provide reproduction steps. The moment the conversation starts to go in circles, it's over. Older versions of the software are not supported.
+Please describe the issue(s) and provide reproduction steps. I'm not interested in supporting unofficial features. Older versions of the software are not supported.

@@ -1,6 +1,6 @@
 # Documentation
 
-This library is for the **game** service. Macros are used to represent the differences in the episode 6 packets, etc.
+This library is for the **game** service.
 
 ## Configuration
 
@@ -8,40 +8,14 @@ This library is for the **game** service. Macros are used to represent the diffe
 
 ```cpp
 // shaiya/include/common.h
-//#define SHAIYA_EP6
 //#define SHAIYA_EP6_4_PT
-//#define SHAIYA_EP6_BLACKSMITH
-//#define SHAIYA_EP6_ITEM_DURATION
-```
-
-### Episode 6.0
-
-```cpp
-// shaiya/include/common.h
-#define SHAIYA_EP6
-//#define SHAIYA_EP6_4_PT
-//#define SHAIYA_EP6_BLACKSMITH
-//#define SHAIYA_EP6_ITEM_DURATION
 ```
 
 ### Episode 6.4
 
 ```cpp
 // shaiya/include/common.h
-//#define SHAIYA_EP6
 #define SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_BLACKSMITH
-#define SHAIYA_EP6_ITEM_DURATION
-```
-
-Do not expose the `SHAIYA_EP6_BLACKSMITH` macro if you use Cheat Engine scripts for the blacksmith.
-
-```cpp
-// shaiya/include/common.h
-//#define SHAIYA_EP6
-#define SHAIYA_EP6_4_PT
-//#define SHAIYA_EP6_BLACKSMITH
-#define SHAIYA_EP6_ITEM_DURATION
 ```
 
 The **sdev-db** library adds support for the character list packet and the name availability packet.
@@ -58,19 +32,7 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2
 
 | NpcQuest    | Max Level    |
 |-------------|--------------|
-| EP6         | 70           |
-
-https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v3
-
-| NpcQuest    | Max Level    | Item Duration    |
-|-------------|--------------|------------------|
-| EP6         | 80           | No               |
-
-https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v4
-
-| NpcQuest    | Max Level    | Item Duration    |
-|-------------|--------------|------------------|
-| EP6         | 80           | Yes              |
+| EP6         | 80           |
 
 ## Item Mall
 
@@ -84,15 +46,7 @@ The episode 6 format has 6 quest results, each containing up to 3 items. The lib
 
 ## Item Duration
 
-Expose the `SHAIYA_EP6_ITEM_DURATION` macro. The SQL procedures, items table, and **game** service in [this](https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v4) directory are required to support the additional database columns. Warning: the **Items** script will create an empty table.
-
-```cpp
-// shaiya/include/common.h
-//#define SHAIYA_EP6
-#define SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_BLACKSMITH
-#define SHAIYA_EP6_ITEM_DURATION
-```
+The SQL procedures, items table, and **game** service in [this](https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2) directory are required to support the additional database columns. Warning: the **Items** script will create an empty table.
 
 ### Duration
 
@@ -140,7 +94,7 @@ The **sdev-client** library adds support for system message 509.
 509    "<t> killed  you <v> time(s)."
 ```
 
-## Frenzied Skills
+## Skill Ability 70
 
 Skill ability 70 will be used for evaluation. The following skills are supported.
 
@@ -314,6 +268,17 @@ The base success rate is 30 percent.
 ## Perfect Lapisian Cube
 
 Use item 101101 to activate the window. There is no item effect. See system message 510 for more information.
+
+## Enchantment
+
+The following items are supported:
+
+| ItemID    | ItemName                    | Effect    |
+|-----------|-----------------------------|-----------|
+| 101090    | Safety Enchant Scroll       | 103       |
+| 101132    | [SP] Lapisia Lucky Charm    | 103       |
+
+The server-side code will not evaluate the item effect.
 
 # Notes
 
