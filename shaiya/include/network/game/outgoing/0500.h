@@ -161,9 +161,8 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-#ifdef SHAIYA_EP6
+        // EP6
         SkillUseStatusType statusType;
-#endif
     };
     #pragma pack(pop)
 
@@ -173,10 +172,9 @@ namespace shaiya
         UINT16 opcode{ 0x51D };
         ULONG charId;
         ShapeType shapeType;
-#ifdef SHAIYA_EP6_4_PT
+        // EP6.4
         UINT32 vehicleType;
         UINT32 vehicleTypeId;
-#endif
     };
     #pragma pack(pop)
 

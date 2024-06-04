@@ -51,7 +51,7 @@ namespace packet_myshop
             item230B.quality = item->quality;
             item230B.gems = item->gems;
 
-#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
             if (item->itemInfo->duration)
             {
                 item230B.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);

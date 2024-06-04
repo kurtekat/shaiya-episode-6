@@ -87,7 +87,7 @@ namespace packet_exchange
         outgoing.quality = item->quality;
         outgoing.gems = item->gems;
 
-#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         if (item->itemInfo->duration)
         {
             outgoing.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);

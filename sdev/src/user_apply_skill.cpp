@@ -25,9 +25,7 @@ namespace user_apply_skill
 
         if (!user->skillAbility70.triggered)
         {
-#ifdef SHAIYA_EP6
             outgoing.statusType = SkillUseStatusType::Triggered;
-#endif
 
             user->skillAbility70.triggered = true;
             user->skillAbility70.skillId = outgoing.skillId;
@@ -43,9 +41,7 @@ namespace user_apply_skill
         }
         else
         {
-#ifdef SHAIYA_EP6
             outgoing.statusType = SkillUseStatusType::Stopped;
-#endif
 
             user->skillAbility70.triggered = false;
             user->skillAbility70.skillId = 0;

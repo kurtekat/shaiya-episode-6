@@ -41,7 +41,7 @@ namespace packet_gem
         return -1;
     }
 
-    bool find_and_remove_item(CUser* user, ItemInfo* itemInfo, UINT8 count)
+    bool find_and_remove_item(CUser* user, ItemId itemId, UINT8 count)
     {
         for (const auto& [bag, items] : std::views::enumerate(
             std::as_const(user->inventory)))
@@ -55,7 +55,7 @@ namespace packet_gem
                 if (!item)
                     continue;
 
-                if (item->itemInfo->itemId != itemInfo->itemId || item->count < count)
+                if (item->itemInfo->itemId != itemId || item->count < count)
                     continue;
 
                 item->count -= count;
@@ -92,14 +92,15 @@ namespace packet_gem
         if (!incoming->luckyCharm)
             return false;
 
-        auto itemInfo = CGameData::GetItemInfo(101, 132);
-        if (!itemInfo)
-            return false;
+        // Safety Enchant Scroll
+        if (find_and_remove_item(user, 101090, 1))
+            return true;
 
-        if (itemInfo->effect != ItemEffect::LapisianLuckyCharm)
-            return false;
+        // [SP] Lapisia Lucky Charm
+        if (find_and_remove_item(user, 101132, 1))
+            return true;
 
-        return find_and_remove_item(user, itemInfo, 1);
+        return false;
     }
 
     bool enable_perfect_enchant_step(CItem* lapisian, CItem* item)
@@ -277,7 +278,7 @@ namespace packet_gem
 
         bool hasMaterials = false;
         for (int i = 0; i < requiredCount; ++i)
-            hasMaterials = find_and_remove_item(user, itemInfo, 1);
+            hasMaterials = find_and_remove_item(user, itemInfo->itemId, 1);
 
         if (hasMaterials)
         {
@@ -776,7 +777,7 @@ namespace packet_gem
             if (!itemInfo || !count)
                 continue;
 
-            hasMaterials = find_and_remove_item(user, itemInfo, count);
+            hasMaterials = find_and_remove_item(user, itemInfo->itemId, count);
         }
 
         ItemSynthesisOutgoing outgoing{};
@@ -1008,10 +1009,8 @@ void __declspec(naked) naked_0x479FB4()
     __asm
     {
         movzx eax,word ptr[esi]
-#ifdef SHAIYA_EP6_BLACKSMITH
         cmp eax,0x80D
         je case_0x80D
-#endif
         cmp eax,0x80E
         je case_0x80E
         cmp eax,0x811
@@ -1029,7 +1028,6 @@ void __declspec(naked) naked_0x479FB4()
         add eax,-0x801
         jmp u0x479FBC
 
-#ifdef SHAIYA_EP6_BLACKSMITH
         case_0x80D:
         pushad
 
@@ -1041,7 +1039,6 @@ void __declspec(naked) naked_0x479FB4()
         popad
 
         jmp exit_switch
-#endif
 
         case_0x80E:
         pushad
@@ -1225,8 +1222,6 @@ void hook::packet_gem()
 {
     // CUser::PacketGem
     util::detour((void*)0x479FB4, naked_0x479FB4, 8);
-
-#ifdef SHAIYA_EP6_BLACKSMITH
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
     // CUser::ItemLapisianAdd
@@ -1235,5 +1230,4 @@ void hook::packet_gem()
     util::detour((void*)0x46D117, naked_0x46D117, 5);
     // CUser::ItemLapisianAdd (failure)
     util::detour((void*)0x46D3BC, naked_0x46D3BC, 8);
-#endif
 }

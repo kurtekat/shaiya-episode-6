@@ -244,11 +244,9 @@ namespace user_shape
         outgoing.charId = user->id;
         outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
-#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-#endif
 
         if (!user->zone)
             return;
@@ -262,11 +260,9 @@ namespace user_shape
         outgoing.charId = user->id;
         outgoing.shapeType = shapeType;
 
-#ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-#endif
 
         SConnection::Send(&target->connection, &outgoing, sizeof(UserShapeTypeOutgoing));
     }

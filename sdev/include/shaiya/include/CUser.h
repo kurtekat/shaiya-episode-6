@@ -602,7 +602,7 @@ namespace shaiya
         volatile UINT disableShop;           //0x5AC4
         DWORD reloadPointTime;               //0x5AC8
         StoredPointItems storedPointItems;   //0x5ACC
-        // custom
+        // EP6.4
         UINT32 townScrollGateIndex;          //0x5D9C
         SkillAbility70 skillAbility70;       //0x5DA0
         ItemQualityLvEx itemQualityLvEx;     //0x5DA8

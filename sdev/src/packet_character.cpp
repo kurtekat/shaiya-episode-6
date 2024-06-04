@@ -66,7 +66,7 @@ namespace packet_character
             item0711.gems = item->gems;
             item0711.count = item->count;
 
-#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
             if (item->itemInfo->duration)
             {
                 item0711.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);

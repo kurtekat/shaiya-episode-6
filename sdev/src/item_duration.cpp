@@ -356,7 +356,6 @@ void __declspec(naked) naked_0x404071()
 
 void hook::item_duration()
 {
-#ifdef SHAIYA_EP6_ITEM_DURATION
     // CZone::EnterUser
     util::detour((void*)0x41C91D, naked_0x41C91D, 5);
     // CUser::ItemBagToBank
@@ -365,5 +364,4 @@ void hook::item_duration()
     util::detour((void*)0x46C22A, naked_0x46C22A, 5);
     // CWorldThread::Update
     util::detour((void*)0x404071, naked_0x404071, 5);
-#endif
 }

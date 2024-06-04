@@ -54,7 +54,7 @@ namespace npc_quest
         outgoing.exp = result.exp;
         outgoing.gold = result.gold;
 
-#ifdef SHAIYA_EP6
+#ifdef SHAIYA_EP6_4_PT
         for (std::size_t i = 0; i < result.itemList.size(); ++i)
         {
             int type = result.itemList[i].type;
@@ -76,7 +76,7 @@ namespace npc_quest
 
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
 
-#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
         for (const auto& item0903 : outgoing.itemList)
         {
             auto itemInfo = CGameData::GetItemInfo(item0903.type, item0903.typeId);

@@ -57,7 +57,7 @@ namespace packet_shop
             item2602.typeId = util::deserialize<UINT8>(buffer, 40 + offset);
             item2602.count = util::deserialize<UINT8>(buffer, 41 + offset);
 
-#if defined SHAIYA_EP6_4_PT && defined SHAIYA_EP6_ITEM_DURATION
+#ifdef SHAIYA_EP6_4_PT
             auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
             if (itemInfo && itemInfo->duration)
             {

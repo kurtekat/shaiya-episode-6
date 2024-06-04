@@ -1,13 +1,6 @@
 #pragma once
 #pragma warning(disable: 28159) // GetTickCount
-//#define SHAIYA_EP6
 #define SHAIYA_EP6_4_PT
-#define SHAIYA_EP6_BLACKSMITH
-#define SHAIYA_EP6_ITEM_DURATION
-
-#ifdef SHAIYA_EP6_4_PT
-#define SHAIYA_EP6
-#endif
 
 #include <array>
 #define WIN32_LEAN_AND_MEAN

@@ -23,11 +23,8 @@ void leave_world_hook(CUser* user)
 {
     std::erase(g_users, user->id);
 
-#ifdef SHAIYA_EP6
-    g_appliedSynergies.erase(user->id);
-#endif
-
 #ifdef SHAIYA_EP6_4_PT
+    g_appliedSynergies.erase(user->id);
     g_revengeMark.erase(user->id);
 #endif
 }
@@ -76,15 +73,12 @@ void user_ctor_hook(CUser* user)
 {
     user->exchange.confirmed = false;
 
-#ifdef SHAIYA_EP6
+#ifdef SHAIYA_EP6_4_PT
+    user->townScrollGateIndex = 0;
     user->skillAbility70.skillId = 0;
     user->skillAbility70.skillLv = 0;
     user->skillAbility70.triggered = false;
     user->skillAbility70.keepTime = 0;
-#endif
-
-#ifdef SHAIYA_EP6_4_PT
-    user->townScrollGateIndex = 0;
     user->itemQualityEx.fill(0);
     user->itemQualityLvEx.fill(0);
 #endif
@@ -125,23 +119,17 @@ void Main()
 #ifdef SHAIYA_EP6_4_PT
     hook::item_duration();
     hook::item_effect();
+    hook::npc_quest();
     hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
     hook::packet_myshop();
     hook::revenge_mark();
-    hook::user_shape();
-#endif
-
-#ifdef SHAIYA_EP6
-    hook::npc_quest();
     hook::user_apply_skill();
     hook::user_equipment();
+    hook::user_shape();
     hook::user_status();
     Synergy::init();
-#endif
-
-#ifdef SHAIYA_EP6_4_PT
     Synthesis::init();
 #endif
 }

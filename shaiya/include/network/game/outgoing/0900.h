@@ -35,7 +35,7 @@ namespace shaiya
         UINT8 index;
         UINT32 exp;
         UINT32 gold;
-#ifdef SHAIYA_EP6
+#ifdef SHAIYA_EP6_4_PT
         std::array<Item0903, 3> itemList;
 #else
         UINT8 bag;

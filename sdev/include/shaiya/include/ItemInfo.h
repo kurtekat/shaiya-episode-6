@@ -154,7 +154,7 @@ namespace shaiya
         UINT32 dropGrade;           //0x7C
         UINT32 buy;                 //0x80
         UINT32 sell;                //0x84
-        // custom
+        // EP6.4
         UINT32 duration;            //0x88
         ExtDuration extDuration;    //0x8C
         PAD(19);
