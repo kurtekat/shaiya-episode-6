@@ -1,9 +1,12 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/item/Gems.h>
+#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketUserChar
 

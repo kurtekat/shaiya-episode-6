@@ -11,6 +11,13 @@ namespace shaiya
         UINT16 opcode{ 0xB102 };
         UINT8 srcSlot;
         ULONG npcId;
+
+        BillingItemBankToBagIncoming() = default;
+
+        BillingItemBankToBagIncoming(UINT8 srcSlot, ULONG npcId)
+            : srcSlot(srcSlot), npcId(npcId)
+        {
+        }
     };
     #pragma pack(pop)
 }

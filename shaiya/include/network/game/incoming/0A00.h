@@ -10,6 +10,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0xA01 };
         ULONG targetId;
+
+        ExchangeRequestIncoming() = default;
+
+        ExchangeRequestIncoming(ULONG targetId)
+            : targetId(targetId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -18,6 +25,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0xA05 };
         bool canceled;
+
+        ExchangeIncoming() = default;
+
+        ExchangeIncoming(bool canceled)
+            : canceled(canceled)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -26,6 +40,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0xA0A };
         bool confirmed;
+
+        ExchangeConfirmIncoming() = default;
+
+        ExchangeConfirmIncoming(bool confirmed)
+            : confirmed(confirmed)
+        {
+        }
     };
     #pragma pack(pop)
 }

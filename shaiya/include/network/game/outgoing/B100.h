@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 
 // CUser::PacketBilling
@@ -33,6 +34,13 @@ namespace shaiya
         UINT8 srcSlot;
         UINT8 destSlot;
         UINT8 destBag;
+
+        BillingItemBankToBagOutgoing() = default;
+
+        BillingItemBankToBagOutgoing(UINT8 srcSlot, UINT8 destSlot, UINT8 destBag)
+            : srcSlot(srcSlot), destSlot(destSlot), destBag(destBag)
+        {
+        }
     };
     #pragma pack(pop)
 }

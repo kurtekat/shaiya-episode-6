@@ -1,5 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 
 // CUser::PacketExchange
 

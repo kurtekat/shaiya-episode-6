@@ -1,11 +1,15 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
+#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketComm (community)
 
 namespace shaiya
 {
+    using Memo = std::array<char, 51>;
+
     enum struct FriendAddResult : UINT8
     {
         Rejected,

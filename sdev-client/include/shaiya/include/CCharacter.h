@@ -6,6 +6,7 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/user/CharName.h>
 #include <shaiya/include/user/MotionType.h>
 #include <shaiya/include/user/ShapeType.h>
 

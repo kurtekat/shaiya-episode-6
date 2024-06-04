@@ -8,6 +8,8 @@ namespace shaiya
     {
         UINT16 opcode{ 0x003 };
 
+        HeartbeatIncoming() = default;
+
         constexpr int interval() { return 120000; }
     };
     #pragma pack(pop)

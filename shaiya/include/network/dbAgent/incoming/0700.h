@@ -1,31 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 #include <shaiya/include/item/MakeType.h>
 
 // CUser::PacketUserItem
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
-    struct DBAgentItemCreateIncoming
-    {
-        UINT16 opcode{ 0x701 };
-        ULONG userId;
-        UINT64 uniqueId;
-        UINT32 itemId;
-        UINT8 bag;
-        UINT8 slot;
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 count;
-        UINT16 quality;
-        Gems gems;
-        CraftName craftName;
-        ULONG makeTime;
-        MakeType makeType;
-    };
-    #pragma pack(pop)
-
     #pragma pack(push, 1)
     // inventory
     struct DBAgentItemRemoveIncoming
@@ -55,6 +37,13 @@ namespace shaiya
         UINT8 srcCount;
         UINT8 destSlot;
         UINT8 destCount;
+
+        DBAgentItemBagToBankIncoming() = default;
+
+        DBAgentItemBagToBankIncoming(ULONG userId, UINT8 srcBag, UINT8 srcSlot, UINT8 srcCount, UINT8 destSlot, UINT8 destCount)
+            : userId(userId), srcBag(srcBag), srcSlot(srcSlot), srcCount(srcCount), destSlot(destSlot), destCount(destCount)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -68,6 +57,13 @@ namespace shaiya
         UINT8 destBag;
         UINT8 destSlot;
         UINT8 destCount;
+
+        DBAgentItemBankToBagIncoming() = default;
+
+        DBAgentItemBankToBagIncoming(ULONG userId, UINT8 srcSlot, UINT8 srcCount, UINT8 destBag, UINT8 destSlot, UINT8 destCount)
+            : userId(userId), srcSlot(srcSlot), srcCount(srcCount), destBag(destBag), destSlot(destSlot), destCount(destCount)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -98,6 +94,13 @@ namespace shaiya
         UINT8 bag;
         UINT8 slot;
         UINT8 count;
+
+        DBAgentItemCountIncoming() = default;
+
+        DBAgentItemCountIncoming(ULONG userId, UINT8 bag, UINT8 slot, UINT8 count)
+            : userId(userId), bag(bag), slot(slot), count(count)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -110,28 +113,13 @@ namespace shaiya
         UINT8 slot;
         UINT16 quality;
         UINT32 money;
-    };
-    #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    // aka bank teller
-    struct DBAgentItemBoxToBagIncoming
-    {
-        UINT16 opcode{ 0x710 };
-        ULONG userId;
-        UINT8 srcSlot;
-        UINT8 destBag;
-        UINT8 destSlot;
-        UINT64 uniqueId;
-        UINT32 itemId;
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 count;
-        UINT16 quality;
-        Gems gems;
-        CraftName craftName;
-        ULONG makeTime;
-        MakeType makeType;
+        DBAgentItemGemRemoveAllIncoming() = default;
+
+        DBAgentItemGemRemoveAllIncoming(ULONG userId, UINT8 bag, UINT8 slot, UINT16 quality, UINT32 money)
+            : userId(userId), bag(bag), slot(slot), quality(quality), money(money)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -169,6 +157,25 @@ namespace shaiya
 
         DBAgentItemGemRemovePosIncoming(ULONG userId, UINT8 bag, UINT8 slot, UINT8 gemPos, UINT16 quality, UINT32 money)
             : userId(userId), bag(bag), slot(slot), gemPos(gemPos), quality(quality), money(money)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct DBAgentItemEnchantIncoming
+    {
+        UINT16 opcode{ 0x716 };
+        ULONG userId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT32 money;
+        CraftName craftName;
+
+        DBAgentItemEnchantIncoming() = default;
+
+        DBAgentItemEnchantIncoming(ULONG userId, UINT8 bag, UINT8 slot, UINT32 money, CraftName& craftName)
+            : userId(userId), bag(bag), slot(slot), money(money), craftName(craftName)
         {
         }
     };

@@ -1,4 +1,6 @@
 #pragma once
+#include <array>
+#include <string>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 

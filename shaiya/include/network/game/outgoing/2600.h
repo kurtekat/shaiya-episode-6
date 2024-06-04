@@ -1,10 +1,14 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
+#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketPoint
 
 namespace shaiya
 {
+    using ProductCode = std::array<char, 21>;
+
     enum struct PointPurchaseItemResult : UINT8
     {
         Success,
@@ -129,6 +133,13 @@ namespace shaiya
         UINT8 srcSlot;
         UINT8 destSlot;
         UINT8 destBag;
+
+        PointGiftItemBankToBagOutgoing() = default;
+
+        PointGiftItemBankToBagOutgoing(UINT8 srcSlot, UINT8 destSlot, UINT8 destBag)
+            : srcSlot(srcSlot), destSlot(destSlot), destBag(destBag)
+        {
+        }
     };
     #pragma pack(pop)
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/user/CharName.h>
 #include <sdev/include/shaiya/include/CUser.h>
 #include <sdev/include/shaiya/include/GameLogMain.h>
 

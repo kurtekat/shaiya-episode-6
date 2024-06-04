@@ -5,6 +5,7 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/item/Gems.h>
 
 // CUser::PacketCharacter
 
@@ -60,8 +61,15 @@ namespace shaiya
     struct CharacterDeleteOutgoing
     {
         UINT16 opcode{ 0x103 };
-        UINT8 unknown{ 0 };
+        UINT8 unknown;
         ULONG charId;
+
+        CharacterDeleteOutgoing() = default;
+
+        CharacterDeleteOutgoing(ULONG charId)
+            : unknown(0), charId(charId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -70,6 +78,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x10E };
         bool success;
+
+        CharacterNameChangeOutgoing() = default;
+
+        CharacterNameChangeOutgoing(bool success)
+            : success(success)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -77,8 +92,15 @@ namespace shaiya
     struct CharacterRestoreOutgoing
     {
         UINT16 opcode{ 0x10F };
-        UINT8 unknown{ 0 };
+        UINT8 unknown;
         ULONG charId;
+
+        CharacterRestoreOutgoing() = default;
+
+        CharacterRestoreOutgoing(ULONG charId)
+            : unknown(0), charId(charId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -87,6 +109,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x115 };
         ULONG time;
+
+        ServerTimeOutgoing() = default;
+
+        ServerTimeOutgoing(ULONG time)
+            : time(time)
+        {
+        }
     };
     #pragma pack(pop)
 

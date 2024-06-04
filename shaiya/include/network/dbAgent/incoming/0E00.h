@@ -1,11 +1,15 @@
 #pragma once
+#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketUserPoint
 
 namespace shaiya
 {
+    using ProductCode = std::array<char, 21>;
+
     #pragma pack(push, 1)
     struct DBAgentSaveGiftPointItemIncoming
     {
@@ -19,7 +23,14 @@ namespace shaiya
 
         DBAgentSaveGiftPointItemIncoming() = default;
 
-        DBAgentSaveGiftPointItemIncoming(ULONG userId, const char* targetName, const char* productCode, UINT32 itemPrice, ULONG purchaseDate, UINT32 purchaseNumber)
+        DBAgentSaveGiftPointItemIncoming(
+            ULONG userId, 
+            const char* targetName, 
+            const char* productCode, 
+            UINT32 itemPrice, 
+            ULONG purchaseDate, 
+            UINT32 purchaseNumber
+        )
             : userId(userId), targetName{}, productCode{}, itemPrice(itemPrice), purchaseDate(purchaseDate), purchaseNumber(purchaseNumber)
         {
             StringCbCopyA(this->targetName.data(), this->targetName.size(), targetName);

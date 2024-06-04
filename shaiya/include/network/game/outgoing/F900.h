@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 
@@ -7,6 +7,8 @@
 
 namespace shaiya
 {
+    using ChatMessage = std::array<char, 128>;
+
     #pragma pack(push, 1)
     struct AdminCmdNoticeToOutgoing
     {
@@ -20,21 +22,8 @@ namespace shaiya
         AdminCmdNoticeToOutgoing(const char* message)
             : messageLength(0), message{}
         {
-            this->messageLength = std::strlen(message) + 1;
-
-            auto result = StringCbCopyA(this->message.data(), this->message.size(), message);
-            if (result == STRSAFE_E_INSUFFICIENT_BUFFER)
-                this->messageLength = this->message.size();
-        }
-
-        AdminCmdNoticeToOutgoing(const std::string& message)
-            : messageLength(0), message{}
-        {
-            this->messageLength = message.length() + 1;
-
-            auto result = StringCbCopyA(this->message.data(), this->message.size(), message.data());
-            if (result == STRSAFE_E_INSUFFICIENT_BUFFER)
-                this->messageLength = this->message.size();
+            StringCbCopyA(this->message.data(), this->message.size(), message);
+            this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
         constexpr int size_without_message() { return 3; }
@@ -55,21 +44,8 @@ namespace shaiya
         AdminCmdNoticeAllOutgoing(const char* message)
             : messageLength(0), message{}
         {
-            this->messageLength = std::strlen(message) + 1;
-
-            auto result = StringCbCopyA(this->message.data(), this->message.size(), message);
-            if (result == STRSAFE_E_INSUFFICIENT_BUFFER)
-                this->messageLength = this->message.size();
-        }
-
-        AdminCmdNoticeAllOutgoing(const std::string& message)
-            : messageLength(0), message{}
-        {
-            this->messageLength = message.length() + 1;
-
-            auto result = StringCbCopyA(this->message.data(), this->message.size(), message.data());
-            if (result == STRSAFE_E_INSUFFICIENT_BUFFER)
-                this->messageLength = this->message.size();
+            StringCbCopyA(this->message.data(), this->message.size(), message);
+            this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
         constexpr int size_without_message() { return 3; }

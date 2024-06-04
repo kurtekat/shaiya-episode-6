@@ -1,5 +1,8 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 #include <sdev/include/shaiya/include/CItem.h>
 #include <sdev/include/shaiya/include/Synthesis.h>
 
@@ -41,15 +44,15 @@ namespace shaiya
         Unknown3,
     };
 
-    enum struct ItemSynthesisResult : UINT8
-    {
-        Success = 1,
-        Failure
-    };
-
     enum struct ItemAbilityTransferResult : UINT8
     {
         Success,
+        Failure
+    };
+
+    enum struct ItemSynthesisResult : UINT8
+    {
+        Success = 1,
         Failure
     };
 
@@ -61,13 +64,31 @@ namespace shaiya
         UINT8 lapisianBag;
         UINT8 lapisianSlot;
         UINT8 lapisianCount;
-        UINT8 enchantBag;
-        UINT8 enchantSlot;
-        UINT8 enchantCount;
-        UINT8 equipmentBag;
-        UINT8 equipmentSlot;
+        UINT8 materialBag;
+        UINT8 materialSlot;
+        UINT8 materialCount;
+        UINT8 itemBag;
+        UINT8 itemSlot;
         UINT32 money;
         CraftName craftName;
+
+        ItemLapisianAddOutgoing() = default;
+
+        ItemLapisianAddOutgoing(ItemLapisianAddResult result, UINT8 lapisianBag, UINT8 lapisianSlot, UINT8 lapisianCount, 
+            UINT8 materialBag, UINT8 materialSlot, UINT8 materialCount, UINT8 itemBag, UINT8 itemSlot, UINT32 money, CraftName& craftName)
+        {
+            this->result = result;
+            this->lapisianBag = lapisianBag;
+            this->lapisianSlot = lapisianSlot;
+            this->lapisianCount = lapisianCount;
+            this->materialBag = materialBag;
+            this->materialSlot = materialSlot;
+            this->materialCount = materialCount;
+            this->itemBag = itemBag;
+            this->itemSlot = itemSlot;
+            this->money = money;
+            this->craftName = craftName;
+        }
     };
     #pragma pack(pop)
 
@@ -214,6 +235,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x832 };
         ItemSynthesisResult result;
+
+        ItemSynthesisOutgoing() = default;
+
+        ItemSynthesisOutgoing(ItemSynthesisResult result)
+            : result(result)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -222,6 +250,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x833 };
         ItemSynthesisResult result;
+
+        ItemFreeSynthesisOutgoing() = default;
+
+        ItemFreeSynthesisOutgoing(ItemSynthesisResult result)
+            : result(result)
+        {
+        }
     };
     #pragma pack(pop)
 }

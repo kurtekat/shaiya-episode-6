@@ -1,5 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 #include <sdev/include/shaiya/include/CItem.h>
 #include <sdev/include/shaiya/include/CUser.h>
 #include <sdev/include/shaiya/include/GameLogMain.h>

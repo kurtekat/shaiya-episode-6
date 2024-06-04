@@ -18,15 +18,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2501 };
         ULONG senderId;
-    };
-    #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    struct PvPGuildRequestOutgoing
-    {
-        UINT16 opcode{ 0x2501 };
-        ULONG senderId;
-        ULONG targetId;
+        PvPGuildRequestIncoming() = default;
+
+        PvPGuildRequestIncoming(ULONG senderId)
+            : senderId(senderId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -35,15 +33,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2502 };
         PvPGuildRequestResult result;
-    };
-    #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    struct PvPGuildRequestResultOutgoing
-    {
-        UINT16 opcode{ 0x2502 };
-        PvPGuildRequestResult result;
-        ULONG targetId;
+        PvPGuildRequestResultIncoming() = default;
+
+        PvPGuildRequestResultIncoming(PvPGuildRequestResult result)
+            : result(result)
+        {
+        }
     };
     #pragma pack(pop)
 }

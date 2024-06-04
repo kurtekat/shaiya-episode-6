@@ -1,6 +1,8 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/user/Password.h>
+#include <shaiya/include/user/Username.h>
 
 namespace shaiya
 {

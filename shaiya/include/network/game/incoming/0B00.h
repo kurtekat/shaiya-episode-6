@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/item/ItemDivType.h>
 
 // CUser::PacketParty
 
@@ -9,7 +10,14 @@ namespace shaiya
     struct PartyItemDivIncoming
     {
         UINT16 opcode{ 0xB0F };
-        UINT32 itemDivType;
+        ItemDivType itemDivType;
+
+        PartyItemDivIncoming() = default;
+
+        PartyItemDivIncoming(ItemDivType itemDivType)
+            : itemDivType(itemDivType)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -18,6 +26,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0xB10 };
         bool isAutoJoin;
+
+        PartyAutoJoinIncoming() = default;
+
+        PartyAutoJoinIncoming(bool isAutoJoin)
+            : isAutoJoin(isAutoJoin)
+        {
+        }
     };
     #pragma pack(pop)
 }

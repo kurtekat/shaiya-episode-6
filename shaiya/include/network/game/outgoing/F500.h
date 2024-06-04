@@ -10,6 +10,13 @@ namespace shaiya
         // failure = packet opcode
         // success = 0
         UINT16 result;
+
+        AdminCmdResultOutgoing() = default;
+
+        AdminCmdResultOutgoing(UINT16 result)
+            : result(result)
+        {
+        }
     };
     #pragma pack(pop)
 }

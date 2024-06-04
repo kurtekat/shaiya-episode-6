@@ -46,7 +46,6 @@
     <ClInclude Include="include\network\dbAgent\outgoing\0400.h" />
     <ClInclude Include="include\network\dbAgent\outgoing\0E00.h" />
     <ClInclude Include="include\network\gameLog\incoming\0400.h" />
-    <ClInclude Include="include\network\gameLog\incoming\0800.h" />
     <ClInclude Include="include\network\gameLog\incoming\0900.h" />
     <ClInclude Include="include\network\gameLog\incoming\0A00.h" />
     <ClInclude Include="include\network\gameLog\incoming\0C00.h" />

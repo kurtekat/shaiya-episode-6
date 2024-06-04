@@ -133,9 +133,6 @@
     <ClInclude Include="include\network\gameLog\incoming\0400.h">
       <Filter>include\network\gameLog\incoming</Filter>
     </ClInclude>
-    <ClInclude Include="include\network\gameLog\incoming\0800.h">
-      <Filter>include\network\gameLog\incoming</Filter>
-    </ClInclude>
     <ClInclude Include="include\network\gameLog\incoming\0900.h">
       <Filter>include\network\gameLog\incoming</Filter>
     </ClInclude>

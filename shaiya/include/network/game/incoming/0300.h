@@ -10,6 +10,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x302 };
         ULONG targetId;
+
+        GetInfoTargetIncoming() = default;
+
+        GetInfoTargetIncoming(ULONG targetId)
+            : targetId(targetId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -18,6 +25,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x307 };
         ULONG charId;
+
+        GetInfoInspectIncoming() = default;
+
+        GetInfoInspectIncoming(ULONG charId)
+            : charId(charId)
+        {
+        }
     };
     #pragma pack(pop)
 }

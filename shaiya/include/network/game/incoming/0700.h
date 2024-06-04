@@ -13,6 +13,13 @@ namespace shaiya
         UINT8 slot;
         UINT8 count;
         ULONG npcId;
+
+        ItemBagToNpcShopIncoming() = default;
+
+        ItemBagToNpcShopIncoming(UINT8 bag, UINT8 slot, UINT8 count, ULONG npcId)
+            : bag(bag), slot(slot), count(count), npcId(npcId)
+        {
+        }
     };
     #pragma pack(pop)
 }

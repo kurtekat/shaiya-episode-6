@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 
 // CUser::PacketGem
@@ -11,11 +12,11 @@ namespace shaiya
         UINT16 opcode{ 0x805 };
         UINT8 lapisianBag;
         UINT8 lapisianSlot;
-        UINT8 enchantBag;
-        UINT8 enchantSlot;
-        UINT8 enchantCount;
-        UINT8 equipmentBag;
-        UINT8 equipmentSlot;
+        UINT8 materialBag;
+        UINT8 materialSlot;
+        UINT8 materialCount;
+        UINT8 itemBag;
+        UINT8 itemSlot;
         // EP6
         bool luckyCharm;
         // EP6.4
