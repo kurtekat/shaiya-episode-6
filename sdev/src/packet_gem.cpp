@@ -41,6 +41,36 @@ namespace packet_gem
         return -1;
     }
 
+    bool remove_item(CUser* user, CItem* item, UINT8 bag, UINT8 slot, UINT8 count)
+    {
+        if (item->count < count)
+            return false;
+
+        item->count -= count;
+
+        DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
+        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemRemoveIncoming));
+
+        GameLogItemRemoveIncoming log(user, item, bag, slot, count);
+        SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
+
+        if (!item->count)
+        {
+            ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+
+            CObjectMgr::FreeItem(item);
+            user->inventory[bag][slot] = nullptr;
+        }
+        else
+        {
+            ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
+            SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+        }
+
+        return true;
+    }
+
     bool find_and_remove_item(CUser* user, ItemId itemId, UINT8 count)
     {
         for (const auto& [bag, items] : std::views::enumerate(
@@ -55,32 +85,14 @@ namespace packet_gem
                 if (!item)
                     continue;
 
-                if (item->itemInfo->itemId != itemId || item->count < count)
+                if (item->itemInfo->itemId != itemId)
                     continue;
 
-                item->count -= count;
+                if (item->count < count)
+                    continue;
 
-                DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
-                SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemRemoveIncoming));
-
-                GameLogItemRemoveIncoming log(user, item, bag, slot, count);
-                SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
-
-                if (!item->count)
-                {
-                    ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
-                    SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-
-                    CObjectMgr::FreeItem(item);
-                    user->inventory[bag][slot] = nullptr;
-                }
-                else
-                {
-                    ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
-                    SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-                }
-
-                return true;
+                if (remove_item(user, item, bag, slot, count))
+                    return true;
             }
         }
 
@@ -203,9 +215,7 @@ namespace packet_gem
             return;
         }
 
-        auto result = ItemRuneCombineResult::Success;
         UINT8 bag = 1;
-
         while (bag <= user->bagsUnlocked)
         {
             auto slot = find_available_slot(user, bag);
@@ -215,12 +225,11 @@ namespace packet_gem
                 if (!CUser::ItemCreate(user, itemInfo, 1))
                     break;
 
-                ItemRuneCombineOutgoing outgoing(result, bag, slot, itemInfo->type, itemInfo->typeId, 1);
+                ItemRuneCombineOutgoing outgoing(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemRuneCombineOutgoing));
 
-                CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
-                CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
-                CUser::ItemUseNSend(user, incoming->vialBag, incoming->vialSlot, false);
+                remove_item(user, rune, incoming->runeBag, incoming->runeSlot, 2);
+                remove_item(user, vial, incoming->vialBag, incoming->vialSlot, 1);
                 break;
             }
 
@@ -282,9 +291,7 @@ namespace packet_gem
 
         if (hasMaterials)
         {
-            auto result = ItemLapisianCombineResult::Success;
             UINT8 bag = 1;
-
             while (bag <= user->bagsUnlocked)
             {
                 auto slot = find_available_slot(user, bag);
@@ -294,7 +301,7 @@ namespace packet_gem
                     if (!CUser::ItemCreate(user, createInfo, 1))
                         break;
 
-                    ItemLapisianCombineOutgoing outgoing(result, bag, slot, createInfo->type, createInfo->typeId, 1);
+                    ItemLapisianCombineOutgoing outgoing(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
                     SConnection::Send(&user->connection, &outgoing, sizeof(ItemLapisianCombineOutgoing));
                     break;
                 }
@@ -620,6 +627,8 @@ namespace packet_gem
 
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
+        constexpr auto gold_per_percentage = 100000000;
+
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
 
@@ -641,7 +650,7 @@ namespace packet_gem
         MyShop::Ended(&user->myShop);
 
         ItemSynthesisListOutgoing outgoing{};
-        outgoing.goldPerPercentage = synthesis_min_money;
+        outgoing.goldPerPercentage = gold_per_percentage;
 
         int index = 0;
         for (const auto& synthesis : synthesis->second)
@@ -695,6 +704,11 @@ namespace packet_gem
 
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
     {
+        constexpr auto gold_per_percentage = 100000000;
+        constexpr auto max_gold_per_percentage = gold_per_percentage * 5;
+        constexpr auto min_success_rate = 100;
+        constexpr auto max_success_rate = 10000;
+
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
 
@@ -720,11 +734,11 @@ namespace packet_gem
         if (!itemInfo)
             return;
 
-        auto money = (incoming->money > synthesis_max_money) ? synthesis_max_money : incoming->money;
+        auto money = (incoming->money > max_gold_per_percentage) ? incoming->money : max_gold_per_percentage;
         auto successRate = synthesis.successRate;
 
-        if (money >= synthesis_min_money)
-            successRate += (money / synthesis_min_money) * 100;
+        if (money >= gold_per_percentage && gold_per_percentage > 0)
+            successRate += (money / gold_per_percentage) * 100;
 
         if (incoming->hammerBag > user->bagsUnlocked || incoming->hammerSlot >= max_inventory_slot)
             return;
@@ -748,16 +762,12 @@ namespace packet_gem
         CUser::SendDBMoney(user);
 
         int randomRate = 0;
-        if (successRate < synthesis_max_success_rate)
+        if (successRate < max_success_rate)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
-            std::uniform_int_distribution<int> uni(
-                synthesis_min_success_rate, 
-                synthesis_max_success_rate
-            );
-
+            std::uniform_int_distribution<int> uni(min_success_rate, max_success_rate);
             randomRate = uni(eng);
         }
 
@@ -795,8 +805,8 @@ namespace packet_gem
 
     void item_ability_transfer_handler(CUser* user, ItemAbilityTransferIncoming* incoming)
     {
-        constexpr int base_success_rate = 30;
-        constexpr int max_success_rate = 100;
+        constexpr auto min_success_rate = 30;
+        constexpr auto max_success_rate = 100;
 
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
             return;
@@ -840,8 +850,7 @@ namespace packet_gem
         if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
             return;
 
-        int successRate = base_success_rate;
-
+        int successRate = min_success_rate;
         if (incoming->catalystSlot != 255)
         {
             if (incoming->catalystSlot >= max_inventory_slot)

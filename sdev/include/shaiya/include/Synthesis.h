@@ -7,11 +7,6 @@
 
 namespace shaiya
 {
-    constexpr auto synthesis_min_money = 100000000U;
-    constexpr auto synthesis_max_money = 500000000U;
-    constexpr int synthesis_min_success_rate = 100;
-    constexpr int synthesis_max_success_rate = 10000;
-
     struct Synthesis
     {
         int successRate;
