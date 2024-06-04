@@ -18,31 +18,31 @@ namespace shaiya
     struct CZone
     {
         PAD(24);
-        ULONG id;                         //0x18
+        ULONG id;                       //0x18
         PAD(12);
-        CMap* map;                        //0x28
+        CMap* map;                      //0x28
         PAD(12);
-        SSyncList<void> list38;           //0x38
-        SSyncMap<ULONG, CUser*> users;    //0x64
-        SSyncMap<ULONG, CMob*> mobs;      //0xAC
-        SSyncMap<ULONG, CNpc*> npcs;      //0xF4
-        SSyncMap<ULONG, CItem*> items;    //0x13C
-        SSyncList<CUser> userList;        //0x184
-        SSyncList<CMob> mobList;          //0x1B0
-        SSyncList<CNpc> npcList;          //0x1DC
-        SSyncList<CItem> itemList;        //0x208
-        SSyncList<CTrap> trapList;        //0x234
-        SSyncList<void> list260;          //0x260
+        SSyncList<void> list38;         //0x38
+        SSyncMap<ULONG, CUser*> users;  //0x64
+        SSyncMap<ULONG, CMob*> mobs;    //0xAC
+        SSyncMap<ULONG, CNpc*> npcs;    //0xF4
+        SSyncMap<ULONG, CItem*> items;  //0x13C
+        SSyncList<CUser> userList;      //0x184
+        SSyncList<CMob> mobList;        //0x1B0
+        SSyncList<CNpc> npcList;        //0x1DC
+        SSyncList<CItem> itemList;      //0x208
+        SSyncList<CTrap> trapList;      //0x234
+        SSyncList<void> list260;        //0x260
         // 0x28C
         std::array<MapPortal, 10> portalList;
-        UINT32 mobAreaCount;              //0x2DC
-        MapMob* mobAreaList;              //0x2E0
-        UINT32 bossMobCount;              //0x2E4
-        MapBoss* bossMobList;             //0x2E8
-        MapWeather weather;               //0x2EC
+        UINT32 mobAreaCount;            //0x2DC
+        MapMob* mobAreaList;            //0x2E0
+        UINT32 bossMobCount;            //0x2E4
+        MapBoss* bossMobList;           //0x2E8
+        MapWeather weather;             //0x2EC
         PAD(8);
-        UINT32 regionCount;               //0x310
-        CMapRegion* regionList;           //0x314
+        UINT32 regionCount;             //0x310
+        CMapRegion* regionList;         //0x314
         // 0x318
 
         static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
@@ -54,8 +54,6 @@ namespace shaiya
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
         static bool MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
-        static void MoveMob(CMob* mob/*eax*/, float x, float y, float z, int motion);
-        static void MoveNpc(CNpc* npc/*ebx*/, float x, float y, float z, int motion);
         static void NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);
         static void PSendView(CZone* zone, void* data, int len, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority);

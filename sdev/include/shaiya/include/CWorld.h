@@ -61,7 +61,7 @@ namespace shaiya
         static CZone* GetZone(int mapId/*eax*/);
         static ULONG GetWorldDay();
         static void SendAll(void* data/*ecx*/, int len/*eax*/);
-        static void SendAllCountry(void* data/*ecx*/, int len/*eax*/, int country);
+        static void SendAllCountry(void* data/*ecx*/, int len/*eax*/, int byCountry);
         static void SetWorldDay(ULONG time/*eax*/);
     };
     #pragma pack(pop)

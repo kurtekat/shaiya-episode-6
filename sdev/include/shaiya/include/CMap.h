@@ -251,7 +251,7 @@ namespace shaiya
         // 0x208
 
         static CDoor* GetPortal(CMap* map/*ecx*/, int index/*eax*/);
-        static CDoor* GetPortalById(CMap* map/*ecx*/, int insZoneId/*edi*/);
+        static CDoor* GetPortalById(CMap* map/*ecx*/, int id/*edi*/);
         static bool IsStatic(CMap* map/*ecx*/);
     };
     #pragma pack(pop)

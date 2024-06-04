@@ -126,9 +126,9 @@ namespace shaiya
         // 0xDF4
 
         static int GetCountry(CMob* mob/*eax*/);
-        static void UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
+        static void UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
         static bool EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/);
-        static void SendLogBossMob(CMob* mob/*edx*/, const char* text3/*edi*/, int byAction, const char* text4, int damage);
+        static void SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage);
         static void SetAttack(CMob* mob/*esi*/);
         static void SetSkillAbility(CMob* mob/*edx*/, int type/*ecx*/, int value/*eax*/);
         static void SetStatus(CMob* mob/*eax*/, int status/*ecx*/);

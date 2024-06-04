@@ -13,7 +13,7 @@ int CMob::GetCountry(CMob* mob/*eax*/)
     }
 }
 
-void CMob::UseSkill(CMob* mob/*edi*/, DWORD time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
+void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
 {
     Address u0x4B9280 = 0x4B9280;
 
@@ -39,7 +39,7 @@ bool CMob::EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/)
     }
 }
 
-void CMob::SendLogBossMob(CMob* mob/*edx*/, const char* text3/*edi*/, int byAction, const char* text4, int damage)
+void CMob::SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage)
 {
     Address u0x4B62C0 = 0x4B62C0;
 

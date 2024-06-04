@@ -63,39 +63,38 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CGuild
     {
-        SNode node;                 //0x00
-        ULONG id;                   //0x08
-        GuildName name;             //0x0C
-        CharName masterName;        //0x25
+        SNode node;                //0x00
+        ULONG id;                  //0x08
+        GuildName name;            //0x0C
+        CharName masterName;       //0x25
         PAD(2);
-        UINT32 officerCount;        //0x3C
-        UINT32 country;             //0x40
-        UINT32 points;              //0x44
-        UINT32 rank;                //0x48
-        UINT32 etin;                //0x4C
-        UINT32 keepEtin;            //0x50
-        bool hasHouse;              //0x54
-        bool buyHouse;              //0x55
-        GuildRemark remark;         //0x56
-        UINT32 guildRankPoints;     //0x98
-        UINT32 etinReturnCount;     //0x9C
-        UINT32 grbJoinCount;        //0xA0
-        GuildWarehouse warehouse;   //0xA4
-        CRITICAL_SECTION cs464;     //0x464
+        UINT32 officerCount;       //0x3C
+        UINT32 country;            //0x40
+        UINT32 points;             //0x44
+        UINT32 rank;               //0x48
+        UINT32 etin;               //0x4C
+        UINT32 keepEtin;           //0x50
+        bool hasHouse;             //0x54
+        bool buyHouse;             //0x55
+        GuildRemark remark;        //0x56
+        UINT32 guildRankPoints;    //0x98
+        UINT32 etinReturnCount;    //0x9C
+        UINT32 grbJoinCount;       //0xA0
+        GuildWarehouse warehouse;  //0xA4
+        CRITICAL_SECTION cs464;    //0x464
         // 0x47C
         std::array<GuildNpc, 8> npcList;
-        CRITICAL_SECTION cs49C;     //0x49C
-        GuildPvP pvp;               //0x4B4
+        CRITICAL_SECTION cs49C;    //0x49C
+        GuildPvP pvp;              //0x4B4
         // 0x4F4
         SSyncMap<ULONG, GuildUserInfo*> online;
         // 0x53C
         SSyncMap<ULONG, GuildUserInfo*> offline;
         // 0x584
         SSyncMap<ULONG, GuildUserInfo*> joinRequests;
-        CRITICAL_SECTION cs5CC;     //0x5CC
+        CRITICAL_SECTION cs5CC;    //0x5CC
         // 0x5E4
 
-        static int GetNumUsers(CGuild* guild/*ecx*/);
         static void Send(CGuild* guild, void* data/*ecx*/, int len/*eax*/);
         static void SendAdmin(CGuild* guild, void* data/*ecx*/, int len/*eax*/);
     };

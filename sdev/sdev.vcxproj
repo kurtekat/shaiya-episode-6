@@ -36,6 +36,7 @@
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\Ini.cpp" />
+    <ClCompile Include="include\shaiya\src\ItemEnchant.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="include\shaiya\include\Ini.h" />
     <ClInclude Include="include\shaiya\include\ItemDuration.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\ItemEnchant.h" />
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
     <ClInclude Include="include\shaiya\include\Obelisk.h" />

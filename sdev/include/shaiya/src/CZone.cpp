@@ -92,36 +92,6 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
     return (*(LPFN)0x425430)(zone, id);
 }
 
-void CZone::MoveMob(CMob* mob/*eax*/, float x, float y, float z, int motion)
-{
-    Address u0x41D150 = 0x41D150;
-    auto zone = mob->zone;
-
-    __asm
-    {
-        sub esp,0xC
-
-        push motion
-        fld[z]
-        fstp[esp+0x8]
-        fld[y]
-        fstp[esp+0x4]
-        fld[x]
-        fstp[esp]
-        push zone
-
-        mov eax, mob
-        call u0x41D150
-    }
-}
-
-void CZone::MoveNpc(CNpc* npc/*ebx*/, float x, float y, float z, int motion)
-{
-    typedef void(__stdcall* LPFN)(CMap*, float, float, float, int);
-    __asm { mov ebx,npc }
-    (*(LPFN)0x41D650)(npc->map, x, y, z, motion);
-}
-
 void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/)
 {
     pos->y -= 0.9f;
