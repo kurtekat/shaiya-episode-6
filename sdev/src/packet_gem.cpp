@@ -215,8 +215,8 @@ namespace packet_gem
             return;
         }
 
-        UINT8 bag = 1;
-        while (bag <= user->bagsUnlocked)
+        int bag = 1;
+        while (std::cmp_less_equal(bag, user->bagsUnlocked))
         {
             auto slot = find_available_slot(user, bag);
 
@@ -291,8 +291,8 @@ namespace packet_gem
 
         if (hasMaterials)
         {
-            UINT8 bag = 1;
-            while (bag <= user->bagsUnlocked)
+            int bag = 1;
+            while (std::cmp_less_equal(bag, user->bagsUnlocked))
             {
                 auto slot = find_available_slot(user, bag);
 
@@ -356,9 +356,9 @@ namespace packet_gem
         std::random_device seed;
         std::mt19937 eng(seed());
 
-        std::uniform_int_distribution<int> uni(1, item->itemInfo->reqWis);
-        UINT8 bonus = uni(eng);
-        std::string text = std::to_string(bonus);
+        std::uniform_int_distribution<short> uni(1, item->itemInfo->reqWis);
+        auto bonus = uni(eng);
+        auto text = std::to_string(bonus);
 
         if (bonus < 10)
             text.insert(text.begin(), 1, '0');

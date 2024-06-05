@@ -41,7 +41,7 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= user->clone->equipment.size())
+            if (std::cmp_greater_equal(slot, user->clone->equipment.size()))
                 break;
 
             user->clone->equipment[slot].type = item->type;
@@ -124,7 +124,7 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= outgoing.equipment.size())
+            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
                 break;
 
             outgoing.equipment[slot].type = item->type;
@@ -212,7 +212,7 @@ namespace user_shape
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= outgoing.equipment.size())
+            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
                 break;
 
             outgoing.equipment[slot].type = item->type;

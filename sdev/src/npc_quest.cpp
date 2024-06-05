@@ -55,7 +55,7 @@ namespace npc_quest
         outgoing.gold = result.gold;
 
 #ifdef SHAIYA_EP6_4_PT
-        for (std::size_t i = 0; i < result.itemList.size(); ++i)
+        for (int i = 0; std::cmp_less(i, result.itemList.size()); ++i)
         {
             int type = result.itemList[i].type;
             int typeId = result.itemList[i].typeId;

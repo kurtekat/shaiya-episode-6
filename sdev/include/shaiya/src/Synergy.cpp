@@ -40,7 +40,7 @@ void Synergy::init()
             return;
 
         auto records = readNumber<UINT32>(ifs);
-        for (auto i = 0U; i < records; ++i)
+        for (int i = 0; std::cmp_less(i, records); ++i)
         {
             Synergy synergy{};
             synergy.id = readNumber<UINT16>(ifs);
@@ -164,31 +164,34 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
         if (!wornItem)
             continue;
 
-        if (itemRemove && item == wornItem)
+        if (wornItem == item && itemRemove)
             continue;
 
-        auto itemId = (wornItem->type * 1000U) + wornItem->typeId;
+        auto itemId = (wornItem->type * 1000) + wornItem->typeId;
         equipment.insert(itemId);
     }
 
     for (auto& synergy : g_synergies)
     {
-        auto wornCount = 0U;
+        int wornCount = 0;
         for (const auto& itemId : synergy.set)
         {
             if (equipment.count(itemId))
                 ++wornCount;
         }
 
-        if (wornCount < 2 || wornCount >= synergy.abilities.size())
+        if (std::cmp_greater(wornCount, synergy.abilities.size()))
             continue;
 
-        for (auto i = wornCount - 1; i > 0; --i)
+        if (wornCount < 2)
+            continue;
+
+        for (int i = wornCount - 1; i > 0; --i)
         {
             auto& ability = synergy.abilities[i];
             if (ability.isNull())
                 continue;
-            
+
             synergies.push_back(ability);
             break;
         }

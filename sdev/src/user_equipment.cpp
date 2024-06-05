@@ -64,7 +64,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (std::size_t(slot) >= outgoing.itemList.size())
+            if (std::cmp_greater_equal(slot, outgoing.itemList.size()))
                 break;
 
             if (slot < EquipmentSlot::Wings)
