@@ -36,7 +36,6 @@
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\Ini.cpp" />
-    <ClCompile Include="include\shaiya\src\ItemEnchant.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />

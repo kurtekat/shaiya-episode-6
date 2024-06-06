@@ -1,9 +1,9 @@
 #pragma once
-#include <include/shaiya/include/CNpcData.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/common/SSyncMap.h>
+#include "include/shaiya/include/CNpcData.h"
 
 namespace shaiya
 {

@@ -15,6 +15,8 @@ namespace shaiya
     using Warehouse = std::array<CItem*, 240>;
     using StoredPointItems = Warehouse;
 
+    using ProductCode = std::array<char, 21>;
+
     #pragma pack(push, 1)
     struct Equipment
     {

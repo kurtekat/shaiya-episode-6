@@ -1,17 +1,14 @@
 #include <array>
 #include <format>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <util/util.h>
+#include "include/main.h"
 
-#include <include/main.h>
-#include <util/include/util.h>
-
-const std::array<UINT16, 21> g_weapon_step
+const std::array<uint16_t, 21> g_weapon_step
 {
     0, 7, 14, 21, 31, 41, 51, 64, 77, 90, 106, 122, 138, 157, 176, 195, 217, 239, 261, 286, 311
 };
 
-int get_weapon_step(UINT8 enchantStep)
+int get_weapon_step(uint8_t enchantStep)
 {
     if (enchantStep >= g_weapon_step.size())
         return 0;

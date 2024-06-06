@@ -1,16 +1,16 @@
 #pragma once
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CClientToGameLog.h>
-#include <include/shaiya/include/CClientToMgr.h>
-#include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/CObjectMgr.h>
-#include <include/shaiya/include/CMonitorNet.h>
-#include <include/shaiya/include/CWorld.h>
-#include <include/shaiya/include/Obelisk.h>
-#include <include/shaiya/include/SLog.h>
-#include <include/shaiya/include/SThread.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SConnection.h>
+#include "include/shaiya/include/CClientToDBAgent.h"
+#include "include/shaiya/include/CClientToGameLog.h"
+#include "include/shaiya/include/CClientToMgr.h"
+#include "include/shaiya/include/CLogConnection.h"
+#include "include/shaiya/include/CObjectMgr.h"
+#include "include/shaiya/include/CMonitorNet.h"
+#include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/Obelisk.h"
+#include "include/shaiya/include/SLog.h"
+#include "include/shaiya/include/SThread.h"
 
 namespace shaiya
 {

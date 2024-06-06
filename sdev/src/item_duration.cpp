@@ -2,30 +2,29 @@
 #include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CClientToGameLog.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CObjectMgr.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/CWorld.h>
-#include <include/shaiya/include/ItemDuration.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/gameLog/incoming/0400.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CClientToDBAgent.h"
+#include "include/shaiya/include/CClientToGameLog.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CObjectMgr.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/ItemDuration.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
+#include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
 namespace item_duration
 {
     inline std::chrono::system_clock::time_point g_world_thread_update_time_point{};
 
-    void send_delete_notice(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
+    void send_delete_notice(CUser* user, CItem* item, uint8_t bag, uint8_t slot)
     {
         ItemExpireNoticeOutgoing outgoing{};
         outgoing.type = item->type;
@@ -60,7 +59,7 @@ namespace item_duration
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
     }
 
-    void send_expire_notice(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
+    void send_expire_notice(CUser* user, CItem* item, uint8_t bag, uint8_t slot)
     {
         if (!item->itemInfo->duration)
             return;
@@ -87,7 +86,7 @@ namespace item_duration
 
             if (!duration.hours)
             {
-                outgoing.timeValue = static_cast<UINT8>(duration.minutes);
+                outgoing.timeValue = static_cast<uint8_t>(duration.minutes);
 
                 if (bag == warehouse_bag)
                     outgoing.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
@@ -96,7 +95,7 @@ namespace item_duration
             }
             else
             {
-                outgoing.timeValue = static_cast<UINT8>(duration.hours);
+                outgoing.timeValue = static_cast<uint8_t>(duration.hours);
 
                 if (bag == warehouse_bag)
                     outgoing.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
@@ -108,7 +107,7 @@ namespace item_duration
         }
     }
 
-    void send(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
+    void send(CUser* user, CItem* item, uint8_t bag, uint8_t slot)
     {
         if (!item->itemInfo->duration)
             return;
@@ -150,7 +149,7 @@ namespace item_duration
 
     void send_bag_to_bank(CUser* user, Packet buffer)
     {
-        auto slot = util::deserialize<UINT8>(buffer, 37);
+        auto slot = util::deserialize<uint8_t>(buffer, 37);
         if (slot >= user->warehouse.size())
             return;
 
@@ -178,8 +177,8 @@ namespace item_duration
         if (!expireTime)
             return;
 
-        auto bag = util::deserialize<UINT8>(buffer, 2);
-        auto slot = util::deserialize<UINT8>(buffer, 3);
+        auto bag = util::deserialize<uint8_t>(buffer, 2);
+        auto slot = util::deserialize<uint8_t>(buffer, 3);
 
         ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));

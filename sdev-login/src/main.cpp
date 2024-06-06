@@ -1,5 +1,5 @@
-#include <include/main.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
 
 // Author: Cups
 // Date: 31/10/2017

@@ -6,14 +6,14 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/SLog.h>
-#include <include/shaiya/include/Synergy.h>
-#include <util/include/util.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CLogConnection.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
+#include "include/shaiya/include/SLog.h"
+#include "include/shaiya/include/Synergy.h"
 using namespace shaiya;
 
 void Synergy::init()
@@ -39,18 +39,18 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        auto records = readNumber<UINT32>(ifs);
+        auto records = readNumber<uint32_t>(ifs);
         for (int i = 0; std::cmp_less(i, records); ++i)
         {
             Synergy synergy{};
-            synergy.id = readNumber<UINT16>(ifs);
+            synergy.id = readNumber<uint16_t>(ifs);
 
             readPascalString(ifs);
 
             for (auto& itemId : synergy.set)
             {
-                auto type = readNumber<UINT16>(ifs);
-                auto typeId = readNumber<UINT16>(ifs);
+                auto type = readNumber<uint16_t>(ifs);
+                auto typeId = readNumber<uint16_t>(ifs);
                 itemId = (type * 1000) + typeId;
             }
 
@@ -173,14 +173,14 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
 
     for (auto& synergy : g_synergies)
     {
-        int wornCount = 0;
+        std::size_t wornCount = 0;
         for (const auto& itemId : synergy.set)
         {
             if (equipment.count(itemId))
                 ++wornCount;
         }
 
-        if (std::cmp_greater(wornCount, synergy.abilities.size()))
+        if (wornCount > synergy.abilities.size())
             continue;
 
         if (wornCount < 2)

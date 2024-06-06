@@ -1,20 +1,19 @@
 ﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemDuration.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/incoming/0E00.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/2600.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CClientToDBAgent.h"
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemDuration.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
+#include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
 namespace packet_shop
@@ -25,7 +24,7 @@ namespace packet_shop
         SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentReloadPointIncoming));
     }
 
-    void reload_point_handler(CUser* user, UINT32 points)
+    void reload_point_handler(CUser* user, uint32_t points)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
             return;
@@ -39,23 +38,23 @@ namespace packet_shop
     void send_purchase(CUser* user, Packet buffer)
     {
         PointPurchaseItemOutgoing outgoing{};
-        outgoing.opcode = util::deserialize<UINT16>(buffer, 0);
+        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
         outgoing.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
-        outgoing.points = util::deserialize<UINT32>(buffer, 3);
+        outgoing.points = util::deserialize<uint32_t>(buffer, 3);
         std::memcpy(&outgoing.productCode, &buffer[7], outgoing.productCode.size());
-        outgoing.purchaseDate = util::deserialize<ULONG>(buffer, 28);
-        outgoing.itemPrice = util::deserialize<UINT32>(buffer, 32);
-        outgoing.itemCount = util::deserialize<UINT8>(buffer, 36);
+        outgoing.purchaseDate = util::deserialize<unsigned long>(buffer, 28);
+        outgoing.itemPrice = util::deserialize<uint32_t>(buffer, 32);
+        outgoing.itemCount = util::deserialize<uint8_t>(buffer, 36);
 
         int offset = 0;
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
             Item2602 item2602{};
-            item2602.bag = util::deserialize<UINT8>(buffer, 37 + offset);
-            item2602.slot = util::deserialize<UINT8>(buffer, 38 + offset);
-            item2602.type = util::deserialize<UINT8>(buffer, 39 + offset);
-            item2602.typeId = util::deserialize<UINT8>(buffer, 40 + offset);
-            item2602.count = util::deserialize<UINT8>(buffer, 41 + offset);
+            item2602.bag = util::deserialize<uint8_t>(buffer, 37 + offset);
+            item2602.slot = util::deserialize<uint8_t>(buffer, 38 + offset);
+            item2602.type = util::deserialize<uint8_t>(buffer, 39 + offset);
+            item2602.typeId = util::deserialize<uint8_t>(buffer, 40 + offset);
+            item2602.count = util::deserialize<uint8_t>(buffer, 41 + offset);
 
 #ifdef SHAIYA_EP6_4_PT
             auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
@@ -85,7 +84,7 @@ namespace packet_shop
         InterlockedExchange(&user->disableShop, 0);
     }
 
-    void send_purchase3(CUser* user, const char* targetName, const char* productCode, UINT32 itemPrice)
+    void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
         auto purchaseDate = ServerTime::GetSystemTime();
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
@@ -105,8 +104,8 @@ namespace packet_shop
         if (!expireTime)
             return;
 
-        auto bag = util::deserialize<UINT8>(buffer, 3);
-        auto slot = util::deserialize<UINT8>(buffer, 4);
+        auto bag = util::deserialize<uint8_t>(buffer, 3);
+        auto slot = util::deserialize<uint8_t>(buffer, 4);
 
         ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));

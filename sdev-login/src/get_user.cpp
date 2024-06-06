@@ -3,10 +3,9 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-
-#include <include/main.h>
 #include <shaiya/include/common/SDatabase.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
 using namespace shaiya;
 
 short get_user_hook(SDatabase* db, char* username, char* password, unsigned long lowPart, long highPart, char* ipv4Addr)

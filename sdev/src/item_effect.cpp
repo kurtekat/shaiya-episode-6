@@ -1,21 +1,21 @@
+#pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CNpcData.h>
-#include <include/shaiya/include/CObject.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemInfo.h>
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/network/game/incoming/0500.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CNpcData.h"
+#include "include/shaiya/include/CObject.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemInfo.h"
 using namespace shaiya;
 
 namespace item_effect
 {
-    int handler(CUser* user, CItem* item, ItemEffect effect, UINT8 bag, UINT8 slot)
+    int handler(CUser* user, CItem* item, ItemEffect effect, uint8_t bag, uint8_t slot)
     {
         switch (effect)
         {

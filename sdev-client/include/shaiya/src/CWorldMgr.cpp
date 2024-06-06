@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CWorldMgr.h>
+#include "include/shaiya/include/CWorldMgr.h"
 using namespace shaiya;
 
 CCharacter* CWorldMgr::FindUser(ULONG id/*CUser->id*/)

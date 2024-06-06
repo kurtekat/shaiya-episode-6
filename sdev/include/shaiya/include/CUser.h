@@ -1,11 +1,4 @@
 #pragma once
-#include <include/shaiya/include/CExchange.h>
-#include <include/shaiya/include/CFriend.h>
-#include <include/shaiya/include/CloneUser.h>
-#include <include/shaiya/include/CMiniGame.h>
-#include <include/shaiya/include/MyShop.h>
-#include <include/shaiya/include/SkillAbility70.h>
-#include <include/shaiya/include/SVector.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
@@ -18,6 +11,13 @@
 #include <shaiya/include/common/SSyncList.h>
 #include <shaiya/include/user/AuthStatus.h>
 #include <shaiya/include/user/ShapeType.h>
+#include "include/shaiya/include/CExchange.h"
+#include "include/shaiya/include/CFriend.h"
+#include "include/shaiya/include/CloneUser.h"
+#include "include/shaiya/include/CMiniGame.h"
+#include "include/shaiya/include/MyShop.h"
+#include "include/shaiya/include/SkillAbility70.h"
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
@@ -43,6 +43,8 @@ namespace shaiya
 
     using Bank = std::array<BillingItem, 240>;
     using StoredPointItems = Bank;
+
+    using ProductCode = std::array<char, 21>;
 
     #pragma pack(push, 1)
     struct ProductItem

@@ -1,5 +1,4 @@
 #pragma once
-#include <include/shaiya/common.h>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
@@ -7,6 +6,7 @@
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/item/ItemType.h>
 #include <shaiya/include/item/ReqOg.h>
+#include "include/shaiya/common.h"
 
 namespace shaiya
 {

@@ -2,20 +2,6 @@
 #include <random>
 #include <ranges>
 #include <string>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CClientToDBAgent.h>
-#include <include/shaiya/include/CClientToGameLog.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CObjectMgr.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SConnectionTBaseReconnect.h>
-#include <include/shaiya/include/Synthesis.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/item/ItemType.h>
@@ -25,7 +11,18 @@
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0800.h>
 #include <shaiya/include/network/gameLog/incoming/0400.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CClientToDBAgent.h"
+#include "include/shaiya/include/CClientToGameLog.h"
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CObjectMgr.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
+#include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
 namespace packet_gem
@@ -41,7 +38,7 @@ namespace packet_gem
         return -1;
     }
 
-    bool remove_item(CUser* user, CItem* item, UINT8 bag, UINT8 slot, UINT8 count)
+    bool remove_item(CUser* user, CItem* item, uint8_t bag, uint8_t slot, uint8_t count)
     {
         if (item->count < count)
             return false;
@@ -71,7 +68,7 @@ namespace packet_gem
         return true;
     }
 
-    bool find_and_remove_item(CUser* user, ItemId itemId, UINT8 count)
+    bool find_and_remove_item(CUser* user, ItemId itemId, uint8_t count)
     {
         for (const auto& [bag, items] : std::views::enumerate(
             std::as_const(user->inventory)))
@@ -136,7 +133,7 @@ namespace packet_gem
             return true;
 
         auto lapisianStep = lapisian->itemInfo->range;
-        auto lapisianType = static_cast<UINT8>(lapisian->itemInfo->country);
+        auto lapisianType = static_cast<uint8_t>(lapisian->itemInfo->country);
 
         if (CItem::IsWeapon(item))
         {
@@ -1010,7 +1007,7 @@ namespace packet_gem
 
     void extended_handler(CUser* user, Packet packet)
     {
-        auto opcode = util::deserialize<UINT16>(packet, 0);
+        auto opcode = util::deserialize<uint16_t>(packet, 0);
         switch (opcode)
         {
         case 0x80D:

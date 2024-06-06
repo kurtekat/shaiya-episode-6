@@ -1,16 +1,13 @@
+#define NOMINMAX
 #include <limits>
 #include <map>
 #include <vector>
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/RevengeMark.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/RevengeMark.h"
 using namespace shaiya;
 
 namespace revenge_mark
@@ -40,7 +37,7 @@ namespace revenge_mark
                 }
             ); revenge != it->second.end())
             {
-                if (revenge->killCount < std::numeric_limits<std::uint32_t>::max())
+                if (revenge->killCount < std::numeric_limits<uint32_t>::max())
                 {
                     ++revenge->killCount;
 

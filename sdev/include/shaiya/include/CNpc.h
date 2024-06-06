@@ -1,8 +1,8 @@
 #pragma once
-#include <include/shaiya/include/SVector.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/npc/NpcType.h>
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {

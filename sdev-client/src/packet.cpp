@@ -1,11 +1,8 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <strsafe.h>
-
-#include <include/main.h>
-#include <include/static.h>
-#include <include/shaiya/include/CCharacter.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/static.h"
+#include "include/shaiya/include/CCharacter.h"
 using namespace shaiya;
 
 namespace packet
@@ -25,7 +22,7 @@ namespace packet
             user->wings = nullptr;
     }
 
-    void revenge_message(CCharacter* killer, UINT32 killCount)
+    void revenge_message(CCharacter* killer, uint32_t killCount)
     {
         StringCbCopyA(g_static->t.data(), g_static->t.size(), killer->charName.data());
         g_static->v = killCount;

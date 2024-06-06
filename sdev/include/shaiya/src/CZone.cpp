@@ -1,9 +1,9 @@
-#include <include/shaiya/include/CMap.h>
-#include <include/shaiya/include/CMob.h>
-#include <include/shaiya/include/CNpc.h>
-#include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/Obelisk.h>
-#include <include/shaiya/include/SVector.h>
+#include "include/shaiya/include/CMap.h"
+#include "include/shaiya/include/CMob.h"
+#include "include/shaiya/include/CNpc.h"
+#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/Obelisk.h"
+#include "include/shaiya/include/SVector.h"
 using namespace shaiya;
 
 CMob* CZone::FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)

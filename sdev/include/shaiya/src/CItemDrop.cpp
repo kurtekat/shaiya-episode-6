@@ -1,5 +1,5 @@
-#include <include/shaiya/include/CItemDrop.h>
-#include <include/shaiya/include/ItemInfo.h>
+#include "include/shaiya/include/CItemDrop.h"
+#include "include/shaiya/include/ItemInfo.h"
 using namespace shaiya;
 
 ItemInfo* CItemDrop::GetItem(int grade/*eax*/)

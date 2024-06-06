@@ -6,6 +6,8 @@
 
 namespace shaiya
 {
+    using CharId = unsigned long;
+
     struct RevengeMark
     {
         ULONG killerId;

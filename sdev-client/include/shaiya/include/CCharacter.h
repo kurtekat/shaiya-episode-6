@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <include/shaiya/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
@@ -9,6 +8,7 @@
 #include <shaiya/include/user/CharName.h>
 #include <shaiya/include/user/MotionType.h>
 #include <shaiya/include/user/ShapeType.h>
+#include "include/shaiya/common.h"
 
 namespace shaiya
 {

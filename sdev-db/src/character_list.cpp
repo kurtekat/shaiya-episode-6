@@ -2,16 +2,16 @@
 #include <map>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CUser.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
 using namespace shaiya;
 
 namespace character_list
 {
+    using UserId = unsigned long;
     inline std::map<UserId, std::array<Equipment0403, 5>> g_equipment{};
 
     void send(CUser* user, bool sendCountry)
@@ -76,7 +76,7 @@ namespace character_list
         g_equipment.insert_or_assign(user->userId, equipment);
     }
 
-    void assign_equipment(CUser* user, UINT8 characterSlot, UINT8 equipmentSlot, UINT8 type, UINT8 typeId)
+    void assign_equipment(CUser* user, uint8_t characterSlot, uint8_t equipmentSlot, uint8_t type, uint8_t typeId)
     {
         if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
             return;

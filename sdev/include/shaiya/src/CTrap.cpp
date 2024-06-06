@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CTrap.h>
+#include "include/shaiya/include/CTrap.h"
 using namespace shaiya;
 
 void CTrap::GetCountry(CTrap* trap/*eax*/)

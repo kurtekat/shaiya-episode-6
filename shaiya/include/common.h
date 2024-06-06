@@ -1,8 +1,8 @@
 #pragma once
-#pragma warning(disable: 28159) // GetTickCount
 #define SHAIYA_EP6_4_PT
 
 #include <array>
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -29,23 +29,16 @@ namespace shaiya
     constexpr int min_warehouse_slot = 120;
 
     using Address = unsigned;
-    using Packet = UINT8*;
-    using ChatMessage = std::array<char, 128>;
+    using Packet = uint8_t*;
 
-    using CharId = ULONG;
     using CharName = std::array<char, 21>;
     using GuildName = std::array<char, 25>;
-    using Memo = std::array<char, 51>;
 
-    using UserId = ULONG;
     using Username = std::array<char, 32>;
     using Password = std::array<char, 32>;
 
-    using ProductCode = std::array<char, 21>;
-
-    using ItemId = UINT32;
     using CraftName = std::array<char, 21>;
-    using Gems = std::array<UINT8, 6>;
+    using Gems = std::array<uint8_t, 6>;
     using CloakBadge = Gems;
 
     enum EquipmentSlot

@@ -1,4 +1,4 @@
-#include <include/static.h>
+#include "include/static.h"
 using namespace shaiya;
 
 void Static::GetMsg(int type, int line, int unknown)

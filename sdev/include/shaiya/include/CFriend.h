@@ -6,6 +6,8 @@
 
 namespace shaiya
 {
+    using Memo = std::array<char, 51>;
+
     #pragma pack(push, 1)
     struct BlockList
     {

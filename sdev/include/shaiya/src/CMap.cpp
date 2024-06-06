@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CMap.h>
+#include "include/shaiya/include/CMap.h"
 using namespace shaiya;
 
 CDoor* CMap::GetPortal(CMap* map/*ecx*/, int index/*eax*/)

@@ -3,14 +3,15 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
-#include <include/shaiya/include/DataFile.h>
-#include <shaiya/include/common.h>
+#include "include/shaiya/include/DataFile.h"
 
 namespace shaiya
 {
     struct CItem;
     struct CUser;
+    
+    using CharId = unsigned long;
+    using ItemId = uint32_t;
 
     struct SynergyAbility
     {
@@ -41,7 +42,7 @@ namespace shaiya
 
     struct Synergy : DataFile
     {
-        UINT16 id;
+        uint16_t id;
         std::array<SynergyAbility, 13> abilities{};
         std::array<ItemId, 13> set{};
 

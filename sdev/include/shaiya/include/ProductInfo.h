@@ -3,6 +3,8 @@
 
 namespace shaiya
 {
+    using ProductCode = std::array<char, 21>;
+
     #pragma pack(push, 1)
     struct ProductInfo
     {

@@ -1,7 +1,7 @@
 #pragma once
-#include <include/shaiya/include/CMap.h>
-#include <include/shaiya/include/SVector.h>
 #include <shaiya/include/common.h>
+#include "include/shaiya/include/CMap.h"
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {

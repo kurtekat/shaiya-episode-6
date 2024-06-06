@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CParty.h>
+#include "include/shaiya/include/CParty.h"
 using namespace shaiya;
 
 CUser* CParty::FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/)

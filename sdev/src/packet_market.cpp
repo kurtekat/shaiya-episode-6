@@ -1,8 +1,5 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
 
 unsigned u0x486320 = 0x486320;
 void __declspec(naked) naked_0x486319()

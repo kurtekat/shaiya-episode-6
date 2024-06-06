@@ -1,7 +1,7 @@
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/SkillInfo.h>
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
 void CUser::AddApplySkillBuff(CUser* user, SkillInfo* skillInfo)

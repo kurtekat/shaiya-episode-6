@@ -1,15 +1,12 @@
 #include <array>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/Synergy.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/Synergy.h"
 using namespace shaiya;
 
 namespace user_status

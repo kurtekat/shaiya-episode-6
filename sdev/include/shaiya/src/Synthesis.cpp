@@ -5,12 +5,10 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/shaiya/include/CLogConnection.h>
-#include <include/shaiya/include/Ini.h>
-#include <include/shaiya/include/SLog.h>
-#include <include/shaiya/include/Synthesis.h>
-#include <util/include/util.h>
+#include "include/shaiya/include/CLogConnection.h"
+#include "include/shaiya/include/Ini.h"
+#include "include/shaiya/include/SLog.h"
+#include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
 void Synthesis::init()
@@ -64,7 +62,7 @@ void Synthesis::init()
     }
 }
 
-void Synthesis::parseMaterial(const std::string& text, std::array<UINT8, 24>& output)
+void Synthesis::parseMaterial(const std::string& text, std::array<uint8_t, 24>& output)
 {
     if (text.empty())
         return;

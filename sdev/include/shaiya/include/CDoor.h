@@ -1,7 +1,7 @@
 #pragma once
-#include <sdev/include/shaiya/include/SVector.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {

@@ -1,19 +1,16 @@
 #include <memory>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CQuest.h>
-#include <include/shaiya/include/CQuestData.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0900.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/CQuest.h"
+#include "include/shaiya/include/CQuestData.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
 namespace npc_quest
@@ -25,7 +22,7 @@ namespace npc_quest
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
+    void send_failure_result(CUser* user, CQuest* quest, unsigned long npcId)
     {
         QuestEndResultOutgoing outgoing{};
         outgoing.npcId = npcId;
@@ -35,8 +32,8 @@ namespace npc_quest
 
     void send_success_result(CUser* user, CQuest* quest, Packet buffer)
     {
-        auto npcId = util::deserialize<ULONG>(buffer, 2);
-        auto index = util::deserialize<UINT8>(buffer, 9);
+        auto npcId = util::deserialize<unsigned long>(buffer, 2);
+        auto index = util::deserialize<uint8_t>(buffer, 9);
 
         if (index >= quest->questInfo->resultList.size())
         {

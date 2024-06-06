@@ -1,4 +1,4 @@
-#include <include/shaiya/include/CStaticText.h>
+#include "include/shaiya/include/CStaticText.h"
 using namespace shaiya;
 
 CStaticText* CStaticText::Init(const char* text)

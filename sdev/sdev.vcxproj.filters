@@ -153,9 +153,6 @@
     <ClCompile Include="src\item_duration.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\ItemEnchant.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">

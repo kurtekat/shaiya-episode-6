@@ -1,16 +1,16 @@
+#pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/CSkill.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/CZone.h>
-#include <include/shaiya/include/SkillInfo.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include <shaiya/include/skill/SkillAbilityType.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/CSkill.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
 namespace user_apply_skill
@@ -99,14 +99,14 @@ namespace user_apply_skill
         }
 
         SkillUseOutgoing outgoing{};
-        outgoing.targetType = util::deserialize<UINT8>(buffer, 2);
+        outgoing.targetType = util::deserialize<uint8_t>(buffer, 2);
         outgoing.senderId = sender->id;
         outgoing.targetId = target->id;
-        outgoing.skillId = util::deserialize<UINT16>(buffer, 11);
-        outgoing.skillLv = util::deserialize<UINT8>(buffer, 13);
-        outgoing.health = util::deserialize<UINT16>(buffer, 14);
-        outgoing.stamina = util::deserialize<UINT16>(buffer, 16);
-        outgoing.mana = util::deserialize<UINT16>(buffer, 18);
+        outgoing.skillId = util::deserialize<uint16_t>(buffer, 11);
+        outgoing.skillLv = util::deserialize<uint8_t>(buffer, 13);
+        outgoing.health = util::deserialize<uint16_t>(buffer, 14);
+        outgoing.stamina = util::deserialize<uint16_t>(buffer, 16);
+        outgoing.mana = util::deserialize<uint16_t>(buffer, 18);
 
         if (!sender->zone)
             return;

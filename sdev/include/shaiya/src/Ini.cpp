@@ -5,8 +5,7 @@
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <include/shaiya/include/Ini.h>
+#include "include/shaiya/include/Ini.h"
 using namespace shaiya;
 
 auto Ini::getInt(const std::string& section, const std::string& key, int _default)

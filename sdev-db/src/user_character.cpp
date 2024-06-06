@@ -3,15 +3,14 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CUser.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/common/SDatabase.h>
 #include <shaiya/include/common/SDatabasePool.h>
 #include <shaiya/include/network/dbAgent/incoming/0400.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CUser.h"
 using namespace shaiya;
 
 namespace user_character

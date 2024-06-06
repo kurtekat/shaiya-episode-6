@@ -1,8 +1,8 @@
-#include <include/shaiya/include/CGameData.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/MobInfo.h>
-#include <include/shaiya/include/ProductInfo.h>
-#include <include/shaiya/include/SkillInfo.h>
+#include "include/shaiya/include/CGameData.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/MobInfo.h"
+#include "include/shaiya/include/ProductInfo.h"
+#include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
 ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)

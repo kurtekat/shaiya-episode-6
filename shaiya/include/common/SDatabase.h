@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
 

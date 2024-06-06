@@ -1,17 +1,14 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
-#include <include/main.h>
-#include <include/shaiya/include/CItem.h>
-#include <include/shaiya/include/CUser.h>
-#include <include/shaiya/include/ItemDuration.h>
-#include <include/shaiya/include/ItemInfo.h>
-#include <include/shaiya/include/ServerTime.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/incoming/0A00.h>
 #include <shaiya/include/network/game/outgoing/0A00.h>
 #include <shaiya/include/network/game/outgoing/2400.h>
-#include <util/include/util.h>
+#include <util/util.h>
+#include "include/main.h"
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemDuration.h"
+#include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
 namespace packet_exchange
@@ -69,10 +66,10 @@ namespace packet_exchange
     {
         ExchangeItemOutgoing outgoing{};
         outgoing.opcode = pvp ? 0x240D : 0xA09;
-        outgoing.destSlot = util::deserialize<UINT8>(buffer, 5);
+        outgoing.destSlot = util::deserialize<uint8_t>(buffer, 5);
 
-        auto bag = util::deserialize<UINT8>(buffer, 2);
-        auto slot = util::deserialize<UINT8>(buffer, 3);
+        auto bag = util::deserialize<uint8_t>(buffer, 2);
+        auto slot = util::deserialize<uint8_t>(buffer, 3);
 
         if (!bag || bag > exchangeUser->bagsUnlocked || slot >= max_inventory_slot)
             return;
@@ -83,7 +80,7 @@ namespace packet_exchange
 
         outgoing.type = item->type;
         outgoing.typeId = item->typeId;
-        outgoing.count = util::deserialize<UINT8>(buffer, 4);
+        outgoing.count = util::deserialize<uint8_t>(buffer, 4);
         outgoing.quality = item->quality;
         outgoing.gems = item->gems;
 

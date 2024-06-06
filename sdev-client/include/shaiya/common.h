@@ -1,6 +1,7 @@
 #pragma once
 #pragma warning(disable: 4005)
 #define DIRECTINPUT_VERSION 0x800
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <mmsystem.h>
@@ -12,7 +13,6 @@
 #include <dinput.h>
 #include <dsound.h>
 #include <dwrite.h>
-
 #include <shaiya/include/common.h>
 
 namespace shaiya

@@ -1,12 +1,12 @@
 #pragma once
 #include <array>
-#include <include/shaiya/common.h>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/skill/NeedWeapon.h>
 #include <shaiya/include/skill/SkillAbilityType.h>
 #include <shaiya/include/skill/SkillStatusType.h>
 #include <shaiya/include/skill/SkillTargetType.h>
+#include "include/shaiya/common.h"
 
 namespace shaiya
 {
