@@ -30,9 +30,15 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v1
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2
 
-| NpcQuest    | Max Level    |
-|-------------|--------------|
-| EP6         | 80           |
+| NpcQuest    | Max Level    | Item Duration    |
+|-------------|--------------|------------------|
+| EP6         | 80           | Yes              |
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v3
+
+| NpcQuest    | Max Level    | Item Duration    |
+|-------------|--------------|------------------|
+| EP6         | 80           | No               |
 
 ## Item Mall
 
