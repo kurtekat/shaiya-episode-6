@@ -1,9 +1,9 @@
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <include/util.h>
+#include "util.h"
 
-int util::detour(Address addr, Function func, int size)
+int util::detour(void* addr, void* func, int size)
 {
     constexpr int nop = 0x90;
     constexpr int jmp = 0xE9;
@@ -25,7 +25,7 @@ int util::detour(Address addr, Function func, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, Buffer buffer, int size)
+int util::write_memory(void* addr, void* buffer, int size)
 {
     if (size < 1)
         return 0;
@@ -40,7 +40,7 @@ int util::write_memory(Address addr, Buffer buffer, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(Address addr, int value, int count)
+int util::write_memory(void* addr, int value, int count)
 {
     if (count < 1)
         return 0;
