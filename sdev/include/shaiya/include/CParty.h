@@ -1,18 +1,12 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
+#include <shaiya/include/item/ItemDivType.h>
 
 namespace shaiya
 {
     struct CUser;
-
-    enum struct ItemDivType : UINT32
-    {
-        Group = 1,
-        Random,
-        Unknown,
-        Master
-    };
 
     struct PartyMember
     {

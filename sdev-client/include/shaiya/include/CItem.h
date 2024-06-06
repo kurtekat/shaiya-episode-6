@@ -1,4 +1,6 @@
 #pragma once
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya

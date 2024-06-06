@@ -1,8 +1,11 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/common/SSyncMap.h>
+#include <shaiya/include/user/CharName.h>
+#include <shaiya/include/user/GuildName.h>
 #include "include/shaiya/include/CNpcData.h"
 
 namespace shaiya

@@ -34,7 +34,10 @@
     <ClInclude Include="include\common\SNode.h" />
     <ClInclude Include="include\common\SSyncList.h" />
     <ClInclude Include="include\common\SSyncMap.h" />
+    <ClInclude Include="include\item\CraftName.h" />
     <ClInclude Include="include\item\ExtDuration.h" />
+    <ClInclude Include="include\item\Gems.h" />
+    <ClInclude Include="include\item\ItemDivType.h" />
     <ClInclude Include="include\item\ItemEffect.h" />
     <ClInclude Include="include\item\ItemType.h" />
     <ClInclude Include="include\item\MakeType.h" />
@@ -99,8 +102,12 @@
     <ClInclude Include="include\skill\SkillStatusType.h" />
     <ClInclude Include="include\skill\SkillTargetType.h" />
     <ClInclude Include="include\user\AuthStatus.h" />
+    <ClInclude Include="include\user\CharName.h" />
+    <ClInclude Include="include\user\GuildName.h" />
     <ClInclude Include="include\user\MotionType.h" />
+    <ClInclude Include="include\user\Password.h" />
     <ClInclude Include="include\user\ShapeType.h" />
+    <ClInclude Include="include\user\Username.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

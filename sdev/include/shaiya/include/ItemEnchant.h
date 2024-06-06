@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 
 namespace shaiya

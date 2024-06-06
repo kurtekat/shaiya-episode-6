@@ -1,7 +1,7 @@
 #pragma once
 #define SHAIYA_EP6_4_PT
 
-#include <array>
+#include <cstdint>
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -29,17 +29,7 @@ namespace shaiya
     constexpr int min_warehouse_slot = 120;
 
     using Address = unsigned;
-    using Packet = uint8_t*;
-
-    using CharName = std::array<char, 21>;
-    using GuildName = std::array<char, 25>;
-
-    using Username = std::array<char, 32>;
-    using Password = std::array<char, 32>;
-
-    using CraftName = std::array<char, 21>;
-    using Gems = std::array<uint8_t, 6>;
-    using CloakBadge = Gems;
+    using Packet = unsigned char*;
 
     enum EquipmentSlot
     {

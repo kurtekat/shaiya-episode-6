@@ -12,7 +12,7 @@ namespace shaiya
     {
         CRITICAL_SECTION cs;  //0x00
         PAD(28);
-        int count;            //0x34
+        UINT32 count;         //0x34
         PAD(16);
         // 0x48
     };

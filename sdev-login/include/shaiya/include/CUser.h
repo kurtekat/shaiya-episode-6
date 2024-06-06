@@ -1,6 +1,10 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/user/Password.h>
+#include <shaiya/include/user/Username.h>
 
 namespace shaiya
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include "include/shaiya/include/SVector.h"

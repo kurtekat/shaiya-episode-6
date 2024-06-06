@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
@@ -10,7 +11,9 @@
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/common/SSyncList.h>
 #include <shaiya/include/user/AuthStatus.h>
+#include <shaiya/include/user/CharName.h>
 #include <shaiya/include/user/ShapeType.h>
+#include <shaiya/include/user/Username.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"

@@ -2,6 +2,7 @@
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
+#include <shaiya/include/item/Gems.h>
 #include <shaiya/include/user/ShapeType.h>
 #include <util/util.h>
 #include "include/main.h"

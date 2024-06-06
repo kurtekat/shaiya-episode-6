@@ -12,7 +12,7 @@ namespace shaiya
         T* head;              //0x00
         T* next;              //0x04
         CRITICAL_SECTION cs;  //0x08
-        int count;            //0x20
+        UINT32 count;         //0x20
         SNode node;           //0x24
         // 0x2C
     };

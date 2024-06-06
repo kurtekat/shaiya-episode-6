@@ -1,6 +1,8 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
+#include <shaiya/include/item/CraftName.h>
+#include <shaiya/include/item/Gems.h>
 #include <shaiya/include/item/MakeType.h>
 #include "include/shaiya/include/SVector.h"
 

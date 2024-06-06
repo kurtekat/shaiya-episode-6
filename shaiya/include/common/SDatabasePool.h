@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <string>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SSyncList.h>
 
@@ -33,10 +32,10 @@ namespace shaiya
         static void FreeDB(SDatabase* db);
         static bool Connect(
             int numConnection,
-            const std::string& server,
-            const std::string& dbName,
-            const std::string& username,
-            const std::string& password,
+            const char* server,
+            const char* dbName,
+            const char* username,
+            const char* password,
             ULONG queryTimeout,
             ULONG connectionTimeout
         );

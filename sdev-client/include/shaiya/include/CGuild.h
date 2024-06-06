@@ -1,5 +1,7 @@
 #pragma once
 #include <array>
+#include <shaiya/include/user/CharName.h>
+#include <shaiya/include/user/GuildName.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya

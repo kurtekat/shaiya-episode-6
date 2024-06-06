@@ -6,6 +6,7 @@
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/npc/NpcType.h>
 #include <shaiya/include/user/AuthStatus.h>
+#include <shaiya/include/user/CharName.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CWorldMgr.h"
