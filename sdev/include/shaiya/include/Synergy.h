@@ -40,15 +40,22 @@ namespace shaiya
         }
     };
 
-    struct Synergy : DataFile
+    class Synergy : DataFile
     {
-        uint16_t id;
+    public:
+
+        int id;
         std::array<SynergyAbility, 13> abilities{};
         std::array<ItemId, 13> set{};
 
         static void init();
         static void applySynergies(CUser* user, CItem* item, bool itemRemove);
         static void removeSynergies(CUser* user);
+
+        Synergy()
+            : id(0)
+        {
+        }
 
     private:
 
