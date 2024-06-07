@@ -2,6 +2,7 @@
 #include <random>
 #include <ranges>
 #include <string>
+#include <tuple>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/item/ItemType.h>
@@ -649,22 +650,26 @@ namespace packet_gem
         ItemSynthesisListOutgoing outgoing{};
         outgoing.goldPerPercentage = gold_per_percentage;
 
+        auto itemList = std::ranges::views::zip(
+            outgoing.createType,
+            outgoing.createTypeId
+        );
+
         int index = 0;
         for (const auto& synthesis : synthesis->second)
         {
-            outgoing.createType[index] = synthesis.createType;
-            outgoing.createTypeId[index] = synthesis.createTypeId;
+            std::get<0>(itemList[index]) = synthesis.createType;
+            std::get<1>(itemList[index]) = synthesis.createTypeId;
 
             ++index;
 
-            if (index < 10)
+            if (std::cmp_less(index, itemList.size()))
                 continue;
             else
             {
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
 
-                outgoing.createType.fill(0);
-                outgoing.createTypeId.fill(0);
+                std::fill(itemList.begin(), itemList.end(), std::tuple(0, 0));
                 index = 0;
             }
         }
@@ -1008,6 +1013,7 @@ namespace packet_gem
     void extended_handler(CUser* user, Packet packet)
     {
         auto opcode = util::deserialize<uint16_t>(packet, 0);
+
         switch (opcode)
         {
         case 0x80D:
