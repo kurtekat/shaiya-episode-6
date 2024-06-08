@@ -43,11 +43,20 @@ namespace shaiya
         ItemEffect effect;      //0x2C
         UINT8 slotCount;        //0x2D
         UINT16 quality;         //0x2E
-        UINT16 effect1;         //0x30
-        UINT16 effect2;         //0x32
-        UINT16 effect3;         //0x34
-        UINT16 effect4;         //0x36
-        PAD(20);
+        UINT16 minAtkPower;     //0x30
+        UINT16 addAtkPower;     //0x32
+        UINT16 defense;         //0x34
+        UINT16 resistance;      //0x36
+        UINT16 health;          //0x38
+        UINT16 stamina;         //0x3A
+        UINT16 mana;            //0x3C
+        UINT16 strength;        //0x3E
+        UINT16 dexterity;       //0x40
+        UINT16 reaction;        //0x42
+        UINT16 intelligence;    //0x44
+        UINT16 wisdom;          //0x46
+        UINT16 luck;            //0x48
+        PAD(2);
         UINT32 buy;             //0x4C
         UINT32 sell;            //0x50
         UINT32 dropGrade;       //0x54
