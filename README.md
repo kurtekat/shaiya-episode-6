@@ -36,10 +36,6 @@ Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the a
 
 [Parsec](https://github.com/matigramirez/Parsec)
 
-## Contributors
-
-Please don't submit a pull request unless I invite you to contribute. I can't disable the pull request tab to prevent unwanted contributions. Don't open issues to ask off-topic questions.
-
 ## Support
 
-Please describe the issue(s) and provide reproduction steps. I'm not interested in supporting unofficial features. Older versions of the software are not supported.
+Report bugs via email. Please provide reproduction steps. Older versions of the software are not supported.

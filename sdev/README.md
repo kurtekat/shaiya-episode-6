@@ -46,7 +46,7 @@ The following stored procedures need to be installed:
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db/bin/sql
 
-```sql
+```
 [dbo].[usp_Read_User_CashPoint_UsersMaster]
 [dbo].[usp_Save_User_BuyPointItems2]
 [dbo].[usp_Save_User_GiftPointItems2]
@@ -73,6 +73,8 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2/sql
 ```
 
 Warning: the **Items** script will create an empty table.
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/tools/ItemSqlWriter
 
 ### Duration
 
@@ -139,7 +141,7 @@ This feature will not be implemented.
 
 ### ItemSynthesis.ini
 
-Use the following example to get started.
+Use the following example to get started:
 
 ```ini
 ;PSM_Client\Bin\Data\ItemSynthesis.ini
@@ -211,10 +213,10 @@ This feature will not be implemented.
 
 ### Money
 
-Set the `gold_per_percentage` constants in **packet_gem.cpp** to change the result. The value in the library is the same as the official server.
+Set the `gold_per_percentage` constants in **packet_gem.cpp**. The value in the library is the same as the official server.
 
 ```cpp
-constexpr auto gold_per_percentage = 100000000;
+constexpr auto gold_per_percentage = 100'000'000;
 ```
 
 ### Crafting Hammers

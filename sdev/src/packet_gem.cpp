@@ -550,7 +550,7 @@ namespace packet_gem
 
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
-        constexpr auto gold_per_percentage = 100000000;
+        constexpr auto gold_per_percentage = 100'000'000;
 
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
@@ -631,7 +631,7 @@ namespace packet_gem
 
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
     {
-        constexpr auto gold_per_percentage = 100000000;
+        constexpr auto gold_per_percentage = 100'000'000;
         constexpr auto max_gold_per_percentage = gold_per_percentage * 5;
         constexpr auto min_success_rate = 100;
         constexpr auto max_success_rate = 10000;

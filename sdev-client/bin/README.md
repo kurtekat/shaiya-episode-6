@@ -1,6 +1,6 @@
 # Documentation
 
-The file is a 6.4 PT client that arrived in patch 182. The only ones that have touched it are the person who unpacked it (thanks, NatS0e) and yours truly. Since I can account for what's been done to the file, I'll make an effort to support it.
+The file is a 6.4 PT client that arrived in patch 182. The only ones that have touched it are the person who unpacked it (thanks, NatS0e) and yours truly.
 
 ## Build Version
 
