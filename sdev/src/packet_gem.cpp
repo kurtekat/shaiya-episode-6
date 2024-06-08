@@ -18,9 +18,8 @@
 #include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CObjectMgr.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/Synthesis.h"
@@ -28,86 +27,12 @@ using namespace shaiya;
 
 namespace packet_gem
 {
-    int find_available_slot(CUser* user, int bag)
-    {
-        for (int slot = 0; slot < max_inventory_slot; ++slot)
-        {
-            if (!user->inventory[bag][slot])
-                return slot;
-        }
-
-        return -1;
-    }
-
-    bool remove_item(CUser* user, CItem* item, uint8_t bag, uint8_t slot, uint8_t count)
-    {
-        if (item->count < count)
-            return false;
-
-        item->count -= count;
-
-        DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemRemoveIncoming));
-
-        GameLogItemRemoveIncoming log(user, item, bag, slot, count);
-        SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
-
-        if (!item->count)
-        {
-            ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
-            SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-
-            CObjectMgr::FreeItem(item);
-            user->inventory[bag][slot] = nullptr;
-        }
-        else
-        {
-            ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
-            SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
-        }
-
-        return true;
-    }
-
-    bool find_and_remove_item(CUser* user, ItemId itemId, uint8_t count)
-    {
-        for (const auto& [bag, items] : std::views::enumerate(
-            std::as_const(user->inventory)))
-        {
-            if (!bag)
-                continue;
-
-            for (const auto& [slot, item] : std::views::enumerate(
-                std::as_const(items)))
-            {
-                if (!item)
-                    continue;
-
-                if (item->itemInfo->itemId != itemId)
-                    continue;
-
-                if (item->count < count)
-                    continue;
-
-                if (remove_item(user, item, bag, slot, count))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
     bool remove_enchant_charm(CUser* user, ItemLapisianAddIncoming* incoming)
     {
         if (!incoming->luckyCharm)
             return false;
 
-        // Safety Enchant Scroll
-        if (find_and_remove_item(user, 101090, 1))
-            return true;
-
-        // [SP] Lapisia Lucky Charm
-        if (find_and_remove_item(user, 101132, 1))
+        if (Helpers::ItemRemove(user, ItemEffect::LapisianLuckyCharm, 1))
             return true;
 
         return false;
@@ -216,7 +141,7 @@ namespace packet_gem
         int bag = 1;
         while (std::cmp_less_equal(bag, user->bagsUnlocked))
         {
-            auto slot = find_available_slot(user, bag);
+            auto slot = Helpers::GetFreeItemSlot(user, bag);
 
             if (slot != -1)
             {
@@ -226,8 +151,8 @@ namespace packet_gem
                 ItemRuneCombineOutgoing outgoing(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
                 SConnection::Send(&user->connection, &outgoing, sizeof(ItemRuneCombineOutgoing));
 
-                remove_item(user, rune, incoming->runeBag, incoming->runeSlot, 2);
-                remove_item(user, vial, incoming->vialBag, incoming->vialSlot, 1);
+                Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
+                Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
                 break;
             }
 
@@ -285,14 +210,14 @@ namespace packet_gem
 
         bool hasMaterials = false;
         for (int i = 0; i < requiredCount; ++i)
-            hasMaterials = find_and_remove_item(user, itemInfo->itemId, 1);
+            hasMaterials = Helpers::ItemRemove(user, itemInfo->itemId, 1);
 
         if (hasMaterials)
         {
             int bag = 1;
             while (std::cmp_less_equal(bag, user->bagsUnlocked))
             {
-                auto slot = find_available_slot(user, bag);
+                auto slot = Helpers::GetFreeItemSlot(user, bag);
 
                 if (slot != -1)
                 {
@@ -783,10 +708,10 @@ namespace packet_gem
         for (const auto& [type, typeId, count] : materials)
         {
             auto itemInfo = CGameData::GetItemInfo(type, typeId);
-            if (!itemInfo || !count)
+            if (!itemInfo)
                 continue;
 
-            hasMaterials = find_and_remove_item(user, itemInfo->itemId, count);
+            hasMaterials = Helpers::ItemRemove(user, itemInfo->itemId, count);
         }
 
         ItemSynthesisOutgoing outgoing{};
@@ -1135,11 +1060,15 @@ void __declspec(naked) naked_0x46CCF0()
     }
 }
 
-unsigned u0x46D598 = 0x46D598;
-void __declspec(naked) naked_0x46D117()
+unsigned u0x4D2960 = 0x4D2960;
+unsigned u0x46CDB5 = 0x46CDB5;
+void __declspec(naked) naked_0x46CDB0()
 {
     __asm
     {
+        // original
+        call u0x4D2960
+
         pushad
 
         push ebx // packet
@@ -1149,11 +1078,11 @@ void __declspec(naked) naked_0x46D117()
 
         popad
 
-        // original
-        jmp u0x46D598
+        jmp u0x46CDB5
     }
 }
 
+unsigned u0x46D598 = 0x46D598;
 unsigned u0x46D3C4 = 0x46D3C4;
 void __declspec(naked) naked_0x46D3BC()
 {
@@ -1194,7 +1123,7 @@ void hook::packet_gem()
     // CUser::ItemLapisianAdd
     util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
     // CUser::ItemLapisianAdd (success)
-    util::detour((void*)0x46D117, naked_0x46D117, 5);
+    util::detour((void*)0x46CDB0, naked_0x46CDB0, 5);
     // CUser::ItemLapisianAdd (failure)
     util::detour((void*)0x46D3BC, naked_0x46D3BC, 8);
 }

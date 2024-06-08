@@ -219,12 +219,12 @@ constexpr auto gold_per_percentage = 100000000;
 
 ### Crafting Hammers
 
-The item effect is expected to be 102. Use the **ReqVg** column in the **Items** table to store the success rate. The library will multiply the value by 100.
+Use the **ReqVg** column in the **Items** table to store the success rate. The library will multiply the value by 100.
 
-| ItemID    | ReqVg    |
-|-----------|----------|
-| 102074    | 5        |
-| 102075    | 10       |
+| ItemID    | ItemName                    | Effect    | ReqVg    |
+|-----------|-----------------------------|-----------|----------|
+| 102074    | Chaos Crafting Hammer       | 102       | 5        |
+| 102075    | Infinite Crafting Hammer    | 102       | 10       |
 
 ## Synergy
 
@@ -266,15 +266,19 @@ The values are signed 32-bit integers, expected to be in the following order.
 
 Use item `101150` to activate the window. The `CraftName` and `Gems` are removed from the original item if the transfer is successful.
 
+| ItemID    | ItemName                 | Effect    |
+|-----------|--------------------------|-----------|
+| 101150    | Transfer Rubik's Cube    | 105       |
+
 ### Success Rate
 
 The base success rate is 30 percent.
 
-| ItemID    | ItemName        | ReqVg    | Rate    |
-|-----------|-----------------|----------|---------|
-| 101156    | Catalyst Lv1    | 20       | 50      |
-| 101157    | Catalyst Lv2    | 50       | 80      |
-| 101158    | Catalyst Lv3    | 60       | 90      |
+| ItemID    | ItemName        | Effect    | ReqVg    | Success Rate    |
+|-----------|-----------------|-----------|----------|-----------------|
+| 101156    | Catalyst Lv1    | 106       | 20       | 50              |
+| 101157    | Catalyst Lv2    | 106       | 50       | 80              |
+| 101158    | Catalyst Lv3    | 106       | 60       | 90              |
 
 ### Client Versions
 
@@ -288,13 +292,11 @@ The base success rate is 30 percent.
 
 Use item 101101 to activate the window. There is no item effect. See system message 510 for more information.
 
-## Enchantment
+## Enchantment Safety
 
-The following items are supported:
+The library will remove the first item it finds that has effect 103.
 
 | ItemID    | ItemName                    | Effect    |
 |-----------|-----------------------------|-----------|
 | 101090    | Safety Enchant Scroll       | 103       |
 | 101132    | [SP] Lapisia Lucky Charm    | 103       |
-
-The server-side code will not evaluate the item effect.

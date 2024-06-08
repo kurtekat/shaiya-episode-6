@@ -35,6 +35,7 @@
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
+    <ClCompile Include="include\shaiya\src\Helpers.cpp" />
     <ClCompile Include="include\shaiya\src\Ini.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />
+    <ClInclude Include="include\shaiya\include\Helpers.h" />
     <ClInclude Include="include\shaiya\include\Ini.h" />
     <ClInclude Include="include\shaiya\include\ItemDuration.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
