@@ -74,7 +74,7 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2/sql
 
 Warning: the **Items** script will create an empty table.
 
-https://github.com/kurtekat/shaiya-episode-6/tree/main/tools/ItemSqlWriter
+[ItemSqlWriter.zip](https://github.com/user-attachments/files/15755799/ItemSqlWriter.zip)
 
 ### Duration
 
