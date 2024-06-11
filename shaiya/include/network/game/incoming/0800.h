@@ -113,7 +113,6 @@ namespace shaiya
         UINT16 opcode{ 0x832 };
         UINT8 squareBag;
         UINT8 squareSlot;
-        // 0:5000
         UINT32 money;
         UINT32 index;
         UINT8 hammerBag;
@@ -127,7 +126,6 @@ namespace shaiya
         UINT16 opcode{ 0x833 };
         UINT8 squareBag;
         UINT8 squareSlot;
-        // 0:5000
         UINT32 money;
         UINT8 hammerBag;
         UINT8 hammerSlot;
