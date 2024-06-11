@@ -236,6 +236,8 @@ namespace packet_gem
 
     void item_compose_handler(CUser* user, ItemComposeIncoming* incoming)
     {
+        constexpr uint16_t max_bonus = 99;
+
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
 
@@ -259,7 +261,7 @@ namespace packet_gem
             return;
         }
 
-        if (item->itemInfo->reqWis <= 0 || item->itemInfo->reqWis > 99)
+        if (!item->itemInfo->reqWis || item->itemInfo->reqWis > max_bonus)
         {
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
@@ -276,10 +278,29 @@ namespace packet_gem
         auto oldItemId = item->itemInfo->itemId;
         auto oldCraftName = item->craftName;
 
+        auto maxBonus = item->itemInfo->reqWis;
+
+        switch (rune->itemInfo->effect)
+        {
+        case ItemEffect::ItemComposeStr:
+        case ItemEffect::ItemComposeDex:
+        case ItemEffect::ItemComposeInt:
+        case ItemEffect::ItemComposeWis:
+        case ItemEffect::ItemComposeRec:
+        case ItemEffect::ItemComposeLuc:
+        {
+            maxBonus *= 2;
+            maxBonus = (maxBonus > max_bonus) ? max_bonus : maxBonus;
+            break;
+        }
+        default:
+            break;
+        }
+
         std::random_device seed;
         std::mt19937 eng(seed());
 
-        std::uniform_int_distribution<short> uni(1, item->itemInfo->reqWis);
+        std::uniform_int_distribution<uint16_t> uni(1, maxBonus);
         auto bonus = uni(eng);
         auto text = std::to_string(bonus);
 
@@ -734,6 +755,7 @@ namespace packet_gem
     {
         constexpr auto min_success_rate = 30;
         constexpr auto max_success_rate = 100;
+        constexpr uint16_t max_bonus = 99;
 
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
             return;
@@ -771,7 +793,7 @@ namespace packet_gem
         if (!to->itemInfo->composeCount || to->itemInfo->composeCount < from->itemInfo->composeCount)
             return;
 
-        if (to->itemInfo->reqWis <= 0 || to->itemInfo->reqWis > 99 || to->itemInfo->reqWis < from->itemInfo->reqWis)
+        if (!to->itemInfo->reqWis || to->itemInfo->reqWis > max_bonus || to->itemInfo->reqWis < from->itemInfo->reqWis)
             return;
 
         if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
