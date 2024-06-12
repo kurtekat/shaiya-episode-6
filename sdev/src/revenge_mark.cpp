@@ -1,4 +1,3 @@
-#define NOMINMAX
 #include <limits>
 #include <map>
 #include <vector>
@@ -75,7 +74,7 @@ void __declspec(naked) naked_0x467D8E()
         pushad
 
         push edi // killer
-        push ebp // user
+        push ebp // target
         call revenge_mark::send
         add esp,0x8
 

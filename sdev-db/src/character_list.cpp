@@ -1,7 +1,5 @@
 #include <array>
 #include <map>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include <util/util.h>
