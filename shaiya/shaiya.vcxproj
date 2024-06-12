@@ -49,6 +49,7 @@
     <ClInclude Include="include\network\dbAgent\outgoing\0400.h" />
     <ClInclude Include="include\network\dbAgent\outgoing\0E00.h" />
     <ClInclude Include="include\network\gameLog\incoming\0400.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0500.h" />
     <ClInclude Include="include\network\gameLog\incoming\0900.h" />
     <ClInclude Include="include\network\gameLog\incoming\0A00.h" />
     <ClInclude Include="include\network\gameLog\incoming\0C00.h" />
@@ -102,12 +103,8 @@
     <ClInclude Include="include\skill\SkillStatusType.h" />
     <ClInclude Include="include\skill\SkillTargetType.h" />
     <ClInclude Include="include\user\AuthStatus.h" />
-    <ClInclude Include="include\user\CharName.h" />
-    <ClInclude Include="include\user\GuildName.h" />
     <ClInclude Include="include\user\MotionType.h" />
-    <ClInclude Include="include\user\Password.h" />
     <ClInclude Include="include\user\ShapeType.h" />
-    <ClInclude Include="include\user\Username.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -27,9 +26,9 @@ namespace shaiya
         float y;
         float z;
         GameLogBossMobActionType actionType;
-        std::array<char, 32> text1;
-        std::array<char, 32> text3;
-        std::array<char, 32> text4;
+        CharArray<32> text1;
+        CharArray<32> text3;
+        CharArray<32> text4;
         UINT32 damage;
         UINT32 health;
     };

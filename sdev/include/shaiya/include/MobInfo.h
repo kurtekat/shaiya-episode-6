@@ -1,11 +1,11 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
 
 namespace shaiya
 {
-    using MobName = std::array<char, 32>;
+    using MobResistSkill = Array<UINT8, 6>;
+    using MobResistState = Array<bool, 15>;
 
     enum struct MobCooldown : ULONG
     {
@@ -65,7 +65,7 @@ namespace shaiya
     struct MobInfo
     {
         UINT16 mobId;            //0x00
-        MobName mobName;         //0x02
+        CharArray<32> mobName;   //0x02
         UINT16 level;            //0x22
         UINT16 exp;              //0x24
         UINT8 ai;                //0x26
@@ -87,9 +87,9 @@ namespace shaiya
         UINT16 defense;          //0x42
         UINT16 resistance;       //0x44
         // 0x46
-        std::array<bool, 15> resistState;
+        MobResistState resistState;
         // 0x55
-        std::array<UINT8, 6> resistSkill;
+        MobResistSkill resistSkill;
         PAD(1);
         UINT32 normalTime;       //0x5C
         UINT8 normalStep;        //0x60
@@ -103,11 +103,11 @@ namespace shaiya
         PAD(8);
         UINT32 country;          //0x78
         // 0x7C
-        std::array<MobAttack, 3> attack;
+        Array<MobAttack, 3> attack;
         // 0xB8
         PAD(12);
         // 0xC4
-        std::array<MobItem, 9> dropList;
+        Array<MobItem, 9> dropList;
         // 0x10C
     };
     #pragma pack(pop)

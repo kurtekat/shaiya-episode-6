@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 
 // CUser::PacketQuest
@@ -37,7 +36,7 @@ namespace shaiya
         UINT32 exp;
         UINT32 gold;
 #ifdef SHAIYA_EP6_4_PT
-        std::array<Item0903, 3> itemList;
+        Array<Item0903, 3> itemList;
 #else
         UINT8 bag;
         UINT8 slot;

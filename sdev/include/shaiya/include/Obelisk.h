@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include "include/shaiya/include/CMap.h"
 #include "include/shaiya/include/SVector.h"
@@ -30,7 +29,7 @@ namespace shaiya
         UINT32 furyMobId;     //0x1C
         UINT32 mobCount;      //0x20
         // 0x24
-        std::array<ObeliskMob, 64> mobList;
+        Array<ObeliskMob, 64> mobList;
         // 0x824
     };
     #pragma pack(pop)
@@ -52,7 +51,7 @@ namespace shaiya
         UINT32 mapId;      //0x04
         UINT32 insZoneId;  //0x08
         // 0x0C
-        std::array<Obelisk2, 8> obeliskList;
+        Array<Obelisk2, 8> obeliskList;
         // 0x4C
     };
     #pragma pack(pop)
@@ -64,7 +63,7 @@ namespace shaiya
         UINT32 id;            //0x00
         UINT32 obeliskCount;  //0x04
         // 0x08
-        std::array<Obelisk, 64> obeliskList;
+        Array<Obelisk, 64> obeliskList;
         // 0x20908
     };
     #pragma pack(pop)
@@ -76,7 +75,7 @@ namespace shaiya
         UINT32 mapId;         //0x00
         UINT32 bossMobCount;  //0x04
         // 0x08
-        std::array<MapBoss, 64> bossMobList;
+        Array<MapBoss, 64> bossMobList;
         // 0x9B308
     };
     #pragma pack(pop)

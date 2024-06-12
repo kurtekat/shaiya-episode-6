@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/npc/NpcType.h>
@@ -7,19 +6,16 @@
 
 namespace shaiya
 {
-    using NpcName = std::array<char, 256>;
-    using NpcGateDesc = std::array<char, 256>;
-
     #pragma pack(push, 1)
     struct Npc
     {
-        NpcType8 type;     //0x00
+        NpcType8 type;        //0x00
         PAD(1);
-        UINT16 typeId;     //0x02
-        UINT32 shape;      //0x04
+        UINT16 typeId;        //0x02
+        UINT32 shape;         //0x04
         PAD(8);
-        Country2 country;  //0x10
-        NpcName name;      //0x14
+        Country2 country;     //0x10
+        CharArray<256> name;  //0x14
         // 0x114
         PAD(16);
         // 0x124
@@ -29,11 +25,11 @@ namespace shaiya
     #pragma pack(push, 1)
     struct NpcGate
     {
-        UINT16 mapId;      //0x00
+        UINT16 mapId;         //0x00
         PAD(2);
-        SVector pos;       //0x04
-        NpcGateDesc desc;  //0x10
-        UINT32 price;      //0x110
+        SVector pos;          //0x04
+        CharArray<256> desc;  //0x10
+        UINT32 price;         //0x110
         // 0x114
     };
     #pragma pack(pop)
@@ -43,7 +39,7 @@ namespace shaiya
     {
         Npc npc;
         // 0x124
-        std::array<NpcGate, 3> gateList;
+        Array<NpcGate, 3> gateList;
         // 0x460
     };
     #pragma pack(pop)

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 
 // CUser::PacketBilling
@@ -21,7 +20,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0xB101 };
         UINT8 itemCount;
-        std::array<ItemB101, 240> itemList;
+        Array<ItemB101, 240> itemList;
 
         constexpr int size_without_list() { return 3; }
     };

@@ -1,20 +1,16 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketPoint
 
 namespace shaiya
 {
-    using ProductCode = std::array<char, 21>;
-
     #pragma pack(push, 1)
     struct PointPurchaseItemIncoming
     {
         UINT16 opcode{ 0x2602 };
-        ProductCode productCode;
+        CharArray<21> productCode;
 
         PointPurchaseItemIncoming() = default;
 
@@ -30,8 +26,8 @@ namespace shaiya
     struct PointSendGiftItemIncoming
     {
         UINT16 opcode{ 0x2603 };
-        ProductCode productCode;
-        CharName targetName;
+        CharArray<21> productCode;
+        CharArray<21> targetName;
 
         PointSendGiftItemIncoming() = default;
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/item/ItemDivType.h>
@@ -22,7 +21,7 @@ namespace shaiya
         UINT32 leaderIndex;       //0x0C
         UINT32 memberCount;       //0x10
         // 0x14
-        std::array<PartyMember, 30> memberList;
+        Array<PartyMember, 30> memberList;
         ItemDivType itemDivType;  //0x104
         UINT32 itemDivSeq;        //0x108
         UINT32 topMemberLevel;    //0x10C

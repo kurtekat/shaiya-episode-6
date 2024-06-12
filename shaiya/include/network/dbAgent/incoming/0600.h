@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <sdev/include/shaiya/include/CUser.h>
 
@@ -177,7 +176,7 @@ namespace shaiya
         UINT16 opcode{ 0x609 };
         ULONG userId;
         UINT8 quickSlotCount;
-        std::array<DBAgentSetQuickSlot, 128> quickSlotList;
+        Array<DBAgentSetQuickSlot, 128> quickSlotList;
     };
     #pragma pack(pop)
 

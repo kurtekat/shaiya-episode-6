@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include "include/shaiya/include/SVector.h"
@@ -8,8 +7,6 @@ namespace shaiya
 {
     struct CDoor;
     struct MobInfo;
-
-    using SvMapName = std::array<char, 256>;
 
     enum struct MapCreateType : UINT32
     {
@@ -51,9 +48,9 @@ namespace shaiya
         PAD(4);
         UINT32 count;  //0x14
         // 0x18
-        std::array<UINT32, 16> mobId;
+        Array<UINT32, 16> mobId;
         // 0x58
-        std::array<MobInfo*, 16> mobList;
+        Array<MobInfo*, 16> mobList;
         // 0x98
         PAD(148);
         // 0x12C
@@ -84,17 +81,16 @@ namespace shaiya
         UINT32 changeMobCount;     //0x18
         SVector pos;               //0x1C
         PAD(12);
-        // 0x34
-        std::array<UINT32, 16> mobId;
+        Array<UINT32, 16> mobId;   //0x34
         // 0x74
-        std::array<MobInfo*, 16> mobList;
+        Array<MobInfo*, 16> mobList;
         // 0xB4
         PAD(100);
         BOOL enableRandomRespawn;  //0x118
         // 0x11C
         MapRandomRespawn randomRespawn;
         // 0x148
-        std::array<MapBossMob, 32> changeMobList;
+        Array<MapBossMob, 32> changeMobList;
         PAD(4);
         // 0x26CC
     };
@@ -238,7 +234,7 @@ namespace shaiya
         ULONG id;                  //0x78
         MapWarType warType;        //0x7C
         MapType mapType;           //0x80
-        SvMapName svMapName;       //0x84
+        CharArray<256> svMapName;  //0x84
         MapRebirth rebirth1;       //0x184
         MapRebirth rebirth2;       //0x194
         MapCreateType createType;  //0x1A4

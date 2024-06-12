@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
@@ -15,11 +14,11 @@ namespace shaiya
     struct Equipment0101
     {
 #ifdef SHAIYA_EP6_4_PT
-        std::array<UINT8, 17> type;
-        std::array<UINT8, 17> typeId;
+        Array<UINT8, 17> type;
+        Array<UINT8, 17> typeId;
 #else
-        std::array<UINT8, 8> type;
-        std::array<UINT8, 8> typeId;
+        Array<UINT8, 8> type;
+        Array<UINT8, 8> typeId;
 #endif
     };
     #pragma pack(pop)
@@ -50,7 +49,7 @@ namespace shaiya
         UINT16 mana;
         UINT16 stamina;
         Equipment0101 equipment;
-        std::array<char, 19> charName;
+        CharArray<19> charName;
         bool deleted;
         bool nameChange;
         CloakBadge cloakBadge;

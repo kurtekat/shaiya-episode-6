@@ -3,9 +3,14 @@ using namespace shaiya;
 
 CUser* CParty::FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/)
 {
-    typedef CUser* (__stdcall* LPFN)(ULONG);
-    __asm { mov edi,party }
-    return (*(LPFN)0x44E8B0)(id);
+    Address u0x44E8B0 = 0x44E8B0;
+
+    __asm
+    {
+        push id
+        mov edi,party
+        call u0x44E8B0
+    }
 }
 
 void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)

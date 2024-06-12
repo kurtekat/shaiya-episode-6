@@ -1,10 +1,6 @@
 #pragma once
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SConnection.h>
-#include <shaiya/include/user/Password.h>
-#include <shaiya/include/user/Username.h>
 
 namespace shaiya
 {
@@ -23,8 +19,8 @@ namespace shaiya
         PAD(8);
         UINT8 serverId;          //0x138
         PAD(647);
-        Username username;       //0x3C0
-        Password password;       //0x3E0
+        CharArray<32> username;  //0x3C0
+        CharArray<32> password;  //0x3E0
         CRITICAL_SECTION cs400;  //0x400
         // 0x418
     };

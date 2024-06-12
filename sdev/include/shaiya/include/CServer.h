@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SConnection.h>
 #include "include/shaiya/include/CClientToDBAgent.h"
@@ -30,9 +29,9 @@ namespace shaiya
         PAD(576);                          //0x10A29A8  0x5AD8
         PAD(80);                           //0x10A2BE8  0x5D18
         // 0x10A2C38  0x5D68
-        std::array<ObeliskZone, 64> obeliskZoneList;
+        Array<ObeliskZone, 64> obeliskZoneList;
         // 0x18C6E38  0x829F68
-        std::array<ObeliskBoss, 64> obeliskBossList;
+        Array<ObeliskBoss, 64> obeliskBossList;
         // 0x3F93038
     };
     #pragma pack(pop)

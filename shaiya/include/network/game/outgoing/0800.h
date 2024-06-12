@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
@@ -195,8 +194,8 @@ namespace shaiya
     struct ItemSynthesisListOutgoing
     {
         UINT16 opcode{ 0x830 };
-        std::array<UINT8, 10> createType;
-        std::array<UINT8, 10> createTypeId;
+        Array<UINT8, 10> createType;
+        Array<UINT8, 10> createTypeId;
         UINT32 goldPerPercentage;
     };
     #pragma pack(pop)
@@ -207,11 +206,11 @@ namespace shaiya
         UINT16 opcode{ 0x831 };
         // e.g. 10000 = 100%
         UINT32 successRate;
-        std::array<UINT8, 24> materialType;
+        Array<UINT8, 24> materialType;
         UINT8 createType;
-        std::array<UINT8, 24> materialTypeId;
+        Array<UINT8, 24> materialTypeId;
         UINT8 createTypeId;
-        std::array<UINT8, 24> materialCount;
+        Array<UINT8, 24> materialCount;
         UINT8 createCount;
 
         ItemSynthesisMaterialOutgoing() = default;

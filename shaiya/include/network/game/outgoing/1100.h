@@ -1,15 +1,11 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketChatE
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct ChatNormalOutgoing
     {
@@ -17,7 +13,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatNormalOutgoing() = default;
 
@@ -38,10 +34,10 @@ namespace shaiya
     {
         UINT16 opcode{ 0x1102 };
         bool isToSender;
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatWhisperOutgoing() = default;
 
@@ -62,10 +58,10 @@ namespace shaiya
     struct ChatTradeOutgoing
     {
         UINT16 opcode{ 0x1103 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatTradeOutgoing() = default;
 
@@ -89,7 +85,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatGuildOutgoing() = default;
 
@@ -112,7 +108,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatPartyOutgoing() = default;
 
@@ -147,10 +143,10 @@ namespace shaiya
     struct ChatMessageToServerOutgoing
     {
         UINT16 opcode{ 0x1108 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatMessageToServerOutgoing() = default;
 
@@ -171,10 +167,10 @@ namespace shaiya
     struct ChatAreaOutgoing
     {
         UINT16 opcode{ 0x1111 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatAreaOutgoing() = default;
 
@@ -198,7 +194,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatRaidOutgoing() = default;
 

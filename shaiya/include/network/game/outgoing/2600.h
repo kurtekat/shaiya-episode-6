@@ -1,14 +1,10 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketPoint
 
 namespace shaiya
 {
-    using ProductCode = std::array<char, 21>;
-
     enum struct PointPurchaseItemResult : UINT8
     {
         Success,
@@ -53,11 +49,11 @@ namespace shaiya
         UINT16 opcode{ 0x2602 };
         PointPurchaseItemResult result;
         UINT32 points;
-        ProductCode productCode;
+        CharArray<21> productCode;
         ULONG purchaseDate;
         UINT32 itemPrice;
         UINT8 itemCount;
-        std::array<Item2602, 24> itemList;
+        Array<Item2602, 24> itemList;
 
         constexpr int size_without_list() { return 37; }
     };
@@ -68,9 +64,9 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2603 };
         PointSendGiftItemResult result;
-        CharName targetName;
+        CharArray<21> targetName;
         UINT32 points;
-        ProductCode productCode;
+        CharArray<21> productCode;
         ULONG purchaseDate;
         UINT32 itemPrice;
     };
@@ -80,8 +76,8 @@ namespace shaiya
     struct PointRecvGiftItemOutgoing
     {
         UINT16 opcode{ 0x2604 };
-        CharName senderName;
-        ProductCode productCode;
+        CharArray<21> senderName;
+        CharArray<21> productCode;
         UINT8 bag;
         UINT8 slot;
         UINT8 type;
@@ -120,7 +116,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2606 };
         UINT8 itemCount;
-        std::array<Item2606, 240> itemList;
+        Array<Item2606, 240> itemList;
 
         constexpr int size_without_list() { return 3; }
     };

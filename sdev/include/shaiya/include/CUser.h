@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
@@ -11,9 +10,7 @@
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/common/SSyncList.h>
 #include <shaiya/include/user/AuthStatus.h>
-#include <shaiya/include/user/CharName.h>
 #include <shaiya/include/user/ShapeType.h>
-#include <shaiya/include/user/Username.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
@@ -35,32 +32,30 @@ namespace shaiya
     struct ItemInfo;
     struct SkillInfo;
 
-    using Inventory = std::array<std::array<CItem*, 24>, 6>;
-    using Warehouse = std::array<CItem*, 240>;
+    using Inventory = Array<Array<CItem*, 24>, 6>;
+    using Warehouse = Array<CItem*, 240>;
 
-    using ItemQualityLv = std::array<UINT8, 13>;
-    using ItemQuality = std::array<UINT16, 13>;
+    using ItemQualityLv = Array<UINT8, 13>;
+    using ItemQuality = Array<UINT16, 13>;
 
-    using ItemQualityLvEx = std::array<UINT8, 24>;
-    using ItemQualityEx = std::array<UINT16, 24>;
+    using ItemQualityLvEx = Array<UINT8, 24>;
+    using ItemQualityEx = Array<UINT16, 24>;
 
-    using Bank = std::array<BillingItem, 240>;
+    using Bank = Array<BillingItem, 240>;
     using StoredPointItems = Bank;
-
-    using ProductCode = std::array<char, 21>;
 
     #pragma pack(push, 1)
     struct ProductItem
     {
-        ProductCode productCode;  //0x00
+        CharArray<21> productCode;  //0x00
         PAD(3);
-        ULONG purchaseDate;       //0x18
-        UINT32 itemPrice;         //0x1C
+        ULONG purchaseDate;         //0x18
+        UINT32 itemPrice;           //0x1C
         // 0x20
     };
     #pragma pack(pop)
 
-    using ProductLog = std::array<ProductItem, 10>;
+    using ProductLog = Array<ProductItem, 10>;
 
     enum struct UserAttackType : UINT32
     {
@@ -180,8 +175,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct UserSavePoint
     {
-        std::array<UINT32, 4> mapId;
-        std::array<SVector, 4> pos;
+        Array<UINT32, 4> mapId;
+        Array<SVector, 4> pos;
         // 0x40
     };
     #pragma pack(pop)
@@ -343,7 +338,7 @@ namespace shaiya
         UINT32 maxHealth;                    //0x178
         UINT32 maxMana;                      //0x17C
         UINT32 maxStamina;                   //0x180
-        CharName charName;                   //0x184
+        CharArray<21> charName;              //0x184
         ItemQualityLv itemQualityLv;         //0x199
         ItemQuality itemQuality;             //0x1A6
         Inventory inventory;                 //0x1C0
@@ -351,10 +346,10 @@ namespace shaiya
         Bank bank;                           //0x7C0
         SSyncList<CSkill> applySkillList;    //0xA90
         UINT32 skillCount;                   //0xABC
-        std::array<CSkill*, 256> skillList;  //0xAC0
+        Array<CSkill*, 256> skillList;       //0xAC0
         UINT32 quickSlotCount;               //0xEC0
         // 0xEC4
-        std::array<UserQuickSlot, 128> quickSlotList;
+        Array<UserQuickSlot, 128> quickSlotList;
         SSyncList<CQuest> finishedQuestList; //0x11C4
         SSyncList<CQuest> questList;         //0x11F0
         UINT32 abilityStrength;              //0x121C
@@ -419,7 +414,9 @@ namespace shaiya
         bool preventDeath;                   //0x1370
         bool preventDying;                   //0x1371
         bool preventAggro;                   //0x1372
-        PAD(5);
+        bool danceOfDeath;                   //0x1373
+        bool etainShield;                    //0x1374
+        PAD(3);
         bool passiveSkillApplied;            //0x1378
         PAD(1);
         UINT16 passiveSkillId;               //0x137A
@@ -499,7 +496,7 @@ namespace shaiya
         ULONG partySummonRequestId;          //0x1498
         DWORD partySummonReqTimeout;         //0x149C
         DWORD nextRecoveryTime;              //0x14A0
-        std::array<DWORD, 12> itemCooldown;  //0x14A4
+        Array<DWORD, 12> itemCooldown;       //0x14A4
         UserKillCountStatus kcStatus;        //0x14D4
         // 0x1544
         PAD(16);
@@ -521,10 +518,10 @@ namespace shaiya
         CGuildCreate* guildCreate;           //0x1814
         CMiniGame miniGame;                  //0x1818
         UINT32 buddyCount;                   //0x1838
-        std::array<CFriend, 100> buddyList;  //0x183C
+        Array<CFriend, 100> buddyList;       //0x183C
         UINT32 blockCount;                   //0x377C
         // 0x3780
-        std::array<BlockList, 100> blockList;
+        Array<BlockList, 100> blockList;     //0x3780
         ULONG buddyRequestId;                //0x5530
         PAD(76);
         BOOL joinGuildDisabled;              //0x5580
@@ -555,7 +552,7 @@ namespace shaiya
         PAD(4);
         ULONG userId;                        //0x582C
         PAD(4);
-        Username username;                   //0x5834
+        CharArray<32> username;              //0x5834
         PAD(1);
         bool initEquipment;                  //0x5855
         PAD(14);
@@ -623,10 +620,12 @@ namespace shaiya
 
         static void AddApplySkillBuff(CUser* user, SkillInfo* skillInfo);
         static void AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo);
+        static void AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, BOOL isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
+        static void ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/);
         static bool DamageByKeepSkill(CUser* user/*edi*/, int type, ULONG id/*CUser->id*/, CDamage* damage);
         static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);
-        static void GetGuildName(CUser* user, char* output);
+        static void GetGuildName(CUser* user/*ebx*/, char* output);
         static int GetPartyType(CUser* user);
         static void InitEquipment(CUser* user/*ecx*/);
         static void InitEquipment(CUser* user/*ecx*/, BOOL reset);
@@ -646,6 +645,7 @@ namespace shaiya
         static void ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap);
         static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo** outInfo);
         static CQuest* QuestFind(CUser* user/*edi*/, int questId);
+        static void QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess);
         static void RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo);
         static void RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/);
         static void SendAdminCmdError(CUser* user, UINT16 error/*ecx*/);
@@ -679,8 +679,8 @@ namespace shaiya
         static void SetAttack(CUser* user/*esi*/);
         static void SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/);
         static void SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int type/*edx*/, int value/*eax*/);
-        static void StatResetSkill(CUser* user/*eax*/, BOOL event);
-        static void StatResetStatus(CUser* user/*edi*/, BOOL event);
+        static void StatResetSkill(CUser* user/*eax*/, BOOL isEvent);
+        static void StatResetStatus(CUser* user/*edi*/, BOOL isEvent);
         static void TauntMob(CUser* user, float dist, int aggro);
         static void UpdateKCStatus(CUser* user/*eax*/);
         static void UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);

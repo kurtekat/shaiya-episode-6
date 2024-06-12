@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SSyncList.h>
 #include <shaiya/include/common/SSyncMap.h>
@@ -35,7 +34,7 @@ namespace shaiya
         SSyncList<CTrap> trapList;      //0x234
         SSyncList<void> list260;        //0x260
         // 0x28C
-        std::array<MapPortal, 10> portalList;
+        Array<MapPortal, 10> portalList;
         UINT32 mobAreaCount;            //0x2DC
         MapMob* mobAreaList;            //0x2E0
         UINT32 bossMobCount;            //0x2E4

@@ -1,6 +1,4 @@
 #pragma once
-#include <array>
-#include <string>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 
@@ -46,7 +44,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x40D };
         ULONG userId;
-        std::array<char, 19> name;
+        CharArray<19> name;
 
         DBAgentCharNameAvailableIncoming() = default;
 

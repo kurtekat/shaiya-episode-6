@@ -47,6 +47,9 @@
     <ClCompile Include="include\shaiya\src\SConnection.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\SDatabase.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
@@ -31,7 +30,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x230B };
         UINT8 itemCount;
-        std::array<Item230B, 20> itemList;
+        Array<Item230B, 20> itemList;
 
         constexpr int size_without_list() { return 3; }
     };

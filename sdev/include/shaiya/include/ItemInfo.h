@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
@@ -11,8 +10,6 @@
 
 namespace shaiya
 {
-    using ItemName = std::array<char, 32>;
-
     enum ItemCooldown
     {
         ReqIg_0 = 0,        // 0x581D84
@@ -95,7 +92,7 @@ namespace shaiya
     struct ItemInfo
     {
         UINT32 itemId;              //0x00
-        ItemName itemName;          //0x04
+        CharArray<32> itemName;     //0x04
         UINT8 type;                 //0x24
         UINT8 typeId;               //0x25
         Country3 country;           //0x26

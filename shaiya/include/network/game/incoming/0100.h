@@ -1,12 +1,10 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketCharacter
 
@@ -24,7 +22,7 @@ namespace shaiya
         UINT8 size;
         Job job;
         Sex sex;
-        CharName charName;
+        CharArray<21> charName;
 
         CharacterCreateIncoming() = default;
 
@@ -56,7 +54,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x10E };
         ULONG charId;
-        CharName charName;
+        CharArray<21> charName;
 
         CharacterNameChangeIncoming() = default;
 
@@ -87,7 +85,7 @@ namespace shaiya
     struct CharNameAvailableIncoming
     {
         UINT16 opcode{ 0x119 };
-        std::array<char, 19> name;
+        CharArray<19> name;
 
         CharNameAvailableIncoming() = default;
 

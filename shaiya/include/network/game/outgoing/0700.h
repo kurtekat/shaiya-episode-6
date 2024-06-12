@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
@@ -46,9 +45,9 @@ namespace shaiya
         UINT32 bankMoney;
         UINT8 itemCount;
 #ifdef SHAIYA_EP6_4_PT
-        std::array<Item0711, 40> itemList;
+        Array<Item0711, 40> itemList;
 #else
-        std::array<Item0711, 50> itemList;
+        Array<Item0711, 50> itemList;
 #endif
 
         constexpr int size_without_list() { return 7; }

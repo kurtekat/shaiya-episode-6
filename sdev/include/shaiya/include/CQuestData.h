@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
@@ -7,8 +6,6 @@
 namespace shaiya
 {
     static Address g_QuestData = 0x4093300;
-
-    using QuestName =  std::array<char, 256>;
 
     #pragma pack(push, 1)
     struct QuestItem
@@ -43,7 +40,7 @@ namespace shaiya
         UINT32 exp;          //0x14
         UINT32 gold;         //0x18
         // 0x1C
-        std::array<QuestItem, 3> itemList;
+        Array<QuestItem, 3> itemList;
         PAD(1);
         UINT16 nextQuestId;  //0x26
         PAD(4);
@@ -73,7 +70,8 @@ namespace shaiya
     struct QuestInfo
     {
         UINT16 questId;         //0x00
-        QuestName questName;    //0x02
+        // 0x02
+        CharArray<256> questName;
         UINT16 minLevel;        //0x102
         UINT16 maxLevel;        //0x104
         Country country;        //0x106
@@ -101,13 +99,13 @@ namespace shaiya
         UINT8 startItemType;    //0x13C
         UINT8 startItemTypeId;  //0x13D
         // 0x13E
-        std::array<QuestItem, 3> itemList;
+        Array<QuestItem, 3> itemList;
         UINT8 endType;          //0x147
         UINT8 endNpcType;       //0x148
         PAD(1);
         UINT16 endNpcTypeId;    //0x14A
         // 0x14C
-        std::array<QuestItem, 3> farmList;
+        Array<QuestItem, 3> farmList;
         UINT8 pvpKillCount;     //0x155
         UINT16 reqMobId1;       //0x156
         UINT16 reqMobId2;       //0x158
@@ -116,13 +114,13 @@ namespace shaiya
         PAD(4);
 #ifdef SHAIYA_EP6_4_PT
         // 0x160
-        std::array<QuestResult, 6> resultList;
+        Array<QuestResult, 6> resultList;
         // 0x268
         PAD(28);
         // 0x284 = size
 #else
         // 0x160
-        std::array<QuestResult, 3> resultList;
+        Array<QuestResult, 3> resultList;
         // 0x1C0
         PAD(16);
         // 0x1D0 = size

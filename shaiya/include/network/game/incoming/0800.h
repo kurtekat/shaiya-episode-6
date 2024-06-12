@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 
 // CUser::PacketGem
@@ -129,9 +128,9 @@ namespace shaiya
         UINT32 money;
         UINT8 hammerBag;
         UINT8 hammerSlot;
-        std::array<UINT8, 24> materialType;
-        std::array<UINT8, 24> materialTypeId;
-        std::array<UINT8, 24> materialCount;
+        Array<UINT8, 24> materialType;
+        Array<UINT8, 24> materialTypeId;
+        Array<UINT8, 24> materialCount;
     };
     #pragma pack(pop)
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SSyncList.h>
 #include <shaiya/include/common/SSyncMap.h>
@@ -45,7 +44,7 @@ namespace shaiya
         ULONG worldDay;                           //0x240
         DWORD setWorldDayTime;                    //0x244
         // AoL, UoF
-        std::array<WorldKillCount, 2> killCount;  //0x248
+        Array<WorldKillCount, 2> killCount;       //0x248
         CRITICAL_SECTION cs350;                   //0x350
         UINT32 guildHouseCount;                   //0x368
         UINT32 guildRankCount;                    //0x36C

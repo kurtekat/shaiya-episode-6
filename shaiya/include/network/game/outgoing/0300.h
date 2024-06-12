@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
@@ -8,8 +7,6 @@
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
-#include <shaiya/include/user/CharName.h>
-#include <shaiya/include/user/GuildName.h>
 
 // CUser::PacketGetInfo
 
@@ -52,13 +49,13 @@ namespace shaiya
         Grow grow;
         UINT32 kills;
 #ifdef SHAIYA_EP6_4_PT
-        std::array<Equipment0303, 17> equipment;
+        Array<Equipment0303, 17> equipment;
 #else
-        std::array<Equipment0303, 8> equipment;
+        Array<Equipment0303, 8> equipment;
 #endif
-        CharName charName;
+        CharArray<21> charName;
         CloakBadge cloakBadge;
-        GuildName guildName;
+        CharArray<25> guildName;
     };
     #pragma pack(pop)
 
@@ -80,9 +77,9 @@ namespace shaiya
         UINT16 opcode{ 0x307 };
         UINT8 itemCount;
 #ifdef SHAIYA_EP6_4_PT
-        std::array<Item0307, 17> itemList;
+        Array<Item0307, 17> itemList;
 #else
-        std::array<Item0307, 12> itemList;
+        Array<Item0307, 12> itemList;
 #endif
 
         constexpr int size_without_list() { return 3; }

@@ -1,22 +1,18 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketAdminChat
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct AdminChatNormalIncoming
     {
         UINT16 opcode{ 0xF101 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatNormalIncoming() = delete;
 
@@ -36,10 +32,10 @@ namespace shaiya
     struct AdminChatWhisperIncoming
     {
         UINT16 opcode{ 0xF102 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatWhisperIncoming() = delete;
 
@@ -62,7 +58,7 @@ namespace shaiya
         UINT16 opcode{ 0xF103 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatTradeIncoming() = delete;
 
@@ -84,7 +80,7 @@ namespace shaiya
         UINT16 opcode{ 0xF104 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatGuildIncoming() = delete;
 
@@ -106,7 +102,7 @@ namespace shaiya
         UINT16 opcode{ 0xF105 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatPartyIncoming() = delete;
 
@@ -128,7 +124,7 @@ namespace shaiya
         UINT16 opcode{ 0xF106 };
         // w/ null-terminator
         UINT16 messageLength;
-        std::array<char, 2000> message;
+        CharArray<2000> message;
 
         AdminChatAllIncoming() = delete;
 

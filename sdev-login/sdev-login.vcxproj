@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
+    <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\get_user.cpp" />
     <ClCompile Include="src\main.cpp" />

@@ -1,15 +1,11 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketAdminChat
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct AdminChatNormalOutgoing
     {
@@ -17,7 +13,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatNormalOutgoing() = default;
 
@@ -38,10 +34,10 @@ namespace shaiya
     {
         UINT16 opcode{ 0xF102 };
         bool isToSender;
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatWhisperOutgoing() = default;
 
@@ -62,10 +58,10 @@ namespace shaiya
     struct AdminChatTradeOutgoing
     {
         UINT16 opcode{ 0xF103 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatTradeOutgoing() = default;
 
@@ -89,7 +85,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatGuildOutgoing() = default;
 
@@ -112,7 +108,7 @@ namespace shaiya
         ULONG senderId;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminChatPartyOutgoing() = default;
 
@@ -135,7 +131,7 @@ namespace shaiya
         UINT16 opcode{ 0xF106 };
         // w/ null-terminator
         UINT16 messageLength;
-        std::array<char, 2000> message;
+        CharArray<2000> message;
 
         AdminChatAllOutgoing(const char* message)
             : messageLength(0), message{}

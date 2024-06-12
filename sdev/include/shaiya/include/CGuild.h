@@ -1,19 +1,15 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/common/SSyncMap.h>
-#include <shaiya/include/user/CharName.h>
-#include <shaiya/include/user/GuildName.h>
-#include "include/shaiya/include/CNpcData.h"
+#include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
     struct CItem;
 
-    using GuildRemark = std::array<char, 66>;
-    using GuildWarehouse = std::array<CItem*, 240>;
+    using GuildWarehouse = Array<CItem*, 240>;
 
     enum struct GuildPvPStatusType : UINT32
     {
@@ -42,22 +38,23 @@ namespace shaiya
         SVector area;                   //0x4C4
         UINT32 mapId;                   //0x4D0
         UINT32 userCount;               //0x4D4
-        std::array<ULONG, 7> userList;  //0x4D8
+        Array<ULONG, 7> userList;       //0x4D8
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct GuildUserInfo
     {
-        SNode node;         //0x00
-        ULONG charId;       //0x08
-        CharName charName;  //0x0C
+        SNode node;    //0x00
+        ULONG charId;  //0x08
+        // 0x0C
+        CharArray<21> charName;
         PAD(3);
-        Job job;            //0x24
+        Job job;       //0x24
         PAD(3);
-        UINT16 level;       //0x28
+        UINT16 level;  //0x28
         PAD(2);
-        UINT8 rank;         //0x2C
+        UINT8 rank;    //0x2C
         PAD(15);
         // 0x3C
     };
@@ -68,8 +65,8 @@ namespace shaiya
     {
         SNode node;                //0x00
         ULONG id;                  //0x08
-        GuildName name;            //0x0C
-        CharName masterName;       //0x25
+        CharArray<25> name;        //0x0C
+        CharArray<21> masterName;  //0x25
         PAD(2);
         UINT32 officerCount;       //0x3C
         UINT32 country;            //0x40
@@ -79,14 +76,14 @@ namespace shaiya
         UINT32 keepEtin;           //0x50
         bool hasHouse;             //0x54
         bool buyHouse;             //0x55
-        GuildRemark remark;        //0x56
+        CharArray<66> remark;      //0x56
         UINT32 guildRankPoints;    //0x98
         UINT32 etinReturnCount;    //0x9C
         UINT32 grbJoinCount;       //0xA0
         GuildWarehouse warehouse;  //0xA4
         CRITICAL_SECTION cs464;    //0x464
         // 0x47C
-        std::array<GuildNpc, 8> npcList;
+        Array<GuildNpc, 8> npcList;
         CRITICAL_SECTION cs49C;    //0x49C
         GuildPvP pvp;              //0x4B4
         // 0x4F4

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
@@ -8,8 +7,6 @@
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/SNode.h>
 #include <shaiya/include/item/Gems.h>
-#include <shaiya/include/user/CharName.h>
-#include <shaiya/include/user/GuildName.h>
 
 namespace shaiya
 {
@@ -41,16 +38,16 @@ namespace shaiya
         UINT32 kills;     //0x14
         // 0x18
 #ifdef SHAIYA_EP6_4_PT
-        std::array<CloneItem, 17> equipment;
+        Array<CloneItem, 17> equipment;
 #else
-        std::array<CloneItem, 8> equipment;
+        Array<CloneItem, 8> equipment;
 #endif
         // 6.4: 0x4B, 5.4: 0x30
-        CharName charName;
+        CharArray<21> charName;
         // 6.4: 0x60, 5.4: 0x45
         CloakBadge cloakBadge;
         // 6.4: 0x66, 5.4: 0x4B
-        GuildName guildName;
+        CharArray<25> guildName;
         // 6.4: 0x7F, 5.4: 0x64
         UINT8 packetLength;
 #ifndef SHAIYA_EP6_4_PT

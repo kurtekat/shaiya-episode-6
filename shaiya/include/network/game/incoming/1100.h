@@ -1,22 +1,18 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketChatE
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct ChatNormalIncoming
     {
         UINT16 opcode{ 0x1101 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatNormalIncoming() = delete;
 
@@ -36,10 +32,10 @@ namespace shaiya
     struct ChatWhisperIncoming
     {
         UINT16 opcode{ 0x1102 };
-        CharName senderName;
+        CharArray<21> senderName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatWhisperIncoming() = delete;
 
@@ -62,7 +58,7 @@ namespace shaiya
         UINT16 opcode{ 0x1103 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatTradeIncoming() = delete;
 
@@ -84,7 +80,7 @@ namespace shaiya
         UINT16 opcode{ 0x1104 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatGuildIncoming() = delete;
 
@@ -106,7 +102,7 @@ namespace shaiya
         UINT16 opcode{ 0x1105 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatPartyIncoming() = delete;
 
@@ -128,7 +124,7 @@ namespace shaiya
         UINT16 opcode{ 0x1111 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatAreaIncoming() = delete;
 
@@ -150,7 +146,7 @@ namespace shaiya
         UINT16 opcode{ 0x1112 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         ChatRaidIncoming() = delete;
 

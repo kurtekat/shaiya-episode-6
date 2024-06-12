@@ -1,15 +1,11 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/ChatType.h>
-#include <shaiya/include/user/CharName.h>
 #include <sdev/include/shaiya/include/CUser.h>
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct GameLogChatIncoming
     {
@@ -19,7 +15,7 @@ namespace shaiya
         UINT16 mapId;
         ChatType chatType;
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         GameLogChatIncoming() = default;
 
@@ -43,9 +39,9 @@ namespace shaiya
         ULONG charId;
         UINT16 mapId;
         ChatType chatType;
-        CharName targetName;
+        CharArray<21> targetName;
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         GameLogChatToIncoming() = default;
 

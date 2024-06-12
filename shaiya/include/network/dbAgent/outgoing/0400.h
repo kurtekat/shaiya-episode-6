@@ -1,12 +1,10 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/item/Gems.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketUserChar
 
@@ -23,11 +21,11 @@ namespace shaiya
     struct Equipment0403
     {
 #ifdef SHAIYA_EP6_4_PT
-        std::array<UINT8, 17> type;
-        std::array<UINT8, 17> typeId;
+        Array<UINT8, 17> type;
+        Array<UINT8, 17> typeId;
 #else
-        std::array<UINT8, 8> type;
-        std::array<UINT8, 8> typeId;
+        Array<UINT8, 8> type;
+        Array<UINT8, 8> typeId;
 #endif
     };
     #pragma pack(pop)
@@ -62,7 +60,7 @@ namespace shaiya
         // 6.4: 0x4D, 5.4: 0x3B
         CloakBadge cloakBadge;
         // 6.4: 0x53, 5.4: 0x41
-        CharName charName;
+        CharArray<21> charName;
         // 6.4: 0x68, 5.4: 0x56
     };
     #pragma pack(pop)
@@ -74,7 +72,7 @@ namespace shaiya
         ULONG userId;
         bool sendCountry;
         UINT8 characterCount;
-        std::array<Character0403, 5> characterList;
+        Array<Character0403, 5> characterList;
 
         constexpr int size_without_list() { return 8; }
     };

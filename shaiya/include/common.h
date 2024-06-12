@@ -1,7 +1,7 @@
 #pragma once
 #define SHAIYA_EP6_4_PT
 
-#include <cstdint>
+#include <array>
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -27,6 +27,12 @@ namespace shaiya
     constexpr int max_inventory_slot = 24;
     constexpr int max_warehouse_slot = 240;
     constexpr int min_warehouse_slot = 120;
+
+    template<class T, size_t N>
+    using Array = std::array<T, N>;
+
+    template<size_t N>
+    using CharArray = std::array<char, N>;
 
     using Address = unsigned;
     using Packet = unsigned char*;

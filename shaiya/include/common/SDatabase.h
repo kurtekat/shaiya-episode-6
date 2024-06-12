@@ -12,10 +12,9 @@ namespace shaiya
     struct SDatabase
     {
         SNode node;               //0x00
-        bool rollback;            //0x08
-        PAD(3);
-        int queryError;           //0x0C
-        SQLINTEGER* nativeError;  //0x10
+        PAD(4);
+        SQLINTEGER qerr;          //0x0C
+        PAD(4);
         SQLCHAR* state;           //0x14
         PAD(2064);
         SQLHENV env;              //0x828
@@ -24,8 +23,10 @@ namespace shaiya
         PAD(4);
         // 0x838
 
+        static short ExecuteSql(SDatabase* db/*ecx*/);
         static int Prepare(SDatabase* db/*ecx*/);
-        static void WriteErrorLog(SDatabase* db);
+        static short PrepareSql(SDatabase* db/*ecx*/, const char* query);
+        static void WriteErrorLog(SDatabase* db/*ecx*/);
     };
     #pragma pack(pop)
 }

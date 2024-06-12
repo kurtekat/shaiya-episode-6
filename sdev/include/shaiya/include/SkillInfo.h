@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
@@ -11,8 +10,6 @@
 
 namespace shaiya
 {
-    using SkillName = std::array<char, 32>;
-
     #pragma pack(push, 1)
     struct SkillAbility
     {
@@ -27,7 +24,7 @@ namespace shaiya
     {
         UINT16 skillId;           //0x00
         UINT8 skillLv;            //0x02
-        SkillName skillName;      //0x03
+        CharArray<32> skillName;  //0x03
         PAD(1);
         UINT16 reqLevel;          //0x24
         Country3 country;         //0x26
@@ -82,7 +79,7 @@ namespace shaiya
         UINT16 addDmgStamina;     //0x78
         UINT16 addDmgMana;        //0x7A
         // 0x7C
-        std::array<SkillAbility, 3> abilities;
+        Array<SkillAbility, 3> abilities;
         UINT16 healHealth;        //0x88
         UINT16 healStamina;       //0x8A
         UINT16 healMana;          //0x8C

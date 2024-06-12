@@ -92,13 +92,20 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
     return (*(LPFN)0x425430)(zone, id);
 }
 
-void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/)
+void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/)
 {
     pos->y -= 0.9f;
 
-    typedef void(__thiscall* LPFN)(CZone*, int, int);
-    __asm { mov edi,pos }
-    (*(LPFN)0x4255D0)(zone, npcType, npcId);
+    Address u0x4255D0 = 0x4255D0;
+
+    __asm
+    {
+        push npcTypeId
+        push npcType
+        mov edi,pos
+        mov ecx,zone
+        call u0x4255D0
+    }
 }
 
 bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos)

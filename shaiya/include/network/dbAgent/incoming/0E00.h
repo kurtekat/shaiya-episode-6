@@ -1,22 +1,18 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketUserPoint
 
 namespace shaiya
 {
-    using ProductCode = std::array<char, 21>;
-
     #pragma pack(push, 1)
     struct DBAgentSaveGiftPointItemIncoming
     {
         UINT16 opcode{ 0xE03 };
         ULONG userId;
-        CharName targetName;
-        ProductCode productCode;
+        CharArray<21> targetName;
+        CharArray<21> productCode;
         UINT32 itemPrice;
         ULONG purchaseDate;
         UINT32 purchaseNumber;

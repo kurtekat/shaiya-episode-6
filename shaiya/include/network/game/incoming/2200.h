@@ -1,20 +1,16 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketComm (community)
 
 namespace shaiya
 {
-    using Memo = std::array<char, 51>;
-
     #pragma pack(push, 1)
     struct FriendAddIncoming
     {
         UINT16 opcode{ 0x2202 };
-        CharName charName;
+        CharArray<21> charName;
 
         FriendAddIncoming() = default;
 
@@ -48,7 +44,7 @@ namespace shaiya
         ULONG charId;
         // w/ null terminator
         UINT8 memoLength;
-        Memo memo;
+        CharArray<51> memo;
 
         FriendSaveMemoIncoming() = default;
 
@@ -65,7 +61,7 @@ namespace shaiya
     struct BlockAddIncoming
     {
         UINT16 opcode{ 0x2209 };
-        CharName charName;
+        CharArray<21> charName;
 
         BlockAddIncoming() = default;
 
@@ -99,7 +95,7 @@ namespace shaiya
         ULONG charId;
         // w/ null terminator
         UINT8 memoLength;
-        Memo memo;
+        CharArray<51> memo;
 
         BlockSaveMemoIncoming() = default;
 

@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/skill/NeedWeapon.h>
@@ -13,8 +12,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SkillAbility
     {
-        std::array<SkillAbilityType, 10> type;
-        std::array<UINT16, 10> value;
+        Array<SkillAbilityType, 10> type;
+        Array<UINT16, 10> value;
     };
     #pragma pack(pop)
 

@@ -1,9 +1,6 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/user/AuthStatus.h>
-#include <shaiya/include/user/CharName.h>
-#include <shaiya/include/user/Username.h>
 
 namespace shaiya
 {
@@ -13,15 +10,15 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC01 };
         ULONG userId;
-        Username username;
+        CharArray<32> username;
         ULONG charId;
-        CharName charName;
+        CharArray<21> charName;
         UINT16 mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
-        std::array<char, 32> desc;
+        CharArray<32> desc;
     };
     #pragma pack(pop)
 
@@ -31,16 +28,16 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC02 };
         ULONG userId;
-        Username username;
+        CharArray<32> username;
         ULONG charId;
-        CharName charName;
+        CharArray<21> charName;
         UINT16 mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
-        std::array<char, 32> desc;
-        CharName targetName;
+        CharArray<32> desc;
+        CharArray<21> targetName;
     };
     #pragma pack(pop)
 
@@ -50,18 +47,18 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC03 };
         ULONG userId;
-        Username username;
+        CharArray<32> username;
         ULONG charId;
-        CharName charName;
+        CharArray<21> charName;
         UINT16 mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
-        std::array<char, 32> desc;
-        CharName targetName;
+        CharArray<32> desc;
+        CharArray<21> targetName;
         // e.g. "name=%s"
-        std::array<char, 256> text;
+        CharArray<256> text;
     };
     #pragma pack(pop)
 }

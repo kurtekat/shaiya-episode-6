@@ -1,23 +1,19 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/user/CharName.h>
 
 // CUser::PacketAdminCmdD
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct AdminCmdNoticeToIncoming
     {
         UINT16 opcode{ 0xF908 };
-        CharName targetName;
+        CharArray<21> targetName;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminCmdNoticeToIncoming() = default;
 
@@ -41,7 +37,7 @@ namespace shaiya
         UINT16 unknown;
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminCmdNoticeAllIncoming() = default;
 

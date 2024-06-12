@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 
@@ -7,15 +6,13 @@
 
 namespace shaiya
 {
-    using ChatMessage = std::array<char, 128>;
-
     #pragma pack(push, 1)
     struct AdminCmdNoticeToOutgoing
     {
         UINT16 opcode{ 0xF908 };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminCmdNoticeToOutgoing() = default;
 
@@ -37,7 +34,7 @@ namespace shaiya
         UINT16 opcode{ 0xF90B };
         // w/ null-terminator
         UINT8 messageLength;
-        ChatMessage message;
+        CharArray<128> message;
 
         AdminCmdNoticeAllOutgoing() = default;
 

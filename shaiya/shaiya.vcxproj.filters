@@ -316,20 +316,11 @@
     <ClInclude Include="include\item\Gems.h">
       <Filter>include\item</Filter>
     </ClInclude>
-    <ClInclude Include="include\user\Username.h">
-      <Filter>include\user</Filter>
-    </ClInclude>
-    <ClInclude Include="include\user\Password.h">
-      <Filter>include\user</Filter>
-    </ClInclude>
-    <ClInclude Include="include\user\GuildName.h">
-      <Filter>include\user</Filter>
-    </ClInclude>
-    <ClInclude Include="include\user\CharName.h">
-      <Filter>include\user</Filter>
-    </ClInclude>
     <ClInclude Include="include\item\ItemDivType.h">
       <Filter>include\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\gameLog\incoming\0500.h">
+      <Filter>include\network\gameLog\incoming</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

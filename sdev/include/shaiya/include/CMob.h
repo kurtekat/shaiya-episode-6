@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include "include/shaiya/include/SVector.h"
 
@@ -82,14 +81,14 @@ namespace shaiya
         UINT32 magicResistance;          //0x200
         UINT32 magicCriticalHitRate;     //0x204
         PAD(4);
-        INT32 abilityAddHitRate;         //0x20C
-        INT32 abilityAddAttackPower;     //0x210
-        INT32 abilityAddEvasionRate;     //0x214
-        INT32 abilityAddDefense;         //0x218
+        int abilityAddHitRate;           //0x20C
+        int abilityAddAttackPower;       //0x210
+        int abilityAddEvasionRate;       //0x214
+        int abilityAddDefense;           //0x218
         PAD(12);
-        INT32 abilityAddRangedDefense;   //0x228
+        int abilityAddRangedDefense;     //0x228
         PAD(12);
-        INT32 abilityAddMagicResistance; //0x238
+        int abilityAddMagicResistance;   //0x238
         PAD(20);
         CRITICAL_SECTION cs250;          //0x250
         // 0x268
@@ -122,8 +121,8 @@ namespace shaiya
         PAD(92);
         CRITICAL_SECTION csD9C;          //0xD9C
         // gameLog
-        std::array<char, 32> text3;      //0xDB4
-        std::array<char, 32> text4;      //0xDD4
+        CharArray<32> text3;             //0xDB4
+        CharArray<32> text4;             //0xDD4
         // 0xDF4
 
         static int GetCountry(CMob* mob/*eax*/);

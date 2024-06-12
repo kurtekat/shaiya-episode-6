@@ -1,4 +1,5 @@
 #include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CQuest.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/SkillInfo.h"
@@ -16,6 +17,20 @@ void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo
     (*(LPFN)0x494BD0)(user, skill, skillInfo);
 }
 
+void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, BOOL isQuest)
+{
+    Address u0x465060 = 0x465060;
+
+    __asm
+    {
+        push isQuest
+        push exp
+        push lastAttackUserId
+        mov esi,user
+        call u0x465060
+    }
+}
+
 void CUser::CancelActionExc(CUser* user/*edi*/)
 {
     Address u0x456610 = 0x456610;
@@ -25,6 +40,12 @@ void CUser::CancelActionExc(CUser* user/*edi*/)
         mov edi,user
         call u0x456610
     }
+}
+
+void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/)
+{
+    typedef void(__fastcall* LPFN)(CUser*, ULONG);
+    (*(LPFN)0x486E60)(user, money);
 }
 
 bool CUser::DamageByKeepSkill(CUser* user/*edi*/, int _type, ULONG id/*CUser->id*/, CDamage* damage)
@@ -43,16 +64,26 @@ bool CUser::DamageByKeepSkill(CUser* user/*edi*/, int _type, ULONG id/*CUser->id
 
 void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
 {
-    typedef void(__thiscall* LPFN)(CUser*);
-    __asm { mov esi,exchangeUser }
-    (*(LPFN)0x47E250)(user);
+    Address u0x47E250 = 0x47E250;
+
+    __asm
+    {
+        mov esi,exchangeUser
+        mov ecx,user
+        call u0x47E250
+    }
 }
 
 void CUser::GetGuildName(CUser* user, char* output)
 {
-    typedef void(__stdcall* LPFN)(char*);
-    __asm { mov ebx,user }
-    (*(LPFN)0x484F50)(output);
+    Address u0x484F50 = 0x484F50;
+
+    __asm
+    {
+        push output
+        mov ebx,user
+        call u0x484F50
+    }
 }
 
 int CUser::GetPartyType(CUser* user)
@@ -194,9 +225,15 @@ void CUser::ItemGet(CUser* user/*ecx*/, CItem* item)
 
 void CUser::ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/)
 {
-    typedef void(__thiscall* LPFN)(CUser*, int);
-    __asm { mov ebx,slot }
-    (*(LPFN)0x46C290)(user, bag);
+    Address u0x46C290 = 0x46C290;
+
+    __asm
+    {
+        push bag
+        mov ebx,slot
+        mov ecx,user
+        call u0x46C290
+    }
 }
 
 void CUser::ItemUse(CUser* user, int bag, int slot, ULONG targetId, int byTargetType)
@@ -226,6 +263,19 @@ CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
         mov edi,user
         push questId
         call u0x48D3A0
+    }
+}
+
+void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess)
+{
+    Address u0x48D030 = 0x48D030;
+
+    __asm
+    {
+        push bySuccess
+        mov eax,quest
+        mov esi,user
+        call u0x48D030
     }
 }
 
@@ -577,25 +627,25 @@ void CUser::SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int _type/*edx*/
     }
 }
 
-void CUser::StatResetSkill(CUser* user/*eax*/, BOOL _event)
+void CUser::StatResetSkill(CUser* user/*eax*/, BOOL isEvent)
 {
     Address u0x48FBC0 = 0x48FBC0;
 
     __asm
     {
-        push _event
+        push isEvent
         mov eax,user
         call u0x48FBC0
     }
 }
 
-void CUser::StatResetStatus(CUser* user/*edi*/, BOOL _event)
+void CUser::StatResetStatus(CUser* user/*edi*/, BOOL isEvent)
 {
     Address u0x48F710 = 0x48F710;
 
     __asm
     {
-        push _event
+        push isEvent
         mov edi,user
         call u0x48F710
     }

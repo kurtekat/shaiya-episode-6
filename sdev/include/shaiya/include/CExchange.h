@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -23,7 +22,7 @@ namespace shaiya
         CUser* user;     //0x15C4
         UINT32 money;    //0x15C8
         // 0x15CC
-        std::array<ExcItem, 8> itemList;
+        Array<ExcItem, 8> itemList;
         bool ready;      //0x15E4
         // custom
         bool confirmed;  //0x15E5
@@ -38,7 +37,7 @@ namespace shaiya
         CExchange exchange;  //0x15E8
         UINT32 money;        //0x1610
         // 0x1614
-        std::array<CItem*, 8> itemList;
+        Array<CItem*, 8> itemList;
         // 0x4C
     };
     #pragma pack(pop)

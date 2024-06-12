@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
@@ -7,25 +6,21 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/item/Gems.h>
-#include <shaiya/include/user/CharName.h>
-#include <shaiya/include/user/Username.h>
 
 namespace shaiya
 {
     struct CItem;
     struct SConnection;
 
-    using Inventory = std::array<std::array<CItem*, 24>, 6>;
-    using Warehouse = std::array<CItem*, 240>;
+    using Inventory = Array<Array<CItem*, 24>, 6>;
+    using Warehouse = Array<CItem*, 240>;
     using StoredPointItems = Warehouse;
-
-    using ProductCode = std::array<char, 21>;
 
     #pragma pack(push, 1)
     struct Equipment
     {
-        std::array<UINT8, 8> type;
-        std::array<UINT8, 8> typeId;
+        Array<UINT8, 8> type;
+        Array<UINT8, 8> typeId;
     };
     #pragma pack(pop)
 
@@ -57,7 +52,7 @@ namespace shaiya
         ULONG deleteDate;       //0x28
         Equipment equipment;    //0x2C
         CloakBadge cloakBadge;  //0x3C
-        CharName name;          //0x42
+        CharArray<21> name;     //0x42
         PAD(1);
         bool nameChange;        //0x58
         PAD(3);
@@ -70,11 +65,11 @@ namespace shaiya
     #pragma pack(push, 1)
     struct ProductItem
     {
-        BOOL unknown;             //0x00
-        ProductCode productCode;  //0x04
+        PAD(4);
+        CharArray<21> productCode;  //0x04
         PAD(3);
-        ULONG purchaseDate;       //0x1C
-        UINT32 itemPrice;         //0x20
+        ULONG purchaseDate;         //0x1C
+        UINT32 itemPrice;           //0x20
         // 0x24
     };
     #pragma pack(pop)
@@ -87,7 +82,7 @@ namespace shaiya
         PAD(56);
         ULONG userId;                 //0x38
         UINT32 serverId;              //0x3C
-        Username username;            //0x40
+        CharArray<32> username;       //0x40
         ULONG charId;                 //0x60
         UINT8 slot;                   //0x64
         Country country;              //0x65
@@ -133,7 +128,7 @@ namespace shaiya
         UINT16 mana;                  //0xBE
         UINT16 stamina;               //0xC0
         PAD(6);
-        CharName charName;            //0xC8
+        CharArray<21> charName;       //0xC8
         PAD(3);
         Inventory inventory;          //0xE0
         Warehouse warehouse;          //0x320
@@ -144,8 +139,10 @@ namespace shaiya
         PAD(17340);
         UINT32 points;                //0x80F4
         ProductLog productLog;        //0x80F8
-        CharName giftTargetName;      //0x8260
-        ProductCode giftProductCode;  //0x8275
+        // 0x8260
+        CharArray<21> giftTargetName;
+        // 0x8275
+        CharArray<21> giftProductCode;
         PAD(2);
         UINT32 giftItemPrice;         //0x828C
         ULONG giftPurchaseDate;       //0x8290
