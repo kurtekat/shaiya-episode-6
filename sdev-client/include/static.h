@@ -60,9 +60,13 @@ namespace shaiya
         AuthStatus authStatus;        //0x90D1D4  0x04
         PAD(3);
         BOOL isAdmin;                 //0x90D1D8  0x08
-        PAD(8);
+        UINT32 money;                 //0x90D1DC  0x0C
+        PAD(4);
         UINT32 level;                 //0x90D1E4  0x14
-        PAD(24);
+        UINT32 maxHealth;             //0x90D1E8  0x18
+        UINT32 maxMana;               //0x90D1EC  0x1C
+        UINT32 maxStamina;            //0x90D1F0  0x20
+        PAD(12);
         UINT16 strength;              //0x90D200  0x30
         UINT16 intelligence;          //0x90D202  0x32
         UINT16 dexterity;             //0x90D204  0x34
