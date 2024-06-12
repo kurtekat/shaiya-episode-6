@@ -2,14 +2,17 @@
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0900.h>
+#include <shaiya/include/network/gameLog/incoming/0500.h>
 #include <util/util.h>
 #include "include/main.h"
+#include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CQuest.h"
 #include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
@@ -30,24 +33,34 @@ namespace npc_quest
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_success_result(CUser* user, CQuest* quest, Packet buffer)
+    void send_success_result(CUser* user, CQuest* quest, unsigned long npcId, uint8_t index)
     {
-        auto npcId = util::deserialize<unsigned long>(buffer, 2);
-        auto index = util::deserialize<uint8_t>(buffer, 9);
-
         if (index >= quest->questInfo->resultList.size())
-        {
-            send_failure_result(user, quest, npcId);
             return;
+
+        auto& result = quest->questInfo->resultList[index];
+
+        if (result.exp)
+            CUser::AddExpFromUser(user, 0, result.exp, true);
+
+        if (result.gold)
+        {
+            CUser::ChkAddMoneyGet(user, result.gold);
+            CUser::SendDBMoney(user);
         }
+
+        GameLogQuestEndResultIncoming log{};
+        CUser::SetGameLogMain(user, &log);
+        log.questId = quest->id;
+        std::copy_n(quest->questInfo->questName.begin(), log.questName.size(), log.questName.begin());
+        log.success = true;
+        log.gold = result.gold;
 
         QuestEndResultOutgoing outgoing{};
         outgoing.npcId = npcId;
         outgoing.questId = quest->id;
         outgoing.success = true;
         outgoing.index = index;
-
-        auto& result = quest->questInfo->resultList[index];
         outgoing.exp = result.exp;
         outgoing.gold = result.gold;
 
@@ -67,11 +80,25 @@ namespace npc_quest
                 outgoing.itemList[i].slot = slot;
                 outgoing.itemList[i].type = type;
                 outgoing.itemList[i].typeId = typeId;
+
+                log.itemId = (*itemInfo)->itemId;
+                log.itemCount = count;
+                log.itemName = (*itemInfo)->itemName;
             }
+            else
+            {
+                outgoing.itemList[i] = { 0,0,0,0,0 };
+                log.itemId = 0;
+                log.itemCount = 0;
+                log.itemName[0] = '\0';
+            }
+
+            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogQuestEndResultIncoming));
         }
 #endif
 
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
+        CUser::QuestRemove(user, quest, true);
 
 #ifdef SHAIYA_EP6_4_PT
         for (const auto& item0903 : outgoing.itemList)
@@ -137,24 +164,25 @@ void __declspec(naked) naked_0x48DC3D()
     }
 }
 
-unsigned u0x48E009 = 0x48E009;
-void __declspec(naked) naked_0x48DF4A()
+unsigned u0x48E029 = 0x48E029;
+void __declspec(naked) naked_0x48DE38()
 {
     __asm
     {
-        lea edx,[esp+0x10]
-
         pushad
 
-        push edx // packet
+        mov ecx,[esp+0x114]
+
+        push edx // byResultIndex
+        push ecx // npcId
         push ebx // quest
         push edi // user
         call npc_quest::send_success_result
-        add esp,0xC
+        add esp,0x10
 
         popad
 
-        jmp u0x48E009
+        jmp u0x48E029
     }
 }
 
@@ -165,5 +193,5 @@ void hook::npc_quest()
     // CUser::QuestEnd
     util::detour((void*)0x48DC3D, naked_0x48DC3D, 11);
     // CUser::QuestSuccessResult
-    util::detour((void*)0x48DF4A, naked_0x48DF4A, 7);
+    util::detour((void*)0x48DE38, naked_0x48DE38, 5);
 }
