@@ -75,7 +75,7 @@ void user_ctor_hook(CUser* user)
     user->skillAbility70.skillId = 0;
     user->skillAbility70.skillLv = 0;
     user->skillAbility70.triggered = false;
-    user->skillAbility70.keepTime = 0;
+    user->skillAbility70.keepTick = 0;
     user->itemQualityEx.fill(0);
     user->itemQualityLvEx.fill(0);
     user->increaseQuestExpRate = 0;

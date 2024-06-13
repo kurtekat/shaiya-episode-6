@@ -53,7 +53,7 @@ namespace shaiya
         ContinuousResurrection,
         BattlefieldRune,
         AbilityAbsorption,
-        BaseStatus,
+        AbilityStrRecIntWisDexLuc,
         AbilityStrToMaxHealth = 52,
         AbilityRecToMaxHealth,
         AbilityIntToMaxHealth,

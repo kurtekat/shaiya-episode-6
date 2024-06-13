@@ -9,7 +9,7 @@ namespace shaiya
         UINT16 skillId;
         UINT8 skillLv;
         bool triggered;
-        DWORD keepTime;
+        DWORD keepTick;
     };
     #pragma pack(pop)
 }

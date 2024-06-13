@@ -30,7 +30,7 @@ namespace user_apply_skill
             user->skillAbility70.triggered = true;
             user->skillAbility70.skillId = outgoing.skillId;
             user->skillAbility70.skillLv = outgoing.skillLv;
-            user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
+            user->skillAbility70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::AddApplySkillBuff(user, skillInfo);
@@ -46,7 +46,7 @@ namespace user_apply_skill
             user->skillAbility70.triggered = false;
             user->skillAbility70.skillId = 0;
             user->skillAbility70.skillLv = 0;
-            user->skillAbility70.keepTime = 0;
+            user->skillAbility70.keepTick = 0;
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::RemApplySkillBuff(user, skillInfo);
@@ -59,7 +59,7 @@ namespace user_apply_skill
             return;
 
         auto now = GetTickCount();
-        if (now < user->skillAbility70.keepTime)
+        if (now < user->skillAbility70.keepTick)
             return;
 
         auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
@@ -70,7 +70,7 @@ namespace user_apply_skill
         user->health -= percentage;
         CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
 
-        user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
+        user->skillAbility70.keepTick = now + (skillInfo->keepTime * 1000);
     }
 
     void ability_70_remove(CUser* user)
@@ -85,33 +85,17 @@ namespace user_apply_skill
         user->skillAbility70.triggered = false;
         user->skillAbility70.skillId = 0;
         user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTime = 0;
-
-        CUser::RemApplySkillBuff(user, skillInfo);
-    }
-
-    void send_view(CUser* sender, CUser* target, SkillInfo* skillInfo, Packet buffer)
-    {
-        if (skillInfo->abilities[0].type == SkillAbilityType::Frenzied)
-        {
-            ability_70_handler(sender, skillInfo);
-            return;
-        }
+        user->skillAbility70.keepTick = 0;
 
         SkillUseOutgoing outgoing{};
-        outgoing.targetType = util::deserialize<uint8_t>(buffer, 2);
-        outgoing.senderId = sender->id;
-        outgoing.targetId = target->id;
-        outgoing.skillId = util::deserialize<uint16_t>(buffer, 11);
-        outgoing.skillLv = util::deserialize<uint8_t>(buffer, 13);
-        outgoing.health = util::deserialize<uint16_t>(buffer, 14);
-        outgoing.stamina = util::deserialize<uint16_t>(buffer, 16);
-        outgoing.mana = util::deserialize<uint16_t>(buffer, 18);
+        outgoing.senderId = user->id;
+        outgoing.targetId = user->id;
+        outgoing.skillId = skillInfo->skillId;
+        outgoing.skillLv = skillInfo->skillLv;
+        outgoing.statusType = SkillUseStatusType::Stopped;
 
-        if (!sender->zone)
-            return;
-
-        CZone::PSendView(sender->zone, &outgoing, sizeof(SkillUseOutgoing), &sender->pos, 60, sender->id, target->id, 5);
+        SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
+        CUser::RemApplySkillBuff(user, skillInfo);
     }
 
     void set_ability(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
@@ -189,25 +173,29 @@ namespace user_apply_skill
     }
 }
 
+unsigned u0x45CCE9 = 0x45CCE9;
 unsigned u0x45CD11 = 0x45CD11;
 void __declspec(naked) naked_0x45CCE3()
 {
     __asm
     {
+        cmp byte ptr[esi+0x7C],0x46
+        jne original
+
         pushad
 
-        lea eax,[esp+0x3C]
-
-        push eax // packet
         push esi // skillInfo
-        push edi // target
         push ebp // sender
-        call user_apply_skill::send_view
-        add esp,0x10
+        call user_apply_skill::ability_70_handler
+        add esp,0x8
 
         popad
 
         jmp u0x45CD11
+
+        original:
+        mov ecx,[edi+0xDC]
+        jmp u0x45CCE9
     }
 }
 
@@ -217,9 +205,7 @@ void __declspec(naked) naked_0x493BC6()
 {
     __asm
     {
-        // abilityType1
-        movzx edx,byte ptr[ebp+0x7C]
-        cmp edx,0x46
+        cmp byte ptr[ebp+0x7C],0x46
         je _0x493C3F
 
         // original
@@ -273,6 +259,51 @@ void __declspec(naked) naked_0x49861D()
     }
 }
 
+unsigned u0x498882 = 0x498882;
+void __declspec(naked) naked_0x49887C()
+{
+    __asm
+    {
+        pushad
+
+        push esi // user
+        call user_apply_skill::ability_70_remove
+        add esp,0x4
+
+        popad
+
+        // original
+        mov [esi+0x1348],ebx
+        jmp u0x498882
+    }
+}
+
+// CUser::ChkGetSkillPassive
+unsigned u0x49A850 = 0x49A850;
+unsigned u0x4935B7 = 0x4935B7;
+void __declspec(naked) naked_0x4935B2()
+{
+    __asm
+    {
+        // original
+        call u0x49A850
+
+        cmp byte ptr[esi+0x7C],0x46
+        jne _0x4935B7
+
+        pushad
+
+        push ebp // user
+        call user_apply_skill::ability_70_remove
+        add esp,0x4
+
+        popad
+
+        _0x4935B7:
+        jmp u0x4935B7
+    }
+}
+
 void __declspec(naked) naked_0x4959A4()
 {
     __asm
@@ -308,6 +339,10 @@ void hook::user_apply_skill()
     util::detour((void*)0x428AD5, naked_0x428AD5, 5);
     // CUser::ClearApplySkillByDeath
     util::detour((void*)0x49861D, naked_0x49861D, 6);
+    // CUser::SkillClearAll
+    util::detour((void*)0x49887C, naked_0x49887C, 6);
+    // CUser::LearnSkill
+    util::detour((void*)0x4935B2, naked_0x4935B2, 5);
     // CUser::SetSkillAbility (default case)
     util::detour((void*)0x4959A4, naked_0x4959A4, 7);
 }
