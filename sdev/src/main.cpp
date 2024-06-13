@@ -78,6 +78,7 @@ void user_ctor_hook(CUser* user)
     user->skillAbility70.keepTime = 0;
     user->itemQualityEx.fill(0);
     user->itemQualityLvEx.fill(0);
+    user->increaseQuestExpRate = 0;
 #endif
 }
 

@@ -434,7 +434,7 @@ namespace shaiya
         UINT32 abilityMagicHitRate;          //0x13A4
         UINT32 abilityMagicPower;            //0x13A8
         UINT32 abilityMagicEvasionRate;      //0x13AC
-        UINT32 abilityMagicResistance;       //0x13B0
+        UINT32 abilityAddMagicResistance;    //0x13B0
         BOOL attackBlinded;                  //0x13B4
         UINT32 evasionStatus;                //0x13B8
         UINT32 evasionPercentage;            //0x13BC
@@ -609,8 +609,8 @@ namespace shaiya
         SkillAbility70 skillAbility70;       //0x5DA0
         ItemQualityLvEx itemQualityLvEx;     //0x5DA8
         ItemQualityEx itemQualityEx;         //0x5DC0
-        // 0x5DF0
-        PAD(1116);
+        UINT32 increaseQuestExpRate;         //0x5DF0
+        PAD(1112);
         CRITICAL_SECTION cs624C;             //0x624C
         // 0x6264
         PAD(32);

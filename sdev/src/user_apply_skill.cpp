@@ -55,11 +55,11 @@ namespace user_apply_skill
 
     void ability_70_update(CUser* user)
     {
-        if (!user)
+        if (!user->skillAbility70.triggered)
             return;
 
         auto now = GetTickCount();
-        if (!user->skillAbility70.triggered || now < user->skillAbility70.keepTime)
+        if (now < user->skillAbility70.keepTime)
             return;
 
         auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
@@ -112,6 +112,80 @@ namespace user_apply_skill
             return;
 
         CZone::PSendView(sender->zone, &outgoing, sizeof(SkillUseOutgoing), &sender->pos, 60, sender->id, target->id, 5);
+    }
+
+    void set_ability(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
+    {
+        switch (abilityType)
+        {
+        // itemId: 101112, 101113
+        // skillId: 432
+        case SkillAbilityType::IncreaseQuestExpRate:
+            user->increaseQuestExpRate += abilityValue;
+            break;
+        // skillId: 375
+        case SkillAbilityType::AbilityStrToMaxHealth:
+        {
+            auto value = user->abilityStrength * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 376
+        case SkillAbilityType::AbilityRecToMaxHealth:
+        {
+            auto value = user->abilityReaction * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 377
+        case SkillAbilityType::AbilityIntToMaxHealth:
+        {
+            auto value = user->abilityIntelligence * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 378
+        case SkillAbilityType::AbilityWisToMaxHealth:
+        {
+            auto value = user->abilityWisdom * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 379
+        case SkillAbilityType::AbilityDexToMaxHealth:
+        {
+            auto value = user->abilityDexterity * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 380
+        case SkillAbilityType::AbilityLucToMaxHealth:
+        {
+            auto value = user->abilityLuck * abilityValue;
+            user->maxHealth += value;
+
+            CUser::SendMaxHP(user);
+            CUser::SetAttack(user);
+            break;
+        }
+        default:
+            break;
+        }
     }
 }
 
@@ -199,6 +273,31 @@ void __declspec(naked) naked_0x49861D()
     }
 }
 
+void __declspec(naked) naked_0x4959A4()
+{
+    __asm
+    {
+        pushad
+
+        inc edx
+
+        push eax // abilityValue
+        push edx // abilityType
+        push ecx // typeEffect
+        push esi // user
+        call user_apply_skill::set_ability
+        add esp,0x10
+
+        popad
+
+        // original
+        pop esi
+        mov esp,ebp
+        pop ebp
+        retn 0x4
+    }
+}
+
 void hook::user_apply_skill()
 {
     // CUser::SkillAttackRange
@@ -209,4 +308,6 @@ void hook::user_apply_skill()
     util::detour((void*)0x428AD5, naked_0x428AD5, 5);
     // CUser::ClearApplySkillByDeath
     util::detour((void*)0x49861D, naked_0x49861D, 6);
+    // CUser::SetSkillAbility (default case)
+    util::detour((void*)0x4959A4, naked_0x4959A4, 7);
 }

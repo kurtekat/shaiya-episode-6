@@ -39,9 +39,14 @@ namespace npc_quest
             return;
 
         auto& result = quest->questInfo->resultList[index];
+        auto exp = result.exp;
 
-        if (result.exp)
-            CUser::AddExpFromUser(user, 0, result.exp, true);
+        if (exp)
+        {
+            auto rate = user->increaseQuestExpRate;
+            exp = (rate >= 200) ? exp * (rate / 100) : exp;
+            CUser::AddExpFromUser(user, 0, exp, true);
+        }
 
         if (result.gold)
         {
@@ -61,7 +66,7 @@ namespace npc_quest
         outgoing.questId = quest->id;
         outgoing.success = true;
         outgoing.index = index;
-        outgoing.exp = result.exp;
+        outgoing.exp = exp;
         outgoing.gold = result.gold;
 
 #ifdef SHAIYA_EP6_4_PT
@@ -173,7 +178,7 @@ void __declspec(naked) naked_0x48DE38()
 
         mov ecx,[esp+0x114]
 
-        push edx // byResultIndex
+        push edx // index
         push ecx // npcId
         push ebx // quest
         push edi // user

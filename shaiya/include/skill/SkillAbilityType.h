@@ -54,6 +54,13 @@ namespace shaiya
         BattlefieldRune,
         AbilityAbsorption,
         BaseStatus,
-        Frenzied = 70
+        AbilityStrToMaxHealth = 52,
+        AbilityRecToMaxHealth,
+        AbilityIntToMaxHealth,
+        AbilityWisToMaxHealth,
+        AbilityDexToMaxHealth,
+        AbilityLucToMaxHealth,
+        Frenzied = 70,
+        IncreaseQuestExpRate = 87
     };
 }
