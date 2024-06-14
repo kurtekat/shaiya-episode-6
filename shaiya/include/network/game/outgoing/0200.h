@@ -43,6 +43,14 @@ namespace shaiya
         Loss
     };
 
+    enum struct SkillGetResult : UINT8
+    {
+        Success,
+        InsufficientPoints,
+        LevelTooLowToLearn,
+        UnableToLearn
+    };
+
     #pragma pack(push, 1)
     struct Item0204
     {
@@ -108,6 +116,17 @@ namespace shaiya
             : bag(bag), slot(slot), type(type), typeId(typeId), count(count)
         {
         }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct SkillGetOutgoing
+    {
+        UINT16 opcode{ 0x20A };
+        SkillGetResult result;
+        UINT8 index;
+        UINT16 skillId;
+        UINT8 skillLv;
     };
     #pragma pack(pop)
 

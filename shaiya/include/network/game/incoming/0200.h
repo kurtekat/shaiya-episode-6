@@ -59,6 +59,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct SkillGetIncoming
+    {
+        UINT16 opcode{ 0x209 };
+        UINT16 skillId;
+        UINT8 skillLv;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct PortalEnableIncoming
     {
         UINT16 opcode{ 0x20A };

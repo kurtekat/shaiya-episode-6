@@ -15,9 +15,10 @@ namespace shaiya
         UINT32 skillLv;         //0x10
         // CUser->skillList
         UINT32 skillListIndex;  //0x14
-        PAD(8);
-        DWORD resetTime;        //0x20
-        DWORD applyTime;        //0x24
+        PAD(4);
+        DWORD learnTick;        //0x1C
+        DWORD resetTick;        //0x20
+        DWORD applyTick;        //0x24
         PAD(8);
         // CUser->id, CMob->id
         ULONG debuffCasterId;   //0x30
