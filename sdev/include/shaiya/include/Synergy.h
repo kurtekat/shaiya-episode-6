@@ -3,7 +3,6 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include "include/shaiya/include/DataFile.h"
 
 namespace shaiya
 {
@@ -40,7 +39,7 @@ namespace shaiya
         }
     };
 
-    class Synergy : DataFile
+    class Synergy
     {
     public:
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/user/PvPType.h>
 #include <sdev/include/shaiya/include/CUser.h>
 
 // CUser::PacketUserSetStatus
@@ -12,14 +13,6 @@ namespace shaiya
         Honor = 1,
         // vg, cg, og, ig
         Other = 2,
-    };
-
-    enum struct DBAgentSetPvPStatusType : UINT8
-    {
-        Kill,   // k1
-        Death,  // k2
-        Win,    // k3
-        Loss    // k4
     };
 
     #pragma pack(push, 1)
@@ -206,12 +199,12 @@ namespace shaiya
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        DBAgentSetPvPStatusType statusType;
+        PvPType statusType;
         UINT32 value;
 
         DBAgentSetPvPStatusIncoming() = default;
 
-        DBAgentSetPvPStatusIncoming(ULONG userId, DBAgentSetPvPStatusType statusType, UINT32 value)
+        DBAgentSetPvPStatusIncoming(ULONG userId, PvPType statusType, UINT32 value)
             : userId(userId), statusType(statusType), value(value)
         {
         }

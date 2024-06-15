@@ -322,5 +322,11 @@
     <ClInclude Include="include\network\gameLog\incoming\0500.h">
       <Filter>include\network\gameLog\incoming</Filter>
     </ClInclude>
+    <ClInclude Include="include\user\PartyType.h">
+      <Filter>include\user</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user\PvPType.h">
+      <Filter>include\user</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

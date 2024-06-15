@@ -3,6 +3,7 @@
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include <shaiya/include/item/Gems.h>
+#include <shaiya/include/user/PartyType.h>
 #include <shaiya/include/user/ShapeType.h>
 #include <util/util.h>
 #include "include/main.h"
@@ -29,7 +30,7 @@ namespace user_shape
         user->clone->size = target->size;
         user->clone->job = target->job;
         user->clone->sex = target->sex;
-        user->clone->partyType = CUser::GetPartyType(target);
+        user->clone->partyType = static_cast<PartyType>(CUser::GetPartyType(target));
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
 
@@ -112,7 +113,7 @@ namespace user_shape
         outgoing.size = user->size;
         outgoing.job = user->job;
         outgoing.sex = user->sex;
-        outgoing.partyType = CUser::GetPartyType(user);
+        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
         outgoing.grow = user->grow;
         outgoing.kills = user->kills;
 
@@ -200,7 +201,7 @@ namespace user_shape
         outgoing.size = user->size;
         outgoing.job = user->job;
         outgoing.sex = user->sex;
-        outgoing.partyType = CUser::GetPartyType(user);
+        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
         outgoing.grow = user->grow;
         outgoing.kills = user->kills;
 

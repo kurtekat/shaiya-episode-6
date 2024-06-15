@@ -34,7 +34,7 @@ namespace shaiya
     {
         UINT32 mobId;    //0x00
         PAD(8);
-        DWORD time;      //0x0C
+        DWORD tick;      //0x0C
         PAD(4);
         BOOL isObelisk;  //0x14
         PAD(4);
@@ -112,12 +112,12 @@ namespace shaiya
         PAD(52);
         ULONG luaTargetId;               //0x308
         PAD(40);
-        DWORD lockOnTime;                //0x334
+        DWORD lockOnTick;                //0x334
         MobLuaEvent luaEvent;            //0x338
         PAD(2516);
         MobRespawn* mobRespawn;          //0xD10
         PAD(40);
-        DWORD destroyTime;               //0xD3C
+        DWORD destroyTick;               //0xD3C
         PAD(92);
         CRITICAL_SECTION csD9C;          //0xD9C
         // gameLog

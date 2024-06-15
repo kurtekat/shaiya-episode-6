@@ -18,7 +18,7 @@ namespace shaiya
         UINT32 bless;      //0x04
         UINT32 nextGrade;  //0x08
         PAD(4);
-        DWORD updateTime;  //0x10
+        DWORD updateTick;  //0x10
         PAD(112);
         // 0x84
     };
@@ -42,7 +42,7 @@ namespace shaiya
         // 0x1CC
         PAD(116);
         ULONG worldDay;                           //0x240
-        DWORD setWorldDayTime;                    //0x244
+        DWORD worldDaySetTick;                    //0x244
         // AoL, UoF
         Array<WorldKillCount, 2> killCount;       //0x248
         CRITICAL_SECTION cs350;                   //0x350

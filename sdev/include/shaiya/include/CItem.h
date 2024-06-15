@@ -11,12 +11,6 @@ namespace shaiya
     struct CZone;
     struct ItemInfo;
 
-    enum struct ItemDropType : UINT8
-    {
-        ByUser = 2,
-        ByDeath
-    };
-
     #pragma pack(push, 1)
     struct CItem
     {
@@ -41,10 +35,10 @@ namespace shaiya
         ULONG makeTime;            //0x64
         MakeType makeType;         //0x68
         PAD(3);
-        DWORD enablePickTime;      //0x6C
+        DWORD enablePickTick;      //0x6C
         ULONG enablePickCharId;    //0x70
         ULONG enablePickPartyId;   //0x74
-        ItemDropType dropType;     //0x78
+        UINT8 dropType;            //0x78
         PAD(3);
         ULONG dropCharId;          //0x7C
         PAD(4);

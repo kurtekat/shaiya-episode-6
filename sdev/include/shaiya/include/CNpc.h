@@ -37,7 +37,7 @@ namespace shaiya
         // CMob->id, CUser->id
         ULONG targetId;    //0x60
         PAD(4);
-        DWORD lockOnTime;  //0x68
+        DWORD lockOnTick;  //0x68
         PAD(44);
         // 0x98
 

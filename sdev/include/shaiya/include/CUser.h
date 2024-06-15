@@ -422,7 +422,7 @@ namespace shaiya
         UINT16 passiveSkillId;               //0x137A
         UINT8 passiveSkillLv;                //0x137C
         PAD(3);
-        DWORD passiveSkillUseTime;           //0x1380
+        DWORD passiveSkillUseTick;           //0x1380
         UINT32 abilityHitRate;               //0x1384
         UINT32 abilityAttackPower;           //0x1388
         UINT32 abilityEvasionRate;           //0x138C
@@ -479,23 +479,23 @@ namespace shaiya
         UserAttackType attackType;           //0x1458
         UINT32 prevSkillUseIndex;            //0x145C
         PAD(4);
-        UINT32 qualityDecSlot;               //0x1464
-        DWORD attackTypeSkillTime;           //0x1468
-        DWORD attackTypeBasicTime;           //0x146C
-        DWORD rebirthTimeout;                //0x1470
+        UINT32 itemQualityDecreaseSlot;      //0x1464
+        DWORD attackTypeSkillTick;           //0x1468
+        DWORD attackTypeBasicTick;           //0x146C
+        DWORD rebirthExpireTick;             //0x1470
         BOOL leaderResurrect;                //0x1474
         UINT32 expLossRate;                  //0x1478
         // 0x147C
         UserVehicleStatusType vehicleStatusType;
-        DWORD vehicleRideTime;               //0x1480
+        DWORD vehicleRideTick;               //0x1480
         UINT32 vehicleShapeType;             //0x1484
         UINT32 vehicleShapeTypeAdd;          //0x1488
-        ULONG vehicleRideAlongId;            //0x148C
-        ULONG vehicleRideRequestId;          //0x1490
-        DWORD vehicleRideReqTimeout;         //0x1494
-        ULONG partySummonRequestId;          //0x1498
-        DWORD partySummonReqTimeout;         //0x149C
-        DWORD nextRecoveryTime;              //0x14A0
+        ULONG vehicleRideCharId;             //0x148C
+        ULONG vehicleRideRequestSenderId;    //0x1490
+        DWORD vehicleRideRequestExpireTick;  //0x1494
+        ULONG partySummonRequestSenderId;    //0x1498
+        DWORD partySummonRequestExpireTick;  //0x149C
+        DWORD nextRecoveryTick;              //0x14A0
         Array<DWORD, 12> itemCooldown;       //0x14A4
         UserKillCountStatus kcStatus;        //0x14D4
         // 0x1544
@@ -508,7 +508,7 @@ namespace shaiya
         CExchangePvP exchangePvP;            //0x15E8
         MyShop myShop;                       //0x1634
         CParty* party;                       //0x17F4
-        ULONG partyRequestId;                //0x17F8
+        ULONG partyRequestSenderId;          //0x17F8
         bool partySearchEnabled;             //0x17FC
         PAD(3);
         ULONG guildId;                       //0x1800
@@ -522,18 +522,18 @@ namespace shaiya
         UINT32 blockCount;                   //0x377C
         // 0x3780
         Array<BlockList, 100> blockList;     //0x3780
-        ULONG buddyRequestId;                //0x5530
+        ULONG buddyRequestSenderId;          //0x5530
         PAD(76);
         BOOL joinGuildDisabled;              //0x5580
         BOOL grbZoneEnterFlag;               //0x5584
         BOOL insZoneEnterFlag;               //0x5588
         UserPvPStatusType pvpStatusType;     //0x558C
-        DWORD pvpRequestTimeout;             //0x5590
-        ULONG pvpTargetId;                   //0x5594
+        DWORD pvpRequestExpireTick;          //0x5590
+        ULONG pvpRequestTargetId;            //0x5594
         SVector pvpPos;                      //0x5598
-        ULONG gvgTargetId;                   //0x55A4
+        ULONG gvgRequestTargetId;            //0x55A4
         SVector gvgPos;                      //0x55A8
-        DWORD gvgRequestTimeout;             //0x55B4
+        DWORD gvgRequestExpireTick;          //0x55B4
         PAD(572);
         UserWhere where;                     //0x57F4
         PAD(8);
@@ -541,15 +541,16 @@ namespace shaiya
         AuthStatus authStatus;               //0x5808
         PAD(3);
         ULONG questionId;                    //0x580C
-        ULONG chatSendToId;                  //0x5810
+        ULONG chatSendToTargetId;            //0x5810
         bool visible;                        //0x5814
         bool attackable;                     //0x5815
         PAD(2);
-        DWORD enableMoveTime;                //0x5818
-        DWORD enableChatTime;                //0x581C
-        ULONG chatListenToId;                //0x5820
-        ULONG chatListenFromId;              //0x5824
+        DWORD enableMoveTick;                //0x5818
+        DWORD enableChatTick;                //0x581C
+        ULONG chatListenToTargetId;          //0x5820
+        ULONG chatListenCharId;              //0x5824
         PAD(4);
+        // UserUID
         ULONG userId;                        //0x582C
         PAD(4);
         CharArray<32> username;              //0x5834
@@ -560,25 +561,25 @@ namespace shaiya
         UINT32 questKillMobCount;            //0x5868
         PAD(12);
         UserLogoutType logoutType;           //0x5878
-        DWORD logoutTime;                    //0x587C
-        BOOL dbAgentDisconnect;              //0x5880
+        DWORD logoutTick;                    //0x587C
+        int connectionCloseType;             //0x5880
         PAD(44);
         UINT32 numWhereErrors;               //0x58B0
         UserRecallType recallType;           //0x58B4
-        DWORD recallTime;                    //0x58B8
+        DWORD recallTick;                    //0x58B8
         UINT32 recallMapId;                  //0x58BC
         SVector recallPos;                   //0x58C0
         PAD(4);
-        DWORD partyRequestTimeout;           //0x58D0
+        DWORD partyRequestExpireTick;        //0x58D0
         PAD(8);
         bool isMessageToServer;              //0x58DC
         PAD(7);
-        DWORD enableShoutTime;               //0x58E4
+        DWORD enableShoutTick;               //0x58E4
         UINT8 statResetCount;                //0x58E8
         UINT8 skillResetCount;               //0x58E9
         bool statResetEvent;                 //0x58EA
         bool skillResetEvent;                //0x58EB
-        DWORD lockOnTime;                    //0x58EC
+        DWORD lockOnTick;                    //0x58EC
         PAD(12);
         UINT32 recallItemBag;                //0x58FC
         UINT32 recallItemSlot;               //0x5900 
@@ -602,7 +603,7 @@ namespace shaiya
         ProductLog productLog;               //0x5980
         UINT32 points;                       //0x5AC0
         volatile UINT disableShop;           //0x5AC4
-        DWORD reloadPointTime;               //0x5AC8
+        DWORD reloadPointTick;               //0x5AC8
         StoredPointItems storedPointItems;   //0x5ACC
         // EP6.4
         UINT32 townScrollGateIndex;          //0x5D9C

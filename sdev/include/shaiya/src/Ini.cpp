@@ -8,6 +8,16 @@
 #include "include/shaiya/include/Ini.h"
 using namespace shaiya;
 
+int Ini::deleteKey(const std::string& section, const std::string& key)
+{
+    return WritePrivateProfileStringA(section.c_str(), key.c_str(), nullptr, this->path.string().c_str());
+}
+
+int Ini::deleteSection(const std::string& section)
+{
+    return WritePrivateProfileStringA(section.c_str(), nullptr, nullptr, this->path.string().c_str());
+}
+
 auto Ini::getInt(const std::string& section, const std::string& key, int _default)
 {
     return GetPrivateProfileIntA(section.c_str(), key.c_str(), _default, this->path.string().c_str());
@@ -20,16 +30,14 @@ std::string Ini::getString(const std::string& section, const std::string& key)
     return std::string(vec.data(), count);
 }
 
-void Ini::getSection(const std::string& section, std::vector<KeyValPair>& output)
+void Ini::getSection(const std::string& section, std::vector<std::pair<std::string, std::string>>& output)
 {
     std::vector<char> vec(std::numeric_limits<short>::max());
     auto count = GetPrivateProfileSectionA(section.c_str(), vec.data(), vec.size(), this->path.string().c_str());
     if (!count)
         return;
 
-    auto str = std::string(vec.data(), count);
-    std::istringstream iss(str);
-
+    std::istringstream iss(std::string(vec.data(), count));
     for (std::string str; std::getline(iss, str, '\0'); )
     {
         auto offest = str.find_first_of('=');
@@ -49,9 +57,7 @@ void Ini::getSectionNames(std::vector<std::string>& output)
     if (!count)
         return;
 
-    auto str = std::string(vec.data(), count);
-    std::istringstream iss(str);
-
+    std::istringstream iss(std::string(vec.data(), count));
     for (std::string str; std::getline(iss, str, '\0'); )
         output.push_back(str);
 }

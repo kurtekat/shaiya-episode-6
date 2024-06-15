@@ -1,5 +1,4 @@
 #include <filesystem>
-#include <ranges>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -26,33 +25,32 @@ void Synthesis::init()
         return;
     }
 
-    Ini ini(path);
-
     std::vector<std::string> sections;
+    Ini ini(path);
     ini.getSectionNames(sections);
 
     for (const auto& section : sections)
     {
-        std::vector<Ini::KeyValPair> vec;
-        ini.getSection(section, vec);
+        std::vector<std::pair<std::string, std::string>> kvp;
+        ini.getSection(section, kvp);
 
-        if (vec.size() != 8)
+        if (kvp.size() != 8)
             continue;
 
-        auto itemId = std::strtoul(vec[0].value.c_str(), nullptr, 10);
-        auto successRate = std::atoi(vec[1].value.c_str());
+        auto itemId = std::strtoul(kvp[0].second.c_str(), nullptr, 10);
+        auto successRate = std::atoi(kvp[1].second.c_str());
         successRate = (successRate > 100) ? 100 : successRate;
 
         Synthesis synthesis{};
         synthesis.successRate = successRate * 100;
 
-        Synthesis::parseMaterial(vec[2].value, synthesis.materialType);
-        Synthesis::parseMaterial(vec[3].value, synthesis.materialTypeId);
-        Synthesis::parseMaterial(vec[4].value, synthesis.materialCount);
+        Synthesis::parseMaterial(kvp[2].second, synthesis.materialType);
+        Synthesis::parseMaterial(kvp[3].second, synthesis.materialTypeId);
+        Synthesis::parseMaterial(kvp[4].second, synthesis.materialCount);
 
-        synthesis.createType = std::atoi(vec[5].value.c_str());
-        synthesis.createTypeId = std::atoi(vec[6].value.c_str());
-        synthesis.createCount = std::atoi(vec[7].value.c_str());
+        synthesis.createType = std::atoi(kvp[5].second.c_str());
+        synthesis.createTypeId = std::atoi(kvp[6].second.c_str());
+        synthesis.createCount = std::atoi(kvp[7].second.c_str());
 
         auto it = g_synthesis.find(itemId);
         if (it != g_synthesis.end())

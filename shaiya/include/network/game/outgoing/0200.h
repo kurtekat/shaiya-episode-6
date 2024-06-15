@@ -3,6 +3,7 @@
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
+#include <shaiya/include/user/PvPType.h>
 
 // CUser::PacketMainInterface
 
@@ -33,14 +34,6 @@ namespace shaiya
         PartyMinimumCountRequired,
         FailedToEnter,
         FailedToJoinGoddessBattle,
-    };
-
-    enum struct CharacterPvPStatusType : UINT8
-    {
-        Kill,
-        Death,
-        Win,
-        Loss
     };
 
     enum struct SkillGetResult : UINT8
@@ -155,7 +148,7 @@ namespace shaiya
     struct CharacterPvPStatusOutgoing
     {
         UINT16 opcode{ 0x20E };
-        CharacterPvPStatusType statusType;
+        PvPType statusType;
         UINT32 value;
     };
     #pragma pack(pop)

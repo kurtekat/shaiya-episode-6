@@ -7,6 +7,7 @@
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
+#include <shaiya/include/user/PartyType.h>
 
 // CUser::PacketGetInfo
 
@@ -45,7 +46,7 @@ namespace shaiya
         UINT8 size;
         Job job;
         Sex sex;
-        UINT8 partyType;
+        PartyType partyType;
         Grow grow;
         UINT32 kills;
 #ifdef SHAIYA_EP6_4_PT

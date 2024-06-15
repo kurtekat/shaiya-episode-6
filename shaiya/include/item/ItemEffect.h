@@ -54,7 +54,7 @@ namespace shaiya
         ExtractionHammer,
         MoveWar,
         ItemCompose = 62,
-        Promotion,
+        EnergyCrystal,
         EquipMale,
         EquipFemale,
         PerfectLinkingHammer = 69,

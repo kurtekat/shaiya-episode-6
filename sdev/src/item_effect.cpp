@@ -59,7 +59,7 @@ namespace item_effect
             user->recallMapId = gateKeeper->gateList[user->townScrollGateIndex].mapId;
             user->recallPos = gateKeeper->gateList[user->townScrollGateIndex].pos;
             user->recallType = UserRecallType::TownTeleportScroll;
-            user->recallTime = GetTickCount() + 5000;
+            user->recallTick = GetTickCount() + 5000;
 
             ItemCastOutgoing outgoing(user->id);
             CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
@@ -75,7 +75,7 @@ namespace item_effect
         if (user->status == UserStatus::Death)
             return;
 
-        if (user->dbAgentDisconnect || user->debuffTypeDetail)
+        if (user->connectionCloseType || user->debuffTypeDetail)
             return;
 
         if (!incoming->bag || incoming->bag > user->bagsUnlocked || incoming->slot >= max_inventory_slot)

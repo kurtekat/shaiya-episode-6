@@ -104,6 +104,8 @@
     <ClInclude Include="include\skill\SkillTargetType.h" />
     <ClInclude Include="include\user\AuthStatus.h" />
     <ClInclude Include="include\user\MotionType.h" />
+    <ClInclude Include="include\user\PartyType.h" />
+    <ClInclude Include="include\user\PvPType.h" />
     <ClInclude Include="include\user\ShapeType.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

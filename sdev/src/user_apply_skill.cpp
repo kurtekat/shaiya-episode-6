@@ -102,11 +102,6 @@ namespace user_apply_skill
     {
         switch (abilityType)
         {
-        // itemId: 101112, 101113
-        // skillId: 432
-        case SkillAbilityType::IncreaseQuestExpRate:
-            user->increaseQuestExpRate += abilityValue;
-            break;
         // skillId: 375
         case SkillAbilityType::AbilityStrToMaxHealth:
         {
@@ -167,6 +162,11 @@ namespace user_apply_skill
             CUser::SetAttack(user);
             break;
         }
+        // itemId: 101112, 101113
+        // skillId: 432
+        case SkillAbilityType::IncreaseQuestExpRate:
+            user->increaseQuestExpRate += abilityValue;
+            break;
         default:
             break;
         }

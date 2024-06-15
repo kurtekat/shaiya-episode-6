@@ -21,19 +21,19 @@ namespace npc_quest
     void send_admin_remove(CUser* user, CQuest* quest)
     {
         QuestEndResultOutgoing outgoing{};
-        outgoing.questId = quest->id;
+        outgoing.questId = quest->questInfo->questId;
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_failure_result(CUser* user, CQuest* quest, unsigned long npcId)
+    void send_failure_result(CUser* user, CQuest* quest, uint32_t npcId)
     {
         QuestEndResultOutgoing outgoing{};
         outgoing.npcId = npcId;
-        outgoing.questId = quest->id;
+        outgoing.questId = quest->questInfo->questId;
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
     }
 
-    void send_success_result(CUser* user, CQuest* quest, unsigned long npcId, uint8_t index)
+    void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
     {
         if (index >= quest->questInfo->resultList.size())
             return;
@@ -56,14 +56,14 @@ namespace npc_quest
 
         GameLogQuestEndResultIncoming log{};
         CUser::SetGameLogMain(user, &log);
-        log.questId = quest->id;
+        log.questId = quest->questInfo->questId;
         std::copy_n(quest->questInfo->questName.begin(), log.questName.size(), log.questName.begin());
         log.success = true;
         log.gold = result.gold;
 
         QuestEndResultOutgoing outgoing{};
         outgoing.npcId = npcId;
-        outgoing.questId = quest->id;
+        outgoing.questId = quest->questInfo->questId;
         outgoing.success = true;
         outgoing.index = index;
         outgoing.exp = exp;
