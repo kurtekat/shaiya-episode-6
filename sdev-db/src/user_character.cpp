@@ -25,17 +25,29 @@ namespace user_character
 
         std::string query("SELECT CharName FROM [PS_GameData].[dbo].[Chars] WHERE CharName=? AND Del=0;");
         if (SDatabase::PrepareSql(db, query.c_str()))
+        {
+            SDatabasePool::FreeDB(db);
             return false;
+        }
 
         if (FAILED(SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(name), 0, name, 19, nullptr)))
+        {
+            SDatabasePool::FreeDB(db);
             return false;
+        }
 
         if (SDatabase::ExecuteSql(db))
+        {
+            SDatabasePool::FreeDB(db);
             return false;
+        }
 
         long rowCount = SQL_NULL_DATA;
         if (FAILED(SQLRowCount(db->stmt, &rowCount)))
+        {
+            SDatabasePool::FreeDB(db);
             return false;
+        }
 
         SDatabasePool::FreeDB(db);
         return !rowCount;
