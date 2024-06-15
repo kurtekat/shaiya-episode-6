@@ -56,12 +56,12 @@ namespace shaiya
         AbilityStrRecIntWisDexLuc,
         EnableEnterDungeon,
         DisableEnterDungeon,
-        AbilityStrToMaxHealth,
-        AbilityRecToMaxHealth,
-        AbilityIntToMaxHealth,
-        AbilityWisToMaxHealth,
-        AbilityDexToMaxHealth,
-        AbilityLucToMaxHealth,
+        StrToMaxHealth,
+        RecToMaxHealth,
+        IntToMaxHealth,
+        WisToMaxHealth,
+        DexToMaxHealth,
+        LucToMaxHealth,
         Frenzied = 70,
         IncreaseQuestExpRate = 87
     };

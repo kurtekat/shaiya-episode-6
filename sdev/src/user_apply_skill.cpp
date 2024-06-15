@@ -103,9 +103,9 @@ namespace user_apply_skill
         switch (abilityType)
         {
         // skillId: 375
-        case SkillAbilityType::AbilityStrToMaxHealth:
+        case SkillAbilityType::StrToMaxHealth:
         {
-            auto value = user->abilityStrength * abilityValue;
+            auto value = user->strength * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
@@ -113,9 +113,9 @@ namespace user_apply_skill
             break;
         }
         // skillId: 376
-        case SkillAbilityType::AbilityRecToMaxHealth:
+        case SkillAbilityType::RecToMaxHealth:
         {
-            auto value = user->abilityReaction * abilityValue;
+            auto value = user->reaction * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
@@ -123,9 +123,9 @@ namespace user_apply_skill
             break;
         }
         // skillId: 377
-        case SkillAbilityType::AbilityIntToMaxHealth:
+        case SkillAbilityType::IntToMaxHealth:
         {
-            auto value = user->abilityIntelligence * abilityValue;
+            auto value = user->intelligence * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
@@ -133,9 +133,9 @@ namespace user_apply_skill
             break;
         }
         // skillId: 378
-        case SkillAbilityType::AbilityWisToMaxHealth:
+        case SkillAbilityType::WisToMaxHealth:
         {
-            auto value = user->abilityWisdom * abilityValue;
+            auto value = user->wisdom * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
@@ -143,9 +143,9 @@ namespace user_apply_skill
             break;
         }
         // skillId: 379
-        case SkillAbilityType::AbilityDexToMaxHealth:
+        case SkillAbilityType::DexToMaxHealth:
         {
-            auto value = user->abilityDexterity * abilityValue;
+            auto value = user->dexterity * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
@@ -153,9 +153,9 @@ namespace user_apply_skill
             break;
         }
         // skillId: 380
-        case SkillAbilityType::AbilityLucToMaxHealth:
+        case SkillAbilityType::LucToMaxHealth:
         {
-            auto value = user->abilityLuck * abilityValue;
+            auto value = user->luck * abilityValue;
             user->maxHealth += value;
 
             CUser::SendMaxHP(user);
