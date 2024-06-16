@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\shaiya\src\DataFile.cpp" />
     <ClCompile Include="include\shaiya\src\CGameData.cpp" />
     <ClCompile Include="include\shaiya\src\CGuild.cpp" />
     <ClCompile Include="include\shaiya\src\CItem.cpp" />
@@ -36,7 +35,6 @@
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\Helpers.cpp" />
-    <ClCompile Include="include\shaiya\src\Ini.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
@@ -73,7 +71,6 @@
     <ClInclude Include="include\shaiya\include\CMapRegion.h" />
     <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
     <ClInclude Include="include\shaiya\include\CServer.h" />
-    <ClInclude Include="include\shaiya\include\DataFile.h" />
     <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
     <ClInclude Include="include\shaiya\include\CExchange.h" />
@@ -102,7 +99,6 @@
     <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />
     <ClInclude Include="include\shaiya\include\Helpers.h" />
-    <ClInclude Include="include\shaiya\include\Ini.h" />
     <ClInclude Include="include\shaiya\include\ItemDuration.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
     <ClInclude Include="include\shaiya\include\ItemEnchant.h" />

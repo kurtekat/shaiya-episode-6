@@ -8,10 +8,10 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <util/io/io.h>
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CLogConnection.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/DataFile.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/SLog.h"
 #include "include/shaiya/include/Synergy.h"
@@ -40,18 +40,18 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        auto records = DataFile::readNumber<uint32_t>(ifs);
+        auto records = util::io::read<uint32_t>(ifs);
         for (int i = 0; std::cmp_less(i, records); ++i)
         {
             Synergy synergy{};
-            synergy.id = DataFile::readNumber<uint16_t>(ifs);
+            synergy.id = util::io::read<uint16_t>(ifs);
 
-            DataFile::readPascalString(ifs);
+            util::io::readUcsdString<uint32_t>(ifs);
 
             for (auto& itemId : synergy.set)
             {
-                auto type = DataFile::readNumber<uint16_t>(ifs);
-                auto typeId = DataFile::readNumber<uint16_t>(ifs);
+                auto type = util::io::read<uint16_t>(ifs);
+                auto typeId = util::io::read<uint16_t>(ifs);
                 itemId = (type * 1000) + typeId;
             }
 
@@ -70,7 +70,7 @@ void Synergy::init()
 
 void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
 {
-    auto text = DataFile::readPascalString(ifs);
+    auto text = util::io::readUcsdString<uint32_t>(ifs);
     if (text == "0" || text.empty())
         return;
 

@@ -3,11 +3,11 @@
 
 namespace util
 {
-    template<class Data>
-    Data deserialize(unsigned char* buffer, int offset)
+    template<typename T>
+    T deserialize(unsigned char* buffer, int offset)
     {
-        Data data{};
-        std::memcpy(&data, &buffer[offset], sizeof(Data));
+        T data{};
+        std::memcpy(&data, &buffer[offset], sizeof(T));
         return data;
     }
 

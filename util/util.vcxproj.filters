@@ -2,8 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="io\Ini.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
+    <ClCompile Include="io\io.cpp">
+      <Filter>io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h" />
+    <ClInclude Include="io\Ini.h">
+      <Filter>io</Filter>
+    </ClInclude>
+    <ClInclude Include="io\io.h">
+      <Filter>io</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="io">
+      <UniqueIdentifier>{d9d2afde-e35d-4775-95a8-266e52fd2892}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

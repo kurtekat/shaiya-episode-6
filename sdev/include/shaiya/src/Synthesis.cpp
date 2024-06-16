@@ -4,14 +4,16 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <util/io/Ini.h>
 #include "include/shaiya/include/CLogConnection.h"
-#include "include/shaiya/include/Ini.h"
 #include "include/shaiya/include/SLog.h"
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
 void Synthesis::init()
 {
+    using namespace util::io;
+
     std::vector<char> vec(MAX_PATH);
     GetModuleFileNameA(nullptr, vec.data(), vec.size());
 
