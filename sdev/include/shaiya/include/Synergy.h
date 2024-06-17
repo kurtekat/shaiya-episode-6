@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <fstream>
 #include <map>
 #include <vector>
 
@@ -12,31 +11,22 @@ namespace shaiya
     using CharId = unsigned long;
     using ItemId = uint32_t;
 
-    struct SynergyAbility
+    struct SynergyEffect
     {
-        int strength;
-        int dexterity;
-        int intelligence;
-        int wisdom;
-        int reaction;
-        int luck;
-        int health;
-        int mana;
-        int stamina;
-        int attackPower;
-        int rangedAttackPower;
-        int magicPower;
+        int strength{ 0 };
+        int dexterity{ 0 };
+        int intelligence{ 0 };
+        int wisdom{ 0 };
+        int reaction{ 0 };
+        int luck{ 0 };
+        int health{ 0 };
+        int mana{ 0 };
+        int stamina{ 0 };
+        int attackPower{ 0 };
+        int rangedAttackPower{ 0 };
+        int magicPower{ 0 };
 
-        constexpr std::size_t count()
-        {
-            return sizeof(SynergyAbility) / sizeof(int);
-        }
-
-        bool isNull() const noexcept
-        {
-            SynergyAbility ability{};
-            return !std::memcmp(this, &ability, sizeof(SynergyAbility));
-        }
+        bool none{ true };
     };
 
     class Synergy
@@ -44,7 +34,7 @@ namespace shaiya
     public:
 
         int id;
-        std::array<SynergyAbility, 13> abilities{};
+        std::array<SynergyEffect, 13> effects{};
         std::array<ItemId, 13> set{};
 
         static void init();
@@ -58,10 +48,9 @@ namespace shaiya
 
     private:
 
-        static void getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyAbility>& synergies);
-        static void parseAbility(std::ifstream& ifs, SynergyAbility& ability);
+        static void getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyEffect>& effects);
     };
 
     inline std::vector<Synergy> g_synergies;
-    inline std::map<CharId, std::vector<SynergyAbility>> g_appliedSynergies;
+    inline std::map<CharId, std::vector<SynergyEffect>> g_appliedSynergies;
 }

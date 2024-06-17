@@ -2,8 +2,8 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <ranges>
 #include <set>
-#include <sstream>
 #include <string>
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
@@ -46,6 +46,7 @@ void Synergy::init()
             Synergy synergy{};
             synergy.id = util::io::read<uint16_t>(ifs);
 
+            // skip the set name
             util::io::readUcsdString<uint32_t>(ifs);
 
             for (auto& itemId : synergy.set)
@@ -55,8 +56,38 @@ void Synergy::init()
                 itemId = (type * 1000) + typeId;
             }
 
-            for (auto& ability : synergy.abilities)
-                Synergy::parseAbility(ifs, ability);
+            for (auto& effect : synergy.effects)
+            {
+                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
+                auto text = util::io::readUcsdString<uint32_t>(ifs);
+
+                std::vector<int> vec{};
+                for (const auto& token : std::views::split(text, ','))
+                    vec.push_back(std::atoi(token.data()));
+
+                if (vec.size() != 12)
+                    continue;
+
+                effect.none = std::all_of(vec.begin(), vec.end(), [](int& effect) {
+                    return !effect;
+                    });
+
+                if (effect.none)
+                    continue;
+
+                effect.strength = vec[0];
+                effect.dexterity = vec[1];
+                effect.reaction = vec[2];
+                effect.intelligence = vec[3];
+                effect.wisdom = vec[4];
+                effect.luck = vec[5];
+                effect.health = vec[6];
+                effect.mana = vec[7];
+                effect.stamina = vec[8];
+                effect.attackPower = vec[9];
+                effect.rangedAttackPower = vec[10];
+                effect.magicPower = vec[11];
+            }
 
             g_synergies.push_back(synergy);
         }
@@ -68,59 +99,42 @@ void Synergy::init()
     }
 }
 
-void Synergy::parseAbility(std::ifstream& ifs, SynergyAbility& ability)
-{
-    auto text = util::io::readUcsdString<uint32_t>(ifs);
-    if (text == "0" || text.empty())
-        return;
-
-    std::istringstream iss(text);
-    std::vector<int> vec{};
-    for (std::string str; std::getline(iss, str, ','); )
-        vec.push_back(std::atoi(str.c_str()));
-
-    if (vec.size() != ability.count())
-        return;
-
-    std::memcpy(&ability, vec.data(), sizeof(SynergyAbility));
-}
-
 void Synergy::applySynergies(CUser* user, CItem* item, bool itemRemove)
 {
     Synergy::removeSynergies(user);
 
-    std::vector<SynergyAbility> synergies{};
-    Synergy::getWornSynergies(user, item, itemRemove, synergies);
+    std::vector<SynergyEffect> effects{};
+    Synergy::getWornSynergies(user, item, itemRemove, effects);
 
-    if (synergies.empty())
+    if (effects.empty())
         return;
 
-    for (const auto& ability : synergies)
+    for (const auto& effect : effects)
     {
-        user->abilityStrength += ability.strength;
-        user->abilityDexterity += ability.dexterity;
-        user->abilityReaction += ability.reaction;
-        user->abilityIntelligence += ability.intelligence;
-        user->abilityWisdom += ability.wisdom;
-        user->abilityLuck += ability.luck;
-        user->maxHealth += ability.health;
-        user->maxMana += ability.mana;
-        user->maxStamina += ability.stamina;
-        user->abilityAttackPower += ability.attackPower;
-        user->abilityRangedAttackPower += ability.rangedAttackPower;
-        user->abilityMagicPower += ability.magicPower;
+        user->abilityStrength += effect.strength;
+        user->abilityDexterity += effect.dexterity;
+        user->abilityReaction += effect.reaction;
+        user->abilityIntelligence += effect.intelligence;
+        user->abilityWisdom += effect.wisdom;
+        user->abilityLuck += effect.luck;
+        user->maxHealth += effect.health;
+        user->maxMana += effect.mana;
+        user->maxStamina += effect.stamina;
+        user->abilityAttackPower += effect.attackPower;
+        user->abilityRangedAttackPower += effect.rangedAttackPower;
+        user->abilityMagicPower += effect.magicPower;
 
-        if (ability.reaction)
-            user->maxHealth += ability.reaction * 5;
+        if (effect.reaction)
+            user->maxHealth += effect.reaction * 5;
 
-        if (ability.wisdom)
-            user->maxMana += ability.wisdom * 5;
+        if (effect.wisdom)
+            user->maxMana += effect.wisdom * 5;
 
-        if (ability.dexterity)
-            user->maxStamina += ability.dexterity * 5;
+        if (effect.dexterity)
+            user->maxStamina += effect.dexterity * 5;
     }
 
-    g_appliedSynergies.insert_or_assign(user->id, synergies);
+    g_appliedSynergies.insert_or_assign(user->id, effects);
 }
 
 void Synergy::removeSynergies(CUser* user)
@@ -129,35 +143,35 @@ void Synergy::removeSynergies(CUser* user)
     if (it == g_appliedSynergies.end())
         return;
 
-    for (const auto& ability : it->second)
+    for (const auto& effect : it->second)
     {
-        user->abilityStrength -= ability.strength;
-        user->abilityDexterity -= ability.dexterity;
-        user->abilityReaction -= ability.reaction;
-        user->abilityIntelligence -= ability.intelligence;
-        user->abilityWisdom -= ability.wisdom;
-        user->abilityLuck -= ability.luck;
-        user->maxHealth -= ability.health;
-        user->maxMana -= ability.mana;
-        user->maxStamina -= ability.stamina;
-        user->abilityAttackPower -= ability.attackPower;
-        user->abilityRangedAttackPower -= ability.rangedAttackPower;
-        user->abilityMagicPower -= ability.magicPower;
+        user->abilityStrength -= effect.strength;
+        user->abilityDexterity -= effect.dexterity;
+        user->abilityReaction -= effect.reaction;
+        user->abilityIntelligence -= effect.intelligence;
+        user->abilityWisdom -= effect.wisdom;
+        user->abilityLuck -= effect.luck;
+        user->maxHealth -= effect.health;
+        user->maxMana -= effect.mana;
+        user->maxStamina -= effect.stamina;
+        user->abilityAttackPower -= effect.attackPower;
+        user->abilityRangedAttackPower -= effect.rangedAttackPower;
+        user->abilityMagicPower -= effect.magicPower;
 
-        if (ability.reaction)
-            user->maxHealth -= ability.reaction * 5;
+        if (effect.reaction)
+            user->maxHealth -= effect.reaction * 5;
 
-        if (ability.wisdom)
-            user->maxMana -= ability.wisdom * 5;
+        if (effect.wisdom)
+            user->maxMana -= effect.wisdom * 5;
 
-        if (ability.dexterity)
-            user->maxStamina -= ability.dexterity * 5;
+        if (effect.dexterity)
+            user->maxStamina -= effect.dexterity * 5;
     }
 
     g_appliedSynergies.erase(user->id);
 }
 
-void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyAbility>& synergies)
+void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyEffect>& effects)
 {
     std::set<ItemId> equipment;
     for (const auto& wornItem : user->inventory[0])
@@ -181,7 +195,7 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
                 ++wornCount;
         }
 
-        if (wornCount > synergy.abilities.size())
+        if (wornCount > synergy.effects.size())
             continue;
 
         if (wornCount < 2)
@@ -189,11 +203,11 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
 
         for (int i = wornCount - 1; i > 0; --i)
         {
-            auto& ability = synergy.abilities[i];
-            if (ability.isNull())
+            auto& effect = synergy.effects[i];
+            if (effect.none)
                 continue;
 
-            synergies.push_back(ability);
+            effects.push_back(effect);
             break;
         }
     }

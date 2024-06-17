@@ -1,6 +1,6 @@
 #include <filesystem>
+#include <ranges>
 #include <string>
-#include <sstream>
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -46,34 +46,47 @@ void Synthesis::init()
         Synthesis synthesis{};
         synthesis.successRate = successRate * 100;
 
-        Synthesis::parseMaterial(kvp[2].second, synthesis.materialType);
-        Synthesis::parseMaterial(kvp[3].second, synthesis.materialTypeId);
-        Synthesis::parseMaterial(kvp[4].second, synthesis.materialCount);
+        auto itemList = std::ranges::views::zip(
+            synthesis.materialType,
+            synthesis.materialTypeId,
+            synthesis.materialCount
+        );
+
+        std::vector<int> vec1{};
+        for (const auto& token : std::views::split(kvp[2].second, ','))
+            vec1.push_back(std::atoi(token.data()));
+
+        if (vec1.size() != itemList.size())
+            continue;
+
+        std::vector<int> vec2{};
+        for (const auto& token : std::views::split(kvp[3].second, ','))
+            vec2.push_back(std::atoi(token.data()));
+
+        if (vec2.size() != itemList.size())
+            continue;
+
+        std::vector<int> vec3{};
+        for (const auto& token : std::views::split(kvp[4].second, ','))
+            vec3.push_back(std::atoi(token.data()));
+
+        if (vec3.size() != itemList.size())
+            continue;
+
+        for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
+        {
+            std::get<0>(itemList[i]) = vec1[i];
+            std::get<1>(itemList[i]) = vec2[i];
+            std::get<2>(itemList[i]) = vec3[i];
+        }
 
         synthesis.createType = std::atoi(kvp[5].second.c_str());
         synthesis.createTypeId = std::atoi(kvp[6].second.c_str());
         synthesis.createCount = std::atoi(kvp[7].second.c_str());
 
-        auto it = g_synthesis.find(itemId);
-        if (it != g_synthesis.end())
+        if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
             it->second.push_back(synthesis);
         else
             g_synthesis.insert({ itemId, { synthesis } });
     }
-}
-
-void Synthesis::parseMaterial(const std::string& text, std::array<uint8_t, 24>& output)
-{
-    if (text.empty())
-        return;
-
-    std::istringstream iss(text);
-    std::vector<int> vec{};
-    for (std::string str; std::getline(iss, str, ','); )
-        vec.push_back(std::atoi(str.c_str()));
-
-    if (vec.size() != output.size())
-        return;
-
-    std::copy(vec.begin(), vec.end(), output.begin());
 }

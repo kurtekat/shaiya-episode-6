@@ -1,7 +1,6 @@
 #pragma once
 #include <array>
 #include <map>
-#include <string>
 #include <vector>
 
 namespace shaiya
@@ -26,10 +25,6 @@ namespace shaiya
         }
 
         static void init();
-
-    private:
-
-        static void parseMaterial(const std::string& text, std::array<uint8_t, 24>& output);
     };
 
     inline std::map<ItemId, std::vector<Synthesis>> g_synthesis;

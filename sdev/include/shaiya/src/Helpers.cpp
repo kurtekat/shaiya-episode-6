@@ -3,6 +3,7 @@
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/F900.h>
 #include <shaiya/include/network/gameLog/incoming/0400.h>
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/CClientToDBAgent.h"
@@ -11,6 +12,7 @@
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CObjectMgr.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
 using namespace shaiya;
 
@@ -119,4 +121,36 @@ bool Helpers::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
     }
 
     return false;
+}
+
+void Helpers::SendNotice(const char* message)
+{
+    AdminCmdNoticeAllOutgoing outgoing(message);
+    CWorld::SendAll(&outgoing, outgoing.length());
+}
+
+void Helpers::SendNoticeTo(CUser* user, const char* message)
+{
+    AdminCmdNoticeToOutgoing outgoing(message);
+    SConnection::Send(&user->connection, &outgoing, outgoing.length());
+}
+
+void Helpers::SendNoticeTo(uint32_t charId, const char* message)
+{
+    auto user = CWorld::FindUser(charId);
+    if (!user)
+        return;
+
+    AdminCmdNoticeToOutgoing outgoing(message);
+    SConnection::Send(&user->connection, &outgoing, outgoing.length());
+}
+
+void Helpers::SendNoticeTo(const char* charName, const char* message)
+{
+    auto user = CWorld::FindUser(charName);
+    if (!user)
+        return;
+
+    AdminCmdNoticeToOutgoing outgoing(message);
+    SConnection::Send(&user->connection, &outgoing, outgoing.length());
 }
