@@ -42,8 +42,8 @@ namespace shaiya
         UINT32 faceModel;             //0x48
         UINT32 headModel;             //0x4C
         PAD(92);
-        BOOL enableClothes;           //0xAC
-        Array<UINT32, 6> clothes;     //0xB0
+        BOOL enableCostume;           //0xAC
+        Array<UINT32, 6> costume;     //0xB0
         // 0xC8
         PAD(32);
         MotionType32 motionType1;     //0xE8
@@ -84,7 +84,7 @@ namespace shaiya
         PAD(5);
         UINT8 vehicleType;            //0x1B5
         UINT8 petType;                //0x1B6
-        UINT8 clothesType;            //0x1B7
+        UINT8 costumeType;            //0x1B7
         UINT8 wingsType;              //0x1B8
         UINT8 helmetTypeId;           //0x1B9
         UINT8 upperTypeId;            //0x1BA
@@ -97,7 +97,7 @@ namespace shaiya
         PAD(5);
         UINT8 vehicleTypeId;          //0x1C6
         UINT8 petTypeId;              //0x1C7
-        UINT8 clothesTypeId;          //0x1C8
+        UINT8 costumeTypeId;          //0x1C8
         UINT8 wingsTypeId;            //0x1C9
         PAD(18);
         DWORD attackTime;             //0x1DC

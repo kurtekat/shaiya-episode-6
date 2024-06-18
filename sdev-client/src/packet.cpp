@@ -12,10 +12,10 @@ namespace packet
         if (!user->petType)
             user->pet = nullptr;
 
-        if (!user->clothesType)
+        if (!user->costumeType)
         {
-            user->enableClothes = 0;
-            user->clothes.fill(-1);
+            user->enableCostume = 0;
+            user->costume.fill(-1);
         }
 
         if (!user->wingsType)

@@ -8,7 +8,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CItem
     {
-        PAD(1);               //0x00
+        UINT8 slotCount;      //0x00
         UINT8 type;           //0x01
         UINT8 typeId;         //0x02
         UINT8 count;          //0x03
