@@ -123,9 +123,6 @@
     <ClCompile Include="include\shaiya\src\CNpc.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CTrap.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\revenge_mark.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -236,9 +233,6 @@
     <ClInclude Include="resources\resource.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CZoneNode.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\Obelisk.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
@@ -258,9 +252,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synthesis.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CMapRegion.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SLog.h">

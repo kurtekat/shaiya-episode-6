@@ -4,10 +4,13 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CMapRegion
+    struct SInternetAddress
     {
-        PAD(80);
-        // 0x50
+        // AF_INET
+        USHORT family;
+        USHORT port;
+        ULONG ip;
+        PAD(8);
     };
     #pragma pack(pop)
 }

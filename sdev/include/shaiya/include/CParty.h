@@ -33,6 +33,10 @@ namespace shaiya
         // 0x130
 
         static CUser* FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/);
+        static bool IsPartyBoss(CParty* party/*esi*/, CUser* user);
+        static bool IsPartySubBoss(CParty* party/*esi*/, CUser* user);
+        static CUser* GetPartyBoss(CParty* party/*esi*/);
+        static CUser* GetPartySubBoss(CParty* party/*esi*/);
         static void LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/);
         static void Send(CParty* party/*esi*/, void* data/*ecx*/, int len/*eax*/);
     };

@@ -42,4 +42,35 @@ namespace shaiya
         }
     };
     #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct BillingInfoOutgoing
+    {
+        UINT16 opcode{ 0xB103 };
+        UINT8 unknown;
+        ULONG expireTime;
+
+        BillingInfoOutgoing() = default;
+
+        BillingInfoOutgoing(UINT8 unknown, ULONG expireTime)
+            : unknown(unknown), expireTime(expireTime)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct LogOffTimeOutgoing
+    {
+        UINT16 opcode{ 0xB105 };
+        ULONG time;
+
+        LogOffTimeOutgoing() = default;
+
+        LogOffTimeOutgoing(ULONG time)
+            : time(time)
+        {
+        }
+    };
+    #pragma pack(pop)
 }

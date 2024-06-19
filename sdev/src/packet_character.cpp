@@ -76,7 +76,7 @@ namespace packet_character
 
             ++outgoing.itemCount;
 
-            if (outgoing.itemCount != outgoing.itemList.size())
+            if (outgoing.itemCount < outgoing.itemList.size())
                 continue;
             else
             {

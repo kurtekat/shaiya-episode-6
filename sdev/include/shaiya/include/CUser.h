@@ -472,7 +472,7 @@ namespace shaiya
         UserStatus status;                   //0x1444
         PAD(4);
         bool sitting;                        //0x144C
-        UINT8 unknown144D;                   //0x144D
+        UINT8 motionValue;                   //0x144D
         PAD(2);
         BOOL running;                        //0x1450
         BOOL attacking;                      //0x1454
@@ -552,7 +552,7 @@ namespace shaiya
         PAD(4);
         // UserUID
         ULONG userId;                        //0x582C
-        PAD(4);
+        UINT32 serverId;                     //0x5830
         CharArray<32> username;              //0x5834
         PAD(1);
         bool initEquipment;                  //0x5855
@@ -580,9 +580,11 @@ namespace shaiya
         bool statResetEvent;                 //0x58EA
         bool skillResetEvent;                //0x58EB
         DWORD lockOnTick;                    //0x58EC
-        PAD(12);
+        PAD(4);
+        ULONG billingRemainTime;             //0x58F4
+        PAD(4);
         UINT32 recallItemBag;                //0x58FC
-        UINT32 recallItemSlot;               //0x5900 
+        UINT32 recallItemSlot;               //0x5900
         UserRecallItemType recallItemType;   //0x5904
         UINT32 recallItemGroup;              //0x5908
         UserSavePoint savePoint;             //0x590C
@@ -624,7 +626,6 @@ namespace shaiya
         static void AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, BOOL isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/);
-        static bool DamageByKeepSkill(CUser* user/*edi*/, int type, ULONG id/*CUser->id*/, CDamage* damage);
         static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
         static int GetPartyType(CUser* user);

@@ -30,7 +30,6 @@
     <ClCompile Include="include\shaiya\src\CObjectMgr.cpp" />
     <ClCompile Include="include\shaiya\src\CParty.cpp" />
     <ClCompile Include="include\shaiya\src\CQuestData.cpp" />
-    <ClCompile Include="include\shaiya\src\CTrap.cpp" />
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="include\shaiya\include\CClientToGameLog.h" />
     <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
     <ClInclude Include="include\shaiya\include\CLogConnection.h" />
-    <ClInclude Include="include\shaiya\include\CMapRegion.h" />
     <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
     <ClInclude Include="include\shaiya\include\CServer.h" />
     <ClInclude Include="include\shaiya\include\CDead.h" />
@@ -96,7 +94,6 @@
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
-    <ClInclude Include="include\shaiya\include\CZoneNode.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />
     <ClInclude Include="include\shaiya\include\Helpers.h" />
     <ClInclude Include="include\shaiya\include\ItemDuration.h" />

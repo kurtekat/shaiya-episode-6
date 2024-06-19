@@ -2,17 +2,6 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-int CMob::GetCountry(CMob* mob/*eax*/)
-{
-    Address u0x457CE0 = 0x457CE0;
-
-    __asm
-    {
-        mov eax,mob
-        call u0x457CE0
-    }
-}
-
 void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
 {
     Address u0x4B9280 = 0x4B9280;
@@ -24,18 +13,6 @@ void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo*
         mov edx,user
         mov edi,mob
         call u0x4B9280
-    }
-}
-
-bool CMob::EnableApplyRangeItem(CUser* base/*eax*/, CUser* user/*ecx*/)
-{
-    Address u0x4BAED0 = 0x4BAED0;
-
-    __asm
-    {
-        mov eax,base
-        mov ecx,user
-        call u0x4BAED0
     }
 }
 

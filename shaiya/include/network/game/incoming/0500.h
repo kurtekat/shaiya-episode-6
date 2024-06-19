@@ -10,8 +10,7 @@ namespace shaiya
     struct UserMoveIncoming
     {
         UINT16 opcode{ 0x501 };
-        // CUser->144D
-        UINT8 unknown;
+        UINT8 motionValue;
         UINT16 direction;
         float x;
         float y;
@@ -19,8 +18,8 @@ namespace shaiya
 
         UserMoveIncoming() = default;
 
-        UserMoveIncoming(UINT8 unknown, UINT16 direction, float x, float y, float z)
-            : unknown(unknown), direction(direction), x(x), y(y), z(z)
+        UserMoveIncoming(UINT8 motionValue, UINT16 direction, float x, float y, float z)
+            : motionValue(motionValue), direction(direction), x(x), y(y), z(z)
         {
         }
     };

@@ -6,6 +6,7 @@
 namespace shaiya
 {
     struct CDoor;
+    struct CZone;
     struct MobInfo;
 
     enum struct MapCreateType : UINT32
@@ -211,7 +212,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CMap
     {
-        PAD(4);
+        CZone* zone;               //0x00
         UINT32 size;               //0x04
         PAD(12);
         UINT32 mobAreaCount;       //0x14

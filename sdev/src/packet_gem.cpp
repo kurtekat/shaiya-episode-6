@@ -755,7 +755,6 @@ namespace packet_gem
     {
         constexpr auto min_success_rate = 30;
         constexpr auto max_success_rate = 100;
-        constexpr uint16_t max_bonus = 99;
 
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
             return;
@@ -793,7 +792,7 @@ namespace packet_gem
         if (!to->itemInfo->composeCount || to->itemInfo->composeCount < from->itemInfo->composeCount)
             return;
 
-        if (!to->itemInfo->reqWis || to->itemInfo->reqWis > max_bonus || to->itemInfo->reqWis < from->itemInfo->reqWis)
+        if (!to->itemInfo->reqWis || to->itemInfo->reqWis < from->itemInfo->reqWis)
             return;
 
         if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)

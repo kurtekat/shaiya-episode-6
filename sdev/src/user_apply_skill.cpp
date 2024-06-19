@@ -288,9 +288,6 @@ void __declspec(naked) naked_0x4935B2()
         // original
         call u0x49A850
 
-        cmp byte ptr[esi+0x7C],0x46
-        jne _0x4935B7
-
         pushad
 
         push ebp // user
@@ -299,7 +296,6 @@ void __declspec(naked) naked_0x4935B2()
 
         popad
 
-        _0x4935B7:
         jmp u0x4935B7
     }
 }

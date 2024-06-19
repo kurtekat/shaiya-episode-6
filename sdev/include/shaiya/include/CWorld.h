@@ -9,7 +9,6 @@ namespace shaiya
     struct CMap;
     struct CUser;
     struct CZone;
-    struct CZoneNode;
 
     #pragma pack(push, 1)
     struct WorldKillCount
@@ -28,7 +27,7 @@ namespace shaiya
     struct CWorld
     {
         UINT32 zoneCount;                         //0x00
-        CZoneNode* zoneNode;                      //0x04
+        PAD(4);
         UINT32 mapCount;                          //0x08
         PAD(4);
         SSyncMap<ULONG, CUser*> users1;           //0x10

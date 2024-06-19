@@ -13,6 +13,52 @@ CUser* CParty::FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/)
     }
 }
 
+bool CParty::IsPartyBoss(CParty* party/*esi*/, CUser* user)
+{
+    Address u0x44E260 = 0x44E260;
+
+    __asm
+    {
+        push user
+        mov esi,party
+        call u0x44E260
+    }
+}
+
+bool CParty::IsPartySubBoss(CParty* party/*esi*/, CUser* user)
+{
+    Address u0x44E2A0 = 0x44E2A0;
+
+    __asm
+    {
+        push user
+        mov esi,party
+        call u0x44E2A0
+    }
+}
+
+CUser* CParty::GetPartyBoss(CParty* party/*esi*/)
+{
+    Address u0x44E2F0 = 0x44E2F0;
+
+    __asm
+    {
+        mov esi,party
+        call u0x44E2F0
+    }
+}
+
+CUser* CParty::GetPartySubBoss(CParty* party/*esi*/)
+{
+    Address u0x44E320 = 0x44E320;
+
+    __asm
+    {
+        mov esi,party
+        call u0x44E320
+    }
+}
+
 void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)
 {
     Address u0x44F5F0 = 0x44F5F0;

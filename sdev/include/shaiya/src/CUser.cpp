@@ -48,20 +48,6 @@ void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/)
     (*(LPFN)0x486E60)(user, money);
 }
 
-bool CUser::DamageByKeepSkill(CUser* user/*edi*/, int _type, ULONG id/*CUser->id*/, CDamage* damage)
-{
-    Address u0x4583F0 = 0x4583F0;
-
-    __asm
-    {
-        push damage
-        push id
-        mov ecx,_type
-        mov edi,user
-        call u0x4583F0
-    }
-}
-
 void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
 {
     Address u0x47E250 = 0x47E250;

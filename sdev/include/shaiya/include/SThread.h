@@ -8,10 +8,11 @@ namespace shaiya
     {
         PAD(4);
         HANDLE handle;  //0x04
-        bool running;   //0x08
+        bool run;       //0x08
         PAD(3);
         HANDLE hEvent;  //0x0C
-        PAD(24);
+        ULONG term;     //0x10
+        PAD(20);
         // 0x28
     };
     #pragma pack(pop)

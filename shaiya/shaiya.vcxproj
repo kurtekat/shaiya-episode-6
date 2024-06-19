@@ -31,9 +31,12 @@
     <ClInclude Include="include\common\SDatabase.h" />
     <ClInclude Include="include\common\SDatabasePool.h" />
     <ClInclude Include="include\common\Sex.h" />
+    <ClInclude Include="include\common\SInternetAddress.h" />
     <ClInclude Include="include\common\SNode.h" />
     <ClInclude Include="include\common\SSyncList.h" />
     <ClInclude Include="include\common\SSyncMap.h" />
+    <ClInclude Include="include\common\SSyncQueueBuffer.h" />
+    <ClInclude Include="include\common\SSyncQueueBufferSend.h" />
     <ClInclude Include="include\item\CraftName.h" />
     <ClInclude Include="include\item\ExtDuration.h" />
     <ClInclude Include="include\item\Gems.h" />

@@ -36,8 +36,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x501 };
         ULONG charId;
-        // CUser->144D
-        UINT8 unknown;
+        UINT8 motionValue;
         UINT16 direction;
         float x;
         float y;

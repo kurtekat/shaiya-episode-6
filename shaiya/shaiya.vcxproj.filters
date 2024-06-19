@@ -328,5 +328,14 @@
     <ClInclude Include="include\user\PvPType.h">
       <Filter>include\user</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\SInternetAddress.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SSyncQueueBuffer.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SSyncQueueBufferSend.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
