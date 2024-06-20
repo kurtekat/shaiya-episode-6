@@ -9,11 +9,11 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/io/io.h>
+#include <shaiya/include/common/SLog.h>
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CLogConnection.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
-#include "include/shaiya/include/SLog.h"
 #include "include/shaiya/include/Synergy.h"
 using namespace shaiya;
 

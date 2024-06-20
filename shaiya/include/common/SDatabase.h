@@ -8,15 +8,18 @@
 
 namespace shaiya
 {
+    struct SLog;
+
     #pragma pack(push, 1)
     struct SDatabase
     {
         SNode node;               //0x00
         PAD(4);
-        SQLINTEGER qerr;          //0x0C
-        PAD(4);
-        SQLCHAR* state;           //0x14
-        PAD(2064);
+        SQLINTEGER queryError;    //0x0C
+        SQLINTEGER* nativeError;  //0x10
+        SQLCHAR* sqlState;        //0x14
+        PAD(2060);
+        SLog* log;                //0x824
         SQLHENV env;              //0x828
         SQLHDBC dbc;              //0x82C
         SQLHSTMT stmt;            //0x830

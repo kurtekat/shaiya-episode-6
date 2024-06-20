@@ -38,13 +38,13 @@ namespace shaiya
         SSyncList<CUser> userList2;               //0x15C
         SSyncList<CUser> userList3;               //0x188
         SSyncList<CDead> deadList;                //0x1B4
-        // 0x1CC
-        PAD(116);
+        // 0x1E0
+        PAD(96);
         ULONG worldDay;                           //0x240
         DWORD worldDaySetTick;                    //0x244
         // AoL, UoF
         Array<WorldKillCount, 2> killCount;       //0x248
-        CRITICAL_SECTION cs350;                   //0x350
+        CRITICAL_SECTION cs;                      //0x350
         UINT32 guildHouseCount;                   //0x368
         UINT32 guildRankCount;                    //0x36C
         UINT32 guildHouseMaxCount;                //0x370

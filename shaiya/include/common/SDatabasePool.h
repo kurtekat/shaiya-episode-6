@@ -21,8 +21,11 @@ namespace shaiya
         CharArray<256> dbName;        //0x140
         CharArray<256> username;      //0x240
         CharArray<256> password;      //0x340
-        PAD(4);
-        CRITICAL_SECTION cs444;       //0x444
+        // 0: SQLDriverConnect
+        // 1: SQLConnect
+        UINT8 connectionType;         //0x440
+        PAD(3);
+        CRITICAL_SECTION cs;          //0x444
         SLog* log;                    //0x45C
         // 0x460
 

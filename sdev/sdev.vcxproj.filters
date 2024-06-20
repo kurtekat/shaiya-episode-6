@@ -236,12 +236,6 @@
     <ClInclude Include="include\shaiya\include\Obelisk.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CTrap.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CDead.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\RevengeMark.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
@@ -252,9 +246,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synthesis.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SLog.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CClientToMgr.h">
@@ -273,9 +264,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CMonitorNet.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SThread.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ItemInfo.h">

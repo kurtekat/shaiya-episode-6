@@ -5,8 +5,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/io/Ini.h>
+#include <shaiya/include/common/SLog.h>
 #include "include/shaiya/include/CLogConnection.h"
-#include "include/shaiya/include/SLog.h"
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 

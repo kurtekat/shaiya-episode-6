@@ -9,8 +9,6 @@
 #include "include/shaiya/include/CMonitorNet.h"
 #include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/Obelisk.h"
-#include "include/shaiya/include/SLog.h"
-#include "include/shaiya/include/SThread.h"
 
 namespace shaiya
 {
@@ -25,9 +23,7 @@ namespace shaiya
         CLogConnection clientToLog;        //0x10A2710  0x5840
         CClientToGameLog clientToGameLog;  //0x10A2818  0x5948
         CMonitorNet monitorNet;            //0x10A28F8  0x5A28
-        SThread thread;                    //0x10A2980  0x5AB0
-        PAD(576);                          //0x10A29A8  0x5AD8
-        PAD(80);                           //0x10A2BE8  0x5D18
+        PAD(696);
         // 0x10A2C38  0x5D68
         Array<ObeliskZone, 64> obeliskZoneList;
         // 0x18C6E38  0x829F68

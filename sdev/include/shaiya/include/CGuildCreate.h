@@ -10,7 +10,7 @@ namespace shaiya
     struct CGuildCreate
     {
         SNode node;               //0x00
-        UINT8 result;             //0x08
+        PAD(1);
         CharArray<25> guildName;  //0x09
         PAD(2);
         UINT32 acceptCount;       //0x24
@@ -20,9 +20,9 @@ namespace shaiya
         Array<ULONG, 30> acceptList;
         // 0xA8
         Array<CUser*, 30> memberList;
-        CRITICAL_SECTION cs120;   //0x120
-        // 0x138
-        PAD(68);
+        CRITICAL_SECTION cs;      //0x120
+        CharArray<66> remark;     //0x138
+        PAD(2);
         // 0x17C
     };
     #pragma pack(pop)

@@ -69,7 +69,6 @@
     <ClInclude Include="include\shaiya\include\CLogConnection.h" />
     <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
     <ClInclude Include="include\shaiya\include\CServer.h" />
-    <ClInclude Include="include\shaiya\include\CDead.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
     <ClInclude Include="include\shaiya\include\CExchange.h" />
     <ClInclude Include="include\shaiya\include\CFriend.h" />
@@ -90,7 +89,6 @@
     <ClInclude Include="include\shaiya\include\CQuest.h" />
     <ClInclude Include="include\shaiya\include\CQuestData.h" />
     <ClInclude Include="include\shaiya\include\CSkill.h" />
-    <ClInclude Include="include\shaiya\include\CTrap.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
@@ -108,8 +106,6 @@
     <ClInclude Include="include\shaiya\include\SConnectionTBaseReconnect.h" />
     <ClInclude Include="include\shaiya\include\SkillAbility70.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
-    <ClInclude Include="include\shaiya\include\SLog.h" />
-    <ClInclude Include="include\shaiya\include\SThread.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\include\Synthesis.h" />

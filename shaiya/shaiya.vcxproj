@@ -32,7 +32,9 @@
     <ClInclude Include="include\common\SDatabasePool.h" />
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\SInternetAddress.h" />
+    <ClInclude Include="include\common\SLog.h" />
     <ClInclude Include="include\common\SNode.h" />
+    <ClInclude Include="include\common\SSyncHeap.h" />
     <ClInclude Include="include\common\SSyncList.h" />
     <ClInclude Include="include\common\SSyncMap.h" />
     <ClInclude Include="include\common\SSyncQueueBuffer.h" />

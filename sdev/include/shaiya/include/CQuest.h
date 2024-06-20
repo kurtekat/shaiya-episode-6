@@ -11,7 +11,7 @@ namespace shaiya
     {
         SNode node;            //0x00
         ULONG id;              //0x08
-        UINT8 bySuccess;       //0x0C
+        bool success;          //0x0C
         PAD(3);
         DWORD addTick;         //0x10
         DWORD delay;           //0x14

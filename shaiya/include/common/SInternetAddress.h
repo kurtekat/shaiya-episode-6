@@ -4,13 +4,14 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    // SOCKADDR_IN
     struct SInternetAddress
     {
         // AF_INET
         USHORT family;
         USHORT port;
         ULONG ip;
-        PAD(8);
+        CharArray<8> zero;
     };
     #pragma pack(pop)
 }

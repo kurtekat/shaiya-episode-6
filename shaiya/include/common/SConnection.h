@@ -30,13 +30,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SConnection
     {
-        SNode node;                  //0x00
-        SConnectionParam param;      //0x08
-        int socket;                  //0x68
-        SInternetAddress address;    //0x6C
-        SSyncQueueBuffer sqb;        //0x7C
-        SSyncQueueBufferSend sqbs;   //0xA0
-        SAgent* agent;               //0xC8
+        PAD(8);
+        SConnectionParam param;     //0x08
+        int socket;                 //0x68
+        SInternetAddress address;   //0x6C
+        SSyncQueueBuffer sqb;       //0x7C
+        SSyncQueueBufferSend sqbs;  //0xA0
+        SAgent* agent;              //0xC8
         PAD(4);
         // 0xD0
 
