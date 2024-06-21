@@ -3,14 +3,18 @@
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/1100.h>
 #include <shaiya/include/network/game/outgoing/F900.h>
 #include <shaiya/include/network/gameLog/incoming/0400.h>
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
+#include "include/shaiya/include/CClientToMgr.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CLogConnection.h"
 #include "include/shaiya/include/CObjectMgr.h"
+#include "include/shaiya/include/CSkill.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
@@ -45,10 +49,10 @@ bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
     item->count -= count;
 
     DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
-    SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemRemoveIncoming));
+    Helpers::SendDBAgent(&packet, sizeof(DBAgentItemRemoveIncoming));
 
     GameLogItemRemoveIncoming log(user, item, bag, slot, count);
-    SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
+    Helpers::SendGameLog(&log, sizeof(GameLogItemRemoveIncoming));
 
     if (!item->count)
     {
@@ -123,6 +127,44 @@ bool Helpers::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
     return false;
 }
 
+bool Helpers::HasApplySkill(CUser* user, int skillId, int skillLv)
+{
+    EnterCriticalSection(&user->applySkillList.cs);
+
+    auto node = user->applySkillList.sentinel.tail;
+    node = node->next;
+    user->applySkillList.sentinel.head = node;
+
+    while (node && node != user->applySkillList.sentinel.tail)
+    {
+        auto skill = reinterpret_cast<CSkill*>(node);
+        if (skill->skillId == skillId && skill->skillLv == skillLv)
+        {
+            LeaveCriticalSection(&user->applySkillList.cs);
+            return true;
+        }
+
+        node = user->applySkillList.sentinel.head;
+        node = node->next;
+        user->applySkillList.sentinel.head = node;
+    }
+
+    LeaveCriticalSection(&user->applySkillList.cs);
+    return false;
+}
+
+void Helpers::SendMessageToServer(CUser* sender, const char* message)
+{
+    ChatMessageToServerOutgoing outgoing(sender->charName.data(), message);
+    CWorld::SendAll(&outgoing, outgoing.length());
+}
+
+void Helpers::SendMessageToServer(const char* senderName, const char* message)
+{
+    ChatMessageToServerOutgoing outgoing(senderName, message);
+    CWorld::SendAll(&outgoing, outgoing.length());
+}
+
 void Helpers::SendNotice(const char* message)
 {
     AdminCmdNoticeAllOutgoing outgoing(message);
@@ -153,4 +195,24 @@ void Helpers::SendNoticeTo(const char* charName, const char* message)
 
     AdminCmdNoticeToOutgoing outgoing(message);
     SConnection::Send(&user->connection, &outgoing, outgoing.length());
+}
+
+void Helpers::SendDBAgent(void* buf, int len)
+{
+    SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, buf, len);
+}
+
+void Helpers::SendGameLog(void* buf, int len)
+{
+    SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, buf, len);
+}
+
+void Helpers::SendSession(void* buf, int len)
+{
+    SConnectionTBaseReconnect::Send(&g_pClientToMgr->connection, buf, len);
+}
+
+void Helpers::SendUserLog(void* buf, int len)
+{
+    SConnectionTBaseReconnect::Send(&g_pClientToLog->connection, buf, len);
 }

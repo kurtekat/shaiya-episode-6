@@ -8,15 +8,13 @@
 #include <shaiya/include/network/gameLog/incoming/0400.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CClientToDBAgent.h"
-#include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CObjectMgr.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemDuration.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
@@ -35,10 +33,10 @@ namespace item_duration
             outgoing.noticeType = ItemExpireNoticeType::DeletedFromWarehouse;
 
             DBAgentItemBankToBankIncoming packet(user->userId, slot, item->count, slot, 0);
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemBankToBankIncoming));
+            Helpers::SendDBAgent(&packet, sizeof(DBAgentItemBankToBankIncoming));
 
             GameLogItemRemoveIncoming log(user, item, bag, slot, item->count);
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemRemoveIncoming));
+            Helpers::SendGameLog(&log, sizeof(GameLogItemRemoveIncoming));
 
             CObjectMgr::FreeItem(item);
             user->warehouse[slot] = nullptr;

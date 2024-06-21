@@ -14,14 +14,11 @@
 #include <shaiya/include/network/gameLog/incoming/0400.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CClientToDBAgent.h"
-#include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
@@ -561,10 +558,10 @@ namespace packet_gem
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemComposeOutgoing));
 
         DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentItemCraftNameIncoming));
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
 
         GameLogItemComposeIncoming log(user, item, oldItemUid, oldItemId, oldCraftName);
-        SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogItemComposeIncoming));
+        Helpers::SendGameLog(&log, sizeof(GameLogItemComposeIncoming));
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }
@@ -935,22 +932,22 @@ namespace packet_gem
             CUser::SetAttack(user);
 
             DBAgentItemCraftNameIncoming packet1(user->userId, incoming->toBag, incoming->toSlot, to->craftName);
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet1, sizeof(DBAgentItemCraftNameIncoming));
+            Helpers::SendDBAgent(&packet1, sizeof(DBAgentItemCraftNameIncoming));
 
             DBAgentItemGemsIncoming packet2(user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money);
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet2, sizeof(DBAgentItemGemsIncoming));
+            Helpers::SendDBAgent(&packet2, sizeof(DBAgentItemGemsIncoming));
 
             GameLogItemComposeIncoming log1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log1, sizeof(GameLogItemComposeIncoming));
+            Helpers::SendGameLog(&log1, sizeof(GameLogItemComposeIncoming));
 
             DBAgentItemCraftNameIncoming packet3(user->userId, incoming->fromBag, incoming->fromSlot, from->craftName);
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet3, sizeof(DBAgentItemCraftNameIncoming));
+            Helpers::SendDBAgent(&packet3, sizeof(DBAgentItemCraftNameIncoming));
 
             DBAgentItemGemsIncoming packet4(user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money);
-            SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet4, sizeof(DBAgentItemGemsIncoming));
+            Helpers::SendDBAgent(&packet4, sizeof(DBAgentItemGemsIncoming));
 
             GameLogItemComposeIncoming log2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log2, sizeof(GameLogItemComposeIncoming));
+            Helpers::SendGameLog(&log2, sizeof(GameLogItemComposeIncoming));
         }
 
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemAbilityTransferOutgoing));

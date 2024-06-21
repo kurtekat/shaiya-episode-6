@@ -6,13 +6,12 @@
 #include <shaiya/include/network/game/outgoing/2600.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemDuration.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
@@ -21,7 +20,7 @@ namespace packet_shop
     void send_reload_point(CUser* user)
     {
         DBAgentReloadPointIncoming packet(user->userId);
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentReloadPointIncoming));
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentReloadPointIncoming));
     }
 
     void reload_point_handler(CUser* user, uint32_t points)
@@ -77,7 +76,7 @@ namespace packet_shop
     void send_purchase2(CUser* user)
     {
         DBAgentSaveBuyPointItemIncoming packet(user->userId);
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentSaveBuyPointItemIncoming));
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveBuyPointItemIncoming));
 
         send_reload_point(user);
 
@@ -90,7 +89,7 @@ namespace packet_shop
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
         DBAgentSaveGiftPointItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &packet, sizeof(DBAgentSaveGiftPointItemIncoming));
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveGiftPointItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
     }

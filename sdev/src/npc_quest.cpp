@@ -5,14 +5,13 @@
 #include <shaiya/include/network/gameLog/incoming/0500.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CQuest.h"
 #include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
@@ -98,7 +97,7 @@ namespace npc_quest
                 log.itemName[0] = '\0';
             }
 
-            SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, &log, sizeof(GameLogQuestEndResultIncoming));
+            Helpers::SendGameLog(&log, sizeof(GameLogQuestEndResultIncoming));
         }
 #endif
 

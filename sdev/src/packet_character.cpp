@@ -9,12 +9,11 @@
 #include <shaiya/include/network/game/outgoing/0700.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemDuration.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
@@ -34,7 +33,7 @@ namespace packet_character
 
         DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
         int length = request.size_without_name() + nameLength + 1;
-        SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, &request, length);
+        Helpers::SendDBAgent(&request, length);
     }
 
     void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
