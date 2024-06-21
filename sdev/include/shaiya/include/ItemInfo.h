@@ -12,6 +12,7 @@ namespace shaiya
 {
     enum ItemCooldown
     {
+        // g_pPotionReuseDelay
         ReqIg_0 = 0,        // 0x581D84
         ReqIg_1 = 15000,    // 0x581D88
         ReqIg_2 = 20000,    // 0x581D8C

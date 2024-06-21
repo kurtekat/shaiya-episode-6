@@ -629,6 +629,7 @@ namespace shaiya
         static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
         static int GetPartyType(CUser* user);
+        static bool HasBuffUpLevel(CUser* user/*esi*/, SkillInfo* info/*ebx*/);
         static void InitEquipment(CUser* user/*ecx*/);
         static void InitEquipment(CUser* user/*ecx*/, BOOL reset);
         static void ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag, int destSlot);

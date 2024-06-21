@@ -78,6 +78,18 @@ int CUser::GetPartyType(CUser* user)
     return (*(LPFN)0x49B120)(user);
 }
 
+bool CUser::HasBuffUpLevel(CUser* user/*esi*/, SkillInfo* info/*ebx*/)
+{
+    Address u0x472530 = 0x472530;
+
+    __asm
+    {
+        mov ebx,info
+        mov esi,user
+        call u0x472530
+    }
+}
+
 void CUser::InitEquipment(CUser* user/*ecx*/)
 {
     typedef void(__thiscall* LPFN)(CUser*);
