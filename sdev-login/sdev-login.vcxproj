@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
+    <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
+    <ClInclude Include="include\shaiya\include\SDBDispatchClient.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>

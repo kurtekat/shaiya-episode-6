@@ -39,6 +39,7 @@
     <ClInclude Include="include\common\SSyncMap.h" />
     <ClInclude Include="include\common\SSyncQueueBuffer.h" />
     <ClInclude Include="include\common\SSyncQueueBufferSend.h" />
+    <ClInclude Include="include\common\SSyncQueueStatus.h" />
     <ClInclude Include="include\item\CraftName.h" />
     <ClInclude Include="include\item\ExtDuration.h" />
     <ClInclude Include="include\item\Gems.h" />

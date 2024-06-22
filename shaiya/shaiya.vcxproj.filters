@@ -343,5 +343,8 @@
     <ClInclude Include="include\common\SLog.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\SSyncQueueStatus.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
