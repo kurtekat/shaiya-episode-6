@@ -15,7 +15,7 @@ namespace shaiya
     {
         None,
         RequestSent,
-        RequestRecv,
+        RequestReceived,
         Countdown,
         Start
     };

@@ -90,6 +90,7 @@
     <ClInclude Include="include\shaiya\include\CQuestData.h" />
     <ClInclude Include="include\shaiya\include\CSkill.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
+    <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />

@@ -15,6 +15,7 @@
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
 #include "include/shaiya/include/CMiniGame.h"
+#include "include/shaiya/include/CUserCrypto.h"
 #include "include/shaiya/include/MyShop.h"
 #include "include/shaiya/include/SkillAbility70.h"
 #include "include/shaiya/include/SVector.h"
@@ -110,23 +111,11 @@ namespace shaiya
     {
         None,
         RequestSent,
-        RequestRecv,
+        RequestReceived,
         Countdown,
         Start,
         Exchange
     };
-
-    #pragma pack(push, 1)
-    struct UserQuickSlot
-    {
-        UINT8 bag;
-        UINT8 slot;
-        UINT8 srcBag;
-        PAD(1);
-        UINT16 srcSlot;
-        // 0x06
-    };
-    #pragma pack(pop)
 
     enum struct UserRecallType : UINT32
     {
@@ -172,15 +161,6 @@ namespace shaiya
         Combat
     };
 
-    #pragma pack(push, 1)
-    struct UserSavePoint
-    {
-        Array<UINT32, 4> mapId;
-        Array<SVector, 4> pos;
-        // 0x40
-    };
-    #pragma pack(pop)
-
     enum struct UserStatus : UINT32
     {
         None,
@@ -193,6 +173,22 @@ namespace shaiya
         None,
         User,
         Mob
+    };
+
+    enum struct UserVehicleStatusType : UINT32
+    {
+        None,
+        Summon,
+        Riding
+    };
+
+    enum struct UserWhere : UINT32
+    {
+        Null,
+        WorldLogout,
+        ZoneWait,
+        ZoneLeave,
+        ZoneEnter
     };
 
     #pragma pack(push, 1)
@@ -227,12 +223,26 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct UserVehicleStatusType : UINT32
+    #pragma pack(push, 1)
+    struct UserQuickSlot
     {
-        None,
-        Summon,
-        Riding
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 srcBag;
+        PAD(1);
+        UINT16 srcSlot;
+        // 0x06
     };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserSavePoint
+    {
+        Array<UINT32, 4> mapId;
+        Array<SVector, 4> pos;
+        // 0x40
+    };
+    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct UserWeaponMasterySpeed
@@ -279,15 +289,6 @@ namespace shaiya
         PAD(4);
     };
     #pragma pack(pop)
-
-    enum struct UserWhere : UINT32
-    {
-        Null,
-        WorldLogout,
-        ZoneWait,
-        ZoneLeave,
-        ZoneEnter
-    };
 
     #pragma pack(push, 1)
     struct CUser
@@ -534,7 +535,8 @@ namespace shaiya
         ULONG gvgRequestTargetId;            //0x55A4
         SVector gvgPos;                      //0x55A8
         DWORD gvgRequestExpireTick;          //0x55B4
-        PAD(572);
+        PAD(8);
+        CUserCrypto crypto;                  //0x55C0
         UserWhere where;                     //0x57F4
         PAD(8);
         UINT64 sessionId;                    //0x5800

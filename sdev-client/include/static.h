@@ -67,7 +67,10 @@ namespace shaiya
         UINT8 srcBag;
         PAD(1);
         UINT16 srcSlot;
-        PAD(12);
+        PAD(4);
+        // quick z and x
+        UINT32 itemType;
+        UINT32 itemTypeId;
         // 0x10
     };
     #pragma pack(pop)
@@ -119,7 +122,7 @@ namespace shaiya
         ULONG charId;                 //0x90E2F4  0x1124
         Inventory inventory;          //0x90E2F8  0x1128
         // 0x910038  0x2E68
-        Array<CItem, 256> unknown1;
+        Array<CItem, 256> bag250;
         // 0x913438  0x6268
         PAD(56);
         UINT8 hair;                   //0x913470  0x62A0
@@ -182,14 +185,16 @@ namespace shaiya
         // 0x91A9BC  0xD7EC
         Array<CItem, 8> exchangeItemList;
         // 0x91AB5C  0xD98C
-        Array<CItem, 8> exchangeTargetItemList;
+        Array<CItem, 8> exchangeUserItemList;
         // 0x91ACFC  0xDB2C
         Array<ExcItem, 8> exchangeItemList2;
-        // 0x91AD14  0xDB44
-        PAD(16);
+        BOOL exchangeAccepted;        //0x91AD14  0xDB44
+        BOOL exchangeUserAccepted;    //0x91AD18  0xDB48
+        BOOL exchangeConfirmed;       //0x91AD1C  0xDB4C
+        BOOL exchangeUserConfirmed;   //0x91AD20  0xDB50
         UINT32 exchangeMoney;         //0x91AD24  0xDB54
-        UINT32 exchangeTargetMoney;   //0x91AD28  0xDB58
-        ULONG exchangeTargetId;       //0x91AD2C  0xDB5C
+        UINT32 exchangeUserMoney;     //0x91AD28  0xDB58
+        ULONG exchangeUserId;         //0x91AD2C  0xDB5C
         BOOL questCompleted;          //0x91AD30  0xDB60
         UINT8 questMsgIndex;          //0x91AD34  0xDB64
         PAD(1);
@@ -208,11 +213,17 @@ namespace shaiya
         PAD(1);
         // 0x22AA818  0x199D648
         Array<QuickSlot, 50> quickSlotList;
-        UINT8 quickSlot1Bar;          //0x22AAB38  0x199D968
-        UINT8 quickSlot2Bar;          //0x22AAB39  0x199D969
+        UINT8 quickSlot1Bag;          //0x22AAB38  0x199D968
+        UINT8 quickSlot2Bag;          //0x22AAB39  0x199D969
         PAD(2);
         // 0x22AAB3C  0x199D96C
-        PAD(768);
+        Array<QuickSlot, 24> revolverList;
+        // 0x22AACBC  0x199DAEC
+        PAD(20);
+        QuickSlot quickPotionZ;       //0x22AACD0  0x199DB00
+        QuickSlot quickPotionX;       //0x22AACE0  0x199DB10
+        // 0x22AACF0  0x199DB20
+        PAD(332);
         UINT32 kills;                 //0x22AAE3C  0x199DC6C
         UINT32 deaths;                //0x22AAE40  0x199DC70
         PAD(2420);
