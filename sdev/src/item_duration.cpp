@@ -62,13 +62,15 @@ namespace item_duration
         if (!item->itemInfo->duration)
             return;
 
-        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!expireTime)
+        auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+        if (!time)
             return;
 
-        SYSTEMTIME st{};
-        ServerTime::ServerTimeToSystemTime(expireTime, &st);
-        ItemDuration duration(st);
+        auto expireTime = ServerTime::ToTimeT(time);
+        if (expireTime == -1)
+            return;
+
+        ItemDuration duration(expireTime);
 
         if (duration.expired())
         {
@@ -217,14 +219,15 @@ namespace item_duration
                     if (!item->itemInfo->duration)
                         continue;
 
-                    auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                    if (!expireTime)
+                    auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+                    if (!time)
                         continue;
 
-                    SYSTEMTIME st{};
-                    ServerTime::ServerTimeToSystemTime(expireTime, &st);
-                    ItemDuration duration(st);
+                    auto expireTime = ServerTime::ToTimeT(time);
+                    if (expireTime == -1)
+                        continue;
 
+                    ItemDuration duration(expireTime);
                     if (duration.expired())
                         send_delete_notice(user, item, bag, slot);
                 }
@@ -245,14 +248,15 @@ namespace item_duration
                 if (!item->itemInfo->duration)
                     continue;
 
-                auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                if (!expireTime)
+                auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
+                if (!time)
                     continue;
 
-                SYSTEMTIME st{};
-                ServerTime::ServerTimeToSystemTime(expireTime, &st);
-                ItemDuration duration(st);
+                auto expireTime = ServerTime::ToTimeT(time);
+                if (expireTime == -1)
+                    continue;
 
+                ItemDuration duration(expireTime);
                 if (duration.expired())
                     send_delete_notice(user, item, warehouse_bag, slot);
             }

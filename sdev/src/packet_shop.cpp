@@ -59,7 +59,7 @@ namespace packet_shop
             auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
             if (itemInfo && itemInfo->duration)
             {
-                auto now = ServerTime::GetSystemTime();
+                auto now = ServerTime::Now();
                 item2602.toDate = ServerTime::Add(now, itemInfo->duration);
                 item2602.fromDate = item2602.toDate ? now : 0;
             }
@@ -85,7 +85,7 @@ namespace packet_shop
 
     void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
-        auto purchaseDate = ServerTime::GetSystemTime();
+        auto purchaseDate = ServerTime::Now();
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
         DBAgentSaveGiftPointItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);

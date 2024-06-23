@@ -114,8 +114,7 @@ namespace npc_quest
             if (!itemInfo->duration)
                 continue;
 
-            auto now = ServerTime::GetSystemTime();
-
+            auto now = ServerTime::Now();
             auto expireTime = ServerTime::Add(now, itemInfo->duration);
             if (!expireTime)
                 continue;
