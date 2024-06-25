@@ -65,8 +65,8 @@ namespace packet_character
 #ifdef SHAIYA_EP6_4_PT
             if (item->itemInfo->duration)
             {
-                item0711.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                item0711.fromDate = item0711.toDate ? item->makeTime : 0;
+                item0711.fromDate = item->makeTime;
+                item0711.toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
             }
 #endif
 

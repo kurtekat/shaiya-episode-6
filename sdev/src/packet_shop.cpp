@@ -59,9 +59,8 @@ namespace packet_shop
             auto itemInfo = CGameData::GetItemInfo(item2602.type, item2602.typeId);
             if (itemInfo && itemInfo->duration)
             {
-                auto now = ServerTime::Now();
-                item2602.toDate = ServerTime::Add(now, itemInfo->duration);
-                item2602.fromDate = item2602.toDate ? now : 0;
+                item2602.fromDate = ServerTime::now();
+                item2602.toDate = ServerTime::add(item2602.fromDate, itemInfo->duration);
             }
 #endif
 
@@ -85,7 +84,7 @@ namespace packet_shop
 
     void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
-        auto purchaseDate = ServerTime::Now();
+        auto purchaseDate = ServerTime::now();
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
         DBAgentSaveGiftPointItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
@@ -99,14 +98,11 @@ namespace packet_shop
         if (!item->itemInfo->duration)
             return;
 
-        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!expireTime)
-            return;
-
         auto bag = util::deserialize<uint8_t>(buffer, 3);
         auto slot = util::deserialize<uint8_t>(buffer, 4);
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
 
-        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
+        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, toDate);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
 }

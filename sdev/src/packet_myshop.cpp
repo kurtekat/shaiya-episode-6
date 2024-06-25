@@ -51,8 +51,8 @@ namespace packet_myshop
 #ifdef SHAIYA_EP6_4_PT
             if (item->itemInfo->duration)
             {
-                item230B.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                item230B.fromDate = item230B.toDate ? item->makeTime : 0;
+                item230B.fromDate = item->makeTime;
+                item230B.toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
             }
 #endif
 

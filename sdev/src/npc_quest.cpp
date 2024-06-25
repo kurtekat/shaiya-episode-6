@@ -114,12 +114,10 @@ namespace npc_quest
             if (!itemInfo->duration)
                 continue;
 
-            auto now = ServerTime::Now();
-            auto expireTime = ServerTime::Add(now, itemInfo->duration);
-            if (!expireTime)
-                continue;
+            auto fromDate = ServerTime::now();
+            auto toDate = ServerTime::add(fromDate, itemInfo->duration);
 
-            ItemDurationOutgoing outgoing(item0903.bag, item0903.slot, now, expireTime);
+            ItemDurationOutgoing outgoing(item0903.bag, item0903.slot, fromDate, toDate);
             SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
         }
 #endif

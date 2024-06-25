@@ -87,8 +87,8 @@ namespace packet_exchange
 #ifdef SHAIYA_EP6_4_PT
         if (item->itemInfo->duration)
         {
-            outgoing.toDate = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-            outgoing.fromDate = outgoing.toDate ? item->makeTime : 0;
+            outgoing.fromDate = item->makeTime;
+            outgoing.toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
         }
 #endif
 

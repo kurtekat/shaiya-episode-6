@@ -62,15 +62,8 @@ namespace item_duration
         if (!item->itemInfo->duration)
             return;
 
-        auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!time)
-            return;
-
-        auto expireTime = ServerTime::ToTimeT(time);
-        if (expireTime == -1)
-            return;
-
-        ItemDuration duration(expireTime);
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
+        ItemDuration duration(ServerTime::to_time_t(toDate));
 
         if (duration.expired())
         {
@@ -112,11 +105,9 @@ namespace item_duration
         if (!item->itemInfo->duration)
             return;
 
-        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!expireTime)
-            return;
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
 
-        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
+        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, toDate);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
 
         send_expire_notice(user, item, bag, slot);
@@ -160,11 +151,9 @@ namespace item_duration
         if (!item->itemInfo->duration)
             return;
 
-        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!expireTime)
-            return;
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
 
-        ItemDurationOutgoing outgoing(warehouse_bag, slot, item->makeTime, expireTime);
+        ItemDurationOutgoing outgoing(warehouse_bag, slot, item->makeTime, toDate);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
 
@@ -173,14 +162,11 @@ namespace item_duration
         if (!item->itemInfo->duration)
             return;
 
-        auto expireTime = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-        if (!expireTime)
-            return;
-
         auto bag = util::deserialize<uint8_t>(buffer, 2);
         auto slot = util::deserialize<uint8_t>(buffer, 3);
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
 
-        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, expireTime);
+        ItemDurationOutgoing outgoing(bag, slot, item->makeTime, toDate);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
 
@@ -219,15 +205,9 @@ namespace item_duration
                     if (!item->itemInfo->duration)
                         continue;
 
-                    auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                    if (!time)
-                        continue;
+                    auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
+                    ItemDuration duration(ServerTime::to_time_t(toDate));
 
-                    auto expireTime = ServerTime::ToTimeT(time);
-                    if (expireTime == -1)
-                        continue;
-
-                    ItemDuration duration(expireTime);
                     if (duration.expired())
                         send_delete_notice(user, item, bag, slot);
                 }
@@ -248,15 +228,9 @@ namespace item_duration
                 if (!item->itemInfo->duration)
                     continue;
 
-                auto time = ServerTime::Add(item->makeTime, item->itemInfo->duration);
-                if (!time)
-                    continue;
+                auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
+                ItemDuration duration(ServerTime::to_time_t(toDate));
 
-                auto expireTime = ServerTime::ToTimeT(time);
-                if (expireTime == -1)
-                    continue;
-
-                ItemDuration duration(expireTime);
                 if (duration.expired())
                     send_delete_notice(user, item, warehouse_bag, slot);
             }

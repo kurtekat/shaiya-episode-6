@@ -12,19 +12,21 @@ namespace shaiya
         int hours;
         int minutes;
 
-        ItemDuration(time_t expireTime)
+        ItemDuration(time_t toDate)
             : days(0), hours(0), minutes(0)
         {
-            auto tp = std::chrono::system_clock::from_time_t(expireTime);
-            auto duration = tp - std::chrono::system_clock::now();
+            using namespace std::chrono;
 
-            days = std::chrono::duration_cast<std::chrono::days>(duration).count();
-            hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
-            minutes = std::chrono::duration_cast<std::chrono::minutes>(duration).count();
+            auto tp = current_zone()->to_local(system_clock::from_time_t(toDate));
+            auto now = current_zone()->to_local(system_clock::now());
 
-            days = (days < 0) ? 0 : days;
-            hours = (hours < 0) ? 0 : hours;
-            minutes = (minutes < 0) ? 0 : minutes;
+            if (tp <= now)
+                return;
+
+            auto duration = tp - now;
+            this->days = duration_cast<std::chrono::days>(duration).count();
+            this->hours = duration_cast<std::chrono::hours>(duration).count();
+            this->minutes = duration_cast<std::chrono::minutes>(duration).count();
         }
 
         constexpr bool expired() const
