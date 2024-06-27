@@ -8,12 +8,10 @@ namespace shaiya
     {
     public:
 
-        int days;
-        int hours;
-        int minutes;
+        std::chrono::seconds seconds;
 
         ItemDuration(time_t toDate)
-            : days(0), hours(0), minutes(0)
+            : seconds(0)
         {
             using namespace std::chrono;
 
@@ -24,14 +22,27 @@ namespace shaiya
                 return;
 
             auto duration = tp - now;
-            this->days = duration_cast<std::chrono::days>(duration).count();
-            this->hours = duration_cast<std::chrono::hours>(duration).count();
-            this->minutes = duration_cast<std::chrono::minutes>(duration).count();
+            this->seconds = duration_cast<std::chrono::seconds>(duration);
         }
 
-        constexpr bool expired() const
+        constexpr bool expired() const noexcept
         {
-            return !days && !hours && !minutes;
+            return !seconds.count();
+        }
+
+        constexpr std::chrono::days days() const noexcept
+        {
+            return duration_cast<std::chrono::days>(this->seconds);
+        }
+
+        constexpr std::chrono::hours hours() const noexcept
+        {
+            return duration_cast<std::chrono::hours>(this->seconds);
+        }
+
+        constexpr std::chrono::minutes minutes() const noexcept
+        {
+            return duration_cast<std::chrono::minutes>(this->seconds);
         }
     };
 }

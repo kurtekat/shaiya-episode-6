@@ -71,33 +71,33 @@ namespace item_duration
             return;
         }
 
-        if (!duration.days)
+        if (duration.days().count())
+            return;
+
+        ItemExpireNoticeOutgoing outgoing{};
+        outgoing.type = item->type;
+        outgoing.typeId = item->typeId;
+
+        if (duration.hours().count())
         {
-            ItemExpireNoticeOutgoing outgoing{};
-            outgoing.type = item->type;
-            outgoing.typeId = item->typeId;
+            outgoing.timeValue = duration.hours().count();
 
-            if (!duration.hours)
-            {
-                outgoing.timeValue = static_cast<uint8_t>(duration.minutes);
-
-                if (bag == warehouse_bag)
-                    outgoing.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
-                else
-                    outgoing.noticeType = ItemExpireNoticeType::MinutesLeftInventory;
-            }
+            if (bag == warehouse_bag)
+                outgoing.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
             else
-            {
-                outgoing.timeValue = static_cast<uint8_t>(duration.hours);
-
-                if (bag == warehouse_bag)
-                    outgoing.noticeType = ItemExpireNoticeType::HoursLeftWarehouse;
-                else
-                    outgoing.noticeType = ItemExpireNoticeType::HoursLeftInventory;
-            }
-
-            SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
+                outgoing.noticeType = ItemExpireNoticeType::HoursLeftInventory;
         }
+        else
+        {
+            outgoing.timeValue = duration.minutes().count();
+
+            if (bag == warehouse_bag)
+                outgoing.noticeType = ItemExpireNoticeType::MinutesLeftWarehouse;
+            else
+                outgoing.noticeType = ItemExpireNoticeType::MinutesLeftInventory;
+        }
+
+        SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
     }
 
     void send(CUser* user, CItem* item, uint8_t bag, uint8_t slot)
