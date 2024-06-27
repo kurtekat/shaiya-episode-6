@@ -5,6 +5,8 @@
 namespace shaiya
 {
     /*
+        A Unix-like timestamp based on local time. See encoder and decoder.
+
         Example:
         2024-06-24 22:05:01
 
@@ -20,15 +22,12 @@ namespace shaiya
     {
         using Seconds = int;
 
-        // A Unix-like timestamp based on local time. See encoder and decoder.
-        Timestamp timestamp;
-
         static Timestamp add(Timestamp augend, Seconds addend);
         static Timestamp sub(Timestamp minuend, Seconds subtrahend);
         static Timestamp from_time_t(time_t tt);
         static time_t to_time_t(Timestamp timestamp);
         static Timestamp now();
-        static void decoder(Timestamp timestamp, LPSYSTEMTIME lt);
-        static Timestamp encoder(LPSYSTEMTIME lt);
+        static void decoder(Timestamp timestamp, SYSTEMTIME& lt);
+        static Timestamp encoder(const SYSTEMTIME& lt);
     };
 }
