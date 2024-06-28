@@ -346,5 +346,8 @@
     <ClInclude Include="include\common\SSyncQueueStatus.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\Sentinel.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

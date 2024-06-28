@@ -60,7 +60,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    using CharacterList = std::array<Character, 5>;
+    using CharacterList = Array<Character, 5>;
 
     #pragma pack(push, 1)
     struct ProductItem
@@ -74,7 +74,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    using ProductLog = std::array<ProductItem, 10>;
+    using ProductLog = Array<ProductItem, 10>;
 
     #pragma pack(push, 1)
     struct CUser

@@ -107,7 +107,7 @@ namespace shaiya
         Leader
     };
 
-    enum struct UserPvPStatusType : UINT32
+    enum struct UserPvPStatus : UINT32
     {
         None,
         RequestSent,
@@ -175,7 +175,7 @@ namespace shaiya
         Mob
     };
 
-    enum struct UserVehicleStatusType : UINT32
+    enum struct UserVehicleStatus : UINT32
     {
         None,
         Summon,
@@ -184,8 +184,8 @@ namespace shaiya
 
     enum struct UserWhere : UINT32
     {
-        Null,
-        WorldLogout,
+        Default,
+        WorldLeave,
         ZoneWait,
         ZoneLeave,
         ZoneEnter
@@ -293,333 +293,331 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CUser
     {
-        SConnection connection;              //0x00
-        SVector pos;                         //0xD0
-        ULONG id;                            //0xDC
-        CZone* zone;                         //0xE0
-        UINT32 cellX;                        //0xE4
-        UINT32 cellZ;                        //0xE8
+        SConnection connection;                //0x00
+        SVector pos;                           //0xD0
+        ULONG id;                              //0xDC
+        CZone* zone;                           //0xE0
+        UINT32 cellX;                          //0xE4
+        UINT32 cellZ;                          //0xE8
         PAD(60);
-        ULONG charId;                        //0x128
-        UINT8 slot;                          //0x12C
-        Country country;                     //0x12D
-        Family family;                       //0x12E
-        Grow grow;                           //0x12F
-        Grow maxGrow;                        //0x130
-        UINT8 hair;                          //0x131
-        UINT8 face;                          //0x132
-        UINT8 size;                          //0x133
-        Job job;                             //0x134
-        Sex sex;                             //0x135
-        UINT16 level;                        //0x136
-        UINT16 statPoint;                    //0x138
-        UINT16 skillPoint;                   //0x13A
-        UINT32 exp;                          //0x13C
-        UINT32 money;                        //0x140
-        UINT32 bankMoney;                    //0x144
-        UINT32 kills;                        //0x148
-        UINT32 deaths;                       //0x14C
-        UINT32 wins;                         //0x150
-        UINT32 losses;                       //0x154
-        UINT32 killLv;                       //0x158
-        UINT32 deathLv;                      //0x15C
-        UINT16 mapId;                        //0x160
-        UINT16 direction;                    //0x162
-        UINT16 honor;                        //0x164
-        INT16 vg;                            //0x166
-        UINT8 cg;                            //0x168
-        UINT8 og;                            //0x169
-        UINT16 ig;                           //0x16A
-        UINT16 strength;                     //0x16C
-        UINT16 dexterity;                    //0x16E
-        UINT16 intelligence;                 //0x170
-        UINT16 wisdom;                       //0x172
-        UINT16 reaction;                     //0x174
-        UINT16 luck;                         //0x176
-        UINT32 maxHealth;                    //0x178
-        UINT32 maxMana;                      //0x17C
-        UINT32 maxStamina;                   //0x180
-        CharArray<21> charName;              //0x184
-        ItemQualityLv itemQualityLv;         //0x199
-        ItemQuality itemQuality;             //0x1A6
-        Inventory inventory;                 //0x1C0
-        Warehouse warehouse;                 //0x400
-        Bank bank;                           //0x7C0
-        SSyncList<CSkill> applySkillList;    //0xA90
-        UINT32 skillCount;                   //0xABC
-        Array<CSkill*, 256> skillList;       //0xAC0
-        UINT32 quickSlotCount;               //0xEC0
-        // 0xEC4
-        Array<UserQuickSlot, 128> quickSlotList;
-        SSyncList<CQuest> finishedQuestList; //0x11C4
-        SSyncList<CQuest> questList;         //0x11F0
-        UINT32 abilityStrength;              //0x121C
-        UINT32 abilityDexterity;             //0x1220
-        UINT32 abilityIntelligence;          //0x1224
-        UINT32 abilityWisdom;                //0x1228
-        UINT32 abilityReaction;              //0x122C
-        UINT32 abilityLuck;                  //0x1230
-        UINT32 health;                       //0x1234
-        UINT32 mana;                         //0x1238
-        UINT32 stamina;                      //0x123C
-        UINT32 combatHpRecovery;             //0x1240
-        UINT32 combatSpRecovery;             //0x1244
-        UINT32 combatMpRecovery;             //0x1248
-        UINT32 sitHpRecovery;                //0x124C
-        UINT32 sitSpRecovery;                //0x1250
-        UINT32 sitMpRecovery;                //0x1254
-        UINT32 addHpRecovery;                //0x1258
-        UINT32 addSpRecovery;                //0x125C
-        UINT32 addMpRecovery;                //0x1260
-        UINT32 healthRecovery;               //0x1264
-        UINT32 staminaRecovery;              //0x1268
-        UINT32 manaRecovery;                 //0x126C
-        UserRecoveryType recoveryType;       //0x1270
-        UINT32 decreaseMpCostPercentage;     //0x1274
-        UINT32 decreaseSpCostPercentage;     //0x1278
-        UserAttribute weaponAttribute;       //0x127C
-        UserAttribute armorAttribute;        //0x1280
+        ULONG charId;                          //0x128
+        UINT8 slot;                            //0x12C
+        Country country;                       //0x12D
+        Family family;                         //0x12E
+        Grow grow;                             //0x12F
+        Grow maxGrow;                          //0x130
+        UINT8 hair;                            //0x131
+        UINT8 face;                            //0x132
+        UINT8 size;                            //0x133
+        Job job;                               //0x134
+        Sex sex;                               //0x135
+        UINT16 level;                          //0x136
+        UINT16 statPoint;                      //0x138
+        UINT16 skillPoint;                     //0x13A
+        UINT32 exp;                            //0x13C
+        UINT32 money;                          //0x140
+        UINT32 bankMoney;                      //0x144
+        UINT32 kills;                          //0x148
+        UINT32 deaths;                         //0x14C
+        UINT32 wins;                           //0x150
+        UINT32 losses;                         //0x154
+        UINT32 killLv;                         //0x158
+        UINT32 deathLv;                        //0x15C
+        UINT16 mapId;                          //0x160
+        UINT16 direction;                      //0x162
+        UINT16 honor;                          //0x164
+        INT16 vg;                              //0x166
+        UINT8 cg;                              //0x168
+        UINT8 og;                              //0x169
+        UINT16 ig;                             //0x16A
+        UINT16 strength;                       //0x16C
+        UINT16 dexterity;                      //0x16E
+        UINT16 intelligence;                   //0x170
+        UINT16 wisdom;                         //0x172
+        UINT16 reaction;                       //0x174
+        UINT16 luck;                           //0x176
+        UINT32 maxHealth;                      //0x178
+        UINT32 maxMana;                        //0x17C
+        UINT32 maxStamina;                     //0x180
+        CharArray<21> charName;                //0x184
+        ItemQualityLv itemQualityLv;           //0x199
+        ItemQuality itemQuality;               //0x1A6
+        Inventory inventory;                   //0x1C0
+        Warehouse warehouse;                   //0x400
+        Bank bank;                             //0x7C0
+        SSyncList<CSkill> applySkillList;      //0xA90
+        UINT32 skillCount;                     //0xABC
+        Array<CSkill*, 256> skills;            //0xAC0
+        UINT32 quickSlotCount;                 //0xEC0
+        Array<UserQuickSlot, 128> quickSlots;  //0xEC4
+        SSyncList<CQuest> completedQuestList;  //0x11C4
+        SSyncList<CQuest> questList;           //0x11F0
+        UINT32 abilityStrength;                //0x121C
+        UINT32 abilityDexterity;               //0x1220
+        UINT32 abilityIntelligence;            //0x1224
+        UINT32 abilityWisdom;                  //0x1228
+        UINT32 abilityReaction;                //0x122C
+        UINT32 abilityLuck;                    //0x1230
+        UINT32 health;                         //0x1234
+        UINT32 mana;                           //0x1238
+        UINT32 stamina;                        //0x123C
+        UINT32 combatHpRecovery;               //0x1240
+        UINT32 combatSpRecovery;               //0x1244
+        UINT32 combatMpRecovery;               //0x1248
+        UINT32 sitHpRecovery;                  //0x124C
+        UINT32 sitSpRecovery;                  //0x1250
+        UINT32 sitMpRecovery;                  //0x1254
+        UINT32 addHpRecovery;                  //0x1258
+        UINT32 addSpRecovery;                  //0x125C
+        UINT32 addMpRecovery;                  //0x1260
+        UINT32 healthRecovery;                 //0x1264
+        UINT32 staminaRecovery;                //0x1268
+        UINT32 manaRecovery;                   //0x126C
+        UserRecoveryType recoveryType;         //0x1270
+        UINT32 decreaseMpCostPercentage;       //0x1274
+        UINT32 decreaseSpCostPercentage;       //0x1278
+        UserAttribute weaponAttribute;         //0x127C
+        UserAttribute armorAttribute;          //0x1280
         PAD(92);
-        UINT32 addAttackPower;               //0x12E0
-        UINT32 maxAddAttackPower;            //0x12E4
-        UINT32 addDefense;                   //0x12E8
-        UINT32 addMagicResistance;           //0x12EC
-        UINT32 abilityAttackRange;           //0x12F0
-        UINT32 abilityAttackSpeed;           //0x12F4
-        UINT32 abilityMoveSpeed;             //0x12F8
-        UINT32 abilityCriticalHitRate;       //0x12FC
-        UINT32 decreaseSkillResetTime;       //0x1300
-        UINT32 abilityAbsorption;            //0x1304
-        UINT32 interpretationLv;             //0x1308
-        UINT32 bagsUnlocked;                 //0x130C
-        UserWeaponMasterySpeed weaponSpeed;  //0x1310
-        UserWeaponMasteryPower weaponPower;  //0x1324
+        UINT32 addAttackPower;                 //0x12E0
+        UINT32 maxAddAttackPower;              //0x12E4
+        UINT32 addDefense;                     //0x12E8
+        UINT32 addMagicResistance;             //0x12EC
+        UINT32 abilityAttackRange;             //0x12F0
+        UINT32 abilityAttackSpeed;             //0x12F4
+        UINT32 abilityMoveSpeed;               //0x12F8
+        UINT32 abilityCriticalHitRate;         //0x12FC
+        UINT32 decreaseSkillResetTime;         //0x1300
+        UINT32 abilityAbsorption;              //0x1304
+        UINT32 interpretationLv;               //0x1308
+        UINT32 bagsUnlocked;                   //0x130C
+        UserWeaponMasterySpeed weaponSpeed;    //0x1310
+        UserWeaponMasteryPower weaponPower;    //0x1324
         PAD(4);
-        UINT32 shieldMasteryDefense;         //0x133C
-        UserHealthAssistType hpAssistType;   //0x1340
-        BOOL immobilized;                    //0x1344
-        BOOL unconscious;                    //0x1348
-        BOOL sleeping;                       //0x134C
-        BOOL degenerated;                    //0x1350
-        UINT16 transformMobId;               //0x1354
+        UINT32 shieldMasteryDefense;           //0x133C
+        UserHealthAssistType hpAssistType;     //0x1340
+        BOOL immobilized;                      //0x1344
+        BOOL unconscious;                      //0x1348
+        BOOL sleeping;                         //0x134C
+        BOOL degenerated;                      //0x1350
+        UINT16 transformMobId;                 //0x1354
         PAD(2);
         // typeDetail 74, 75 and 76
-        UINT32 debuffTypeDetail;             //0x1358
+        UINT32 debuffTypeDetail;               //0x1358
         // typeDetail 70
-        ULONG debuffCasterId;                //0x135C
-        ShapeType shapeType;                 //0x1360
+        ULONG debuffCasterId;                  //0x135C
+        ShapeType shapeType;                   //0x1360
         PAD(3);
-        UINT32 shapeMobId;                   //0x1364
-        CloneUser* clone;                    //0x1368
-        BOOL invincible;                     //0x136C
-        bool preventDeath;                   //0x1370
-        bool preventDying;                   //0x1371
-        bool preventAggro;                   //0x1372
-        bool danceOfDeath;                   //0x1373
-        bool etainShield;                    //0x1374
+        UINT32 shapeMobId;                     //0x1364
+        CloneUser* clone;                      //0x1368
+        BOOL invincible;                       //0x136C
+        bool preventDeath;                     //0x1370
+        bool preventDying;                     //0x1371
+        bool preventAggro;                     //0x1372
+        bool danceOfDeath;                     //0x1373
+        bool etainShield;                      //0x1374
         PAD(3);
-        bool passiveSkillApplied;            //0x1378
+        bool passiveSkillApplied;              //0x1378
         PAD(1);
-        UINT16 passiveSkillId;               //0x137A
-        UINT8 passiveSkillLv;                //0x137C
+        UINT16 passiveSkillId;                 //0x137A
+        UINT8 passiveSkillLv;                  //0x137C
         PAD(3);
-        DWORD passiveSkillUseTick;           //0x1380
-        UINT32 abilityHitRate;               //0x1384
-        UINT32 abilityAttackPower;           //0x1388
-        UINT32 abilityEvasionRate;           //0x138C
-        UINT32 abilityAddDefense;            //0x1390
-        UINT32 abilityRangedHitRate;         //0x1394
-        UINT32 abilityRangedAttackPower;     //0x1398
-        UINT32 abilityRangedEvasionRate;     //0x139C
-        UINT32 abilityAddRangedDefense;      //0x13A0
-        UINT32 abilityMagicHitRate;          //0x13A4
-        UINT32 abilityMagicPower;            //0x13A8
-        UINT32 abilityMagicEvasionRate;      //0x13AC
-        UINT32 abilityAddMagicResistance;    //0x13B0
-        BOOL attackBlinded;                  //0x13B4
-        UINT32 evasionStatus;                //0x13B8
-        UINT32 evasionPercentage;            //0x13BC
-        UINT32 mirrorSkillId;                //0x13C0
-        UINT32 mirrorSkillLv;                //0x13C4
-        UINT32 hitRate;                      //0x13C8
-        UINT32 minAttackPower;               //0x13CC
-        UINT32 evasionRate;                  //0x13D0
-        UINT32 defense;                      //0x13D4
-        UINT32 criticalHitRate;              //0x13D8
+        DWORD passiveSkillUseTick;             //0x1380
+        UINT32 abilityHitRate;                 //0x1384
+        UINT32 abilityAttackPower;             //0x1388
+        UINT32 abilityEvasionRate;             //0x138C
+        UINT32 abilityAddDefense;              //0x1390
+        UINT32 abilityRangedHitRate;           //0x1394
+        UINT32 abilityRangedAttackPower;       //0x1398
+        UINT32 abilityRangedEvasionRate;       //0x139C
+        UINT32 abilityAddRangedDefense;        //0x13A0
+        UINT32 abilityMagicHitRate;            //0x13A4
+        UINT32 abilityMagicPower;              //0x13A8
+        UINT32 abilityMagicEvasionRate;        //0x13AC
+        UINT32 abilityAddMagicResistance;      //0x13B0
+        BOOL attackBlinded;                    //0x13B4
+        UINT32 evasionStatus;                  //0x13B8
+        UINT32 evasionPercentage;              //0x13BC
+        UINT32 mirrorSkillId;                  //0x13C0
+        UINT32 mirrorSkillLv;                  //0x13C4
+        UINT32 hitRate;                        //0x13C8
+        UINT32 minAttackPower;                 //0x13CC
+        UINT32 evasionRate;                    //0x13D0
+        UINT32 defense;                        //0x13D4
+        UINT32 criticalHitRate;                //0x13D8
         PAD(4);
-        BOOL rangedAttackBlinded;            //0x13E0
-        UINT32 rangedEvasionStatus;          //0x13E4
-        UINT32 rangedEvasionPercentage;      //0x13E8
-        UINT32 rangedMirrorSkillId;          //0x13EC
-        UINT32 rangedMirrorSkillLv;          //0x13F0
-        UINT32 rangedHitRate;                //0x13F4
-        UINT32 minRangedAttackPower;         //0x13F8
-        UINT32 rangedEvasionRate;            //0x13FC
-        UINT32 rangedDefense;                //0x1400
-        UINT32 rangedCriticalHitRate;        //0x1404
+        BOOL rangedAttackBlinded;              //0x13E0
+        UINT32 rangedEvasionStatus;            //0x13E4
+        UINT32 rangedEvasionPercentage;        //0x13E8
+        UINT32 rangedMirrorSkillId;            //0x13EC
+        UINT32 rangedMirrorSkillLv;            //0x13F0
+        UINT32 rangedHitRate;                  //0x13F4
+        UINT32 minRangedAttackPower;           //0x13F8
+        UINT32 rangedEvasionRate;              //0x13FC
+        UINT32 rangedDefense;                  //0x1400
+        UINT32 rangedCriticalHitRate;          //0x1404
         PAD(4);
-        BOOL silenced;                       //0x140C
-        UINT32 magicEvasionStatus;           //0x1410
-        UINT32 magicEvasionCounter;          //0x1414
-        UINT32 magicMirrorSkillId;           //0x1418
-        UINT32 magicMirrorSkillLv;           //0x141C
+        BOOL silenced;                         //0x140C
+        UINT32 magicEvasionStatus;             //0x1410
+        UINT32 magicEvasionCounter;            //0x1414
+        UINT32 magicMirrorSkillId;             //0x1418
+        UINT32 magicMirrorSkillLv;             //0x141C
         // bug: decreases hit rate
-        UINT32 magicHitRate;                 //0x1420
-        UINT32 minMagicPower;                //0x1424
-        UINT32 magicEvasionRate;             //0x1428
-        UINT32 magicResistance;              //0x142C
-        UINT32 magicCriticalHitRate;         //0x1430
+        UINT32 magicHitRate;                   //0x1420
+        UINT32 minMagicPower;                  //0x1424
+        UINT32 magicEvasionRate;               //0x1428
+        UINT32 magicResistance;                //0x142C
+        UINT32 magicCriticalHitRate;           //0x1430
         PAD(16);
-        UserStatus status;                   //0x1444
+        UserStatus status;                     //0x1444
         PAD(4);
-        bool sitting;                        //0x144C
-        UINT8 motionValue;                   //0x144D
+        bool sitting;                          //0x144C
+        UINT8 motionValue;                     //0x144D
         PAD(2);
-        BOOL running;                        //0x1450
-        BOOL attacking;                      //0x1454
-        UserAttackType attackType;           //0x1458
-        UINT32 prevSkillUseIndex;            //0x145C
+        BOOL running;                          //0x1450
+        BOOL attacking;                        //0x1454
+        UserAttackType attackType;             //0x1458
+        UINT32 prevSkillUseIndex;              //0x145C
         PAD(4);
-        UINT32 itemQualityDecreaseSlot;      //0x1464
-        DWORD attackTypeSkillTick;           //0x1468
-        DWORD attackTypeBasicTick;           //0x146C
-        DWORD rebirthExpireTick;             //0x1470
-        BOOL leaderResurrect;                //0x1474
-        UINT32 expLossRate;                  //0x1478
-        // 0x147C
-        UserVehicleStatusType vehicleStatusType;
-        DWORD vehicleRideTick;               //0x1480
-        UINT32 vehicleShapeType;             //0x1484
-        UINT32 vehicleShapeTypeAdd;          //0x1488
-        ULONG vehicleRideCharId;             //0x148C
-        ULONG vehicleRideRequestSenderId;    //0x1490
-        DWORD vehicleRideRequestExpireTick;  //0x1494
-        ULONG partySummonRequestSenderId;    //0x1498
-        DWORD partySummonRequestExpireTick;  //0x149C
-        DWORD nextRecoveryTick;              //0x14A0
-        Array<DWORD, 12> itemCooldown;       //0x14A4
-        UserKillCountStatus kcStatus;        //0x14D4
+        UINT32 itemQualityDecreaseSlot;        //0x1464
+        DWORD attackTypeSkillTick;             //0x1468
+        DWORD attackTypeBasicTick;             //0x146C
+        DWORD rebirthExpireTick;               //0x1470
+        BOOL leaderResurrect;                  //0x1474
+        UINT32 expLossRate;                    //0x1478
+        UserVehicleStatus vehicleStatus;       //0x147C
+        DWORD vehicleRideTick;                 //0x1480
+        UINT32 vehicleShapeType;               //0x1484
+        UINT32 vehicleShapeTypeAdd;            //0x1488
+        ULONG vehicleRideCharId;               //0x148C
+        ULONG vehicleRideRequestSenderId;      //0x1490
+        DWORD vehicleRideRequestExpireTick;    //0x1494
+        ULONG partySummonRequestSenderId;      //0x1498
+        DWORD partySummonRequestExpireTick;    //0x149C
+        DWORD nextRecoveryTick;                //0x14A0
+        Array<DWORD, 12> itemCooldown;         //0x14A4
+        UserKillCountStatus kcStatus;          //0x14D4
         // 0x1544
         PAD(16);
-        UserTargetType targetType;           //0x1554
+        UserTargetType targetType;             //0x1554
         // CUser->id, CMob->id
-        ULONG targetId;                      //0x1558
+        ULONG targetId;                        //0x1558
         PAD(100);
-        CExchange exchange;                  //0x15C0
-        CExchangePvP exchangePvP;            //0x15E8
-        MyShop myShop;                       //0x1634
-        CParty* party;                       //0x17F4
-        ULONG partyRequestSenderId;          //0x17F8
-        bool partySearchEnabled;             //0x17FC
+        CExchange exchange;                    //0x15C0
+        CExchangePvP exchangePvP;              //0x15E8
+        MyShop myShop;                         //0x1634
+        CParty* party;                         //0x17F4
+        ULONG partyRequestSenderId;            //0x17F8
+        bool partySearchEnabled;               //0x17FC
         PAD(3);
-        ULONG guildId;                       //0x1800
-        UINT32 guildLv;                      //0x1804
+        ULONG guildId;                         //0x1800
+        UINT32 guildLv;                        //0x1804
         PAD(8);
-        CGuild* guild;                       //0x1810
-        CGuildCreate* guildCreate;           //0x1814
-        CMiniGame miniGame;                  //0x1818
-        UINT32 buddyCount;                   //0x1838
-        Array<CFriend, 100> buddyList;       //0x183C
-        UINT32 blockCount;                   //0x377C
+        CGuild* guild;                         //0x1810
+        CGuildCreate* guildCreate;             //0x1814
+        CMiniGame miniGame;                    //0x1818
+        UINT32 buddyCount;                     //0x1838
+        Array<CFriend, 100> buddyList;         //0x183C
+        UINT32 blockCount;                     //0x377C
         // 0x3780
-        Array<BlockList, 100> blockList;     //0x3780
-        ULONG buddyRequestSenderId;          //0x5530
+        Array<BlockUser, 100> blockList;       //0x3780
+        ULONG buddyRequestSenderId;            //0x5530
         PAD(76);
-        BOOL joinGuildDisabled;              //0x5580
-        BOOL grbZoneEnterFlag;               //0x5584
-        BOOL insZoneEnterFlag;               //0x5588
-        UserPvPStatusType pvpStatusType;     //0x558C
-        DWORD pvpRequestExpireTick;          //0x5590
-        ULONG pvpRequestTargetId;            //0x5594
-        SVector pvpPos;                      //0x5598
-        ULONG gvgRequestTargetId;            //0x55A4
-        SVector gvgPos;                      //0x55A8
-        DWORD gvgRequestExpireTick;          //0x55B4
+        BOOL joinGuildDisabled;                //0x5580
+        BOOL grbZoneEnterFlag;                 //0x5584
+        BOOL insZoneEnterFlag;                 //0x5588
+        UserPvPStatus pvpStatus;               //0x558C
+        DWORD pvpRequestExpireTick;            //0x5590
+        ULONG pvpRequestTargetId;              //0x5594
+        SVector pvpPos;                        //0x5598
+        ULONG gvgRequestTargetId;              //0x55A4
+        SVector gvgPos;                        //0x55A8
+        DWORD gvgRequestExpireTick;            //0x55B4
         PAD(8);
-        CUserCrypto crypto;                  //0x55C0
-        UserWhere where;                     //0x57F4
+        CUserCrypto crypto;                    //0x55C0
+        UserWhere where;                       //0x57F4
         PAD(8);
-        UINT64 sessionId;                    //0x5800
-        AuthStatus authStatus;               //0x5808
+        UINT64 sessionId;                      //0x5800
+        AuthStatus authStatus;                 //0x5808
         PAD(3);
-        ULONG questionId;                    //0x580C
-        ULONG chatSendToTargetId;            //0x5810
-        bool visible;                        //0x5814
-        bool attackable;                     //0x5815
+        ULONG questionId;                      //0x580C
+        ULONG chatSendToTargetId;              //0x5810
+        bool visible;                          //0x5814
+        bool attackable;                       //0x5815
         PAD(2);
-        DWORD enableMoveTick;                //0x5818
-        DWORD enableChatTick;                //0x581C
-        ULONG chatListenToTargetId;          //0x5820
-        ULONG chatListenCharId;              //0x5824
+        DWORD enableMoveTick;                  //0x5818
+        DWORD enableChatTick;                  //0x581C
+        ULONG chatListenToTargetId;            //0x5820
+        ULONG chatListenCharId;                //0x5824
         PAD(4);
         // UserUID
-        ULONG userId;                        //0x582C
-        UINT32 serverId;                     //0x5830
-        CharArray<32> username;              //0x5834
+        ULONG userId;                          //0x582C
+        UINT32 serverId;                       //0x5830
+        CharArray<32> username;                //0x5834
         PAD(1);
-        bool initEquipment;                  //0x5855
+        bool initEquipment;                    //0x5855
         PAD(14);
-        UINT32 questKillPCCount;             //0x5864
-        UINT32 questKillMobCount;            //0x5868
+        UINT32 questKillPCCount;               //0x5864
+        UINT32 questKillMobCount;              //0x5868
         PAD(12);
-        UserLogoutType logoutType;           //0x5878
-        DWORD logoutTick;                    //0x587C
-        int connectionCloseType;             //0x5880
+        UserLogoutType logoutType;             //0x5878
+        DWORD logoutTick;                      //0x587C
+        int connectionCloseType;               //0x5880
         PAD(44);
-        UINT32 numWhereErrors;               //0x58B0
-        UserRecallType recallType;           //0x58B4
-        DWORD recallTick;                    //0x58B8
-        UINT32 recallMapId;                  //0x58BC
-        SVector recallPos;                   //0x58C0
+        UINT32 numWhereErrors;                 //0x58B0
+        UserRecallType recallType;             //0x58B4
+        DWORD recallTick;                      //0x58B8
+        UINT32 recallMapId;                    //0x58BC
+        SVector recallPos;                     //0x58C0
         PAD(4);
-        DWORD partyRequestExpireTick;        //0x58D0
+        DWORD partyRequestExpireTick;          //0x58D0
         PAD(8);
-        bool isMessageToServer;              //0x58DC
+        bool isMessageToServer;                //0x58DC
         PAD(7);
-        DWORD enableShoutTick;               //0x58E4
-        UINT8 statResetCount;                //0x58E8
-        UINT8 skillResetCount;               //0x58E9
-        bool statResetEvent;                 //0x58EA
-        bool skillResetEvent;                //0x58EB
-        DWORD lockOnTick;                    //0x58EC
+        DWORD enableShoutTick;                 //0x58E4
+        UINT8 statResetCount;                  //0x58E8
+        UINT8 skillResetCount;                 //0x58E9
+        bool statResetEvent;                   //0x58EA
+        bool skillResetEvent;                  //0x58EB
+        DWORD lockOnTick;                      //0x58EC
         PAD(4);
-        ULONG billingRemainTime;             //0x58F4
+        ULONG billingRemainTime;               //0x58F4
         PAD(4);
-        UINT32 recallItemBag;                //0x58FC
-        UINT32 recallItemSlot;               //0x5900
-        UserRecallItemType recallItemType;   //0x5904
-        UINT32 recallItemGroup;              //0x5908
-        UserSavePoint savePoint;             //0x590C
-        UserCharmType charmType;             //0x594C
-        UINT32 increaseGoldRate;             //0x5950
-        BOOL eternalEndurance;               //0x5954
-        BOOL preventExpLoss;                 //0x5958
-        BOOL preventItemDrop;                //0x595C
-        BOOL preventEquipmentDrop;           //0x5960
-        BOOL recallWarehouse;                //0x5964
-        BOOL doubleWarehouse;                //0x5968
-        UINT32 increaseExpRate;              //0x596C
+        UINT32 recallItemBag;                  //0x58FC
+        UINT32 recallItemSlot;                 //0x5900
+        UserRecallItemType recallItemType;     //0x5904
+        UINT32 recallItemGroup;                //0x5908
+        UserSavePoint savePoint;               //0x590C
+        UserCharmType charmType;               //0x594C
+        UINT32 increaseGoldRate;               //0x5950
+        BOOL eternalEndurance;                 //0x5954
+        BOOL preventExpLoss;                   //0x5958
+        BOOL preventItemDrop;                  //0x595C
+        BOOL preventEquipmentDrop;             //0x5960
+        BOOL recallWarehouse;                  //0x5964
+        BOOL doubleWarehouse;                  //0x5968
+        UINT32 increaseExpRate;                //0x596C
         // true = exp * 1.5
-        BOOL expMultiplied;                  //0x5970
-        BOOL continuousResurrection;         //0x5974
-        BOOL nameChange;                     //0x5978
-        BOOL battlefieldRune;                //0x597C
-        ProductLog productLog;               //0x5980
-        UINT32 points;                       //0x5AC0
-        volatile UINT disableShop;           //0x5AC4
-        DWORD reloadPointTick;               //0x5AC8
-        StoredPointItems storedPointItems;   //0x5ACC
+        BOOL expMultiplied;                    //0x5970
+        BOOL continuousResurrection;           //0x5974
+        BOOL nameChange;                       //0x5978
+        BOOL battlefieldRune;                  //0x597C
+        ProductLog productLog;                 //0x5980
+        UINT32 points;                         //0x5AC0
+        volatile UINT disableShop;             //0x5AC4
+        DWORD reloadPointTick;                 //0x5AC8
+        StoredPointItems storedPointItems;     //0x5ACC
         // EP6.4
-        UINT32 townScrollGateIndex;          //0x5D9C
-        SkillAbility70 skillAbility70;       //0x5DA0
-        ItemQualityLvEx itemQualityLvEx;     //0x5DA8
-        ItemQualityEx itemQualityEx;         //0x5DC0
-        UINT32 increaseQuestExpRate;         //0x5DF0
+        UINT32 townScrollGateIndex;            //0x5D9C
+        SkillAbility70 skillAbility70;         //0x5DA0
+        ItemQualityLvEx itemQualityLvEx;       //0x5DA8
+        ItemQualityEx itemQualityEx;           //0x5DC0
+        UINT32 increaseQuestExpRate;           //0x5DF0
         PAD(1112);
-        CRITICAL_SECTION cs624C;             //0x624C
+        CRITICAL_SECTION cs624C;               //0x624C
         // 0x6264
         PAD(32);
-        CRITICAL_SECTION cs6284;             //0x6284
+        CRITICAL_SECTION cs6284;               //0x6284
         PAD(4);
         // 0x62A0
 

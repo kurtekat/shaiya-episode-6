@@ -21,7 +21,7 @@ namespace shaiya
         UINT32 leaderIndex;       //0x0C
         UINT32 memberCount;       //0x10
         // 0x14
-        Array<PartyMember, 30> memberList;
+        Array<PartyMember, 30> members;
         ItemDivType itemDivType;  //0x104
         UINT32 itemDivSeq;        //0x108
         UINT32 topMemberLevel;    //0x10C

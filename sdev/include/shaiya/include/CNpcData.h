@@ -39,7 +39,7 @@ namespace shaiya
     {
         Npc npc;
         // 0x124
-        Array<NpcGate, 3> gateList;
+        Array<NpcGate, 3> gates;
         // 0x460
     };
     #pragma pack(pop)
@@ -55,11 +55,11 @@ namespace shaiya
     #pragma pack(push, 1)
     struct NpcShop
     {
-        Npc npc;            //0x00
-        UINT8 shopType;     //0x124
+        Npc npc;           //0x00
+        UINT8 shopType;    //0x124
         PAD(3);
-        UINT32 itemCount;   //0x128
-        NpcItem* itemList;  //0x12C
+        UINT32 itemCount;  //0x128
+        NpcItem* items;    //0x12C
         // 0x130
     };
     #pragma pack(pop)

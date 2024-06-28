@@ -9,9 +9,7 @@ namespace shaiya
 {
     struct CItem;
 
-    using GuildWarehouse = Array<CItem*, 240>;
-
-    enum struct GuildPvPStatusType : UINT32
+    enum struct GuildPvPStatus : UINT32
     {
         None,
         RequestSent,
@@ -29,34 +27,61 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct GuildNpcs
+    {
+        Array<GuildNpc, 8> npcs;  //0x47C
+        CRITICAL_SECTION cs;      //0x49C
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct GuildPvP
     {
-        GuildPvPStatusType statusType;  //0x4B4
-        ULONG requestSenderId;          //0x4B8
-        ULONG targetId;                 //0x4BC
-        ULONG requestTargetId;          //0x4C0
-        SVector area;                   //0x4C4
-        UINT32 mapId;                   //0x4D0
-        UINT32 userCount;               //0x4D4
-        Array<ULONG, 7> userList;       //0x4D8
+        GuildPvPStatus status;    //0x4B4
+        ULONG requestSenderId;    //0x4B8
+        ULONG targetId;           //0x4BC
+        ULONG requestTargetId;    //0x4C0
+        SVector area;             //0x4C4
+        UINT32 mapId;             //0x4D0
+        UINT32 memberCount;       //0x4D4
+        Array<ULONG, 7> members;  //0x4D8
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GuildWarehouse
+    {
+        Array<CItem*, 240> items;  //0xA4
+        CRITICAL_SECTION cs;       //0x464
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct GuildUserInfo
     {
-        SNode node;    //0x00
-        ULONG charId;  //0x08
-        // 0x0C
-        CharArray<21> charName;
+        SNode node;              //0x00
+        ULONG charId;            //0x08
+        CharArray<21> charName;  //0x0C
         PAD(3);
-        Job job;       //0x24
+        Job job;                 //0x24
         PAD(3);
-        UINT16 level;  //0x28
+        UINT16 level;            //0x28
         PAD(2);
-        UINT8 rank;    //0x2C
+        UINT8 rank;              //0x2C
         PAD(15);
         // 0x3C
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GuildMembers
+    {
+        // 0x4F4
+        SSyncMap<ULONG, GuildUserInfo*> online;
+        // 0x53C
+        SSyncMap<ULONG, GuildUserInfo*> offline;
+        // 0x584
+        SSyncMap<ULONG, GuildUserInfo*> joinRequests;
     };
     #pragma pack(pop)
 
@@ -68,7 +93,7 @@ namespace shaiya
         CharArray<25> name;        //0x0C
         CharArray<21> masterName;  //0x25
         PAD(2);
-        UINT32 officerCount;       //0x3C
+        UINT32 adminCount;         //0x3C
         UINT32 country;            //0x40
         UINT32 points;             //0x44
         UINT32 rank;               //0x48
@@ -81,18 +106,10 @@ namespace shaiya
         UINT32 etinReturnCount;    //0x9C
         UINT32 grbJoinCount;       //0xA0
         GuildWarehouse warehouse;  //0xA4
-        CRITICAL_SECTION cs464;    //0x464
-        // 0x47C
-        Array<GuildNpc, 8> npcList;
-        CRITICAL_SECTION cs49C;    //0x49C
+        GuildNpcs npcs;            //0x47C
         GuildPvP pvp;              //0x4B4
-        // 0x4F4
-        SSyncMap<ULONG, GuildUserInfo*> online;
-        // 0x53C
-        SSyncMap<ULONG, GuildUserInfo*> offline;
-        // 0x584
-        SSyncMap<ULONG, GuildUserInfo*> joinRequests;
-        CRITICAL_SECTION cs5CC;    //0x5CC
+        GuildMembers members;      //0x4F4
+        CRITICAL_SECTION cs;       //0x5CC
         // 0x5E4
 
         static void Send(CGuild* guild, void* data/*ecx*/, int len/*eax*/);

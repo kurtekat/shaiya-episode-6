@@ -12,11 +12,11 @@ namespace shaiya
         UINT8 userStatus;
         ULONG userId;
         AuthStatus authStatus;
-        std::bitset<128> sessionKey;
+        Array<UINT8, 16> sessionKey;
 
         LoginResponse() = default;
 
-        LoginResponse(UINT8 userStatus, ULONG userId, AuthStatus authStatus, std::bitset<128>& sessionKey)
+        LoginResponse(UINT8 userStatus, ULONG userId, AuthStatus authStatus, Array<UINT8, 16>& sessionKey)
             : userStatus(userStatus), userId(userId), authStatus(authStatus), sessionKey(sessionKey)
         {
         }

@@ -44,14 +44,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBossMob
     {
-        SVector pos;   //0x00
-        float radius;  //0x0C
+        SVector pos;               //0x00
+        float radius;              //0x0C
         PAD(4);
-        UINT32 count;  //0x14
-        // 0x18
-        Array<UINT32, 16> mobId;
-        // 0x58
-        Array<MobInfo*, 16> mobList;
+        UINT32 count;              //0x14
+        Array<UINT32, 16> mobId;   //0x18
+        Array<MobInfo*, 16> mobs;  //0x58
         // 0x98
         PAD(148);
         // 0x12C
@@ -73,25 +71,22 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapBoss
     {
-        UINT32 id;                 //0x00
-        UINT32 count;              //0x04
-        UINT32 respawnTime;        //0x08
-        UINT32 portalMapId;        //0x0C
-        UINT32 portalInsZoneId;    //0x10
+        UINT32 id;                         //0x00
+        UINT32 count;                      //0x04
+        ULONG cooldown;                    //0x08
+        UINT32 portalMapId;                //0x0C
+        UINT32 portalInsZoneId;            //0x10
         PAD(4);
-        UINT32 changeMobCount;     //0x18
-        SVector pos;               //0x1C
+        UINT32 changeMobCount;             //0x18
+        SVector pos;                       //0x1C
         PAD(12);
-        Array<UINT32, 16> mobId;   //0x34
-        // 0x74
-        Array<MobInfo*, 16> mobList;
+        Array<UINT32, 16> mobId;           //0x34
+        Array<MobInfo*, 16> mobs;          //0x74
         // 0xB4
         PAD(100);
-        BOOL enableRandomRespawn;  //0x118
-        // 0x11C
-        MapRandomRespawn randomRespawn;
-        // 0x148
-        Array<MapBossMob, 32> changeMobList;
+        BOOL enableRandomRespawn;          //0x118
+        MapRandomRespawn randomRespawn;    //0x11C
+        Array<MapBossMob, 32> changeMobs;  //0x148
         PAD(4);
         // 0x26CC
     };
@@ -112,7 +107,6 @@ namespace shaiya
     struct MapLadder
     {
         SVector pos;
-        // 0xC
     };
     #pragma pack(pop)
 
@@ -129,12 +123,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapMob
     {
-        SVector v;         //0x00
-        SVector w;         //0x0C
-        UINT32 cellX;      //0x18
-        UINT32 cellZ;      //0x1C
-        UINT32 count;      //0x20
-        MapMob2* mobList;  //0x24
+        SVector v;      //0x00
+        SVector w;      //0x0C
+        UINT32 cellX;   //0x18
+        UINT32 cellZ;   //0x1C
+        UINT32 count;   //0x20
+        MapMob2* mobs;  //0x24
         // 0x28
     };
     #pragma pack(pop)
@@ -154,8 +148,8 @@ namespace shaiya
     {
         UINT32 type;
         UINT32 typeId;
-        UINT32 posCount;
-        SVector* posList;
+        UINT32 positionCount;
+        SVector* positions;
         PAD(4);
         // 0x14
     };
@@ -204,7 +198,7 @@ namespace shaiya
         DWORD noneDelay;
         bool update;
         PAD(3);
-        DWORD updateTime;
+        DWORD updateTick;
         // 0x1C
     };
     #pragma pack(pop)
@@ -216,22 +210,21 @@ namespace shaiya
         UINT32 size;               //0x04
         PAD(12);
         UINT32 mobAreaCount;       //0x14
-        MapMob* mobAreaList;       //0x18
+        MapMob* mobAreas;          //0x18
         PAD(8);
         MapWeather weather;        //0x24
         UINT32 npcCount;           //0x40
-        MapNpc* npcList;           //0x44
+        MapNpc* npcs;              //0x44
         PAD(8);
         UINT32 portalCount;        //0x50 
-        CDoor* portalList;         //0x54
-        UINT32 bindCount;          //0x58
-        MapBind* bindList;         //0x5C
+        CDoor* portals;            //0x54
+        UINT32 spawnAreaCount;     //0x58
+        MapBind* spawnAreas;       //0x5C
         UINT32 ladderCount;        //0x60
-        MapLadder* ladderList;     //0x64
+        MapLadder* ladders;        //0x64
         PAD(8);
         UINT32 namedAreaCount;     //0x70
-        // 0x74
-        MapNamedArea* namedAreaList;
+        MapNamedArea* namedAreas;  //0x74
         ULONG id;                  //0x78
         MapWarType warType;        //0x7C
         MapType mapType;           //0x80
@@ -242,7 +235,7 @@ namespace shaiya
         MapCreateTime createTime;  //0x1A8
         PAD(38);
         // value * 60000 + 30000
-        DWORD expireTime;          //0x1D4
+        ULONG expireTime;          //0x1D4
         UINT32 minUserCount;       //0x1D8
         UINT32 maxUserCount;       //0x1DC
         PAD(40);

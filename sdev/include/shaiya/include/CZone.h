@@ -33,16 +33,15 @@ namespace shaiya
         SSyncList<CItem> itemList;      //0x208
         SSyncList<CTrap> trapList;      //0x234
         SSyncList<void> list260;        //0x260
-        // 0x28C
-        Array<MapPortal, 10> portalList;
+        Array<MapPortal, 10> portals;   //0x28C
         UINT32 mobAreaCount;            //0x2DC
-        MapMob* mobAreaList;            //0x2E0
+        MapMob* mobAreas;               //0x2E0
         UINT32 bossMobCount;            //0x2E4
-        MapBoss* bossMobList;           //0x2E8
+        MapBoss* bossMobs;              //0x2E8
         MapWeather weather;             //0x2EC
         PAD(8);
         UINT32 regionCount;             //0x310
-        CMapRegion* regionList;         //0x314
+        CMapRegion* regions;            //0x314
         // 0x318
 
         static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);

@@ -56,8 +56,8 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            user->recallMapId = gateKeeper->gateList[user->townScrollGateIndex].mapId;
-            user->recallPos = gateKeeper->gateList[user->townScrollGateIndex].pos;
+            user->recallMapId = gateKeeper->gates[user->townScrollGateIndex].mapId;
+            user->recallPos = gateKeeper->gates[user->townScrollGateIndex].pos;
             user->recallType = UserRecallType::TownTeleportScroll;
             user->recallTick = GetTickCount() + 5000;
 

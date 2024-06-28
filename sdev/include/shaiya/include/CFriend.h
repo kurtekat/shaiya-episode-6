@@ -7,7 +7,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct BlockList
+    struct BlockUser
     {
         ULONG charId;            //0x00
         CharArray<21> charName;  //0x04

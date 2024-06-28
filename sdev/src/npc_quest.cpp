@@ -34,10 +34,10 @@ namespace npc_quest
 
     void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
     {
-        if (index >= quest->questInfo->resultList.size())
+        if (index >= quest->questInfo->results.size())
             return;
 
-        auto& result = quest->questInfo->resultList[index];
+        auto& result = quest->questInfo->results[index];
         auto exp = result.exp;
 
         if (exp)
@@ -69,11 +69,11 @@ namespace npc_quest
         outgoing.gold = result.gold;
 
 #ifdef SHAIYA_EP6_4_PT
-        for (int i = 0; std::cmp_less(i, result.itemList.size()); ++i)
+        for (int i = 0; std::cmp_less(i, result.items.size()); ++i)
         {
-            int type = result.itemList[i].type;
-            int typeId = result.itemList[i].typeId;
-            int count = result.itemList[i].count;
+            int type = result.items[i].type;
+            int typeId = result.items[i].typeId;
+            int count = result.items[i].count;
 
             int bag, slot;
             auto itemInfo = std::make_unique<ItemInfo*>();
