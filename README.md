@@ -169,7 +169,7 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/v2/sql
 
 Warning: the **Items** script will create an empty table.
 
-[ItemSqlWriter.zip](https://github.com/user-attachments/files/15755799/ItemSqlWriter.zip)
+[ItemSqlWriter.zip](https://github.com/user-attachments/files/16039051/ItemSqlWriter.zip)
 
 ### Duration
 
@@ -182,11 +182,17 @@ The library expects the same day(s) to seconds conversion as the client.
 | 15    | 1296000     |
 | 30    | 2592000     |
 
-Items **will not** be removed from guild warehouses. Items **will not** be deleted without sending a notification to the client.
+Items **will not** be removed from guild warehouses. Items **will not** be deleted without sending a notification to the client. The client does not copy dates to items in the bank or guild warehouse.
+
+```
+; bags 200 and 255
+00596FE6  83C4 0C  ADD ESP,0C  ;  Cases C8,FF of switch 00596F55
+00596FE9  C2 0C00  RETN 0C
+```
 
 ### ExtDuration
 
-The data is supported but the feature is not implemented.
+This feature will not be implemented.
 
 | Value  | Definition      |
 |--------|-----------------|
