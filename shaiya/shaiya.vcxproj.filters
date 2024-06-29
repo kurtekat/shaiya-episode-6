@@ -271,9 +271,6 @@
     <ClInclude Include="include\network\game\outgoing\F900.h">
       <Filter>include\network\game\outgoing</Filter>
     </ClInclude>
-    <ClInclude Include="include\item\ExtDuration.h">
-      <Filter>include\item</Filter>
-    </ClInclude>
     <ClInclude Include="include\item\ItemEffect.h">
       <Filter>include\item</Filter>
     </ClInclude>

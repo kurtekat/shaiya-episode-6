@@ -25,3 +25,29 @@ ItemInfo* CItemDrop::GetItemPlz(int grade/*eax*/)
         call u0x4D5F30
     }
 }
+
+int CItemDrop::GetItemCreateByGrade(int reqVg/*eax*/)
+{
+    Address u0x4D7620 = 0x4D7620;
+
+    __asm
+    {
+        mov edi,reqVg
+        movsx eax,di
+        mov ecx,g_ItemDrop
+        call u0x4D7620
+    }
+}
+
+bool CItemDrop::EnableItemCreateByGrade(int reqVg/*ecx*/)
+{
+    Address u0x4D7690 = 0x4D7690;
+
+    __asm
+    {
+        mov edi,reqVg
+        movsx ecx,di
+        mov esi,g_ItemDrop
+        call u0x4D7690
+    }
+}

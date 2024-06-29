@@ -3,28 +3,27 @@
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/item/ExtDuration.h>
 #include <shaiya/include/item/ItemEffect.h>
 #include <shaiya/include/item/ItemType.h>
 #include <shaiya/include/item/ReqOg.h>
 
 namespace shaiya
 {
-    enum ItemCooldown
+    enum struct ItemCooldown : ULONG
     {
-        // g_pPotionReuseDelay
-        ReqIg_0 = 0,        // 0x581D84
-        ReqIg_1 = 15000,    // 0x581D88
-        ReqIg_2 = 20000,    // 0x581D8C
-        ReqIg_3 = 25000,    // 0x581D90
-        ReqIg_4 = 30000,    // 0x581D94
-        ReqIg_5 = 60000,    // 0x581D98
-        ReqIg_6 = 120000,   // 0x581D9C
-        ReqIg_7 = 0,        // 0x581DA0
-        ReqIg_8 = 0,        // 0x581DA4
-        ReqIg_9 = 0,        // 0x581DA8
-        ReqIg_10 = 600000,  // 0x581DAC
-        ReqIg_11 = 2000     // 0x581DB0
+        // ReqIg
+        Value0 = 0,        // 0x581D84
+        Value1 = 15000,    // 0x581D88
+        Value2 = 20000,    // 0x581D8C
+        Value3 = 25000,    // 0x581D90
+        Value4 = 30000,    // 0x581D94
+        Value5 = 60000,    // 0x581D98
+        Value6 = 120000,   // 0x581D9C
+        Value7 = 0,        // 0x581DA0
+        Value8 = 0,        // 0x581DA4
+        Value9 = 0,        // 0x581DA8
+        Value10 = 600000,  // 0x581DAC
+        Value11 = 2000     // 0x581DB0
     };
 
     enum struct ItemRealType : UINT32
@@ -149,13 +148,18 @@ namespace shaiya
         UINT16 intelligence;        //0x76
         UINT16 wisdom;              //0x78
         UINT16 luck;                //0x7A
-        UINT32 dropGrade;           //0x7C
+        // max: 3072
+        UINT16 itemDropGrade;       //0x7C
+        UINT16 itemDropLimit;       //0x7E
         UINT32 buy;                 //0x80
         UINT32 sell;                //0x84
-        // EP6.4
+        // custom
         UINT32 duration;            //0x88
-        ExtDuration extDuration;    //0x8C
-        PAD(19);
+        UINT32 itemDropCount;       //0x8C
+        PAD(4);
+        UINT32 itemDropDelay;       //0x94
+        DWORD itemDropEnableTick;   //0x98
+        PAD(4);
         ItemRealType realType;      //0xA0
         ItemMarketType marketType;  //0xA4
         PAD(3);
