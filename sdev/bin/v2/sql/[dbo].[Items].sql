@@ -63,8 +63,7 @@ CREATE TABLE [dbo].[Items](
 	[Drop] [smallint] NOT NULL,
 	[Server] [tinyint] NOT NULL,
 	[Count] [tinyint] NOT NULL,
-    [Duration] [int] NOT NULL,
-    [ExtDuration] [tinyint] NOT NULL,
+    [Duration] [int] NOT NULL
  CONSTRAINT [PK_Items] PRIMARY KEY NONCLUSTERED 
 (
 	[ItemID] ASC
