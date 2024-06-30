@@ -66,6 +66,7 @@
     <ClInclude Include="include\shaiya\include\CClientToDBAgent.h" />
     <ClInclude Include="include\shaiya\include\CClientToGameLog.h" />
     <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
+    <ClInclude Include="include\shaiya\include\CDamageMob.h" />
     <ClInclude Include="include\shaiya\include\CLogConnection.h" />
     <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
     <ClInclude Include="include\shaiya\include\CServer.h" />

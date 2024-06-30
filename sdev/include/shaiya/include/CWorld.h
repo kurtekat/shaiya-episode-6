@@ -9,6 +9,7 @@ namespace shaiya
     struct CMap;
     struct CUser;
     struct CZone;
+    struct CZoneNode;
 
     #pragma pack(push, 1)
     struct WorldKillCount
@@ -26,32 +27,34 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CWorld
     {
-        UINT32 zoneCount;                           //0x00
+        UINT32 zoneCount;                     //0x00
+        CZoneNode* zoneNode;                  //0x04
+        UINT32 mapCount;                      //0x08
         PAD(4);
-        UINT32 mapCount;                            //0x08
-        PAD(4);
-        SSyncMap<ULONG, CUser*> leaveUsers;         //0x10
-        SSyncMap<const char*, CUser*> leaveUsers2;  //0x58
-        SSyncMap<ULONG, CUser*> enterUsers;         //0xA0
-        SSyncMap<const char*, CUser*> enterUsers2;  //0xE8
-        SSyncList<CUser> list130;                   //0x130
-        SSyncList<CUser> list15C;                   //0x15C
-        SSyncList<CUser> list188;                   //0x188
-        SSyncList<CDead> list1B4;                   //0x1B4
+        SSyncMap<ULONG, CUser*> enterUsers;   //0x10
+        SSyncMap<PCSTR, CUser*> enterUsers2;  //0x58
+        SSyncMap<ULONG, CUser*> loginUsers;   //0xA0
+        SSyncMap<PCSTR, CUser*> loginUsers2;  //0xE8
+        SSyncList<CUser> list130;             //0x130
+        SSyncList<CUser> leaveUsers;          //0x15C
+        SSyncList<CUser> list188;             //0x188
+        SSyncList<CDead> list1B4;             //0x1B4
         // 0x1E0
-        PAD(96);
-        ULONG worldDay;                             //0x240
-        DWORD worldDaySetTick;                      //0x244
+        PAD(28);
+        CRITICAL_SECTION cs;                  //0x1FC
+        SSyncList<void> list214;              //0x214
+        ULONG worldDay;                       //0x240
+        DWORD worldDaySetTick;                //0x244
         // AoL, UoF
-        Array<WorldKillCount, 2> killCount;         //0x248
-        CRITICAL_SECTION cs;                        //0x350
-        UINT32 guildHouseCount;                     //0x368
-        UINT32 guildRankCount;                      //0x36C
-        UINT32 guildHouseMaxCount;                  //0x370
-        UINT32 guildRankMaxCount;                   //0x374
-        UINT32 partyCount;                          //0x378
-        UINT32 partyMaxCount;                       //0x37C
-        UINT32 allCount;                            //0x380
+        Array<WorldKillCount, 2> killCount;   //0x248
+        CRITICAL_SECTION kc;                  //0x350
+        UINT32 guildHouseCount;               //0x368
+        UINT32 guildRankCount;                //0x36C
+        UINT32 guildHouseMaxCount;            //0x370
+        UINT32 guildRankMaxCount;             //0x374
+        UINT32 partyCount;                    //0x378
+        UINT32 partyMaxCount;                 //0x37C
+        UINT32 allCount;                      //0x380
         // 0x384
 
         static CUser* FindUser(ULONG id/*CUser->id*/);

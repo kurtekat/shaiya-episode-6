@@ -1,11 +1,14 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/SNode.h>
+#include <shaiya/include/common/SSyncList.h>
+#include "include/shaiya/include/CDamageMob.h"
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
     struct CDoor;
+    struct CSkill;
     struct CUser;
     struct CZone;
     struct MobInfo;
@@ -91,13 +94,9 @@ namespace shaiya
         UINT32 abilityAddRangedDefense;    //0x228
         PAD(12);
         UINT32 abilityAddMagicResistance;  //0x238
-        PAD(20);
-        CRITICAL_SECTION cs250;            //0x250
-        // 0x268
-        PAD(24);
-        CRITICAL_SECTION cs280;            //0x280
-        // 0x298
         PAD(12);
+        SSyncList<CSkill> applySkills;     //0x248
+        CDamageMob damageMob;              //0x274
         UINT32 mobId;                      //0x2A4
         UINT32 health;                     //0x2A8
         UINT16 stamina;                    //0x2AC
@@ -121,7 +120,7 @@ namespace shaiya
         PAD(40);
         DWORD destroyTick;                 //0xD3C
         PAD(92);
-        CRITICAL_SECTION csD9C;            //0xD9C
+        CRITICAL_SECTION cs;               //0xD9C
         // gameLog
         CharArray<32> text3;               //0xDB4
         CharArray<32> text4;               //0xDD4

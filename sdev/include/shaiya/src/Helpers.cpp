@@ -129,27 +129,27 @@ bool Helpers::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
 
 bool Helpers::HasApplySkill(CUser* user, int skillId, int skillLv)
 {
-    EnterCriticalSection(&user->applySkillList.cs);
+    EnterCriticalSection(&user->applySkills.cs);
 
-    auto node = user->applySkillList.sentinel.tail;
+    auto node = user->applySkills.sentinel.tail;
     node = node->next;
-    user->applySkillList.sentinel.head = node;
+    user->applySkills.sentinel.head = node;
 
-    while (node && node != user->applySkillList.sentinel.tail)
+    while (node && node != user->applySkills.sentinel.tail)
     {
         auto skill = reinterpret_cast<CSkill*>(node);
         if (skill->skillId == skillId && skill->skillLv == skillLv)
         {
-            LeaveCriticalSection(&user->applySkillList.cs);
+            LeaveCriticalSection(&user->applySkills.cs);
             return true;
         }
 
-        node = user->applySkillList.sentinel.head;
+        node = user->applySkills.sentinel.head;
         node = node->next;
-        user->applySkillList.sentinel.head = node;
+        user->applySkills.sentinel.head = node;
     }
 
-    LeaveCriticalSection(&user->applySkillList.cs);
+    LeaveCriticalSection(&user->applySkills.cs);
     return false;
 }
 

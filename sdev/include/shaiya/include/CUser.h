@@ -345,13 +345,13 @@ namespace shaiya
         Inventory inventory;                   //0x1C0
         Warehouse warehouse;                   //0x400
         Bank bank;                             //0x7C0
-        SSyncList<CSkill> applySkillList;      //0xA90
+        SSyncList<CSkill> applySkills;         //0xA90
         UINT32 skillCount;                     //0xABC
         Array<CSkill*, 256> skills;            //0xAC0
         UINT32 quickSlotCount;                 //0xEC0
         Array<UserQuickSlot, 128> quickSlots;  //0xEC4
-        SSyncList<CQuest> completedQuestList;  //0x11C4
-        SSyncList<CQuest> questList;           //0x11F0
+        SSyncList<CQuest> completedQuests;     //0x11C4
+        SSyncList<CQuest> quests;              //0x11F0
         UINT32 abilityStrength;                //0x121C
         UINT32 abilityDexterity;               //0x1220
         UINT32 abilityIntelligence;            //0x1224

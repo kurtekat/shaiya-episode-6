@@ -296,6 +296,9 @@
     <ClInclude Include="include\shaiya\include\CUserCrypto.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\CDamageMob.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">
