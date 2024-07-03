@@ -10,8 +10,9 @@
 
 namespace shaiya
 {
+    struct CCharacterChat;
     struct CMonster;
-    struct CStaticText;
+    struct SStaticText;
 
     enum struct CharacterActionType : UINT32
     {
@@ -25,6 +26,14 @@ namespace shaiya
         Cast,
         UseSkill
     };
+
+    #pragma pack(push, 1)
+    struct CharacterTitle
+    {
+        SStaticText* text;
+        long pointX;
+    };
+    #pragma pack(pop)
 
     #pragma pack(push, 1)
     // 00419800 ctor
@@ -112,7 +121,11 @@ namespace shaiya
         UINT16 targetDmgMP;           //0x1F4
         PAD(6);
         UINT8 attackResult;           //0x1FC
-        PAD(184);
+        PAD(139);
+        CCharacterChat* chatBalloon;  //0x288
+        // 0x747538 5.0 (seconds)
+        float chatBalloonTimer;       //0x28C
+        PAD(37);
         UINT8 attackSpeed;            //0x2B5
         UINT8 moveSpeed;              //0x2B6
         Country country;              //0x2B7
@@ -127,9 +140,9 @@ namespace shaiya
         PAD(31);
         char* guildName;              //0x30C
         ULONG guildId;                //0x310
-        CStaticText* charNameText;    //0x314
+        SStaticText* charNameText;    //0x314
         long charNamePointX;          //0x318
-        CStaticText* guildNameText;   //0x31C
+        SStaticText* guildNameText;   //0x31C
         long guildNamePointX;         //0x320
         PAD(16);
         UINT32 kills;                 //0x334
@@ -146,6 +159,9 @@ namespace shaiya
         CMonster* wings;              //0x434
         PAD(4);
         // 0x43C
+
+        // custom
+        CharacterTitle title;         //0x43C
     };
     #pragma pack(pop)
 }
