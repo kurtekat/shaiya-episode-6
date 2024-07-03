@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    struct CStaticText;
+    struct SStaticText;
 
     #pragma pack(push, 1)
     // 004185A0 ctor
@@ -33,7 +33,7 @@ namespace shaiya
         UINT8 attackSpeed;      //0xB4
         UINT8 moveSpeed;        //0xB5
         PAD(66);
-        CStaticText* nameText;  //0xF8
+        SStaticText* nameText;  //0xF8
         long namePointX;        //0xFC
         PAD(52);
         // 0x134

@@ -20,4 +20,6 @@ namespace shaiya
         static CNpc* FindNpc(ULONG id/*CNpc->id*/);
     };
     #pragma pack(pop)
+
+    inline auto g_pWorldMgr = (CWorldMgr*)0x7C4A68;
 }

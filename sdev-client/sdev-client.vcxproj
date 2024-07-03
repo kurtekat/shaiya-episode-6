@@ -22,7 +22,9 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
     <ClInclude Include="include\shaiya\include\3dc.h" />
+    <ClInclude Include="include\shaiya\include\CCharacterChat.h" />
     <ClInclude Include="include\shaiya\include\CDataFile.h" />
+    <ClInclude Include="include\shaiya\include\CPlayerData.h" />
     <ClInclude Include="include\shaiya\include\CStaticText.h" />
     <ClInclude Include="include\shaiya\include\CWindow.h" />
     <ClInclude Include="include\shaiya\include\CCharacter.h" />
@@ -37,7 +39,6 @@
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
     <ClInclude Include="include\shaiya\include\SModel.h" />
-    <ClInclude Include="include\shaiya\include\STexture.h" />
     <ClInclude Include="include\static.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
@@ -53,6 +54,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\static.cpp" />
+    <ClCompile Include="src\title.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc" />

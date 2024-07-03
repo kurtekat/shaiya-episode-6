@@ -4,12 +4,23 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    struct STexture
+    {
+        PAD(4);                          //0x00
+        CharArray<256> fileName;         //0x04
+        CharArray<256> path;             //0x104
+        LPDIRECT3DBASETEXTURE9 texture;  //0x204
+        // 0x208
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct CTexture
     {
         // D3DRTYPE_TEXTURE
-        LPDIRECT3DBASETEXTURE9 texture;  //0x00
+        LPDIRECT3DBASETEXTURE9 texture;
         PAD(4);
-        D2D_SIZE_F size;                 //0x08
+        D2D_SIZE_F size;
         // 0x10
 
         static void Draw(CTexture* texture, long x, long y, float extrusion);

@@ -68,9 +68,6 @@
     <ClInclude Include="include\shaiya\include\SModel.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\STexture.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\ItemInfo.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
@@ -83,7 +80,13 @@
     <ClInclude Include="include\static.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\CPlayerData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
     <ClInclude Include="include\shaiya\include\CStaticText.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CCharacterChat.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="include\shaiya\src\CStaticText.cpp">
       <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\title.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
