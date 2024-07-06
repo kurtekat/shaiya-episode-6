@@ -38,7 +38,7 @@
     <ClInclude Include="include\shaiya\common.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CGuild.h">
+    <ClInclude Include="include\shaiya\include\GuildData2.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CItem.h">
@@ -89,6 +89,15 @@
     <ClInclude Include="include\shaiya\include\CCharacterChat.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\CVector.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\GuildUserData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CMap.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -126,6 +135,15 @@
     </ClCompile>
     <ClCompile Include="src\title.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\GuildData2.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\name_effect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\CPlayerData.cpp">
+      <Filter>include\shaiya\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

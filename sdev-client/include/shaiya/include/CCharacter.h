@@ -5,6 +5,7 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/user/MotionType.h>
+#include <shaiya/include/user/PartyType.h>
 #include <shaiya/include/user/ShapeType.h>
 #include "include/shaiya/common.h"
 
@@ -137,7 +138,9 @@ namespace shaiya
         bool isAdmin;                 //0x2D4
         PAD(23);
         ShapeType shapeType;          //0x2EC
-        PAD(31);
+        PAD(27);
+        PartyType partyType;          //0x308
+        PAD(3);
         char* guildName;              //0x30C
         ULONG guildId;                //0x310
         SStaticText* charNameText;    //0x314

@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/Job.h>
 #include <shaiya/include/item/CraftName.h>
 #include <shaiya/include/item/Gems.h>
 
@@ -7,6 +8,48 @@
 
 namespace shaiya
 {
+    enum struct GuildUserStatusType : UINT8
+    {
+        // 1:99 character level
+        Quit = 102,
+        Expelled,
+        EnterWorld,
+        LeaveWorld,
+        EnterRankBattle,
+        // > 200
+        // value - 200 = authLv
+        AuthLv1 = 201,
+        AuthLv2,
+        AuthLv3,
+        AuthLv4,
+        AuthLv5,
+        AuthLv6,
+        AuthLv7,
+        AuthLv8,
+        AuthLv9
+        // etc.
+    };
+
+    #pragma pack(push, 1)
+    struct GuildUserStatusOutgoing
+    {
+        UINT16 opcode{ 0xD0C };
+        GuildUserStatusType statusType;
+        ULONG charId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GuildJoinRequestOutgoing
+    {
+        UINT16 opcode{ 0xD17 };
+        ULONG charId;
+        UINT16 level;
+        Job job;
+        CharArray<21> charName;
+    };
+    #pragma pack(pop)
+
     #pragma pack(push, 1)
     struct Item0D29
     {

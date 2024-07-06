@@ -24,17 +24,20 @@
     <ClInclude Include="include\shaiya\include\3dc.h" />
     <ClInclude Include="include\shaiya\include\CCharacterChat.h" />
     <ClInclude Include="include\shaiya\include\CDataFile.h" />
+    <ClInclude Include="include\shaiya\include\CMap.h" />
     <ClInclude Include="include\shaiya\include\CPlayerData.h" />
     <ClInclude Include="include\shaiya\include\CStaticText.h" />
+    <ClInclude Include="include\shaiya\include\CVector.h" />
     <ClInclude Include="include\shaiya\include\CWindow.h" />
     <ClInclude Include="include\shaiya\include\CCharacter.h" />
-    <ClInclude Include="include\shaiya\include\CGuild.h" />
+    <ClInclude Include="include\shaiya\include\GuildData2.h" />
     <ClInclude Include="include\shaiya\include\CItem.h" />
     <ClInclude Include="include\shaiya\include\CMonster.h" />
     <ClInclude Include="include\shaiya\include\CNetwork.h" />
     <ClInclude Include="include\shaiya\include\CNpc.h" />
     <ClInclude Include="include\shaiya\include\CTexture.h" />
     <ClInclude Include="include\shaiya\include\CWorldMgr.h" />
+    <ClInclude Include="include\shaiya\include\GuildUserData.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
@@ -45,6 +48,8 @@
   <ItemGroup>
     <ClCompile Include="include\shaiya\src\CDataFile.cpp" />
     <ClCompile Include="include\shaiya\src\CNetwork.cpp" />
+    <ClCompile Include="include\shaiya\src\CPlayerData.cpp" />
+    <ClCompile Include="include\shaiya\src\GuildData2.cpp" />
     <ClCompile Include="include\shaiya\src\CStaticText.cpp" />
     <ClCompile Include="include\shaiya\src\CTexture.cpp" />
     <ClCompile Include="include\shaiya\src\CWindow.cpp" />
@@ -52,6 +57,7 @@
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\name_effect.cpp" />
     <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\static.cpp" />
     <ClCompile Include="src\title.cpp" />

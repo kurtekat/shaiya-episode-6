@@ -1,15 +1,27 @@
 #pragma once
 #include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/npc/NpcType.h>
 #include <shaiya/include/user/AuthStatus.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CMap.h"
+#include "include/shaiya/include/CVector.h"
 
 namespace shaiya
 {
+    struct BlockData;
+    struct FindPartyData;
+    struct FriendData;
+    struct GuildData2;
+    struct GuildJoinUserData;
+    struct GuildNpcData;
+    struct GuildUserData;
+    struct ObeliskData;
+
     using Inventory = Array<Array<CItem, 24>, 6>;
     using Warehouse = Array<CItem, 240>;
     using Bank = Array<BillingItem, 240>;
@@ -113,7 +125,10 @@ namespace shaiya
         Inventory inventory;                //0x90E2F8  0x1128
         Array<CItem, 256> bag250;           //0x910038  0x2E68
         // 0x913438  0x6268
-        PAD(56);
+        PAD(48);
+        Country country;                    //0x913468  0x6298
+        Grow grow;                          //0x913469  0x6299
+        PAD(6);
         UINT8 hair;                         //0x913470  0x62A0
         UINT8 face;                         //0x913471  0x62A1
         UINT8 size;                         //0x913472  0x62A2
@@ -193,35 +208,55 @@ namespace shaiya
         UINT8 townScrollSlot;               //0x91AD3F  0xDB6F
         UINT32 npcTypeId;                   //0x91AD40  0xDB70
         NpcType32 npcType;                  //0x91AD44  0xDB74
-        PAD(26802894);
-        Country country;                    //0x22AA816  0x199D646
-        PAD(1);
-        Array<QuickSlot, 50> quickSlots;    //0x22AA818  0x199D648
-        UINT8 quickSlot1Bag;                //0x22AAB38  0x199D968
-        UINT8 quickSlot2Bag;                //0x22AAB39  0x199D969
+        PAD(26802720);
+        CVector<GuildUserData> guildUserData;  //0x22AA768  0x199D598
+        // 0x22AA780  0x199D5B0
+        CVector<GuildJoinUserData> guildJoinUserData;
+        CVector<FriendData> friendData;        //0x22AA798  0x199D5C8
+        CVector<BlockData> blockData;          //0x22AA7B0  0x199D5E0
+        CVector<FindPartyData> findPartyData;  //0x22AA7C8  0x199D5F8
+        CMap<ULONG, ObeliskData> obeliskData;  //0x22AA7E0  0x199D610
+        // 0x22AA80C  0x199D63C
+        PAD(8);
+        UINT8 attackSpeed;                     //0x22AA814  0x199D644
+        UINT8 moveSpeed;                       //0x22AA815  0x199D645
+        Country country2;                      //0x22AA816  0x199D646
+        Grow maxGrow;                          //0x22AA817  0x199D647
+        Array<QuickSlot, 50> quickSlots;       //0x22AA818  0x199D648
+        UINT8 quickSlot1Bag;                   //0x22AAB38  0x199D968
+        UINT8 quickSlot2Bag;                   //0x22AAB39  0x199D969
         PAD(2);
-        Array<QuickSlot, 24> revolver;      //0x22AAB3C  0x199D96C
+        Array<QuickSlot, 24> revolver;         //0x22AAB3C  0x199D96C
         // 0x22AACBC  0x199DAEC
         PAD(20);
-        QuickSlot quickPotionZ;             //0x22AACD0  0x199DB00
-        QuickSlot quickPotionX;             //0x22AACE0  0x199DB10
+        QuickSlot quickPotionZ;                //0x22AACD0  0x199DB00
+        QuickSlot quickPotionX;                //0x22AACE0  0x199DB10
         // 0x22AACF0  0x199DB20
         PAD(332);
-        UINT32 kills;                       //0x22AAE3C  0x199DC6C
-        UINT32 deaths;                      //0x22AAE40  0x199DC70
-        PAD(2420);
-        CharArray<128> textBuf;             //0x22AB7B8  0x199E5E8
+        UINT32 kills;                          //0x22AAE3C  0x199DC6C
+        UINT32 deaths;                         //0x22AAE40  0x199DC70
+        PAD(2414);
+        UINT8 guildAuthLv;                     //0x22AB7B2  0x199E5E2
+        PAD(1);
+        char* guildName;                       //0x22AB7B4  0x199E5E4
+        CharArray<128> textBuf;                //0x22AB7B8  0x199E5E8
         // 0x22AB838  0x199E668
         PAD(36);
-        UINT32 points;                      //0x22AB85C  0x199E68C
+        UINT32 points;                         //0x22AB85C  0x199E68C
         PAD(34);
-        Bank bank;                          //0x22AB882  0x199E6B2
-        StoredPointItems storedPointItems;  //0x22ABB52  0x199E982
+        Bank bank;                             //0x22AB882  0x199E6B2
+        StoredPointItems storedPointItems;     //0x22ABB52  0x199E982
         // 0x22ABE22  0x199EC52
         PAD(1970);
-        ULONG npcId3;                       //0x22AC5D4  0x199F404
-        PAD(15408);
+        ULONG npcId3;                          //0x22AC5D4  0x199F404
+        PAD(12548);
+        CMap<ULONG, GuildData2> guildData2;    //0x22AF6DC  0x19A250C
+        CVector<GuildNpcData> guildNpcData;    //0x22AF708  0x19A2538
+        // 0x22AF720  0x19A2550
+        PAD(2792);
         // 0x19A3038
+
+        static GuildUserData* GetGuildUserData(ULONG charId);
     };
     #pragma pack(pop)
 

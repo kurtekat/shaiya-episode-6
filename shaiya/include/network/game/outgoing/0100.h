@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
@@ -67,6 +68,22 @@ namespace shaiya
 
         CharacterDeleteOutgoing(ULONG charId)
             : unknown(0), charId(charId)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharacterGrowOutgoing
+    {
+        UINT16 opcode{ 0x109 };
+        Country country;
+        Grow maxGrow;
+
+        CharacterGrowOutgoing() = default;
+
+        CharacterGrowOutgoing(Country country, Grow maxGrow)
+            : country(country), maxGrow(maxGrow)
         {
         }
     };

@@ -1,7 +1,3 @@
-#include <array>
-#include <memory>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CCharacter.h"
@@ -38,10 +34,10 @@ namespace title
         if (!user->title.text)
             return;
 
-        y -= 30.0;
-        x -= user->title.pointX;
+        auto posY = y - 30.0;
+        auto posX = x - user->title.pointX;
 
-        CStaticText::Draw(user->title.text, long(x), long(y), extrusion, 0xFFFFFFFF);
+        CStaticText::Draw(user->title.text, long(posX), long(posY), extrusion, 0xFFFFFFFF);
     }
 }
 
