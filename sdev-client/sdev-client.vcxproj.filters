@@ -98,6 +98,21 @@
     <ClInclude Include="include\shaiya\include\CMap.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\CAniListData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CEffectData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CMonsterData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CObjectData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CParticleData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -138,9 +153,6 @@
     </ClCompile>
     <ClCompile Include="include\shaiya\src\GuildData2.cpp">
       <Filter>include\shaiya\src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\name_effect.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\CPlayerData.cpp">
       <Filter>include\shaiya\src</Filter>

@@ -1,0 +1,13 @@
+#pragma once
+#include "include/shaiya/common.h"
+
+namespace shaiya
+{
+    #pragma pack(push, 1)
+    struct CObjectData
+    {
+        PAD(28);
+        // 0x1C
+    };
+    #pragma pack(pop)
+}
