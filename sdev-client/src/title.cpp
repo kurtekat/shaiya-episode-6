@@ -9,6 +9,8 @@ using namespace shaiya;
 
 namespace title
 {
+    constexpr float chat_y_add = 1.75F;
+
     void hook(CCharacter* user, float x, float y, float extrusion)
     {
         const char* text = "Champion of Shaiya";
@@ -91,9 +93,21 @@ void __declspec(naked) naked_0x41830D()
     }
 }
 
+unsigned u0x412765 = 0x412765;
+void __declspec(naked) naked_0x41275F()
+{
+    __asm
+    {
+        fld dword ptr[title::chat_y_add]
+        jmp u0x412765
+    }
+}
+
 void hook::title()
 {
     util::detour((void*)0x453E7C, naked_0x453E7C, 5);
     // hide pets without a model
     util::detour((void*)0x41830D, naked_0x41830D, 5);
+    // increase chat balloon height (1.5 to 1.75)
+    util::detour((void*)0x41275F, naked_0x41275F, 6);
 }
