@@ -147,9 +147,12 @@ namespace shaiya
         long charNamePointX;          //0x318
         SStaticText* guildNameText;   //0x31C
         long guildNamePointX;         //0x320
-        PAD(16);
+        SStaticText* myShopMsgText;   //0x324
+        PAD(12);
         UINT32 kills;                 //0x334
-        PAD(136);
+        BOOL myShopOpen;              //0x338
+        CharArray<128> myShopMsg;     //0x33C
+        PAD(4);
         UINT8 vehicleSeatCount;       //0x3C0
         UINT8 vehicleModel;           //0x3C1
         PAD(2);
@@ -165,6 +168,9 @@ namespace shaiya
 
         // custom
         CharacterTitle title;         //0x43C
+
+        static void RemoveEffect(CCharacter* user, int effectDataId, int effectSubId);
+        static void RenderEffect(CCharacter* user, int effectDataId, int effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown);
     };
     #pragma pack(pop)
 }

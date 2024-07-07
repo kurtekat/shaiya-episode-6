@@ -11,7 +11,7 @@ namespace shaiya
         PAD(8);
         SStaticText* text;
         // 0x74823C 1.5
-        float pointYAdd;
+        float yAdd;
         // 0x10
     };
     #pragma pack(pop)

@@ -430,7 +430,7 @@ namespace shaiya
         CEffectData mental_storm_lure;           //0x22CD57C
         CEffectData missle_rage;                 //0x22CD6A8
         CEffectData soul_menace;                 //0x22CD7D4
-        CEffectData stunning_disruption1;        //0x22CD900
+        CEffectData stunning_disruption;         //0x22CD900
         CEffectData effectData247;               //0x22CDA2C
         CEffectData effectData248;               //0x22CDB58
         CEffectData effectData249;               //0x22CDC84
@@ -446,17 +446,17 @@ namespace shaiya
         CEffectData freezing_arrow_arrow;        //0x22CE83C
         CEffectData effectData260;               //0x22CE968
         CEffectData effectData261;               //0x22CEA94
-        CEffectData revenge_mark_notice1;        //0x22CEBC0
-        CEffectData revenge_mark_notice2;        //0x22CECEC
-        CEffectData revenge_mark_notice3;        //0x22CEE18
-        CEffectData revenge_mark_loop1;          //0x22CEF44
-        CEffectData revenge_mark_loop2;          //0x22CF070
-        CEffectData revenge_mark_loop3;          //0x22CF19C
-        CEffectData revenge_mark_loop4;          //0x22CF2C8
-        CEffectData revenge_mark_loop5;          //0x22CF3F4
-        CEffectData revenge_mark_loop6;          //0x22CF520
-        CEffectData revenge_mark_loop7;          //0x22CF64C
-        CEffectData revenge_mark_loop8;          //0x22CF778
+        CEffectData revenge_mark_notice_01;      //0x22CEBC0
+        CEffectData revenge_mark_notice_02;      //0x22CECEC
+        CEffectData revenge_mark_notice_03;      //0x22CEE18
+        CEffectData revenge_mark_loop_01;        //0x22CEF44
+        CEffectData revenge_mark_loop_02;        //0x22CF070
+        CEffectData revenge_mark_loop_03;        //0x22CF19C
+        CEffectData revenge_mark_loop_04;        //0x22CF2C8
+        CEffectData revenge_mark_loop_05;        //0x22CF3F4
+        CEffectData revenge_mark_loop_06;        //0x22CF520
+        CEffectData revenge_mark_loop_07;        //0x22CF64C
+        CEffectData revenge_mark_loop_08;        //0x22CF778
         CEffectData effectData273;               //0x22CF8A4
         CEffectData effectData274;               //0x22CF9D0
         CEffectData effectData275;               //0x22CFAFC
@@ -464,7 +464,7 @@ namespace shaiya
         CEffectData effectData277;               //0x22CFD54
         CEffectData effectData278;               //0x22CFE80
         CEffectData effectData279;               //0x22CFFAC
-        CEffectData effectData280;               //0x22D00D8
+        CEffectData character_effect_01;         //0x22D00D8
         CEffectData effectData281;               //0x22D0204
         CEffectData effectData282;               //0x22D0330
         CEffectData effectData283;               //0x22D045C
@@ -475,9 +475,9 @@ namespace shaiya
         CEffectData effectData288;               //0x22D0A38
         CEffectData effectData289;               //0x22D0B64
         CEffectData effectData290;               //0x22D0C90
-        CEffectData effectData291;               //0x22D0DBC
-        CEffectData effectData292;               //0x22D0EE8
-        CEffectData effectData293;               //0x22D1014
+        CEffectData pet_gold;                    //0x22D0DBC
+        CEffectData pet_item;                    //0x22D0EE8
+        CEffectData pet_gold_item;               //0x22D1014
         CEffectData effectData294;               //0x22D1140
         CEffectData effectData295;               //0x22D126C
         CEffectData effectData296;               //0x22D1398

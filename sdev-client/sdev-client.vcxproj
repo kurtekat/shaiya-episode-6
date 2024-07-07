@@ -51,7 +51,9 @@
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\shaiya\src\CCharacter.cpp" />
     <ClCompile Include="include\shaiya\src\CDataFile.cpp" />
+    <ClCompile Include="include\shaiya\src\CEffectData.cpp" />
     <ClCompile Include="include\shaiya\src\CNetwork.cpp" />
     <ClCompile Include="include\shaiya\src\CPlayerData.cpp" />
     <ClCompile Include="include\shaiya\src\GuildData2.cpp" />

@@ -157,6 +157,12 @@
     <ClCompile Include="include\shaiya\src\CPlayerData.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\src\CEffectData.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\CCharacter.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">

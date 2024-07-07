@@ -16,6 +16,8 @@ namespace shaiya
         PAD(20);
         char path[MAX_PATH];  //0x28
         // 0x12C
+
+        static BOOL CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
     };
     #pragma pack(pop)
 }
