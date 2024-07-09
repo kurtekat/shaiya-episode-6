@@ -13,18 +13,18 @@ namespace shaiya
     struct CWorldMgr
     {
         PAD(1310776);
-        CCharacter* user;        //0x904AA0  0x140038
+        CCharacter* user;           //0x904AA0  0x140038
         PAD(872);
-        CTexture mon_not_ex;     //0x904E0C  0x1403A4
-        CTexture mon_fire_ex;    //0x904E1C  0x1403B4
-        CTexture mon_water_ex;   //0x904E2C  0x1403C4
-        CTexture mon_ground_ex;  //0x904E3C  0x1403D4
-        CTexture mon_wind_ex;    //0x904E4C  0x1403E4
-        CTexture mon_quest_ex;   //0x904E5C  0x1403F4
-        CTexture party_member;   //0x904E6C  0x140404
-        CTexture party_jang;     //0x904E7C  0x140414
-        CTexture grade2;         //0x904E8C  0x140424
-        CTexture pvp_arrow;      //0x904E9C  0x140434
+        CTexture attribute0Image;   //0x904E0C  0x1403A4  mon_not_ex.tga
+        CTexture attribute1Image;   //0x904E1C  0x1403B4  mon_fire_ex.tga
+        CTexture attribute2Image;   //0x904E2C  0x1403C4  mon_water_ex.tga
+        CTexture attribute3Image;   //0x904E3C  0x1403D4  mon_ground_ex.tga
+        CTexture attribute4Image;   //0x904E4C  0x1403E4  mon_wind_ex.tga
+        CTexture questImage;        //0x904E5C  0x1403F4  mon_quest_ex.tga
+        CTexture partyMemberImage;  //0x904E6C  0x140404  party_member.tga
+        CTexture partyLeaderImage;  //0x904E7C  0x140414  party_jang.tga
+        CTexture pvpGradeImage;     //0x904E8C  0x140424  grade2.tga
+        CTexture pvpArrowImage;     //0x904E9C  0x140434  pvp_arrow.tga
         // 0x904EAC  0x140444
         PAD(7988);
         // 0x906DE0  0x142378
