@@ -2,9 +2,11 @@
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
+#include "include/shaiya/include/CEffectModelList.h"
 #include "include/shaiya/include/CMonsterData.h"
 #include "include/shaiya/include/CObjectData.h"
 #include "include/shaiya/include/CPlayerData.h"
+#include "include/shaiya/include/CTextureList.h"
 #include "include/shaiya/include/CWorldMgr.h"
 
 namespace shaiya
@@ -67,128 +69,138 @@ namespace shaiya
     // the .data section
     struct Static
     {
-        PAD(216);                         //0x7AB000
-        D2D_SIZE_U client;                //0x7AB0D8
-        D3DVIEWPORT9 viewport;            //0x7AB0E0
+        PAD(216);                            //0x7AB000
+        D2D_SIZE_U client;                   //0x7AB0D8
+        D3DVIEWPORT9 viewport;               //0x7AB0E0
         // 0x7AB0F8
         PAD(2788);
         // CUser->id, CMob->id, CNpc->id
-        ULONG targetId;                   //0x7ABBDC
-        TargetType targetType;            //0x7ABBE0
-        PAD(84796);
-        CharArray<MAX_PATH> iniFileName;  //0x7C0720
+        ULONG targetId;                      //0x7ABBDC
+        TargetType targetType;               //0x7ABBE0
+        PAD(24576);
+        CMonsterData monMonster;             //0x7B1BE4  monster.mon
+        CMonsterData monNpc;                 //0x7B1BF8  npc.mon
+        CMonsterData monStrip;               //0x7B1C0C  strip.mon
+        CMonsterData monWings;               //0x7B1C20  wing.mon
+        // 0x7B1C34
+        PAD(284);
+        CTextureList textureList;            //0x7B1D50
+        CEffectModelList effectModelList;    //0x7B1D68
+        // 0x7B1D80
+        PAD(59808);
+        CharArray<MAX_PATH> iniFileName;     //0x7C0720
         // 0x7C0824
         PAD(1416);
-        float fogStart;                   //0x7C0DAC
-        float fogEnd;                     //0x7C0DB0
+        float fogStart;                      //0x7C0DAC
+        float fogEnd;                        //0x7C0DB0
         PAD(28);
-        CharArray<16> ipv4Addr;           //0x7C0DD0
+        CharArray<16> ipv4Addr;              //0x7C0DD0
         // 0x7C0DE0
         PAD(1468);
-        HWND hwnd;                        //0x7C139C
-        HINSTANCE hinst;                  //0x7C13A0
+        HWND hwnd;                           //0x7C139C
+        HINSTANCE hinst;                     //0x7C13A0
         PAD(1940);
         // <t>
-        CharArray<512> t;                 //0x7C1B38
+        CharArray<512> t;                    //0x7C1B38
         PAD(1024);
         // <s>
-        CharArray<512> s;                 //0x7C2138
+        CharArray<512> s;                    //0x7C2138
         // <p>
-        CharArray<512> p;                 //0x7C2338
+        CharArray<512> p;                    //0x7C2338
         // <i>
-        CharArray<512> i;                 //0x7C2538
+        CharArray<512> i;                    //0x7C2538
         // 0x7C2738
         PAD(4);
         // <v>
-        UINT32 v;                         //0x7C273C
+        UINT32 v;                            //0x7C273C
         PAD(9000);
-        CWorldMgr worldMgr;               //0x7C4A68
+        CWorldMgr worldMgr;                  //0x7C4A68
         // 0x906DE0
         PAD(25584);
-        CPlayerData playerData;           //0x90D1D0
+        CPlayerData playerData;              //0x90D1D0
         // 0x22B0208
         PAD(6384);
-        UINT32 killLv;                    //0x22B1AF8
-        UINT32 deathLv;                   //0x22B1AFC
+        UINT32 killLv;                       //0x22B1AF8
+        UINT32 deathLv;                      //0x22B1AFC
         PAD(2492);
-        LPDIRECTINPUT8A directInput8;     //0x22B24BC
+        LPDIRECTINPUT8A directInput8;        //0x22B24BC
         PAD(6832);
-        HIMC himc;                        //0x22B3F70
+        HIMC himc;                           //0x22B3F70
         PAD(6708);
-        Array<wchar_t, 1024> wcharBuf1;   //0x22B59A8
-        Array<wchar_t, 1024> wcharBuf2;   //0x22B61A8
-        LPDIRECT3DDEVICE9 device;         //0x22B69A8
+        Array<wchar_t, 1024> wcharBuffer1;   //0x22B59A8
+        Array<wchar_t, 1024> wcharBuffer2;   //0x22B61A8
+        LPDIRECT3DDEVICE9 device;            //0x22B69A8
         PAD(4);
-        Camera camera;                    //0x22B69B0
+        Camera camera;                       //0x22B69B0
         // 0x22B7FE4
         PAD(16);
-        float fps;                        //0x22B7FF4
+        float fps;                           //0x22B7FF4
         PAD(12816);
-        CAniListData humfAction;          //0x22BB208
-        CAniListData hummAction;          //0x22BB228
-        CAniListData huwfAction;          //0x22BB248
-        CAniListData huwmAction;          //0x22BB268
-        CAniListData elmrAction;          //0x22BB288
-        CAniListData elmmAction;          //0x22BB2A8
-        CAniListData elwrAction;          //0x22BB2C8
-        CAniListData elwmAction;          //0x22BB2E8
-        CAniListData vimrAction;          //0x22BB308
-        CAniListData vimmAction;          //0x22BB328
-        CAniListData viwrAction;          //0x22BB348
-        CAniListData viwmAction;          //0x22BB368
-        CAniListData demfAction;          //0x22BB388
-        CAniListData demrAction;          //0x22BB3A8
-        CAniListData dewfAction;          //0x22BB3C8
-        CAniListData dewrAction;          //0x22BB3E8
-        CMonsterData vehicleHu01;         //0x22BB408
-        CMonsterData vehicleEl01;         //0x22BB41C
-        CMonsterData vehicleVi01;         //0x22BB430
-        CMonsterData vehicleDe01;         //0x22BB444
-        CObjectData objectData00;         //0x22BB458
-        CObjectData itm01;                //0x22BB474
-        CObjectData itm02;                //0x22BB490
-        CObjectData itm03;                //0x22BB4AC
-        CObjectData itm04;                //0x22BB4C8
-        CObjectData itm05;                //0x22BB4E4
-        CObjectData itm06;                //0x22BB500
-        CObjectData itm07;                //0x22BB51C
-        CObjectData itm08;                //0x22BB538
-        CObjectData itm09;                //0x22BB554
-        CObjectData itm10;                //0x22BB570
-        CObjectData itm11;                //0x22BB58C
-        CObjectData itm12;                //0x22BB5A8
-        CObjectData itm13;                //0x22BB5C4
-        CObjectData itm14;                //0x22BB5E0
-        CObjectData itm15;                //0x22BB5FC
-        CObjectData objectData16;         //0x22BB618
-        CObjectData objectData17;         //0x22BB634
-        CObjectData objectData18;         //0x22BB650
-        CObjectData itm19;                //0x22BB66C
-        CObjectData objectData20;         //0x22BB688
-        CObjectData objectData21;         //0x22BB6A4
-        CObjectData objectData22;         //0x22BB6C0
-        CObjectData objectData23;         //0x22BB6DC
-        CObjectData objectData24;         //0x22BB6F8
-        CObjectData objectData25;         //0x22BB714
-        CObjectData objectData26;         //0x22BB730
-        CObjectData objectData27;         //0x22BB74C
-        CObjectData objectData28;         //0x22BB768
-        CObjectData objectData29;         //0x22BB784
-        CObjectData objectData30;         //0x22BB7A0
-        CObjectData objectData31;         //0x22BB7BC
-        CObjectData objectData32;         //0x22BB7D8
-        CObjectData objectData33;         //0x22BB7F4
-        CObjectData itm34;                //0x22BB810
-        CObjectData objectData35;         //0x22BB82C
-        CObjectData objectData36;         //0x22BB848
-        CObjectData objectData37;         //0x22BB864
-        CObjectData objectData38;         //0x22BB880
-        CObjectData objectData39;         //0x22BB89C
+        CAniListData humfAction;             //0x22BB208
+        CAniListData hummAction;             //0x22BB228
+        CAniListData huwfAction;             //0x22BB248
+        CAniListData huwmAction;             //0x22BB268
+        CAniListData elmrAction;             //0x22BB288
+        CAniListData elmmAction;             //0x22BB2A8
+        CAniListData elwrAction;             //0x22BB2C8
+        CAniListData elwmAction;             //0x22BB2E8
+        CAniListData vimrAction;             //0x22BB308
+        CAniListData vimmAction;             //0x22BB328
+        CAniListData viwrAction;             //0x22BB348
+        CAniListData viwmAction;             //0x22BB368
+        CAniListData demfAction;             //0x22BB388
+        CAniListData demrAction;             //0x22BB3A8
+        CAniListData dewfAction;             //0x22BB3C8
+        CAniListData dewrAction;             //0x22BB3E8
+        CMonsterData vehicleHu01;            //0x22BB408
+        CMonsterData vehicleEl01;            //0x22BB41C
+        CMonsterData vehicleVi01;            //0x22BB430
+        CMonsterData vehicleDe01;            //0x22BB444
+        CObjectData objectData00;            //0x22BB458
+        CObjectData itm01;                   //0x22BB474
+        CObjectData itm02;                   //0x22BB490
+        CObjectData itm03;                   //0x22BB4AC
+        CObjectData itm04;                   //0x22BB4C8
+        CObjectData itm05;                   //0x22BB4E4
+        CObjectData itm06;                   //0x22BB500
+        CObjectData itm07;                   //0x22BB51C
+        CObjectData itm08;                   //0x22BB538
+        CObjectData itm09;                   //0x22BB554
+        CObjectData itm10;                   //0x22BB570
+        CObjectData itm11;                   //0x22BB58C
+        CObjectData itm12;                   //0x22BB5A8
+        CObjectData itm13;                   //0x22BB5C4
+        CObjectData itm14;                   //0x22BB5E0
+        CObjectData itm15;                   //0x22BB5FC
+        CObjectData objectData16;            //0x22BB618
+        CObjectData objectData17;            //0x22BB634
+        CObjectData objectData18;            //0x22BB650
+        CObjectData itm19;                   //0x22BB66C
+        CObjectData objectData20;            //0x22BB688
+        CObjectData objectData21;            //0x22BB6A4
+        CObjectData objectData22;            //0x22BB6C0
+        CObjectData objectData23;            //0x22BB6DC
+        CObjectData objectData24;            //0x22BB6F8
+        CObjectData objectData25;            //0x22BB714
+        CObjectData objectData26;            //0x22BB730
+        CObjectData objectData27;            //0x22BB74C
+        CObjectData objectData28;            //0x22BB768
+        CObjectData objectData29;            //0x22BB784
+        CObjectData objectData30;            //0x22BB7A0
+        CObjectData objectData31;            //0x22BB7BC
+        CObjectData objectData32;            //0x22BB7D8
+        CObjectData objectData33;            //0x22BB7F4
+        CObjectData itm34;                   //0x22BB810
+        CObjectData objectData35;            //0x22BB82C
+        CObjectData objectData36;            //0x22BB848
+        CObjectData objectData37;            //0x22BB864
+        CObjectData objectData38;            //0x22BB880
+        CObjectData objectData39;            //0x22BB89C
         // notes: effectDataId, .eft, skillId(s)
         CEffectData effectData00;            //0x22BB8B8
         CEffectData effectData01;            //0x22BB9E4
-        CEffectData eftAttack;               //0x22BBB10  2  attack
-        CEffectData eftLevelUp;              //0x22BBC3C  3  level_up
+        CEffectData eftAttack;               //0x22BBB10  2  attack, attack01
+        CEffectData eftLevelUp;              //0x22BBC3C  3  levelup
         CEffectData eftStart;                //0x22BBD68  4  start
         CEffectData eftPortal;               //0x22BBE94  5  portal
         CEffectData eftPoint;                //0x22BBFC0  6  point
@@ -264,10 +276,10 @@ namespace shaiya
         CEffectData rc_health;               //0x22C11C8  76
         CEffectData eftDaSkill47;            //0x22C12F4  77  da_self_fire  47
         CEffectData da_self_crag;            //0x22C1420  78
-        CEffectData eftDaSkill51;            //0x22C154C  79  da_target_slumpshot.eft  51,310,314,315
-        CEffectData eftDaSkill90;            //0x22C1678  80  da_target_untouchable.eft  90  
+        CEffectData eftDaSkill51;            //0x22C154C  79  da_target_slumpshot  51,310,314,315
+        CEffectData eftDaSkill90;            //0x22C1678  80  da_target_untouchable  90  
         CEffectData eftDaSkill96;            //0x22C17A4  81  da_self_confusion  96
-        CEffectData eftDaSkill118;           //0x22C18D0  82  da_target_dragon.eft  118,324
+        CEffectData eftDaSkill118;           //0x22C18D0  82  da_target_dragon  118,324
         CEffectData da_self_power;           //0x22C19FC  83
         CEffectData eftDaSkill48;            //0x22C1B28  84  da_area_fire  48
         CEffectData eftDaSkill50;            //0x22C1C54  85  da_area_rock  50
@@ -278,12 +290,12 @@ namespace shaiya
         CEffectData eftDaSkill70;            //0x22C2230  90  da_area_lightning  70
         CEffectData eftDaSkill71;            //0x22C235C  91  da_area_blizzard  71
         CEffectData eftDaSkill72;            //0x22C2488  92  da_area_elemental  72
-        CEffectData eftDaSkill174;           //0x22C25B4  93  da_target_valribomb.eft  174,180,282,301,309,312
+        CEffectData eftDaSkill174;           //0x22C25B4  93  da_target_valribomb  174,180,282,301,309,312
         CEffectData eftDaSkill83;            //0x22C26E0  94  da_area_earthpole  83
         CEffectData eftDaSkill84;            //0x22C280C  95  da_area_turbulent  84,307,322
         CEffectData eftDaSkill85;            //0x22C2938  96  da_area_frozen  85
-        CEffectData eftDaSkill171;           //0x22C2A64  97  da_target_suicidal.eft  171
-        CEffectData eftDaSkill113;           //0x22C2B90  98  da_target_trapbomb.eft  113
+        CEffectData eftDaSkill171;           //0x22C2A64  97  da_target_suicidal  171
+        CEffectData eftDaSkill113;           //0x22C2B90  98  da_target_trapbomb  113
         CEffectData eftDaSkill149;           //0x22C2CBC  99  da_area_disease  149
         CEffectData eftDaSkill156;           //0x22C2DE8  100  da_area_mwind  156,158
         CEffectData eftDaSkill162;           //0x22C2F14  101  da_area_bloodshower  162

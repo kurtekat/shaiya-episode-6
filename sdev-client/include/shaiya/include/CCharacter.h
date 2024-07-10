@@ -33,6 +33,7 @@ namespace shaiya
     {
         SStaticText* text;
         long pointX;
+        int effectDataId;
     };
     #pragma pack(pop)
 

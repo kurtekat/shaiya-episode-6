@@ -3,14 +3,8 @@
 
 namespace shaiya
 {
-    enum struct _3dcVersion : UINT32
-    {
-        v333 = 0x14D,
-        v444 = 0x1BC
-    };
-
     #pragma pack(push, 1)
-    struct _3dc
+    struct _3DC_Model
     {
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
         LPDIRECT3DINDEXBUFFER9 indexBuffer;
@@ -24,7 +18,8 @@ namespace shaiya
         CharArray<MAX_PATH> path;  //0x38
         UINT16 unknown;            //0x13C
         PAD(2);
-        _3dcVersion version;       //0x140
+        // 333, 444
+        UINT32 version;            //0x140
         // 0x144
     };
     #pragma pack(pop)

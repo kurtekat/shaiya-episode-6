@@ -62,7 +62,7 @@
     <ClInclude Include="include\shaiya\include\CWindow.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\3dc.h">
+    <ClInclude Include="include\shaiya\include\3DC_Model.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SModel.h">
@@ -111,6 +111,15 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CParticleData.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CEffectModel.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CTextureList.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CEffectModelList.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

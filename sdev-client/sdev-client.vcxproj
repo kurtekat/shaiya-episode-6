@@ -21,17 +21,20 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\common.h" />
-    <ClInclude Include="include\shaiya\include\3dc.h" />
+    <ClInclude Include="include\shaiya\include\3DC_Model.h" />
     <ClInclude Include="include\shaiya\include\CAniListData.h" />
     <ClInclude Include="include\shaiya\include\CCharacterChat.h" />
     <ClInclude Include="include\shaiya\include\CDataFile.h" />
     <ClInclude Include="include\shaiya\include\CEffectData.h" />
+    <ClInclude Include="include\shaiya\include\CEffectModel.h" />
+    <ClInclude Include="include\shaiya\include\CEffectModelList.h" />
     <ClInclude Include="include\shaiya\include\CMap.h" />
     <ClInclude Include="include\shaiya\include\CMonsterData.h" />
     <ClInclude Include="include\shaiya\include\CObjectData.h" />
     <ClInclude Include="include\shaiya\include\CParticleData.h" />
     <ClInclude Include="include\shaiya\include\CPlayerData.h" />
     <ClInclude Include="include\shaiya\include\CStaticText.h" />
+    <ClInclude Include="include\shaiya\include\CTextureList.h" />
     <ClInclude Include="include\shaiya\include\CVector.h" />
     <ClInclude Include="include\shaiya\include\CWindow.h" />
     <ClInclude Include="include\shaiya\include\CCharacter.h" />
