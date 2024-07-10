@@ -1,7 +1,9 @@
 #include <util/util.h>
 #include "include/main.h"
+#include "include/static.h"
 #include "include/shaiya/include/CCharacter.h"
 #include "include/shaiya/include/CDataFile.h"
+#include "include/shaiya/include/CEffectData.h"
 #include "include/shaiya/include/CMonster.h"
 #include "include/shaiya/include/CStaticText.h"
 #include "include/shaiya/include/ItemInfo.h"
@@ -14,6 +16,7 @@ namespace title
     void hook(CCharacter* user, float x, float y, float extrusion)
     {
         const char* text = "Champion of Shaiya";
+        constexpr int effectDataId = 280;
 
         if (!user->pet)
             return;
@@ -40,6 +43,28 @@ namespace title
         auto posX = x - user->title.pointX;
 
         CStaticText::Draw(user->title.text, long(posX), long(posY), extrusion, 0xFFFFFFFF);
+
+        if (!user->title.effectDataId)
+        {
+            CCharacter::RemoveEffect(user, effectDataId, 0);
+            CCharacter::RenderEffect(user, effectDataId, 0, 0, &user->pos, &user->dir, &user->up, 0);
+            user->title.effectDataId = effectDataId;
+        }
+    }
+
+    void remove_effect(CCharacter* user)
+    {
+        if (!user->title.effectDataId)
+            return;
+
+        CCharacter::RemoveEffect(user, user->title.effectDataId, 0);
+        user->title.effectDataId = 0;
+    }
+
+    int create_effect()
+    {
+        // Champion of Shaiya
+        return CEffectData::CreateFromFile(&g_var->eftCharacterEffect01, "data/Effect", "character_effect_01.eft");
     }
 }
 
@@ -103,6 +128,54 @@ void __declspec(naked) naked_0x41275F()
     }
 }
 
+unsigned u0x59F1BC = 0x59F1BC;
+void __declspec(naked) naked_0x59F114()
+{
+    __asm
+    {
+        pushad
+
+        push esi
+        call title::remove_effect
+        add esp,0x4
+
+        popad
+
+        jmp u0x59F1BC
+    }
+}
+
+unsigned u0x58C460 = 0x58C460;
+unsigned u0x42D6D2 = 0x42D6D2;
+unsigned u0x42D8B5 = 0x42D8B5;
+unsigned u0x42BC77 = 0x42BC77;
+void __declspec(naked) naked_0x42D6C5()
+{
+    __asm 
+    {
+        // original
+        call u0x58C460
+        test eax,eax
+        je _0x42BC77
+
+        pushad
+
+        call title::create_effect
+        test eax,eax
+
+        popad
+
+        jne _0x42D8B5
+        jmp u0x42D6D2
+
+        _0x42D8B5:
+        jmp u0x42D8B5
+
+        _0x42BC77:
+        jmp u0x42BC77
+    }
+}
+
 void hook::title()
 {
     util::detour((void*)0x453E7C, naked_0x453E7C, 5);
@@ -110,4 +183,8 @@ void hook::title()
     util::detour((void*)0x41830D, naked_0x41830D, 5);
     // increase chat balloon height (1.5 to 1.75)
     util::detour((void*)0x41275F, naked_0x41275F, 6);
+    // pet remove case
+    util::detour((void*)0x59F114, naked_0x59F114, 5);
+    // create effect from .eft file
+    util::detour((void*)0x42D6C5, naked_0x42D6C5, 5);
 }
