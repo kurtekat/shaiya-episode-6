@@ -8,17 +8,6 @@ using namespace shaiya;
 
 namespace packet
 {
-    void process_incoming(uint16_t opcode, Packet packet)
-    {
-        switch (opcode)
-        {
-        case 0x0240: // to-do
-            break;
-        default:
-            break;
-        }
-    }
-
     void remove_disguise(CCharacter* user)
     {
         if (!user->petType)
@@ -48,29 +37,6 @@ namespace packet
             g_pPlayerData->money = max_money;
         else
             g_pPlayerData->money += money;
-    }
-}
-
-unsigned u0x5F3A41 = 0x5F3A41;
-void __declspec(naked) naked_0x5F3A3B()
-{
-    __asm
-    {
-        pushad
-
-        movzx edx,word ptr[esp+0x50]
-        lea eax,[esp+0x52]
-
-        push eax // packet
-        push edx // opcode
-        call packet::process_incoming
-        add esp,0x8
-
-        popad
-
-        // original
-        mov ecx,dword ptr ds:[0x22FA2F0]
-        jmp u0x5F3A41
     }
 }
 
@@ -174,8 +140,6 @@ void __declspec(naked) naked_0x5AA235()
 
 void hook::packet()
 {
-    // recv default case
-    util::detour((void*)0x5F3A3B, naked_0x5F3A3B, 6);
     // disguise bug
     util::detour((void*)0x5933F8, naked_0x5933F8, 6);
     // appearance/sex change bug
