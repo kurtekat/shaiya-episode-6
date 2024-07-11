@@ -1,4 +1,3 @@
-#include <limits>
 #include <map>
 #include <vector>
 #include <shaiya/include/common/SConnection.h>
@@ -13,6 +12,9 @@ namespace revenge_mark
 {
     void send(CUser* target, CUser* killer)
     {
+        // see game.004E77F4
+        constexpr int max_kill_count = 999;
+
         if (auto it = g_revengeMark.find(killer->id); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
@@ -36,7 +38,7 @@ namespace revenge_mark
                 }
             ); revenge != it->second.end())
             {
-                if (revenge->killCount < std::numeric_limits<uint32_t>::max())
+                if (revenge->killCount < max_kill_count)
                 {
                     ++revenge->killCount;
 
