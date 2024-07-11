@@ -221,6 +221,18 @@ void CUser::ItemGet(CUser* user/*ecx*/, CItem* item)
     (*(LPFN)0x46AE60)(user, item);
 }
 
+void CUser::ItemGetMoney(CUser* user/*edx*/, int money/*ecx*/)
+{
+    Address u0x46BBA0 = 0x46BBA0;
+
+    __asm
+    {
+        mov ecx,money
+        mov edx,user
+        call u0x46BBA0
+    }
+}
+
 void CUser::ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/)
 {
     Address u0x46C290 = 0x46C290;

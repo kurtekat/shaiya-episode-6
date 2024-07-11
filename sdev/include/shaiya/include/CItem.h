@@ -11,6 +11,12 @@ namespace shaiya
     struct CZone;
     struct ItemInfo;
 
+    enum struct ItemDropType : UINT8
+    {
+        User = 1,
+        Mob
+    };
+
     #pragma pack(push, 1)
     struct CItem
     {
@@ -36,12 +42,14 @@ namespace shaiya
         MakeType makeType;         //0x68
         PAD(3);
         DWORD enablePickTick;      //0x6C
-        ULONG enablePickCharId;    //0x70
+        ULONG enablePickId;        //0x70
         ULONG enablePickPartyId;   //0x74
-        UINT8 dropType;            //0x78
+        ItemDropType dropType;     //0x78
         PAD(3);
-        ULONG dropCharId;          //0x7C
-        PAD(4);
+        // user->id, mobId (e.g., 835)
+        ULONG dropId;              //0x7C
+        // type 26 (gold)
+        UINT32 dropMoney;          //0x80
         UINT16 craftStrength;      //0x84
         UINT16 craftDexterity;     //0x86
         UINT16 craftReaction;      //0x88

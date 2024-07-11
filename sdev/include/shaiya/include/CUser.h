@@ -643,6 +643,7 @@ namespace shaiya
         static void ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemEquipmentOptionRem(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemGet(CUser* user/*ecx*/, CItem* item);
+        static void ItemGetMoney(CUser* user/*edx*/, int money/*ecx*/);
         static void ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/);
         static void ItemUse(CUser* user, int bag, int slot, ULONG targetId, int byTargetType);
         static void ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap);

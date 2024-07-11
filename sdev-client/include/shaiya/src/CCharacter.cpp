@@ -4,7 +4,7 @@ using namespace shaiya;
 void CCharacter::RemoveEffect(CCharacter* user, int effectDataId, int effectSubId)
 {
     typedef void(__thiscall* LPFN)(CCharacter*, int, int);
-    return (*(LPFN)0x419370)(user, effectDataId, effectSubId);
+    (*(LPFN)0x419370)(user, effectDataId, effectSubId);
 }
 
 void CCharacter::RenderEffect(CCharacter* user, int effectDataId, int effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown)
