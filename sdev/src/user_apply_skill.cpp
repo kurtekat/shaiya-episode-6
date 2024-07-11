@@ -221,26 +221,22 @@ void __declspec(naked) naked_0x493BC6()
     }
 }
 
-unsigned u0x49D935 = 0x49D935;
-void __declspec(naked) naked_0x49D930()
+unsigned u0x495EF4 = 0x495EF4;
+void __declspec(naked) naked_0x495EEE()
 {
     __asm
     {
         pushad
 
-        push ecx
+        push esi
         call user_apply_skill::ability_70_update
         add esp,0x4
 
         popad
 
         // original
-        push ebp
-        push esi
-        push edi
-        mov eax,esi
-
-        jmp u0x49D935
+        lea eax,[esi+0xA98]
+        jmp u0x495EF4
     }
 }
 
@@ -339,8 +335,8 @@ void hook::user_apply_skill()
     util::detour((void*)0x45CCE3, naked_0x45CCE3, 6);
     // CUser::AddApplySkill
     util::detour((void*)0x493BC6, naked_0x493BC6, 9);
-    // CUser::UpdateRecover
-    util::detour((void*)0x49D930, naked_0x49D930, 5);
+    // CUser::ChkEndTimeSkill
+    util::detour((void*)0x495EEE, naked_0x495EEE, 6);
     // CUser::ClearApplySkillByDeath
     util::detour((void*)0x49861D, naked_0x49861D, 6);
     // CUser::SkillClearAll
