@@ -202,19 +202,21 @@ This feature will not be implemented.
 
 ## Revenge Mark
 
-The kill count will determine which effect will be rendered. Notice effects are not supported.
+The kill count will determine which effect(s) will be rendered. The library will increment the kill count until 999.
 
-| KillCount         | Effect                     |
-|-------------------|----------------------------|
-| 0                 | N/A                        |
-| 1                 | RevengeMark_Loop_01.EFT    |
-| 2                 | RevengeMark_Loop_02.EFT    |
-| 3                 | RevengeMark_Loop_03.EFT    |
-| 4                 | RevengeMark_Loop_04.EFT    |
-| 5                 | RevengeMark_Loop_05.EFT    |
-| 6                 | RevengeMark_Loop_06.EFT    |
-| 7                 | RevengeMark_Loop_07.EFT    |
-| 8 (or greater)    | RevengeMark_Loop_08.EFT    |
+| KillCount         | EffectName                   | EffectDataId    |
+|-------------------|------------------------------|-----------------|
+| 1                 | RevengeMark_Loop_01.EFT      | 265             |     
+| 2                 | RevengeMark_Loop_02.EFT      | 266             |
+| 3                 | RevengeMark_Loop_03.EFT      | 267             |
+| 4                 | RevengeMark_Loop_04.EFT      | 268             |
+| 5                 | RevengeMark_Loop_05.EFT      | 269             |
+| 6                 | RevengeMark_Loop_06.EFT      | 270             |
+| 7                 | RevengeMark_Loop_07.EFT      | 271             |
+| 8-999             | RevengeMark_Loop_08.EFT      | 272             |
+| odd               | RevengeMark_Notice_01.EFT    | 262             |
+| even              | RevengeMark_Notice_02.EFT    | 263             |
+| 999               | RevengeMark_Notice_03.EFT    | 264             |
 
 The **sdev-client** library adds support for system message 509.
 
