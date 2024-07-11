@@ -145,6 +145,23 @@ void __declspec(naked) naked_0x59F114()
     }
 }
 
+unsigned u0x59F484 = 0x59F484;
+void __declspec(naked) naked_0x59F299()
+{
+    __asm
+    {
+        pushad
+
+        push esi
+        call title::remove_effect
+        add esp,0x4
+
+        popad
+
+        jmp u0x59F484
+    }
+}
+
 unsigned u0x58C460 = 0x58C460;
 unsigned u0x42D6D2 = 0x42D6D2;
 unsigned u0x42D8B5 = 0x42D8B5;
@@ -185,6 +202,8 @@ void hook::title()
     util::detour((void*)0x41275F, naked_0x41275F, 6);
     // pet remove case
     util::detour((void*)0x59F114, naked_0x59F114, 5);
+    // pet swap case
+    util::detour((void*)0x59F299, naked_0x59F299, 5);
     // create effect from .eft file
     util::detour((void*)0x42D6C5, naked_0x42D6C5, 5);
 }
