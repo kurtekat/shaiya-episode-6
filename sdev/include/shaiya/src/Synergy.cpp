@@ -99,12 +99,12 @@ void Synergy::init()
     }
 }
 
-void Synergy::applySynergies(CUser* user, CItem* item, bool itemRemove)
+void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
 {
     Synergy::removeSynergies(user);
 
     std::vector<SynergyEffect> effects{};
-    Synergy::getWornSynergies(user, item, itemRemove, effects);
+    Synergy::getWornSynergies(user, item, effects, removeFlag);
 
     if (effects.empty())
         return;
@@ -171,7 +171,7 @@ void Synergy::removeSynergies(CUser* user)
     g_appliedSynergies.erase(user->id);
 }
 
-void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyEffect>& effects)
+void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag)
 {
     std::set<ItemId> equipment;
     for (const auto& wornItem : user->inventory[0])
@@ -179,7 +179,7 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::v
         if (!wornItem)
             continue;
 
-        if (wornItem == item && itemRemove)
+        if (wornItem->uniqueId == item->uniqueId && removeFlag)
             continue;
 
         auto itemId = (wornItem->type * 1000) + wornItem->typeId;
