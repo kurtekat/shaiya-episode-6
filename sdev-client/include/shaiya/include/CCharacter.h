@@ -28,6 +28,13 @@ namespace shaiya
         UseSkill
     };
 
+    enum struct CharacterStatus : UINT32
+    {
+        None,
+        Death,
+        Unknown
+    };
+
     #pragma pack(push, 1)
     struct CharacterTitle
     {
@@ -123,7 +130,8 @@ namespace shaiya
         UINT16 targetDmgMP;           //0x1F4
         PAD(6);
         UINT8 attackResult;           //0x1FC
-        PAD(139);
+        PAD(135);
+        CharacterStatus status;       //0x284
         CCharacterChat* chatBalloon;  //0x288
         // 0x747538 5.0 (seconds)
         float chatBalloonTimer;       //0x28C
@@ -139,7 +147,8 @@ namespace shaiya
         bool isAdmin;                 //0x2D4
         PAD(23);
         ShapeType shapeType;          //0x2EC
-        PAD(27);
+        PAD(23);
+        ULONG killerId;               //0x304
         PartyType partyType;          //0x308
         PAD(3);
         char* guildName;              //0x30C
@@ -170,6 +179,7 @@ namespace shaiya
         // custom
         CharacterTitle title;         //0x43C
 
+        static void ClearEffects(CCharacter* user);
         static void RemoveEffect(CCharacter* user, int effectDataId, int effectSubId);
         static void RenderEffect(CCharacter* user, int effectDataId, int effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown);
     };

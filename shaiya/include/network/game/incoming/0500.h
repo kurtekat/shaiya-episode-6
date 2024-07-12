@@ -6,6 +6,14 @@
 
 namespace shaiya
 {
+    enum struct UserRebirthType : UINT8
+    {
+        NearestTown = 2,
+        LeaderResurrect,
+        KillSoulByItem,
+        KillSoulByItemNoMove
+    };
+
     #pragma pack(push, 1)
     struct UserMoveIncoming
     {
@@ -65,6 +73,21 @@ namespace shaiya
 
         UserMotionIncoming(MotionType8 motionType)
             : motionType(motionType)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserRebirthIncoming
+    {
+        UINT16 opcode{ 0x553 };
+        UserRebirthType rebirthType;
+
+        UserRebirthIncoming() = default;
+
+        UserRebirthIncoming(UserRebirthType rebirthType)
+            : rebirthType(rebirthType)
         {
         }
     };

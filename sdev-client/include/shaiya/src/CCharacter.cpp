@@ -1,6 +1,12 @@
 #include "include/shaiya/include/CCharacter.h"
 using namespace shaiya;
 
+void CCharacter::ClearEffects(CCharacter* user)
+{
+    typedef void(__thiscall* LPFN)(CCharacter*);
+    (*(LPFN)0x416970)(user);
+}
+
 void CCharacter::RemoveEffect(CCharacter* user, int effectDataId, int effectSubId)
 {
     typedef void(__thiscall* LPFN)(CCharacter*, int, int);

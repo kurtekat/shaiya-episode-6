@@ -31,6 +31,13 @@ namespace shaiya
         TooFastAttack
     };
 
+    enum struct UserDeathKillerType : UINT8
+    {
+        User = 1,
+        Mob,
+        Npc
+    };
+
     #pragma pack(push, 1)
     struct UserMoveOutgoing
     {
@@ -67,6 +74,16 @@ namespace shaiya
         UINT16 targetDmgHP;
         UINT16 targetDmgSP;
         UINT16 targetDmgMP;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserDeathOutgoing
+    {
+        UINT16 opcode{ 0x504 };
+        ULONG charId;
+        UserDeathKillerType killerType;
+        ULONG killerId;
     };
     #pragma pack(pop)
 
