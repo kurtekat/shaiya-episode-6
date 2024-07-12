@@ -7,11 +7,14 @@ namespace shaiya
     // thanks, Cups :P
     struct SSyncQueueBufferSend
     {
-        void* head;
-        void* tail;
-        UINT32 length;
-        CRITICAL_SECTION cs;
-        UINT32 count;
+        void* head;           //0x00
+        void* tail;           //0x04
+        UINT32 length;        //0x08
+        CRITICAL_SECTION cs;  //0x0C
+        UINT32 count;         //0x24
+        // 0x28
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SSyncQueueBufferSend) == 0x28);
 }

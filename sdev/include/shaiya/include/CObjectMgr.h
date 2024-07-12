@@ -38,6 +38,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x587964
-    static auto g_pObjectMgr = (CObjectMgr*)0x10A239C;
+    static_assert(sizeof(CObjectMgr) == 0x1A4);
+    static auto g_pObjectMgr = (CObjectMgr*)0x10A239C; // 0x587964
 }

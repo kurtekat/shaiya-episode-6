@@ -17,6 +17,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x587970 (userLog)
-    static auto g_pClientToLog = (CLogConnection*)0x10A2710;
+    static_assert(sizeof(CLogConnection) == 0x108);
+    static auto g_pClientToLog = (CLogConnection*)0x10A2710; // 0x587970 (userLog)
 }

@@ -690,4 +690,6 @@ namespace shaiya
         static void UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CUser) == 0x62A0);
 }

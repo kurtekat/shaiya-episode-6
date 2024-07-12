@@ -38,4 +38,6 @@ namespace shaiya
         // 0x418
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CUser) == 0x418);
 }

@@ -166,4 +166,6 @@ namespace shaiya
         // 0xA8
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(ItemInfo) == 0xA8);
 }

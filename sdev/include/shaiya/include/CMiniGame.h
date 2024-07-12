@@ -28,4 +28,6 @@ namespace shaiya
         // 0x20
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMiniGame) == 0x20);
 }

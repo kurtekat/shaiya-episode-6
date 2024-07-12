@@ -65,6 +65,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(Camera) == 0x1634);
+
     #pragma pack(push, 1)
     // the .data section
     struct Static
@@ -529,6 +531,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // access global variables
-    inline auto g_var = (Static*)0x7AB000;
+    static_assert(sizeof(Static) == 0x1B5A000);
+    static auto g_var = (Static*)0x7AB000;
 }

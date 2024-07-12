@@ -57,7 +57,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GuildUserInfo
+    struct stGuildUserInfo
     {
         SNode node;              //0x00
         ULONG charId;            //0x08
@@ -73,15 +73,14 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(stGuildUserInfo) == 0x3C);
+
     #pragma pack(push, 1)
     struct GuildMembers
     {
-        // 0x4F4
-        SSyncMap<ULONG, GuildUserInfo*> online;
-        // 0x53C
-        SSyncMap<ULONG, GuildUserInfo*> offline;
-        // 0x584
-        SSyncMap<ULONG, GuildUserInfo*> joinRequests;
+        SSyncMap<ULONG, stGuildUserInfo*> online;   //0x4F4
+        SSyncMap<ULONG, stGuildUserInfo*> offline;  //0x53C
+        SSyncMap<ULONG, stGuildUserInfo*> joiners;  //0x584
     };
     #pragma pack(pop)
 
@@ -116,4 +115,6 @@ namespace shaiya
         static void SendAdmin(CGuild* guild, void* data/*ecx*/, int len/*eax*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CGuild) == 0x5E4);
 }

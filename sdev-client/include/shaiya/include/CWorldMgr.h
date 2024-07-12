@@ -35,5 +35,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline auto g_pWorldMgr = (CWorldMgr*)0x7C4A68;
+    static_assert(sizeof(CWorldMgr) == 0x142378);
+    static auto g_pWorldMgr = (CWorldMgr*)0x7C4A68;
 }

@@ -15,4 +15,6 @@ namespace shaiya
         static bool PrintFileDirect(SLog* log, const char* fmt, ...);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SLog) == 0x20);
 }

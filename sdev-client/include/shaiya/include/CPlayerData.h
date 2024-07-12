@@ -260,5 +260,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline auto g_pPlayerData = (CPlayerData*)0x90D1D0;
+    static_assert(sizeof(CPlayerData) == 0x19A3038);
+    static auto g_pPlayerData = (CPlayerData*)0x90D1D0;
 }

@@ -13,6 +13,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x587968 (session)
-    static auto g_pClientToMgr = (CClientToMgr*)0x10A2540;
+    static_assert(sizeof(CClientToMgr) == 0xE8);
+    static auto g_pClientToMgr = (CClientToMgr*)0x10A2540; // 0x587968 (session)
 }

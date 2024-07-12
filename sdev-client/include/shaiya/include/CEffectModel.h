@@ -3,6 +3,7 @@
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
     // 0057CD30 ctor
     struct CEffectModel
     {
@@ -12,4 +13,7 @@ namespace shaiya
         PAD(20);
         // 0x34
     };
+    #pragma pack(pop)
+
+    static_assert(sizeof(CEffectModel) == 0x34);
 }

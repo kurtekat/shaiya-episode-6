@@ -68,6 +68,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x587960
-    static auto g_pWorld = (CWorld*)0x10A2018;
+    static_assert(sizeof(CWorld) == 0x384);
+    static auto g_pWorld = (CWorld*)0x10A2018; // 0x587960
 }

@@ -119,6 +119,12 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+#ifdef SHAIYA_EP6_4_PT
+    static_assert(sizeof(QuestInfo) == 0x284);
+#else
+    static_assert(sizeof(QuestInfo) == 0x1D0);
+#endif
+
     struct CQuestData
     {
         static QuestInfo* GetQuest(int questId/*eax*/);

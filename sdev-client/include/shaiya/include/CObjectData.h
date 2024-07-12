@@ -10,4 +10,6 @@ namespace shaiya
         // 0x1C
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CObjectData) == 0x1C);
 }

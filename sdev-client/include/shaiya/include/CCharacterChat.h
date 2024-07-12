@@ -15,4 +15,6 @@ namespace shaiya
         // 0x10
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CCharacterChat) == 0x10);
 }

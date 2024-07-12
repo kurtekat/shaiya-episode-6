@@ -8,9 +8,11 @@ namespace shaiya
     {
         LPDIRECT3DTEXTURE9 texture;
         D2D_SIZE_U size;
-        // 0x0C
+        // 0xC
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SStaticText) == 0xC);
 
     #pragma pack(push, 1)
     // 0x22B6DD0
@@ -29,4 +31,6 @@ namespace shaiya
         static long GetTextWidth(const char* text);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CStaticText) == 0x14);
 }

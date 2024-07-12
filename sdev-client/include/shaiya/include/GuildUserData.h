@@ -19,6 +19,7 @@ namespace shaiya
         UINT8 authLv;        //0x04
         Job job;             //0x05
         UINT16 level;        //0x06
+        PAD(1);
         CharArray<21> name;  //0x09
         // 0x1E
         GuildUserDataStatus status;
@@ -26,4 +27,6 @@ namespace shaiya
         // 0x20
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(GuildUserData) == 0x20);
 }

@@ -41,4 +41,6 @@ namespace shaiya
         static void Send(CParty* party/*esi*/, void* data/*ecx*/, int len/*eax*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CParty) == 0x130);
 }

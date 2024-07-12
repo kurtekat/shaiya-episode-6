@@ -18,4 +18,6 @@ namespace shaiya
         // 0x2C
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SSyncList<void>) == 0x2C);
 }

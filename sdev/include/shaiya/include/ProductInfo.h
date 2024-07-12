@@ -16,4 +16,6 @@ namespace shaiya
         // 0xC8
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(ProductInfo) == 0xC8);
 }

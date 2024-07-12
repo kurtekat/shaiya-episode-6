@@ -14,4 +14,6 @@ namespace shaiya
         static double Length(SVector* v);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SVector) == 0xC);
 }

@@ -16,6 +16,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(BlockUser) == 0x4C);
+
     #pragma pack(push, 1)
     struct CFriend
     {
@@ -29,4 +31,6 @@ namespace shaiya
         // 0x50
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CFriend) == 0x50);
 }

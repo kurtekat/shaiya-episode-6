@@ -246,4 +246,6 @@ namespace shaiya
         static bool IsStatic(CMap* map/*ecx*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMap) == 0x208);
 }

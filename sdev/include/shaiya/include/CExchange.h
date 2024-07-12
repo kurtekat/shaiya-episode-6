@@ -38,6 +38,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(CExchange) == 0x28);
+
     #pragma pack(push, 1)
     struct CExchangePvP
     {
@@ -47,4 +49,6 @@ namespace shaiya
         // 0x4C
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CExchangePvP) == 0x4C);
 }

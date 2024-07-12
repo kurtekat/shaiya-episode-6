@@ -30,4 +30,6 @@ namespace shaiya
         static void Ended(MyShop* myShop);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(MyShop) == 0x1C0);
 }

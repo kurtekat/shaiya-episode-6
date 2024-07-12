@@ -44,4 +44,6 @@ namespace shaiya
         static void Release();
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SDatabasePool) == 0x460);
 }

@@ -57,4 +57,10 @@ namespace shaiya
         // 6.4: 0x80, 5.4: 0x68
     };
     #pragma pack(pop)
+
+#ifdef SHAIYA_EP6_4_PT
+    static_assert(sizeof(CloneUser) == 0x80);
+#else
+    static_assert(sizeof(CloneUser) == 0x68);
+#endif
 }

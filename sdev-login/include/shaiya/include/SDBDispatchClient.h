@@ -10,10 +10,12 @@ namespace shaiya
     struct SDBDispatchClient
     {
         PAD(4);
-        SSyncQueueStatus queueStatus;
-        SDBDispatcher* dispatcher;
+        SSyncQueueStatus queueStatus;  //0x04
+        SDBDispatcher* dispatcher;     //0x28
         PAD(4);
         // 0x30
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SDBDispatchClient) == 0x30);
 }

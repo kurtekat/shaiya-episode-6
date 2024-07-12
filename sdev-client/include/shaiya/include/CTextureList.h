@@ -12,4 +12,6 @@ namespace shaiya
         // 0x18
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CTextureList) == 0x18);
 }

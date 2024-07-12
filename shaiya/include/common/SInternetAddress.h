@@ -14,4 +14,6 @@ namespace shaiya
         CharArray<8> zero;
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SInternetAddress) == 0x10);
 }

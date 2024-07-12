@@ -82,4 +82,6 @@ namespace shaiya
         // 0xAC
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(ItemInfo) == 0xAC);
 }

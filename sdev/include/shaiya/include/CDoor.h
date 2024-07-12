@@ -44,4 +44,6 @@ namespace shaiya
         // 0x30
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CDoor) == 0x30);
 }

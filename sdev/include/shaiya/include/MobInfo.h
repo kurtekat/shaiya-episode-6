@@ -108,4 +108,6 @@ namespace shaiya
         // 0x10C
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(MobInfo) == 0x10C);
 }

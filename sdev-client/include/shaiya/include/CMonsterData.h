@@ -10,4 +10,6 @@ namespace shaiya
         // 0x14
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMonsterData) == 0x14);
 }

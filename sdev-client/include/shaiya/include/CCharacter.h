@@ -184,4 +184,6 @@ namespace shaiya
         static void RenderEffect(CCharacter* user, int effectDataId, int effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CCharacter) - sizeof(CharacterTitle) == 0x43C);
 }

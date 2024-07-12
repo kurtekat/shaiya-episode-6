@@ -9,4 +9,6 @@ namespace shaiya
         PAD(44);
         // 0x2C
     };
+
+    static_assert(sizeof(CMap<void, void>) == 0x2C);
 }

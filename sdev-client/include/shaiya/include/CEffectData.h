@@ -41,4 +41,6 @@ namespace shaiya
         static BOOL CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CEffectData) == 0x12C);
 }

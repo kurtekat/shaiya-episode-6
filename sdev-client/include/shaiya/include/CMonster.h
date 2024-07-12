@@ -39,4 +39,6 @@ namespace shaiya
         // 0x134
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMonster) == 0x134);
 }

@@ -20,6 +20,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(SModelTexture) == 0x20);
+
     #pragma pack(push, 1)
     struct SModel
     {
@@ -40,4 +42,6 @@ namespace shaiya
         // 0x164
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SModel) == 0x164);
 }

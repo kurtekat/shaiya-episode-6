@@ -47,4 +47,6 @@ namespace shaiya
         static void StatusAttackStop(CNpc* npc/*eax*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CNpc) == 0x98);
 }

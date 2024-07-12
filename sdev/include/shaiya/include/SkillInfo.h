@@ -94,4 +94,6 @@ namespace shaiya
         // 0xA4
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SkillInfo) == 0xA4);
 }

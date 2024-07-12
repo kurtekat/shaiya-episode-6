@@ -32,4 +32,6 @@ namespace shaiya
         static void WriteErrorLog(SDatabase* db/*ecx*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SDatabase) == 0x838);
 }

@@ -14,6 +14,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(STexture) == 0x208);
+
     #pragma pack(push, 1)
     struct CTexture
     {
@@ -28,4 +30,6 @@ namespace shaiya
         static void Draw(CTexture* texture, float top, float left, float right, float bottom);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CTexture) == 0x10);
 }

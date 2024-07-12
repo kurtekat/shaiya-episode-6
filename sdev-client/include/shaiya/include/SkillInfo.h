@@ -49,6 +49,7 @@ namespace shaiya
         PAD(24);
         // 0x9C
     };
-
     #pragma pack(pop)
+
+    static_assert(sizeof(SkillInfo) == 0x9C);
 }

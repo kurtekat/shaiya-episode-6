@@ -18,4 +18,6 @@ namespace shaiya
         static GuildData2* Find(ULONG guildId);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(GuildData2) == 0x78);
 }

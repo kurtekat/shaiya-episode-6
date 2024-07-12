@@ -60,4 +60,6 @@ namespace shaiya
         static void UpdateInsZonePortalCountry(CZone* zone/*esi*/, int id/*edi*/, int country/*ebx*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CZone) == 0x318);
 }

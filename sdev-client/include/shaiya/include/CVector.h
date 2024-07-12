@@ -8,4 +8,6 @@ namespace shaiya
     {
         PAD(24);
     };
+
+    static_assert(sizeof(CVector<void>) == 0x18);
 }

@@ -62,7 +62,7 @@ namespace shaiya
         WisToMaxHealth,
         DexToMaxHealth,
         LucToMaxHealth,
-        Frenzied = 70,
+        DecreaseHpByPercentage = 70,
         IncreaseQuestExpRate = 87
     };
 }

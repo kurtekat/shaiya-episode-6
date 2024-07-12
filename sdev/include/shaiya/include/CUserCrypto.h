@@ -1,5 +1,4 @@
 #pragma once
-#include <bitset>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -11,4 +10,6 @@ namespace shaiya
         // 0x234
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CUserCrypto) == 0x234);
 }

@@ -23,4 +23,6 @@ namespace shaiya
         // 0x34
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CItem) == 0x34);
 }

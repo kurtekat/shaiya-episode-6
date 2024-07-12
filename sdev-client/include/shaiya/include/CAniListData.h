@@ -10,4 +10,6 @@ namespace shaiya
         // 0x20
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CAniListData) == 0x20);
 }

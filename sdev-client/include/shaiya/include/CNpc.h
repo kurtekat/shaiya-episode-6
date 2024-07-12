@@ -35,4 +35,6 @@ namespace shaiya
         // 0x12C
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CNpc) == 0x12C);
 }

@@ -91,4 +91,6 @@ namespace shaiya
         static void ReGenerationCraftExpansion(CItem* item/*esi*/, BOOL compose);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CItem) == 0xA0);
 }

@@ -24,4 +24,6 @@ namespace shaiya
         // 0x24
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CQuest) == 0x24);
 }

@@ -18,6 +18,8 @@ namespace shaiya
         // 0x1C
     };
 
+    static_assert(sizeof(stDamageMob) == 0x1C);
+
     struct CDamageMob
     {
         PAD(4);
@@ -25,4 +27,6 @@ namespace shaiya
         // 0x30
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CDamageMob) == 0x30);
 }

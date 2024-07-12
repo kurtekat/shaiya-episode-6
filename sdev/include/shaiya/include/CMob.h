@@ -34,7 +34,7 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct MobRespawn
+    struct stMobRespawn
     {
         UINT32 mobId;    //0x00
         PAD(8);
@@ -47,6 +47,8 @@ namespace shaiya
         // 0x24
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(stMobRespawn) == 0x24);
 
     #pragma pack(push, 1)
     struct CMob
@@ -116,7 +118,7 @@ namespace shaiya
         DWORD lockOnTick;                  //0x334
         MobLuaEvent luaEvent;              //0x338
         PAD(2516);
-        MobRespawn* mobRespawn;            //0xD10
+        stMobRespawn* mobRespawn;          //0xD10
         PAD(40);
         DWORD destroyTick;                 //0xD3C
         PAD(92);
@@ -133,4 +135,6 @@ namespace shaiya
         static void SetStatus(CMob* mob/*eax*/, int status/*ecx*/);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CMob) == 0xDF4);
 }

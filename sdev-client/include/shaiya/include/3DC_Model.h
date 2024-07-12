@@ -23,4 +23,6 @@ namespace shaiya
         // 0x144
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(_3DC_Model) == 0x144);
 }

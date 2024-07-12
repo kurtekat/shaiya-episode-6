@@ -27,6 +27,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(SConnectionParam) == 0x60);
+
     #pragma pack(push, 1)
     struct SConnection
     {
@@ -44,4 +46,6 @@ namespace shaiya
         static void Close(SConnection* connection/*ecx*/, int closeType, int closeErr);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SConnection) == 0xD0);
 }

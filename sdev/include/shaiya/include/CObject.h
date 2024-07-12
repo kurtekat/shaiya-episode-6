@@ -21,4 +21,6 @@ namespace shaiya
         static void PSendViewCombat(CUser* user, void* data, int len);
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CObject) == 0x2C);
 }

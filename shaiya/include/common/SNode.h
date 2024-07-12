@@ -10,4 +10,6 @@ namespace shaiya
         SNode* next;
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(SNode) == 0x8);
 }

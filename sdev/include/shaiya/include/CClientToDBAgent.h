@@ -13,6 +13,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // 0x58796C
-    static auto g_pClientToDBAgent = (CClientToDBAgent*)0x10A2628;
+    static_assert(sizeof(CClientToDBAgent) == 0xE8);
+    static auto g_pClientToDBAgent = (CClientToDBAgent*)0x10A2628; // 0x58796C
 }

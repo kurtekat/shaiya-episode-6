@@ -26,4 +26,6 @@ namespace shaiya
         // 0x38
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CSkill) == 0x38);
 }
