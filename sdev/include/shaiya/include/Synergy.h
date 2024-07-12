@@ -38,7 +38,7 @@ namespace shaiya
         std::array<ItemId, 13> set{};
 
         static void init();
-        static void applySynergies(CUser* user, CItem* item, bool itemRemove);
+        static void applySynergies(CUser* user, CItem* item, bool removeFlag);
         static void removeSynergies(CUser* user);
 
         Synergy()
@@ -48,7 +48,7 @@ namespace shaiya
 
     private:
 
-        static void getWornSynergies(CUser* user, CItem* item, bool itemRemove, std::vector<SynergyEffect>& effects);
+        static void getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag);
     };
 
     inline std::vector<Synergy> g_synergies;
