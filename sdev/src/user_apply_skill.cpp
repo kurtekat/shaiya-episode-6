@@ -34,10 +34,6 @@ namespace user_apply_skill
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::AddApplySkillBuff(user, skillInfo);
-
-            auto percentage = (user->health * skillInfo->abilities[0].value) / 100;
-            user->health -= percentage;
-            CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
         }
         else
         {
@@ -69,11 +65,9 @@ namespace user_apply_skill
         if (!skillInfo)
             return;
 
-        auto percentage = (user->health * skillInfo->abilities[0].value) / 100;
-        user->health -= percentage;
-        CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
-
+        CUser::RemApplySkillBuff(user, skillInfo);
         user->skillAbility70.keepTick = now + (skillInfo->keepTime * 1000);
+        CUser::AddApplySkillBuff(user, skillInfo);
     }
 
     void ability_70_remove(CUser* user)
@@ -101,7 +95,7 @@ namespace user_apply_skill
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 
-    void set_ability(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
+    void set_ability_hook(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
     {
         switch (abilityType)
         {
@@ -163,6 +157,16 @@ namespace user_apply_skill
 
             CUser::SendMaxHP(user);
             CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 398, 399, 400, 401
+        case SkillAbilityType::DecreaseHpByPercentage:
+        {
+            if (abilityValue <= 0)
+                return;
+
+            user->health -= (user->health * abilityValue) / 100;
+            CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
             break;
         }
         // itemId: 101112, 101113
@@ -316,7 +320,7 @@ void __declspec(naked) naked_0x4959A4()
         push edx // abilityType
         push ecx // typeEffect
         push esi // user
-        call user_apply_skill::set_ability
+        call user_apply_skill::set_ability_hook
         add esp,0x10
 
         popad
