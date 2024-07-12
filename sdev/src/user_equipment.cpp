@@ -157,7 +157,7 @@ void __declspec(naked) naked_0x461640()
     {
         pushad
 
-        push 0x0 // itemRemove
+        push 0x0 // remove flag
         push eax // item
         push edi // user
         call Synergy::applySynergies
@@ -179,7 +179,7 @@ void __declspec(naked) naked_0x461D10()
     {
         pushad
 
-        push 0x1 // itemRemove
+        push 0x1 // remove flag
         push ecx // item
         push edx // user
         call Synergy::applySynergies
