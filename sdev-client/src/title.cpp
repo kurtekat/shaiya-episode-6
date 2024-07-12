@@ -16,7 +16,7 @@ namespace title
     void hook(CCharacter* user, float x, float y, float extrusion)
     {
         const char* text = "Champion of Shaiya";
-        constexpr int effectDataId = 280;
+        const int effectDataId = 280;
 
         if (!user->pet)
             return;
@@ -25,8 +25,8 @@ namespace title
         if (!itemInfo)
             return;
 
-        // unique to itemId 120043
-        if (itemInfo->model != 27)
+        auto itemId = (itemInfo->type * 1000) + itemInfo->typeId;
+        if (itemId != 120043)
             return;
 
         if (!user->title.text)
@@ -43,7 +43,7 @@ namespace title
         auto posX = x - user->title.pointX;
 
         CStaticText::Draw(user->title.text, long(posX), long(posY), extrusion, 0xFFFFFFFF);
-
+        
         if (!user->title.effectDataId)
         {
             CCharacter::RemoveEffect(user, effectDataId, 0);
@@ -162,6 +162,27 @@ void __declspec(naked) naked_0x59F299()
     }
 }
 
+unsigned u0x412320 = 0x412320;
+unsigned u0x59833A = 0x59833A;
+void __declspec(naked) naked_0x598335()
+{
+    __asm
+    {
+        // original
+        call u0x412320
+
+        pushad
+
+        push edi
+        call title::remove_effect
+        add esp,0x4
+
+        popad
+
+        jmp u0x59833A
+    }
+}
+
 unsigned u0x58C460 = 0x58C460;
 unsigned u0x42D6D2 = 0x42D6D2;
 unsigned u0x42D8B5 = 0x42D8B5;
@@ -204,6 +225,8 @@ void hook::title()
     util::detour((void*)0x59F114, naked_0x59F114, 5);
     // pet swap case
     util::detour((void*)0x59F299, naked_0x59F299, 5);
+    // 0x504 handler
+    util::detour((void*)0x598335, naked_0x598335, 5);
     // create effect from .eft file
     util::detour((void*)0x42D6C5, naked_0x42D6C5, 5);
 }
