@@ -25,9 +25,9 @@ namespace packet
 
     void revenge_message(CCharacter* killer, uint32_t killCount)
     {
-        StringCbCopyA(g_var->t.data(), g_var->t.size(), killer->charName.data());
-        g_var->v = killCount;
-        Static::GetMsg(5, 509, 1);
+        StringCbCopyA(g_var->sysMsgTargetName.data(), g_var->sysMsgTargetName.size(), killer->charName.data());
+        g_var->sysMsgValue = killCount;
+        Static::DrawSystemMessage(5, 509, 1);
     }
 
     void check_add_money(uint32_t money)

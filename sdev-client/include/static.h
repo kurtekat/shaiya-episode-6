@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/skill/SkillStatusType.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
@@ -12,6 +13,13 @@
 namespace shaiya
 {
     struct CStaticText;
+
+    enum struct HealPointType : UINT8
+    {
+        Health,
+        Stamina,
+        Mana
+    };
 
     enum struct TargetType : int
     {
@@ -101,20 +109,20 @@ namespace shaiya
         PAD(1468);
         HWND hwnd;                           //0x7C139C
         HINSTANCE hinst;                     //0x7C13A0
-        PAD(1940);
-        // <t>
-        CharArray<512> t;                    //0x7C1B38
-        PAD(1024);
-        // <s>
-        CharArray<512> s;                    //0x7C2138
-        // <p>
-        CharArray<512> p;                    //0x7C2338
-        // <i>
-        CharArray<512> i;                    //0x7C2538
-        // 0x7C2738
-        PAD(4);
-        // <v>
-        UINT32 v;                            //0x7C273C
+        PAD(1420);
+        UINT32 sysMsgValue2;                 //0x7C1930  <v2>
+        HealPointType sysMsgHealPointType1;  //0x7C1934  <up>
+        SkillStatusType sysMsgDebuffType;    //0x7C1935  <zz>
+        HealPointType sysMsgHealPointType2;  //0x7C1936  <hp>
+        PAD(1);
+        CharArray<512> sysMsgLapisName;      //0x7C1938  <r>
+        CharArray<512> sysMsgTargetName;     //0x7C1B38  <t>
+        CharArray<1024> sysMsgBuffer;        //0x7C1D38  <b>
+        CharArray<512> sysMsgSkillName;      //0x7C2138  <s>
+        CharArray<512> sysMsgPlayerName;     //0x7C2338  <p>
+        CharArray<512> sysMsgItemName;       //0x7C2538  <i>
+        UINT32 sysMsgValue3;                 //0x7C2738  <v3>
+        UINT32 sysMsgValue;                  //0x7C273C  <v>
         PAD(9000);
         CWorldMgr worldMgr;                  //0x7C4A68
         // 0x906DE0
@@ -526,7 +534,7 @@ namespace shaiya
 
         // static functions
 
-        static void GetMsg(int type, int line, int unknown);
+        static void DrawSystemMessage(int type, int lineNumber, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
     };
     #pragma pack(pop)

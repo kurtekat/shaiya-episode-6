@@ -21,6 +21,11 @@ namespace shaiya
     struct GuildNpcData;
     struct GuildUserData;
     struct ObeliskData;
+    struct PartyData;
+    struct QuestData;
+    struct QuestFinishData;
+    struct SetSkillData;
+    struct SkillData;
 
     using Inventory = Array<Array<CItem, 24>, 6>;
     using Warehouse = Array<CItem, 240>;
@@ -208,7 +213,16 @@ namespace shaiya
         UINT8 townScrollSlot;               //0x91AD3F  0xDB6F
         UINT32 npcTypeId;                   //0x91AD40  0xDB70
         NpcType32 npcType;                  //0x91AD44  0xDB74
-        PAD(26802720);
+        PAD(26802528);
+        CVector<SkillData> skillData;          //0x22AA6A8  0x199D518
+        CVector<QuestData> questData;          //0x22AA6C0  0x199D530
+        // 0x22AA6D8  0x199D548
+        CVector<QuestFinishData> questFinishData;
+        // 0x22AA6F0  0x199D560
+        CMap<ULONG, SetSkillData> setSkillData;
+        CMap<ULONG, PartyData> partyData;      //0x22AA71C  0x199D58C
+        // 0x22AA748  0x199D5B8
+        PAD(32);
         CVector<GuildUserData> guildUserData;  //0x22AA768  0x199D598
         // 0x22AA780  0x199D5B0
         CVector<GuildJoinUserData> guildJoinUserData;
@@ -239,7 +253,7 @@ namespace shaiya
         UINT8 guildAuthLv;                     //0x22AB7B2  0x199E5E2
         PAD(1);
         char* guildName;                       //0x22AB7B4  0x199E5E4
-        CharArray<128> textBuf;                //0x22AB7B8  0x199E5E8
+        CharArray<128> textBuffer;             //0x22AB7B8  0x199E5E8
         // 0x22AB838  0x199E668
         PAD(36);
         UINT32 points;                         //0x22AB85C  0x199E68C
