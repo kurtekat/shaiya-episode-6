@@ -84,7 +84,8 @@ namespace shaiya
         ULONG targetId;               //0x188
         PAD(4);
         BOOL running;                 //0x190
-        PAD(8);
+        PAD(4);
+        BOOL enableLight;             //0x198
         UINT8 hair;                   //0x19C
         UINT8 face;                   //0x19D
         UINT8 size;                   //0x19E

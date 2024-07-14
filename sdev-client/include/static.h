@@ -13,6 +13,8 @@
 namespace shaiya
 {
     struct CStaticText;
+    struct CSwordEffect;
+    struct CVertexShader;
 
     enum struct HealPointType : UINT8
     {
@@ -34,41 +36,56 @@ namespace shaiya
     // 00572D30 ctor
     struct Camera
     {
-        D3DMATRIX world;           //0x22B69B0  0x00
-        D3DMATRIX view;            //0x22B69F0  0x40
-        D3DMATRIX projection;      //0x22B6A30  0x80
-        D3DVECTOR pos;             //0x22B6A70  0xC0
-        D3DVECTOR lookAt;          //0x22B6A7C  0xCC
-        D3DVECTOR up;              //0x22B6A88  0xD8
-        DXGI_RGB color;            //0x22B6A94  0xE4
-        // Character->pos
-        D3DVECTOR target;          //0x22B6AA0  0xF0
-        D3DMATRIX mat1;            //0x22B6AAC  0xFC
-        D3DMATRIX mat2;            //0x22B6AEC  0x13C
-        D3DMATRIX mat3;            //0x22B6B2C  0x17C
-        D3DMATRIX mat4;            //0x22B6B6C  0x1BC
-        // 0x22B6BAC  0x1FC
-        PAD(348);
+        D3DMATRIX world;            //0x22B69B0  0x00
+        D3DMATRIX view;             //0x22B69F0  0x40
+        D3DMATRIX projection;       //0x22B6A30  0x80
+        D3DVECTOR pos;              //0x22B6A70  0xC0
+        D3DVECTOR lookAt;           //0x22B6A7C  0xCC
+        D3DVECTOR up;               //0x22B6A88  0xD8
+        D3DVECTOR vec1;             //0x22B6A94  0xE4
+        D3DVECTOR target;           //0x22B6AA0  0xF0
+        D3DMATRIX mat1;             //0x22B6AAC  0xFC
+        D3DMATRIX mat2;             //0x22B6AEC  0x13C
+        D3DMATRIX mat3;             //0x22B6B2C  0x17C
+        D3DMATRIX mat4;             //0x22B6B6C  0x1BC
+        D3DMATRIX mat5;             //0x22B6BAC  0x1FC
+        // 0x22B6BEC  0x23C
+        PAD(260);
+        D3DCOLOR fogColor;          //0x22B6CF0  0x340
+        PAD(20);
         // 0x22B6D08  0x358
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer1;
         // 0x22B6D0C  0x35C
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer2;
-        PAD(4);
+        // 0x22B6D10  0x360
+        CVertexShader* vertexShader;
         // 0x22B6D14  0x364
         D3DPRESENT_PARAMETERS presentParameters;
-        LPD3DXFONT font1;          //0x22B6D4C  0x39C
-        LPD3DXFONT font2;          //0x22B6D50  0x3A0
-        LPD3DXFONT font3;          //0x22B6D54  0x3A4
-        LPD3DXFONT font4;          //0x22B6D58  0x3A8
-        HFONT hFont;               //0x22B6D5C  0x3AC
-        PAD(96);
-        LPDIRECT3D9 d3d9;          //0x22B6DC0  0x410
-        LPDIRECT3DDEVICE9 device;  //0x22B6DC4  0x414
-        PAD(8);
-        CStaticText* staticText;   //0x22B6DD0  0x420
-        PAD(3076);
-        LPDIRECTDRAW directDraw;   //0x22B79D8  0x1028
-        PAD(1544);
+        LPD3DXFONT d3dxFont3;       //0x22B6D4C  0x39C
+        LPD3DXFONT d3dxFont2;       //0x22B6D50  0x3A0
+        LPD3DXFONT d3dxFont1;       //0x22B6D54  0x3A4
+        LPD3DXFONT d3dxFont0;       //0x22B6D58  0x3A8
+        HFONT hFont;                //0x22B6D5C  0x3AC
+        long text0Width;            //0x22B6D60  0x3B0
+        long text1Width;            //0x22B6D64  0x3B4
+        long text0Height;           //0x22B6D68  0x3B8
+        long text1Height;           //0x22B6D6C  0x3BC
+        UINT32 textColorR;          //0x22B6D70  0x3C0
+        UINT32 textColorG;          //0x22B6D74  0x3C4
+        UINT32 textColorB;          //0x22B6D78  0x3C8
+        D3DMATERIAL9 material;      //0x22B6D7C  0x3CC
+        LPDIRECT3D9 d3d9;           //0x22B6DC0  0x410
+        LPDIRECT3DDEVICE9 device;   //0x22B6DC4  0x414
+        UINT32 primitiveCount;      //0x22B6DC8  0x418
+        BOOL showInfoText;          //0x22B6DCC  0x41C
+        CStaticText* staticText;    //0x22B6DD0  0x420
+        PAD(4);
+        D3DGAMMARAMP gammaRamp1;    //0x22B6DD8  0x428
+        D3DGAMMARAMP gammaRamp2;    //0x22B73D8  0xA28
+        LPDIRECTDRAW directDraw;    //0x22B79D8  0x1028
+        D3DGAMMARAMP gammaRamp3;    //0x22B79DC  0x102C
+        PAD(4);
+        D3DCOLOR clearDeviceColor;  //0x22B7FE0  0x1630
         // 0x1634
     };
     #pragma pack(pop)
@@ -100,16 +117,33 @@ namespace shaiya
         PAD(59808);
         CharArray<MAX_PATH> iniFileName;     //0x7C0720
         // 0x7C0824
-        PAD(1416);
+        PAD(1384);
+        BOOL enableWaterSurface;             //0x7C0D8C
+        BOOL enableShadows;                  //0x7C0D90
+        float viewFarthest;                  //0x7C0D94
+        float viewNearest;                   //0x7C0D98
+        // 0: 16-bit, 1: 32-bit
+        UINT32 colorDepth;                   //0x7C0D9C
+        float cameraTargetSpeed;             //0x7C0DA0
+        float fogNearest;                    //0x7C0DA4
+        float fogFarthest;                   //0x7C0DA8
         float fogStart;                      //0x7C0DAC
         float fogEnd;                        //0x7C0DB0
-        PAD(28);
+        BOOL disableFog;                     //0x7C0DB4
+        FLOAT modelFarthest;                 //0x7C0DB8
+        FLOAT grassFarthest;                 //0x7C0DBC
+        // user, npc, mob
+        FLOAT otherFarthest;                 //0x7C0DC0
+        PAD(12);
         CharArray<16> ipv4Addr;              //0x7C0DD0
         // 0x7C0DE0
         PAD(1468);
         HWND hwnd;                           //0x7C139C
         HINSTANCE hinst;                     //0x7C13A0
-        PAD(1420);
+        BOOL isFullscreenWindow;             //0x7C13A4
+        PAD(4);
+        BOOL isActiveWindow;                 //0x7C13AC
+        PAD(1408);
         UINT32 sysMsgValue2;                 //0x7C1930  <v2>
         HealPointType sysMsgHealPointType1;  //0x7C1934  <up>
         SkillStatusType sysMsgDebuffType;    //0x7C1935  <zz>
@@ -123,10 +157,13 @@ namespace shaiya
         CharArray<512> sysMsgItemName;       //0x7C2538  <i>
         UINT32 sysMsgValue3;                 //0x7C2738  <v3>
         UINT32 sysMsgValue;                  //0x7C273C  <v>
-        PAD(9000);
+        PAD(8992);
+        CSwordEffect* seffEventEffect;       //0x7C4A60
+        CSwordEffect* seffWeather;           //0x7C4A64
         CWorldMgr worldMgr;                  //0x7C4A68
-        // 0x906DE0
-        PAD(25584);
+        CSwordEffect* seffLoginCloud;        //0x906DE0
+        CSwordEffect* seffWeapon;            //0x906DE4
+        PAD(25576);
         CPlayerData playerData;              //0x90D1D0
         // 0x22B0208
         PAD(6384);

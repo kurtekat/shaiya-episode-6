@@ -27,7 +27,6 @@ namespace shaiya
 
         static BOOL CreateFromFile(CTexture* texture, const char* path, const char* fileName/*.tga*/, long w, long h);
         static void Draw(CTexture* texture, long x, long y, float extrusion);
-        static void Draw(CTexture* texture, float top, float left, float right, float bottom);
     };
     #pragma pack(pop)
 
