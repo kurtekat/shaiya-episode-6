@@ -685,11 +685,11 @@ namespace packet_gem
         if (money >= gold_per_percentage && gold_per_percentage > 0)
             successRate += (money / gold_per_percentage) * 100;
 
-        if (incoming->hammerBag > user->bagsUnlocked || incoming->hammerSlot >= max_inventory_slot)
-            return;
-
-        if (incoming->hammerBag > 0)
+        if (incoming->hammerBag != 0)
         {
+            if (incoming->hammerBag > user->bagsUnlocked || incoming->hammerSlot >= max_inventory_slot)
+                return;
+
             auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
             if (!hammer)
                 return;
@@ -786,19 +786,16 @@ namespace packet_gem
         if (to->itemInfo->slotCount < from->itemInfo->slotCount)
             return;
 
-        if (!to->itemInfo->composeCount || to->itemInfo->composeCount < from->itemInfo->composeCount)
+        if (to->itemInfo->composeCount < from->itemInfo->composeCount)
             return;
 
-        if (!to->itemInfo->reqWis || to->itemInfo->reqWis < from->itemInfo->reqWis)
-            return;
-
-        if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
+        if (to->itemInfo->reqWis < from->itemInfo->reqWis)
             return;
 
         int successRate = min_success_rate;
         if (incoming->catalystSlot != 255)
         {
-            if (incoming->catalystSlot >= max_inventory_slot)
+            if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked || incoming->catalystSlot >= max_inventory_slot)
                 return;
 
             auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];
