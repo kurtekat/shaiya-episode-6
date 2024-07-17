@@ -38,7 +38,7 @@ Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the a
 
 ## Support
 
-Bug reports are appreciated. I don't care about anything else. Older versions of the software are not supported.
+Older versions of the software are not supported. Send bug reports via email. Do not send images or videos unless you are asked to do so. Please provide steps to reproduce the issue(s), or I may not respond.
 
 # Documentation
 
