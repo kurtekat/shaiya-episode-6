@@ -4,11 +4,13 @@
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
 #include "include/shaiya/include/CEffectModelList.h"
+#include "include/shaiya/include/CInput.h"
 #include "include/shaiya/include/CMonsterData.h"
 #include "include/shaiya/include/CObjectData.h"
 #include "include/shaiya/include/CPlayerData.h"
 #include "include/shaiya/include/CTextureList.h"
 #include "include/shaiya/include/CWorldMgr.h"
+#include "include/shaiya/include/SIMM.h"
 
 namespace shaiya
 {
@@ -169,13 +171,14 @@ namespace shaiya
         PAD(6384);
         UINT32 killLv;                       //0x22B1AF8
         UINT32 deathLv;                      //0x22B1AFC
-        PAD(2492);
-        LPDIRECTINPUT8A directInput8;        //0x22B24BC
-        PAD(6832);
-        HIMC himc;                           //0x22B3F70
-        PAD(6708);
-        Array<wchar_t, 1024> wcharBuffer1;   //0x22B59A8
-        Array<wchar_t, 1024> wcharBuffer2;   //0x22B61A8
+        PAD(2488);
+        CInput input;                        //0x22B24B8
+        HIMC inputContext;                   //0x22B3F70
+        SIMM inputMethodManager;             //0x22B3F74
+        // 0x22B3F8C
+        PAD(6684);
+        CharArrayW<1024> wideCharBuffer1;    //0x22B59A8
+        CharArrayW<1024> wideCharBuffer2;    //0x22B61A8
         LPDIRECT3DDEVICE9 device;            //0x22B69A8
         PAD(4);
         Camera camera;                       //0x22B69B0
@@ -566,7 +569,31 @@ namespace shaiya
         // 0x22FF784
         PAD(708);
         HMODULE hModule;                     //0x22FFA48
-        PAD(21940);
+        PAD(116);
+        FARPROC gdi32_GetCharABCWidthsI;     //0x22FFAC0
+        FARPROC gdi32_GetCharWidthI;         //0x22FFAC4
+        FARPROC gdi32_GetFontUnicodeRanges;  //0x22FFAC8
+        PAD(4);
+        FARPROC usp10_ScriptItemize;         //0x22FFAD0
+        FARPROC usp10_ScriptShape;           //0x22FFAD4
+        FARPROC usp10_ScriptPlace;           //0x22FFAD8
+        FARPROC usp10_ScriptBreak;           //0x22FFADC
+        FARPROC usp10_ScriptJustify;         //0x22FFAE0
+        FARPROC usp10_ScriptTextOut;         //0x22FFAE4
+        FARPROC usp10_ScriptGetProperties;   //0x22FFAE8
+        FARPROC usp10_ScriptFreeCache;       //0x22FFAEC
+        // 0x22FFAF0
+        FARPROC usp10_ScriptRecordDigitSubstitution;
+        // 0x22FFAF4
+        FARPROC usp10_ScriptApplyDigitSubstitution;
+        // 0x22FFAF8
+        FARPROC usp10_ScriptGetFontProperties;
+        FARPROC usp10_ScriptStringAnalyze;   //0x22FFAFC
+        FARPROC usp10_ScriptStringOut;       //0x22FFB00
+        FARPROC usp10_ScriptStringFree;      //0x22FFB04
+        FARPROC usp10_ScriptStringCPtoX;     //0x22FFB08
+        FARPROC usp10_ScriptString_pSize;    //0x22FFB0C
+        PAD(21744);
         // 0x2305000 (.rsrc)
 
         // static functions

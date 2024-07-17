@@ -59,6 +59,26 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct UserStatusUpIncoming
+    {
+        UINT16 opcode{ 0x208 };
+        UINT16 strength;
+        UINT16 dexterity;
+        UINT16 reaction;
+        UINT16 intelligence;
+        UINT16 wisdom;
+        UINT16 luck;
+
+        UserStatusUpIncoming() = default;
+
+        UserStatusUpIncoming(UINT16 strength, UINT16 dexterity, UINT16 reaction, UINT16 intelligence, UINT16 wisdom, UINT16 luck)
+            : strength(strength), dexterity(dexterity), reaction(reaction), intelligence(intelligence), wisdom(wisdom), luck(luck)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct SkillGetIncoming
     {
         UINT16 opcode{ 0x209 };

@@ -28,6 +28,7 @@
     <ClInclude Include="include\shaiya\include\CEffectData.h" />
     <ClInclude Include="include\shaiya\include\CEffectModel.h" />
     <ClInclude Include="include\shaiya\include\CEffectModelList.h" />
+    <ClInclude Include="include\shaiya\include\CInput.h" />
     <ClInclude Include="include\shaiya\include\CMap.h" />
     <ClInclude Include="include\shaiya\include\CMonsterData.h" />
     <ClInclude Include="include\shaiya\include\CObjectData.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="include\shaiya\include\GuildUserData.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
+    <ClInclude Include="include\shaiya\include\SIMM.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
     <ClInclude Include="include\shaiya\include\SModel.h" />
     <ClInclude Include="include\static.h" />
@@ -64,6 +66,7 @@
     <ClCompile Include="include\shaiya\src\CTexture.cpp" />
     <ClCompile Include="include\shaiya\src\CWindow.cpp" />
     <ClCompile Include="include\shaiya\src\CWorldMgr.cpp" />
+    <ClCompile Include="include\shaiya\src\SIMM.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\gui.cpp" />
     <ClCompile Include="src\main.cpp" />

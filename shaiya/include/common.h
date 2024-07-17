@@ -38,6 +38,9 @@ namespace shaiya
     template<size_t N>
     using CharArray = std::array<char, N>;
 
+    template<size_t N>
+    using CharArrayW = std::array<wchar_t, N>;
+
     using Address = unsigned;
     using Packet = unsigned char*;
 
