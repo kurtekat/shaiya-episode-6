@@ -10,7 +10,11 @@ namespace shaiya
         PAD(48);                           //0x22B291C
         // e.g., 19
         int maxInputStrLen;                //0x22B294C  0x30
-        PAD(5612);
+        PAD(4324);
+        CharArray<256> imeCompStrAttr;     //0x22B3A34  0x1118
+        CharArray<1024> imeCompStrClause;  //0x22B3B34  0x1218
+        // 0x22B3F34  0x1618
+        PAD(8);
         HWND hwnd;                         //0x22B3F3C  0x1620
         // e.g., 0x4090409
         HKL keyboardLayout;                //0x22B3F40  0x1624
@@ -18,8 +22,8 @@ namespace shaiya
         UINT16 localeId;                   //0x22B3F44  0x1628
         // e.g., 1252
         UINT16 codePage;                   //0x22B3F46  0x162A
-        PAD(4);
-        BOOL isImmOpen;                    //0x22B3F4C  0x1630
+        DWORD imeProperty;                 //0x22B3F48  0x162C
+        BOOL isImeOpen;                    //0x22B3F4C  0x1630
         PAD(12);
         HMODULE imm32Dll;                  //0x22B3F5C  0x1640
         PAD(4);

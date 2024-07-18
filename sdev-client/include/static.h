@@ -25,6 +25,29 @@ namespace shaiya
         Mana
     };
 
+    // notes: code page (see 0x408060)
+    // CP_ACP (system default)
+    enum struct LoginVersion : UINT32
+    {
+        Korea = 1,     //
+        China,         //
+        Vietnam,       // 65001 (UTF-8)
+        Japan,         // 932
+        Taiwan,        // 950
+        English,       // CP_ACP
+        Germany,       // CP_ACP
+        SingaMala,     // 950
+        HongKong,      //
+        France,        // CP_ACP
+        Russia,        // CP_ACP
+        Turkey,        // 1254
+        Brazil,        // CP_ACP
+        LatinAmerica,  // CP_ACP
+        Poland,        // 1250
+        Italy,         // CP_ACP
+        Philippines    // CP_ACP
+    };
+
     enum struct TargetType : int
     {
         None = -1,
@@ -98,7 +121,8 @@ namespace shaiya
     // the .data section
     struct Static
     {
-        PAD(216);                            //0x7AB000
+        PAD(212);                            //0x7AB000
+        LoginVersion loginVersion;           //0x7AB0D4
         D2D_SIZE_U client;                   //0x7AB0D8
         D3DVIEWPORT9 viewport;               //0x7AB0E0
         // 0x7AB0F8
