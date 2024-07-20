@@ -11,6 +11,7 @@
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/TownMoveScroll.h"
 using namespace shaiya;
 
 namespace item_effect
@@ -19,7 +20,7 @@ namespace item_effect
     {
         switch (effect)
         {
-        case ItemEffect::TownTeleportScroll:
+        case ItemEffect::TownMoveScroll:
         {
             NpcGateKeeper* gateKeeper = nullptr;
 
@@ -56,9 +57,9 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            user->recallMapId = gateKeeper->gates[user->townScrollGateIndex].mapId;
-            user->recallPos = gateKeeper->gates[user->townScrollGateIndex].pos;
-            user->recallType = UserRecallType::TownTeleportScroll;
+            user->recallMapId = gateKeeper->gates[user->townMoveScroll.gateIndex].mapId;
+            user->recallPos = gateKeeper->gates[user->townMoveScroll.gateIndex].pos;
+            user->recallType = UserRecallType::TownMoveScroll;
             user->recallTick = GetTickCount() + 5000;
 
             ItemCastOutgoing outgoing(user->id);
@@ -70,7 +71,7 @@ namespace item_effect
         }
     }
 
-    void town_scroll_handler(CUser* user, ItemTownScrollIncoming* incoming)
+    void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
             return;
@@ -85,34 +86,34 @@ namespace item_effect
         if (!item)
             return;
 
-        if (item->itemInfo->effect != ItemEffect::TownTeleportScroll)
+        if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
             return;
 
         if (incoming->gateIndex > 2)
             return;
 
-        user->recallItemBag = incoming->bag;
-        user->recallItemSlot = incoming->slot;
-        user->townScrollGateIndex = incoming->gateIndex;
+        user->townMoveScroll.bag = incoming->bag;
+        user->townMoveScroll.slot = incoming->slot;
+        user->townMoveScroll.gateIndex = incoming->gateIndex;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
         CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
     }
 
-    int town_scroll_event_handler(CUser* user)
+    int town_move_scroll_event_handler(CUser* user)
     {
-        auto& item = user->inventory[user->recallItemBag][user->recallItemSlot];
+        auto& item = user->inventory[user->townMoveScroll.bag][user->townMoveScroll.slot];
         if (!item)
             return 0;
 
         if (item->itemInfo->realType != ItemRealType::Teleportation)
             return 0;
 
-        if (item->itemInfo->effect != ItemEffect::TownTeleportScroll)
+        if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
             return 0;
 
-        CUser::ItemUseNSend(user, user->recallItemBag, user->recallItemSlot, false);
+        CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
         return 1;
     }
 }
@@ -167,7 +168,7 @@ void __declspec(naked) naked_0x4784D6()
 
         push ebp // packet
         push ecx // user
-        call item_effect::town_scroll_handler
+        call item_effect::town_move_scroll_handler
         add esp,0x8
 
         popad
@@ -195,7 +196,7 @@ void __declspec(naked) naked_0x49DDBF()
         pushad
 
         push edi // user
-        call item_effect::town_scroll_event_handler
+        call item_effect::town_move_scroll_event_handler
         add esp,0x4
         test eax,eax
 

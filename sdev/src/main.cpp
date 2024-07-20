@@ -6,6 +6,7 @@
 #include "include/shaiya/include/RevengeMark.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/Synthesis.h"
+#include "include/shaiya/include/TownMoveScroll.h"
 using namespace shaiya;
 
 void enter_world_hook(CUser* user)
@@ -71,14 +72,22 @@ void user_ctor_hook(CUser* user)
     user->exchange.confirmed = false;
 
 #ifdef SHAIYA_EP6_4_PT
-    user->townScrollGateIndex = 0;
-    user->skillAbility70.skillId = 0;
-    user->skillAbility70.skillLv = 0;
-    user->skillAbility70.triggered = false;
-    user->skillAbility70.keepTick = 0;
     user->itemQualityEx.fill(0);
     user->itemQualityLvEx.fill(0);
-    user->increaseQuestExpRate = 0;
+
+    user->townMoveScroll.bag = 0;
+    user->townMoveScroll.slot = 0;
+    user->townMoveScroll.gateIndex = 0;
+
+    user->skillAbility.type70.skillId = 0;
+    user->skillAbility.type70.skillLv = 0;
+    user->skillAbility.type70.triggered = false;
+    user->skillAbility.type70.keepTick = 0;
+
+    user->skillAbility.type73Percentage = 0;
+    user->skillAbility.type74Percentage = 0;
+    user->skillAbility.type78Percentage = 0;
+    user->skillAbility.type87QuestExpRate = 0;
 #endif
 }
 
@@ -115,6 +124,11 @@ void Main()
     hook::packet_shop();
 
 #ifdef SHAIYA_EP6_4_PT
+    // change 0x62A0 to 0x630C
+    std::array<std::uint8_t, 2> a00{ 0x0C, 0x63 };
+    // SSyncHeap<CUser>::Alloc
+    util::write_memory((void*)0x411F74, &a00, 2);
+
     hook::item_duration();
     hook::item_effect();
     hook::npc_quest();

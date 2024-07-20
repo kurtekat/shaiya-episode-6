@@ -32,7 +32,7 @@ namespace user_equipment
 
     void init(CUser* user)
     {
-        user->initEquipment = true;
+        user->isInitEquipment = true;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->inventory[0])))
@@ -46,7 +46,7 @@ namespace user_equipment
             CUser::ItemEquipmentAdd(user, item, slot);
         }
 
-        user->initEquipment = false;
+        user->isInitEquipment = false;
         CUser::SetAttack(user);
     }
 
@@ -271,8 +271,8 @@ void hook::user_equipment()
     // CUser::PacketAdminCmdD
     util::write_memory((void*)0x482896, max_equipment_slot, 1);
 
-    // change 0x199 (user->itemQualityLv) to 0x5DA8
-    std::array<std::uint8_t, 2> a00{ 0xA8, 0x5D };
+    // change 0x199 (user->itemQualityLv) to 0x62A0
+    std::array<std::uint8_t, 2> a00{ 0xA0, 0x62 };
     
     // CUser::ItemEquipmentAdd
     util::write_memory((void*)0x46166A, &a00, 2);
@@ -307,8 +307,8 @@ void hook::user_equipment()
     util::write_memory((void*)0x47395E, &a00, 2);
     util::write_memory((void*)0x47398F, &a00, 2);
 
-    // change 0x1A6 (user->itemQuality) to 0x5DC0
-    std::array<std::uint8_t, 2> a01{ 0xC0, 0x5D };
+    // change 0x1A6 (user->itemQuality) to 0x62B8
+    std::array<std::uint8_t, 2> a01{ 0xB8, 0x62 };
 
     // CUser::ItemDropByUserDeath
     util::write_memory((void*)0x46754C, &a01, 2);

@@ -17,8 +17,8 @@
 #include "include/shaiya/include/CMiniGame.h"
 #include "include/shaiya/include/CUserCrypto.h"
 #include "include/shaiya/include/MyShop.h"
-#include "include/shaiya/include/SkillAbility70.h"
 #include "include/shaiya/include/SVector.h"
+#include "include/shaiya/include/TownMoveScroll.h"
 
 namespace shaiya
 {
@@ -43,7 +43,6 @@ namespace shaiya
     using ItemQualityEx = Array<UINT16, 24>;
 
     using Bank = Array<BillingItem, 240>;
-    using StoredPointItems = Bank;
 
     #pragma pack(push, 1)
     struct ProductItem
@@ -57,6 +56,36 @@ namespace shaiya
     #pragma pack(pop)
 
     using ProductLog = Array<ProductItem, 10>;
+
+    #pragma pack(push, 1)
+    struct SkillAbility70
+    {
+        UINT16 skillId;
+        UINT8 skillLv;
+        bool triggered;
+        DWORD keepTick;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct SkillAbilityEx
+    {
+        SkillAbility70 type70;
+        UINT32 type73Percentage;
+        UINT32 type74Percentage;
+        UINT32 type78Percentage;
+        UINT32 type87QuestExpRate;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct StoredPointItems
+    {
+        // uses 240
+        Array<BillingItem, 640> items;
+        CRITICAL_SECTION cs;
+    };
+    #pragma pack(pop)
 
     enum struct UserAttackType : UINT32
     {
@@ -129,7 +158,7 @@ namespace shaiya
         // itemId 100169 (EP5)
         MoveWar,
         // custom
-        TownTeleportScroll,
+        TownMoveScroll,
         MoveMapId200 = 10,
         MoveChar = 0xF904,
         MoveCharZone = 0xF905,
@@ -555,7 +584,7 @@ namespace shaiya
         UINT32 serverId;                       //0x5830
         CharArray<32> username;                //0x5834
         PAD(1);
-        bool initEquipment;                    //0x5855
+        bool isInitEquipment;                  //0x5855
         PAD(14);
         UINT32 questKillPCCount;               //0x5864
         UINT32 questKillMobCount;              //0x5868
@@ -607,19 +636,17 @@ namespace shaiya
         volatile UINT disableShop;             //0x5AC4
         DWORD reloadPointTick;                 //0x5AC8
         StoredPointItems storedPointItems;     //0x5ACC
-        // EP6.4
-        UINT32 townScrollGateIndex;            //0x5D9C
-        SkillAbility70 skillAbility70;         //0x5DA0
-        ItemQualityLvEx itemQualityLvEx;       //0x5DA8
-        ItemQualityEx itemQualityEx;           //0x5DC0
-        UINT32 increaseQuestExpRate;           //0x5DF0
-        PAD(1112);
-        CRITICAL_SECTION cs624C;               //0x624C
         // 0x6264
         PAD(32);
-        CRITICAL_SECTION cs6284;               //0x6284
+        CRITICAL_SECTION cs;                   //0x6284
         PAD(4);
         // 0x62A0
+
+        // custom
+        ItemQualityLvEx itemQualityLvEx;       //0x62A0
+        ItemQualityEx itemQualityEx;           //0x62B8
+        TownMoveScroll townMoveScroll;         //0x62E8
+        SkillAbilityEx skillAbility;           //0x62F4
 
         static void AddApplySkillBuff(CUser* user, SkillInfo* skillInfo);
         static void AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo);
@@ -691,5 +718,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CUser) == 0x62A0);
+    //static_assert(sizeof(CUser) == 0x62A0);
+    static_assert(sizeof(CUser) == 0x630C);
 }

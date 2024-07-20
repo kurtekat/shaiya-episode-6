@@ -42,7 +42,7 @@ namespace npc_quest
 
         if (exp)
         {
-            auto rate = user->increaseQuestExpRate;
+            auto rate = user->skillAbility.type87QuestExpRate;
             exp = (rate >= 200) ? exp * (rate / 100) : exp;
             CUser::AddExpFromUser(user, 0, exp, true);
         }
