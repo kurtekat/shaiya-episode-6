@@ -23,14 +23,14 @@ namespace user_apply_skill
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
 
-        if (!user->skillAbility70.triggered)
+        if (!user->skillAbility.type70.triggered)
         {
             outgoing.statusType = SkillUseStatusType::Triggered;
 
-            user->skillAbility70.triggered = true;
-            user->skillAbility70.skillId = outgoing.skillId;
-            user->skillAbility70.skillLv = outgoing.skillLv;
-            user->skillAbility70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
+            user->skillAbility.type70.triggered = true;
+            user->skillAbility.type70.skillId = outgoing.skillId;
+            user->skillAbility.type70.skillLv = outgoing.skillLv;
+            user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::AddApplySkillBuff(user, skillInfo);
@@ -39,10 +39,10 @@ namespace user_apply_skill
         {
             outgoing.statusType = SkillUseStatusType::Stopped;
 
-            user->skillAbility70.triggered = false;
-            user->skillAbility70.skillId = 0;
-            user->skillAbility70.skillLv = 0;
-            user->skillAbility70.keepTick = 0;
+            user->skillAbility.type70.triggered = false;
+            user->skillAbility.type70.skillId = 0;
+            user->skillAbility.type70.skillLv = 0;
+            user->skillAbility.type70.keepTick = 0;
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
             CUser::RemApplySkillBuff(user, skillInfo);
@@ -54,35 +54,35 @@ namespace user_apply_skill
         if (user->status == UserStatus::Death)
             return;
 
-        if (!user->skillAbility70.triggered)
+        if (!user->skillAbility.type70.triggered)
             return;
 
         auto now = GetTickCount();
-        if (now < user->skillAbility70.keepTick)
+        if (now < user->skillAbility.type70.keepTick)
             return;
 
-        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
+        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility.type70.skillId, user->skillAbility.type70.skillLv);
         if (!skillInfo)
             return;
 
         CUser::RemApplySkillBuff(user, skillInfo);
-        user->skillAbility70.keepTick = now + (skillInfo->keepTime * 1000);
+        user->skillAbility.type70.keepTick = now + (skillInfo->keepTime * 1000);
         CUser::AddApplySkillBuff(user, skillInfo);
     }
 
     void ability_70_remove(CUser* user)
     {
-        if (!user->skillAbility70.triggered)
+        if (!user->skillAbility.type70.triggered)
             return;
 
-        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility70.skillId, user->skillAbility70.skillLv);
+        auto skillInfo = CGameData::GetSkillInfo(user->skillAbility.type70.skillId, user->skillAbility.type70.skillLv);
         if (!skillInfo)
             return;
 
-        user->skillAbility70.triggered = false;
-        user->skillAbility70.skillId = 0;
-        user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTick = 0;
+        user->skillAbility.type70.triggered = false;
+        user->skillAbility.type70.skillId = 0;
+        user->skillAbility.type70.skillLv = 0;
+        user->skillAbility.type70.keepTick = 0;
 
         SkillUseOutgoing outgoing{};
         outgoing.senderId = user->id;
@@ -162,17 +162,68 @@ namespace user_apply_skill
         // skillId: 398, 399, 400, 401
         case SkillAbilityType::DecreaseHpByPercentage:
         {
-            if (abilityValue <= 0)
+            if (abilityValue < 0)
                 return;
 
             user->health -= (user->health * abilityValue) / 100;
             CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
             break;
         }
+        // skillId: 396
+        case SkillAbilityType::AbilityAddDefensePercentage:
+        {
+            if (abilityValue < 0)
+            {
+                user->abilityAddDefense -= user->skillAbility.type73Percentage;
+                user->skillAbility.type73Percentage = 0;
+            }
+            else
+            {
+                user->skillAbility.type73Percentage = (user->defense * abilityValue) / 100;
+                user->abilityAddDefense += user->skillAbility.type73Percentage;
+            }
+
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 397
+        case SkillAbilityType::AbilityAddRangedDefensePercentage:
+        {
+            if (abilityValue < 0)
+            {
+                user->abilityAddRangedDefense -= user->skillAbility.type74Percentage;
+                user->skillAbility.type74Percentage = 0;
+            }
+            else
+            {
+                user->skillAbility.type74Percentage = (user->rangedDefense * abilityValue) / 100;
+                user->abilityAddRangedDefense += user->skillAbility.type74Percentage;
+            }
+
+            CUser::SetAttack(user);
+            break;
+        }
+        // skillId: 412
+        case SkillAbilityType::AbilityAddMagicResistancePercentage:
+        {
+            if (abilityValue < 0)
+            {
+                user->abilityAddMagicResistance -= user->skillAbility.type78Percentage;
+                user->skillAbility.type78Percentage = 0;
+            }
+            else
+            {
+                user->skillAbility.type78Percentage = (user->magicResistance * abilityValue) / 100;
+                user->abilityAddMagicResistance += user->skillAbility.type78Percentage;
+            }
+
+            CUser::SetAttack(user);
+            break;
+        }
         // itemId: 101112, 101113
         // skillId: 432
         case SkillAbilityType::IncreaseQuestExpRate:
-            user->increaseQuestExpRate += abilityValue;
+            user->skillAbility.type87QuestExpRate += abilityValue;
             break;
         default:
             break;
