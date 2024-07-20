@@ -209,8 +209,8 @@ namespace shaiya
         // effect 39,44,45,50,99
         UINT8 itemEffectBag;                //0x91AD3C  0xDB6C
         UINT8 itemEffectSlot;               //0x91AD3D  0xDB6D
-        UINT8 townScrollBag;                //0x91AD3E  0xDB6E
-        UINT8 townScrollSlot;               //0x91AD3F  0xDB6F
+        UINT8 townMoveScrollBag;            //0x91AD3E  0xDB6E
+        UINT8 townMoveScrollSlot;           //0x91AD3F  0xDB6F
         UINT32 npcTypeId;                   //0x91AD40  0xDB70
         NpcType32 npcType;                  //0x91AD44  0xDB74
         PAD(26802528);

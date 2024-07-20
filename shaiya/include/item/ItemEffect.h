@@ -80,7 +80,7 @@ namespace shaiya
         DungeonMap,
         CraftingHammer = 102,
         LapisianLuckyCharm,
-        TownTeleportScroll,
+        TownMoveScroll,
         TransferRubiksCube,
         Catalyst,
         EnchantEnhancer,

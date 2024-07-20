@@ -32,7 +32,7 @@ namespace shaiya
         AbilityMagicPower,
         AbilityAddDefense,
         AbilityAddRangedDefense,
-        AbilityMagicResistance,
+        AbilityAddMagicResistance,
         AbilityEvasionRate,
         AbilityRangedEvasionRate,
         AbilityMagicEvasionRate,
@@ -63,6 +63,9 @@ namespace shaiya
         DexToMaxHealth,
         LucToMaxHealth,
         DecreaseHpByPercentage = 70,
+        AbilityAddDefensePercentage = 73,
+        AbilityAddRangedDefensePercentage,
+        AbilityAddMagicResistancePercentage = 78,
         IncreaseQuestExpRate = 87
     };
 }

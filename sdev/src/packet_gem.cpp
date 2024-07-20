@@ -317,7 +317,7 @@ namespace packet_gem
                 CItem::ReGenerationCraftExpansion(item, true);
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -350,7 +350,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -385,7 +385,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -420,7 +420,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -455,7 +455,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -490,7 +490,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -525,7 +525,7 @@ namespace packet_gem
 
                 CUser::ItemEquipmentOptionAdd(user, item);
 
-                if (!user->initEquipment)
+                if (!user->isInitEquipment)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -914,7 +914,7 @@ namespace packet_gem
                 from->craftAbsorption = 0;
             }
 
-            if (!user->initEquipment)
+            if (!user->isInitEquipment)
             {
                 if (maxHealth != user->maxHealth)
                     CUser::SendMaxHP(user);

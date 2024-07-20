@@ -281,9 +281,6 @@
     <ClInclude Include="include\shaiya\include\ItemDuration.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\SkillAbility70.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\GameLogMain.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
@@ -297,6 +294,9 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CDamageMob.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\TownMoveScroll.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

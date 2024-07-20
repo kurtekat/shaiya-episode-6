@@ -111,16 +111,16 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemTownScrollIncoming
+    struct TownMoveScrollIncoming
     {
         UINT16 opcode{ 0x55A };
         UINT8 bag;
         UINT8 slot;
         UINT8 gateIndex;
 
-        ItemTownScrollIncoming() = default;
+        TownMoveScrollIncoming() = default;
 
-        ItemTownScrollIncoming(UINT8 bag, UINT8 slot, UINT8 gateIndex)
+        TownMoveScrollIncoming(UINT8 bag, UINT8 slot, UINT8 gateIndex)
             : bag(bag), slot(slot), gateIndex(gateIndex)
         {
         }

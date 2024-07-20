@@ -26,7 +26,7 @@ namespace shaiya
     };
 
     // notes: code page (see 0x408060)
-    // CP_ACP (system default)
+    // CP_ACP (see winnls.h)
     enum struct LoginVersion : UINT32
     {
         Korea = 1,     //
@@ -156,10 +156,10 @@ namespace shaiya
         float fogStart;                      //0x7C0DAC
         float fogEnd;                        //0x7C0DB0
         BOOL disableFog;                     //0x7C0DB4
-        FLOAT modelFarthest;                 //0x7C0DB8
-        FLOAT grassFarthest;                 //0x7C0DBC
+        float modelFarthest;                 //0x7C0DB8
+        float grassFarthest;                 //0x7C0DBC
         // user, npc, mob
-        FLOAT otherFarthest;                 //0x7C0DC0
+        float otherFarthest;                 //0x7C0DC0
         PAD(12);
         CharArray<16> ipv4Addr;              //0x7C0DD0
         // 0x7C0DE0

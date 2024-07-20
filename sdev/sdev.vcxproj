@@ -106,11 +106,11 @@
     <ClInclude Include="include\shaiya\include\RevengeMark.h" />
     <ClInclude Include="include\shaiya\include\ServerTime.h" />
     <ClInclude Include="include\shaiya\include\SConnectionTBaseReconnect.h" />
-    <ClInclude Include="include\shaiya\include\SkillAbility70.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\include\Synthesis.h" />
+    <ClInclude Include="include\shaiya\include\TownMoveScroll.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
