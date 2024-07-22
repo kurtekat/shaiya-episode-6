@@ -70,11 +70,6 @@ namespace user_status
 
         SConnection::Send(&user->connection, &outgoing, sizeof(UserStatusOutgoing));
     }
-
-    void send_recover_set(CUser* user)
-    {
-        CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
-    }
 }
 
 void __declspec(naked) naked_0x461005()
@@ -96,75 +91,20 @@ void __declspec(naked) naked_0x461005()
     }
 }
 
-unsigned u0x427CF0 = 0x427CF0;
-unsigned u0x490E8E = 0x490E8E;
-void __declspec(naked) naked_0x490E89()
-{
-    __asm
-    {
-        // original
-        call u0x427CF0
-
-        pushad
-
-        push esi // user
-        call user_status::send_recover_set
-        add esp,0x4
-
-        popad
-
-        jmp u0x490E8E
-    }
-}
-
-unsigned u0x490FAB = 0x490FAB;
-void __declspec(naked) naked_0x490FA6()
-{
-    __asm
-    {
-        // original
-        call u0x427CF0
-
-        pushad
-
-        push edi // user
-        call user_status::send_recover_set
-        add esp,0x4
-
-        popad
-
-        jmp u0x490FAB
-    }
-}
-
-unsigned u0x4910D4 = 0x4910D4;
-void __declspec(naked) naked_0x4910CF()
-{
-    __asm
-    {
-        // original
-        call u0x427CF0
-
-        pushad
-
-        push esi // user
-        call user_status::send_recover_set
-        add esp,0x4
-
-        popad
-
-        jmp u0x4910D4
-    }
-}
-
 void hook::user_status()
 {
     // CUser::SetAttack
     util::detour((void*)0x461005, naked_0x461005, 5);
+
+#ifdef SHAIYA_EP6_4_PT
     // CUser::SendRecoverAdd
-    util::detour((void*)0x490E89, naked_0x490E89, 5);
+    util::write_memory((void*)0x490E35, 0x90, 2);
+    util::write_memory((void*)0x490E41, 0x90, 2);
+    util::write_memory((void*)0x490E5D, 0x90, 2);
+
     // CUser::SendRecoverAddSet
-    util::detour((void*)0x490FA6, naked_0x490FA6, 5);
-    // CUser::SendRecoverChange
-    util::detour((void*)0x4910CF, naked_0x4910CF, 5);
+    util::write_memory((void*)0x490F52, 0x90, 2);
+    util::write_memory((void*)0x490F5E, 0x90, 2);
+    util::write_memory((void*)0x490F7A, 0x90, 2);
+#endif
 }
