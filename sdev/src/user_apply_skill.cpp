@@ -49,12 +49,15 @@ namespace user_apply_skill
         }
     }
 
-    void ability_70_update(CUser* user)
+    void ability_70_check_apply(CUser* user)
     {
         if (user->status == UserStatus::Death)
             return;
 
         if (!user->skillAbility.type70.triggered)
+            return;
+
+        if (!user->skillAbility.type70.skillId || !user->skillAbility.type70.skillLv)
             return;
 
         auto now = GetTickCount();
@@ -73,6 +76,9 @@ namespace user_apply_skill
     void ability_70_remove(CUser* user)
     {
         if (!user->skillAbility.type70.triggered)
+            return;
+
+        if (!user->skillAbility.type70.skillId || !user->skillAbility.type70.skillLv)
             return;
 
         auto skillInfo = CGameData::GetSkillInfo(user->skillAbility.type70.skillId, user->skillAbility.type70.skillLv);
@@ -166,7 +172,7 @@ namespace user_apply_skill
                 return;
 
             user->health -= (user->health * abilityValue) / 100;
-            CUser::SendRecoverSet(user, user->health, user->stamina, user->mana);
+            CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
             break;
         }
         // skillId: 396
@@ -284,7 +290,7 @@ void __declspec(naked) naked_0x495EEE()
         pushad
 
         push esi
-        call user_apply_skill::ability_70_update
+        call user_apply_skill::ability_70_check_apply
         add esp,0x4
 
         popad
