@@ -70,14 +70,6 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client/bin
 
-The binary was patched to fix the recovery packet handler.
-
-```
-005942D8  01B0 58010000  ADD DWORD PTR DS:[EAX+158],ESI
-005942DE  0190 60010000  ADD DWORD PTR DS:[EAX+160],EDX
-005942E4  0188 68010000  ADD DWORD PTR DS:[EAX+168],ECX
-```
-
 The **sdev-db** library is for the **dbAgent** service. It adds support for the character list packet and the name availability packet.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db
