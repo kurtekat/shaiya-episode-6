@@ -699,7 +699,7 @@ namespace shaiya
         static void SendMaxHP(CUser* user/*esi*/);
         static void SendMaxMP(CUser* user/*esi*/);
         static void SendMaxSP(CUser* user/*esi*/);
-        static void SendRecoverChange(CUser* user/*esi*/, int health/*ecx*/, int stamina, int mana/*edx*/);
+        static void SendRecoverChange(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana);
         static void SendRecoverMe(CUser* user/*ecx*/, int health, int stamina, int mana);
         static void SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*edx*/, int mana);
         static void SendRecoverSet(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana);

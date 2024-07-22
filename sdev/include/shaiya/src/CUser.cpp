@@ -540,14 +540,14 @@ void CUser::SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*e
     }
 }
 
-void CUser::SendRecoverChange(CUser* user/*esi*/, int health/*ecx*/, int stamina, int mana/*edx*/)
+void CUser::SendRecoverChange(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
     Address u0x491080 = 0x491080;
 
     __asm
     {
-        push stamina
-        mov edx,mana
+        push mana
+        mov edx,stamina
         mov ecx,health
         mov esi,user
         call u0x491080
