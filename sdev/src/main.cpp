@@ -67,7 +67,7 @@ void __declspec(naked) naked_0x455C40()
     }
 }
 
-void user_ctor_hook(CUser* user)
+void init_custom_memory(CUser* user)
 {
     user->exchange.confirmed = false;
 
@@ -102,12 +102,33 @@ void __declspec(naked) naked_0x455165()
         pushad
 
         push edi // user
-        call user_ctor_hook
+        call init_custom_memory
         add esp,0x4
 
         popad
 
         jmp u0x45516B
+    }
+}
+
+unsigned u0x455316 = 0x455316;
+void __declspec(naked) naked_0x455310()
+{
+    __asm
+    {
+        pushad
+
+        push edi // user
+        call init_custom_memory
+        add esp,0x4
+
+        popad
+
+        // original
+        sub esp,0x10
+        push ebx
+        xor ebx,ebx
+        jmp u0x455316
     }
 }
 
@@ -119,6 +140,8 @@ void Main()
     util::detour((void*)0x455C40, naked_0x455C40, 6);
     // CUser::CUser
     util::detour((void*)0x455165, naked_0x455165, 6);
+    // CUser::ResetCharacter
+    util::detour((void*)0x455310, naked_0x455310, 6);
 
     hook::packet_exchange();
     hook::packet_shop();
