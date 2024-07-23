@@ -229,6 +229,9 @@ The following skills are supported:
 | 378        | 55         |
 | 379        | 56         |
 | 380        | 57         |
+| 396        | 73         |
+| 397        | 74         |
+| 412        | 78         |
 | 398        | 70         |
 | 399        | 70         |
 | 400        | 70         |
@@ -386,11 +389,11 @@ The base success rate is 30 percent.
 
 ### Clients
 
-| Version       | Supported    |
-|---------------|--------------|
-| 0x16012100    | Yes          |
-| 0x16021200    | No           |
-| 0x16032100    | No           |
+| Version       | Locale       | Supported    |
+|---------------|--------------|--------------|
+| 0x16012100    | ES           | Yes          |
+| 0x16021200    | PT           | No           |
+| 0x16032100    | PT           | No           |
 
 ## Perfect Lapisian Cube
 
