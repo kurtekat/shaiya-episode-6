@@ -265,11 +265,11 @@ namespace packet_gem
         }
 
         // optional
-        if (item->makeType == MakeType::QuestResult)
-        {
-            SConnection::Send(&user->connection, &outgoing, 3);
-            return;
-        }
+        //if (item->makeType == MakeType::QuestResult)
+        //{
+        //    SConnection::Send(&user->connection, &outgoing, 3);
+        //    return;
+        //}
 
         auto oldItemUid = item->uniqueId;
         auto oldItemId = item->itemInfo->itemId;
