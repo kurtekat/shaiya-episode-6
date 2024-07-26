@@ -183,7 +183,14 @@ namespace shaiya
         CharArray<512> sysMsgItemName;       //0x7C2538  <i>
         UINT32 sysMsgValue3;                 //0x7C2738  <v3>
         UINT32 sysMsgValue;                  //0x7C273C  <v>
-        PAD(8992);
+        CharArray<1024> sysMsgTextBuffer1;   //0x7C2740
+        CharArray<1024> sysMsgTextBuffer2;   //0x7C2B40
+        CharArray<1024> sysMsgTextBuffer3;   //0x7C2F40
+        CharArray<1024> sysMsgTextBuffer4;   //0x7C3340
+        CharArray<1024> sysMsgTextBuffer5;   //0x7C3740
+        // 0:5 (switches buffers)
+        UINT32 sysMsgTextBufferIndex;        //0x7C3B40
+        PAD(3868);
         CSwordEffect* seffEventEffect;       //0x7C4A60
         CSwordEffect* seffWeather;           //0x7C4A64
         CWorldMgr worldMgr;                  //0x7C4A68

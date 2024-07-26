@@ -3,14 +3,41 @@
 
 namespace shaiya
 {
+    /*
+    Login input limit:
+        Japan: 12
+        Russia: 31
+        Default: 19
+
+    Chat input limit:
+        Taiwan: 70
+        HongKong: 70
+        Default: 120
+    */
+
     #pragma pack(push, 1)
     // 0x566EA0 ctor
     struct SDirectInput
     {
         PAD(48);                           //0x22B291C
-        // e.g., 19
-        int maxInputStrLen;                //0x22B294C  0x30
-        PAD(4324);
+        UINT32 maxStrLen;                  //0x22B294C  0x30
+        BOOL disableChkChars;              //0x22B2950  0x34
+        PAD(92);
+        CharArrayW<8> wideString;          //0x22B29B0  0x94
+        UINT32 wideStrLen;                 //0x22B29C0  0xA4
+        // 0x22B29B0 becomes wchar_t* if > 7
+        UINT32 wideChkStrLen;              //0x22B29C4  0xA8
+        PAD(4);
+        CharArray<16> ansiString;          //0x22B29CC  0xB0
+        UINT32 ansiStrLen;                 //0x22B29DC  0xC0
+        // 0x22B29CC becomes char* if > 15
+        UINT32 ansiChkStrLen;              //0x22B29E0  0xC4
+        PAD(32);
+        bool disableNonNumericChars;       //0x22B2A04  0xE8
+        CharArray<2048> ansiBuffer;        //0x22B2A05  0xE9
+        CharArrayW<1024> wideBuffer;       //0x22B3205  0x8E9
+        // 0x22B3A05  0x10E9
+        PAD(47);
         CharArray<256> imeCompStrAttr;     //0x22B3A34  0x1118
         CharArray<1024> imeCompStrClause;  //0x22B3B34  0x1218
         // 0x22B3F34  0x1618
