@@ -631,6 +631,7 @@ namespace shaiya
 
         static void DrawSystemMessage(int type, int lineNumber, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
+        static bool PlayWav(const char* filename, D3DVECTOR* origin, float volume, bool repeat);
     };
     #pragma pack(pop)
 

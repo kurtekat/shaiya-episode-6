@@ -8,4 +8,5 @@ namespace hook
     void gui();
     void packet();
     void title();
+    void vehicle();
 }

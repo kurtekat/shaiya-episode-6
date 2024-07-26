@@ -73,6 +73,7 @@
     <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\static.cpp" />
     <ClCompile Include="src\title.cpp" />
+    <ClCompile Include="src\vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc" />

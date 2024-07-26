@@ -38,6 +38,7 @@ void Main()
     hook::gui();
     hook::packet();
     hook::title();
+    hook::vehicle();
 
     // character memory (0x43C to 0x448)
     util::write_memory((void*)0x41CC97, 0x48, 1);
