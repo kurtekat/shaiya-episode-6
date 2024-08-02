@@ -1,11 +1,10 @@
 #pragma once
 #include <map>
 #include <vector>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
-    using CharId = unsigned long;
-
     struct RevengeMark
     {
         uint32_t killerId;

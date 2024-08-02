@@ -2,11 +2,10 @@
 #include <array>
 #include <map>
 #include <vector>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
-    using ItemId = uint32_t;
-
     class Synthesis
     {
     public:

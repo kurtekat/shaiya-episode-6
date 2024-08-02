@@ -2,15 +2,13 @@
 #include <array>
 #include <map>
 #include <vector>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     struct CItem;
     struct CUser;
     
-    using CharId = unsigned long;
-    using ItemId = uint32_t;
-
     struct SynergyEffect
     {
         int strength{ 0 };
