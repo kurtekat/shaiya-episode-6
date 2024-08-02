@@ -1,7 +1,5 @@
 #include <chrono>
 #include <ranges>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
@@ -20,8 +18,6 @@ using namespace shaiya;
 
 namespace item_duration
 {
-    inline std::chrono::system_clock::time_point g_world_thread_update_time_point{};
-
     void send_delete_notice(CUser* user, CItem* item, uint8_t bag, uint8_t slot)
     {
         ItemExpireNoticeOutgoing outgoing{};
@@ -169,73 +165,6 @@ namespace item_duration
         ItemDurationOutgoing outgoing(bag, slot, item->makeTime, toDate);
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemDurationOutgoing));
     }
-
-    void world_thread_update()
-    {
-        auto now = std::chrono::system_clock::now();
-        if (now < g_world_thread_update_time_point)
-            return;
-
-        g_world_thread_update_time_point = now + std::chrono::minutes(1);
-
-        for (const auto& charId : g_users)
-        {
-            auto user = CWorld::FindUser(charId);
-            if (!user)
-            {
-                std::erase(g_users, charId);
-                continue;
-            }
-
-            if (!user->zone)
-                continue;
-
-            for (const auto& [bag, items] : std::views::enumerate(
-                std::as_const(user->inventory)))
-            {
-                for (const auto& [slot, item] : std::views::enumerate(
-                    std::as_const(items)))
-                {
-                    if (user->where != UserWhere::ZoneEnter)
-                        break;
-
-                    if (!item)
-                        continue;
-
-                    if (!item->itemInfo->duration)
-                        continue;
-
-                    auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
-                    ItemDuration duration(ServerTime::to_time_t(toDate));
-
-                    if (duration.expired())
-                        send_delete_notice(user, item, bag, slot);
-                }
-            }
-
-            for (const auto& [slot, item] : std::views::enumerate(
-                std::as_const(user->warehouse)))
-            {
-                if (user->where != UserWhere::ZoneEnter)
-                    break;
-
-                if (!user->doubleWarehouse && slot >= min_warehouse_slot)
-                    break;
-
-                if (!item)
-                    continue;
-
-                if (!item->itemInfo->duration)
-                    continue;
-
-                auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
-                ItemDuration duration(ServerTime::to_time_t(toDate));
-
-                if (duration.expired())
-                    send_delete_notice(user, item, warehouse_bag, slot);
-            }
-        }
-    }
 }
 
 // CUser::EnterZone
@@ -309,26 +238,6 @@ void __declspec(naked) naked_0x46C22A()
     }
 }
 
-// CWorldThread::UpdateKillCount
-unsigned u0x4042A0 = 0x4042A0;
-unsigned u0x404076 = 0x404076;
-void __declspec(naked) naked_0x404071()
-{
-    __asm
-    {
-        // original
-        call u0x4042A0
-
-        pushad
-
-        call item_duration::world_thread_update
-
-        popad
-     
-        jmp u0x404076
-    }
-}
-
 void hook::item_duration()
 {
     // CZone::EnterUser
@@ -337,6 +246,4 @@ void hook::item_duration()
     util::detour((void*)0x46992F, naked_0x46992F, 5);
     // CUser::ItemCreate
     util::detour((void*)0x46C22A, naked_0x46C22A, 5);
-    // CWorldThread::Update
-    util::detour((void*)0x404071, naked_0x404071, 5);
 }

@@ -34,6 +34,7 @@
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\Helpers.cpp" />
+    <ClCompile Include="include\shaiya\src\ItemDuration.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
@@ -60,6 +61,7 @@
     <ClCompile Include="src\user_apply_skill.cpp" />
     <ClCompile Include="src\user_status.cpp" />
     <ClCompile Include="src\user_shape.cpp" />
+    <ClCompile Include="src\world_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />

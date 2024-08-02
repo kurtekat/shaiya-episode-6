@@ -1,8 +1,10 @@
+#include <array>
 #include <map>
 #include <vector>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemDuration.h"
 #include "include/shaiya/include/RevengeMark.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/Synthesis.h"
@@ -13,17 +15,16 @@ void enter_world_hook(CUser* user)
 {
     CUser::UpdateKCStatus(user);
 
-    if (std::find(g_users.begin(), g_users.end(), user->id) == g_users.end())
-        g_users.push_back(user->id);
+    if (std::find(g_itemDuration.begin(), g_itemDuration.end(), user->id) == g_itemDuration.end())
+        g_itemDuration.push_back(user->id);
 }
 
 void leave_world_hook(CUser* user)
 {
-    std::erase(g_users, user->id);
-
 #ifdef SHAIYA_EP6_4_PT
     g_appliedSynergies.erase(user->id);
     g_revengeMark.erase(user->id);
+    std::erase(g_itemDuration, user->id);
 #endif
 }
 
@@ -160,6 +161,7 @@ void Main()
     hook::user_equipment();
     hook::user_shape();
     hook::user_status();
+    hook::world_thread();
     Synergy::init();
     Synthesis::init();
 #endif
