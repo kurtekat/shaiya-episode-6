@@ -44,6 +44,9 @@ namespace shaiya
     using Address = unsigned;
     using Packet = unsigned char*;
 
+    using CharId = unsigned long;
+    using ItemId = uint32_t;
+
     enum EquipmentSlot
     {
         Helmet,      //0x1C0
