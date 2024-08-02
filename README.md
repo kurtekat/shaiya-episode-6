@@ -95,7 +95,7 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client/bin
 
-The **sdev-db** library is for the **dbAgent** service. It adds support for the character list packet and the name availability packet.
+The **sdev-db** library is for the **dbAgent** service. It adds support for the character list packet and the name availability packet. Episode 5.4 and 6.0 servers do not require the support of this library.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db
 
@@ -217,9 +217,11 @@ add esp,0000054C
 
 #### Recovery
 
-There is not supposed to be `jmp` or `add` instructions in the 0x505 packet handler. Episode 6.4 (and greater) clients do not add the values.
+Episode 6.4 (and greater) clients do not add the values in the 0x505 packet handler.
 
 **0x16021200**
+
+https://archive.openshaiya.org/shaiya-es/clients/ps0171-21-1-2016-game.exe
 
 ```
 005942D8  MOV DWORD PTR DS:[EAX+158],ESI
@@ -233,6 +235,8 @@ There is not supposed to be `jmp` or `add` instructions in the 0x505 packet hand
 
 
 **0x16012100**
+
+https://archive.openshaiya.org/shaiya-pt/clients/ps0182-27-1-2016-game.exe
 
 ```
 00594AC8  MOV DWORD PTR DS:[EAX+158],ESI
@@ -368,7 +372,7 @@ Use the following example to get started:
 ```ini
 ;PSM_Client\Bin\Data\ItemSynthesis.ini
 
-[ItemSynthesis_0]
+[ItemSynthesis_1]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -378,7 +382,7 @@ CreateType=30
 CreateTypeID=6
 CreateCount=1
 
-[ItemSynthesis_1]
+[ItemSynthesis_2]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -388,7 +392,7 @@ CreateType=30
 CreateTypeID=13
 CreateCount=1
 
-[ItemSynthesis_2]
+[ItemSynthesis_3]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -398,7 +402,7 @@ CreateType=30
 CreateTypeID=20
 CreateCount=1
 
-[ItemSynthesis_3]
+[ItemSynthesis_4]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -408,7 +412,7 @@ CreateType=30
 CreateTypeID=27
 CreateCount=1
 
-[ItemSynthesis_4]
+[ItemSynthesis_5]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -418,7 +422,7 @@ CreateType=30
 CreateTypeID=34
 CreateCount=1
 
-[ItemSynthesis_5]
+[ItemSynthesis_6]
 ItemID=102073
 SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
