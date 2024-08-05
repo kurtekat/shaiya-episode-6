@@ -162,7 +162,7 @@ void Main()
     hook::user_equipment();
     hook::user_shape();
     hook::user_status();
-    hook::world_thread();
+    //hook::world_thread();
     Synergy::init();
     Synthesis::init();
 #endif
