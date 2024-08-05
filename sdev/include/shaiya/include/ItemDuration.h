@@ -1,7 +1,5 @@
 #pragma once
 #include <chrono>
-#include <vector>
-#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -52,7 +50,4 @@ namespace shaiya
         static void sendDeleteNotice(CUser* user, CItem* item, uint8_t bag, uint8_t slot);
         static void sendExpireNotice(CUser* user, CItem* item, uint8_t bag, uint8_t slot);
     };
-
-    inline std::vector<CharId> g_itemDuration;
-    inline std::chrono::local_time<std::chrono::system_clock::duration> g_itemDurationTimePoint;
 }

@@ -15,16 +15,17 @@ void enter_world_hook(CUser* user)
 {
     CUser::UpdateKCStatus(user);
 
-    if (std::find(g_itemDuration.begin(), g_itemDuration.end(), user->id) == g_itemDuration.end())
-        g_itemDuration.push_back(user->id);
+    if (std::find(g_users.begin(), g_users.end(), user->id) == g_users.end())
+        g_users.push_back(user->id);
 }
 
 void leave_world_hook(CUser* user)
 {
+    std::erase(g_users, user->id);
+
 #ifdef SHAIYA_EP6_4_PT
     g_appliedSynergies.erase(user->id);
     g_revengeMark.erase(user->id);
-    std::erase(g_itemDuration, user->id);
 #endif
 }
 

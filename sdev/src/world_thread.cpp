@@ -12,23 +12,28 @@ using namespace shaiya;
 
 namespace world_thread
 {
+    inline std::chrono::local_time<std::chrono::system_clock::duration> check_item_duration_time_point;
+
     void check_item_duration()
     {
         using namespace std::chrono;
 
         auto now = current_zone()->to_local(system_clock::now());
-        if (now < g_itemDurationTimePoint)
+        if (now < check_item_duration_time_point)
             return;
 
-        g_itemDurationTimePoint = now + minutes(1);
+        check_item_duration_time_point = now + 60s;
 
-        for (const auto& charId : g_itemDuration)
+        for (const auto& charId : g_users)
         {
             auto user = CWorld::FindUser(charId);
             if (!user)
                 continue;
 
             if (!user->zone)
+                continue;
+
+            if (user->where != UserWhere::ZoneEnter)
                 continue;
 
             for (const auto& [bag, items] : std::views::enumerate(
