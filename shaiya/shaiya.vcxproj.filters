@@ -346,5 +346,11 @@
     <ClInclude Include="include\common\Sentinel.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\1F00.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\1F00.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

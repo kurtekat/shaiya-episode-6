@@ -44,6 +44,7 @@ namespace shaiya
     using Address = unsigned;
     using Packet = unsigned char*;
 
+    using UserId = unsigned long;
     using CharId = unsigned long;
     using ItemId = uint32_t;
 
