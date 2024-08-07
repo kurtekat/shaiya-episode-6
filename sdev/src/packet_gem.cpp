@@ -314,20 +314,6 @@ namespace packet_gem
                 CUser::ItemEquipmentOptionRem(user, item);
                 CItem::ReGenerationCraftExpansion(item, true);
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -347,20 +333,6 @@ namespace packet_gem
                 item->craftName[1] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -382,20 +354,6 @@ namespace packet_gem
                 item->craftName[3] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -417,20 +375,6 @@ namespace packet_gem
                 item->craftName[7] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -452,20 +396,6 @@ namespace packet_gem
                 item->craftName[9] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -487,20 +417,6 @@ namespace packet_gem
                 item->craftName[5] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -522,20 +438,6 @@ namespace packet_gem
                 item->craftName[11] = text[1];
 
                 CUser::ItemEquipmentOptionAdd(user, item);
-
-                if (!user->isInitEquipment)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
                 break;
             }
 
@@ -547,6 +449,23 @@ namespace packet_gem
         default:
             SConnection::Send(&user->connection, &outgoing, 3);
             return;
+        }
+
+        if (!incoming->itemBag)
+        {
+            if (!user->ignoreMaxHpMpSpSpeed)
+            {
+                if (maxHealth != user->maxHealth)
+                    CUser::SendMaxHP(user);
+
+                if (maxMana != user->maxMana)
+                    CUser::SendMaxMP(user);
+
+                if (maxStamina != user->maxStamina)
+                    CUser::SendMaxSP(user);
+            }
+
+            CUser::SetAttack(user);
         }
 
         outgoing.result = ItemComposeResult::Success;
@@ -917,7 +836,7 @@ namespace packet_gem
                 from->craftAbsorption = 0;
             }
 
-            if (!user->isInitEquipment)
+            if (!user->ignoreMaxHpMpSpSpeed)
             {
                 if (maxHealth != user->maxHealth)
                     CUser::SendMaxHP(user);
