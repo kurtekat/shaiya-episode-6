@@ -109,6 +109,10 @@ void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
     if (effects.empty())
         return;
 
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
     for (const auto& effect : effects)
     {
         user->abilityStrength += effect.strength;
@@ -125,22 +129,25 @@ void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
         user->abilityMagicPower += effect.magicPower;
 
         if (effect.reaction)
-        {
             user->maxHealth += effect.reaction * 5;
-            CUser::SendMaxHP(user);
-        }
 
         if (effect.wisdom)
-        {
             user->maxMana += effect.wisdom * 5;
-            CUser::SendMaxMP(user);
-        }
 
         if (effect.dexterity)
-        {
             user->maxStamina += effect.dexterity * 5;
+    }
+
+    if (!user->ignoreMaxHpMpSpSpeed)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
             CUser::SendMaxSP(user);
-        }
     }
 
     g_appliedSynergies.insert_or_assign(user->id, effects);
@@ -151,6 +158,10 @@ void Synergy::removeSynergies(CUser* user)
     auto it = g_appliedSynergies.find(user->id);
     if (it == g_appliedSynergies.end())
         return;
+
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
 
     for (const auto& effect : it->second)
     {
@@ -168,22 +179,25 @@ void Synergy::removeSynergies(CUser* user)
         user->abilityMagicPower -= effect.magicPower;
 
         if (effect.reaction)
-        {
             user->maxHealth -= effect.reaction * 5;
-            CUser::SendMaxHP(user);
-        }
 
         if (effect.wisdom)
-        {
             user->maxMana -= effect.wisdom * 5;
-            CUser::SendMaxMP(user);
-        }
 
         if (effect.dexterity)
-        {
             user->maxStamina -= effect.dexterity * 5;
+    }
+
+    if (!user->ignoreMaxHpMpSpSpeed)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
             CUser::SendMaxSP(user);
-        }
     }
 
     g_appliedSynergies.erase(user->id);
@@ -197,8 +211,11 @@ void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffe
         if (!wornItem)
             continue;
 
-        if (wornItem->uniqueId == item->uniqueId && removeFlag)
-            continue;
+        if (removeFlag)
+        {
+            if (wornItem->uniqueId == item->uniqueId)
+                continue;
+        }
 
         auto itemId = (wornItem->type * 1000) + wornItem->typeId;
         equipment.insert(itemId);
