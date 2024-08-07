@@ -42,7 +42,7 @@ namespace shaiya
         // 0x1E0
         PAD(28);
         CRITICAL_SECTION cs;                  //0x1FC
-        SSyncList<void> list214;              //0x214
+        SSyncList<int> list214;               //0x214
         ULONG worldDay;                       //0x240
         DWORD worldDaySetTick;                //0x244
         // AoL, UoF

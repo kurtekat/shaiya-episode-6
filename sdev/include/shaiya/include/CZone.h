@@ -22,7 +22,7 @@ namespace shaiya
         PAD(12);
         CMap* map;                      //0x28
         PAD(12);
-        SSyncList<void> list38;         //0x38
+        SSyncList<int> list38;          //0x38
         SSyncMap<ULONG, CUser*> users;  //0x64
         SSyncMap<ULONG, CMob*> mobs;    //0xAC
         SSyncMap<ULONG, CNpc*> npcs;    //0xF4
@@ -32,7 +32,7 @@ namespace shaiya
         SSyncList<CNpc> npcList;        //0x1DC
         SSyncList<CItem> itemList;      //0x208
         SSyncList<CTrap> trapList;      //0x234
-        SSyncList<void> list260;        //0x260
+        SSyncList<int> list260;         //0x260
         Array<MapPortal, 10> portals;   //0x28C
         UINT32 mobAreaCount;            //0x2DC
         MapMob* mobAreas;               //0x2E0

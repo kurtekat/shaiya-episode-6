@@ -50,6 +50,39 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct CharacterChangeIncoming
+    {
+        UINT16 opcode{ 0x107 };
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct QuickSlot010B
+    {
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 srcBag;
+        UINT16 srcSlot;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharacterQuickSlotIncoming
+    {
+        UINT16 opcode{ 0x10B };
+        UINT8 quickSlotCount;
+        Array<QuickSlot010B, 128> quickSlots;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharacterExitIncoming
+    {
+        UINT16 opcode{ 0x10D };
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct CharacterNameChangeIncoming
     {
         UINT16 opcode{ 0x10E };

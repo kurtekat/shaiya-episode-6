@@ -580,8 +580,8 @@ namespace shaiya
         ULONG userId;                          //0x582C
         UINT32 serverId;                       //0x5830
         CharArray<32> username;                //0x5834
-        PAD(1);
-        bool isInitEquipment;                  //0x5855
+        bool attackItemOptionFlag;             //0x5854
+        bool ignoreMaxHpMpSpSpeed;             //0x5855
         PAD(14);
         UINT32 questKillPCCount;               //0x5864
         UINT32 questKillMobCount;              //0x5868

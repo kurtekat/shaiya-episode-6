@@ -39,6 +39,7 @@ namespace shaiya
         Mob,
         Item,
         User,
-        Npc
+        Npc,
+        Default = 0xFFFFFFFF
     };
 }

@@ -32,7 +32,7 @@ namespace user_equipment
 
     void init(CUser* user)
     {
-        user->isInitEquipment = true;
+        user->ignoreMaxHpMpSpSpeed = true;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->inventory[0])))
@@ -46,7 +46,7 @@ namespace user_equipment
             CUser::ItemEquipmentAdd(user, item, slot);
         }
 
-        user->isInitEquipment = false;
+        user->ignoreMaxHpMpSpSpeed = false;
         CUser::SetAttack(user);
     }
 
