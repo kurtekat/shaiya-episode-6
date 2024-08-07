@@ -1,4 +1,5 @@
 #include <chrono>
+#include <ranges>
 #include <shaiya/include/common/SConnection.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
@@ -90,4 +91,49 @@ void ItemDuration::sendExpireNotice(CUser* user, CItem* item, uint8_t bag, uint8
     }
 
     SConnection::Send(&user->connection, &outgoing, sizeof(ItemExpireNoticeOutgoing));
+}
+
+void ItemDuration::checkExpireInventory(CUser* user)
+{
+    for (const auto& [bag, items] : std::views::enumerate(
+        std::as_const(user->inventory)))
+    {
+        for (const auto& [slot, item] : std::views::enumerate(
+            std::as_const(items)))
+        {
+            if (!item)
+                continue;
+
+            if (!item->itemInfo->duration)
+                continue;
+
+            auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
+            ItemDuration duration(ServerTime::to_time_t(toDate));
+
+            if (duration.expired())
+                ItemDuration::sendDeleteNotice(user, item, bag, slot);
+        }
+    }
+}
+
+void ItemDuration::checkExpireWarehouse(CUser* user)
+{
+    for (const auto& [slot, item] : std::views::enumerate(
+        std::as_const(user->warehouse)))
+    {
+        if (!user->doubleWarehouse && slot >= min_warehouse_slot)
+            break;
+
+        if (!item)
+            continue;
+
+        if (!item->itemInfo->duration)
+            continue;
+
+        auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
+        ItemDuration duration(ServerTime::to_time_t(toDate));
+
+        if (duration.expired())
+            ItemDuration::sendDeleteNotice(user, item, warehouse_bag, slot);
+    }
 }

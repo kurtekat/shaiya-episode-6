@@ -1,13 +1,9 @@
 #include <chrono>
-#include <ranges>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/ItemDuration.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/ServerTime.h"
 using namespace shaiya;
 
 namespace world_thread
@@ -36,50 +32,11 @@ namespace world_thread
             if (user->where != UserWhere::ZoneEnter)
                 continue;
 
-            for (const auto& [bag, items] : std::views::enumerate(
-                std::as_const(user->inventory)))
-            {
-                for (const auto& [slot, item] : std::views::enumerate(
-                    std::as_const(items)))
-                {
-                    if (user->where != UserWhere::ZoneEnter)
-                        break;
+            if (user->logoutTick)
+                continue;
 
-                    if (!item)
-                        continue;
-
-                    if (!item->itemInfo->duration)
-                        continue;
-
-                    auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
-                    ItemDuration duration(ServerTime::to_time_t(toDate));
-
-                    if (duration.expired())
-                        ItemDuration::sendDeleteNotice(user, item, bag, slot);
-                }
-            }
-
-            for (const auto& [slot, item] : std::views::enumerate(
-                std::as_const(user->warehouse)))
-            {
-                if (user->where != UserWhere::ZoneEnter)
-                    break;
-
-                if (!user->doubleWarehouse && slot >= min_warehouse_slot)
-                    break;
-
-                if (!item)
-                    continue;
-
-                if (!item->itemInfo->duration)
-                    continue;
-
-                auto toDate = ServerTime::add(item->makeTime, item->itemInfo->duration);
-                ItemDuration duration(ServerTime::to_time_t(toDate));
-
-                if (duration.expired())
-                    ItemDuration::sendDeleteNotice(user, item, warehouse_bag, slot);
-            }
+            ItemDuration::checkExpireInventory(user);
+            ItemDuration::checkExpireWarehouse(user);
         }
     }
 }

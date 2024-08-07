@@ -49,5 +49,7 @@ namespace shaiya
 
         static void sendDeleteNotice(CUser* user, CItem* item, uint8_t bag, uint8_t slot);
         static void sendExpireNotice(CUser* user, CItem* item, uint8_t bag, uint8_t slot);
+        static void checkExpireInventory(CUser* user);
+        static void checkExpireWarehouse(CUser* user);
     };
 }
