@@ -89,7 +89,7 @@ The **shaiya** library contains common types and packet definitions. The other p
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/shaiya
 
-The **sdev-client** library is for build version `0x16021200` modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory.
+The **sdev-client** library is for PT client ps0182 modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client
 
@@ -219,7 +219,7 @@ add esp,0000054C
 
 Episode 6.4 (and greater) clients do not add the values in the 0x505 packet handler.
 
-**0x16021200**
+**ES ps0171**
 
 https://archive.openshaiya.org/shaiya-es/clients/ps0171-21-1-2016-game.exe
 
@@ -234,7 +234,7 @@ https://archive.openshaiya.org/shaiya-es/clients/ps0171-21-1-2016-game.exe
 ```
 
 
-**0x16012100**
+**PT ps0182**
 
 https://archive.openshaiya.org/shaiya-pt/clients/ps0182-27-1-2016-game.exe
 
@@ -510,11 +510,11 @@ The base success rate is 30 percent.
 
 ### Clients
 
-| Version    | Locale | Patch     | Supported          |
-|------------|--------|-----------|--------------------|
-| 0x16012100 | ES     | ps0171    | :white_check_mark: |
-| 0x16021200 | PT     | ps0182    | :x:                |
-| 0x16032100 | PT     | ps0189    | :x:                |
+| Locale | Patch     | Supported          |
+|--------|-----------|--------------------|
+| ES     | ps0171    | :white_check_mark: |
+| PT     | ps0182    | :x:                |
+| PT     | ps0189    | :x:                |
 
 ## Perfect Lapisian Combination
 
