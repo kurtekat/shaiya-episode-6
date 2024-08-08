@@ -72,7 +72,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\static.cpp" />
-    <ClCompile Include="src\title.cpp" />
+    <ClCompile Include="src\demo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc" />

@@ -163,7 +163,7 @@
     <ClCompile Include="include\shaiya\src\CStaticText.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\title.cpp">
+    <ClCompile Include="src\demo.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\GuildData2.cpp">

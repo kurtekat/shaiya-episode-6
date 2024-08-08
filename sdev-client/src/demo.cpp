@@ -9,12 +9,14 @@
 #include "include/shaiya/include/ItemInfo.h"
 using namespace shaiya;
 
-namespace title
+namespace demo
 {
     constexpr float chat_y_add = 1.75F;
 
-    void hook(CCharacter* user, float x, float y, float extrusion)
+    void hook(CCharacter* user, float x, float y, float z)
     {
+        // title example
+
         const char* text = "Champion of Shaiya";
         const int effectDataId = 280;
 
@@ -42,7 +44,7 @@ namespace title
         auto posY = y - 30.0;
         auto posX = x - user->title.pointX;
 
-        CStaticText::Draw(user->title.text, long(posX), long(posY), extrusion, 0xFFFFFFFF);
+        CStaticText::Draw(user->title.text, long(posX), long(posY), z, 0xFFFFFFFF);
         
         if (!user->title.effectDataId)
         {
@@ -87,7 +89,7 @@ void __declspec(naked) naked_0x453E7C()
         fstp dword ptr[esp]
 
         push esi // user
-        call title::hook
+        call demo::hook
         add esp,0x10
 
         popfd
@@ -123,7 +125,7 @@ void __declspec(naked) naked_0x41275F()
 {
     __asm
     {
-        fld dword ptr[title::chat_y_add]
+        fld dword ptr[demo::chat_y_add]
         jmp u0x412765
     }
 }
@@ -136,7 +138,7 @@ void __declspec(naked) naked_0x59F114()
         pushad
 
         push esi
-        call title::remove_effect
+        call demo::remove_effect
         add esp,0x4
 
         popad
@@ -153,7 +155,7 @@ void __declspec(naked) naked_0x59F299()
         pushad
 
         push esi
-        call title::remove_effect
+        call demo::remove_effect
         add esp,0x4
 
         popad
@@ -174,7 +176,7 @@ void __declspec(naked) naked_0x598335()
         pushad
 
         push edi
-        call title::remove_effect
+        call demo::remove_effect
         add esp,0x4
 
         popad
@@ -198,7 +200,7 @@ void __declspec(naked) naked_0x42D6C5()
 
         pushad
 
-        call title::create_effect
+        call demo::create_effect
         test eax,eax
 
         popad
@@ -214,7 +216,7 @@ void __declspec(naked) naked_0x42D6C5()
     }
 }
 
-void hook::title()
+void hook::demo()
 {
     util::detour((void*)0x453E7C, naked_0x453E7C, 5);
     // hide pets without a model
