@@ -85,17 +85,35 @@ Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be 
 
 ## Libraries
 
-The **shaiya** library contains common types and packet definitions. The other projects depend on this library.
+### shaiya
+
+| Episode  | Status |
+|----------|--------|
+| N/A      | alpha  |
+
+This library contains common types and packet definitions. The other projects depend on this library.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/shaiya
 
-The **sdev-client** library is for PT client ps0182 modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory.
+### sdev-client
+
+| Episode  | Status |
+|----------|--------|
+| 6.4 (PT) | alpha  |
+
+This library is for PT client ps0182 modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client/bin
 
-The **sdev-db** library is for the **dbAgent** service. It adds support for the character list packet and the name availability packet. Episode 5.4 and 6.0 servers do not require the support of this library.
+### sdev-db
+
+| Episode  | Status |
+|----------|--------|
+| 6.4 (PT) | stable |
+
+This library is for the **dbAgent** service. It adds support for the character list packet (equipment slots) and the name availability packet. Episode 5.4 does not need this library.
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db
 
@@ -113,7 +131,13 @@ The binary was patched to undo an edit that causes an item mall purchase dupe.
 00407942  mov dword ptr [ebx+8],0
 ```
 
-The **sdev-login** library is for the **login** service. It fixes a well-known bug (thanks, Cups) and parameterizes the login query. Use SQL Server Profiler to see the result.
+### sdev-login
+
+| Episode  | Status |
+|----------|--------|
+| N/A      | stable |
+
+This library is for the **login** service. It fixes a well-known bug (thanks, Cups) and parameterizes the login query. Use SQL Server Profiler to see the result.
 
 ```sql
 declare @p1 int
@@ -126,7 +150,14 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-login
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-login/bin
 
-The **sdev** library is for the **game** service. Continue reading for more information.
+### sdev
+
+| Episode  | Status |
+|----------|--------|
+| 5.4      | stable |
+| 6.4 (PT) | alpha  |
+
+This library is for the **game** service. Continue reading for more information.
 
 ## Binaries
 
