@@ -32,7 +32,7 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep6
 
 ## Item Duration
 
-[item-duration.zip](https://github.com/user-attachments/files/16827094/item-duration.zip)
+[v1.5.25.zip](https://github.com/user-attachments/files/16830410/v1.5.25.zip)
 
 ## Item Mall
 
