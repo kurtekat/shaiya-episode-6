@@ -121,5 +121,6 @@ void Synthesis::init()
     catch (const std::exception& ex)
     {
         SLog::PrintFileDirect(&g_pClientToLog->log, "Synthesis::init : %s", ex.what());
+        g_synthesis.clear();
     }
 }

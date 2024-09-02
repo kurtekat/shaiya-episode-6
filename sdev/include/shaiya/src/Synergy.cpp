@@ -105,6 +105,7 @@ void Synergy::init()
     catch (const std::exception& ex)
     {
         SLog::PrintFileDirect(&g_pClientToLog->log, "Synergy::init : %s", ex.what());
+        g_synergies.clear();
     }
 }
 
