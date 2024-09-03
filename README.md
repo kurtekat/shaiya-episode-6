@@ -18,6 +18,10 @@ C++ 23
 
 Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the application or the libraries. The libraries have an export defined in the main headers.
 
+## Data Execution Prevention (DEP)
+
+Intermittent access violations have been reported on Windows Server 2022. The issue is related to Data Execution Prevention. Users are expected to choose a solution that works for their environment.
+
 ## Inspiration
 
 [Cups](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4653021-shaiya-library.html)

@@ -32,6 +32,10 @@ The import directory is in the `.idata` section because I don't know where it or
 
 `0x637C68`
 
+### Checksum
+
+`0x3D1209`
+
 ### SData Formats
 
 | Name     | Format |
