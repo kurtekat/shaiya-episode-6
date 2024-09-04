@@ -20,7 +20,13 @@ Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the a
 
 ## Data Execution Prevention (DEP)
 
-Intermittent access violations have been reported on Windows Server 2022. The issue is related to Data Execution Prevention. Users are expected to choose a solution that works for their environment.
+Intermittent access violations have been reported on Windows Server 2022. The issue is related to [Data Execution Prevention](https://learn.microsoft.com/en-us/windows/win32/memory/data-execution-prevention). The following command will output the DEP support policy:
+
+```
+wmic OS Get DataExecutionPrevention_SupportPolicy
+```
+
+According to the [GetSystemDEPPolicy](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getsystemdeppolicy) documentation, Windows Server defaults to 3 (OptOut). The libraries will attempt to disable DEP for the process. Another option is to add the executable(s) to the exclusion list.
 
 ## Inspiration
 
