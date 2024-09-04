@@ -6,8 +6,7 @@ using namespace shaiya;
 
 void user_hook(CUser* user)
 {
-    EquipmentEx equipment{};
-    std::fill(user->equipmentEx.begin(), user->equipmentEx.end(), equipment);
+    user->equipmentEx = {};
 }
 
 unsigned u0x4017B8 = 0x4017B8;
@@ -29,8 +28,8 @@ void __declspec(naked) naked_0x4017B2()
     }
 }
 
-unsigned u0x402906 = 0x402906;
-void __declspec(naked) naked_0x402900()
+unsigned u0x403456 = 0x403456;
+void __declspec(naked) naked_0x403450()
 {
     __asm
     {
@@ -43,10 +42,8 @@ void __declspec(naked) naked_0x402900()
         popad
 
         // original
-        sub esp,0xC
-        push ebx
-        xor ebx,ebx
-        jmp u0x402906
+        mov [esi+0x8664],ebx
+        jmp u0x403456
     }
 }
 
@@ -55,11 +52,11 @@ void Main()
     // CUser::CUser
     util::detour((void*)0x4017B2, naked_0x4017B2, 6);
     // CUser::Reset
-    util::detour((void*)0x402900, naked_0x402900, 6);
+    util::detour((void*)0x403450, naked_0x403450, 6);
     // change 0x8858 to 0x8948
-    std::array<uint8_t, 2> a00{ 0x48, 0x89 };
+    int size = 0x8948;
     // SSyncHeap<CUser>::Alloc
-    util::write_memory((void*)0x40F474, &a00, 2);
+    util::write_memory((void*)0x40F474, &size, 4);
 
     hook::user_character();
     hook::character_list();

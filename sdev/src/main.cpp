@@ -10,35 +10,58 @@
 #include "include/shaiya/include/TownMoveScroll.h"
 using namespace shaiya;
 
-void enter_world_hook(CUser* user)
-{
-    CUser::UpdateKCStatus(user);
-}
-
 void leave_world_hook(CUser* user)
 {
-#ifdef SHAIYA_EP6_4_PT
     g_appliedSynergies.erase(user->id);
     g_revengeMark.erase(user->id);
+}
+
+void user_hook(CUser* user)
+{
+    user->exchange.confirmed = false;
+#ifdef SHAIYA_EP6_4_PT
+    user->itemQualityEx = {};
+    user->itemQualityLvEx = {};
+    user->townMoveScroll = {};
+    user->skillAbility = {};
 #endif
 }
 
-unsigned u0x455B06 = 0x455B06;
-void __declspec(naked) naked_0x455B00()
+unsigned u0x45516B = 0x45516B;
+void __declspec(naked) naked_0x455165()
 {
     __asm
     {
         pushad
 
-        push ecx // user
-        call enter_world_hook
+        push edi // user
+        call user_hook
         add esp,0x4
 
         popad
 
         // original
-        sub esp,0x8C
-        jmp u0x455B06
+        mov [edi+0x6264],ebx
+        jmp u0x45516B
+    }
+}
+
+unsigned u0x455A89 = 0x455A89;
+void __declspec(naked) naked_0x455A83()
+{
+    __asm
+    {
+        pushad
+ 
+        push edi // user
+        call user_hook
+        add esp,0x4
+
+        popad
+
+        // original
+        mov [edi+0x58EC],ebx
+        jmp u0x455A89
     }
 }
 
@@ -63,86 +86,23 @@ void __declspec(naked) naked_0x455C40()
     }
 }
 
-void user_hook(CUser* user)
-{
-    user->exchange.confirmed = false;
-
-#ifdef SHAIYA_EP6_4_PT
-    user->itemQualityEx.fill(0);
-    user->itemQualityLvEx.fill(0);
-
-    user->townMoveScroll.bag = 0;
-    user->townMoveScroll.slot = 0;
-    user->townMoveScroll.gateIndex = 0;
-
-    user->skillAbility.type70.skillId = 0;
-    user->skillAbility.type70.skillLv = 0;
-    user->skillAbility.type70.triggered = false;
-    user->skillAbility.type70.keepTick = 0;
-    user->skillAbility.type87QuestExpRate = 0;
-#endif
-}
-
-unsigned u0x45516B = 0x45516B;
-void __declspec(naked) naked_0x455165()
-{
-    __asm
-    {
-        // original
-        mov [edi+0x6264],ebx
-
-        pushad
-
-        push edi // user
-        call user_hook
-        add esp,0x4
-
-        popad
-
-        jmp u0x45516B
-    }
-}
-
-unsigned u0x455316 = 0x455316;
-void __declspec(naked) naked_0x455310()
-{
-    __asm
-    {
-        pushad
-
-        push edi // user
-        call user_hook
-        add esp,0x4
-
-        popad
-
-        // original
-        sub esp,0x10
-        push ebx
-        xor ebx,ebx
-        jmp u0x455316
-    }
-}
-
 void Main()
 {
-    // CUser::EnterWorld
-    util::detour((void*)0x455B00, naked_0x455B00, 6);
-    // CUser::LeaveWorld
-    util::detour((void*)0x455C40, naked_0x455C40, 6);
     // CUser::CUser
     util::detour((void*)0x455165, naked_0x455165, 6);
     // CUser::ResetCharacter
-    util::detour((void*)0x455310, naked_0x455310, 6);
+    util::detour((void*)0x455A83, naked_0x455A83, 6);
 
     hook::packet_exchange();
     hook::packet_shop();
 
 #ifdef SHAIYA_EP6_4_PT
+    // CUser::LeaveWorld
+    util::detour((void*)0x455C40, naked_0x455C40, 6);
     // change 0x62A0 to 0x6300
-    std::array<uint8_t, 2> a00{ 0x00, 0x63 };
+    int size = 0x6300;
     // SSyncHeap<CUser>::Alloc
-    util::write_memory((void*)0x411F74, &a00, 2);
+    util::write_memory((void*)0x411F74, &size, 4);
 
     hook::item_effect();
     hook::npc_quest();
