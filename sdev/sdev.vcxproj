@@ -39,7 +39,6 @@
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
-    <ClCompile Include="include\shaiya\src\ServerTime.cpp" />
     <ClCompile Include="include\shaiya\src\SLog.cpp" />
     <ClCompile Include="include\shaiya\src\SVector.cpp" />
     <ClCompile Include="include\shaiya\src\Synergy.cpp" />
@@ -156,7 +155,6 @@
     <ClInclude Include="include\shaiya\include\Obelisk.h" />
     <ClInclude Include="include\shaiya\include\ProductInfo.h" />
     <ClInclude Include="include\shaiya\include\RevengeMark.h" />
-    <ClInclude Include="include\shaiya\include\ServerTime.h" />
     <ClInclude Include="include\shaiya\include\SConnectionTBaseReconnect.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
     <ClInclude Include="include\shaiya\include\SVector.h" />
@@ -279,7 +277,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
@@ -331,7 +329,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>

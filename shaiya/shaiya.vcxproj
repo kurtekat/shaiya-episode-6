@@ -41,24 +41,27 @@
     <ClInclude Include="include\common\InvasionPortal.h" />
     <ClInclude Include="include\common\PvPStatusType.h" />
     <ClInclude Include="include\common\ReqOg.h" />
-    <ClInclude Include="include\common\SConnection.h" />
-    <ClInclude Include="include\common\SDatabase.h" />
-    <ClInclude Include="include\common\SDatabasePool.h" />
-    <ClInclude Include="include\common\Sentinel.h" />
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\ShapeType.h" />
-    <ClInclude Include="include\common\SInternetAddress.h" />
     <ClInclude Include="include\common\SkillAbilityType.h" />
     <ClInclude Include="include\common\SkillStatusType.h" />
     <ClInclude Include="include\common\SkillTargetType.h" />
-    <ClInclude Include="include\common\SLog.h" />
-    <ClInclude Include="include\common\SNode.h" />
-    <ClInclude Include="include\common\SSyncHeap.h" />
-    <ClInclude Include="include\common\SSyncList.h" />
-    <ClInclude Include="include\common\SSyncMap.h" />
-    <ClInclude Include="include\common\SSyncQueueBuffer.h" />
-    <ClInclude Include="include\common\SSyncQueueBufferSend.h" />
-    <ClInclude Include="include\common\SSyncQueueStatus.h" />
+    <ClInclude Include="include\SConnection.h" />
+    <ClInclude Include="include\SDatabase.h" />
+    <ClInclude Include="include\SDatabasePool.h" />
+    <ClInclude Include="include\ServerTime.h" />
+    <ClInclude Include="include\SInternetAddress.h" />
+    <ClInclude Include="include\SLog.h" />
+    <ClInclude Include="include\SNode.h" />
+    <ClInclude Include="include\SSyncHeap.h" />
+    <ClInclude Include="include\SSyncList.h" />
+    <ClInclude Include="include\SSyncMap.h" />
+    <ClInclude Include="include\SSyncQueueBuffer.h" />
+    <ClInclude Include="include\SSyncQueueBufferSend.h" />
+    <ClInclude Include="include\SSyncQueueStatus.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ServerTime.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -127,6 +130,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -147,6 +151,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -167,6 +172,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -187,6 +193,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
