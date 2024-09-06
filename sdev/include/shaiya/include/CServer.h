@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/SConnection.h>
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CClientToMgr.h"

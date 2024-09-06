@@ -8,9 +8,9 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/ShapeType.h>
-#include <shaiya/include/common/SConnection.h>
-#include <shaiya/include/common/SNode.h>
-#include <shaiya/include/common/SSyncList.h>
+#include <shaiya/include/SConnection.h>
+#include <shaiya/include/SNode.h>
+#include <shaiya/include/SSyncList.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"

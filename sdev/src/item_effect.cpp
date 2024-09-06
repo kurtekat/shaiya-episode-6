@@ -8,7 +8,6 @@
 #include "include/shaiya/include/CNpcData.h"
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/TownMoveScroll.h"

@@ -1,4 +1,4 @@
-#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"

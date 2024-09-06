@@ -1,8 +1,8 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/SNode.h>
-#include <shaiya/include/common/SSyncMap.h>
+#include <shaiya/include/SNode.h>
+#include <shaiya/include/SSyncMap.h>
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya

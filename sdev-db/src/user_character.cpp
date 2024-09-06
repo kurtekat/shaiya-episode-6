@@ -3,9 +3,9 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-#include <shaiya/include/common/SConnection.h>
-#include <shaiya/include/common/SDatabase.h>
-#include <shaiya/include/common/SDatabasePool.h>
+#include <shaiya/include/SConnection.h>
+#include <shaiya/include/SDatabase.h>
+#include <shaiya/include/SDatabasePool.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"

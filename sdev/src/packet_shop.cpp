@@ -1,6 +1,7 @@
 ﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/SConnection.h>
+#include <shaiya/include/ServerTime.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
@@ -8,7 +9,6 @@
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/ServerTime.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0E00.h"
 #include "include/shaiya/include/network/game/outgoing/2600.h"
 using namespace shaiya;

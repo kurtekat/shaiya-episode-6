@@ -1,4 +1,4 @@
-#include <shaiya/include/common/SDatabase.h>
+#include <shaiya/include/SDatabase.h>
 using namespace shaiya;
 
 short SDatabase::ExecuteSql(SDatabase* db/*ecx*/)

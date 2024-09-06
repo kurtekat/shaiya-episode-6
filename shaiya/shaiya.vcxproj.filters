@@ -8,6 +8,9 @@
     <Filter Include="include\common">
       <UniqueIdentifier>{00a0a9e7-3372-40cf-89df-0f5a7cd1a7da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{841c0f40-1e66-4001-b860-811e30f2ff99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\Attribute.h">
@@ -91,44 +94,49 @@
     <ClInclude Include="include\common\SkillTargetType.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SConnection.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\ServerTime.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SDatabase.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SConnection.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SDatabasePool.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SDatabase.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\Sentinel.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SDatabasePool.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SInternetAddress.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SInternetAddress.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SLog.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SLog.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SNode.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SNode.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncHeap.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncHeap.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncList.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncList.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncMap.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncMap.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncQueueBuffer.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncQueueBuffer.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncQueueBufferSend.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncQueueBufferSend.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SSyncQueueStatus.h">
-      <Filter>include\common</Filter>
+    <ClInclude Include="include\SSyncQueueStatus.h">
+      <Filter>include</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ServerTime.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#include <shaiya/include/common/SLog.h>
+#include <shaiya/include/SLog.h>
 using namespace shaiya;
 
 bool SLog::PrintFileDirect(SLog* log, const char* fmt, ...)

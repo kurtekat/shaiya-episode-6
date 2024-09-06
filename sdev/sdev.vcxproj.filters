@@ -138,9 +138,6 @@
     <ClCompile Include="src\npc_quest.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\ServerTime.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\Synergy.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
@@ -246,9 +243,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CObject.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\ServerTime.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\Synergy.h">

@@ -7,7 +7,7 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/SNode.h>
 
 namespace shaiya
 {

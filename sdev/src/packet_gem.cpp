@@ -7,7 +7,7 @@
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/common/MakeType.h>
-#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"

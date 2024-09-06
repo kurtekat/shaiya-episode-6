@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/NpcType.h>
-#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/SNode.h>
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya

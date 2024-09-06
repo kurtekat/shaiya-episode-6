@@ -1,10 +1,17 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/Sentinel.h>
-#include <shaiya/include/common/SNode.h>
+#include <shaiya/include/SNode.h>
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
+    struct Sentinel
+    {
+        SNode* tail;
+        SNode* head;
+    };
+    #pragma pack(pop)
+
     #pragma pack(push, 1)
     template<class T>
     // circular :/

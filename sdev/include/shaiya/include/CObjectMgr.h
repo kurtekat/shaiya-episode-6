@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/SSyncHeap.h>
+#include <shaiya/include/SSyncHeap.h>
 
 namespace shaiya
 {

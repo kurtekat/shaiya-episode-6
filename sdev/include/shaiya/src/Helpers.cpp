@@ -3,7 +3,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/SConnection.h>
+#include <shaiya/include/SConnection.h>
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"

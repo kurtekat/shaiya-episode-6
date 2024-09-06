@@ -7,7 +7,6 @@
 #include "include/shaiya/include/RevengeMark.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/Synthesis.h"
-#include "include/shaiya/include/TownMoveScroll.h"
 using namespace shaiya;
 
 void leave_world_hook(CUser* user)

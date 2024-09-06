@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/SConnection.h>
-#include <shaiya/include/common/SLog.h>
+#include <shaiya/include/SConnection.h>
+#include <shaiya/include/SLog.h>
 
 namespace shaiya
 {
