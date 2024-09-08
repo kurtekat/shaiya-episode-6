@@ -52,16 +52,16 @@ std::chrono::seconds ServerTime::seconds() const
     return std::chrono::seconds(value);
 }
 
-Timestamp ServerTime::add(std::chrono::seconds ss) const
+Timestamp ServerTime::add(Timestamp ts, std::chrono::seconds ss)
 {
-    auto tt = ServerTime::to_time_t(this->timestamp);
+    auto tt = ServerTime::to_time_t(ts);
     auto tp = std::chrono::system_clock::from_time_t(tt) + ss;
     return ServerTime::from_time_t(std::chrono::system_clock::to_time_t(tp));
 }
 
-Timestamp ServerTime::sub(std::chrono::seconds ss) const
+Timestamp ServerTime::sub(Timestamp ts, std::chrono::seconds ss)
 {
-    auto tt = ServerTime::to_time_t(this->timestamp);
+    auto tt = ServerTime::to_time_t(ts);
     auto tp = std::chrono::system_clock::from_time_t(tt) - ss;
     return ServerTime::from_time_t(std::chrono::system_clock::to_time_t(tp));
 }
@@ -124,6 +124,27 @@ time_t ServerTime::to_time_t(Timestamp ts)
     std::tm tm{};
     ServerTime::to_tm(ts, tm);
     return std::mktime(&tm);
+}
+
+Timestamp ServerTime::from_tm(const std::tm& tm)
+{
+    Timestamp value = tm.tm_year + 1900;
+    value -= 16;
+    value <<= 4;
+    value += tm.tm_mon + 1;
+
+    value <<= 5;
+    value += tm.tm_mday;
+
+    value <<= 5;
+    value += tm.tm_hour;
+
+    value <<= 6;
+    value += tm.tm_min;
+
+    value <<= 6;
+    value += tm.tm_sec;
+    return value;
 }
 
 void ServerTime::to_tm(Timestamp ts, std::tm& tm)
