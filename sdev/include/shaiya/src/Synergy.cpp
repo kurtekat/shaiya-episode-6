@@ -18,10 +18,10 @@ using namespace shaiya;
 
 void Synergy::init()
 {
-    std::vector<char> vec(MAX_PATH);
-    GetModuleFileNameA(nullptr, vec.data(), vec.size());
+    std::array<char, MAX_PATH> fileName{};
+    GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
 
-    std::filesystem::path path(vec.data());
+    std::filesystem::path path(fileName.data());
     path.remove_filename();
     path.append("Data");
     path.append("SetItem.SData");
