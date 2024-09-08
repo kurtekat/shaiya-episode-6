@@ -1,3 +1,4 @@
+#include <array>
 #include <filesystem>
 #include <ranges>
 #include <string>
@@ -11,7 +12,7 @@ using namespace shaiya;
 
 void Synthesis::init()
 {
-    std::vector<char> fileName(MAX_PATH);
+    std::array<char, MAX_PATH> fileName{};
     GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
 
     std::filesystem::path path(fileName.data());
