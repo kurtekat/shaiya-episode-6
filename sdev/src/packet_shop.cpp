@@ -4,11 +4,8 @@
 #include <shaiya/include/ServerTime.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CGameData.h"
-#include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/Helpers.h"
-#include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0E00.h"
 #include "include/shaiya/include/network/game/outgoing/2600.h"
 using namespace shaiya;
@@ -38,8 +35,8 @@ namespace packet_shop
         outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
         outgoing.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
         outgoing.points = util::deserialize<uint32_t>(buffer, 3);
-        std::memcpy(&outgoing.productCode, &buffer[7], outgoing.productCode.size());
-        outgoing.purchaseDate = util::deserialize<unsigned long>(buffer, 28);
+        std::memcpy(outgoing.productCode.data(), &buffer[7], outgoing.productCode.size());
+        outgoing.purchaseDate = util::deserialize<Timestamp>(buffer, 28);
         outgoing.itemPrice = util::deserialize<uint32_t>(buffer, 32);
         outgoing.itemCount = util::deserialize<uint8_t>(buffer, 36);
 

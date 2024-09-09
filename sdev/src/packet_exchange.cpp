@@ -1,9 +1,7 @@
 #include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/network/game/incoming/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/2400.h"
@@ -60,28 +58,17 @@ namespace packet_exchange
             send_cancel(user, user->exchange.user);
     }
 
-    void send_item(CUser* user, CUser* exchangeUser, Packet buffer, bool pvp)
+    void send_item_hook(CUser* user, Packet buffer)
     {
         ExchangeItemOutgoing outgoing{};
-        outgoing.opcode = pvp ? 0x240D : 0xA09;
-        outgoing.destSlot = util::deserialize<uint8_t>(buffer, 5);
-
-        auto bag = util::deserialize<uint8_t>(buffer, 2);
-        auto slot = util::deserialize<uint8_t>(buffer, 3);
-
-        if (!bag || bag > exchangeUser->bagsUnlocked || slot >= max_inventory_slot)
-            return;
-
-        auto& item = exchangeUser->inventory[bag][slot];
-        if (!item)
-            return;
-
-        outgoing.type = item->type;
-        outgoing.typeId = item->typeId;
-        outgoing.count = util::deserialize<uint8_t>(buffer, 4);
-        outgoing.quality = item->quality;
-        outgoing.gems = item->gems;
-        outgoing.craftName = item->craftName;
+        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
+        outgoing.destSlot = util::deserialize<uint8_t>(buffer, 2);
+        outgoing.type = util::deserialize<uint8_t>(buffer, 3);
+        outgoing.typeId = util::deserialize<uint8_t>(buffer, 4);
+        outgoing.count = util::deserialize<uint8_t>(buffer, 5);
+        outgoing.quality = util::deserialize<uint16_t>(buffer, 6);
+        std::memcpy(outgoing.gems.data(), &buffer[8], outgoing.gems.size());
+        std::memcpy(outgoing.craftName.data(), &buffer[14], outgoing.craftName.size());
         SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeItemOutgoing));
     }
 }
@@ -171,18 +158,21 @@ void __declspec(naked) naked_0x47DFC0()
 }
 
 unsigned u0x47DF34 = 0x47DF34;
-void __declspec(naked) naked_0x47DE7B()
+void __declspec(naked) naked_0x47DF22()
 {
     __asm
     {
+        // itemCount
+        mov byte ptr[esp+0x3E],dl
+
         pushad
 
-        push 0x0
-        push edi // packet
-        push ebx // exchange user
+        lea eax,[esp+0x3C]
+
+        push eax // packet
         push esi // user
-        call packet_exchange::send_item
-        add esp,0x10
+        call packet_exchange::send_item_hook
+        add esp,0x8
 
         popad
 
@@ -190,23 +180,26 @@ void __declspec(naked) naked_0x47DE7B()
     }
 }
 
-unsigned u0x48C753 = 0x48C753;
-void __declspec(naked) naked_0x48C69A()
+unsigned u0x48C902 = 0x48C902;
+void __declspec(naked) naked_0x48C741()
 {
     __asm
     {
+        // itemCount
+        mov byte ptr[esp+0x66],al
+
         pushad
 
-        push 0x1
-        push edi // packet
-        push ebp // exchange user
+        lea eax,[esp+0x64]
+
+        push eax // packet
         push esi // user
-        call packet_exchange::send_item
-        add esp,0x10
+        call packet_exchange::send_item_hook
+        add esp,0x8
 
         popad
 
-        jmp u0x48C753
+        jmp u0x48C902
     }
 }
 
@@ -223,8 +216,8 @@ void hook::packet_exchange()
 
 #ifdef SHAIYA_EP6_4_PT
     // CUser::PacketExchange case 0xA06
-    util::detour((void*)0x47DE7B, naked_0x47DE7B, 8);
+    util::detour((void*)0x47DF22, naked_0x47DF22, 6);
     // CUser::PacketPvP case 0x240A
-    util::detour((void*)0x48C69A, naked_0x48C69A, 8);
+    util::detour((void*)0x48C741, naked_0x48C741, 6);
 #endif
 }
