@@ -2,8 +2,6 @@
 #include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CQuest.h"
 #include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/CUser.h"
@@ -13,15 +11,8 @@
 #include "include/shaiya/include/network/gameLog/incoming/0500.h"
 using namespace shaiya;
 
-namespace npc_quest
+namespace packet_quest
 {
-    void send_admin_remove(CUser* user, CQuest* quest)
-    {
-        QuestEndResultOutgoing outgoing{};
-        outgoing.questId = quest->questInfo->questId;
-        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
-    }
-
     void send_failure_result(CUser* user, CQuest* quest, uint32_t npcId)
     {
         QuestEndResultOutgoing outgoing{};
@@ -35,8 +26,8 @@ namespace npc_quest
         if (index >= quest->questInfo->results.size())
             return;
 
-        auto& result = quest->questInfo->results[index];
-        auto exp = result.exp;
+        auto exp = quest->questInfo->results[index].exp;
+        auto gold = quest->questInfo->results[index].gold;
 
         if (exp)
         {
@@ -45,18 +36,18 @@ namespace npc_quest
             CUser::AddExpFromUser(user, 0, exp, true);
         }
 
-        if (result.gold)
+        if (gold)
         {
-            CUser::ChkAddMoneyGet(user, result.gold);
+            CUser::ChkAddMoneyGet(user, gold);
             CUser::SendDBMoney(user);
         }
 
-        GameLogQuestEndResultIncoming log{};
-        CUser::SetGameLogMain(user, &log);
-        log.questId = quest->questInfo->questId;
-        StringCbCopyA(log.questName.data(), log.questName.size(), quest->questInfo->questName.data());
-        log.success = true;
-        log.gold = result.gold;
+        GameLogQuestEndResultIncoming gameLog{};
+        CUser::SetGameLogMain(user, &gameLog);
+        gameLog.questId = quest->questInfo->questId;
+        StringCbCopyA(gameLog.questName.data(), gameLog.questName.size(), quest->questInfo->questName.data());
+        gameLog.success = true;
+        gameLog.gold = gold;
 
         QuestEndResultOutgoing outgoing{};
         outgoing.npcId = npcId;
@@ -64,14 +55,15 @@ namespace npc_quest
         outgoing.success = true;
         outgoing.index = index;
         outgoing.exp = exp;
-        outgoing.gold = result.gold;
+        outgoing.gold = gold;
 
 #ifdef SHAIYA_EP6_4_PT
-        for (int i = 0; std::cmp_less(i, result.items.size()); ++i)
+        auto& items = quest->questInfo->results[index].items;
+        for (int i = 0; std::cmp_less(i, items.size()); ++i)
         {
-            int type = result.items[i].type;
-            int typeId = result.items[i].typeId;
-            int count = result.items[i].count;
+            int type = items[i].type;
+            int typeId = items[i].typeId;
+            int count = items[i].count;
 
             int bag{}, slot{};
             ItemInfo itemInfo{};
@@ -83,9 +75,9 @@ namespace npc_quest
                 outgoing.itemList[i].type = type;
                 outgoing.itemList[i].typeId = typeId;
 
-                log.itemId = itemInfo.itemId;
-                log.itemCount = count;
-                log.itemName = itemInfo.itemName;
+                gameLog.itemId = itemInfo.itemId;
+                gameLog.itemCount = count;
+                gameLog.itemName = itemInfo.itemName;
             }
             else
             {
@@ -95,12 +87,12 @@ namespace npc_quest
                 outgoing.itemList[i].type = 0;
                 outgoing.itemList[i].typeId = 0;
 
-                log.itemId = 0;
-                log.itemCount = 0;
-                log.itemName[0] = '\0';
+                gameLog.itemId = 0;
+                gameLog.itemCount = 0;
+                gameLog.itemName[0] = '\0';
             }
 
-            Helpers::SendGameLog(&log, sizeof(GameLogQuestEndResultIncoming));
+            Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
         }
 #endif
 
@@ -116,10 +108,11 @@ void __declspec(naked) naked_0x48D1F2()
     {
         pushad
 
+        push 0x0 // npcId
         push ebp // quest
         push ebx // user
-        call npc_quest::send_admin_remove
-        add esp,0x8
+        call packet_quest::send_failure_result
+        add esp,0xC
 
         popad
 
@@ -140,7 +133,7 @@ void __declspec(naked) naked_0x48DC3D()
         push ecx // npcId
         push ebx // quest
         push edi // user
-        call npc_quest::send_failure_result
+        call packet_quest::send_failure_result
         add esp,0xC
 
         popad
@@ -162,7 +155,7 @@ void __declspec(naked) naked_0x48DE38()
         push ecx // npcId
         push ebx // quest
         push edi // user
-        call npc_quest::send_success_result
+        call packet_quest::send_success_result
         add esp,0x10
 
         popad
@@ -171,7 +164,7 @@ void __declspec(naked) naked_0x48DE38()
     }
 }
 
-void hook::npc_quest()
+void hook::packet_quest()
 {
     // CUser::QuestRemoveAdmin
     util::detour((void*)0x48D1F2, naked_0x48D1F2, 9);

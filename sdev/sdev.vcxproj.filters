@@ -135,7 +135,7 @@
     <ClCompile Include="include\shaiya\src\CObject.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\npc_quest.cpp">
+    <ClCompile Include="src\packet_quest.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\Synergy.cpp">

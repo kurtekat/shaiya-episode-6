@@ -104,12 +104,12 @@ void Main()
     util::write_memory((void*)0x411F74, &size, 4);
 
     hook::item_effect();
-    hook::npc_quest();
     hook::packet_character();
     hook::packet_gem();
     hook::packet_market();
     hook::packet_myshop();
     hook::packet_party();
+    hook::packet_quest();
     hook::revenge_mark();
     hook::user_apply_skill();
     hook::user_equipment();
