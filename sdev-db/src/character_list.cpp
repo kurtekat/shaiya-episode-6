@@ -68,6 +68,11 @@ namespace character_list
         user->equipmentEx[characterSlot].type[equipmentSlot] = type;
         user->equipmentEx[characterSlot].typeId[equipmentSlot] = typeId;
     }
+
+    void init_equipment(CUser* user)
+    {
+        user->equipmentEx = {};
+    }
 }
 
 void __declspec(naked) naked_0x40AA20()
@@ -86,6 +91,25 @@ void __declspec(naked) naked_0x40AA20()
         popad
 
         retn
+    }
+}
+
+unsigned u0x421AAB = 0x421AAB;
+void __declspec(naked) naked_0x421AA5()
+{
+    __asm
+    {
+        pushad
+
+        push edi // user
+        call character_list::init_equipment
+        add esp,0x4
+
+        popad
+
+        // original
+        lea eax,[edi+0x3B98]
+        jmp u0x421AAB
     }
 }
 
@@ -123,8 +147,8 @@ void hook::character_list()
     // CUser::SendCharacterList
     util::detour((void*)0x40AA20, naked_0x40AA20, 6);
     // DBCharacter::LoadCharacterList
+    util::detour((void*)0x421AA5, naked_0x421AA5, 6);
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
-
     // DBCharacter::LoadCharacterList
     util::write_memory((void*)0x42220B, max_equipment_slot, 1);
 }
