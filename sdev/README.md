@@ -30,10 +30,6 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep6
 
 # Features
 
-## Item Duration
-
-[v1.5.26.zip](https://github.com/user-attachments/files/16856838/v1.5.26.zip)
-
 ## Item Mall
 
 Install the following procedures:
@@ -273,7 +269,3 @@ Use item `101101` to activate the window. The `ReqLuc` value is the number of la
 |--------|--------|
 | 101090 | 103    |
 | 101132 | 103    |
-
-## Mailbox
-
-This feature will not be implemented.
