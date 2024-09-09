@@ -55,8 +55,8 @@ bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
     DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
     Helpers::SendDBAgent(&packet, sizeof(DBAgentItemRemoveIncoming));
 
-    GameLogItemRemoveIncoming log(user, item, bag, slot, count);
-    Helpers::SendGameLog(&log, sizeof(GameLogItemRemoveIncoming));
+    GameLogItemRemoveIncoming gameLog(user, item, bag, slot, count);
+    Helpers::SendGameLog(&gameLog, sizeof(GameLogItemRemoveIncoming));
 
     if (!item->count)
     {

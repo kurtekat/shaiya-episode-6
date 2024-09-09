@@ -71,7 +71,7 @@ namespace shaiya
     struct SkillAbilityEx
     {
         SkillAbility70 type70;
-        UINT32 type87QuestExpRate;
+        UINT32 increaseQuestExpRate;
     };
     #pragma pack(pop)
 

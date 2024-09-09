@@ -118,7 +118,7 @@ namespace user_apply_skill
         // itemId: 101112, 101113
         // skillId: 432
         case SkillAbilityType::IncreaseQuestExpRate:
-            user->skillAbility.type87QuestExpRate += abilityValue;
+            user->skillAbility.increaseQuestExpRate += abilityValue;
             break;
         default:
             break;

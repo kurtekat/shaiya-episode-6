@@ -478,8 +478,8 @@ namespace packet_gem
         DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
         Helpers::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
 
-        GameLogItemComposeIncoming log(user, item, oldItemUid, oldItemId, oldCraftName);
-        Helpers::SendGameLog(&log, sizeof(GameLogItemComposeIncoming));
+        GameLogItemComposeIncoming gameLog(user, item, oldItemUid, oldItemId, oldCraftName);
+        Helpers::SendGameLog(&gameLog, sizeof(GameLogItemComposeIncoming));
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }
@@ -867,8 +867,8 @@ namespace packet_gem
             DBAgentItemGemsIncoming packet2(user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money);
             Helpers::SendDBAgent(&packet2, sizeof(DBAgentItemGemsIncoming));
 
-            GameLogItemComposeIncoming log1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
-            Helpers::SendGameLog(&log1, sizeof(GameLogItemComposeIncoming));
+            GameLogItemComposeIncoming gameLog1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
+            Helpers::SendGameLog(&gameLog1, sizeof(GameLogItemComposeIncoming));
 
             DBAgentItemCraftNameIncoming packet3(user->userId, incoming->fromBag, incoming->fromSlot, from->craftName);
             Helpers::SendDBAgent(&packet3, sizeof(DBAgentItemCraftNameIncoming));
@@ -876,8 +876,8 @@ namespace packet_gem
             DBAgentItemGemsIncoming packet4(user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money);
             Helpers::SendDBAgent(&packet4, sizeof(DBAgentItemGemsIncoming));
 
-            GameLogItemComposeIncoming log2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
-            Helpers::SendGameLog(&log2, sizeof(GameLogItemComposeIncoming));
+            GameLogItemComposeIncoming gameLog2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
+            Helpers::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));
         }
 
         SConnection::Send(&user->connection, &outgoing, sizeof(ItemAbilityTransferOutgoing));
