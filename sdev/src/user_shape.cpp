@@ -1,6 +1,7 @@
 #include <ranges>
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/ShapeItem.h>
 #include <shaiya/include/common/ShapeType.h>
 #include <shaiya/include/SConnection.h>
 #include <util/util.h>
@@ -30,7 +31,7 @@ namespace user_shape
         user->clone->size = target->size;
         user->clone->job = target->job;
         user->clone->sex = target->sex;
-        user->clone->partyType = static_cast<PartyType>(CUser::GetPartyType(target));
+        user->clone->partyType = PartyType(CUser::GetPartyType(target));
         user->clone->grow = target->grow;
         user->clone->kills = target->kills;
 
@@ -83,8 +84,7 @@ namespace user_shape
             outgoing.partyType = user->clone->partyType;
             outgoing.grow = user->clone->grow;
             outgoing.kills = user->clone->kills;
-
-            std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
+            std::copy(user->clone->equipment.begin(), user->clone->equipment.end(), outgoing.equipment.begin());
             outgoing.charName = user->clone->charName;
 
             if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing2))
@@ -113,7 +113,7 @@ namespace user_shape
         outgoing.size = user->size;
         outgoing.job = user->job;
         outgoing.sex = user->sex;
-        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
+        outgoing.partyType = PartyType(CUser::GetPartyType(user));
         outgoing.grow = user->grow;
         outgoing.kills = user->kills;
 
@@ -171,8 +171,7 @@ namespace user_shape
             outgoing.partyType = user->clone->partyType;
             outgoing.grow = user->clone->grow;
             outgoing.kills = user->clone->kills;
-
-            std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
+            std::copy(user->clone->equipment.begin(), user->clone->equipment.end(), outgoing.equipment.begin());
             outgoing.charName = user->clone->charName;
 
             if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing2))
@@ -201,7 +200,7 @@ namespace user_shape
         outgoing.size = user->size;
         outgoing.job = user->job;
         outgoing.sex = user->sex;
-        outgoing.partyType = static_cast<PartyType>(CUser::GetPartyType(user));
+        outgoing.partyType = PartyType(CUser::GetPartyType(user));
         outgoing.grow = user->grow;
         outgoing.kills = user->kills;
 

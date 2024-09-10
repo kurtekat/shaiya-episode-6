@@ -28,8 +28,8 @@ namespace user_apply_skill
             outgoing.statusType = SkillUseStatusType::Triggered;
 
             user->skillAbility.type70.triggered = true;
-            user->skillAbility.type70.skillId = outgoing.skillId;
-            user->skillAbility.type70.skillLv = outgoing.skillLv;
+            user->skillAbility.type70.skillId = skillInfo->skillId;
+            user->skillAbility.type70.skillLv = skillInfo->skillLv;
             user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
             SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));

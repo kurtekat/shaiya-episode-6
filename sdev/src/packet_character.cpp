@@ -72,8 +72,8 @@ namespace packet_character
                 int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
                 SConnection::Send(&user->connection, &outgoing, length);
 
-                std::memset(&outgoing.itemList, 0, sizeof(outgoing.itemList));
                 outgoing.itemCount = 0;
+                outgoing.itemList = {};
             }
         }
 
