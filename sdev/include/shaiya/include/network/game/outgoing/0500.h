@@ -177,7 +177,21 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-        // EP6
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct SkillUseOutgoing2
+    {
+        UINT16 opcode{ 0x511 };
+        UINT8 targetType;
+        ULONG senderId;
+        ULONG targetId;
+        UINT16 skillId;
+        UINT8 skillLv;
+        UINT16 health;
+        UINT16 stamina;
+        UINT16 mana;
         SkillUseStatusType statusType;
     };
     #pragma pack(pop)
@@ -188,7 +202,15 @@ namespace shaiya
         UINT16 opcode{ 0x51D };
         ULONG charId;
         ShapeType shapeType;
-        // EP6.4
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserShapeTypeOutgoing2
+    {
+        UINT16 opcode{ 0x51D };
+        ULONG charId;
+        ShapeType shapeType;
         UINT32 vehicleType;
         UINT32 vehicleTypeId;
     };

@@ -36,10 +36,6 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 count;
-#ifdef SHAIYA_EP6_4_PT
-        ULONG fromDate;
-        ULONG toDate;
-#endif
     };
     #pragma pack(pop)
 
@@ -54,6 +50,35 @@ namespace shaiya
         UINT32 itemPrice;
         UINT8 itemCount;
         Array<Item2602, 24> itemList;
+
+        constexpr int size_without_list() { return 37; }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct Item2602v2
+    {
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT8 count;
+        ULONG fromDate;
+        ULONG toDate;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct PointPurchaseItemOutgoing2
+    {
+        UINT16 opcode{ 0x2602 };
+        PointPurchaseItemResult result;
+        UINT32 points;
+        CharArray<21> productCode;
+        ULONG purchaseDate;
+        UINT32 itemPrice;
+        UINT8 itemCount;
+        Array<Item2602v2, 24> itemList;
 
         constexpr int size_without_list() { return 37; }
     };

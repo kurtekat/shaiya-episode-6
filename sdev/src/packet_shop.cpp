@@ -29,31 +29,32 @@ namespace packet_shop
         SConnection::Send(&user->connection, &outgoing, sizeof(PointOutgoing));
     }
 
-    void send_purchase(CUser* user, Packet buffer)
+    void send_purchase(CUser* user, PointPurchaseItemOutgoing* packet)
     {
-        PointPurchaseItemOutgoing outgoing{};
-        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
-        outgoing.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
-        outgoing.points = util::deserialize<uint32_t>(buffer, 3);
-        std::memcpy(outgoing.productCode.data(), &buffer[7], outgoing.productCode.size());
-        outgoing.purchaseDate = util::deserialize<Timestamp>(buffer, 28);
-        outgoing.itemPrice = util::deserialize<uint32_t>(buffer, 32);
-        outgoing.itemCount = util::deserialize<uint8_t>(buffer, 36);
+        PointPurchaseItemOutgoing2 outgoing{};
+        outgoing.opcode = packet->opcode;
+        outgoing.result = packet->result;
+        outgoing.points = packet->points;
+        outgoing.productCode = packet->productCode;
+        outgoing.purchaseDate = packet->purchaseDate;
+        outgoing.itemPrice = packet->itemPrice;
+        outgoing.itemCount = packet->itemCount;
 
-        int offset = 0;
+        if (outgoing.itemCount > outgoing.itemList.size())
+            return;
+
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
-            Item2602 item2602{};
-            item2602.bag = util::deserialize<uint8_t>(buffer, 37 + offset);
-            item2602.slot = util::deserialize<uint8_t>(buffer, 38 + offset);
-            item2602.type = util::deserialize<uint8_t>(buffer, 39 + offset);
-            item2602.typeId = util::deserialize<uint8_t>(buffer, 40 + offset);
-            item2602.count = util::deserialize<uint8_t>(buffer, 41 + offset);
+            Item2602v2 item2602{};
+            item2602.bag = packet->itemList[i].bag;
+            item2602.slot = packet->itemList[i].slot;
+            item2602.type = packet->itemList[i].type;
+            item2602.typeId = packet->itemList[i].typeId;
+            item2602.count = packet->itemList[i].count;
             outgoing.itemList[i] = item2602;
-            offset += 5;
         }
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item2602));
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item2602v2));
         SConnection::Send(&user->connection, &outgoing, length);
     }
 

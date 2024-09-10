@@ -17,7 +17,7 @@ namespace user_apply_skill
 {
     void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
-        SkillUseOutgoing outgoing{};
+        SkillUseOutgoing2 outgoing{};
         outgoing.senderId = user->id;
         outgoing.targetId = user->id;
         outgoing.skillId = skillInfo->skillId;
@@ -32,7 +32,7 @@ namespace user_apply_skill
             user->skillAbility.type70.skillLv = outgoing.skillLv;
             user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
+            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
             CUser::AddApplySkillBuff(user, skillInfo);
         }
         else
@@ -44,7 +44,7 @@ namespace user_apply_skill
             user->skillAbility.type70.skillLv = 0;
             user->skillAbility.type70.keepTick = 0;
 
-            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
+            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
             CUser::RemApplySkillBuff(user, skillInfo);
         }
     }
@@ -90,14 +90,14 @@ namespace user_apply_skill
         user->skillAbility.type70.skillLv = 0;
         user->skillAbility.type70.keepTick = 0;
 
-        SkillUseOutgoing outgoing{};
+        SkillUseOutgoing2 outgoing{};
         outgoing.senderId = user->id;
         outgoing.targetId = user->id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
         outgoing.statusType = SkillUseStatusType::Stopped;
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing));
+        SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 

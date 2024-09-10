@@ -58,18 +58,18 @@ namespace packet_exchange
             send_cancel(user, user->exchange.user);
     }
 
-    void send_item_hook(CUser* user, Packet buffer)
+    void send_item_hook(CUser* user, ExchangeItemOutgoing* packet)
     {
-        ExchangeItemOutgoing outgoing{};
-        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
-        outgoing.destSlot = util::deserialize<uint8_t>(buffer, 2);
-        outgoing.type = util::deserialize<uint8_t>(buffer, 3);
-        outgoing.typeId = util::deserialize<uint8_t>(buffer, 4);
-        outgoing.count = util::deserialize<uint8_t>(buffer, 5);
-        outgoing.quality = util::deserialize<uint16_t>(buffer, 6);
-        std::memcpy(outgoing.gems.data(), &buffer[8], outgoing.gems.size());
-        std::memcpy(outgoing.craftName.data(), &buffer[14], outgoing.craftName.size());
-        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeItemOutgoing));
+        ExchangeItemOutgoing2 outgoing{};
+        outgoing.opcode = packet->opcode;
+        outgoing.destSlot = packet->destSlot;
+        outgoing.type = packet->type;
+        outgoing.typeId = packet->typeId;
+        outgoing.count = packet->count;
+        outgoing.quality = packet->quality;
+        outgoing.gems = packet->gems;
+        outgoing.craftName = packet->craftName;
+        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeItemOutgoing2));
     }
 }
 

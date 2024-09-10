@@ -54,19 +54,19 @@ namespace user_shape
         if (!item)
         {
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
         }
         else
         {
             user->clone->cloakBadge = item->gems;
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing);
+            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing2);
         }
     }
 
     void send_user_shape(CUser* user, CUser* target)
     {
-        GetInfoUserShapeOutgoing outgoing{};
+        GetInfoUserShapeOutgoing2 outgoing{};
         outgoing.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
@@ -87,17 +87,17 @@ namespace user_shape
             std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
             outgoing.charName = user->clone->charName;
 
-            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
+            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing2))
             {
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
-                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing));
+                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
-                int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+                int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
                 SConnection::Send(&target->connection, &outgoing, length);
             }
 
@@ -138,14 +138,14 @@ namespace user_shape
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
-            int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+            int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
             SConnection::Send(&target->connection, &outgoing, length);
         }
         else
         {
             outgoing.cloakBadge = item->gems;
             CUser::GetGuildName(user, outgoing.guildName.data());
-            SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing));
+            SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
         }
     }
 
@@ -154,7 +154,7 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        GetInfoUserShapeOutgoing outgoing{};
+        GetInfoUserShapeOutgoing2 outgoing{};
         outgoing.charId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
@@ -175,17 +175,17 @@ namespace user_shape
             std::memcpy(&outgoing.equipment, &user->clone->equipment, sizeof(outgoing.equipment));
             outgoing.charName = user->clone->charName;
 
-            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing))
+            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing2))
             {
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
-                CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
+                CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->cellX, user->cellZ);
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
-                int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+                int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
                 CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
             }
 
@@ -226,20 +226,20 @@ namespace user_shape
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
-            int length = sizeof(GetInfoUserShapeOutgoing) - sizeof(CloakBadge);
+            int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
             CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
         }
         else
         {
             outgoing.cloakBadge = item->gems;
             CUser::GetGuildName(user, outgoing.guildName.data());
-            CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing), user->cellX, user->cellZ);
+            CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->cellX, user->cellZ);
         }
     }
 
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
-        UserShapeTypeOutgoing outgoing{};
+        UserShapeTypeOutgoing2 outgoing{};
         outgoing.charId = user->id;
         outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
@@ -250,12 +250,12 @@ namespace user_shape
         if (!user->zone)
             return;
 
-        CZone::SendView(user->zone, &outgoing, sizeof(UserShapeTypeOutgoing), user->cellX, user->cellZ);
+        CZone::SendView(user->zone, &outgoing, sizeof(UserShapeTypeOutgoing2), user->cellX, user->cellZ);
     }
 
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
-        UserShapeTypeOutgoing outgoing{};
+        UserShapeTypeOutgoing2 outgoing{};
         outgoing.charId = user->id;
         outgoing.shapeType = shapeType;
 
@@ -263,7 +263,7 @@ namespace user_shape
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
-        SConnection::Send(&target->connection, &outgoing, sizeof(UserShapeTypeOutgoing));
+        SConnection::Send(&target->connection, &outgoing, sizeof(UserShapeTypeOutgoing2));
     }
 }
 

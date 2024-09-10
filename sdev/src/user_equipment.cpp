@@ -51,7 +51,7 @@ namespace user_equipment
 
     void send_inspect(CUser* user, CUser* target)
     {
-        GetInfoInspectOutgoing outgoing{};
+        GetInfoInspectOutgoing2 outgoing{};
         outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(

@@ -43,7 +43,7 @@ namespace packet_character
 
     void send_warehouse(CUser* user)
     {
-        UserBankItemListOutgoing outgoing{};
+        UserBankItemListOutgoing2 outgoing{};
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
@@ -53,7 +53,7 @@ namespace packet_character
             if (!item)
                 continue;
 
-            Item0711 item0711{};
+            Item0711v2 item0711{};
             item0711.slot = slot;
             item0711.type = item->type;
             item0711.typeId = item->typeId;
@@ -69,7 +69,7 @@ namespace packet_character
                 continue;
             else
             {
-                int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+                int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
                 SConnection::Send(&user->connection, &outgoing, length);
 
                 std::memset(&outgoing.itemList, 0, sizeof(outgoing.itemList));
@@ -80,7 +80,7 @@ namespace packet_character
         if (!outgoing.itemCount)
             return;
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711));
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
         SConnection::Send(&user->connection, &outgoing, length);
     }
 
@@ -94,9 +94,9 @@ namespace packet_character
         SConnection::Send(&user->connection, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
     }
 
-    void send_character(CUser* user, Character0403* dbCharacter)
+    void send_character(CUser* user, Character0403v2* dbCharacter)
     {
-        CharacterOutgoing character{};
+        CharacterOutgoing2 character{};
         character.slot = dbCharacter->slot;
         character.charId = dbCharacter->id;
         character.regDate = dbCharacter->regDate;
@@ -118,13 +118,13 @@ namespace packet_character
         character.health = dbCharacter->health;
         character.mana = dbCharacter->mana;
         character.stamina = dbCharacter->stamina;
-        std::copy_n(dbCharacter->equipment.type.begin(), character.equipment.type.size(), character.equipment.type.begin());
-        std::copy_n(dbCharacter->equipment.typeId.begin(), character.equipment.typeId.size(), character.equipment.typeId.begin());
+        character.type = dbCharacter->type;
+        character.typeId = dbCharacter->typeId;
         StringCbCopyA(character.charName.data(), character.charName.size(), dbCharacter->charName.data());
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;
         character.cloakBadge = dbCharacter->cloakBadge;
-        SConnection::Send(&user->connection, &character, sizeof(CharacterOutgoing));
+        SConnection::Send(&user->connection, &character, sizeof(CharacterOutgoing2));
     }
 }
 
@@ -251,6 +251,6 @@ void hook::packet_character()
     util::detour((void*)0x47BCE8, naked_0x47BCE8, 5);
 
     // CUser::PacketUserDBChar
-    util::write_memory((void*)0x47B4EC, sizeof(Character0403), 1);
-    util::write_memory((void*)0x47B9C9, sizeof(Character0403), 1);
+    util::write_memory((void*)0x47B4EC, sizeof(Character0403v2), 1);
+    util::write_memory((void*)0x47B9C9, sizeof(Character0403v2), 1);
 }

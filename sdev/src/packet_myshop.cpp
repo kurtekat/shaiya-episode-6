@@ -7,29 +7,30 @@ using namespace shaiya;
 
 namespace packet_myshop
 {
-    void send_item_list_hook(CUser* user, Packet buffer)
+    void send_item_list_hook(CUser* user, MyShopItemListOutgoing* packet)
     {
-        MyShopItemListOutgoing outgoing{};
-        outgoing.opcode = util::deserialize<uint16_t>(buffer, 0);
-        outgoing.itemCount = util::deserialize<uint8_t>(buffer, 2);
+        MyShopItemListOutgoing2 outgoing{};
+        outgoing.opcode = packet->opcode;
+        outgoing.itemCount = packet->itemCount;
 
-        int offset = 0;
+        if (outgoing.itemCount > outgoing.itemList.size())
+            return;
+
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
-            Item230B item230B{};
-            item230B.slot = util::deserialize<uint8_t>(buffer, 3 + offset);
-            item230B.price = util::deserialize<uint32_t>(buffer, 4 + offset);
-            item230B.type = util::deserialize<uint8_t>(buffer, 8 + offset);
-            item230B.typeId = util::deserialize<uint8_t>(buffer, 9 + offset);
-            item230B.count = util::deserialize<uint8_t>(buffer, 10 + offset);
-            item230B.quality = util::deserialize<uint16_t>(buffer, 11 + offset);
-            std::memcpy(item230B.gems.data(), &buffer[13 + offset], item230B.gems.size());
-            std::memcpy(item230B.craftName.data(), &buffer[19 + offset], item230B.craftName.size());
+            Item230Bv2 item230B{};
+            item230B.slot = packet->itemList[i].slot;
+            item230B.price = packet->itemList[i].price;
+            item230B.type = packet->itemList[i].type;
+            item230B.typeId = packet->itemList[i].typeId;
+            item230B.count = packet->itemList[i].count;
+            item230B.quality = packet->itemList[i].quality;
+            item230B.gems = packet->itemList[i].gems;
+            item230B.craftName = packet->itemList[i].craftName;       
             outgoing.itemList[i] = item230B;
-            offset += 37;
         }
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item230B));
+        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item230Bv2));
         SConnection::Send(&user->connection, &outgoing, length);
     }
 }

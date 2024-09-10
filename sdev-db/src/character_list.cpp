@@ -10,7 +10,7 @@ namespace character_list
 {
     void send(CUser* user, bool sendCountry)
     {
-        DBAgentCharListOutgoing outgoing{};
+        DBAgentCharListOutgoing2 outgoing{};
         outgoing.userId = user->userId;
         outgoing.sendCountry = sendCountry;
         outgoing.characterCount = 0;
@@ -20,7 +20,7 @@ namespace character_list
             if (!character.id || character.slot >= user->characterList.size())
                 continue;
 
-            Character0403 character0403{};
+            Character0403v2 character0403{};
             character0403.id = character.id;
             character0403.regDate = character.regDate;
             character0403.nameChange = character.nameChange;
@@ -44,8 +44,8 @@ namespace character_list
             character0403.stamina = character.stamina;
             character0403.mapId = character.mapId;
             character0403.deleteDate = character.deleteDate;
-            std::copy_n(user->equipmentEx[character.slot].type.begin(), character0403.equipment.type.size(), character0403.equipment.type.begin());
-            std::copy_n(user->equipmentEx[character.slot].typeId.begin(), character0403.equipment.typeId.size(), character0403.equipment.typeId.begin());
+            std::copy_n(user->equipmentEx[character.slot].type.begin(), character0403.type.size(), character0403.type.begin());
+            std::copy_n(user->equipmentEx[character.slot].typeId.begin(), character0403.typeId.size(), character0403.typeId.begin());
             character0403.cloakBadge = character.cloakBadge;
             character0403.charName = character.name;
             outgoing.characterList[outgoing.characterCount] = character0403;
@@ -56,7 +56,7 @@ namespace character_list
         if (!user->connection)
             return;
 
-        int length = outgoing.size_without_list() + (outgoing.characterCount * sizeof(Character0403));
+        int length = outgoing.size_without_list() + (outgoing.characterCount * sizeof(Character0403v2));
         SConnection::Send(user->connection, &outgoing, length);
     }
 

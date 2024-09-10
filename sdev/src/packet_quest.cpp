@@ -15,10 +15,10 @@ namespace packet_quest
 {
     void send_failure_result(CUser* user, CQuest* quest, uint32_t npcId)
     {
-        QuestEndResultOutgoing outgoing{};
+        QuestEndResultOutgoing2 outgoing{};
         outgoing.npcId = npcId;
         outgoing.questId = quest->questInfo->questId;
-        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
+        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing2));
     }
 
     void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
@@ -49,7 +49,7 @@ namespace packet_quest
         gameLog.success = true;
         gameLog.gold = gold;
 
-        QuestEndResultOutgoing outgoing{};
+        QuestEndResultOutgoing2 outgoing{};
         outgoing.npcId = npcId;
         outgoing.questId = quest->questInfo->questId;
         outgoing.success = true;
@@ -96,7 +96,7 @@ namespace packet_quest
         }
 #endif
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing));
+        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing2));
         CUser::QuestRemove(user, quest, true);
     }
 }
