@@ -42,6 +42,7 @@
     <ClInclude Include="include\common\PvPStatusType.h" />
     <ClInclude Include="include\common\ReqOg.h" />
     <ClInclude Include="include\common\Sex.h" />
+    <ClInclude Include="include\common\ShapeItem.h" />
     <ClInclude Include="include\common\ShapeType.h" />
     <ClInclude Include="include\common\SkillAbilityType.h" />
     <ClInclude Include="include\common\SkillStatusType.h" />

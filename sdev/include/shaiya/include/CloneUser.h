@@ -7,19 +7,11 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/ShapeItem.h>
 #include <shaiya/include/SNode.h>
 
 namespace shaiya
 {
-    #pragma pack(push, 1)
-    struct CloneItem
-    {
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 enchantStep;
-    };
-    #pragma pack(pop)
-
     #pragma pack(push, 1)
     struct CloneUser
     {
@@ -39,9 +31,9 @@ namespace shaiya
         UINT32 kills;         //0x14
         // 0x18
 #ifdef SHAIYA_EP6_4_PT
-        Array<CloneItem, 17> equipment;
+        Array<ShapeItem, 17> equipment;
 #else
-        Array<CloneItem, 8> equipment;
+        Array<ShapeItem, 8> equipment;
 #endif
         // 6.4: 0x4B, 5.4: 0x30
         CharArray<21> charName;

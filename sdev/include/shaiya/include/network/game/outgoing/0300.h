@@ -8,6 +8,7 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/ShapeItem.h>
 
 // CUser::PacketGetInfo
 
@@ -20,15 +21,6 @@ namespace shaiya
         ULONG targetId;
         UINT32 maxHealth;
         UINT32 health;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct Equipment0303
-    {
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 enchantStep;
     };
     #pragma pack(pop)
 
@@ -50,7 +42,7 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        Array<Equipment0303, 8> equipment;
+        Array<ShapeItem, 8> equipment;
         CharArray<21> charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;
@@ -75,7 +67,7 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        Array<Equipment0303, 17> equipment;
+        Array<ShapeItem, 17> equipment;
         CharArray<21> charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;

@@ -16,28 +16,15 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    using QuestItems = Array<QuestItem, 3>;
-
-    #pragma pack(push, 1)
-    struct QuestJob
-    {
-        bool attackFighter;
-        bool defenseFighter;
-        bool patrolRogue;
-        bool shootRogue;
-        bool attackMage;
-        bool defenseMage;
-    };
-    #pragma pack(pop)
-
 #ifdef SHAIYA_EP6_4_PT
     #pragma pack(push, 1)
     struct QuestResult
     {
         PAD(20);
-        UINT32 exp;        //0x14
-        UINT32 gold;       //0x18
-        QuestItems items;  //0x1C
+        UINT32 exp;   //0x14
+        UINT32 gold;  //0x18
+        // 0x1C
+        Array<QuestItem, 3> items;
         // 0x25
         PAD(7);
         // 0x2C = size
@@ -73,7 +60,12 @@ namespace shaiya
         Grow grow;                 //0x107
         bool male;                 //0x108
         bool female;               //0x109
-        QuestJob job;              //0x10A
+        bool attackFighter;        //0x10A
+        bool defenseFighter;       //0x10B
+        bool patrolRogue;          //0x10C
+        bool shootRogue;           //0x10D
+        bool attackMage;           //0x10E
+        bool defenseMage;          //0x10F
         UINT16 hg;                 //0x110
         INT16 vg;                  //0x112
         UINT8 cg;                  //0x114
@@ -82,7 +74,12 @@ namespace shaiya
         PAD(1);
         UINT16 prevQuestId;        //0x118
         bool party;                //0x11A
-        QuestJob partyJob;         //0x11B
+        bool partyJob0;            //0x11B
+        bool partyJob1;            //0x11C
+        bool partyJob2;            //0x11D
+        bool partyJob3;            //0x11E
+        bool partyJob4;            //0x11F
+        bool partyJob5;            //0x120
         PAD(3);
         UINT32 minimumTime;        //0x124
         UINT32 delay;              //0x128
@@ -93,12 +90,14 @@ namespace shaiya
         UINT16 startNpcTypeId;     //0x13A
         UINT8 startItemType;       //0x13C
         UINT8 startItemTypeId;     //0x13D
-        QuestItems startItems;     //0x13E
+        // 0x13E
+        Array<QuestItem, 3> startItems;
         UINT8 endType;             //0x147
         UINT8 endNpcType;          //0x148
         PAD(1);
         UINT16 endNpcTypeId;       //0x14A
-        QuestItems endItems;       //0x14C
+        // 0x14C
+        Array<QuestItem, 3> endItems;
         UINT8 pvpKillCount;        //0x155
         UINT16 reqMobId1;          //0x156
         UINT16 reqMobId2;          //0x158

@@ -23,6 +23,7 @@ namespace packet_quest
 
     void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
     {
+#ifdef SHAIYA_EP6_4_PT
         if (index >= quest->questInfo->results.size())
             return;
 
@@ -57,7 +58,6 @@ namespace packet_quest
         outgoing.exp = exp;
         outgoing.gold = gold;
 
-#ifdef SHAIYA_EP6_4_PT
         auto& items = quest->questInfo->results[index].items;
         for (int i = 0; std::cmp_less(i, items.size()); ++i)
         {
@@ -94,10 +94,10 @@ namespace packet_quest
 
             Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
         }
-#endif
 
         SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing2));
         CUser::QuestRemove(user, quest, true);
+#endif
     }
 }
 
