@@ -41,7 +41,7 @@ namespace user_status
 
         auto attackPower = user->minAttackPower;
 
-        auto& weapon = user->inventory[0][EquipmentSlot::Weapon];
+        auto& weapon = user->inventory[0][int(EquipmentSlot::Weapon)];
         if (weapon)
         {
             switch (weapon->itemInfo->realType)

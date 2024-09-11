@@ -40,7 +40,7 @@ int Helpers::GetFreeItemSlot(CUser* user, uint8_t bag)
 
 bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
 {
-    if (!bag || bag >= max_inventory_bag || slot >= max_inventory_slot)
+    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];

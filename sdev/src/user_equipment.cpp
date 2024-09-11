@@ -39,7 +39,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (slot < EquipmentSlot::Vehicle)
+            if (slot < int(EquipmentSlot::Vehicle))
                 user->itemQualityEx[slot] = item->quality;
 
             CUser::ItemEquipmentAdd(user, item, slot);
@@ -63,14 +63,14 @@ namespace user_equipment
             if (std::cmp_greater_equal(slot, outgoing.itemList.size()))
                 break;
 
-            if (slot < EquipmentSlot::Wings)
+            if (slot < int(EquipmentSlot::Wings))
             {
                 Item0307 item0307{};
                 item0307.slot = slot;
                 item0307.type = item->type;
                 item0307.typeId = item->typeId;
 
-                if (slot < EquipmentSlot::Vehicle)
+                if (slot < int(EquipmentSlot::Vehicle))
                     item0307.quality = item->quality;
 
                 item0307.gems = item->gems;

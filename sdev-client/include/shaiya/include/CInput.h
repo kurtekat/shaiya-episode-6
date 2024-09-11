@@ -23,7 +23,7 @@ namespace shaiya
         UINT32 maxStrLen;                  //0x22B294C  0x30
         BOOL disableChkChars;              //0x22B2950  0x34
         PAD(92);
-        CharArrayW<8> wideString;          //0x22B29B0  0x94
+        Array<wchar_t, 8> wideString;      //0x22B29B0  0x94
         UINT32 wideStrLen;                 //0x22B29C0  0xA4
         // 0x22B29B0 becomes wchar_t* if > 7
         UINT32 wideChkStrLen;              //0x22B29C4  0xA8
@@ -35,7 +35,7 @@ namespace shaiya
         PAD(32);
         bool disableNonNumericChars;       //0x22B2A04  0xE8
         CharArray<2048> ansiBuffer;        //0x22B2A05  0xE9
-        CharArrayW<1024> wideBuffer;       //0x22B3205  0x8E9
+        Array<wchar_t, 1024> wideBuffer;   //0x22B3205  0x8E9
         // 0x22B3A05  0x10E9
         PAD(47);
         CharArray<256> imeCompStrAttr;     //0x22B3A34  0x1118

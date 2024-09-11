@@ -202,8 +202,8 @@ namespace shaiya
         SIMM inputMethodManager;             //0x22B3F74
         // 0x22B3F8C
         PAD(6684);
-        CharArrayW<1024> wideCharBuffer1;    //0x22B59A8
-        CharArrayW<1024> wideCharBuffer2;    //0x22B61A8
+        Array<wchar_t, 1024> wideBuffer1;    //0x22B59A8
+        Array<wchar_t, 1024> wideBuffer2;    //0x22B61A8
         LPDIRECT3DDEVICE9 device;            //0x22B69A8
         PAD(4);
         Camera camera;                       //0x22B69B0

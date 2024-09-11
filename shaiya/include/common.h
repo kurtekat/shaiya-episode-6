@@ -13,16 +13,7 @@
 
 namespace shaiya
 {
-    constexpr int warehouse_bag = 100;
-    constexpr int bank_bag = 200;
-    constexpr int unknown_bag = 250;
-    constexpr int guild_warehouse_bag = 255;
-
-    constexpr int skill_bag = 100;
-    constexpr int basic_action_bag = 101;
-
     constexpr int max_equipment_slot = 24;
-    constexpr int max_inventory_bag = 6;
     constexpr int max_inventory_slot = 24;
     constexpr int max_warehouse_slot = 240;
     constexpr int min_warehouse_slot = 120;
@@ -33,17 +24,24 @@ namespace shaiya
     template<size_t N>
     using CharArray = std::array<char, N>;
 
-    template<size_t N>
-    using CharArrayW = std::array<wchar_t, N>;
-
     using Address = unsigned;
-    using Packet = unsigned char*;
+    using Packet = uint8_t*;
 
     using UserId = unsigned long;
     using CharId = unsigned long;
     using ItemId = uint32_t;
 
-    enum EquipmentSlot
+    enum struct Bag : uint8_t
+    {
+        Warehouse = 100,
+        Bank = 200,
+        Unknown = 250,
+        GuildWarehouse = 255,
+        Skill = 100,
+        BasicAction = 101
+    };
+
+    enum struct EquipmentSlot : uint8_t
     {
         Helmet,      //0x1C0
         UpperArmor,  //0x1C4

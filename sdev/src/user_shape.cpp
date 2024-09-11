@@ -51,7 +51,7 @@ namespace user_shape
 
         user->clone->charName = target->charName;
 
-        auto& item = target->inventory[0][EquipmentSlot::Cloak];
+        auto& item = target->inventory[0][int(EquipmentSlot::Cloak)];
         if (!item)
         {
             CUser::GetGuildName(target, user->clone->guildName.data());
@@ -133,7 +133,7 @@ namespace user_shape
 
         outgoing.charName = user->charName;
 
-        auto& item = user->inventory[0][EquipmentSlot::Cloak];
+        auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
         if (!item)
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
@@ -220,7 +220,7 @@ namespace user_shape
 
         outgoing.charName = user->charName;
 
-        auto& item = user->inventory[0][EquipmentSlot::Cloak];
+        auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
         if (!item)
         {
             CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
@@ -242,7 +242,7 @@ namespace user_shape
         outgoing.charId = user->id;
         outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
-        auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
+        auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
@@ -258,7 +258,7 @@ namespace user_shape
         outgoing.charId = user->id;
         outgoing.shapeType = shapeType;
 
-        auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
+        auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
