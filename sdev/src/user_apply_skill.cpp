@@ -18,8 +18,8 @@ namespace user_apply_skill
     void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
         SkillUseOutgoing2 outgoing{};
-        outgoing.senderId = user->id;
-        outgoing.targetId = user->id;
+        outgoing.senderId = user->object.id;
+        outgoing.targetId = user->object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
 
@@ -91,8 +91,8 @@ namespace user_apply_skill
         user->skillAbility.type70.keepTick = 0;
 
         SkillUseOutgoing2 outgoing{};
-        outgoing.senderId = user->id;
-        outgoing.targetId = user->id;
+        outgoing.senderId = user->object.id;
+        outgoing.targetId = user->object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
         outgoing.statusType = SkillUseStatusType::Stopped;

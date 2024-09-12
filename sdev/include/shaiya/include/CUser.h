@@ -11,10 +11,12 @@
 #include <shaiya/include/SConnection.h>
 #include <shaiya/include/SNode.h>
 #include <shaiya/include/SSyncList.h>
+#include <shaiya/include/SSyncQueueBufferPriority.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
 #include "include/shaiya/include/CMiniGame.h"
+#include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/CUserCrypto.h"
 #include "include/shaiya/include/MyShop.h"
 #include "include/shaiya/include/SVector.h"
@@ -319,13 +321,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CUser
     {
+        // CObjectConnection
         SConnection connection;                //0x00
-        SVector pos;                           //0xD0
-        ULONG id;                              //0xDC
-        CZone* zone;                           //0xE0
-        UINT32 cellX;                          //0xE4
-        UINT32 cellZ;                          //0xE8
-        PAD(60);
+        CObject object;                        //0xD0
+        SSyncQueueBufferPriority qbp;          //0xFC
+        // end
+        PAD(4);
+        // stUserInfo
         ULONG charId;                          //0x128
         UINT8 slot;                            //0x12C
         Country country;                       //0x12D
@@ -378,6 +380,7 @@ namespace shaiya
         Array<UserQuickSlot, 128> quickSlots;  //0xEC4
         SSyncList<CQuest> completedQuests;     //0x11C4
         SSyncList<CQuest> quests;              //0x11F0
+        // end
         UINT32 abilityStrength;                //0x121C
         UINT32 abilityDexterity;               //0x1220
         UINT32 abilityIntelligence;            //0x1224

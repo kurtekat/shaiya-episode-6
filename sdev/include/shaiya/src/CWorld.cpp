@@ -79,3 +79,22 @@ void CWorld::SetWorldDay(ULONG time/*eax*/)
         call u0x405A10
     }
 }
+
+void CWorld::ZoneLeaveUserMove(CUser* user/*edi*/, int mapId, float x, float y, float z)
+{
+    Address u0x414760 = 0x414760;
+
+    __asm
+    {
+        sub esp,0xC
+        fld [z]
+        fstp [esp+0x8]
+        fld [y]
+        fstp [esp+0x4]
+        fld [x]
+        fstp [esp]
+        push mapId
+        mov edi,user
+        call u0x414760
+    }
+}

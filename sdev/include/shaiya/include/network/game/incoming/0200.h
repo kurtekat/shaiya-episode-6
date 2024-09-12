@@ -68,6 +68,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct GateKeeperUseIncoming
+    {
+        UINT16 opcode{ 0x20C };
+        ULONG npcId;
+        UINT8 gateIndex;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct VetRewardLevelIncoming
     {
         UINT16 opcode{ 0x218 };

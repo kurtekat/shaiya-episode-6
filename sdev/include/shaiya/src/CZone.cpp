@@ -92,6 +92,25 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
     return (*(LPFN)0x425430)(zone, id);
 }
 
+bool CZone::MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z)
+{
+    Address u0x41CA80 = 0x41CA80;
+
+    __asm
+    {
+        sub esp,0xC
+        fld [z]
+        fstp [esp+0x8]
+        fld [y]
+        fstp [esp+0x4]
+        fld [x]
+        fstp [esp]
+        push zone
+        mov edi,user
+        call u0x41CA80
+    }
+}
+
 void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/)
 {
     pos->y -= 0.9f;

@@ -68,7 +68,7 @@ namespace user_shape
     void send_user_shape(CUser* user, CUser* target)
     {
         GetInfoUserShapeOutgoing2 outgoing{};
-        outgoing.charId = user->id;
+        outgoing.charId = user->object.id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
@@ -100,62 +100,59 @@ namespace user_shape
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
                 SConnection::Send(&target->connection, &outgoing, length);
             }
-
-            return;
-        }
-
-        outgoing.dead = user->status == UserStatus::Death ? true : false;
-        outgoing.sitting = user->sitting;
-        outgoing.country = user->country;
-        outgoing.family = user->family;
-        outgoing.hair = user->hair;
-        outgoing.face = user->face;
-        outgoing.size = user->size;
-        outgoing.job = user->job;
-        outgoing.sex = user->sex;
-        outgoing.partyType = PartyType(CUser::GetPartyType(user));
-        outgoing.grow = user->grow;
-        outgoing.kills = user->kills;
-
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(user->inventory[0])))
-        {
-            if (!item)
-                continue;
-
-            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
-                break;
-
-            outgoing.equipment[slot].type = item->type;
-            outgoing.equipment[slot].typeId = item->typeId;
-            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
-        }
-
-        outgoing.charName = user->charName;
-
-        auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
-        if (!item)
-        {
-            CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
-
-            int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-            SConnection::Send(&target->connection, &outgoing, length);
         }
         else
         {
-            outgoing.cloakBadge = item->gems;
-            CUser::GetGuildName(user, outgoing.guildName.data());
-            SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
+            outgoing.dead = user->status == UserStatus::Death ? true : false;
+            outgoing.sitting = user->sitting;
+            outgoing.country = user->country;
+            outgoing.family = user->family;
+            outgoing.hair = user->hair;
+            outgoing.face = user->face;
+            outgoing.size = user->size;
+            outgoing.job = user->job;
+            outgoing.sex = user->sex;
+            outgoing.partyType = PartyType(CUser::GetPartyType(user));
+            outgoing.grow = user->grow;
+            outgoing.kills = user->kills;
+
+            for (const auto& [slot, item] : std::views::enumerate(
+                std::as_const(user->inventory[0])))
+            {
+                if (!item)
+                    continue;
+
+                if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
+                    break;
+
+                outgoing.equipment[slot].type = item->type;
+                outgoing.equipment[slot].typeId = item->typeId;
+                outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+            }
+
+            outgoing.charName = user->charName;
+
+            auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
+            if (!item)
+            {
+                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
+
+                int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
+                SConnection::Send(&target->connection, &outgoing, length);
+            }
+            else
+            {
+                outgoing.cloakBadge = item->gems;
+                CUser::GetGuildName(user, outgoing.guildName.data());
+                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
+            }
         }
     }
 
     void send_zone_shape(CUser* user)
     {
-        if (!user->zone)
-            return;
-
         GetInfoUserShapeOutgoing2 outgoing{};
-        outgoing.charId = user->id;
+        outgoing.charId = user->object.id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
@@ -178,84 +175,98 @@ namespace user_shape
             {
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
-                CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->cellX, user->cellZ);
+
+                if (!user->object.zone)
+                    return;
+
+                CZone::SendView(user->object.zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->object.cellX, user->object.cellZ);
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
+                if (!user->object.zone)
+                    return;
+
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
+                CZone::SendView(user->object.zone, &outgoing, length, user->object.cellX, user->object.cellZ);
             }
-
-            return;
-        }
-
-        outgoing.dead = user->status == UserStatus::Death ? true : false;
-        outgoing.sitting = user->sitting;
-        outgoing.country = user->country;
-        outgoing.family = user->family;
-        outgoing.hair = user->hair;
-        outgoing.face = user->face;
-        outgoing.size = user->size;
-        outgoing.job = user->job;
-        outgoing.sex = user->sex;
-        outgoing.partyType = PartyType(CUser::GetPartyType(user));
-        outgoing.grow = user->grow;
-        outgoing.kills = user->kills;
-
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(user->inventory[0])))
-        {
-            if (!item)
-                continue;
-
-            if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
-                break;
-
-            outgoing.equipment[slot].type = item->type;
-            outgoing.equipment[slot].typeId = item->typeId;
-            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
-        }
-
-        outgoing.charName = user->charName;
-
-        auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
-        if (!item)
-        {
-            CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
-
-            int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-            CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
         }
         else
         {
-            outgoing.cloakBadge = item->gems;
-            CUser::GetGuildName(user, outgoing.guildName.data());
-            CZone::SendView(user->zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->cellX, user->cellZ);
+            outgoing.dead = user->status == UserStatus::Death ? true : false;
+            outgoing.sitting = user->sitting;
+            outgoing.country = user->country;
+            outgoing.family = user->family;
+            outgoing.hair = user->hair;
+            outgoing.face = user->face;
+            outgoing.size = user->size;
+            outgoing.job = user->job;
+            outgoing.sex = user->sex;
+            outgoing.partyType = PartyType(CUser::GetPartyType(user));
+            outgoing.grow = user->grow;
+            outgoing.kills = user->kills;
+
+            for (const auto& [slot, item] : std::views::enumerate(
+                std::as_const(user->inventory[0])))
+            {
+                if (!item)
+                    continue;
+
+                if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
+                    break;
+
+                outgoing.equipment[slot].type = item->type;
+                outgoing.equipment[slot].typeId = item->typeId;
+                outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+            }
+
+            outgoing.charName = user->charName;
+
+            auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
+            if (!item)
+            {
+                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
+
+                if (!user->object.zone)
+                    return;
+
+                int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
+                CZone::SendView(user->object.zone, &outgoing, length, user->object.cellX, user->object.cellZ);
+            }
+            else
+            {
+                outgoing.cloakBadge = item->gems;
+                CUser::GetGuildName(user, outgoing.guildName.data());
+
+                if (!user->object.zone)
+                    return;
+
+                CZone::SendView(user->object.zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->object.cellX, user->object.cellZ);
+            }
         }
     }
 
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
         UserShapeTypeOutgoing2 outgoing{};
-        outgoing.charId = user->id;
+        outgoing.charId = user->object.id;
         outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
-        if (!user->zone)
+        if (!user->object.zone)
             return;
 
-        CZone::SendView(user->zone, &outgoing, sizeof(UserShapeTypeOutgoing2), user->cellX, user->cellZ);
+        CZone::SendView(user->object.zone, &outgoing, sizeof(UserShapeTypeOutgoing2), user->object.cellX, user->object.cellZ);
     }
 
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
         UserShapeTypeOutgoing2 outgoing{};
-        outgoing.charId = user->id;
+        outgoing.charId = user->object.id;
         outgoing.shapeType = shapeType;
 
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];

@@ -160,12 +160,12 @@ void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.insert_or_assign(user->id, effects);
+    g_appliedSynergies.insert_or_assign(user->object.id, effects);
 }
 
 void Synergy::removeSynergies(CUser* user)
 {
-    auto it = g_appliedSynergies.find(user->id);
+    auto it = g_appliedSynergies.find(user->object.id);
     if (it == g_appliedSynergies.end())
         return;
 
@@ -210,7 +210,7 @@ void Synergy::removeSynergies(CUser* user)
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.erase(user->id);
+    g_appliedSynergies.erase(user->object.id);
 }
 
 void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag)

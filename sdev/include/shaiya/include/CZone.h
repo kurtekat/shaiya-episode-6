@@ -53,6 +53,7 @@ namespace shaiya
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
         static bool MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
+        static bool MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z);
         static void NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);
         static void PSendView(CZone* zone, void* data, int len, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority);

@@ -264,7 +264,10 @@ namespace shaiya
         QuickSlot quickPotionZ;                  //0x22AACD0  0x199DB00
         QuickSlot quickPotionX;                  //0x22AACE0  0x199DB10
         // 0x22AACF0  0x199DB20
-        PAD(332);
+        PAD(1);
+        UINT8 interpretationLv;                  //0x22AACF1  0x199DB21
+        UINT8 backpackUpgradeLv;                 //0x22AACF2  0x199DB22
+        PAD(329);
         UINT32 kills;                            //0x22AAE3C  0x199DC6C
         UINT32 deaths;                           //0x22AAE40  0x199DC70
         PAD(2414);

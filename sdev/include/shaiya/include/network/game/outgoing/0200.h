@@ -133,14 +133,30 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PortalUseOutgoing
+    struct UserMoveDestOutgoing
     {
         UINT16 opcode{ 0x20B };
-        UINT8 portalId;
-        UINT16 destMapId;
-        float destX;
-        float destY;
-        float destZ;
+        ULONG charId;
+        UINT16 mapId;
+        float x;
+        float y;
+        float z;
+
+        UserMoveDestOutgoing() = default;
+
+        UserMoveDestOutgoing(ULONG charId, UINT16 mapId, float x, float y, float z)
+            : charId(charId), mapId(mapId), x(x), y(y), z(z)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GateKeeperUseOutgoing
+    {
+        UINT16 opcode{ 0x20C };
+        bool success;
+        UINT32 money;
     };
     #pragma pack(pop)
 

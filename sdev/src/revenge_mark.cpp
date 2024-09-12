@@ -15,26 +15,29 @@ namespace revenge_mark
         // see game.004E77F4
         constexpr int max_kill_count = 999;
 
-        if (auto it = g_revengeMark.find(killer->id); it != g_revengeMark.end())
+        auto killerId = killer->object.id;
+        auto targetId = target->object.id;
+
+        if (auto it = g_revengeMark.find(killerId); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&target](const auto& revenge) {
-                    return revenge.killerId == target->id;
+                it->second.begin(), it->second.end(), [&targetId](const auto& revenge) {
+                    return revenge.killerId == targetId;
                 }
             ); revenge != it->second.end())
             {
                 it->second.erase(revenge);
 
-                RevengeMarkOutgoing outgoing(target->id, 0);
+                RevengeMarkOutgoing outgoing(targetId, 0);
                 SConnection::Send(&killer->connection, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
 
-        if (auto it = g_revengeMark.find(target->id); it != g_revengeMark.end())
+        if (auto it = g_revengeMark.find(targetId); it != g_revengeMark.end())
         {
             if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&killer](const auto& revenge) {
-                    return revenge.killerId == killer->id;
+                it->second.begin(), it->second.end(), [&killerId](const auto& revenge) {
+                    return revenge.killerId == killerId;
                 }
             ); revenge != it->second.end())
             {
@@ -48,17 +51,17 @@ namespace revenge_mark
             }
             else
             {
-                it->second.push_back({ killer->id, 1 });
+                it->second.push_back({ killerId, 1 });
 
-                RevengeMarkOutgoing outgoing(killer->id, 1);
+                RevengeMarkOutgoing outgoing(killerId, 1);
                 SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
         else
         {
-            g_revengeMark.insert({ target->id, {{ killer->id, 1 }} });
+            g_revengeMark.insert({ targetId, {{ killerId, 1 }} });
 
-            RevengeMarkOutgoing outgoing(killer->id, 1);
+            RevengeMarkOutgoing outgoing(killerId, 1);
             SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
         }
     }

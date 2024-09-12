@@ -136,6 +136,9 @@
     <ClInclude Include="include\common\ShapeItem.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\SSyncQueueBufferPriority.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ServerTime.cpp">

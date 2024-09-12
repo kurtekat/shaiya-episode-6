@@ -65,6 +65,7 @@ namespace shaiya
         static void SendAll(void* data/*ecx*/, int len/*eax*/);
         static void SendAllCountry(void* data/*ecx*/, int len/*eax*/, int byCountry);
         static void SetWorldDay(ULONG time/*eax*/);
+        static void ZoneLeaveUserMove(CUser* user/*edi*/, int mapId, float x, float y, float z);
     };
     #pragma pack(pop)
 

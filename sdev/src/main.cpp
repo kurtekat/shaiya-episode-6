@@ -11,8 +11,8 @@ using namespace shaiya;
 
 void leave_world_hook(CUser* user)
 {
-    g_appliedSynergies.erase(user->id);
-    g_revengeMark.erase(user->id);
+    g_appliedSynergies.erase(user->object.id);
+    g_revengeMark.erase(user->object.id);
 }
 
 void user_hook(CUser* user)
