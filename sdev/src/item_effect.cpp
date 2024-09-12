@@ -8,6 +8,8 @@
 #include "include/shaiya/include/CNpcData.h"
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/CZone.h"
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/TownMoveScroll.h"
@@ -69,7 +71,7 @@ namespace item_effect
             if (!Helpers::SetMovePosition(user, mapId, pos, recallType, 5000))
                 return 0;
 
-            ItemCastOutgoing outgoing(user->id);
+            ItemCastOutgoing outgoing(user->object.id);
             CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
             return 1;
         }
@@ -81,9 +83,6 @@ namespace item_effect
     void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
-            return;
-
-        if (user->connectionCloseType || user->debuffTypeDetail)
             return;
 
         if (!incoming->bag || incoming->bag > user->bagsUnlocked || incoming->slot >= max_inventory_slot)
@@ -105,23 +104,41 @@ namespace item_effect
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
+        CUser::ItemUse(user, incoming->bag, incoming->slot, user->object.id, 0);
     }
 
-    int town_move_scroll_event_handler(CUser* user)
+    void town_move_scroll_hook(CUser* user)
     {
         auto& item = user->inventory[user->townMoveScroll.bag][user->townMoveScroll.slot];
         if (!item)
-            return 0;
+            return;
 
         if (item->itemInfo->realType != ItemRealType::Teleportation)
-            return 0;
+            return;
 
         if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
-            return 0;
+            return;
 
-        CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
-        return 1;
+        if (user->mapId != user->recallMapId)
+        {
+            CWorld::ZoneLeaveUserMove(user, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+
+            UserMoveDestOutgoing outgoing(user->object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+            SConnection::Send(&user->connection, &outgoing, sizeof(UserMoveDestOutgoing));
+            CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, true);
+        }
+        else
+        {
+            if (!user->object.zone)
+                return;
+
+            if (!CZone::MoveUser(user->object.zone, user, user->recallPos.x, user->recallPos.y, user->recallPos.z))
+                return;
+
+            UserMoveDestOutgoing outgoing(user->object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+            CObject::SendView(&user->object, &outgoing, sizeof(UserMoveDestOutgoing));
+            CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
+        }
     }
 }
 
@@ -192,29 +209,22 @@ void __declspec(naked) naked_0x49DDBF()
     __asm
     {
         cmp eax,0x7
-        je town_scroll
+        je town_move_scroll
 
         // original
         cmp eax,0x1
         jne _0x49DEB5
         jmp u0x49DDC8
 
-        town_scroll:
+        town_move_scroll:
         pushad
 
         push edi // user
-        call item_effect::town_move_scroll_event_handler
+        call item_effect::town_move_scroll_hook
         add esp,0x4
-        test eax,eax
 
         popad
 
-        je _0x49E8D1
-        // success
-        jmp u0x49DDC8
-        
-        _0x49E8D1:
-        // failure
         jmp u0x49E8D1
 
         _0x49DEB5:
