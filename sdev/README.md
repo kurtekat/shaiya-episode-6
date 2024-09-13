@@ -20,13 +20,13 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep5
 
 | NpcQuest | Max Level | Checksum |
 |----------|-----------|----------|
-| EP5      | 70        | 0x18BCB0 |
+| EP5      | 70        | 0x1846B0 |
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep6
 
 | NpcQuest | Max Level | Checksum |
 |----------|-----------|----------|
-| EP6      | 80        | 0x18F35D |
+| EP6      | 80        | 0x187D5D |
 
 # Features
 
