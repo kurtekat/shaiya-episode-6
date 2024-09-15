@@ -57,7 +57,7 @@ namespace shaiya
         UINT32 allCount;                       //0x380
         // 0x384
 
-        static CUser* FindUser(ULONG id/*CUser->id*/);
+        static CUser* FindUser(ULONG objectId);
         static CUser* FindUser(const char* charName/*eax*/);
         static int GetUserCount();
         static CZone* GetZone(int mapId/*eax*/);

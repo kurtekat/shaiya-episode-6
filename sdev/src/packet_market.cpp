@@ -7,7 +7,7 @@ void __declspec(naked) naked_0x486319()
     __asm
     {
         movzx eax,byte ptr[ebp+0x5]
-        // ItemMarketType::Vehicle
+        // market type
         cmp eax,0x13
         jge decrement
 

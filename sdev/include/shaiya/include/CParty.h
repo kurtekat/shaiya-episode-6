@@ -32,7 +32,7 @@ namespace shaiya
         CRITICAL_SECTION cs;      //0x118
         // 0x130
 
-        static CUser* FindUser(CParty* party/*edi*/, ULONG id/*CUser->id*/);
+        static CUser* FindUser(CParty* party/*edi*/, ULONG objectId);
         static bool IsPartyBoss(CParty* party/*esi*/, CUser* user);
         static bool IsPartySubBoss(CParty* party/*esi*/, CUser* user);
         static int GetGroup(CParty* party/*eax*/, CUser* user);

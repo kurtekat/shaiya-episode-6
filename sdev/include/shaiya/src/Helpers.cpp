@@ -61,7 +61,7 @@ bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
     if (!item->count)
     {
         ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemRemoveOutgoing));
 
         CObjectMgr::FreeItem(item);
         user->inventory[bag][slot] = nullptr;
@@ -69,7 +69,7 @@ bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
     else
     {
         ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemRemoveOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemRemoveOutgoing));
     }
 
     return true;
@@ -178,7 +178,7 @@ void Helpers::SendNotice(const char* message)
 void Helpers::SendNoticeTo(CUser* user, const char* message)
 {
     AdminCmdNoticeToOutgoing outgoing(message);
-    SConnection::Send(&user->connection, &outgoing, outgoing.length());
+    Helpers::Send(user, &outgoing, outgoing.length());
 }
 
 void Helpers::SendNoticeTo(uint32_t charId, const char* message)
@@ -188,7 +188,7 @@ void Helpers::SendNoticeTo(uint32_t charId, const char* message)
         return;
 
     AdminCmdNoticeToOutgoing outgoing(message);
-    SConnection::Send(&user->connection, &outgoing, outgoing.length());
+    Helpers::Send(user, &outgoing, outgoing.length());
 }
 
 void Helpers::SendNoticeTo(const char* charName, const char* message)
@@ -198,7 +198,12 @@ void Helpers::SendNoticeTo(const char* charName, const char* message)
         return;
 
     AdminCmdNoticeToOutgoing outgoing(message);
-    SConnection::Send(&user->connection, &outgoing, outgoing.length());
+    Helpers::Send(user, &outgoing, outgoing.length());
+}
+
+void Helpers::Send(CUser* user, void* buf, int len)
+{
+    SConnection::Send(&user->connection.connection, buf, len);
 }
 
 void Helpers::SendDBAgent(void* buf, int len)

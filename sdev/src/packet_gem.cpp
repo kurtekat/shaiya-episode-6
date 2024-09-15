@@ -1,4 +1,4 @@
-//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
+//#define SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
 #include <map>
 #include <random>
 #include <ranges>
@@ -25,12 +25,12 @@ using namespace shaiya;
 
 namespace packet_gem
 {
-    bool remove_enchant_charm(CUser* user, ItemLapisianAddIncoming* incoming)
+    bool remove_safety_charm(CUser* user, ItemLapisianAddIncoming* incoming)
     {
-        if (!incoming->luckyCharm)
+        if (!incoming->safetyCharm)
             return false;
 
-        if (Helpers::ItemRemove(user, ItemEffect::LapisianLuckyCharm, 1))
+        if (Helpers::ItemRemove(user, ItemEffect::SafetyCharm, 1))
             return true;
 
         return false;
@@ -106,7 +106,7 @@ namespace packet_gem
 
         if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::ItemCompose)
         {
-            SConnection::Send(&user->connection, &outgoing, 3);
+            Helpers::Send(user, &outgoing, 3);
             return;
         }
 
@@ -138,7 +138,7 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            SConnection::Send(&user->connection, &outgoing, 3);
+            Helpers::Send(user, &outgoing, 3);
             return;
         }
 
@@ -146,14 +146,13 @@ namespace packet_gem
         while (std::cmp_less_equal(bag, user->bagsUnlocked))
         {
             auto slot = Helpers::GetFreeItemSlot(user, bag);
-
             if (slot != -1)
             {
                 if (!CUser::ItemCreate(user, itemInfo, 1))
                     break;
 
                 ItemRuneCombineOutgoing outgoing(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemRuneCombineOutgoing));
+                Helpers::Send(user, &outgoing, sizeof(ItemRuneCombineOutgoing));
 
                 Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
                 Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
@@ -215,14 +214,13 @@ namespace packet_gem
         while (std::cmp_less_equal(bag, user->bagsUnlocked))
         {
             auto slot = Helpers::GetFreeItemSlot(user, bag);
-
             if (slot != -1)
             {
                 if (!CUser::ItemCreate(user, createInfo, 1))
                     break;
 
                 ItemLapisianCombineOutgoing outgoing(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemLapisianCombineOutgoing));
+                Helpers::Send(user, &outgoing, sizeof(ItemLapisianCombineOutgoing));
                 break;
             }
 
@@ -253,20 +251,20 @@ namespace packet_gem
 
         if (!item->itemInfo->composeCount)
         {
-            SConnection::Send(&user->connection, &outgoing, 3);
+            Helpers::Send(user, &outgoing, 3);
             return;
         }
 
         if (!item->itemInfo->reqWis || item->itemInfo->reqWis > max_bonus)
         {
-            SConnection::Send(&user->connection, &outgoing, 3);
+            Helpers::Send(user, &outgoing, 3);
             return;
         }
 
         // optional
         //if (item->makeType == MakeType::QuestResult)
         //{
-        //    SConnection::Send(&user->connection, &outgoing, 3);
+        //    Helpers::Send(user, &outgoing, 3);
         //    return;
         //}
 
@@ -448,7 +446,7 @@ namespace packet_gem
 
             break;
         default:
-            SConnection::Send(&user->connection, &outgoing, 3);
+            Helpers::Send(user, &outgoing, 3);
             return;
         }
 
@@ -473,7 +471,7 @@ namespace packet_gem
         outgoing.bag = incoming->itemBag;
         outgoing.slot = incoming->itemSlot;
         outgoing.craftName = item->craftName;
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemComposeOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemComposeOutgoing));
 
         DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
         Helpers::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
@@ -528,7 +526,7 @@ namespace packet_gem
                 continue;
             else
             {
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
+                Helpers::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
 
                 std::fill(itemList.begin(), itemList.end(), std::tuple(0, 0));
                 index = 0;
@@ -538,7 +536,7 @@ namespace packet_gem
         if (!index)
             return;
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisListOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
     }
 
     void item_synthesis_material_handler(CUser* user, ItemSynthesisMaterialIncoming* incoming)
@@ -569,7 +567,7 @@ namespace packet_gem
         outgoing.createTypeId = synthesis.createTypeId;
         outgoing.materialCount = synthesis.materialCount;
         outgoing.createCount = synthesis.createCount;
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
     }
 
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
@@ -660,7 +658,7 @@ namespace packet_gem
 
             if (!Helpers::ItemRemove(user, itemInfo->itemId, count))
             {
-                SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisOutgoing));
+                Helpers::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
                 return;
             }
         }
@@ -671,7 +669,7 @@ namespace packet_gem
                 outgoing.result = ItemSynthesisResult::Success;
         }
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemSynthesisOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
     }
 
     void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
@@ -880,7 +878,7 @@ namespace packet_gem
             Helpers::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));
         }
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(ItemAbilityTransferOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
     }
 
     void extended_handler(CUser* user, Packet packet)
@@ -932,7 +930,7 @@ namespace packet_gem
             break;
         }
         default:
-            SConnection::Close(&user->connection, 9, 0);
+            SConnection::Close(&user->connection.connection, 9, 0);
             break;
         }
     }
@@ -1021,7 +1019,7 @@ void __declspec(naked) naked_0x46CDB0()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_enchant_charm
+        call packet_gem::remove_safety_charm
         add esp,0x8
 
         popad
@@ -1040,7 +1038,7 @@ void __declspec(naked) naked_0x46D3BC()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_enchant_charm
+        call packet_gem::remove_safety_charm
         add esp,0x8
         test al,al
 
@@ -1069,7 +1067,7 @@ void hook::packet_gem()
     // CUser::ItemLapisianAdd (failure)
     util::detour((void*)0x46D3BC, naked_0x46D3BC, 8);
 
-#ifdef SHAIYA_EP6_4_ENABLE_0806_HANDLER
+#ifdef SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
 #endif

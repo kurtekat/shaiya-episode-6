@@ -6,22 +6,22 @@
 #include "include/shaiya/include/SVector.h"
 using namespace shaiya;
 
-CMob* CZone::FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
+CMob* CZone::FindMob(CZone* zone/*ecx*/, ULONG objectId)
 {
     typedef CMob* (__thiscall* LPFN)(CZone*, ULONG);
-    return (*(LPFN)0x41CFD0)(zone, id);
+    return (*(LPFN)0x41CFD0)(zone, objectId);
 }
 
-CNpc* CZone::FindNpc(CZone* zone/*ecx*/, ULONG id/*CNpc->id*/)
+CNpc* CZone::FindNpc(CZone* zone/*ecx*/, ULONG objectId)
 {
     typedef CNpc* (__thiscall* LPFN)(CZone*, ULONG);
-    return (*(LPFN)0x41D4A0)(zone, id);
+    return (*(LPFN)0x41D4A0)(zone, objectId);
 }
 
-CUser* CZone::FindUser(CZone* zone/*ecx*/, ULONG id/*CUser->id*/)
+CUser* CZone::FindUser(CZone* zone/*ecx*/, ULONG objectId)
 {
     typedef CUser* (__thiscall* LPFN)(CZone*, ULONG);
-    return (*(LPFN)0x41C6E0)(zone, id);
+    return (*(LPFN)0x41C6E0)(zone, objectId);
 }
 
 MapBoss* CZone::GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/)
@@ -86,10 +86,10 @@ bool CZone::MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, S
     }
 }
 
-bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/)
+bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG objectId)
 {
     typedef bool(__thiscall* LPFN)(CZone*, ULONG);
-    return (*(LPFN)0x425430)(zone, id);
+    return (*(LPFN)0x425430)(zone, objectId);
 }
 
 bool CZone::MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z)

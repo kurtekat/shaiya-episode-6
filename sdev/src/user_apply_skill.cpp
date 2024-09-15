@@ -9,6 +9,7 @@
 #include "include/shaiya/include/CSkill.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/SkillInfo.h"
 #include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
@@ -18,8 +19,8 @@ namespace user_apply_skill
     void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
         SkillUseOutgoing2 outgoing{};
-        outgoing.senderId = user->object.id;
-        outgoing.targetId = user->object.id;
+        outgoing.senderId = user->connection.object.id;
+        outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
 
@@ -32,7 +33,7 @@ namespace user_apply_skill
             user->skillAbility.type70.skillLv = skillInfo->skillLv;
             user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
+            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
             CUser::AddApplySkillBuff(user, skillInfo);
         }
         else
@@ -44,7 +45,7 @@ namespace user_apply_skill
             user->skillAbility.type70.skillLv = 0;
             user->skillAbility.type70.keepTick = 0;
 
-            SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
+            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
             CUser::RemApplySkillBuff(user, skillInfo);
         }
     }
@@ -91,13 +92,13 @@ namespace user_apply_skill
         user->skillAbility.type70.keepTick = 0;
 
         SkillUseOutgoing2 outgoing{};
-        outgoing.senderId = user->object.id;
-        outgoing.targetId = user->object.id;
+        outgoing.senderId = user->connection.object.id;
+        outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
         outgoing.statusType = SkillUseStatusType::Stopped;
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(SkillUseOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 

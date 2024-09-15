@@ -17,7 +17,7 @@ void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo
     (*(LPFN)0x494BD0)(user, skill, skillInfo);
 }
 
-void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, BOOL isQuest)
+void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest)
 {
     Address u0x465060 = 0x465060;
 
@@ -25,7 +25,7 @@ void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, 
     {
         push isQuest
         push exp
-        push lastAttackUserId
+        push lastAttackCharId
         mov esi,user
         call u0x465060
     }

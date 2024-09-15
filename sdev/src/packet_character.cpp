@@ -26,7 +26,7 @@ namespace packet_character
         if (nameLength < 3 || nameLength > 13)
         {
             CharNameAvailableOutgoing outgoing(false);
-            SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
+            Helpers::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
@@ -38,7 +38,7 @@ namespace packet_character
     void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
     {
         CharNameAvailableOutgoing outgoing(response->available);
-        SConnection::Send(&user->connection, &outgoing, sizeof(CharNameAvailableOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
     void send_warehouse(CUser* user)
@@ -70,7 +70,7 @@ namespace packet_character
             else
             {
                 int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
-                SConnection::Send(&user->connection, &outgoing, length);
+                Helpers::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
                 outgoing.itemList = {};
@@ -81,7 +81,7 @@ namespace packet_character
             return;
 
         int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
-        SConnection::Send(&user->connection, &outgoing, length);
+        Helpers::Send(user, &outgoing, length);
     }
 
     void send_weapon_step_add_value(CUser* user)
@@ -91,7 +91,7 @@ namespace packet_character
         for (int i = 0; std::cmp_less(i, outgoing.addValue.size()); ++i)
             outgoing.addValue[i] = g_LapisianEnchantAddValue->step[i].weapon;
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
     }
 
     void send_character(CUser* user, Character0403v2* dbCharacter)
@@ -124,7 +124,7 @@ namespace packet_character
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;
         character.cloakBadge = dbCharacter->cloakBadge;
-        SConnection::Send(&user->connection, &character, sizeof(CharacterOutgoing2));
+        Helpers::Send(user, &character, sizeof(CharacterOutgoing2));
     }
 }
 

@@ -1,10 +1,10 @@
 #include "include/shaiya/include/CWorld.h"
 using namespace shaiya;
 
-CUser* CWorld::FindUser(ULONG id/*CUser->id*/)
+CUser* CWorld::FindUser(ULONG objectId)
 {
     typedef CUser* (__stdcall* LPFN)(ULONG);
-    return (*(LPFN)0x414CC0)(id);
+    return (*(LPFN)0x414CC0)(objectId);
 }
 
 CUser* CWorld::FindUser(const char* charName/*eax*/)

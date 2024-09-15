@@ -118,7 +118,6 @@ namespace shaiya
         D3DVIEWPORT9 viewport;               //0x7AB0E0
         // 0x7AB0F8
         PAD(2788);
-        // CUser->id, CMob->id, CNpc->id
         ULONG targetId;                      //0x7ABBDC
         TargetType targetType;               //0x7ABBE0
         PAD(24576);

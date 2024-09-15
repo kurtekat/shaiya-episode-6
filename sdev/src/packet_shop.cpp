@@ -26,7 +26,7 @@ namespace packet_shop
         InterlockedExchange(&user->points, points);
 
         PointOutgoing outgoing(user->points);
-        SConnection::Send(&user->connection, &outgoing, sizeof(PointOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(PointOutgoing));
     }
 
     void send_purchase(CUser* user, PointPurchaseItemOutgoing* packet)
@@ -55,7 +55,7 @@ namespace packet_shop
         }
 
         int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item2602v2));
-        SConnection::Send(&user->connection, &outgoing, length);
+        Helpers::Send(user, &outgoing, length);
     }
 
     void send_purchase2(CUser* user)

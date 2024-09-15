@@ -115,7 +115,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SkillGetOutgoing
     {
-        UINT16 opcode{ 0x20A };
+        UINT16 opcode{ 0x209 };
         SkillGetResult result;
         UINT8 index;
         UINT16 skillId;

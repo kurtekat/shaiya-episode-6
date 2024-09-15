@@ -20,7 +20,7 @@ namespace shaiya
         DWORD resetTick;        //0x20
         DWORD applyTick;        //0x24
         PAD(8);
-        // CUser->id, CMob->id
+        // objectId (user, mob)
         ULONG debuffCasterId;   //0x30
         SkillInfo* skillInfo;   //0x34
         // 0x38

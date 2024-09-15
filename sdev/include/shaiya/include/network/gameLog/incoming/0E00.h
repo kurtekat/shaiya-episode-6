@@ -17,7 +17,7 @@ namespace shaiya
         GameLogPvPLossIncoming() = default;
 
         GameLogPvPLossIncoming(CUser* killer, CUser* target)
-            : main{}, targetId(target->id), targetName(target->charName)
+            : main{}, targetId(target->connection.object.id), targetName(target->charName)
         {
             CUser::SetGameLogMain(killer, this);
         }
@@ -36,7 +36,7 @@ namespace shaiya
         GameLogPvPWinIncoming() = default;
 
         GameLogPvPWinIncoming(CUser* killer, CUser* target)
-            : main{}, killerId(killer->id), killerName(killer->charName)
+            : main{}, killerId(killer->connection.object.id), killerName(killer->charName)
         {
             CUser::SetGameLogMain(target, this);
         }

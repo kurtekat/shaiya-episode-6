@@ -9,13 +9,14 @@
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CZone.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/network/game/outgoing/0300.h"
 #include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
 
 namespace user_shape
 {
-    void init_clone_user(CUser* user, CUser* target)
+    void init_clone(CUser* user, CUser* target)
     {
         if (!user->clone)
             return;
@@ -68,7 +69,7 @@ namespace user_shape
     void send_user_shape(CUser* user, CUser* target)
     {
         GetInfoUserShapeOutgoing2 outgoing{};
-        outgoing.charId = user->object.id;
+        outgoing.charId = user->connection.object.id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
@@ -91,14 +92,14 @@ namespace user_shape
             {
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
-                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
+                Helpers::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-                SConnection::Send(&target->connection, &outgoing, length);
+                Helpers::Send(target, &outgoing, length);
             }
         }
         else
@@ -138,13 +139,13 @@ namespace user_shape
                 CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-                SConnection::Send(&target->connection, &outgoing, length);
+                Helpers::Send(target, &outgoing, length);
             }
             else
             {
                 outgoing.cloakBadge = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
-                SConnection::Send(&target->connection, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
+                Helpers::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing2));
             }
         }
     }
@@ -152,7 +153,7 @@ namespace user_shape
     void send_zone_shape(CUser* user)
     {
         GetInfoUserShapeOutgoing2 outgoing{};
-        outgoing.charId = user->object.id;
+        outgoing.charId = user->connection.object.id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
@@ -176,20 +177,26 @@ namespace user_shape
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
 
-                if (!user->object.zone)
+                auto zone = user->connection.object.zone;
+                if (!zone)
                     return;
 
-                CZone::SendView(user->object.zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->object.cellX, user->object.cellZ);
+                auto x = user->connection.object.cellX;
+                auto z = user->connection.object.cellZ;
+                CZone::SendView(zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), x, z);
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
 
-                if (!user->object.zone)
+                auto zone = user->connection.object.zone;
+                if (!zone)
                     return;
 
+                auto x = user->connection.object.cellX;
+                auto z = user->connection.object.cellZ;
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-                CZone::SendView(user->object.zone, &outgoing, length, user->object.cellX, user->object.cellZ);
+                CZone::SendView(zone, &outgoing, length, x, z);
             }
         }
         else
@@ -228,21 +235,27 @@ namespace user_shape
             {
                 CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
 
-                if (!user->object.zone)
+                auto zone = user->connection.object.zone;
+                if (!zone)
                     return;
 
+                auto x = user->connection.object.cellX;
+                auto z = user->connection.object.cellZ;
                 int length = sizeof(GetInfoUserShapeOutgoing2) - sizeof(CloakBadge);
-                CZone::SendView(user->object.zone, &outgoing, length, user->object.cellX, user->object.cellZ);
+                CZone::SendView(zone, &outgoing, length, x, z);
             }
             else
             {
                 outgoing.cloakBadge = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
 
-                if (!user->object.zone)
+                auto zone = user->connection.object.zone;
+                if (!zone)
                     return;
 
-                CZone::SendView(user->object.zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), user->object.cellX, user->object.cellZ);
+                auto x = user->connection.object.cellX;
+                auto z = user->connection.object.cellZ;
+                CZone::SendView(zone, &outgoing, sizeof(GetInfoUserShapeOutgoing2), x, z);
             }
         }
     }
@@ -250,30 +263,32 @@ namespace user_shape
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
         UserShapeTypeOutgoing2 outgoing{};
-        outgoing.charId = user->object.id;
+        outgoing.charId = user->connection.object.id;
         outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
         
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
-        if (!user->object.zone)
+        auto zone = user->connection.object.zone;
+        if (!zone)
             return;
 
-        CZone::SendView(user->object.zone, &outgoing, sizeof(UserShapeTypeOutgoing2), user->object.cellX, user->object.cellZ);
+        auto x = user->connection.object.cellX;
+        auto z = user->connection.object.cellZ;
+        CZone::SendView(zone, &outgoing, sizeof(UserShapeTypeOutgoing2), x, z);
     }
 
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
         UserShapeTypeOutgoing2 outgoing{};
-        outgoing.charId = user->object.id;
+        outgoing.charId = user->connection.object.id;
         outgoing.shapeType = shapeType;
 
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-
-        SConnection::Send(&target->connection, &outgoing, sizeof(UserShapeTypeOutgoing2));
+        Helpers::Send(target, &outgoing, sizeof(UserShapeTypeOutgoing2));
     }
 }
 
@@ -336,7 +351,7 @@ void __declspec(naked) naked_0x45A365()
 
         push esi // target
         push edi // user
-        call user_shape::init_clone_user
+        call user_shape::init_clone
         add esp,0x8
         
         popad

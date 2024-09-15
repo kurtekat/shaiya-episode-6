@@ -2,6 +2,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/network/game/outgoing/2300.h"
 using namespace shaiya;
 
@@ -31,7 +32,7 @@ namespace packet_myshop
         }
 
         int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item230Bv2));
-        SConnection::Send(&user->connection, &outgoing, length);
+        Helpers::Send(user, &outgoing, length);
     }
 }
 

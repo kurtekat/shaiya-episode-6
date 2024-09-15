@@ -6,6 +6,7 @@
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/network/game/outgoing/0300.h"
 using namespace shaiya;
@@ -82,7 +83,7 @@ namespace user_equipment
         }
 
         int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0307));
-        SConnection::Send(&user->connection, &outgoing, length);
+        Helpers::Send(user, &outgoing, length);
     }
 }
 

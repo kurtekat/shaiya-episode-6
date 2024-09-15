@@ -3,6 +3,7 @@
 #include <shaiya/include/SNode.h>
 #include <shaiya/include/SSyncList.h>
 #include "include/shaiya/include/CDamageMob.h"
+#include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
@@ -55,12 +56,9 @@ namespace shaiya
     {
         SNode node;                        //0x00
         PAD(116);
-        SVector pos;                       //0x7C
-        ULONG id;                          //0x88
-        CZone* zone;                       //0x8C
-        UINT32 cellX;                      //0x90
-        UINT32 cellZ;                      //0x94
-        PAD(60);
+        CObjectMoveable moveable;          //0x7C
+        // 0xA8
+        PAD(44);
         MobInfo* mobInfo;                  //0xD4
         PAD(208);
         MobStatus status;                  //0x1A8

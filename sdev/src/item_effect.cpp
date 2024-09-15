@@ -71,7 +71,7 @@ namespace item_effect
             if (!Helpers::SetMovePosition(user, mapId, pos, recallType, 5000))
                 return 0;
 
-            ItemCastOutgoing outgoing(user->object.id);
+            ItemCastOutgoing outgoing(user->connection.object.id);
             CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
             return 1;
         }
@@ -104,7 +104,7 @@ namespace item_effect
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, incoming->bag, incoming->slot, user->object.id, 0);
+        CUser::ItemUse(user, incoming->bag, incoming->slot, user->connection.object.id, 0);
     }
 
     void town_move_scroll_hook(CUser* user)
@@ -123,20 +123,21 @@ namespace item_effect
         {
             CWorld::ZoneLeaveUserMove(user, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
 
-            UserMoveDestOutgoing outgoing(user->object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
-            SConnection::Send(&user->connection, &outgoing, sizeof(UserMoveDestOutgoing));
+            UserMoveDestOutgoing outgoing(user->connection.object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+            Helpers::Send(user, &outgoing, sizeof(UserMoveDestOutgoing));
             CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, true);
         }
         else
         {
-            if (!user->object.zone)
+            auto zone = user->connection.object.zone;
+            if (!zone)
                 return;
 
-            if (!CZone::MoveUser(user->object.zone, user, user->recallPos.x, user->recallPos.y, user->recallPos.z))
+            if (!CZone::MoveUser(zone, user, user->recallPos.x, user->recallPos.y, user->recallPos.z))
                 return;
 
-            UserMoveDestOutgoing outgoing(user->object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
-            CObject::SendView(&user->object, &outgoing, sizeof(UserMoveDestOutgoing));
+            UserMoveDestOutgoing outgoing(user->connection.object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+            CObject::SendView(&user->connection.object, &outgoing, sizeof(UserMoveDestOutgoing));
             CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
         }
     }

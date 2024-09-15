@@ -23,6 +23,7 @@ namespace shaiya
         static void SendNoticeTo(uint32_t charId, const char* message);
         static void SendNoticeTo(const char* charName, const char* message);
 
+        static void Send(CUser* user, void* buf, int len);
         static void SendDBAgent(void* buf, int len);
         static void SendGameLog(void* buf, int len);
         static void SendSession(void* buf, int len);

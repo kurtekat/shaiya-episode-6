@@ -8,8 +8,8 @@ namespace shaiya
     {
         UINT16 opcode{ 0x605 };
         UINT8 damageType;
-        // CMob->id
-        ULONG mobId;
+        // mob
+        ULONG id;
         ULONG targetId;
         UINT16 health;
         UINT16 mana;

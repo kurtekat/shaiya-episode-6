@@ -2,6 +2,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/network/game/incoming/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/2400.h"
@@ -13,24 +14,24 @@ namespace packet_exchange
     {
         user->exchange.ready = false;
         ExchangeOutgoing outgoing(ExchangeType::CancelReady, true);
-        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ExchangeOutgoing));
     }
 
     void send_cancel_confirm(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
         ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, false);
-        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         outgoing.excType = ExchangeType::Target;
-        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
         outgoing.excType = ExchangeType::Sender;
-        SConnection::Send(&exchangeUser->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         outgoing.excType = ExchangeType::Target;
-        SConnection::Send(&exchangeUser->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
     void send_cancel(CUser* user, CUser* exchangeUser)
@@ -49,10 +50,10 @@ namespace packet_exchange
         {
             user->exchange.confirmed = true;
             ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, true);
-            SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+            Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
             outgoing.excType = ExchangeType::Target;
-            SConnection::Send(&user->exchange.user->connection, &outgoing, sizeof(ExchangeConfirmOutgoing));
+            Helpers::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else
             send_cancel(user, user->exchange.user);
@@ -69,7 +70,7 @@ namespace packet_exchange
         outgoing.quality = packet->quality;
         outgoing.gems = packet->gems;
         outgoing.craftName = packet->craftName;
-        SConnection::Send(&user->connection, &outgoing, sizeof(ExchangeItemOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(ExchangeItemOutgoing2));
     }
 }
 

@@ -8,10 +8,7 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/ShapeType.h>
-#include <shaiya/include/SConnection.h>
-#include <shaiya/include/SNode.h>
 #include <shaiya/include/SSyncList.h>
-#include <shaiya/include/SSyncQueueBufferPriority.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
@@ -109,8 +106,8 @@ namespace shaiya
     enum struct UserCharmType : UINT32
     {
         None,
-        WhiteTiger,
         BlueDragon,
+        WhiteTiger,
         RedPhoenix
     };
 
@@ -321,12 +318,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CUser
     {
-        // CObjectConnection
-        SConnection connection;                //0x00
-        CObject object;                        //0xD0
-        SSyncQueueBufferPriority qbp;          //0xFC
-        // end
-        PAD(4);
+        CObjectConnection connection;          //0x00
         // stUserInfo
         ULONG charId;                          //0x128
         UINT8 slot;                            //0x12C
@@ -529,7 +521,6 @@ namespace shaiya
         // 0x1544
         PAD(16);
         UserTargetType targetType;             //0x1554
-        // CUser->id, CMob->id
         ULONG targetId;                        //0x1558
         PAD(100);
         CExchange exchange;                    //0x15C0
@@ -650,7 +641,7 @@ namespace shaiya
 
         static void AddApplySkillBuff(CUser* user, SkillInfo* skillInfo);
         static void AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo);
-        static void AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackUserId, int exp, BOOL isQuest);
+        static void AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/);
         static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);

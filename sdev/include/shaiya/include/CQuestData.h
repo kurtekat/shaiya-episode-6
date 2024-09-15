@@ -27,7 +27,7 @@ namespace shaiya
         Array<QuestItem, 3> items;
         // 0x25
         PAD(7);
-        // 0x2C = size
+        // 0x2C
     };
     #pragma pack(pop)
 
@@ -42,7 +42,7 @@ namespace shaiya
         UINT8 type;          //0x1C
         UINT8 typeId;        //0x1D
         UINT16 nextQuestId;  //0x1E
-        // 0x20 = size
+        // 0x20
     };
     #pragma pack(pop)
 
@@ -108,12 +108,12 @@ namespace shaiya
         QuestResults results;      //0x160
         // 0x268
         PAD(28);
-        // 0x284 = size
+        // 0x284
 #else
         QuestResults results;      //0x160
         // 0x1C0
         PAD(16);
-        // 0x1D0 = size
+        // 0x1D0
 #endif
     };
     #pragma pack(pop)

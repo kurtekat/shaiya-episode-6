@@ -32,9 +32,9 @@ namespace shaiya
         PAD(7988);
         // 0x906DE0  0x142378
 
-        static CCharacter* FindUser(ULONG id/*CUser->id*/);
-        static CMonster* FindMob(ULONG id/*CMob->id*/);
-        static CNpc* FindNpc(ULONG id/*CNpc->id*/);
+        static CCharacter* FindUser(ULONG objectId);
+        static CMonster* FindMob(ULONG objectId);
+        static CNpc* FindNpc(ULONG objectId);
         static void RenderEffect(int effectDataId, int effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
     };
     #pragma pack(pop)

@@ -7,7 +7,7 @@ using namespace shaiya;
 
 namespace packet
 {
-    void remove_disguise(CCharacter* user)
+    void user_shape_hook(CCharacter* user)
     {
         if (!user->petType)
             user->pet = nullptr;
@@ -22,7 +22,7 @@ namespace packet
             user->wings = nullptr;
     }
 
-    void revenge_message(CCharacter* killer, uint32_t killCount)
+    void revenge_mark_hook(CCharacter* killer, uint32_t killCount)
     {
         StringCbCopyA(g_var->sysMsgTargetName.data(), g_var->sysMsgTargetName.size(), killer->charName.data());
         g_var->sysMsgValue = killCount;
@@ -64,7 +64,7 @@ void __declspec(naked) naked_0x5933F8()
         pushad
 
         push esi // user
-        call packet::remove_disguise
+        call packet::user_shape_hook
         add esp,0x4
 
         popad
@@ -85,7 +85,7 @@ void __declspec(naked) naked_0x4EF2F3()
 
         push ebx // killCount
         push edi // killer
-        call packet::revenge_message
+        call packet::revenge_mark_hook
         add esp,0x8
 
         popad
@@ -115,17 +115,14 @@ void __declspec(naked) naked_0x593D0F()
 
 void hook::packet()
 {
-    // disguise bug
+    // disguise removal bug (0x303 handler)
     util::detour((void*)0x5933F8, naked_0x5933F8, 6);
-    // appearance/sex change bug
+    // appearance/sex change bug (0x226 handler)
     util::detour((void*)0x59F896, naked_0x59F896, 6);
-    // revenge message 509
+    // system message 509 (0x229 handler)
     util::detour((void*)0x4EF2F3, naked_0x4EF2F3, 5);
     // javelin attack bug (0x502 handler)
     util::detour((void*)0x593D0F, naked_0x593D0F, 6);
-
-    // javelin attack bug
-
     // increase the stack offsets (see detour)
     util::write_memory((void*)0x593D46, 0x3C, 1);
     util::write_memory((void*)0x593D4D, 0x4C, 1);

@@ -44,15 +44,15 @@ namespace shaiya
         CMapRegion* regions;            //0x314
         // 0x318
 
-        static CMob* FindMob(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
-        static CNpc* FindNpc(CZone* zone/*ecx*/, ULONG id/*CNpc->id*/);
-        static CUser* FindUser(CZone* zone/*ecx*/, ULONG id/*CUser->id*/);
+        static CMob* FindMob(CZone* zone/*ecx*/, ULONG objectId);
+        static CNpc* FindNpc(CZone* zone/*ecx*/, ULONG objectId);
+        static CUser* FindUser(CZone* zone/*ecx*/, ULONG objectId);
         static MapBoss* GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/);
         static int GetCurUserCount(CZone* zone/*ecx*/);
         static int GetInsZonePortalCountry(CZone* zone/*esi*/, int id/*edx*/);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
-        static bool MobRemoveById(CZone* zone/*ecx*/, ULONG id/*CMob->id*/);
+        static bool MobRemoveById(CZone* zone/*ecx*/, ULONG objectId);
         static bool MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z);
         static void NpcCreate(CZone* zone/*ecx*/, int npcType, int npcId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);

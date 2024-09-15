@@ -53,7 +53,8 @@ namespace shaiya
         Necklace,
         Cloak,
         Bracelet,
-        Teleportation
+        Teleportation,
+        Quest
     };
 
     enum struct ItemMarketType : UINT8

@@ -17,7 +17,7 @@ namespace shaiya
         UINT8 itemBag;
         UINT8 itemSlot;
         // EP6
-        bool luckyCharm;
+        bool safetyCharm;
         // EP6.4
         ULONG npcId;
     };

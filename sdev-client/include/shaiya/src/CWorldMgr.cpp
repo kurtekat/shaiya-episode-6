@@ -1,22 +1,22 @@
 #include "include/shaiya/include/CWorldMgr.h"
 using namespace shaiya;
 
-CCharacter* CWorldMgr::FindUser(ULONG id/*CUser->id*/)
+CCharacter* CWorldMgr::FindUser(ULONG objectId)
 {
     typedef CCharacter* (__thiscall* LPFN)(void*, ULONG);
-    return (*(LPFN)0x452B10)((void*)0x7C4A68, id);
+    return (*(LPFN)0x452B10)((void*)0x7C4A68, objectId);
 }
 
-CMonster* CWorldMgr::FindMob(ULONG id/*CMob->id*/)
+CMonster* CWorldMgr::FindMob(ULONG objectId)
 {
     typedef CMonster* (__thiscall* LPFN)(void*, ULONG);
-    return (*(LPFN)0x452B90)((void*)0x7C4A68, id);
+    return (*(LPFN)0x452B90)((void*)0x7C4A68, objectId);
 }
 
-CNpc* CWorldMgr::FindNpc(ULONG id/*CNpc->id*/)
+CNpc* CWorldMgr::FindNpc(ULONG objectId)
 {
     typedef CNpc* (__thiscall* LPFN)(void*, ULONG);
-    return (*(LPFN)0x452C00)((void*)0x7C4A68, id);
+    return (*(LPFN)0x452C00)((void*)0x7C4A68, objectId);
 }
 
 void CWorldMgr::RenderEffect(int effectDataId, int effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/)

@@ -18,7 +18,7 @@ namespace packet_quest
         QuestEndResultOutgoing2 outgoing{};
         outgoing.npcId = npcId;
         outgoing.questId = quest->questInfo->questId;
-        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
     }
 
     void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
@@ -95,7 +95,7 @@ namespace packet_quest
             Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
         }
 
-        SConnection::Send(&user->connection, &outgoing, sizeof(QuestEndResultOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
         CUser::QuestRemove(user, quest, true);
 #endif
     }

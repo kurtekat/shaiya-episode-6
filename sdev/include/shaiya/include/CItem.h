@@ -4,6 +4,7 @@
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/MakeType.h>
 #include <shaiya/include/SNode.h>
+#include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
@@ -13,20 +14,16 @@ namespace shaiya
 
     enum struct ItemDropType : UINT8
     {
-        User = 1,
-        Mob
+        Mob = 1,
+        User,
+        Death
     };
 
     #pragma pack(push, 1)
     struct CItem
     {
         SNode node;                //0x00
-        SVector zonePos;           //0x08
-        ULONG zoneItemId;          //0x14
-        CZone* zone;               //0x18
-        UINT32 zoneCellX;          //0x1C
-        UINT32 zoneCellZ;          //0x20
-        PAD(12);
+        CObject object;            //0x08
         ItemInfo* itemInfo;        //0x30
         PAD(4);
         UINT64 uniqueId;           //0x38
@@ -46,10 +43,9 @@ namespace shaiya
         ULONG enablePickPartyId;   //0x74
         ItemDropType dropType;     //0x78
         PAD(3);
-        // user->id, mobId (e.g., 835)
-        ULONG dropId;              //0x7C
-        // type 26 (gold)
-        UINT32 dropMoney;          //0x80
+        // e.g., mobId
+        ULONG dropById;            //0x7C
+        UINT32 money;              //0x80
         UINT16 craftStrength;      //0x84
         UINT16 craftDexterity;     //0x86
         UINT16 craftReaction;      //0x88

@@ -4,6 +4,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/RevengeMark.h"
 #include "include/shaiya/include/network/game/outgoing/0200.h"
 using namespace shaiya;
@@ -15,8 +16,8 @@ namespace revenge_mark
         // see game.004E77F4
         constexpr int max_kill_count = 999;
 
-        auto killerId = killer->object.id;
-        auto targetId = target->object.id;
+        auto killerId = killer->connection.object.id;
+        auto targetId = target->connection.object.id;
 
         if (auto it = g_revengeMark.find(killerId); it != g_revengeMark.end())
         {
@@ -29,7 +30,7 @@ namespace revenge_mark
                 it->second.erase(revenge);
 
                 RevengeMarkOutgoing outgoing(targetId, 0);
-                SConnection::Send(&killer->connection, &outgoing, sizeof(RevengeMarkOutgoing));
+                Helpers::Send(killer, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
 
@@ -46,7 +47,7 @@ namespace revenge_mark
                     ++revenge->killCount;
 
                     RevengeMarkOutgoing outgoing(revenge->killerId, revenge->killCount);
-                    SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
+                    Helpers::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
                 }
             }
             else
@@ -54,7 +55,7 @@ namespace revenge_mark
                 it->second.push_back({ killerId, 1 });
 
                 RevengeMarkOutgoing outgoing(killerId, 1);
-                SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
+                Helpers::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
             }
         }
         else
@@ -62,7 +63,7 @@ namespace revenge_mark
             g_revengeMark.insert({ targetId, {{ killerId, 1 }} });
 
             RevengeMarkOutgoing outgoing(killerId, 1);
-            SConnection::Send(&target->connection, &outgoing, sizeof(RevengeMarkOutgoing));
+            Helpers::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
         }
     }
 }
