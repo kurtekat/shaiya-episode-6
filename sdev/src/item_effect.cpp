@@ -1,3 +1,4 @@
+//#define SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
 #pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -15,6 +16,7 @@
 #include "include/shaiya/include/TownMoveScroll.h"
 #include "include/shaiya/include/network/game/incoming/0500.h"
 #include "include/shaiya/include/network/game/outgoing/0200.h"
+#include "include/shaiya/include/network/game/outgoing/0400.h"
 using namespace shaiya;
 
 namespace item_effect
@@ -141,6 +143,70 @@ namespace item_effect
             CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
         }
     }
+
+    int zone_enter_item_hook(CItem* item, ZoneEnterItemType kind)
+    {
+        if (kind != ZoneEnterItemType::MobDrop)
+            return 0;
+
+        if (!item->object.zone)
+            return 0;
+
+        auto user = CZone::FindUser(item->object.zone, item->enablePickId);
+        if (!user)
+            return 0;
+
+        auto& pet = user->inventory[0][int(EquipmentSlot::Pet)];
+        if (!pet)
+            return 0;
+
+        if (item->type == int(ItemType::Gold))
+        {
+            auto money = item->money;
+            if (!money)
+                return 0;
+
+            auto effect = pet->itemInfo->effect;
+            if (effect != ItemEffect::PetGold && effect != ItemEffect::PetGoldItem)
+                return 0;
+
+            auto rate = user->increaseGoldRate;
+            switch (user->charmType)
+            {
+            case UserCharmType::BlueDragon:
+                break;
+            case UserCharmType::WhiteTiger:
+                rate += 20;
+                break;
+            case UserCharmType::RedPhoenix:
+                rate += 50;
+                break;
+            default:
+                break;
+            }
+
+            if (rate > 0)
+                money += (rate / money) * 100;
+
+            CUser::ItemGetMoney(user, money);
+            return 1;
+        }
+        else
+        {
+            if (!item->itemInfo)
+                return 0;
+
+            if (item->itemInfo->realType == ItemRealType::Quest)
+                return 0;
+
+            auto effect = pet->itemInfo->effect;
+            if (effect != ItemEffect::PetItem && effect != ItemEffect::PetGoldItem)
+                return 0;
+
+            CUser::ItemGet(user, item);
+            return 1;
+        }
+    }
 }
 
 unsigned u0x47469F = 0x47469F;
@@ -233,6 +299,37 @@ void __declspec(naked) naked_0x49DDBF()
     }
 }
 
+// CCell::EnterItem
+unsigned u0x42A170 = 0x42A170;
+unsigned u0x41DA1A = 0x41DA1A;
+unsigned u0x41DA85 = 0x41DA85;
+void __declspec(naked) naked_0x41DA15()
+{
+    __asm
+    {
+        pushad
+
+        mov eax,[esp+0x4C]
+
+        push eax // kind
+        push edi // item
+        call item_effect::zone_enter_item_hook
+        add esp,0x8
+        test eax,eax
+
+        popad
+
+        jne _0x41DA85
+
+        // original
+        call u0x42A170
+        jmp u0x41DA1A
+
+        _0x41DA85:
+        jmp u0x41DA85
+    }
+}
+
 void hook::item_effect()
 {
     // CUser::ItemUse
@@ -241,4 +338,8 @@ void hook::item_effect()
     util::detour((void*)0x4784D6, naked_0x4784D6, 5);
     // CUser::UpdateResetPosition
     util::detour((void*)0x49DDBF, naked_0x49DDBF, 9);
+#ifdef SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
+    // CZone::EnterItem
+    util::detour((void*)0x41DA15, naked_0x41DA15, 5);
+#endif
 }
