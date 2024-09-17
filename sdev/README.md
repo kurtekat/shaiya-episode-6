@@ -45,12 +45,21 @@ If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Rune Combination
 
-The function that adds support for episode 6.4 recreation runes is disabled by default.
+The function that adds support for recreation runes is disabled by default because of Cheat Engine scripts.
 
 ```cpp
 // sdev\src\packet_gem.cpp
-//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
+//#define SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
 ```
+
+| Vial   | Effect | Recreation Rune | Effect |
+|--------|--------|-----------------|--------|
+| 101007 | 93     | 101001          | 86     |
+| 101008 | 94     | 101002          | 87     |
+| 101009 | 95     | 101003          | 88     |
+| 101010 | 96     | 101004          | 89     |
+| 101011 | 97     | 101005          | 90     |
+| 101012 | 98     | 101006          | 91     |
 
 ## NpcQuest
 
@@ -263,9 +272,49 @@ The base success rate is 30 percent.
 
 Use item `101101` to activate the window. The `ReqLuc` value is the number of lapisian required for combination. See system message 510 for more information.
 
-## Safety Enchant Scroll
+## Item Effects
+
+### Pets
+
+The function that adds support for pet item effects is disabled by default because of Cheat Engine scripts.
+
+```cpp
+// sdev\src\packet_gem.cpp
+//#define SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
+```
+
+The following item effects are supported:
+
+| ItemId | ItemEffect |
+|--------|------------|
+| 120120 | 212        | 
+| 120121 | 213        |
+| 120122 | 214        |
+
+The item effect will determine which effect will be rendered when the pet is equipped.
+
+| ItemEffect | EffectName        | EffectDataId |
+|------------|-------------------|--------------|
+| 212        | pet_gold.EFT      | 291          |
+| 213        | pet_item.EFT      | 292          |
+| 214        | pet_gold_item.EFT | 293          |
+
+### Safety Charms
 
 | ItemId | Effect |
 |--------|--------|
 | 101090 | 103    |
 | 101132 | 103    |
+
+### Town Move Scrolls
+
+| ItemId | Effect | GateKeeper |
+|--------|--------|------------|
+| 101102 | 104    | 111        |
+| 101103 | 104    | 112        |
+| 101104 | 104    | 101        |
+| 101105 | 104    | 102        |
+| 101106 | 104    | 103        |
+| 101107 | 104    | 104        |
+| 101108 | 104    | 105        |
+| 101109 | 104    | 106        |
