@@ -7,6 +7,7 @@
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0E00.h"
+#include "include/shaiya/include/network/dbAgent/outgoing/0E00.h"
 #include "include/shaiya/include/network/game/outgoing/2600.h"
 using namespace shaiya;
 
@@ -27,12 +28,12 @@ namespace packet_shop
     /// </summary>
     /// <param name="user"></param>
     /// <param name="points"></param>
-    void reload_point_handler(CUser* user, uint32_t points)
+    void reload_point_handler(CUser* user, DBAgentReloadPointOutgoing* incoming)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
             return;
 
-        InterlockedExchange(&user->points, points);
+        InterlockedExchange(&user->points, incoming->points);
 
         PointOutgoing outgoing(user->points);
         Helpers::Send(user, &outgoing, sizeof(PointOutgoing));
@@ -179,9 +180,7 @@ void __declspec(naked) naked_0x47D525()
 
         pushad
 
-        mov eax,[esi+0x6]
-
-        push eax // points
+        push esi // packet
         push ebx // user
         call packet_shop::reload_point_handler
         add esp,0x8
