@@ -74,7 +74,7 @@ namespace user_apply_skill
         CUser::AddApplySkillBuff(user, skillInfo);
     }
 
-    void ability_70_remove(CUser* user)
+    void ability_70_remove_apply(CUser* user)
     {
         if (!user->skillAbility.type70.triggered)
             return;
@@ -102,6 +102,13 @@ namespace user_apply_skill
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 
+    /// <summary>
+    /// Extends skill ability support.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="typeEffect"></param>
+    /// <param name="abilityType"></param>
+    /// <param name="abilityValue">The value will be negative in the case of removal.</param>
     void set_ability_hook(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
     {
         switch (abilityType)
@@ -199,7 +206,7 @@ void __declspec(naked) naked_0x49861D()
         pushad
 
         push esi // user
-        call user_apply_skill::ability_70_remove
+        call user_apply_skill::ability_70_remove_apply
         add esp,0x4
 
         popad
@@ -218,7 +225,7 @@ void __declspec(naked) naked_0x49887C()
         pushad
 
         push esi // user
-        call user_apply_skill::ability_70_remove
+        call user_apply_skill::ability_70_remove_apply
         add esp,0x4
 
         popad
@@ -245,7 +252,7 @@ void __declspec(naked) naked_0x4935B2()
         pushad
 
         push ebp // user
-        call user_apply_skill::ability_70_remove
+        call user_apply_skill::ability_70_remove_apply
         add esp,0x4
 
         popad

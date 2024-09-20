@@ -53,6 +53,11 @@ namespace user_character
         return !rowCount;
     }
 
+    /// <summary>
+    /// Handles incoming 0x40D packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void name_available_handler(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';

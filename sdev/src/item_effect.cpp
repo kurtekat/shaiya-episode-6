@@ -82,6 +82,11 @@ namespace item_effect
         }
     }
 
+    /// <summary>
+    /// Handles incoming 0x55A packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
@@ -144,6 +149,12 @@ namespace item_effect
         }
     }
 
+    /// <summary>
+    /// Implements item effects 212, 213, and 214.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="kind"></param>
+    /// <returns></returns>
     int zone_enter_item_hook(CItem* item, ZoneEnterItemType kind)
     {
         if (kind != ZoneEnterItemType::MobDrop)

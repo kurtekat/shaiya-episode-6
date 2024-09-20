@@ -9,6 +9,11 @@ using namespace shaiya;
 
 namespace packet_party
 {
+    /// <summary>
+    /// Handles incoming 0xB1C packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void map_ping_handler(CUser* user, PartyMapPingIncoming* incoming)
     {
         if (user->status == UserStatus::Death)

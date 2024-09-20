@@ -13,7 +13,6 @@ namespace revenge_mark
 {
     void send(CUser* target, CUser* killer)
     {
-        // see game.004E77F4
         constexpr int max_kill_count = 999;
 
         auto killerId = killer->connection.object.id;

@@ -8,6 +8,11 @@ using namespace shaiya;
 
 namespace packet_myshop
 {
+    /// <summary>
+    /// Sends packet 0x230B (6.4 PT) to the user. The item dates will be zero.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="packet"></param>
     void send_item_list_hook(CUser* user, MyShopItemListOutgoing* packet)
     {
         MyShopItemListOutgoing2 outgoing{};

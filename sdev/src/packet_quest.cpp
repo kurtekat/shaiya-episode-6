@@ -13,6 +13,12 @@ using namespace shaiya;
 
 namespace packet_quest
 {
+    /// <summary>
+    /// Sends packet 0x903 to the user.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="quest"></param>
+    /// <param name="npcId"></param>
     void send_failure_result(CUser* user, CQuest* quest, uint32_t npcId)
     {
         QuestEndResultOutgoing2 outgoing{};
@@ -21,6 +27,13 @@ namespace packet_quest
         Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
     }
 
+    /// <summary>
+    /// Implements 6 quest results and skill ability 87.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="quest"></param>
+    /// <param name="npcId"></param>
+    /// <param name="index"></param>
     void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
     {
 #ifdef SHAIYA_EP6_4_PT

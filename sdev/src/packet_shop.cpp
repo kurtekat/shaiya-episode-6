@@ -12,12 +12,21 @@ using namespace shaiya;
 
 namespace packet_shop
 {
+    /// <summary>
+    /// Sends packet 0xE06 to the dbAgent service.
+    /// </summary>
+    /// <param name="user"></param>
     void send_reload_point(CUser* user)
     {
         DBAgentReloadPointIncoming packet(user->userId);
         Helpers::SendDBAgent(&packet, sizeof(DBAgentReloadPointIncoming));
     }
 
+    /// <summary>
+    /// Handles incoming 0xE06 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="points"></param>
     void reload_point_handler(CUser* user, uint32_t points)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
@@ -29,6 +38,11 @@ namespace packet_shop
         Helpers::Send(user, &outgoing, sizeof(PointOutgoing));
     }
 
+    /// <summary>
+    /// Sends packet 0x2602 (6.4 PT) to the user. The item dates will be zero.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="packet"></param>
     void send_purchase(CUser* user, PointPurchaseItemOutgoing* packet)
     {
         PointPurchaseItemOutgoing2 outgoing{};
@@ -58,6 +72,10 @@ namespace packet_shop
         Helpers::Send(user, &outgoing, length);
     }
 
+    /// <summary>
+    /// Sends packets 0xE06 and 0xE0A to the dbAgent service.
+    /// </summary>
+    /// <param name="user"></param>
     void send_purchase2(CUser* user)
     {
         DBAgentSaveBuyPointItemIncoming packet(user->userId);
@@ -68,6 +86,13 @@ namespace packet_shop
         InterlockedExchange(&user->disableShop, 0);
     }
 
+    /// <summary>
+    /// Sends packet 0xE03 to the dbAgent service.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="targetName"></param>
+    /// <param name="productCode"></param>
+    /// <param name="itemPrice"></param>
     void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
         auto purchaseDate = ServerTime::now();

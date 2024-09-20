@@ -10,6 +10,10 @@ using namespace shaiya;
 
 namespace packet_exchange
 {
+    /// <summary>
+    /// Sends packet 0xA05 to the user.
+    /// </summary>
+    /// <param name="user"></param>
     void send_cancel_ready(CUser* user)
     {
         user->exchange.ready = false;
@@ -17,6 +21,11 @@ namespace packet_exchange
         Helpers::Send(user, &outgoing, sizeof(ExchangeOutgoing));
     }
 
+    /// <summary>
+    /// Sends packet 0xA0A to the users.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="exchangeUser"></param>
     void send_cancel_confirm(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
@@ -34,6 +43,11 @@ namespace packet_exchange
         Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
+    /// <summary>
+    /// Sends packets 0xA05 and 0xA0A to the users.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="exchangeUser"></param>
     void send_cancel(CUser* user, CUser* exchangeUser)
     {
         send_cancel_ready(user);
@@ -41,6 +55,11 @@ namespace packet_exchange
         send_cancel_confirm(user, exchangeUser);
     }
 
+    /// <summary>
+    /// Handles incoming 0xA0A packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void confirm_handler(CUser* user, ExchangeConfirmIncoming* incoming)
     {
         if (!user->exchange.user)
@@ -59,6 +78,11 @@ namespace packet_exchange
             send_cancel(user, user->exchange.user);
     }
 
+    /// <summary>
+    /// Sends packets 0xA09 or 0x240D (6.4 PT) to the user. The item dates will be zero.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="packet"></param>
     void send_item_hook(CUser* user, ExchangeItemOutgoing* packet)
     {
         ExchangeItemOutgoing2 outgoing{};
@@ -88,7 +112,7 @@ void __declspec(naked) naked_0x47D964()
         case_0xA0A:
         pushad
 
-        push edi // buffer
+        push edi // packet
         push ebx // user
         call packet_exchange::confirm_handler
         add esp,0x8

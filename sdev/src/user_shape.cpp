@@ -66,6 +66,11 @@ namespace user_shape
         }
     }
 
+    /// <summary>
+    /// Sends packet 0x303 (6.4 PT) to the target.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="target"></param>
     void send_user_shape(CUser* user, CUser* target)
     {
         GetInfoUserShapeOutgoing2 outgoing{};
@@ -150,6 +155,10 @@ namespace user_shape
         }
     }
 
+    /// <summary>
+    /// Sends packet 0x303 (6.4 PT) to users within range.
+    /// </summary>
+    /// <param name="user"></param>
     void send_zone_shape(CUser* user)
     {
         GetInfoUserShapeOutgoing2 outgoing{};
@@ -260,6 +269,11 @@ namespace user_shape
         }
     }
 
+    /// <summary>
+    /// Sends packet 0x51D (6.4 PT) to users within range.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="buffer"></param>
     void send_zone_shape_type(CUser* user, Packet buffer)
     {
         UserShapeTypeOutgoing2 outgoing{};
@@ -279,6 +293,12 @@ namespace user_shape
         CZone::SendView(zone, &outgoing, sizeof(UserShapeTypeOutgoing2), x, z);
     }
 
+    /// <summary>
+    /// Sends packet 0x51D (6.4 PT) to the target.
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="user"></param>
+    /// <param name="shapeType"></param>
     void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
     {
         UserShapeTypeOutgoing2 outgoing{};

@@ -18,6 +18,11 @@ using namespace shaiya;
 
 namespace packet_character
 {
+    /// <summary>
+    /// Handles incoming 0x119 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void name_available_handler(CUser* user, CharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
@@ -35,12 +40,21 @@ namespace packet_character
         Helpers::SendDBAgent(&request, length);
     }
 
+    /// <summary>
+    /// Sends packet 0x119 to the user.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="response"></param>
     void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
     {
         CharNameAvailableOutgoing outgoing(response->available);
         Helpers::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
+    /// <summary>
+    /// Sends packet 0x711 (6.4 PT) to the user. The item dates will be zero.
+    /// </summary>
+    /// <param name="user"></param>
     void send_warehouse(CUser* user)
     {
         UserBankItemListOutgoing2 outgoing{};
@@ -84,7 +98,11 @@ namespace packet_character
         Helpers::Send(user, &outgoing, length);
     }
 
-    void send_weapon_step_add_value(CUser* user)
+    /// <summary>
+    /// Sends packet 0x116 to the user.
+    /// </summary>
+    /// <param name="user"></param>
+    void send_weapon_step(CUser* user)
     {
         LapisianEnchantWeaponStepOutgoing outgoing{};
 
@@ -94,6 +112,11 @@ namespace packet_character
         Helpers::Send(user, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
     }
 
+    /// <summary>
+    /// Sends packet 0x101 (6.4 PT) to the user.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="dbCharacter"></param>
     void send_character(CUser* user, Character0403v2* dbCharacter)
     {
         CharacterOutgoing2 character{};
@@ -228,7 +251,7 @@ void __declspec(naked) naked_0x47BCE8()
         pushad
 
         push ebp
-        call packet_character::send_weapon_step_add_value
+        call packet_character::send_weapon_step
         add esp,0x4
 
         popad

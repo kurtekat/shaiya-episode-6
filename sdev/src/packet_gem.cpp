@@ -36,7 +36,7 @@ namespace packet_gem
         return false;
     }
 
-    bool enable_perfect_enchant_step(CItem* lapisian, CItem* item)
+    bool enable_perfect_enchant(CItem* lapisian, CItem* item)
     {
         constexpr int max_enchant_step = 20;
         constexpr int armor_difference = 50;
@@ -85,6 +85,11 @@ namespace packet_gem
         return false;
     }
 
+    /// <summary>
+    /// Handles incoming 0x80D packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -163,6 +168,11 @@ namespace packet_gem
         }
     }
 
+    /// <summary>
+    /// Handles incoming 0x80E packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_lapisian_combine_handler(CUser* user, ItemLapisianCombineIncoming* incoming)
     {
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
@@ -228,6 +238,11 @@ namespace packet_gem
         }
     }
 
+    /// <summary>
+    /// Handles incoming 0x806 packets. Supports vanilla recreation runes.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_compose_handler(CUser* user, ItemComposeIncoming* incoming)
     {
         constexpr uint16_t max_bonus = 99;
@@ -482,6 +497,11 @@ namespace packet_gem
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
     }
 
+    /// <summary>
+    /// Handles incoming 0x830 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
         constexpr auto gold_per_percentage = 100'000'000;
@@ -539,6 +559,11 @@ namespace packet_gem
         Helpers::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
     }
 
+    /// <summary>
+    /// Handles incoming 0x831 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_synthesis_material_handler(CUser* user, ItemSynthesisMaterialIncoming* incoming)
     {
         auto& square = user->inventory[user->recallItemBag][user->recallItemSlot];
@@ -570,6 +595,11 @@ namespace packet_gem
         Helpers::Send(user, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
     }
 
+    /// <summary>
+    /// Handles incoming 0x832 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
     {
         constexpr auto gold_per_percentage = 100'000'000;
@@ -672,10 +702,20 @@ namespace packet_gem
         Helpers::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
     }
 
+    /// <summary>
+    /// Handles incoming 0x833 packets. This feature will not be implemented.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
     {
     }
 
+    /// <summary>
+    /// Handles incoming 0x811 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
     void item_ability_transfer_handler(CUser* user, ItemAbilityTransferIncoming* incoming)
     {
         constexpr auto min_success_rate = 30;
@@ -987,7 +1027,7 @@ void __declspec(naked) naked_0x46CCF0()
         mov eax,[esp+0x3C]
         push eax // item
         push esi // lapisian
-        call packet_gem::enable_perfect_enchant_step
+        call packet_gem::enable_perfect_enchant
         add esp,0x8
         test al,al
 

@@ -8,6 +8,11 @@ using namespace shaiya;
 
 namespace character_list
 {
+    /// <summary>
+    /// Sends packet 0x403 to the game service.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="sendCountry">Determines whether the game service sends packet 0x109 to the user.</param>
     void send(CUser* user, bool sendCountry)
     {
         DBAgentCharListOutgoing2 outgoing{};
