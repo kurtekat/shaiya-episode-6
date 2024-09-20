@@ -47,12 +47,15 @@ namespace user_equipment
         }
         case EquipmentSlot::Shield:
         {
-            auto& item = user->inventory[0][int(EquipmentSlot::Weapon)];
-            if (!item)
-                return true;
+            if (realType == ItemRealType::Shield)
+            {
+                auto& item = user->inventory[0][int(EquipmentSlot::Weapon)];
+                if (!item)
+                    return true;
 
-            if (CItem::IsOneHandWeapon(item))
-                return true;
+                if (CItem::IsOneHandWeapon(item))
+                    return true;
+            }
 
             return false;
         }
@@ -70,10 +73,10 @@ namespace user_equipment
             return itemType == ItemType::Vehicle;
         case EquipmentSlot::Pet:
             return itemType == ItemType::Pet;
-        case EquipmentSlot::Wings:
-            return itemType == ItemType::Wings;
         case EquipmentSlot::Costume:
             return itemType == ItemType::Costume;
+        case EquipmentSlot::Wings:
+            return itemType == ItemType::Wings;
         case EquipmentSlot::Index17:
         case EquipmentSlot::Index18:
         case EquipmentSlot::Index19:
