@@ -13,21 +13,80 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    bool enable_slot(ItemInfo* itemInfo, EquipmentSlot slot)
+    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, EquipmentSlot slot)
     {
-        switch (static_cast<ItemType>(itemInfo->type))
+        auto itemType = ItemType(itemInfo->type);
+        auto realType = itemInfo->realType;
+
+        // hint: write naked event logic here :P
+
+        switch (slot)
         {
-        case ItemType::Pet:
-            return slot == EquipmentSlot::Pet;
-        case ItemType::Wings:
-            return slot == EquipmentSlot::Wings;
-        case ItemType::Costume:
-            return slot == EquipmentSlot::Costume;
+        case EquipmentSlot::Helmet:
+            return realType == ItemRealType::Helmet;
+        case EquipmentSlot::UpperArmor:
+            return realType == ItemRealType::UpperArmor;
+        case EquipmentSlot::LowerArmor:
+            return realType == ItemRealType::LowerArmor;
+        case EquipmentSlot::Gloves:
+            return realType == ItemRealType::Gloves;
+        case EquipmentSlot::Shoes:
+            return realType == ItemRealType::Shoes;
+        case EquipmentSlot::Weapon:
+        {
+            if (CItem::IsWeapon(item))
+            {
+                if (!user->inventory[0][int(EquipmentSlot::Shield)])
+                    return true;
+
+                if (CItem::IsOneHandWeapon(item))
+                    return true;
+            }
+
+            return false;
+        }
+        case EquipmentSlot::Shield:
+        {
+            auto& item = user->inventory[0][int(EquipmentSlot::Weapon)];
+            if (!item)
+                return true;
+
+            if (CItem::IsOneHandWeapon(item))
+                return true;
+
+            return false;
+        }
+        case EquipmentSlot::Cloak:
+            return realType == ItemRealType::Cloak;
+        case EquipmentSlot::Necklace:
+            return realType == ItemRealType::Necklace;
+        case EquipmentSlot::Ring1:
+        case EquipmentSlot::Ring2:
+            return realType == ItemRealType::Ring;
+        case EquipmentSlot::Bracelet1:
+        case EquipmentSlot::Bracelet2:
+            return realType == ItemRealType::Bracelet;
+        case EquipmentSlot::Vehicle:
+            return itemType == ItemType::Vehicle;
+        case EquipmentSlot::Pet:
+            return itemType == ItemType::Pet;
+        case EquipmentSlot::Wings:
+            return itemType == ItemType::Wings;
+        case EquipmentSlot::Costume:
+            return itemType == ItemType::Costume;
+        case EquipmentSlot::Index17:
+        case EquipmentSlot::Index18:
+        case EquipmentSlot::Index19:
+        case EquipmentSlot::Index20:
+        case EquipmentSlot::Index21:
+        case EquipmentSlot::Index22:
+        case EquipmentSlot::Index23:
+            break;
         default:
             break;
         }
 
-        return true;
+        return false;
     }
 
     void init(CUser* user)
@@ -50,6 +109,11 @@ namespace user_equipment
         CUser::SetAttack(user);
     }
 
+    /// <summary>
+    /// Sends packet 0x307 (6.4 PT) to the user.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="target"></param>
     void send_inspect(CUser* user, CUser* target)
     {
         GetInfoInspectOutgoing2 outgoing{};
@@ -87,31 +151,29 @@ namespace user_equipment
     }
 }
 
-unsigned u0x468474 = 0x468474;
-void __declspec(naked) naked_0x46846F()
+unsigned u0x46846B = 0x46846B;
+unsigned u0x468535 = 0x468535;
+void __declspec(naked) naked_0x468385()
 {
     __asm
     {
         pushad
 
-        push eax
-        push esi
+        push eax // slot
+        push esi // itemInfo
+        push ebx // item
+        push edi // user
         call user_equipment::enable_slot
-        add esp,0x8
+        add esp,0x10
         test al,al
 
         popad
 
-        je wrong_slot
+        je _0x468535
+        jmp u0x46846B
 
-        // original
-        mov eax,0x1
-        jmp u0x468474
-
-        wrong_slot:
-        xor al,al
-        pop esi
-        retn
+        _0x468535:
+        jmp u0x468535
     }
 }
 
@@ -152,8 +214,8 @@ void __declspec(naked) naked_0x477D4F()
 
 void hook::user_equipment()
 {
-    // CUser::EnableEquipment default case (slot)
-    util::detour((void*)0x46846F, naked_0x46846F, 5);
+    // CUser::EnableEquipment (switch)
+    util::detour((void*)0x468385, naked_0x468385, 9);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
