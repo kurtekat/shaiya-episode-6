@@ -1,5 +1,4 @@
 #include <strsafe.h>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CQuest.h"
@@ -27,29 +26,23 @@ namespace packet_quest
         Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
     }
 
-    /// <summary>
-    /// Implements 6 quest results and skill ability 87.
-    /// </summary>
-    /// <param name="user"></param>
-    /// <param name="quest"></param>
-    /// <param name="npcId"></param>
-    /// <param name="index"></param>
-    void send_success_result(CUser* user, CQuest* quest, uint32_t npcId, uint8_t index)
+    void send_success_result(CUser* user, CQuest* quest, QuestInfo* questInfo, uint32_t npcId, uint8_t index)
     {
 #ifdef SHAIYA_EP6_4_PT
-        if (index >= quest->questInfo->results.size())
+        if (index >= questInfo->results.size())
             return;
 
-        auto exp = quest->questInfo->results[index].exp;
-        auto gold = quest->questInfo->results[index].gold;
-
+        auto exp = questInfo->results[index].exp;
         if (exp)
         {
-            auto rate = user->skillAbility.increaseQuestExpRate;
-            exp = (rate >= 200) ? exp * (rate / 100) : exp;
+            auto rate = user->skillAbility.multiplyQuestExpRate;
+            if (rate >= 200)
+                exp *= rate / 100;
+
             CUser::AddExpFromUser(user, 0, exp, true);
         }
 
+        auto gold = questInfo->results[index].gold;
         if (gold)
         {
             CUser::ChkAddMoneyGet(user, gold);
@@ -58,20 +51,20 @@ namespace packet_quest
 
         GameLogQuestEndResultIncoming gameLog{};
         CUser::SetGameLogMain(user, &gameLog);
-        gameLog.questId = quest->questInfo->questId;
-        StringCbCopyA(gameLog.questName.data(), gameLog.questName.size(), quest->questInfo->questName.data());
+        gameLog.questId = questInfo->questId;
+        StringCbCopyA(gameLog.questName.data(), gameLog.questName.size(), questInfo->questName.data());
         gameLog.success = true;
         gameLog.gold = gold;
 
         QuestEndResultOutgoing2 outgoing{};
         outgoing.npcId = npcId;
-        outgoing.questId = quest->questInfo->questId;
+        outgoing.questId = questInfo->questId;
         outgoing.success = true;
         outgoing.index = index;
         outgoing.exp = exp;
         outgoing.gold = gold;
 
-        auto& items = quest->questInfo->results[index].items;
+        auto& items = questInfo->results[index].items;
         for (int i = 0; std::cmp_less(i, items.size()); ++i)
         {
             int type = items[i].type;
@@ -102,7 +95,7 @@ namespace packet_quest
 
                 gameLog.itemId = 0;
                 gameLog.itemCount = 0;
-                gameLog.itemName[0] = '\0';
+                gameLog.itemName = {};
             }
 
             Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
@@ -166,10 +159,11 @@ void __declspec(naked) naked_0x48DE38()
 
         push edx // index
         push ecx // npcId
+        push eax // questInfo
         push ebx // quest
         push edi // user
         call packet_quest::send_success_result
-        add esp,0x10
+        add esp,0x14
 
         popad
 
