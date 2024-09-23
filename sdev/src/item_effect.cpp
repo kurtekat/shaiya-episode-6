@@ -1,7 +1,4 @@
 //#define SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
-#pragma warning(disable: 28159) // GetTickCount
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <util/util.h>
 #include "include/main.h"
@@ -181,7 +178,7 @@ namespace item_effect
             if (effect != ItemEffect::PetGold && effect != ItemEffect::PetGoldItem)
                 return 0;
 
-            auto rate = user->increaseGoldRate;
+            auto rate = user->increaseGoldDropRate;
             switch (user->charmType)
             {
             case UserCharmType::BlueDragon:

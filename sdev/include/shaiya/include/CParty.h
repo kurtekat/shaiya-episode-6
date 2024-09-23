@@ -39,7 +39,7 @@ namespace shaiya
         static CUser* GetPartyBoss(CParty* party/*esi*/);
         static CUser* GetPartySubBoss(CParty* party/*esi*/);
         static void LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/);
-        static void Send(CParty* party/*esi*/, void* data/*ecx*/, int len/*eax*/);
+        static void Send(CParty* party/*esi*/, void* packet/*ecx*/, int length/*eax*/);
     };
     #pragma pack(pop)
 

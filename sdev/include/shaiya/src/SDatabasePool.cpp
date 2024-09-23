@@ -15,9 +15,9 @@ void SDatabasePool::FreeDB(SDatabase* db)
 }
 
 bool SDatabasePool::Connect(
-    int numConnection, 
+    int connectionCount, 
     const char* server, 
-    const char* dbName,
+    const char* database,
     const char* username,
     const char* password,
     ULONG queryTimeout, 
@@ -25,7 +25,7 @@ bool SDatabasePool::Connect(
 )
 {
     typedef bool(__thiscall* LPFN)(void*, int, const char*, const char*, const char*, const char*, ULONG, ULONG);
-    return (*(LPFN)0x4F4A10)((void*)0x109BED0, numConnection, server, dbName, username, password, queryTimeout, connectionTimeout);
+    return (*(LPFN)0x4F4A10)((void*)0x109BED0, connectionCount, server, database, username, password, queryTimeout, connectionTimeout);
 }
 
 void SDatabasePool::Disconnect()

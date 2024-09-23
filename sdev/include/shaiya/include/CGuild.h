@@ -111,8 +111,8 @@ namespace shaiya
         CRITICAL_SECTION cs;       //0x5CC
         // 0x5E4
 
-        static void Send(CGuild* guild, void* data/*ecx*/, int len/*eax*/);
-        static void SendAdmin(CGuild* guild, void* data/*ecx*/, int len/*eax*/);
+        static void Send(CGuild* guild, void* packet/*ecx*/, int length/*eax*/);
+        static void SendAdmin(CGuild* guild, void* packet/*ecx*/, int length/*eax*/);
     };
     #pragma pack(pop)
 

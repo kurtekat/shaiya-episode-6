@@ -20,8 +20,8 @@ namespace shaiya
         PAD(12);
         // 0x28
 
-        static void PSendViewCombat(CUser* user, void* data, int len);
-        static void SendView(CObject* object/*ecx*/, void* data, int len/*edx*/);
+        static void PSendViewCombat(CUser* user, void* packet, int length);
+        static void SendView(CObject* object/*ecx*/, void* packet, int length/*edx*/);
     };
     #pragma pack(pop)
 

@@ -2,7 +2,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common/SkillAbilityType.h>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
@@ -125,8 +124,8 @@ namespace user_apply_skill
         }
         // itemId: 101112, 101113
         // skillId: 432
-        case SkillAbilityType::IncreaseQuestExpRate:
-            user->skillAbility.increaseQuestExpRate += abilityValue;
+        case SkillAbilityType::MultiplyQuestExp:
+            user->skillAbility.multiplyQuestExpRate += abilityValue;
             break;
         default:
             break;

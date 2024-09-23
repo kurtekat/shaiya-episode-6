@@ -70,7 +70,7 @@ namespace shaiya
     struct SkillAbilityEx
     {
         SkillAbility70 type70;
-        UINT32 increaseQuestExpRate;
+        UINT32 multiplyQuestExpRate;
     };
     #pragma pack(pop)
 
@@ -609,16 +609,17 @@ namespace shaiya
         UINT32 recallItemGroup;                //0x5908
         UserSavePoint savePoint;               //0x590C
         UserCharmType charmType;               //0x594C
-        UINT32 increaseGoldRate;               //0x5950
+        UINT32 increaseGoldDropRate;           //0x5950
         BOOL eternalEndurance;                 //0x5954
         BOOL preventExpLoss;                   //0x5958
         BOOL preventItemDrop;                  //0x595C
         BOOL preventEquipmentDrop;             //0x5960
         BOOL recallWarehouse;                  //0x5964
         BOOL doubleWarehouse;                  //0x5968
-        UINT32 increaseExpRate;                //0x596C
-        // true = exp * 1.5
-        BOOL expMultiplied;                    //0x5970
+        // exp *= 2.0 (see 00574080)
+        BOOL multiplyExp2;                     //0x596C
+        // exp *= 1.5 (see 00574090)
+        BOOL multiplyExp1;                     //0x5970
         BOOL continuousResurrection;           //0x5974
         BOOL nameChange;                       //0x5978
         BOOL battlefieldRune;                  //0x597C

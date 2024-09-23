@@ -7,6 +7,7 @@ namespace shaiya
     using MobResistSkill = Array<UINT8, 6>;
     using MobResistState = Array<bool, 15>;
 
+    // see ps_game.004DA513
     enum struct MobCooldown : ULONG
     {
         // AttackSpecial3

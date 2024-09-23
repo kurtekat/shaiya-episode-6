@@ -7,12 +7,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SLog
     {
-        PAD(4);
+        void** vftable;       //0x00
         FILE* stream;         //0x04
         CRITICAL_SECTION cs;  //0x08
         // 0x20
 
-        static bool PrintFileDirect(SLog* log, const char* fmt, ...);
+        static bool PrintFileDirect(SLog* log, const char* format, ...);
     };
     #pragma pack(pop)
 

@@ -26,12 +26,16 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(LapisianEnchantSuccessRate) == 0xA8);
+
     #pragma pack(push, 1)
     struct LapisianEnchantAddValue
     {
         Array<LapisionEnchantStep16, 21> step;
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(LapisianEnchantAddValue) == 0x54);
 
     static auto g_LapisianEnchantSuccessRate = (LapisianEnchantSuccessRate*)0x581C88;
     static auto g_LapisianEnchantAddValue = (LapisianEnchantAddValue*)0x581D30;

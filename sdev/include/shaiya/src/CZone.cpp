@@ -42,13 +42,13 @@ int CZone::GetCurUserCount(CZone* zone/*ecx*/)
     return (*(LPFN)0x429AF0)(zone);
 }
 
-int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int id/*edx*/)
+int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/)
 {
     Address u0x41DF50 = 0x41DF50;
 
     __asm
     {
-        mov edx,id
+        mov edx,insZoneId
         mov esi,zone
         call u0x41DF50
     }
@@ -145,13 +145,13 @@ bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/
     }
 }
 
-void CZone::PSendView(CZone* zone, void* data, int len, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority)
+void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority)
 {
     typedef void(__stdcall* LPFN)(CZone*, void*, int, SVector*, float, ULONG, ULONG, int);
-    (*(LPFN)0x427CF0)(zone, data, len, base, radius, senderId, targetId, priority);
+    (*(LPFN)0x427CF0)(zone, packet, length, base, radius, senderId, targetId, priority);
 }
 
-void CZone::SendView(CZone* zone, void* data, int len, int cellX/*ecx*/, int cellZ/*eax*/)
+void CZone::SendView(CZone* zone, void* packet, int _length, int cellX/*ecx*/, int cellZ/*eax*/)
 {
     Address u0x427470 = 0x427470;
 
@@ -160,21 +160,21 @@ void CZone::SendView(CZone* zone, void* data, int len, int cellX/*ecx*/, int cel
         mov eax,cellZ
         mov ecx,cellX
 
-        push len
-        push data
+        push _length
+        push packet
         push zone
         call u0x427470
     }
 }
 
-void CZone::UpdateInsZonePortalCountry(CZone* zone/*esi*/, int id/*edi*/, int country/*ebx*/)
+void CZone::UpdateInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edi*/, int country/*ebx*/)
 {
     Address u0x41DF80 = 0x41DF80;
 
     __asm
     {
         mov ebx,country
-        mov edi,id
+        mov edi,insZoneId
         mov esi,zone
         call u0x41DF80
     }

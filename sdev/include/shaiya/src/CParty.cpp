@@ -83,15 +83,15 @@ void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)
     }
 }
 
-void CParty::Send(CParty* party/*esi*/, void* data/*ecx*/, int len/*eax*/)
+void CParty::Send(CParty* party/*esi*/, void* packet/*ecx*/, int _length/*eax*/)
 {
     Address u0x44E950 = 0x44E950;
 
     __asm
     {
         mov esi,party
-        mov eax,len
-        mov ecx,[data]
+        mov eax,_length
+        mov ecx,[packet]
         call u0x44E950
     }
 }

@@ -23,11 +23,11 @@ namespace shaiya
         static void SendNoticeTo(uint32_t charId, const char* message);
         static void SendNoticeTo(const char* charName, const char* message);
 
-        static void Send(CUser* user, void* buf, int len);
-        static void SendDBAgent(void* buf, int len);
-        static void SendGameLog(void* buf, int len);
-        static void SendSession(void* buf, int len);
-        static void SendUserLog(void* buf, int len);
+        static void Send(CUser* user, void* packet, int length);
+        static void SendDBAgent(void* packet, int length);
+        static void SendGameLog(void* packet, int length);
+        static void SendSession(void* packet, int length);
+        static void SendUserLog(void* packet, int length);
 
         static bool SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay);
         static bool SetMovePosition(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay);

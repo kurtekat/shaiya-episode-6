@@ -62,8 +62,8 @@ namespace shaiya
         static int GetUserCount();
         static CZone* GetZone(int mapId/*eax*/);
         static ULONG GetWorldDay();
-        static void SendAll(void* data/*ecx*/, int len/*eax*/);
-        static void SendAllCountry(void* data/*ecx*/, int len/*eax*/, int byCountry);
+        static void SendAll(void* packet/*ecx*/, int length/*eax*/);
+        static void SendAllCountry(void* packet/*ecx*/, int length/*eax*/, int byCountry);
         static void SetWorldDay(ULONG time/*eax*/);
         static void ZoneLeaveUserMove(CUser* user/*edi*/, int mapId, float x, float y, float z);
     };

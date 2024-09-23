@@ -7,6 +7,6 @@ namespace shaiya
 
     struct SConnectionTBaseReconnect
     {
-        static void Send(SConnection* connection, void* buf, int len);
+        static void Send(SConnection* connection, void* packet, int length);
     };
 }

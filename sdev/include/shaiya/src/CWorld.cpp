@@ -42,28 +42,28 @@ ULONG CWorld::GetWorldDay()
     return (*(LPFN)0x47A670)();
 }
 
-void CWorld::SendAll(void* data/*ecx*/, int len/*eax*/)
+void CWorld::SendAll(void* packet/*ecx*/, int _length/*eax*/)
 {
     Address u0x419120 = 0x419120;
 
     __asm
     {
         mov esi,g_pWorld
-        mov eax,len
-        mov ecx,[data]
+        mov eax,_length
+        mov ecx,[packet]
         call u0x419120
     }
 }
 
-void CWorld::SendAllCountry(void* data/*ecx*/, int len/*eax*/, int byCountry)
+void CWorld::SendAllCountry(void* packet/*ecx*/, int _length/*eax*/, int byCountry)
 {
     Address u0x4191B0 = 0x4191B0;
 
     __asm
     {
         mov esi,g_pWorld
-        mov eax,len
-        mov ecx,[data]
+        mov eax,_length
+        mov ecx,[packet]
         push byCountry
         call u0x4191B0
     }

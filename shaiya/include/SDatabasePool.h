@@ -18,7 +18,7 @@ namespace shaiya
         ULONG connectionTimeout;    //0x3C
         // e.g., 127.0.0.1
         CharArray<256> server;      //0x40
-        CharArray<256> dbName;      //0x140
+        CharArray<256> database;    //0x140
         CharArray<256> username;    //0x240
         CharArray<256> password;    //0x340
         // 0: SQLDriverConnect
@@ -32,9 +32,9 @@ namespace shaiya
         static SDatabase* AllocDB();
         static void FreeDB(SDatabase* db);
         static bool Connect(
-            int numConnection,
+            int connectionCount,
             const char* server,
-            const char* dbName,
+            const char* database,
             const char* username,
             const char* password,
             ULONG queryTimeout,

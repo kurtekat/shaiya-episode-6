@@ -201,29 +201,29 @@ void Helpers::SendNoticeTo(const char* charName, const char* message)
     Helpers::Send(user, &outgoing, outgoing.length());
 }
 
-void Helpers::Send(CUser* user, void* buf, int len)
+void Helpers::Send(CUser* user, void* packet, int length)
 {
-    SConnection::Send(&user->connection.connection, buf, len);
+    SConnection::Send(&user->connection.connection, packet, length);
 }
 
-void Helpers::SendDBAgent(void* buf, int len)
+void Helpers::SendDBAgent(void* packet, int length)
 {
-    SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, buf, len);
+    SConnectionTBaseReconnect::Send(&g_pClientToDBAgent->connection, packet, length);
 }
 
-void Helpers::SendGameLog(void* buf, int len)
+void Helpers::SendGameLog(void* packet, int length)
 {
-    SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, buf, len);
+    SConnectionTBaseReconnect::Send(&g_pClientToGameLog->connection, packet, length);
 }
 
-void Helpers::SendSession(void* buf, int len)
+void Helpers::SendSession(void* packet, int length)
 {
-    SConnectionTBaseReconnect::Send(&g_pClientToMgr->connection, buf, len);
+    SConnectionTBaseReconnect::Send(&g_pClientToMgr->connection, packet, length);
 }
 
-void Helpers::SendUserLog(void* buf, int len)
+void Helpers::SendUserLog(void* packet, int length)
 {
-    SConnectionTBaseReconnect::Send(&g_pClientToLog->connection, buf, len);
+    SConnectionTBaseReconnect::Send(&g_pClientToLog->connection, packet, length);
 }
 
 bool Helpers::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)

@@ -39,7 +39,7 @@ namespace shaiya
         AttackBlinded,
         RangedAttackBlinded,
         Silenced,
-        IncreaseExpRate,
+        MultiplyExp,
         EternalEndurance,
         PreventItemDrop,
         PreventExpLoss,
@@ -48,7 +48,7 @@ namespace shaiya
         BlueDragonCharm,
         RedPhoenixCharm,
         DoubleWarehouse,
-        IncreaseGoldRate,
+        IncreaseGoldDrop,
         PreventEquipmentDrop,
         ContinuousResurrection,
         BattlefieldRune,
@@ -66,6 +66,6 @@ namespace shaiya
         AbilityAddDefensePercentage = 73,
         AbilityAddRangedDefensePercentage,
         AbilityAddMagicResistancePercentage = 78,
-        IncreaseQuestExpRate = 87
+        MultiplyQuestExp = 87
     };
 }

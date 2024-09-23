@@ -32,7 +32,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SConnection
     {
-        PAD(8);
+        SNode node;                 //0x00
         SConnectionParam param;     //0x08
         int socket;                 //0x68
         SInternetAddress address;   //0x6C
@@ -42,7 +42,7 @@ namespace shaiya
         PAD(4);
         // 0xD0
 
-        static void Send(SConnection* connection/*ecx*/, void* buf, int len);
+        static void Send(SConnection* connection/*ecx*/, void* packet, int length);
         static void Close(SConnection* connection/*ecx*/, int closeType, int closeErr);
     };
     #pragma pack(pop)
