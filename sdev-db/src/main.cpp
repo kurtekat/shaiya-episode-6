@@ -1,4 +1,3 @@
-#include <array>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"

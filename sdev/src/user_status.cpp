@@ -1,5 +1,3 @@
-#include <array>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
@@ -148,7 +146,7 @@ void __declspec(naked) naked_0x48F9BE()
     {
         pushad
 
-        push edi
+        push edi // user
         call Synergy::removeSynergies
         add esp,0x4
 
@@ -169,7 +167,7 @@ void __declspec(naked) naked_0x48FCD3()
     {
         pushad
 
-        push esi
+        push esi // user
         call Synergy::removeSynergies
         add esp,0x4
 

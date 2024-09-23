@@ -1,6 +1,5 @@
 ﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/SConnection.h>
 #include <shaiya/include/ServerTime.h>
 #include <util/util.h>
 #include "include/main.h"

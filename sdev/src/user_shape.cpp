@@ -3,7 +3,6 @@
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/ShapeItem.h>
 #include <shaiya/include/common/ShapeType.h>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
@@ -156,7 +155,7 @@ namespace user_shape
     }
 
     /// <summary>
-    /// Sends packet 0x303 (6.4 PT) to users within range.
+    /// Sends packet 0x303 (6.4 PT) to the zone.
     /// </summary>
     /// <param name="user"></param>
     void send_zone_shape(CUser* user)
@@ -270,7 +269,7 @@ namespace user_shape
     }
 
     /// <summary>
-    /// Sends packet 0x51D (6.4 PT) to users within range.
+    /// Sends packet 0x51D (6.4 PT) to the zone.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="buffer"></param>

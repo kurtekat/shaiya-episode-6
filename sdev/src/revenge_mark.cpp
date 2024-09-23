@@ -1,6 +1,3 @@
-#include <map>
-#include <vector>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
