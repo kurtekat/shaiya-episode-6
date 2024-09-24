@@ -1,6 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/Grow.h>
@@ -15,22 +16,6 @@ namespace shaiya
     using Inventory = Array<Array<CItem*, 24>, 6>;
     using Warehouse = Array<CItem*, 240>;
     using StoredPointItems = Warehouse;
-
-    #pragma pack(push, 1)
-    struct Equipment
-    {
-        Array<UINT8, 8> type;
-        Array<UINT8, 8> typeId;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct EquipmentEx
-    {
-        Array<UINT8, 24> type;
-        Array<UINT8, 24> typeId;
-    };
-    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct Character
@@ -58,7 +43,7 @@ namespace shaiya
         UINT16 mapId;           //0x24
         PAD(2);
         ULONG deleteDate;       //0x28
-        Equipment equipment;    //0x2C
+        Equipment<8> equipment; //0x2C
         CloakBadge cloakBadge;  //0x3C
         CharArray<21> name;     //0x42
         PAD(1);
@@ -165,7 +150,7 @@ namespace shaiya
         // 0x8858
 
         // custom
-        Array<EquipmentEx, 5> equipmentEx;
+        Array<Equipment<24>, 5> equipment;
     };
     #pragma pack(pop)
 

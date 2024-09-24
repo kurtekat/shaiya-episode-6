@@ -15,6 +15,6 @@ namespace shaiya
         Leader,
         SubLeader,
         Member,
-        Default = UINT_MAX
+        Default = UINT32_MAX
     };
 }

@@ -16,8 +16,8 @@ void user_hook(CUser* user)
 {
     user->exchange.confirmed = false;
 #ifdef SHAIYA_EP6_4_PT
-    user->itemQualityEx = {};
     user->itemQualityLvEx = {};
+    user->itemQualityEx = {};
     user->townMoveScroll = {};
     user->skillAbility = {};
 #endif

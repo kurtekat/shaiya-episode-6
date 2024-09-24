@@ -1,7 +1,7 @@
 #include <ranges>
+#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/PartyType.h>
-#include <shaiya/include/common/ShapeItem.h>
 #include <shaiya/include/common/ShapeType.h>
 #include <util/util.h>
 #include "include/main.h"

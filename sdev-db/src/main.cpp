@@ -5,7 +5,7 @@ using namespace shaiya;
 
 void user_hook(CUser* user)
 {
-    user->equipmentEx = {};
+    user->equipment = {};
 }
 
 unsigned u0x4017B8 = 0x4017B8;

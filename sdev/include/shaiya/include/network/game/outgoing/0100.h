@@ -2,6 +2,7 @@
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
+#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Gems.h>
@@ -17,7 +18,6 @@ namespace shaiya
         Success = 1,
         Failure
     };
-    #pragma pack(push, 1)
 
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
@@ -45,8 +45,7 @@ namespace shaiya
         UINT16 health;
         UINT16 mana;
         UINT16 stamina;
-        Array<UINT8, 8> type;
-        Array<UINT8, 8> typeId;
+        Equipment<8> equipment;
         CharArray<19> charName;
         bool deleted;
         bool nameChange;
@@ -80,8 +79,7 @@ namespace shaiya
         UINT16 health;
         UINT16 mana;
         UINT16 stamina;
-        Array<UINT8, 17> type;
-        Array<UINT8, 17> typeId;
+        Equipment<17> equipment;
         CharArray<19> charName;
         bool deleted;
         bool nameChange;

@@ -6,6 +6,21 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    struct ItemCloakBadgeCombineIncoming
+    {
+        UINT16 opcode{ 0x803 };
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 frontPattern;
+        UINT8 backPattern;
+        UINT8 emblem;
+        UINT8 frontPatternColor;
+        UINT8 backPatternColor;
+        UINT8 emblemColor;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct ItemLapisianAddIncoming
     {
         UINT16 opcode{ 0x805 };

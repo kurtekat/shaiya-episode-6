@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Gems.h>
@@ -43,8 +44,7 @@ namespace shaiya
         UINT16 stamina;           //0x23
         UINT16 mapId;             //0x25
         ULONG deleteDate;         //0x27
-        Array<UINT8, 8> type;     //0x2B
-        Array<UINT8, 8> typeId;   //0x33
+        Equipment<8> equipment;   //0x2B
         CloakBadge cloakBadge;    //0x3B
         CharArray<21> charName;   //0x41
         // 0x56
@@ -89,8 +89,7 @@ namespace shaiya
         UINT16 stamina;           //0x23
         UINT16 mapId;             //0x25
         ULONG deleteDate;         //0x27
-        Array<UINT8, 17> type;    //0x2B
-        Array<UINT8, 17> typeId;  //0x3C
+        Equipment<17> equipment;  //0x2B
         CloakBadge cloakBadge;    //0x4D
         CharArray<21> charName;   //0x53
         // 0x68

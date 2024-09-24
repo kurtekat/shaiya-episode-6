@@ -12,7 +12,7 @@ namespace shaiya
         UINT8 userStatus;
         ULONG userId;
         AuthStatus authStatus;
-        Array<UINT8, 16> sessionKey;
+        std::bitset<128> sessionKey;
     };
     #pragma pack(pop)
 }

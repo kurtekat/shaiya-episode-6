@@ -74,7 +74,9 @@ namespace packet_exchange
             Helpers::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else
+        {
             send_cancel(user, user->exchange.user);
+        }
     }
 
     /// <summary>

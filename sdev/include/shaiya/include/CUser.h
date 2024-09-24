@@ -34,14 +34,13 @@ namespace shaiya
 
     using Inventory = Array<Array<CItem*, 24>, 6>;
     using Warehouse = Array<CItem*, 240>;
-
-    using ItemQualityLv = Array<UINT8, 13>;
-    using ItemQuality = Array<UINT16, 13>;
-
-    using ItemQualityLvEx = Array<UINT8, 24>;
-    using ItemQualityEx = Array<UINT16, 24>;
-
     using Bank = Array<BillingItem, 240>;
+
+    template<size_t N>
+    using ItemQualityLv = Array<UINT8, N>;
+
+    template<size_t N>
+    using ItemQuality = Array<UINT16, N>;
 
     #pragma pack(push, 1)
     struct ProductItem
@@ -360,8 +359,8 @@ namespace shaiya
         UINT32 maxMana;                        //0x17C
         UINT32 maxStamina;                     //0x180
         CharArray<21> charName;                //0x184
-        ItemQualityLv itemQualityLv;           //0x199
-        ItemQuality itemQuality;               //0x1A6
+        ItemQualityLv<13> itemQualityLv;       //0x199
+        ItemQuality<13> itemQuality;           //0x1A6
         Inventory inventory;                   //0x1C0
         Warehouse warehouse;                   //0x400
         Bank bank;                             //0x7C0
@@ -635,8 +634,8 @@ namespace shaiya
         // 0x62A0
 
         // custom
-        ItemQualityLvEx itemQualityLvEx;       //0x62A0
-        ItemQualityEx itemQualityEx;           //0x62B8
+        ItemQualityLv<24> itemQualityLvEx;     //0x62A0
+        ItemQuality<24> itemQualityEx;         //0x62B8
         TownMoveScroll townMoveScroll;         //0x62E8
         SkillAbilityEx skillAbility;           //0x62F4
 

@@ -140,8 +140,7 @@ namespace packet_character
         character.health = dbCharacter->health;
         character.mana = dbCharacter->mana;
         character.stamina = dbCharacter->stamina;
-        character.type = dbCharacter->type;
-        character.typeId = dbCharacter->typeId;
+        character.equipment = dbCharacter->equipment;
         StringCbCopyA(character.charName.data(), character.charName.size(), dbCharacter->charName.data());
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;

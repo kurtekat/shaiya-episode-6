@@ -40,6 +40,6 @@ namespace shaiya
         Item,
         User,
         Npc,
-        Default = UINT_MAX
+        Default = UINT32_MAX
     };
 }

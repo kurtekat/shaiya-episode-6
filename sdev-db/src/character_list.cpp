@@ -49,8 +49,16 @@ namespace character_list
             character0403.stamina = character.stamina;
             character0403.mapId = character.mapId;
             character0403.deleteDate = character.deleteDate;
-            std::copy_n(user->equipmentEx[character.slot].type.begin(), character0403.type.size(), character0403.type.begin());
-            std::copy_n(user->equipmentEx[character.slot].typeId.begin(), character0403.typeId.size(), character0403.typeId.begin());
+            std::copy_n(
+                user->equipment[character.slot].type.begin(), 
+                character0403.equipment.type.size(), 
+                character0403.equipment.type.begin()
+            );
+            std::copy_n(
+                user->equipment[character.slot].typeId.begin(), 
+                character0403.equipment.typeId.size(), 
+                character0403.equipment.typeId.begin()
+            );
             character0403.cloakBadge = character.cloakBadge;
             character0403.charName = character.name;
             outgoing.characterList[outgoing.characterCount] = character0403;
@@ -70,13 +78,13 @@ namespace character_list
         if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
             return;
 
-        user->equipmentEx[characterSlot].type[equipmentSlot] = type;
-        user->equipmentEx[characterSlot].typeId[equipmentSlot] = typeId;
+        user->equipment[characterSlot].type[equipmentSlot] = type;
+        user->equipment[characterSlot].typeId[equipmentSlot] = typeId;
     }
 
     void init_equipment(CUser* user)
     {
-        user->equipmentEx = {};
+        user->equipment = {};
     }
 }
 

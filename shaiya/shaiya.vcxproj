@@ -26,6 +26,7 @@
     <ClInclude Include="include\common\ChatType.h" />
     <ClInclude Include="include\common\Country.h" />
     <ClInclude Include="include\common\CraftName.h" />
+    <ClInclude Include="include\common\Equipment.h" />
     <ClInclude Include="include\common\Family.h" />
     <ClInclude Include="include\common\Gems.h" />
     <ClInclude Include="include\common\Grow.h" />
@@ -42,7 +43,6 @@
     <ClInclude Include="include\common\PvPStatusType.h" />
     <ClInclude Include="include\common\ReqOg.h" />
     <ClInclude Include="include\common\Sex.h" />
-    <ClInclude Include="include\common\ShapeItem.h" />
     <ClInclude Include="include\common\ShapeType.h" />
     <ClInclude Include="include\common\SkillAbilityType.h" />
     <ClInclude Include="include\common\SkillStatusType.h" />

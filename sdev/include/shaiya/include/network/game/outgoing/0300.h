@@ -2,13 +2,13 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/CraftName.h>
+#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/ShapeItem.h>
 
 // CUser::PacketGetInfo
 
@@ -42,7 +42,7 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        Array<ShapeItem, 8> equipment;
+        ShapeEquipment<8> equipment;
         CharArray<21> charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;
@@ -67,7 +67,7 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        Array<ShapeItem, 17> equipment;
+        ShapeEquipment<17> equipment;
         CharArray<21> charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;

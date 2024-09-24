@@ -116,6 +116,7 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 enchantStep;
+        // omit if slot != 7
         CloakBadge cloakBadge;
     };
     #pragma pack(pop)
