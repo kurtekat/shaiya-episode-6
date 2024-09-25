@@ -3,9 +3,9 @@
 
 namespace shaiya
 {
-    static Address g_GameData = 0x587C68;
+    static unsigned g_GameData = 0x587C68;
     // item effect 59 (EP5 itemId 100169)
-    static Address g_ItemSpecialMoveWar = 0x56E668;
+    static unsigned g_ItemSpecialMoveWar = 0x56E668;
 
     struct ItemInfo;
     struct MobInfo;

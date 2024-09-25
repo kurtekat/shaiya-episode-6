@@ -5,7 +5,7 @@
 
 namespace shaiya
 {
-    static Address g_QuestData = 0x4093300;
+    static unsigned g_QuestData = 0x4093300;
 
     #pragma pack(push, 1)
     struct QuestItem

@@ -3,7 +3,7 @@ using namespace shaiya;
 
 char CItem::GetEnchantStep(CItem* item/*edx*/)
 {
-    Address u0x4D2920 = 0x4D2920;
+    unsigned u0x4D2920 = 0x4D2920;
 
     __asm
     {
@@ -26,7 +26,7 @@ int CItem::GetGemSlot(CItem* item/*ecx*/)
 
 void CItem::InitCraftExpansion(CItem* item/*eax*/)
 {
-    Address u0x4D2470 = 0x4D2470;
+    unsigned u0x4D2470 = 0x4D2470;
 
     __asm
     {
@@ -37,7 +37,7 @@ void CItem::InitCraftExpansion(CItem* item/*eax*/)
 
 bool CItem::IsAccessory(CItem* item/*eax*/)
 {
-    Address u0x4D2110 = 0x4D2110;
+    unsigned u0x4D2110 = 0x4D2110;
 
     __asm
     {
@@ -48,7 +48,7 @@ bool CItem::IsAccessory(CItem* item/*eax*/)
 
 bool CItem::IsEquipment(CItem* item/*eax*/)
 {
-    Address u0x405960 = 0x405960;
+    unsigned u0x405960 = 0x405960;
 
     __asm
     {
@@ -59,7 +59,7 @@ bool CItem::IsEquipment(CItem* item/*eax*/)
 
 bool CItem::IsEquipSex(CItem* item/*eax*/, int bySex/*ecx*/)
 {
-    Address u0x468180 = 0x468180;
+    unsigned u0x468180 = 0x468180;
 
     __asm
     {
@@ -71,7 +71,7 @@ bool CItem::IsEquipSex(CItem* item/*eax*/, int bySex/*ecx*/)
 
 bool CItem::IsEtin(CItem* item/*eax*/)
 {
-    Address u0x484D80 = 0x484D80;
+    unsigned u0x484D80 = 0x484D80;
 
     __asm
     {
@@ -82,7 +82,7 @@ bool CItem::IsEtin(CItem* item/*eax*/)
 
 bool CItem::IsQuest(CItem* item/*eax*/)
 {
-    Address u0x41BA50 = 0x41BA50;
+    unsigned u0x41BA50 = 0x41BA50;
 
     __asm
     {
@@ -93,7 +93,7 @@ bool CItem::IsQuest(CItem* item/*eax*/)
 
 bool CItem::IsOneHandWeapon(CItem* item/*eax*/)
 {
-    Address u0x468120 = 0x468120;
+    unsigned u0x468120 = 0x468120;
 
     __asm
     {
@@ -104,7 +104,7 @@ bool CItem::IsOneHandWeapon(CItem* item/*eax*/)
 
 bool CItem::IsShield(CItem* item/*eax*/)
 {
-    Address u0x468150 = 0x468150;
+    unsigned u0x468150 = 0x468150;
 
     __asm
     {
@@ -115,7 +115,7 @@ bool CItem::IsShield(CItem* item/*eax*/)
 
 bool CItem::IsWeapon(CItem* item/*eax*/)
 {
-    Address u0x468100 = 0x468100;
+    unsigned u0x468100 = 0x468100;
 
     __asm
     {
@@ -126,7 +126,7 @@ bool CItem::IsWeapon(CItem* item/*eax*/)
 
 void CItem::ReGenerationCraftExpansion(CItem* item/*esi*/, BOOL compose)
 {
-    Address u0x4D29C0 = 0x4D29C0;
+    unsigned u0x4D29C0 = 0x4D29C0;
 
     __asm
     {

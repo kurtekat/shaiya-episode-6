@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    static Address g_ItemDrop = 0x1091878;
+    static unsigned g_ItemDrop = 0x1091878;
 
     struct ItemInfo;
 

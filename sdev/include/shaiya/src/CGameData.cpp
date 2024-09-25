@@ -7,7 +7,7 @@ using namespace shaiya;
 
 ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
 {
-    Address u0x4059B0 = 0x4059B0;
+    unsigned u0x4059B0 = 0x4059B0;
 
     __asm
     {
@@ -19,7 +19,7 @@ ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
 
 MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
 {
-    Address u0x408C00 = 0x408C00;
+    unsigned u0x408C00 = 0x408C00;
 
     __asm
     {
@@ -31,7 +31,7 @@ MobInfo* CGameData::GetMobInfo(int mobId/*eax*/)
 
 ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
 {
-    Address u0x47A5F0 = 0x47A5F0;
+    unsigned u0x47A5F0 = 0x47A5F0;
 
     __asm
     {
@@ -42,7 +42,7 @@ ProductInfo* CGameData::GetProductInfo(const char* productCode/*eax*/)
 
 SkillInfo* CGameData::GetSkillInfo(int skillId/*eax*/, int skillLv/*edx*/)
 {
-    Address u0x41BB30 = 0x41BB30;
+    unsigned u0x41BB30 = 0x41BB30;
 
     __asm
     {

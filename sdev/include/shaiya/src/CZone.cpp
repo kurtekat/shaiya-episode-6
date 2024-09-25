@@ -26,7 +26,7 @@ CUser* CZone::FindUser(CZone* zone/*ecx*/, ULONG objectId)
 
 MapBoss* CZone::GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/)
 {
-    Address u0x4224C0 = 0x4224C0;
+    unsigned u0x4224C0 = 0x4224C0;
 
     __asm
     {
@@ -44,7 +44,7 @@ int CZone::GetCurUserCount(CZone* zone/*ecx*/)
 
 int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/)
 {
-    Address u0x41DF50 = 0x41DF50;
+    unsigned u0x41DF50 = 0x41DF50;
 
     __asm
     {
@@ -56,7 +56,7 @@ int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/)
 
 bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
 {
-    Address u0x4245A0 = 0x4245A0;
+    unsigned u0x4245A0 = 0x4245A0;
 
     __asm
     {
@@ -71,7 +71,7 @@ bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos
 
 bool CZone::MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos)
 {
-    Address u0x424C30 = 0x424C30;
+    unsigned u0x424C30 = 0x424C30;
 
     __asm
     {
@@ -94,7 +94,7 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG objectId)
 
 bool CZone::MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z)
 {
-    Address u0x41CA80 = 0x41CA80;
+    unsigned u0x41CA80 = 0x41CA80;
 
     __asm
     {
@@ -115,7 +115,7 @@ void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* p
 {
     pos->y -= 0.9f;
 
-    Address u0x4255D0 = 0x4255D0;
+    unsigned u0x4255D0 = 0x4255D0;
 
     __asm
     {
@@ -129,7 +129,7 @@ void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* p
 
 bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos)
 {
-    Address u0x4257A0 = 0x4257A0;
+    unsigned u0x4257A0 = 0x4257A0;
 
     __asm
     {
@@ -153,7 +153,7 @@ void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, floa
 
 void CZone::SendView(CZone* zone, void* packet, int _length, int cellX/*ecx*/, int cellZ/*eax*/)
 {
-    Address u0x427470 = 0x427470;
+    unsigned u0x427470 = 0x427470;
 
     __asm
     {
@@ -169,7 +169,7 @@ void CZone::SendView(CZone* zone, void* packet, int _length, int cellX/*ecx*/, i
 
 void CZone::UpdateInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edi*/, int country/*ebx*/)
 {
-    Address u0x41DF80 = 0x41DF80;
+    unsigned u0x41DF80 = 0x41DF80;
 
     __asm
     {

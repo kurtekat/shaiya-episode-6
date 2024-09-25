@@ -4,7 +4,7 @@ using namespace shaiya;
 
 ItemInfo* CItemDrop::GetItem(int grade/*eax*/)
 {
-    Address u0x4D5E90 = 0x4D5E90;
+    unsigned u0x4D5E90 = 0x4D5E90;
 
     __asm
     {
@@ -16,7 +16,7 @@ ItemInfo* CItemDrop::GetItem(int grade/*eax*/)
 
 ItemInfo* CItemDrop::GetItemPlz(int grade/*eax*/)
 {
-    Address u0x4D5F30 = 0x4D5F30;
+    unsigned u0x4D5F30 = 0x4D5F30;
 
     __asm
     {
@@ -28,7 +28,7 @@ ItemInfo* CItemDrop::GetItemPlz(int grade/*eax*/)
 
 int CItemDrop::GetItemCreateByGrade(int reqVg/*eax*/)
 {
-    Address u0x4D7620 = 0x4D7620;
+    unsigned u0x4D7620 = 0x4D7620;
 
     __asm
     {
@@ -41,7 +41,7 @@ int CItemDrop::GetItemCreateByGrade(int reqVg/*eax*/)
 
 bool CItemDrop::EnableItemCreateByGrade(int reqVg/*ecx*/)
 {
-    Address u0x4D7690 = 0x4D7690;
+    unsigned u0x4D7690 = 0x4D7690;
 
     __asm
     {

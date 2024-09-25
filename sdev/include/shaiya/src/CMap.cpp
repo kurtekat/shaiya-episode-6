@@ -3,7 +3,7 @@ using namespace shaiya;
 
 CDoor* CMap::GetPortal(CMap* map/*ecx*/, int index/*eax*/)
 {
-    Address u0x430260 = 0x430260;
+    unsigned u0x430260 = 0x430260;
 
     __asm
     {
@@ -15,7 +15,7 @@ CDoor* CMap::GetPortal(CMap* map/*ecx*/, int index/*eax*/)
 
 CDoor* CMap::GetPortalById(CMap* map/*ecx*/, int id/*edi*/)
 {
-    Address u0x430230 = 0x430230;
+    unsigned u0x430230 = 0x430230;
 
     __asm
     {

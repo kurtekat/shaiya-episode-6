@@ -3,7 +3,7 @@ using namespace shaiya;
 
 void CGuild::Send(CGuild* guild, void* packet/*ecx*/, int _length/*eax*/)
 {
-    Address u0x432470 = 0x432470;
+    unsigned u0x432470 = 0x432470;
 
     __asm
     {
@@ -16,7 +16,7 @@ void CGuild::Send(CGuild* guild, void* packet/*ecx*/, int _length/*eax*/)
 
 void CGuild::SendAdmin(CGuild* guild, void* packet/*ecx*/, int _length/*eax*/)
 {
-    Address u0x432C40 = 0x432C40;
+    unsigned u0x432C40 = 0x432C40;
 
     __asm
     {

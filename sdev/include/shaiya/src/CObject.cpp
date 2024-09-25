@@ -3,7 +3,7 @@ using namespace shaiya;
 
 void CObject::PSendViewCombat(CUser* user, void* packet, int _length)
 {
-    Address u0x4D56D0 = 0x4D56D0;
+    unsigned u0x4D56D0 = 0x4D56D0;
 
     __asm
     {
@@ -16,7 +16,7 @@ void CObject::PSendViewCombat(CUser* user, void* packet, int _length)
 
 void CObject::SendView(CObject* object/*ecx*/, void* packet, int _length/*edx*/)
 {
-    Address u0x4D5250 = 0x4D5250;
+    unsigned u0x4D5250 = 0x4D5250;
 
     __asm
     {

@@ -3,7 +3,7 @@ using namespace shaiya;
 
 QuestInfo* CQuestData::GetQuest(int questId/*eax*/)
 {
-    Address u0x47A5D0 = 0x47A5D0;
+    unsigned u0x47A5D0 = 0x47A5D0;
 
     __asm
     {

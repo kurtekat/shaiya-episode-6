@@ -272,12 +272,12 @@ namespace user_shape
     /// Sends packet 0x51D (6.4 PT) to the zone.
     /// </summary>
     /// <param name="user"></param>
-    /// <param name="buffer"></param>
-    void send_zone_shape_type(CUser* user, Packet buffer)
+    /// <param name="packet"></param>
+    void send_zone_shape_type(CUser* user, UserShapeTypeOutgoing* packet)
     {
         UserShapeTypeOutgoing2 outgoing{};
         outgoing.charId = user->connection.object.id;
-        outgoing.shapeType = util::deserialize<ShapeType>(buffer, 6);
+        outgoing.shapeType = packet->shapeType;
         
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;

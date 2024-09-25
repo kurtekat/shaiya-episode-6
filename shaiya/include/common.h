@@ -24,9 +24,6 @@ namespace shaiya
     template<size_t N>
     using CharArray = std::array<char, N>;
 
-    using Address = unsigned;
-    using Packet = uint8_t*;
-
     using UserId = unsigned long;
     using CharId = unsigned long;
     using ItemId = uint32_t;

@@ -4,7 +4,7 @@ using namespace shaiya;
 
 void CObjectMgr::FreeItem(CItem* item/*edi*/)
 {
-    Address u0x411710 = 0x411710;
+    unsigned u0x411710 = 0x411710;
 
     __asm
     {

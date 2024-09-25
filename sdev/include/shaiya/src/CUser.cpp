@@ -19,7 +19,7 @@ void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo
 
 void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest)
 {
-    Address u0x465060 = 0x465060;
+    unsigned u0x465060 = 0x465060;
 
     __asm
     {
@@ -33,7 +33,7 @@ void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, 
 
 void CUser::CancelActionExc(CUser* user/*edi*/)
 {
-    Address u0x456610 = 0x456610;
+    unsigned u0x456610 = 0x456610;
 
     __asm
     {
@@ -50,7 +50,7 @@ void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/)
 
 void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
 {
-    Address u0x47E250 = 0x47E250;
+    unsigned u0x47E250 = 0x47E250;
 
     __asm
     {
@@ -62,7 +62,7 @@ void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
 
 void CUser::GetGuildName(CUser* user, char* output)
 {
-    Address u0x484F50 = 0x484F50;
+    unsigned u0x484F50 = 0x484F50;
 
     __asm
     {
@@ -80,7 +80,7 @@ int CUser::GetPartyType(CUser* user)
 
 bool CUser::HasBuffUpLevel(CUser* user/*esi*/, SkillInfo* info/*ebx*/)
 {
-    Address u0x472530 = 0x472530;
+    unsigned u0x472530 = 0x472530;
 
     __asm
     {
@@ -110,7 +110,7 @@ void CUser::ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBa
 
 void CUser::ItemBagToBank(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/)
 {
-    Address u0x469400 = 0x469400;
+    unsigned u0x469400 = 0x469400;
 
     __asm
     {
@@ -125,7 +125,7 @@ void CUser::ItemBagToBank(CUser* user/*ecx*/, int srcBag, int srcSlot, int destB
 
 void CUser::ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ecx*/, int destBag, int destSlot)
 {
-    Address u0x468E80 = 0x468E80;
+    unsigned u0x468E80 = 0x468E80;
 
     __asm
     {
@@ -140,7 +140,7 @@ void CUser::ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ec
 
 void CUser::ItemBankToBank(CUser* user/*esi*/, int srcBag/*100*/, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/)
 {
-    Address u0x469950 = 0x469950;
+    unsigned u0x469950 = 0x469950;
 
     __asm
     {
@@ -167,7 +167,7 @@ bool CUser::ItemDelete(CUser* user, int type, int typeId)
 
 void CUser::ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot)
 {
-    Address u0x461640 = 0x461640;
+    unsigned u0x461640 = 0x461640;
 
     __asm
     {
@@ -180,7 +180,7 @@ void CUser::ItemEquipmentAdd(CUser* user/*edi*/, CItem* item/*eax*/, int slot)
 
 void CUser::ItemEquipmentRem(CUser* user/*edx*/, CItem* item/*ecx*/, int slot)
 {
-    Address u0x461D10 = 0x461D10;
+    unsigned u0x461D10 = 0x461D10;
 
     __asm
     {
@@ -193,7 +193,7 @@ void CUser::ItemEquipmentRem(CUser* user/*edx*/, CItem* item/*ecx*/, int slot)
 
 void CUser::ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/)
 {
-    Address u0x462720 = 0x462720;
+    unsigned u0x462720 = 0x462720;
 
     __asm
     {
@@ -205,7 +205,7 @@ void CUser::ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/)
 
 void CUser::ItemEquipmentOptionRem(CUser* user/*eax*/, CItem* item/*esi*/)
 {
-    Address u0x462820 = 0x462820;
+    unsigned u0x462820 = 0x462820;
 
     __asm
     {
@@ -223,7 +223,7 @@ void CUser::ItemGet(CUser* user/*ecx*/, CItem* item)
 
 void CUser::ItemGetMoney(CUser* user/*edx*/, int money/*ecx*/)
 {
-    Address u0x46BBA0 = 0x46BBA0;
+    unsigned u0x46BBA0 = 0x46BBA0;
 
     __asm
     {
@@ -235,7 +235,7 @@ void CUser::ItemGetMoney(CUser* user/*edx*/, int money/*ecx*/)
 
 void CUser::ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/)
 {
-    Address u0x46C290 = 0x46C290;
+    unsigned u0x46C290 = 0x46C290;
 
     __asm
     {
@@ -266,7 +266,7 @@ bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, in
 
 CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
 {
-    Address u0x48D3A0 = 0x48D3A0;
+    unsigned u0x48D3A0 = 0x48D3A0;
 
     __asm
     {
@@ -278,7 +278,7 @@ CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
 
 void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess)
 {
-    Address u0x48D030 = 0x48D030;
+    unsigned u0x48D030 = 0x48D030;
 
     __asm
     {
@@ -297,7 +297,7 @@ void CUser::RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo)
 
 void CUser::RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/)
 {
-    Address u0x494EB0 = 0x494EB0;
+    unsigned u0x494EB0 = 0x494EB0;
 
     __asm
     {
@@ -310,7 +310,7 @@ void CUser::RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillI
 
 void CUser::SendAdminCmdError(CUser* user, UINT16 error/*ecx*/)
 {
-    Address u0x480770 = 0x480770;
+    unsigned u0x480770 = 0x480770;
 
     __asm
     {
@@ -328,7 +328,7 @@ void CUser::SendAdminCmdSuccess(CUser* user)
 
 void CUser::SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/)
 {
-    Address u0x4807D0 = 0x4807D0;
+    unsigned u0x4807D0 = 0x4807D0;
 
     __asm
     {
@@ -340,7 +340,7 @@ void CUser::SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/)
 
 void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/)
 {
-    Address u0x4808A0 = 0x4808A0;
+    unsigned u0x4808A0 = 0x4808A0;
 
     __asm
     {
@@ -353,7 +353,7 @@ void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char
 
 void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/, const char* text)
 {
-    Address u0x480990 = 0x480990;
+    unsigned u0x480990 = 0x480990;
 
     __asm
     {
@@ -367,7 +367,7 @@ void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char
 
 void CUser::SendCharacterHonor(CUser* user/*ecx*/)
 {
-    Address u0x492FE0 = 0x492FE0;
+    unsigned u0x492FE0 = 0x492FE0;
 
     __asm
     {
@@ -378,7 +378,7 @@ void CUser::SendCharacterHonor(CUser* user/*ecx*/)
 
 void CUser::SendDBExp(CUser* user/*eax*/)
 {
-    Address u0x47AAA0 = 0x47AAA0;
+    unsigned u0x47AAA0 = 0x47AAA0;
 
     __asm
     {
@@ -389,7 +389,7 @@ void CUser::SendDBExp(CUser* user/*eax*/)
 
 void CUser::SendDBMoney(CUser* user/*eax*/)
 {
-    Address u0x47AAE0 = 0x47AAE0;
+    unsigned u0x47AAE0 = 0x47AAE0;
 
     __asm
     {
@@ -401,7 +401,7 @@ void CUser::SendDBMoney(CUser* user/*eax*/)
 // not implemented (sends user->money)
 void CUser::SendDBBankMoney(CUser* user/*eax*/)
 {
-    Address u0x47AB20 = 0x47AB20;
+    unsigned u0x47AB20 = 0x47AB20;
 
     __asm
     {
@@ -412,7 +412,7 @@ void CUser::SendDBBankMoney(CUser* user/*eax*/)
 
 void CUser::SendDBStatusUp(CUser* user/*eax*/)
 {
-    Address u0x47AB60 = 0x47AB60;
+    unsigned u0x47AB60 = 0x47AB60;
 
     __asm
     {
@@ -423,7 +423,7 @@ void CUser::SendDBStatusUp(CUser* user/*eax*/)
 
 void CUser::SendDBGrow(CUser* user/*eax*/)
 {
-    Address u0x47ABE0 = 0x47ABE0;
+    unsigned u0x47ABE0 = 0x47ABE0;
 
     __asm
     {
@@ -434,7 +434,7 @@ void CUser::SendDBGrow(CUser* user/*eax*/)
 
 void CUser::SendDBLevel(CUser* user/*eax*/)
 {
-    Address u0x47AC20 = 0x47AC20;
+    unsigned u0x47AC20 = 0x47AC20;
 
     __asm
     {
@@ -445,7 +445,7 @@ void CUser::SendDBLevel(CUser* user/*eax*/)
 
 void CUser::SendDBSkillPoint(CUser* user/*eax*/)
 {
-    Address u0x47ACA0 = 0x47ACA0;
+    unsigned u0x47ACA0 = 0x47ACA0;
 
     __asm
     {
@@ -456,7 +456,7 @@ void CUser::SendDBSkillPoint(CUser* user/*eax*/)
 
 void CUser::SendDBStatPoint(CUser* user/*eax*/)
 {
-    Address u0x47AC60 = 0x47AC60;
+    unsigned u0x47AC60 = 0x47AC60;
 
     __asm
     {
@@ -467,7 +467,7 @@ void CUser::SendDBStatPoint(CUser* user/*eax*/)
 
 void CUser::SendDBAgentQuickSlot(CUser* user/*eax*/)
 {
-    Address u0x47ACE0 = 0x47ACE0;
+    unsigned u0x47ACE0 = 0x47ACE0;
 
     __asm
     {
@@ -478,7 +478,7 @@ void CUser::SendDBAgentQuickSlot(CUser* user/*eax*/)
 
 void CUser::SendEnergyAllToParty(CUser* user/*eax*/)
 {
-    Address u0x4911A0 = 0x4911A0;
+    unsigned u0x4911A0 = 0x4911A0;
 
     __asm
     {
@@ -495,7 +495,7 @@ void CUser::SendEquipment(CUser* user/*ecx*/, int slot)
 
 void CUser::SendMaxHP(CUser* user/*esi*/)
 {
-    Address u0x490830 = 0x490830;
+    unsigned u0x490830 = 0x490830;
 
     __asm
     {
@@ -506,7 +506,7 @@ void CUser::SendMaxHP(CUser* user/*esi*/)
 
 void CUser::SendMaxMP(CUser* user/*esi*/)
 {
-    Address u0x490A70 = 0x490A70;
+    unsigned u0x490A70 = 0x490A70;
 
     __asm
     {
@@ -517,7 +517,7 @@ void CUser::SendMaxMP(CUser* user/*esi*/)
 
 void CUser::SendMaxSP(CUser* user/*esi*/)
 {
-    Address u0x490960 = 0x490960;
+    unsigned u0x490960 = 0x490960;
 
     __asm
     {
@@ -528,7 +528,7 @@ void CUser::SendMaxSP(CUser* user/*esi*/)
 
 void CUser::SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
-    Address u0x490DA0 = 0x490DA0;
+    unsigned u0x490DA0 = 0x490DA0;
 
     __asm
     {
@@ -542,7 +542,7 @@ void CUser::SendRecoverAdd(CUser* user/*eax*/, int health/*ecx*/, int stamina/*e
 
 void CUser::SendRecoverChange(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
-    Address u0x491080 = 0x491080;
+    unsigned u0x491080 = 0x491080;
 
     __asm
     {
@@ -562,7 +562,7 @@ void CUser::SendRecoverMe(CUser* user/*ecx*/, int health, int stamina, int mana)
 
 void CUser::SendRecoverSet(CUser* user/*esi*/, int health/*ecx*/, int stamina/*edx*/, int mana)
 {
-    Address u0x4910F0 = 0x4910F0;
+    unsigned u0x4910F0 = 0x4910F0;
 
     __asm
     {
@@ -602,7 +602,7 @@ void CUser::SendUserShape(CUser* user)
 
 void CUser::SetAttack(CUser* user/*esi*/)
 {
-    Address u0x460E40 = 0x460E40;
+    unsigned u0x460E40 = 0x460E40;
 
     __asm
     {
@@ -613,7 +613,7 @@ void CUser::SetAttack(CUser* user/*esi*/)
 
 void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
 {
-    Address u0x467F60 = 0x467F60;
+    unsigned u0x467F60 = 0x467F60;
 
     __asm
     {
@@ -625,7 +625,7 @@ void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
 
 void CUser::SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int _type/*edx*/, int value/*eax*/)
 {
-    Address u0x495570 = 0x495570;
+    unsigned u0x495570 = 0x495570;
 
     __asm
     {
@@ -639,7 +639,7 @@ void CUser::SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int _type/*edx*/
 
 void CUser::StatResetSkill(CUser* user/*eax*/, BOOL isEvent)
 {
-    Address u0x48FBC0 = 0x48FBC0;
+    unsigned u0x48FBC0 = 0x48FBC0;
 
     __asm
     {
@@ -651,7 +651,7 @@ void CUser::StatResetSkill(CUser* user/*eax*/, BOOL isEvent)
 
 void CUser::StatResetStatus(CUser* user/*edi*/, BOOL isEvent)
 {
-    Address u0x48F710 = 0x48F710;
+    unsigned u0x48F710 = 0x48F710;
 
     __asm
     {
@@ -669,7 +669,7 @@ void CUser::TauntMob(CUser* user, float dist, int aggro)
 
 void CUser::UpdateKCStatus(CUser* user/*eax*/)
 {
-    Address u0x49C280 = 0x49C280;
+    unsigned u0x49C280 = 0x49C280;
 
     __asm
     {
@@ -680,7 +680,7 @@ void CUser::UpdateKCStatus(CUser* user/*eax*/)
 
 void CUser::UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/)
 {
-    Address u0x4725B0 = 0x4725B0;
+    unsigned u0x4725B0 = 0x4725B0;
 
     __asm
     {

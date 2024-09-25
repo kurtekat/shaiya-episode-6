@@ -4,7 +4,7 @@ using namespace shaiya;
 
 void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
 {
-    Address u0x4B9280 = 0x4B9280;
+    unsigned u0x4B9280 = 0x4B9280;
 
     __asm
     {
@@ -18,7 +18,7 @@ void CMob::UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo*
 
 void CMob::SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage)
 {
-    Address u0x4B62C0 = 0x4B62C0;
+    unsigned u0x4B62C0 = 0x4B62C0;
 
     __asm
     {
@@ -34,7 +34,7 @@ void CMob::SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*ed
 
 void CMob::SetAttack(CMob* mob/*esi*/)
 {
-    Address u0x4A0DB0 = 0x4A0DB0;
+    unsigned u0x4A0DB0 = 0x4A0DB0;
 
     __asm
     {
@@ -45,7 +45,7 @@ void CMob::SetAttack(CMob* mob/*esi*/)
 
 void CMob::SetSkillAbility(CMob* mob/*edx*/, int _type/*ecx*/, int value/*eax*/)
 {
-    Address u0x4B5A70 = 0x4B5A70;
+    unsigned u0x4B5A70 = 0x4B5A70;
 
     __asm
     {
@@ -58,7 +58,7 @@ void CMob::SetSkillAbility(CMob* mob/*edx*/, int _type/*ecx*/, int value/*eax*/)
 
 void CMob::SetStatus(CMob* mob/*eax*/, int status/*ecx*/)
 {
-    Address u0x4A12C0 = 0x4A12C0;
+    unsigned u0x4A12C0 = 0x4A12C0;
 
     __asm
     {

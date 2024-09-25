@@ -919,7 +919,7 @@ namespace packet_gem
         Helpers::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
     }
 
-    void extended_handler(CUser* user, Packet packet)
+    void extended_handler(CUser* user, uint8_t* packet)
     {
         auto opcode = util::deserialize<uint16_t>(packet, 0);
 

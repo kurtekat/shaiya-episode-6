@@ -9,7 +9,7 @@ CUser* CWorld::FindUser(ULONG objectId)
 
 CUser* CWorld::FindUser(const char* charName/*eax*/)
 {
-    Address u0x414CE0 = 0x414CE0;
+    unsigned u0x414CE0 = 0x414CE0;
 
     __asm
     {
@@ -26,7 +26,7 @@ int CWorld::GetUserCount()
 
 CZone* CWorld::GetZone(int mapId/*eax*/)
 {
-    Address u0x41A250 = 0x41A250;
+    unsigned u0x41A250 = 0x41A250;
 
     __asm
     {
@@ -44,7 +44,7 @@ ULONG CWorld::GetWorldDay()
 
 void CWorld::SendAll(void* packet/*ecx*/, int _length/*eax*/)
 {
-    Address u0x419120 = 0x419120;
+    unsigned u0x419120 = 0x419120;
 
     __asm
     {
@@ -57,7 +57,7 @@ void CWorld::SendAll(void* packet/*ecx*/, int _length/*eax*/)
 
 void CWorld::SendAllCountry(void* packet/*ecx*/, int _length/*eax*/, int byCountry)
 {
-    Address u0x4191B0 = 0x4191B0;
+    unsigned u0x4191B0 = 0x4191B0;
 
     __asm
     {
@@ -71,7 +71,7 @@ void CWorld::SendAllCountry(void* packet/*ecx*/, int _length/*eax*/, int byCount
 
 void CWorld::SetWorldDay(ULONG time/*eax*/)
 {
-    Address u0x405A10 = 0x405A10;
+    unsigned u0x405A10 = 0x405A10;
 
     __asm
     {
@@ -82,7 +82,7 @@ void CWorld::SetWorldDay(ULONG time/*eax*/)
 
 void CWorld::ZoneLeaveUserMove(CUser* user/*edi*/, int mapId, float x, float y, float z)
 {
-    Address u0x414760 = 0x414760;
+    unsigned u0x414760 = 0x414760;
 
     __asm
     {

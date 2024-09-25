@@ -3,7 +3,7 @@ using namespace shaiya;
 
 CUser* CParty::FindUser(CParty* party/*edi*/, ULONG objectId)
 {
-    Address u0x44E8B0 = 0x44E8B0;
+    unsigned u0x44E8B0 = 0x44E8B0;
 
     __asm
     {
@@ -15,7 +15,7 @@ CUser* CParty::FindUser(CParty* party/*edi*/, ULONG objectId)
 
 bool CParty::IsPartyBoss(CParty* party/*esi*/, CUser* user)
 {
-    Address u0x44E260 = 0x44E260;
+    unsigned u0x44E260 = 0x44E260;
 
     __asm
     {
@@ -27,7 +27,7 @@ bool CParty::IsPartyBoss(CParty* party/*esi*/, CUser* user)
 
 bool CParty::IsPartySubBoss(CParty* party/*esi*/, CUser* user)
 {
-    Address u0x44E2A0 = 0x44E2A0;
+    unsigned u0x44E2A0 = 0x44E2A0;
 
     __asm
     {
@@ -39,7 +39,7 @@ bool CParty::IsPartySubBoss(CParty* party/*esi*/, CUser* user)
 
 int CParty::GetGroup(CParty* party/*eax*/, CUser* user)
 {
-    Address u0x44ECF0 = 0x44ECF0;
+    unsigned u0x44ECF0 = 0x44ECF0;
 
     __asm
     {
@@ -51,7 +51,7 @@ int CParty::GetGroup(CParty* party/*eax*/, CUser* user)
 
 CUser* CParty::GetPartyBoss(CParty* party/*esi*/)
 {
-    Address u0x44E2F0 = 0x44E2F0;
+    unsigned u0x44E2F0 = 0x44E2F0;
 
     __asm
     {
@@ -62,7 +62,7 @@ CUser* CParty::GetPartyBoss(CParty* party/*esi*/)
 
 CUser* CParty::GetPartySubBoss(CParty* party/*esi*/)
 {
-    Address u0x44E320 = 0x44E320;
+    unsigned u0x44E320 = 0x44E320;
 
     __asm
     {
@@ -73,7 +73,7 @@ CUser* CParty::GetPartySubBoss(CParty* party/*esi*/)
 
 void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)
 {
-    Address u0x44F5F0 = 0x44F5F0;
+    unsigned u0x44F5F0 = 0x44F5F0;
 
     __asm
     {
@@ -85,7 +85,7 @@ void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)
 
 void CParty::Send(CParty* party/*esi*/, void* packet/*ecx*/, int _length/*eax*/)
 {
-    Address u0x44E950 = 0x44E950;
+    unsigned u0x44E950 = 0x44E950;
 
     __asm
     {

@@ -73,7 +73,7 @@ namespace shaiya
     template<typename T>
     T CNpcData<T>::GetNpc(int npcType/*ecx*/, int npcId/*eax*/)
     {
-        Address u0x424450 = 0x424450;
+        unsigned u0x424450 = 0x424450;
 
         __asm
         {
