@@ -16,25 +16,11 @@ C++ 23
 
 [Microsoft DirectX SDK (June 2010)](https://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
-## Binary
+## Binaries
 
-The file is a partially restored 6.4 PT client from patch 182. It was unpacked by a friend of mine (thanks, Ye).
+The files have been partially restored to their original condition. I recommend using [PE Bear](https://github.com/hasherezade/pe-bear) to add new imports.
 
 ![Capture](https://github.com/user-attachments/assets/6cc6d390-aaae-4f36-b362-f08ce9f243f5)
-
-The import directory is in the `.idata` section because I don't know where it originally was in the `.rdata` section. I recommend using [PE Bear](https://github.com/hasherezade/pe-bear) to add new imports.
-
-### Build Version
-
-`0x16021200`
-
-### OEP
-
-`0x637C68`
-
-### Checksum
-
-`0x3D1209`
 
 ### SData Formats
 
@@ -57,9 +43,10 @@ I believe this blog post explains what happens:
 
 https://devblogs.microsoft.com/oldnewthing/20080404-00/?p=22863
 
-Increasing the stack allocation in two functions seems to be a good solution. I added 512 bytes to the following instructions:
+Increasing the stack allocation in two functions seems to be a good solution.
 
 ```
+// ps0182 (PT)
 0047DB76:
 sub esp,000005BC
 
@@ -68,9 +55,7 @@ mov [esp+000005B8],eax
 
 0047E871:
 mov ecx,[esp+000005C4]
-```
 
-```
 0057C280:
 sub esp,0000054C
 
@@ -87,13 +72,39 @@ mov ecx,[esp+00000558]
 add esp,0000054C
 ```
 
+```
+// ps0171 (ES)
+0047D896:
+sub esp,000005BC
+
+0047D8A3:
+mov [esp+000005B8],eax
+
+0047E591:
+mov ecx,[esp+000005C4]
+
+0057C670:
+sub esp,0000054C
+
+0057C67D:
+mov [esp+00000548],eax
+
+0057C687:
+mov esi,[esp+0000055C]
+
+0057CDE9:
+mov ecx,[esp+00000558]
+
+0057CDFB:
+add esp,0000054C
+```
+
 ### Recovery
 
 Episode 6.4 (and greater) clients do not add the values in the 0x505 packet handler.
 
-https://archive.openshaiya.org/shaiya-es/clients/ps0171-21-1-2016-game.exe
-
 ```
+// ps0171 (ES)
 00594AC8  MOV DWORD PTR DS:[EAX+158],ESI
 00594ACE  MOV DWORD PTR DS:[EAX+160],EDX
 00594AD4  MOV DWORD PTR DS:[EAX+168],ECX
@@ -103,9 +114,8 @@ https://archive.openshaiya.org/shaiya-es/clients/ps0171-21-1-2016-game.exe
 00594AF7  MOV DWORD PTR DS:[914480],ECX
 ```
 
-https://archive.openshaiya.org/shaiya-pt/clients/ps0182-27-1-2016-game.exe
-
 ```
+// ps0182 (PT)
 005942D8  MOV DWORD PTR DS:[EAX+158],ESI
 005942DE  MOV DWORD PTR DS:[EAX+160],EDX
 005942E4  MOV DWORD PTR DS:[EAX+168],ECX
@@ -114,5 +124,3 @@ https://archive.openshaiya.org/shaiya-pt/clients/ps0182-27-1-2016-game.exe
 00594301  MOV DWORD PTR DS:[91447C],EDX
 00594307  MOV DWORD PTR DS:[914480],ECX
 ```
-
-The game service library makes the recovery methods send the expected values to the client.

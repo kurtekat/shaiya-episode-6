@@ -52,14 +52,30 @@ The function that adds support for recreation runes is disabled by default becau
 //#define SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
 ```
 
-| Vial   | Effect | Recreation Rune | Effect |
-|--------|--------|-----------------|--------|
-| 101007 | 93     | 101001          | 86     |
-| 101008 | 94     | 101002          | 87     |
-| 101009 | 95     | 101003          | 88     |
-| 101010 | 96     | 101004          | 89     |
-| 101011 | 97     | 101005          | 90     |
-| 101012 | 98     | 101006          | 91     |
+The following items are supported:
+
+### Vials
+
+| ItemId | Effect |
+|--------|--------|
+| 101007 | 93     |
+| 101008 | 94     |
+| 101009 | 95     |
+| 101010 | 96     |
+| 101011 | 97     |
+| 101012 | 98     |
+
+### Recreation Runes
+
+| ItemId | Effect |
+|--------|--------|
+| 100171 | 62     |
+| 101001 | 86     |
+| 101002 | 87     |
+| 101003 | 88     |
+| 101004 | 89     |
+| 101005 | 90     |
+| 101006 | 91     |
 
 ## NpcQuest
 

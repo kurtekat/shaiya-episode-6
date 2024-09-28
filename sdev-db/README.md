@@ -16,13 +16,7 @@ C++ 23
 
 ## Binary
 
-### Checksum
-
-`0x929A4`
-
-### Notes
-
-The file was patched to undo an edit that causes an item mall purchase dupe.
+The file was patched to undo an edit that causes an item mall purchase duplicate.
 
 ```
 // bug

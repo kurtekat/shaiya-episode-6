@@ -1,6 +1,6 @@
 # Documentation
 
-This library contains common types. The other projects depend on this library.
+This library contains types that are common to the client and server. The other projects depend on this library.
 
 ## Environment
 
