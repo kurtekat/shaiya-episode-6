@@ -39,20 +39,7 @@
     <ClInclude Include="include\common\SkillAbilityType.h" />
     <ClInclude Include="include\common\SkillStatusType.h" />
     <ClInclude Include="include\common\SkillTargetType.h" />
-    <ClInclude Include="include\SConnection.h" />
-    <ClInclude Include="include\SDatabase.h" />
-    <ClInclude Include="include\SDatabasePool.h" />
     <ClInclude Include="include\ServerTime.h" />
-    <ClInclude Include="include\SInternetAddress.h" />
-    <ClInclude Include="include\SLog.h" />
-    <ClInclude Include="include\SNode.h" />
-    <ClInclude Include="include\SSyncHeap.h" />
-    <ClInclude Include="include\SSyncList.h" />
-    <ClInclude Include="include\SSyncMap.h" />
-    <ClInclude Include="include\SSyncQueueBuffer.h" />
-    <ClInclude Include="include\SSyncQueueBufferPriority.h" />
-    <ClInclude Include="include\SSyncQueueBufferSend.h" />
-    <ClInclude Include="include\SSyncQueueStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ServerTime.cpp" />

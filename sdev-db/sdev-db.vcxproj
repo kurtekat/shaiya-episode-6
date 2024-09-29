@@ -29,6 +29,15 @@
     <ClInclude Include="include\shaiya\include\network\incoming\0E00.h" />
     <ClInclude Include="include\shaiya\include\network\outgoing\0400.h" />
     <ClInclude Include="include\shaiya\include\network\outgoing\0E00.h" />
+    <ClInclude Include="include\shaiya\include\SConnection.h" />
+    <ClInclude Include="include\shaiya\include\SDatabase.h" />
+    <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
+    <ClInclude Include="include\shaiya\include\SInternetAddress.h" />
+    <ClInclude Include="include\shaiya\include\SLog.h" />
+    <ClInclude Include="include\shaiya\include\SNode.h" />
+    <ClInclude Include="include\shaiya\include\SSyncList.h" />
+    <ClInclude Include="include\shaiya\include\SSyncQueueBuffer.h" />
+    <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -97,45 +97,6 @@
     <ClInclude Include="include\ServerTime.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\SConnection.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SDatabase.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SDatabasePool.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SInternetAddress.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SLog.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SNode.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncHeap.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncList.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncMap.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncQueueBuffer.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncQueueBufferSend.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncQueueStatus.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SSyncQueueBufferPriority.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\Equipment.h">
       <Filter>include\common</Filter>
     </ClInclude>
