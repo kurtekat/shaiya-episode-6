@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/SConnection.h>
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CClientToMgr.h"
@@ -9,6 +8,7 @@
 #include "include/shaiya/include/CMonitorNet.h"
 #include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/Obelisk.h"
+#include "include/shaiya/include/SConnection.h"
 
 namespace shaiya
 {

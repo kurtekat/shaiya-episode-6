@@ -3,12 +3,12 @@
 #include <windows.h>
 #include <sql.h>
 #include <sqlext.h>
-#include <shaiya/include/SConnection.h>
-#include <shaiya/include/SDatabase.h>
-#include <shaiya/include/SDatabasePool.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/include/SDatabase.h"
+#include "include/shaiya/include/SDatabasePool.h"
 #include "include/shaiya/include/network/incoming/0400.h"
 #include "include/shaiya/include/network/outgoing/0400.h"
 using namespace shaiya;

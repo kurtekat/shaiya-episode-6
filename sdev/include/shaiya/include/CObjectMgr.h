@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/SSyncHeap.h>
+#include "include/shaiya/include/SSyncHeap.h"
 
 namespace shaiya
 {
@@ -19,7 +19,10 @@ namespace shaiya
     // 00411260 ctor
     struct CObjectMgr
     {
-        PAD(24);
+        PAD(8);
+        // INIT_MOBID_SET
+        UINT32 mobId;                    //0x08
+        PAD(12);
         SSyncHeap<CUser> users;          //0x18
         SSyncHeap<CMob> mobs;            //0x3C
         SSyncHeap<CNpc> npcs;            //0x60

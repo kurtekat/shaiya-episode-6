@@ -1,8 +1,8 @@
 #include <array>
-#include <shaiya/include/SConnection.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/SConnection.h"
 #include "include/shaiya/include/network/outgoing/0400.h"
 using namespace shaiya;
 

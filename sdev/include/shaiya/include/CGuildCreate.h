@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/SNode.h>
+#include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
@@ -9,7 +9,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CGuildCreate
     {
-        PAD(9);
+        SNode node;                 //0x00
+        PAD(1);
         CharArray<25> name;         //0x09
         PAD(2);
         UINT32 joinCount;           //0x24

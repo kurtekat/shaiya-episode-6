@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/ItemDivType.h>
-#include <shaiya/include/SNode.h>
+#include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {

@@ -3,7 +3,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/SConnection.h>
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
@@ -15,6 +14,7 @@
 #include "include/shaiya/include/CSkill.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/SConnection.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0600.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0700.h"

@@ -8,7 +8,6 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/ShapeType.h>
-#include <shaiya/include/SSyncList.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
@@ -16,6 +15,7 @@
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/CUserCrypto.h"
 #include "include/shaiya/include/MyShop.h"
+#include "include/shaiya/include/SSyncList.h"
 #include "include/shaiya/include/SVector.h"
 #include "include/shaiya/include/TownMoveScroll.h"
 

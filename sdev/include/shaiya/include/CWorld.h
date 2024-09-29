@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/SSyncList.h>
-#include <shaiya/include/SSyncMap.h>
+#include "include/shaiya/include/SSyncList.h"
+#include "include/shaiya/include/SSyncMap.h"
 
 namespace shaiya
 {
