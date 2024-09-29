@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct PvPStatusType : UINT8
+    enum struct PvPStatusType : uint8_t
     {
         Kill,   // K1
         Death,  // K2

@@ -1,10 +1,10 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
     // users
-    enum struct Country : UINT8
+    enum struct Country : uint8_t
     {
         Light,
         Fury,
@@ -12,7 +12,7 @@ namespace shaiya
     };
 
     // mobs, npcs, portals
-    enum struct Country2 : UINT32
+    enum struct Country2 : uint32_t
     {
         Neutral,
         Light,
@@ -20,7 +20,7 @@ namespace shaiya
     };
 
     // items, skills
-    enum struct Country3 : UINT8
+    enum struct Country3 : uint8_t
     {
         Human,
         Elf,

@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ItemType : UINT8
+    enum struct ItemType : uint8_t
     {
         OneHandedSword = 1,
         TwoHandedSword,
@@ -38,7 +38,7 @@ namespace shaiya
         FuryHelmet,
         FuryUpperArmor,
         FuryLowerArmor,
-        Unknown34,
+        FuryShield,
         FuryGloves,
         FuryShoes,
         Ring2,
@@ -82,9 +82,9 @@ namespace shaiya
         Unknown75,
         LightGloves3,
         LightShoes3,
-        Unknown78,
-        Unknown79,
-        Unknown80,
+        Consumable78,
+        Consumable79,
+        Consumable80,
         Unknown81,
         FuryUpperArmor2,
         FuryLowerArmor2,

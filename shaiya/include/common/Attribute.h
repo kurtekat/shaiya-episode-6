@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct Attribute : UINT8
+    enum struct Attribute : uint8_t
     {
         None,
         Fire1,

@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct SkillAbilityType : UINT8
+    enum struct SkillAbilityType : uint8_t
     {
         MaxHealth = 1,
         MaxMana,

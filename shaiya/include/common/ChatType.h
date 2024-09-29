@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ChatType : UINT8
+    enum struct ChatType : uint8_t
     {
         Normal = 1,
         To,

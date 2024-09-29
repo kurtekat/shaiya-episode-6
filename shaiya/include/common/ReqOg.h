@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ReqOg : UINT8
+    enum struct ReqOg : uint8_t
     {
         Tradable,
         AccountBound,

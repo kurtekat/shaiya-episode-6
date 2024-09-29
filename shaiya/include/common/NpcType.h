@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct NpcType8 : UINT8
+    enum struct NpcType8 : uint8_t
     {
         Merchant = 1,
         GateKeeper,
@@ -20,7 +20,7 @@ namespace shaiya
         SkillReset
     };
 
-    enum struct NpcType32 : UINT32
+    enum struct NpcType32 : uint32_t
     {
         Merchant = 1,
         GateKeeper,

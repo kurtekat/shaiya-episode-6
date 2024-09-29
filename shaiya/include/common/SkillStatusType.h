@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct SkillStatusType : UINT8
+    enum struct SkillStatusType : uint8_t
     {
         None,
         Sleep,

@@ -1,14 +1,14 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     struct BillingItem
     {
-        UINT8 type;
-        UINT8 typeId;
-        UINT8 count;
+        uint8_t type;
+        uint8_t typeId;
+        uint8_t count;
     };
     #pragma pack(pop)
 }

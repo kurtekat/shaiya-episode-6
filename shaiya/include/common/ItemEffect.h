@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ItemEffect : UINT8
+    enum struct ItemEffect : uint8_t
     {
         HypnosisCure = 1,
         StunCure,

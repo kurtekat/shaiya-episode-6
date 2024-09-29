@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct Family : UINT8
+    enum struct Family : uint8_t
     {
         Human,
         Elf,

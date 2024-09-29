@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ItemDivType : UINT32
+    enum struct ItemDivType : uint32_t
     {
         Group = 1,
         Random,

@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct SkillTargetType : UINT8
+    enum struct SkillTargetType : uint8_t
     {
         None,
         Trap,

@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct ShapeType : UINT8
+    enum struct ShapeType : uint8_t
     {
         None,
         Chicken = 4,

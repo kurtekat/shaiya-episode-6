@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct Sex : UINT8
+    enum struct Sex : uint8_t
     {
         Male,
         Female

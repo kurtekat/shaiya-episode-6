@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct Job : UINT8
+    enum struct Job : uint8_t
     {
         AttackFighter,
         DefenseFighter,

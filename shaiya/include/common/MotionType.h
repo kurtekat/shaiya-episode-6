@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct MotionType8 : UINT8
+    enum struct MotionType8 : uint8_t
     {
         None,
         Walk,
@@ -128,7 +128,7 @@ namespace shaiya
         Provoke
     };
 
-    enum struct MotionType32 : UINT32
+    enum struct MotionType32 : uint32_t
     {
         None,
         Walk,

@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct InvasionPortal : UINT16
+    enum struct InvasionPortal : uint16_t
     {
         StableErdeLight = 1010,
         DeepDesertLight = 1011,

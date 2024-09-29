@@ -1,9 +1,9 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct AuthStatus : UINT8
+    enum struct AuthStatus : uint8_t
     {
         AdminA = 1,
         AdminB,

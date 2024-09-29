@@ -1,16 +1,16 @@
 #pragma once
-#include <shaiya/include/common.h>
+#include <cstdint>
 
 namespace shaiya
 {
-    enum struct PartyType : UINT8
+    enum struct PartyType : uint8_t
     {
         None,
         Member,
         Leader
     };
 
-    enum struct RaidPartyType : UINT32
+    enum struct RaidPartyType : uint32_t
     {
         Leader,
         SubLeader,
