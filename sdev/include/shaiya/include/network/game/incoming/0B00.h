@@ -29,7 +29,7 @@ namespace shaiya
         UINT16 opcode{ 0xB1C };
         UINT32 x;
         UINT32 y;
-        RaidPartyType partyType;
+        UnionType partyType;
     };
     #pragma pack(pop)
 }

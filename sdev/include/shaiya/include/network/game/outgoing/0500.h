@@ -103,7 +103,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x506 };
         ULONG charId;
-        MotionType8 motionType;
+        MotionType motionType;
     };
     #pragma pack(pop)
 

@@ -17,7 +17,7 @@ namespace shaiya
         D3DVECTOR dir;          //0x44
         D3DVECTOR up;           //0x50
         ULONG id;               //0x5C
-        NpcType8 type;          //0x60
+        NpcType type;           //0x60
         PAD(1);
         UINT16 typeId;          //0x62
         PAD(28);

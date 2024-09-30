@@ -7,7 +7,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SLog
     {
-        void** vftable;       //0x00
+        void* vftable;        //0x00
         FILE* stream;         //0x04
         CRITICAL_SECTION cs;  //0x08
         // 0x20

@@ -726,7 +726,7 @@ namespace packet_gem
         if (!cube)
             return;
 
-        if (cube->itemInfo->effect != ItemEffect::TransferRubiksCube)
+        if (cube->itemInfo->effect != ItemEffect::ItemAbilityTransfer)
             return;
 
         if (incoming->fromBag > user->bagsUnlocked || incoming->fromSlot >= max_inventory_slot)

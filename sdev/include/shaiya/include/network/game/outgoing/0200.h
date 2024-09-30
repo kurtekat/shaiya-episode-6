@@ -2,7 +2,7 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/CraftName.h>
 #include <shaiya/include/common/Gems.h>
-#include <shaiya/include/common/PvPStatusType.h>
+#include <shaiya/include/common/PvPStatus.h>
 #include <shaiya/include/common/Sex.h>
 
 // CUser::PacketMainInterface
@@ -164,12 +164,12 @@ namespace shaiya
     struct CharacterPvPStatusOutgoing
     {
         UINT16 opcode{ 0x20E };
-        PvPStatusType statusType;
+        PvPStatus statusType;
         UINT32 value;
 
         CharacterPvPStatusOutgoing() = default;
 
-        CharacterPvPStatusOutgoing(PvPStatusType statusType, UINT32 value)
+        CharacterPvPStatusOutgoing(PvPStatus statusType, UINT32 value)
             : statusType(statusType), value(value)
         {
         }

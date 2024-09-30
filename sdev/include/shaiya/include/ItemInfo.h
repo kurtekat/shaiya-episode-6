@@ -5,7 +5,6 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemType.h>
-#include <shaiya/include/common/ReqOg.h>
 
 namespace shaiya
 {
@@ -26,7 +25,7 @@ namespace shaiya
         Value11 = 2000     // 0x581DB0
     };
 
-    enum struct ItemRealType : UINT32
+    enum struct RealType : UINT32
     {
         OneHandedSword = 1,
         TwoHandedSword,
@@ -57,7 +56,7 @@ namespace shaiya
         Quest
     };
 
-    enum struct ItemMarketType : UINT8
+    enum struct MarketType : UINT8
     {
         TwoHandedWeapon = 1,
         OneHandedWeapon,
@@ -94,7 +93,7 @@ namespace shaiya
         CharArray<32> itemName;     //0x04
         UINT8 type;                 //0x24
         UINT8 typeId;               //0x25
-        Country3 country;           //0x26
+        Faction country;            //0x26
         bool attackFighter;         //0x27
         bool defenseFighter;        //0x28
         bool patrolRogue;           //0x29
@@ -104,7 +103,13 @@ namespace shaiya
         PAD(1);
         UINT16 reqLevel;            //0x2E
         Grow grow;                  //0x30
-        ReqOg reqOg;                //0x31
+        enum struct 
+            ReqOg : UINT8
+        {
+            Tradable,
+            AccountBound,
+            CharacterBound
+        } reqOg;                    //0x31
         UINT8 reqIg;                //0x32
         PAD(1);
         UINT16 reqVg;               //0x34
@@ -158,8 +163,8 @@ namespace shaiya
         UINT32 itemDropDelay;       //0x94
         DWORD itemDropEnableTick;   //0x98
         PAD(4);
-        ItemRealType realType;      //0xA0
-        ItemMarketType marketType;  //0xA4
+        RealType realType;          //0xA0
+        MarketType marketType;      //0xA4
         PAD(3);
         // 0xA8
     };

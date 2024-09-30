@@ -9,12 +9,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct Npc
     {
-        NpcType8 type;        //0x00
+        NpcType type;         //0x00
         PAD(1);
         UINT16 typeId;        //0x02
         UINT32 shape;         //0x04
         PAD(8);
-        Country2 country;     //0x10
+        Country32 country;    //0x10
         CharArray<256> name;  //0x14
         // 0x114
         PAD(16);
@@ -55,11 +55,11 @@ namespace shaiya
     #pragma pack(push, 1)
     struct NpcShop
     {
-        Npc npc;           //0x00
-        UINT8 shopType;    //0x124
+        Npc npc;               //0x00
+        NpcShopType shopType;  //0x124
         PAD(3);
-        UINT32 itemCount;  //0x128
-        NpcItem* items;    //0x12C
+        UINT32 itemCount;      //0x128
+        NpcItem* items;        //0x12C
         // 0x130
     };
     #pragma pack(pop)

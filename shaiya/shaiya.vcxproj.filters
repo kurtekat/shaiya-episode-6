@@ -40,9 +40,6 @@
     <ClInclude Include="include\common\ChatType.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\InvasionPortal.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\AuthStatus.h">
       <Filter>include\common</Filter>
     </ClInclude>
@@ -50,9 +47,6 @@
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\Gems.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\ItemDivType.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\ItemEffect.h">
@@ -76,19 +70,13 @@
     <ClInclude Include="include\common\PartyType.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\PvPStatusType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\ReqOg.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\ShapeType.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\SkillAbilityType.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\SkillStatusType.h">
+    <ClInclude Include="include\common\SkillDebuffType.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\SkillTargetType.h">

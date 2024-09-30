@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/PvPStatusType.h>
+#include <shaiya/include/common/PvPStatus.h>
 
 // CUser::PacketUserSetStatus
 
@@ -174,12 +174,12 @@ namespace shaiya
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        PvPStatusType statusType;
+        PvPStatus statusType;
         UINT32 value;
 
         DBAgentSetPvPStatusIncoming() = default;
 
-        DBAgentSetPvPStatusIncoming(ULONG userId, PvPStatusType statusType, UINT32 value)
+        DBAgentSetPvPStatusIncoming(ULONG userId, PvPStatus statusType, UINT32 value)
             : userId(userId), statusType(statusType), value(value)
         {
         }

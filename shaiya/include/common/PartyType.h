@@ -10,7 +10,7 @@ namespace shaiya
         Leader
     };
 
-    enum struct RaidPartyType : uint32_t
+    enum struct UnionType : uint32_t
     {
         Leader,
         SubLeader,

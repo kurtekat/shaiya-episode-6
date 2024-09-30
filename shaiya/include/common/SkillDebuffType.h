@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    enum struct SkillStatusType : uint8_t
+    enum struct SkillDebuffType : uint8_t
     {
         None,
         Sleep,

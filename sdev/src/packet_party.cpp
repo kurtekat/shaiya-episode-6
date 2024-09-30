@@ -24,13 +24,13 @@ namespace packet_party
 
         switch (incoming->partyType)
         {
-        case RaidPartyType::Leader:
+        case UnionType::Leader:
         {
             if (!CParty::IsPartyBoss(user->party, user))
                 return;
             break;
         }
-        case RaidPartyType::SubLeader:
+        case UnionType::SubLeader:
         {
             if (!CParty::IsPartySubBoss(user->party, user))
                 return;

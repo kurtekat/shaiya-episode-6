@@ -5,7 +5,7 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/NeedWeapon.h>
 #include <shaiya/include/common/SkillAbilityType.h>
-#include <shaiya/include/common/SkillStatusType.h>
+#include <shaiya/include/common/SkillDebuffType.h>
 #include <shaiya/include/common/SkillTargetType.h>
 
 namespace shaiya
@@ -27,7 +27,7 @@ namespace shaiya
         CharArray<32> skillName;     //0x03
         PAD(1);
         UINT16 reqLevel;             //0x24
-        Country3 country;            //0x26
+        Faction country;             //0x26
         bool attackFighter;          //0x27
         bool defenseFighter;         //0x28
         bool patrolRogue;            //0x29
@@ -46,7 +46,7 @@ namespace shaiya
         UINT16 readyTime;            //0x48
         UINT16 resetTime;            //0x4A
         UINT8 attackRange;           //0x4C
-        SkillStatusType statusType;  //0x4D
+        SkillDebuffType debuffType;  //0x4D
         Attribute attribute;         //0x4E
         PAD(1);
         bool disable;                //0x50

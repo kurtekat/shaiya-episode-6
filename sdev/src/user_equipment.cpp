@@ -23,15 +23,15 @@ namespace user_equipment
         switch (slot)
         {
         case EquipmentSlot::Helmet:
-            return realType == ItemRealType::Helmet;
+            return realType == RealType::Helmet;
         case EquipmentSlot::UpperArmor:
-            return realType == ItemRealType::UpperArmor;
+            return realType == RealType::UpperArmor;
         case EquipmentSlot::LowerArmor:
-            return realType == ItemRealType::LowerArmor;
+            return realType == RealType::LowerArmor;
         case EquipmentSlot::Gloves:
-            return realType == ItemRealType::Gloves;
+            return realType == RealType::Gloves;
         case EquipmentSlot::Shoes:
-            return realType == ItemRealType::Shoes;
+            return realType == RealType::Shoes;
         case EquipmentSlot::Weapon:
         {
             if (CItem::IsWeapon(item))
@@ -47,7 +47,7 @@ namespace user_equipment
         }
         case EquipmentSlot::Shield:
         {
-            if (realType == ItemRealType::Shield)
+            if (realType == RealType::Shield)
             {
                 auto& item = user->inventory[0][int(EquipmentSlot::Weapon)];
                 if (!item)
@@ -60,15 +60,15 @@ namespace user_equipment
             return false;
         }
         case EquipmentSlot::Cloak:
-            return realType == ItemRealType::Cloak;
+            return realType == RealType::Cloak;
         case EquipmentSlot::Necklace:
-            return realType == ItemRealType::Necklace;
+            return realType == RealType::Necklace;
         case EquipmentSlot::Ring1:
         case EquipmentSlot::Ring2:
-            return realType == ItemRealType::Ring;
+            return realType == RealType::Ring;
         case EquipmentSlot::Bracelet1:
         case EquipmentSlot::Bracelet2:
-            return realType == ItemRealType::Bracelet;
+            return realType == RealType::Bracelet;
         case EquipmentSlot::Vehicle:
             return itemType == ItemType::Vehicle;
         case EquipmentSlot::Pet:

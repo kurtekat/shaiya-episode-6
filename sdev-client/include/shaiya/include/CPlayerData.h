@@ -86,13 +86,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct RaidParty
     {
-        RaidPartyType partyType;  //0x00  0x22AA730
-        UINT32 group;             //0x04  0x22AA734
-        UINT32 leaderId;          //0x08  0x22AA738
-        UINT32 subLeaderId;       //0x0C  0x22AA73C
-        UINT32 itemDivSeq;        //0x10  0x22AA740
-        BOOL isAutoJoin;          //0x14  0x22AA744
-        UINT32 slot;              //0x18  0x22AA748
+        UnionType partyType;  //0x00  0x22AA730
+        UINT32 group;         //0x04  0x22AA734
+        UINT32 leaderId;      //0x08  0x22AA738
+        UINT32 subLeaderId;   //0x0C  0x22AA73C
+        UINT32 itemDivSeq;    //0x10  0x22AA740
+        BOOL isAutoJoin;      //0x14  0x22AA744
+        UINT32 slot;          //0x18  0x22AA748
     };
     #pragma pack(pop)
 

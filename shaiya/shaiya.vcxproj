@@ -22,7 +22,6 @@
     <ClInclude Include="include\common\Family.h" />
     <ClInclude Include="include\common\Gems.h" />
     <ClInclude Include="include\common\Grow.h" />
-    <ClInclude Include="include\common\ItemDivType.h" />
     <ClInclude Include="include\common\ItemEffect.h" />
     <ClInclude Include="include\common\ItemType.h" />
     <ClInclude Include="include\common\Job.h" />
@@ -31,13 +30,10 @@
     <ClInclude Include="include\common\NeedWeapon.h" />
     <ClInclude Include="include\common\NpcType.h" />
     <ClInclude Include="include\common\PartyType.h" />
-    <ClInclude Include="include\common\InvasionPortal.h" />
-    <ClInclude Include="include\common\PvPStatusType.h" />
-    <ClInclude Include="include\common\ReqOg.h" />
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\ShapeType.h" />
     <ClInclude Include="include\common\SkillAbilityType.h" />
-    <ClInclude Include="include\common\SkillStatusType.h" />
+    <ClInclude Include="include\common\SkillDebuffType.h" />
     <ClInclude Include="include\common\SkillTargetType.h" />
     <ClInclude Include="include\ServerTime.h" />
   </ItemGroup>

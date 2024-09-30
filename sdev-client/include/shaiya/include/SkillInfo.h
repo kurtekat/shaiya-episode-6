@@ -3,7 +3,7 @@
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/NeedWeapon.h>
 #include <shaiya/include/common/SkillAbilityType.h>
-#include <shaiya/include/common/SkillStatusType.h>
+#include <shaiya/include/common/SkillDebuffType.h>
 #include <shaiya/include/common/SkillTargetType.h>
 #include "include/shaiya/common.h"
 

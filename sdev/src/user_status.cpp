@@ -49,9 +49,9 @@ namespace user_status
         {
             switch (weapon->itemInfo->realType)
             {
-            case ItemRealType::Javelin:
-            case ItemRealType::Bow:
-            case ItemRealType::Crossbow:
+            case RealType::Javelin:
+            case RealType::Bow:
+            case RealType::Crossbow:
                 attackPower = user->minRangedAttackPower;
                 break;
             default:

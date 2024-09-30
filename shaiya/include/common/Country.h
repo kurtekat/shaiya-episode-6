@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    // users
+    // mobs, npcs, users
     enum struct Country : uint8_t
     {
         Light,
@@ -11,16 +11,7 @@ namespace shaiya
         Neutral
     };
 
-    // mobs, npcs, portals
-    enum struct Country2 : uint32_t
-    {
-        Neutral,
-        Light,
-        Fury
-    };
-
-    // items, skills
-    enum struct Country3 : uint8_t
+    enum struct Faction : uint8_t
     {
         Human,
         Elf,

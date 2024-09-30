@@ -19,22 +19,25 @@ namespace shaiya
     // 00411260 ctor
     struct CObjectMgr
     {
-        PAD(8);
-        // INIT_MOBID_SET
-        UINT32 mobId;                    //0x08
-        PAD(12);
-        SSyncHeap<CUser> users;          //0x18
-        SSyncHeap<CMob> mobs;            //0x3C
-        SSyncHeap<CNpc> npcs;            //0x60
-        SSyncHeap<CItem> items;          //0x84
-        SSyncHeap<CDead> dead;           //0xA8
-        SSyncHeap<CTrap> traps;          //0xCC
-        SSyncHeap<CQuest> quests;        //0xF0
-        SSyncHeap<CSkill> skills;        //0x114
-        SSyncHeap<AdminNotice> notices;  //0x138
-        SSyncHeap<CloneUser> clones;     //0x15C
-        // object size: 36 (0x24)
-        SSyncHeap<void> unknown;         //0x180
+        // to-do: count of what?
+        UINT32 userCount;                   //0x00
+        UINT32 itemCount;                   //0x04
+        UINT32 mobCount;                    //0x08
+        UINT32 npcCount;                    //0x0C
+        UINT32 skillCount;                  //0x10
+        UINT32 trapCount;                   //0x14
+        SSyncHeap<CUser> userHeap;          //0x18
+        SSyncHeap<CMob> mobHeap;            //0x3C
+        SSyncHeap<CNpc> npcHeap;            //0x60
+        SSyncHeap<CItem> itemHeap;          //0x84
+        SSyncHeap<CDead> deadHeap;          //0xA8
+        SSyncHeap<CTrap> trapHeap;          //0xCC
+        SSyncHeap<CQuest> questHeap;        //0xF0
+        SSyncHeap<CSkill> skillHeap;        //0x114
+        SSyncHeap<AdminNotice> noticeHeap;  //0x138
+        SSyncHeap<CloneUser> cloneHeap;     //0x15C
+        // not implemented
+        SSyncHeap<void> heap180;            //0x180
         // 0x1A4
 
         static void FreeItem(CItem* item/*edi*/);

@@ -26,7 +26,7 @@ namespace shaiya
         UINT8 model;              //0x0A
         UINT8 icon;               //0x0B
         UINT16 reqLevel;          //0x0C
-        Country3 country;         //0x0E
+        Faction country;          //0x0E
         bool attackFighter;       //0x0F
         bool defenseFighter;      //0x10
         bool patrolRogue;         //0x11

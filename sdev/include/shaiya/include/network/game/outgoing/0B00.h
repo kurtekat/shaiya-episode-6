@@ -29,11 +29,11 @@ namespace shaiya
         UINT16 opcode{ 0xB1C };
         UINT32 x;
         UINT32 y;
-        RaidPartyType partyType;
+        UnionType partyType;
 
         PartyMapPingOutgoing() = default;
         
-        PartyMapPingOutgoing(UINT32 x, UINT32 y, RaidPartyType partyType)
+        PartyMapPingOutgoing(UINT32 x, UINT32 y, UnionType partyType)
             : x(x), y(y), partyType(partyType)
         {
         }

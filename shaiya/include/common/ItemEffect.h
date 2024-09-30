@@ -81,7 +81,7 @@ namespace shaiya
         CraftingHammer = 102,
         SafetyCharm,
         TownMoveScroll,
-        TransferRubiksCube,
+        ItemAbilityTransfer,
         Catalyst,
         EnchantEnhancer,
         Dye = 110,

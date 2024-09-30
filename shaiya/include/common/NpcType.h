@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    enum struct NpcType8 : uint8_t
+    enum struct NpcType : uint8_t
     {
         Merchant = 1,
         GateKeeper,
@@ -35,5 +35,25 @@ namespace shaiya
         GuildMaster,
         Dead,
         SkillReset
+    };
+
+    // Credit: Matias Ramirez (Parsec)
+    enum struct MerchantType : uint8_t
+    {
+        GenericMerchant,
+        WeaponMerchant,
+        ProtectionMerchant,
+        AccessoryMerchant,
+        LiquidMedicineMerchant,
+        ProfessionalTrader,
+        RidingMerchant,
+        MantleMerchant,
+        BadgeMerchant,
+        BankTeller,
+        GoldBarMerchant,
+        ProfessionalBlacksmith = 15,
+        EtinManager = 100,
+        EtinSeller,
+        AuctionBoard = 117
     };
 }

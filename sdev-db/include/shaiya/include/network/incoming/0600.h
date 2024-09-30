@@ -1,7 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/PvPStatusType.h>
+#include <shaiya/include/common/PvPStatus.h>
 
 // CUser::PacketUserSetStatus
 
@@ -147,7 +147,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        PvPStatusType statusType;
+        PvPStatus statusType;
         UINT32 value;
     };
     #pragma pack(pop)

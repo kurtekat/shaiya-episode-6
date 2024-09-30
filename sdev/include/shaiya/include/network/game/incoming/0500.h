@@ -46,7 +46,7 @@ namespace shaiya
     struct UserMotionIncoming
     {
         UINT16 opcode{ 0x506 };
-        MotionType8 motionType;
+        MotionType motionType;
     };
     #pragma pack(pop)
 

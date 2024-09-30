@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    enum struct MotionType8 : uint8_t
+    enum struct MotionType : uint8_t
     {
         None,
         Walk,

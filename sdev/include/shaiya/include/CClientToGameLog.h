@@ -8,7 +8,9 @@ namespace shaiya
     struct CClientToGameLog
     {
         SConnection connection;  //0x00
-        PAD(16);
+        PAD(8);
+        bool connected;          //0xD8
+        PAD(7);
         // 0xE0
     };
     #pragma pack(pop)

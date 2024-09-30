@@ -1,11 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/AuthStatus.h>
 #include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/ShapeType.h>
 #include "include/shaiya/include/CExchange.h"
@@ -89,19 +91,6 @@ namespace shaiya
         Skill
     };
 
-    enum struct UserAttribute : UINT32
-    {
-        None,
-        Fire,
-        Water,
-        Earth,
-        Wind,
-        Fire2,
-        Water2,
-        Earth2,
-        Wind2
-    };
-
     enum struct UserCharmType : UINT32
     {
         None,
@@ -122,13 +111,6 @@ namespace shaiya
         None,
         CharacterScreen,
         Exit
-    };
-
-    enum struct UserPartyType : UINT8
-    {
-        None,
-        Member,
-        Leader
     };
 
     enum struct UserPvPStatus : UINT32
@@ -396,8 +378,8 @@ namespace shaiya
         UserRecoveryType recoveryType;         //0x1270
         UINT32 decreaseMpCostPercentage;       //0x1274
         UINT32 decreaseSpCostPercentage;       //0x1278
-        UserAttribute weaponAttribute;         //0x127C
-        UserAttribute armorAttribute;          //0x1280
+        Attribute32 weaponAttribute;           //0x127C
+        Attribute32 armorAttribute;            //0x1280
         PAD(92);
         UINT32 addAttackPower;                 //0x12E0
         UINT32 maxAddAttackPower;              //0x12E4

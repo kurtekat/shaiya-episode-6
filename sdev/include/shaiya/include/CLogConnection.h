@@ -9,7 +9,9 @@ namespace shaiya
     struct CLogConnection
     {
         SConnection connection;  //0x00
-        PAD(16);
+        PAD(8);
+        bool connected;          //0xD8
+        PAD(7);
         SLog log;                //0xE0
         // 0x100
         PAD(8);

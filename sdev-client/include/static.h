@@ -1,5 +1,5 @@
 #pragma once
-#include <shaiya/include/common/SkillStatusType.h>
+#include <shaiya/include/common/SkillDebuffType.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
@@ -162,7 +162,7 @@ namespace shaiya
         PAD(1408);
         UINT32 sysMsgValue2;                 //0x7C1930  <v2>
         HealPointType sysMsgHealPointType1;  //0x7C1934  <up>
-        SkillStatusType sysMsgDebuffType;    //0x7C1935  <zz>
+        SkillDebuffType sysMsgDebuffType;    //0x7C1935  <zz>
         HealPointType sysMsgHealPointType2;  //0x7C1936  <hp>
         PAD(1);
         CharArray<512> sysMsgLapisName;      //0x7C1938  <r>

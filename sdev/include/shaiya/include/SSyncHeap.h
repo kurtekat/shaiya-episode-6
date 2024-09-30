@@ -7,9 +7,9 @@ namespace shaiya
     template<class T>
     struct SSyncHeap
     {
-        PAD(4);
-        UINT32 allocCount;    //0x04
-        UINT32 freeCount;     //0x08
+        T* lastFreed;         //0x00
+        UINT32 blockCount;    //0x04
+        UINT32 freedCount;    //0x08
         CRITICAL_SECTION cs;  //0x0C
         // 0x24
     };

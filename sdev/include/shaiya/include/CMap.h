@@ -175,7 +175,7 @@ namespace shaiya
     struct MapPortal
     {
         UINT32 id;
-        Country2 country;
+        PortalCountry country;
     };
     #pragma pack(pop)
 

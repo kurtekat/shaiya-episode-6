@@ -54,7 +54,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CMob
     {
-        SNode node;                        //0x00
+        void* vftable1;                    //0x00
+        void* vftable2;                    //0x04
         PAD(116);
         CObjectMoveable moveable;          //0x7C
         // 0xA8
