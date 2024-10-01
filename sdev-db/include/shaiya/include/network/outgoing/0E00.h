@@ -6,15 +6,15 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct DBAgentReloadPointOutgoing
+    struct DBAgentPointReloadOutgoing
     {
         UINT16 opcode{ 0xE06 };
         ULONG userId;
         UINT32 points;
 
-        DBAgentReloadPointOutgoing() = default;
+        DBAgentPointReloadOutgoing() = default;
 
-        DBAgentReloadPointOutgoing(ULONG userId, UINT32 points)
+        DBAgentPointReloadOutgoing(ULONG userId, UINT32 points)
             : userId(userId), points(points)
         {
         }
@@ -22,15 +22,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentAddPointOutgoing
+    struct DBAgentPointAddOutgoing
     {
         UINT16 opcode{ 0xE08 };
         ULONG userId;
         UINT32 addPoints;
 
-        DBAgentAddPointOutgoing() = default;
+        DBAgentPointAddOutgoing() = default;
 
-        DBAgentAddPointOutgoing(ULONG userId, UINT32 addPoints)
+        DBAgentPointAddOutgoing(ULONG userId, UINT32 addPoints)
             : userId(userId), addPoints(addPoints)
         {
         }

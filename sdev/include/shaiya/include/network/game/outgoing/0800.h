@@ -7,54 +7,8 @@
 
 namespace shaiya
 {
-    enum struct ItemLapisianAddResult : UINT8
-    {
-        Failure,
-        Success
-    };
-
-    enum struct ItemComposeResult : UINT8
-    {
-        Success,
-        Failure
-    };
-
-    enum struct ItemRemakeResult : UINT8
-    {
-        Success,
-        Failure,
-        NotAllowed
-    };
-
-    enum struct ItemRuneCombineResult : UINT8
-    {
-        Success,
-        NotImplemented,
-        Failure
-    };
-
-    enum struct ItemLapisianCombineResult : UINT8
-    {
-        Success,
-        Unknown1,
-        Unknown2,
-        Unknown3,
-    };
-
-    enum struct ItemAbilityTransferResult : UINT8
-    {
-        Success,
-        Failure
-    };
-
-    enum struct ItemSynthesisResult : UINT8
-    {
-        Success = 1,
-        Failure
-    };
-
     #pragma pack(push, 1)
-    struct ItemCloakBadgeCombineOutgoing
+    struct ItemCloakBadgeOutgoing
     {
         UINT16 opcode{ 0x803 };
         bool success;
@@ -69,6 +23,12 @@ namespace shaiya
         UINT32 money;
     };
     #pragma pack(pop)
+
+    enum struct ItemLapisianAddResult : UINT8
+    {
+        Failure,
+        Success
+    };
 
     #pragma pack(push, 1)
     struct ItemLapisianAddOutgoing
@@ -106,6 +66,12 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ItemComposeResult : UINT8
+    {
+        Success,
+        Failure
+    };
+
     #pragma pack(push, 1)
     struct ItemComposeOutgoing
     {
@@ -124,6 +90,13 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ItemRemakeResult : UINT8
+    {
+        Success,
+        Failure,
+        NotAllowed
+    };
+
     #pragma pack(push, 1)
     struct ItemRemakeOutgoing
     {
@@ -139,6 +112,13 @@ namespace shaiya
         CraftName craftName;
     };
     #pragma pack(pop)
+
+    enum struct ItemRuneCombineResult : UINT8
+    {
+        Success,
+        NotImplemented,
+        Failure
+    };
 
     #pragma pack(push, 1)
     struct ItemRuneCombineOutgoing
@@ -163,6 +143,14 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ItemLapisianCombineResult : UINT8
+    {
+        Success,
+        Unknown1,
+        Unknown2,
+        Unknown3,
+    };
+
     #pragma pack(push, 1)
     struct ItemLapisianCombineOutgoing
     {
@@ -185,6 +173,12 @@ namespace shaiya
         }
     };
     #pragma pack(pop)
+
+    enum struct ItemAbilityTransferResult : UINT8
+    {
+        Success,
+        Failure
+    };
 
     #pragma pack(push, 1)
     struct ItemAbilityTransferOutgoing
@@ -229,6 +223,12 @@ namespace shaiya
         UINT8 createCount;
     };
     #pragma pack(pop)
+
+    enum struct ItemSynthesisResult : UINT8
+    {
+        Success = 1,
+        Failure
+    };
 
     #pragma pack(push, 1)
     struct ItemSynthesisOutgoing

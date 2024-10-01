@@ -11,8 +11,7 @@ namespace shaiya
         UINT16 opcode{ 0x401 };
         ULONG objectId;
         enum struct 
-            Kind : UINT8
-        {
+            Kind : UINT8 {
             UserDrop = 1,
             MobDrop
         } kind;

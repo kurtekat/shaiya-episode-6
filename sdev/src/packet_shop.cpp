@@ -18,24 +18,24 @@ namespace packet_shop
     /// <param name="user"></param>
     void send_reload_point(CUser* user)
     {
-        DBAgentReloadPointIncoming packet(user->userId);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentReloadPointIncoming));
+        DBAgentPointReloadIncoming packet(user->userId);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointReloadIncoming));
     }
 
     /// <summary>
     /// Handles incoming 0xE06 packets.
     /// </summary>
     /// <param name="user"></param>
-    /// <param name="points"></param>
-    void reload_point_handler(CUser* user, DBAgentReloadPointOutgoing* incoming)
+    /// <param name="incoming"></param>
+    void reload_point_handler(CUser* user, DBAgentPointReloadOutgoing* incoming)
     {
         if (InterlockedCompareExchange(&user->disableShop, 0, 0))
             return;
 
         InterlockedExchange(&user->points, incoming->points);
 
-        PointOutgoing outgoing(user->points);
-        Helpers::Send(user, &outgoing, sizeof(PointOutgoing));
+        PointBalanceOutgoing outgoing(user->points);
+        Helpers::Send(user, &outgoing, sizeof(PointBalanceOutgoing));
     }
 
     /// <summary>
@@ -43,9 +43,9 @@ namespace packet_shop
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_purchase(CUser* user, PointPurchaseItemOutgoing* packet)
+    void send_purchase(CUser* user, PointBuyItemOutgoing* packet)
     {
-        PointPurchaseItemOutgoing2 outgoing{};
+        PointBuyItemOutgoing2 outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.result = packet->result;
         outgoing.points = packet->points;
@@ -78,8 +78,8 @@ namespace packet_shop
     /// <param name="user"></param>
     void send_purchase2(CUser* user)
     {
-        DBAgentSaveBuyPointItemIncoming packet(user->userId);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveBuyPointItemIncoming));
+        DBAgentPointUpdateIncoming packet(user->userId);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointUpdateIncoming));
 
         send_reload_point(user);
 
@@ -98,8 +98,8 @@ namespace packet_shop
         auto purchaseDate = ServerTime::now();
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
-        DBAgentSaveGiftPointItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentSaveGiftPointItemIncoming));
+        DBAgentPointGiftItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
+        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointGiftItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
     }

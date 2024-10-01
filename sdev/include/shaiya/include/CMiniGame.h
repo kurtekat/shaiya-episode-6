@@ -9,8 +9,7 @@ namespace shaiya
     struct CMiniGame
     {
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             GameExit,
             GameEnter,
             SlotStart,

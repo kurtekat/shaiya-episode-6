@@ -7,12 +7,6 @@
 
 namespace shaiya
 {
-    enum struct ExchangeRequestResult : UINT8
-    {
-        Accepted,
-        Rejected
-    };
-
     #pragma pack(push, 1)
     struct ExchangeRequestOutgoing
     {
@@ -20,6 +14,12 @@ namespace shaiya
         ULONG targetId;
     };
     #pragma pack(pop)
+
+    enum struct ExchangeRequestResult : UINT8
+    {
+        Accepted,
+        Rejected
+    };
 
     #pragma pack(push, 1)
     struct ExchangeRequestResultOutgoing
@@ -30,21 +30,20 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ExchangeOutgoing
+    struct ExchangeReadyOutgoing
     {
         UINT16 opcode{ 0xA05 };
         enum struct 
-            Kind : UINT8
-        {
+            Kind : UINT8 {
             Sender = 1,
             Target,
-            CancelReady
+            Cancel
         } kind;
         bool canceled;
 
-        ExchangeOutgoing() = default;
+        ExchangeReadyOutgoing() = default;
 
-        ExchangeOutgoing(Kind kind, bool canceled)
+        ExchangeReadyOutgoing(Kind kind, bool canceled)
             : kind(kind), canceled(canceled)
         {
         }
@@ -97,11 +96,10 @@ namespace shaiya
     {
         UINT16 opcode{ 0xA0A };
         enum struct 
-            Kind : UINT8
-        {
+            Kind : UINT8 {
             Sender = 1,
             Target,
-            CancelReady
+            Cancel
         } kind;
         bool confirmed;
 

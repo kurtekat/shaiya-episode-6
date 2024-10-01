@@ -10,8 +10,7 @@ namespace shaiya
     {
         CUser* user;                //0x1634  0x00
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             None,
             Closed,
             Open

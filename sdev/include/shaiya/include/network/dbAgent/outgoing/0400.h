@@ -10,13 +10,6 @@
 
 namespace shaiya
 {
-    enum struct DBAgentCharCreateResult : UINT8
-    {
-        Success,
-        Failure,
-        NullUser = 3
-    };
-
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
     struct Character0403
@@ -106,6 +99,13 @@ namespace shaiya
         Array<Character0403v2, 5> characterList;
     };
     #pragma pack(pop)
+
+    enum struct DBAgentCharCreateResult : UINT8
+    {
+        Success,
+        Failure,
+        NullUser = 3
+    };
 
     #pragma pack(push, 1)
     struct DBAgentCharCreateResultOutgoing

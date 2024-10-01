@@ -47,8 +47,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x553 };
         enum struct 
-            RebirthType : UINT8
-        {
+            RebirthType : UINT8 {
             NearestTown = 2,
             LeaderResurrect,
             KillSoulByItem,

@@ -14,8 +14,7 @@ namespace shaiya
         UINT32 shape;         //0x04
         PAD(8);
         enum struct 
-            Country : UINT32
-        {
+            Country : UINT32 {
             Light, 
             Fury, 
             Neutral

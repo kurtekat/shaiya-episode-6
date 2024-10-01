@@ -23,8 +23,7 @@ namespace shaiya
         void* npcData;     //0x50
         PAD(4);
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             Idle,
             Chase,
             FindTarget,

@@ -4,31 +4,29 @@
 
 namespace shaiya
 {
+    /*
+    | AttackSpecial3 | Cooldown  |
+    |----------------|-----------|
+    | 0              | 5000      |
+    | 1              | 30000     |
+    | 2              | 60000     |
+    | 3              | 180000    |
+    | 4              | 300000    |
+    | 5              | 900000    |
+    | 6              | 1800000   |
+    | 7              | 3600000   |
+    | 8              | 14400000  |
+    | 9              | 43200000  |
+    | 10             | 86400000  |
+    | 11             | 259200000 |
+    | 12             | 7200000   |
+    | 13             | 0         |
+    | 14             | 604800000 |
+    | 15             | 15000     |
+    */
+
     using MobResistSkill = Array<UINT8, 6>;
     using MobResistState = Array<bool, 15>;
-
-    // see ps_game.004DA513
-    enum struct MobCooldown : ULONG
-    {
-        // AttackSpecial3
-        Value0 = 5000,
-        Value1 = 30000,
-        Value2 = 60000,
-        Value3 = 180000,
-        Value4 = 300000,
-        Value5 = 600000,
-        Value6 = 900000,
-        Value7 = 1800000,
-        Value8 = 3600000,
-        Value9 = 14400000,
-        Value10 = 43200000,
-        Value11 = 86400000,
-        Value12 = 259200000,
-        Value13 = 7200000,
-        Value14 = 0,
-        Value15 = 604800000,
-        Default = 15000
-    };
 
     #pragma pack(push, 1)
     struct MobQuestItem
@@ -99,11 +97,10 @@ namespace shaiya
         UINT8 chaseRange;             //0x69
         PAD(2);
         // 0x4A1A53
-        MobCooldown cooldown;         //0x6C
+        DWORD cooldown;               //0x6C
         PAD(8);
         enum struct 
-            Country : UINT32
-        {
+            Country : UINT32 {
             Light, 
             Fury, 
             Neutral

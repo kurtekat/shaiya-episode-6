@@ -19,8 +19,7 @@ namespace shaiya
     struct CExchange
     {
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             None,
             RequestSent,
             RequestReceived,

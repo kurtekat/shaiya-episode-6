@@ -34,8 +34,7 @@ namespace shaiya
         INT32 reqLuc;             //0x20
         INT16 reqVg;              //0x24
         enum struct 
-            ReqOg : UINT8
-        {
+            ReqOg : UINT8 {
             Tradable,
             AccountBound,
             CharacterBound
@@ -69,8 +68,7 @@ namespace shaiya
         PAD(2);
         UINT32 duration;          //0x5C
         enum struct 
-            ExtDuration : UINT8
-        {
+            ExtDuration : UINT8 {
             None,
             Unexpandable,
             Expandable

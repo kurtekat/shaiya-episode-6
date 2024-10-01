@@ -21,8 +21,8 @@ namespace shaiya
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
-        enum struct CraftType : UINT8
-        {
+        enum struct 
+            CraftType : UINT8 {
             None,
             ItemCreate,
             Remake

@@ -8,31 +8,6 @@
 
 namespace shaiya
 {
-    enum struct PortalEnableResult : UINT8
-    {
-        GuildInstance,
-        GuildRankingBattleInactive,
-        GuildRankingBattleAlreadyJoined,
-        GuildRankAbove30thRequired,
-        PartyInstance,
-        GuildRankingBattleJoin,
-        GuildHouseNotPurchased,
-        GuildHouse5DayWaitTime,
-        GuildHouseMaintenanceFeeNotPaid,
-        PartyInstanceClosed,
-        PartyMinimumCountRequired,
-        FailedToEnter,
-        FailedToJoinGoddessBattle,
-    };
-
-    enum struct SkillGetResult : UINT8
-    {
-        Success,
-        InsufficientPoints,
-        LevelTooLowToLearn,
-        UnableToLearn
-    };
-
     #pragma pack(push, 1)
     struct Item0204
     {
@@ -101,6 +76,14 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct SkillGetResult : UINT8
+    {
+        Success,
+        InsufficientPoints,
+        LevelTooLowToLearn,
+        UnableToLearn
+    };
+
     #pragma pack(push, 1)
     struct SkillGetOutgoing
     {
@@ -111,6 +94,23 @@ namespace shaiya
         UINT8 skillLv;
     };
     #pragma pack(pop)
+
+    enum struct PortalEnableResult : UINT8
+    {
+        GuildInstance,
+        GuildRankingBattleInactive,
+        GuildRankingBattleAlreadyJoined,
+        GuildRankAbove30thRequired,
+        PartyInstance,
+        GuildRankingBattleJoin,
+        GuildHouseNotPurchased,
+        GuildHouse5DayWaitTime,
+        GuildHouseMaintenanceFeeNotPaid,
+        PartyInstanceClosed,
+        PartyMinimumCountRequired,
+        FailedToEnter,
+        FailedToJoinGoddessBattle,
+    };
 
     #pragma pack(push, 1)
     struct PortalEnableOutgoing
@@ -154,8 +154,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x20E };
         enum struct 
-            StatusType : UINT8 
-        {
+            StatusType : UINT8 {
             Kill, 
             Death, 
             Win, 
@@ -274,6 +273,16 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ItemExpireNoticeType : UINT16
+    {
+        DeletedFromInventory = 883,
+        DeletedFromWarehouse,
+        MinutesLeftInventory,
+        MinutesLeftWarehouse,
+        HoursLeftInventory,
+        HoursLeftWarehouse
+    };
+
     #pragma pack(push, 1)
     struct ItemExpireNoticeOutgoing
     {
@@ -281,16 +290,7 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 timeValue;
-        enum struct 
-            NoticeType : UINT16
-        {
-            DeletedFromInventory = 883,
-            DeletedFromWarehouse,
-            MinutesLeftInventory,
-            MinutesLeftWarehouse,
-            HoursLeftInventory,
-            HoursLeftWarehouse,
-        } noticeType;
+        ItemExpireNoticeType noticeType;
     };
     #pragma pack(pop)
 

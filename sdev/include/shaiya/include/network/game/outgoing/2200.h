@@ -13,12 +13,6 @@ namespace shaiya
         NotFound
     };
 
-    enum struct BlockAddResult : UINT8
-    {
-        Failure,
-        Success
-    };
-
     #pragma pack(push, 1)
     struct FriendAddResultOutgoing
     {
@@ -46,7 +40,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct FriendSaveMemoOutgoing
+    struct FriendMemoOutgoing
     {
         UINT16 opcode{ 0x2206 };
         ULONG charId;
@@ -74,7 +68,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct BlockSaveMemoOutgoing
+    struct BlockMemoOutgoing
     {
         UINT16 opcode{ 0x220B };
         ULONG charId;
@@ -83,6 +77,12 @@ namespace shaiya
         CharArray<51> memo;
     };
     #pragma pack(pop)
+
+    enum struct BlockAddResult : UINT8
+    {
+        Failure,
+        Success
+    };
 
     #pragma pack(push, 1)
     struct BlockAddResultOutgoing

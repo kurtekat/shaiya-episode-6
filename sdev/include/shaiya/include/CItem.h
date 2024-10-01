@@ -35,8 +35,7 @@ namespace shaiya
         ULONG enablePickId;        //0x70
         ULONG enablePickPartyId;   //0x74
         enum struct 
-            DropType : UINT8
-        {
+            DropType : UINT8 {
             Mob = 1,
             User,
             Death

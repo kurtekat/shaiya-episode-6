@@ -23,7 +23,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct FriendSaveMemoIncoming
+    struct FriendMemoIncoming
     {
         UINT16 opcode{ 0x2206 };
         ULONG charId;
@@ -50,7 +50,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct BlockSaveMemoIncoming
+    struct BlockMemoIncoming
     {
         UINT16 opcode{ 0x220B };
         ULONG charId;

@@ -44,8 +44,7 @@ namespace shaiya
         MobInfo* mobInfo;                  //0xD4
         PAD(208);
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             Idle,
             Chase,
             Death,
@@ -105,8 +104,7 @@ namespace shaiya
         PAD(40);
         DWORD lockOnTick;                  //0x334
         enum struct 
-            LuaEvent : UINT32
-        {
+            LuaEvent : UINT32 {
             OnMoveEnd,
             OnAttacked,
             OnAttackable,

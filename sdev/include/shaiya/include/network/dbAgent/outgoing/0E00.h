@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct DBAgentReloadPointOutgoing
+    struct DBAgentPointReloadOutgoing
     {
         UINT16 opcode{ 0xE06 };
         ULONG userId;
@@ -13,7 +13,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentAddPointOutgoing
+    struct DBAgentPointAddOutgoing
     {
         UINT16 opcode{ 0xE08 };
         ULONG userId;

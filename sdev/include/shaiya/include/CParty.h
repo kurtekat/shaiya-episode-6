@@ -22,8 +22,7 @@ namespace shaiya
         // 0x14
         Array<PartyMember, 30> members;
         enum struct
-            ItemDivType : UINT32
-        {
+            ItemDivType : UINT32 {
             Group = 1,
             Random,
             Unknown,

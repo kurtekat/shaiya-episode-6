@@ -5,14 +5,6 @@
 
 namespace shaiya
 {
-    enum struct PvPGuildRequestResult : UINT8
-    {
-        Rejected,
-        Accepted,
-        CannotRequest,
-        DidNotRespond
-    };
-
      #pragma pack(push, 1)
     struct PvPGuildRequestOutgoing
     {
@@ -28,6 +20,14 @@ namespace shaiya
         }
     };
     #pragma pack(pop)
+
+    enum struct PvPGuildRequestResult : UINT8
+    {
+        Rejected,
+        Accepted,
+        CannotRequest,
+        DidNotRespond
+    };
 
     #pragma pack(push, 1)
     struct PvPGuildRequestResultOutgoing

@@ -16,8 +16,8 @@ namespace packet_exchange
     void send_cancel_ready(CUser* user)
     {
         user->exchange.ready = false;
-        ExchangeOutgoing outgoing(ExchangeOutgoing::Kind::CancelReady, true);
-        Helpers::Send(user, &outgoing, sizeof(ExchangeOutgoing));
+        ExchangeReadyOutgoing outgoing(ExchangeReadyOutgoing::Kind::Cancel, true);
+        Helpers::Send(user, &outgoing, sizeof(ExchangeReadyOutgoing));
     }
 
     /// <summary>

@@ -5,27 +5,12 @@
 
 namespace shaiya
 {
-    enum struct PointPurchaseItemResult : UINT8
+    enum struct PointBuyItemResult : UINT8
     {
         Success,
         ProductCodeDoesNotExist,
         InsufficientPoints,
         InventoryFull
-    };
-
-    enum struct PointSendGiftItemResult : UINT8
-    {
-        Success,
-        CharNameDoesNotExist,
-        CannotSendPresent,
-        ItemCountExceeded,
-        InsufficientSlots,
-        InsertFailure,
-        ProductCodeDoesNotExist,
-        CannotDeductPoints,
-        LogInsertFailure,
-        PreviousRequestInProcess,
-        InsufficientPoints
     };
 
     #pragma pack(push, 1)
@@ -40,10 +25,10 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointPurchaseItemOutgoing
+    struct PointBuyItemOutgoing
     {
         UINT16 opcode{ 0x2602 };
-        PointPurchaseItemResult result;
+        PointBuyItemResult result;
         UINT32 points;
         CharArray<21> productCode;
         ULONG purchaseDate;
@@ -69,10 +54,10 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointPurchaseItemOutgoing2
+    struct PointBuyItemOutgoing2
     {
         UINT16 opcode{ 0x2602 };
-        PointPurchaseItemResult result;
+        PointBuyItemResult result;
         UINT32 points;
         CharArray<21> productCode;
         ULONG purchaseDate;
@@ -83,6 +68,21 @@ namespace shaiya
         constexpr int size_without_list() { return 37; }
     };
     #pragma pack(pop)
+
+    enum struct PointSendGiftItemResult : UINT8
+    {
+        Success,
+        CharNameDoesNotExist,
+        CannotSendPresent,
+        ItemCountExceeded,
+        InsufficientSlots,
+        InsertFailure,
+        ProductCodeDoesNotExist,
+        CannotDeductPoints,
+        LogInsertFailure,
+        PreviousRequestInProcess,
+        InsufficientPoints
+    };
 
     #pragma pack(push, 1)
     struct PointSendGiftItemOutgoing
@@ -112,14 +112,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointOutgoing
+    struct PointBalanceOutgoing
     {
         UINT16 opcode{ 0x2605 };
         UINT32 points;
 
-        PointOutgoing() = default;
+        PointBalanceOutgoing() = default;
 
-        PointOutgoing(UINT32 points)
+        PointBalanceOutgoing(UINT32 points)
             : points(points)
         {
         }

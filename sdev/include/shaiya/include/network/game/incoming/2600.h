@@ -24,7 +24,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointIncoming
+    struct PointBalanceRequest
     {
         UINT16 opcode{ 0x2605 };
     };

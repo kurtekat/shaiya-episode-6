@@ -7,6 +7,19 @@
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
+    struct UserMoveOutgoing
+    {
+        UINT16 opcode{ 0x501 };
+        ULONG charId;
+        UINT8 motionValue;
+        UINT16 direction;
+        float x;
+        float y;
+        float z;
+    };
+    #pragma pack(pop)
+
     // Credit: Anna Melashkina (Imgeneus)
     enum struct UserAttackSuccessResult : UINT8
     {
@@ -24,19 +37,6 @@ namespace shaiya
         WrongTarget,
         TooFastAttack
     };
-
-    #pragma pack(push, 1)
-    struct UserMoveOutgoing
-    {
-        UINT16 opcode{ 0x501 };
-        ULONG charId;
-        UINT8 motionValue;
-        UINT16 direction;
-        float x;
-        float y;
-        float z;
-    };
-    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct UserAttackUserOutgoing
@@ -70,8 +70,7 @@ namespace shaiya
         UINT16 opcode{ 0x504 };
         ULONG charId;
         enum struct 
-            KillerType : UINT8
-        {
+            KillerType : UINT8 {
             User = 1,
             Mob,
             Npc
@@ -174,8 +173,7 @@ namespace shaiya
         UINT16 mana;
         // EP6
         enum struct
-            Status : UINT8
-        {
+            Status : UINT8 {
             Triggered = 1,
             Stopped = 3
         } status;

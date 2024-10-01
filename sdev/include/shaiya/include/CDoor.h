@@ -23,8 +23,7 @@ namespace shaiya
         SVector pos;       //0x04
         ULONG id;          //0x10
         enum struct 
-            Country : UINT32
-        {
+            Country : UINT32 {
             Neutral, 
             Light, 
             Fury

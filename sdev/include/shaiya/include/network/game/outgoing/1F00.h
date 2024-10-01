@@ -11,13 +11,6 @@ namespace shaiya
         Failure  // 7188
     };
 
-    enum struct RewardItemMedalResult : UINT8
-    {
-        Bronze, // 7189
-        Silver, // 7190
-        Gold    // 7191
-    };
-
     #pragma pack(push, 1)
     struct RewardItemClaimResultOutgoing
     {
@@ -35,6 +28,13 @@ namespace shaiya
         }
     };
     #pragma pack(pop)
+
+    enum struct RewardItemMedalResult : UINT8
+    {
+        Bronze, // 7189
+        Silver, // 7190
+        Gold    // 7191
+    };
 
     #pragma pack(push, 1)
     struct RewardItemMedalOutgoing

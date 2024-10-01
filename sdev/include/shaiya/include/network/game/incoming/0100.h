@@ -11,7 +11,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CharacterCreateIncoming
+    struct CharCreateIncoming
     {
         UINT16 opcode{ 0x102 };
         UINT8 slot;
@@ -27,7 +27,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterDeleteIncoming
+    struct CharDeleteIncoming
     {
         UINT16 opcode{ 0x103 };
         ULONG charId;
@@ -35,7 +35,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterChangeIncoming
+    struct CharChangeIncoming
     {
         UINT16 opcode{ 0x107 };
     };
@@ -52,7 +52,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterQuickSlotIncoming
+    struct CharQuickSlotIncoming
     {
         UINT16 opcode{ 0x10B };
         UINT8 quickSlotCount;
@@ -61,14 +61,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterExitIncoming
+    struct CharExitIncoming
     {
         UINT16 opcode{ 0x10D };
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterNameChangeIncoming
+    struct CharNameChangeIncoming
     {
         UINT16 opcode{ 0x10E };
         ULONG charId;
@@ -77,7 +77,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterRestoreIncoming
+    struct CharRestoreIncoming
     {
         UINT16 opcode{ 0x10F };
         ULONG charId;

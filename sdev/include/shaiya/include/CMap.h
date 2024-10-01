@@ -152,8 +152,7 @@ namespace shaiya
     {
         UINT32 id;
         enum struct 
-            Country : UINT32
-        {
+            Country : UINT32 {
             Neutral, 
             Light, 
             Fury
@@ -209,14 +208,12 @@ namespace shaiya
         MapNamedArea* namedAreas;  //0x74
         ULONG id;                  //0x78
         enum struct 
-            WarType : UINT32
-        {
+            WarType : UINT32 {
             Default, 
             Peace    // P
         } warType;                 //0x7C
         enum struct 
-            MapType : UINT32
-        {
+            MapType : UINT32 {
             Dungeon, // D
             Field    // F
         } mapType;                 //0x80
@@ -224,8 +221,7 @@ namespace shaiya
         MapRebirth rebirth1;       //0x184
         MapRebirth rebirth2;       //0x194
         enum struct 
-            CreateType : UINT32
-        {
+            CreateType : UINT32 {
             Dungeon,    // D
             Static,     // S
             Field,      // F

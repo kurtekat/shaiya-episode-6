@@ -14,8 +14,7 @@ namespace shaiya
         float y;
         float z;
         enum struct 
-            ActionType : UINT8
-        {
+            ActionType : UINT8 {
             None,
             Attack,
             Damage,

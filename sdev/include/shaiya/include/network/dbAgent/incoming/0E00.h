@@ -7,7 +7,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct DBAgentSaveGiftPointItemIncoming
+    struct DBAgentPointGiftItemIncoming
     {
         UINT16 opcode{ 0xE03 };
         ULONG userId;
@@ -17,9 +17,9 @@ namespace shaiya
         ULONG purchaseDate;
         UINT32 purchaseNumber;
 
-        DBAgentSaveGiftPointItemIncoming() = default;
+        DBAgentPointGiftItemIncoming() = default;
 
-        DBAgentSaveGiftPointItemIncoming(
+        DBAgentPointGiftItemIncoming(
             ULONG userId, 
             const char* targetName, 
             const char* productCode, 
@@ -36,14 +36,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentReloadPointIncoming
+    struct DBAgentPointReloadIncoming
     {
         UINT16 opcode{ 0xE06 };
         ULONG userId;
 
-        DBAgentReloadPointIncoming() = default;
+        DBAgentPointReloadIncoming() = default;
 
-        DBAgentReloadPointIncoming(ULONG userId)
+        DBAgentPointReloadIncoming(ULONG userId)
             : userId(userId)
         {
         }
@@ -51,14 +51,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSaveBuyPointItemIncoming
+    struct DBAgentPointUpdateIncoming
     {
         UINT16 opcode{ 0xE0A };
         ULONG userId;
 
-        DBAgentSaveBuyPointItemIncoming() = default;
+        DBAgentPointUpdateIncoming() = default;
 
-        DBAgentSaveBuyPointItemIncoming(ULONG userId)
+        DBAgentPointUpdateIncoming(ULONG userId)
             : userId(userId)
         {
         }

@@ -117,8 +117,7 @@ namespace shaiya
         UINT8 attackResult;           //0x1FC
         PAD(135);
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             None,
             Death,
             Unknown

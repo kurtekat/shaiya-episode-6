@@ -14,7 +14,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ExchangeIncoming
+    struct ExchangeReadyIncoming
     {
         UINT16 opcode{ 0xA05 };
         bool canceled;

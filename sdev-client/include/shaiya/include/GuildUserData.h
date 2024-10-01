@@ -14,8 +14,8 @@ namespace shaiya
         UINT16 level;        //0x06
         PAD(1);
         CharArray<21> name;  //0x09
-        enum struct Status : UINT8
-        {
+        enum struct 
+            Status : UINT8 {
             EnterWorld = 1,
             LeaveWorld,
             EnterRankBattle

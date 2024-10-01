@@ -11,8 +11,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0xB0F };
         enum struct
-            ItemDivType : UINT32
-        {
+            ItemDivType : UINT32 {
             Group = 1,
             Random,
             Unknown,

@@ -13,12 +13,6 @@
 
 namespace shaiya
 {
-    enum struct CharNameChangeResult : UINT8
-    {
-        Success = 1,
-        Failure
-    };
-
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
     struct CharacterOutgoing
@@ -88,15 +82,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterDeleteOutgoing
+    struct CharDeleteOutgoing
     {
         UINT16 opcode{ 0x103 };
         UINT8 unknown;
         ULONG charId;
 
-        CharacterDeleteOutgoing() = default;
+        CharDeleteOutgoing() = default;
 
-        CharacterDeleteOutgoing(ULONG charId)
+        CharDeleteOutgoing(ULONG charId)
             : unknown(0), charId(charId)
         {
         }
@@ -104,30 +98,36 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterMaxGrowOutgoing
+    struct CharMaxGrowOutgoing
     {
         UINT16 opcode{ 0x109 };
         Country country;
         Grow maxGrow;
 
-        CharacterMaxGrowOutgoing() = default;
+        CharMaxGrowOutgoing() = default;
 
-        CharacterMaxGrowOutgoing(Country country, Grow maxGrow)
+        CharMaxGrowOutgoing(Country country, Grow maxGrow)
             : country(country), maxGrow(maxGrow)
         {
         }
     };
     #pragma pack(pop)
 
+    enum struct CharNameChangeResult : UINT8
+    {
+        Success = 1,
+        Failure
+    };
+
     #pragma pack(push, 1)
-    struct CharacterNameChangeOutgoing
+    struct CharNameChangeOutgoing
     {
         UINT16 opcode{ 0x10E };
         CharNameChangeResult result;
 
-        CharacterNameChangeOutgoing() = default;
+        CharNameChangeOutgoing() = default;
 
-        CharacterNameChangeOutgoing(CharNameChangeResult result)
+        CharNameChangeOutgoing(CharNameChangeResult result)
             : result(result)
         {
         }
@@ -135,15 +135,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterRestoreOutgoing
+    struct CharRestoreOutgoing
     {
         UINT16 opcode{ 0x10F };
         UINT8 unknown;
         ULONG charId;
 
-        CharacterRestoreOutgoing() = default;
+        CharRestoreOutgoing() = default;
 
-        CharacterRestoreOutgoing(ULONG charId)
+        CharRestoreOutgoing(ULONG charId)
             : unknown(0), charId(charId)
         {
         }

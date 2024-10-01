@@ -60,14 +60,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct LogOffTimeOutgoing
+    struct LogoutTimeOutgoing
     {
         UINT16 opcode{ 0xB105 };
         ULONG time;
 
-        LogOffTimeOutgoing() = default;
+        LogoutTimeOutgoing() = default;
 
-        LogOffTimeOutgoing(ULONG time)
+        LogoutTimeOutgoing(ULONG time)
             : time(time)
         {
         }

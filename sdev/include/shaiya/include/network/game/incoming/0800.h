@@ -6,7 +6,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ItemCloakBadgeCombineIncoming
+    struct ItemCloakBadgeIncoming
     {
         UINT16 opcode{ 0x803 };
         UINT8 bag;

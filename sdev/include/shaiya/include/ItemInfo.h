@@ -8,23 +8,23 @@
 
 namespace shaiya
 {
-    enum struct ItemCooldown : ULONG
-    {
-        // ReqIg
-        Value0 = 0,        // 0x581D84
-        Value1 = 15000,    // 0x581D88
-        Value2 = 20000,    // 0x581D8C
-        Value3 = 25000,    // 0x581D90
-        Value4 = 30000,    // 0x581D94
-        Value5 = 60000,    // 0x581D98
-        Value6 = 120000,   // 0x581D9C
-        Value7 = 0,        // 0x581DA0
-        Value8 = 0,        // 0x581DA4
-        Value9 = 0,        // 0x581DA8
-        Value10 = 600000,  // 0x581DAC
-        Value11 = 2000     // 0x581DB0
-    };
-
+    /*
+    | ReqIg | Cooldown |
+    |-------|----------|
+    | 0     | 0        |
+    | 1     | 15000    |
+    | 2     | 20000    |
+    | 3     | 25000    |
+    | 4     | 30000    |
+    | 5     | 60000    |
+    | 6     | 120000   |
+    | 7     | 0        |
+    | 8     | 0        |
+    | 9     | 0        |
+    | 10    | 600000   |
+    | 11    | 2000     |
+    */
+    
     enum struct RealType : UINT32
     {
         OneHandedSword = 1,
@@ -104,10 +104,9 @@ namespace shaiya
         UINT16 reqLevel;            //0x2E
         Grow grow;                  //0x30
         enum struct 
-            ReqOg : UINT8
-        {
-            Tradable,
-            AccountBound,
+            ReqOg : UINT8 {
+            Tradable, 
+            AccountBound, 
             CharacterBound
         } reqOg;                    //0x31
         UINT8 reqIg;                //0x32

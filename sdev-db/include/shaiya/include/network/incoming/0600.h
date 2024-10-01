@@ -66,8 +66,7 @@ namespace shaiya
         UINT16 opcode{ 0x605 };
         ULONG userId;
         enum struct
-            GroupType : UINT8
-        {
+            GroupType : UINT8 {
             Honor = 1, // hg
             Other = 2, // vg, cg, og, ig
         } groupType;
@@ -144,8 +143,7 @@ namespace shaiya
         UINT16 opcode{ 0x60C };
         ULONG userId;
         enum struct
-            GroupType : UINT8
-        {
+            GroupType : UINT8 {
             Honor = 1, // hg
             Other = 2, // vg, cg, og, ig
         } groupType;

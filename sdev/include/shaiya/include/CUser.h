@@ -300,8 +300,7 @@ namespace shaiya
         UINT32 staminaRecovery;                //0x1268
         UINT32 manaRecovery;                   //0x126C
         enum struct 
-            RecoveryType : UINT32
-        {
+            RecoveryType : UINT32 {
             Sit,
             Normal,
             Combat
@@ -328,8 +327,7 @@ namespace shaiya
         PAD(4);
         UINT32 shieldMasteryDefense;           //0x133C
         enum struct 
-            HealthAssistType : UINT32
-        {
+            HealthAssistType : UINT32 {
             Sp,
             Mp,
             SpMp
@@ -408,8 +406,7 @@ namespace shaiya
         UINT32 magicCriticalHitRate;           //0x1430
         PAD(16);
         enum struct 
-            Status : UINT32
-        {
+            Status : UINT32 {
             None,
             Death,
             Combat
@@ -421,8 +418,7 @@ namespace shaiya
         BOOL running;                          //0x1450
         BOOL attacking;                        //0x1454
         enum struct 
-            AttackType : UINT32
-        {
+            AttackType : UINT32 {
             None,
             Basic,
             Skill
@@ -436,8 +432,7 @@ namespace shaiya
         BOOL leaderResurrect;                  //0x1474
         UINT32 expLossRate;                    //0x1478
         enum struct 
-            VehicleStatus : UINT32
-        {
+            VehicleStatus : UINT32 {
             None,
             Summon,
             Riding
@@ -456,8 +451,7 @@ namespace shaiya
         // 0x1544
         PAD(16);
         enum struct 
-            TargetType : UINT32
-        {
+            TargetType : UINT32 {
             None,
             User,
             Mob
@@ -488,8 +482,7 @@ namespace shaiya
         BOOL grbZoneEnterFlag;                 //0x5584
         BOOL insZoneEnterFlag;                 //0x5588
         enum struct 
-            PvPStatus : UINT32
-        {
+            PvPStatus : UINT32 {
             None,
             RequestSent,
             RequestReceived,
@@ -506,8 +499,7 @@ namespace shaiya
         PAD(8);
         CUserCrypto crypto;                    //0x55C0
         enum struct 
-            Where : UINT32
-        {
+            Where : UINT32 {
             Default,
             WorldLeave,
             ZoneWait,
@@ -539,8 +531,7 @@ namespace shaiya
         UINT32 questKillMobCount;              //0x5868
         PAD(12);
         enum struct 
-            LogoutType : UINT32
-        {
+            LogoutType : UINT32 {
             None,
             CharacterScreen,
             Exit
@@ -553,7 +544,7 @@ namespace shaiya
         DWORD recallTick;                      //0x58B8
         UINT32 recallMapId;                    //0x58BC
         SVector recallPos;                     //0x58C0
-        PAD(4);
+        DWORD exchangeRequestExpireTick;       //0x58CC
         DWORD partyRequestExpireTick;          //0x58D0
         PAD(8);
         bool isMessageToServer;                //0x58DC
@@ -573,8 +564,7 @@ namespace shaiya
         UINT32 recallItemGroup;                //0x5908
         UserSavePoint savePoint;               //0x590C
         enum struct 
-            CharmType : UINT32
-        {
+            CharmType : UINT32 {
             None,
             BlueDragon,
             WhiteTiger,
@@ -596,7 +586,7 @@ namespace shaiya
         BOOL battlefieldRune;                  //0x597C
         ProductLog productLog;                 //0x5980
         UINT32 points;                         //0x5AC0
-        volatile UINT disableShop;             //0x5AC4
+        volatile unsigned disableShop;         //0x5AC4
         DWORD reloadPointTick;                 //0x5AC8
         StoredPointItems storedPointItems;     //0x5ACC
         // 0x6264
