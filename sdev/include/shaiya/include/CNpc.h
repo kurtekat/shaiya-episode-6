@@ -7,17 +7,8 @@
 
 namespace shaiya
 {
-    struct Npc;
     struct CMap;
     struct CUser;
-
-    enum struct NpcStatus : UINT32
-    {
-        Idle,
-        Chase,
-        FindTarget,
-        ReturnHome
-    };
 
     #pragma pack(push, 1)
     struct CNpc
@@ -28,10 +19,17 @@ namespace shaiya
         NpcType32 type;    //0x34
         UINT32 typeId;     //0x38
         PAD(20);
-        // cast this
-        Npc* npcData;      //0x50
+        // use reinterpret_cast
+        void* npcData;     //0x50
         PAD(4);
-        NpcStatus status;  //0x58
+        enum struct 
+            Status : UINT32
+        {
+            Idle,
+            Chase,
+            FindTarget,
+            ReturnHome
+        } status;          //0x58
         PAD(4);
         ULONG targetId;    //0x60
         PAD(4);

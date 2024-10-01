@@ -15,25 +15,6 @@ namespace shaiya
     struct MobInfo;
     struct SkillInfo;
 
-    enum struct MobLuaEvent : UINT32
-    {
-        OnMoveEnd,
-        OnAttacked,
-        OnAttackable,
-        OnNormalReset,
-        OnDeath,
-        OnReturnHome
-    };
-
-    enum struct MobStatus : UINT32
-    {
-        Idle,
-        Chase,
-        Death,
-        ReturnHome,
-        Unknown100 = 100
-    };
-
     #pragma pack(push, 1)
     struct stMobRespawn
     {
@@ -62,7 +43,15 @@ namespace shaiya
         PAD(44);
         MobInfo* mobInfo;                  //0xD4
         PAD(208);
-        MobStatus status;                  //0x1A8
+        enum struct 
+            Status : UINT32
+        {
+            Idle,
+            Chase,
+            Death,
+            ReturnHome,
+            Unknown100 = 100
+        } status;                          //0x1A8
         PAD(4);
         ULONG targetId;                    //0x1B0
         PAD(4);
@@ -115,7 +104,16 @@ namespace shaiya
         ULONG luaTargetId;                 //0x308
         PAD(40);
         DWORD lockOnTick;                  //0x334
-        MobLuaEvent luaEvent;              //0x338
+        enum struct 
+            LuaEvent : UINT32
+        {
+            OnMoveEnd,
+            OnAttacked,
+            OnAttackable,
+            OnNormalReset,
+            OnDeath,
+            OnReturnHome
+        } luaEvent;                        //0x338
         PAD(2516);
         stMobRespawn* mobRespawn;          //0xD10
         PAD(40);

@@ -1,22 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/PvPStatus.h>
 
 // CUser::PacketUserSetStatus
 
 namespace shaiya
 {
-    enum struct DBAgentSetStatusGroupType
-    {
-        // hg
-        Honor = 1,
-        // vg, cg, og, ig
-        Other = 2,
-    };
-
     #pragma pack(push, 1)
-    struct DBAgentSetStatusIncoming
+    struct DBAgentStatusIncoming
     {
         UINT16 opcode{ 0x601 };
         ULONG userId;
@@ -37,8 +28,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBExp
-    struct DBAgentSetExpIncoming
+    // see CUser::SendDBExp
+    struct DBAgentExpIncoming
     {
         UINT16 opcode{ 0x602 };
         ULONG userId;
@@ -47,8 +38,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBMoney
-    struct DBAgentSetMoneyIncoming
+    // see CUser::SendDBMoney
+    struct DBAgentMoneyIncoming
     {
         UINT16 opcode{ 0x603 };
         ULONG userId;
@@ -57,8 +48,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBStatusUp
-    struct DBAgentSetStatusUpIncoming
+    // see CUser::SendDBStatusUp
+    struct DBAgentStatusUpIncoming
     {
         UINT16 opcode{ 0x604 };
         ULONG userId;
@@ -73,16 +64,21 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetStatusGroupIncoming
+    struct DBAgentStatusGroupIncoming
     {
         UINT16 opcode{ 0x605 };
         ULONG userId;
-        DBAgentSetStatusGroupType groupType;
+        enum struct 
+            GroupType : UINT8 
+        {
+            Honor = 1, // hg
+            Other = 2, // vg, cg, og, ig
+        } groupType;
         UINT16 value;
 
-        DBAgentSetStatusGroupIncoming() = default;
+        DBAgentStatusGroupIncoming() = default;
 
-        DBAgentSetStatusGroupIncoming(ULONG userId, DBAgentSetStatusGroupType groupType, UINT16 value)
+        DBAgentStatusGroupIncoming(ULONG userId, GroupType groupType, UINT16 value)
             : userId(userId), groupType(groupType), value(value)
         {
         }
@@ -90,7 +86,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetHpMpSpIncoming
+    struct DBAgentHpMpSpIncoming
     {
         UINT16 opcode{ 0x606 };
         ULONG userId;
@@ -98,9 +94,9 @@ namespace shaiya
         UINT16 mana;
         UINT16 stamina;
 
-        DBAgentSetHpMpSpIncoming() = default;
+        DBAgentHpMpSpIncoming() = default;
 
-        DBAgentSetHpMpSpIncoming(ULONG userId, UINT16 health, UINT16 mana, UINT16 stamina)
+        DBAgentHpMpSpIncoming(ULONG userId, UINT16 health, UINT16 mana, UINT16 stamina)
             : userId(userId), health(health), mana(mana), stamina(stamina)
         {
         }
@@ -108,7 +104,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetLocationIncoming
+    struct DBAgentLocationIncoming
     {
         UINT16 opcode{ 0x607 };
         ULONG userId;
@@ -118,9 +114,9 @@ namespace shaiya
         float y;
         float z;
 
-        DBAgentSetLocationIncoming() = default;
+        DBAgentLocationIncoming() = default;
 
-        DBAgentSetLocationIncoming(ULONG userId, UINT16 mapId, UINT16 direction, float x, float y, float z)
+        DBAgentLocationIncoming(ULONG userId, UINT16 mapId, UINT16 direction, float x, float y, float z)
             : userId(userId), mapId(mapId), direction(direction), x(x), y(y), z(z)
         {
         }
@@ -128,7 +124,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetQuickSlot
+    struct DBAgentQuickSlot
     {
         UINT8 bag;
         UINT8 slot;
@@ -138,19 +134,19 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBAgentQuickSlot
-    struct DBAgentSetQuickSlotIncoming
+    // see CUser::SendDBAgentQuickSlot
+    struct DBAgentQuickSlotIncoming
     {
         UINT16 opcode{ 0x609 };
         ULONG userId;
         UINT8 quickSlotCount;
-        Array<DBAgentSetQuickSlot, 128> quickSlotList;
+        Array<DBAgentQuickSlot, 128> quickSlots;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBLevel
-    struct DBAgentSetLevelIncoming
+    // see CUser::SendDBLevel
+    struct DBAgentLevelIncoming
     {
         UINT16 opcode{ 0x60A };
         ULONG userId;
@@ -160,8 +156,8 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // not implemented
-    // use CUser::SendDBBankMoney
-    struct DBAgentSetBankMoneyIncoming
+    // see CUser::SendDBBankMoney
+    struct DBAgentBankMoneyIncoming
     {
         UINT16 opcode{ 0x60B };
         ULONG userId;
@@ -170,16 +166,23 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetPvPStatusIncoming
+    struct DBAgentPvPStatusIncoming
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        PvPStatus statusType;
+        enum struct 
+            StatusType : UINT8 
+        {
+            Kill, 
+            Death, 
+            Win, 
+            Loss
+        } statusType;
         UINT32 value;
 
-        DBAgentSetPvPStatusIncoming() = default;
+        DBAgentPvPStatusIncoming() = default;
 
-        DBAgentSetPvPStatusIncoming(ULONG userId, PvPStatus statusType, UINT32 value)
+        DBAgentPvPStatusIncoming(ULONG userId, StatusType statusType, UINT32 value)
             : userId(userId), statusType(statusType), value(value)
         {
         }
@@ -187,16 +190,16 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBGrow
-    struct DBAgentSetGrowIncoming
+    // see CUser::SendDBGrow
+    struct DBAgentGrowIncoming
     {
         UINT16 opcode{ 0x60D };
         ULONG userId;
         UINT32 grow;
 
-        DBAgentSetGrowIncoming() = default;
+        DBAgentGrowIncoming() = default;
 
-        DBAgentSetGrowIncoming(ULONG userId, Grow grow)
+        DBAgentGrowIncoming(ULONG userId, Grow grow)
             : userId(userId), grow(UINT32(grow))
         {
         }
@@ -204,8 +207,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBSkillPoint
-    struct DBAgentSetSkillPointIncoming
+    // see CUser::SendDBSkillPoint
+    struct DBAgentSkillPointIncoming
     {
         UINT16 opcode{ 0x60E };
         ULONG userId;
@@ -214,8 +217,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // use CUser::SendDBStatPoint
-    struct DBAgentSetStatPointIncoming
+    // see CUser::SendDBStatPoint
+    struct DBAgentStatPointIncoming
     {
         UINT16 opcode{ 0x60F };
         ULONG userId;

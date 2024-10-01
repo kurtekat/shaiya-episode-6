@@ -5,18 +5,17 @@ namespace shaiya
 {
     struct CUser;
 
-    enum struct MyShopStatus : UINT32
-    {
-        None,
-        Closed,
-        Open
-    };
-
     #pragma pack(push, 1)
     struct MyShop
     {
         CUser* user;                //0x1634  0x00
-        MyShopStatus status;        //0x1638  0x04
+        enum struct 
+            Status : UINT32
+        {
+            None,
+            Closed,
+            Open
+        } status;                   //0x1638  0x04
         Array<UINT32, 20> srcBag;   //0x163C  0x08
         Array<UINT32, 20> srcSlot;  //0x168C  0x58
         Array<UINT32, 20> price;    //0x16DC  0xA8

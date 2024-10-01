@@ -28,13 +28,6 @@ namespace shaiya
         UseSkill
     };
 
-    enum struct CharacterStatus : UINT32
-    {
-        None,
-        Death,
-        Unknown
-    };
-
     #pragma pack(push, 1)
     // 00419800 ctor
     struct CCharacter
@@ -123,7 +116,13 @@ namespace shaiya
         PAD(6);
         UINT8 attackResult;           //0x1FC
         PAD(135);
-        CharacterStatus status;       //0x284
+        enum struct 
+            Status : UINT32
+        {
+            None,
+            Death,
+            Unknown
+        } status;                     //0x284
         CCharacterChat* chatBalloon;  //0x288
         // 0x747538 5.0 (seconds)
         float chatBalloonTimer;       //0x28C

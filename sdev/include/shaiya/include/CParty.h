@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemDivType.h>
 #include "include/shaiya/include/SNode.h"
 
 namespace shaiya
@@ -22,7 +21,14 @@ namespace shaiya
         UINT32 memberCount;       //0x10
         // 0x14
         Array<PartyMember, 30> members;
-        ItemDivType itemDivType;  //0x104
+        enum struct
+            ItemDivType : UINT32
+        {
+            Group = 1,
+            Random,
+            Unknown,
+            Master
+        } itemDivType;            //0x104
         UINT32 itemDivSeq;        //0x108
         UINT32 topMemberLevel;    //0x10C
         UINT32 subLeaderIndex;    //0x110

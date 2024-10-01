@@ -17,7 +17,7 @@ namespace user_apply_skill
 {
     void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
-        SkillUseOutgoing2 outgoing{};
+        SkillUseOutgoing outgoing{};
         outgoing.senderId = user->connection.object.id;
         outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
@@ -25,33 +25,33 @@ namespace user_apply_skill
 
         if (!user->skillAbility.type70.triggered)
         {
-            outgoing.statusType = SkillUseStatusType::Triggered;
+            outgoing.status = SkillUseOutgoing::Status::Triggered;
 
             user->skillAbility.type70.triggered = true;
             user->skillAbility.type70.skillId = skillInfo->skillId;
             user->skillAbility.type70.skillLv = skillInfo->skillLv;
             user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
+            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
             CUser::AddApplySkillBuff(user, skillInfo);
         }
         else
         {
-            outgoing.statusType = SkillUseStatusType::Stopped;
+            outgoing.status = SkillUseOutgoing::Status::Stopped;
 
             user->skillAbility.type70.triggered = false;
             user->skillAbility.type70.skillId = 0;
             user->skillAbility.type70.skillLv = 0;
             user->skillAbility.type70.keepTick = 0;
 
-            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
+            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
             CUser::RemApplySkillBuff(user, skillInfo);
         }
     }
 
     void ability_70_check_apply(CUser* user)
     {
-        if (user->status == UserStatus::Death)
+        if (user->status == CUser::Status::Death)
             return;
 
         if (!user->skillAbility.type70.triggered)
@@ -90,14 +90,14 @@ namespace user_apply_skill
         user->skillAbility.type70.skillLv = 0;
         user->skillAbility.type70.keepTick = 0;
 
-        SkillUseOutgoing2 outgoing{};
+        SkillUseOutgoing outgoing{};
         outgoing.senderId = user->connection.object.id;
         outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
-        outgoing.statusType = SkillUseStatusType::Stopped;
+        outgoing.status = SkillUseOutgoing::Status::Stopped;
 
-        Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 

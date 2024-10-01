@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
-#include <shaiya/include/common/Country.h>
 
 namespace shaiya
 {
@@ -102,7 +101,13 @@ namespace shaiya
         // 0x4A1A53
         MobCooldown cooldown;         //0x6C
         PAD(8);
-        Country32 country;            //0x78
+        enum struct 
+            Country : UINT32
+        {
+            Light, 
+            Fury, 
+            Neutral
+        } country;                    //0x78
         Array<MobAttack, 3> attacks;  //0x7C
         // 0xB8
         PAD(12);

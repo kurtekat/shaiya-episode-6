@@ -16,7 +16,7 @@ namespace packet_party
     /// <param name="incoming"></param>
     void map_ping_handler(CUser* user, PartyMapPingIncoming* incoming)
     {
-        if (user->status == UserStatus::Death)
+        if (user->status == CUser::Status::Death)
             return;
 
         if (!user->party)

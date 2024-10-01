@@ -1,22 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/PvPStatus.h>
 
 // CUser::PacketUserSetStatus
 
 namespace shaiya
 {
-    enum struct DBAgentSetStatusGroupType
-    {
-        // hg
-        Honor = 1,
-        // vg, cg, og, ig
-        Other = 2,
-    };
-
     #pragma pack(push, 1)
-    struct DBAgentSetStatusIncoming
+    struct DBAgentStatusIncoming
     {
         UINT16 opcode{ 0x601 };
         ULONG userId;
@@ -37,7 +28,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetExpIncoming
+    struct DBAgentExpIncoming
     {
         UINT16 opcode{ 0x602 };
         ULONG userId;
@@ -46,7 +37,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetMoneyIncoming
+    struct DBAgentMoneyIncoming
     {
         UINT16 opcode{ 0x603 };
         ULONG userId;
@@ -55,7 +46,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetStatusUpIncoming
+    struct DBAgentStatusUpIncoming
     {
         UINT16 opcode{ 0x604 };
         ULONG userId;
@@ -70,17 +61,22 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetStatusGroupIncoming
+    struct DBAgentStatusGroupIncoming
     {
         UINT16 opcode{ 0x605 };
         ULONG userId;
-        DBAgentSetStatusGroupType groupType;
+        enum struct
+            GroupType : UINT8
+        {
+            Honor = 1, // hg
+            Other = 2, // vg, cg, og, ig
+        } groupType;
         UINT16 value;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetHpMpSpIncoming
+    struct DBAgentHpMpSpIncoming
     {
         UINT16 opcode{ 0x606 };
         ULONG userId;
@@ -91,7 +87,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetLocationIncoming
+    struct DBAgentLocationIncoming
     {
         UINT16 opcode{ 0x607 };
         ULONG userId;
@@ -104,7 +100,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetQuickSlot
+    struct DBAgentQuickSlot
     {
         UINT8 bag;
         UINT8 slot;
@@ -114,17 +110,17 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetQuickSlotIncoming
+    struct DBAgentQuickSlotIncoming
     {
         UINT16 opcode{ 0x609 };
         ULONG userId;
         UINT8 quickSlotCount;
-        Array<DBAgentSetQuickSlot, 128> quickSlotList;
+        Array<DBAgentQuickSlot, 128> quickSlots;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetLevelIncoming
+    struct DBAgentLevelIncoming
     {
         UINT16 opcode{ 0x60A };
         ULONG userId;
@@ -134,7 +130,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // not implemented
-    struct DBAgentSetBankMoneyIncoming
+    struct DBAgentBankMoneyIncoming
     {
         UINT16 opcode{ 0x60B };
         ULONG userId;
@@ -143,17 +139,22 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetPvPStatusIncoming
+    struct DBAgentPvPStatusIncoming
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        PvPStatus statusType;
+        enum struct
+            GroupType : UINT8
+        {
+            Honor = 1, // hg
+            Other = 2, // vg, cg, og, ig
+        } groupType;
         UINT32 value;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetGrowIncoming
+    struct DBAgentGrowIncoming
     {
         UINT16 opcode{ 0x60D };
         ULONG userId;
@@ -162,7 +163,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetSkillPointIncoming
+    struct DBAgentSkillPointIncoming
     {
         UINT16 opcode{ 0x60E };
         ULONG userId;
@@ -171,7 +172,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct DBAgentSetStatPointIncoming
+    struct DBAgentStatPointIncoming
     {
         UINT16 opcode{ 0x60F };
         ULONG userId;

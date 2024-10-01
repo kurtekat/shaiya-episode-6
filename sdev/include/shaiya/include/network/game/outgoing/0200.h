@@ -2,23 +2,12 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/CraftName.h>
 #include <shaiya/include/common/Gems.h>
-#include <shaiya/include/common/PvPStatus.h>
 #include <shaiya/include/common/Sex.h>
 
 // CUser::PacketMainInterface
 
 namespace shaiya
 {
-    enum struct ItemExpireNoticeType : UINT16
-    {
-        DeletedFromInventory = 883,
-        DeletedFromWarehouse,
-        MinutesLeftInventory,
-        MinutesLeftWarehouse,
-        HoursLeftInventory,
-        HoursLeftWarehouse,
-    };
-
     enum struct PortalEnableResult : UINT8
     {
         GuildInstance,
@@ -161,15 +150,22 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterPvPStatusOutgoing
+    struct UserPvPStatusOutgoing
     {
         UINT16 opcode{ 0x20E };
-        PvPStatus statusType;
+        enum struct 
+            StatusType : UINT8 
+        {
+            Kill, 
+            Death, 
+            Win, 
+            Loss
+        } statusType;
         UINT32 value;
 
-        CharacterPvPStatusOutgoing() = default;
+        UserPvPStatusOutgoing() = default;
 
-        CharacterPvPStatusOutgoing(PvPStatus statusType, UINT32 value)
+        UserPvPStatusOutgoing(StatusType statusType, UINT32 value)
             : statusType(statusType), value(value)
         {
         }
@@ -177,7 +173,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterMoneyOutgoing
+    struct UserMoneyOutgoing
     {
         UINT16 opcode{ 0x213 };
         UINT32 money;
@@ -285,15 +281,24 @@ namespace shaiya
         UINT8 type;
         UINT8 typeId;
         UINT8 timeValue;
-        ItemExpireNoticeType noticeType;
+        enum struct 
+            NoticeType : UINT16
+        {
+            DeletedFromInventory = 883,
+            DeletedFromWarehouse,
+            MinutesLeftInventory,
+            MinutesLeftWarehouse,
+            HoursLeftInventory,
+            HoursLeftWarehouse,
+        } noticeType;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharacterHonorOutgoing
+    struct UserHonorOutgoing
     {
         UINT16 opcode{ 0x230 };
-        UINT16 honor;
+        UINT16 honor; // hg
     };
     #pragma pack(pop)
 }

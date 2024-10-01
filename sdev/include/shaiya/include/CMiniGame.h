@@ -5,19 +5,18 @@ namespace shaiya
 {
     struct CUser;
 
-    enum struct MiniGameStatus : UINT32
-    {
-        GameExit,
-        GameEnter,
-        SlotStart,
-        CardStart,
-        CardNext
-    };
-
     #pragma pack(push, 1)
     struct CMiniGame
     {
-        MiniGameStatus status;  //0x00
+        enum struct 
+            Status : UINT32
+        {
+            GameExit,
+            GameEnter,
+            SlotStart,
+            CardStart,
+            CardNext
+        } status;               //0x00
         UINT32 houseId;         //0x04
         UINT32 bettingMoney;    //0x08
         UINT32 numBets;         //0x0C

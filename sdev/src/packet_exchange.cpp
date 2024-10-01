@@ -16,7 +16,7 @@ namespace packet_exchange
     void send_cancel_ready(CUser* user)
     {
         user->exchange.ready = false;
-        ExchangeOutgoing outgoing(ExchangeType::CancelReady, true);
+        ExchangeOutgoing outgoing(ExchangeOutgoing::Kind::CancelReady, true);
         Helpers::Send(user, &outgoing, sizeof(ExchangeOutgoing));
     }
 
@@ -28,17 +28,17 @@ namespace packet_exchange
     void send_cancel_confirm(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
-        ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, false);
+        ExchangeConfirmOutgoing outgoing(ExchangeConfirmOutgoing::Kind::Sender, false);
         Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        outgoing.excType = ExchangeType::Target;
+        outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
         Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
-        outgoing.excType = ExchangeType::Sender;
+        outgoing.kind = ExchangeConfirmOutgoing::Kind::Sender;
         Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        outgoing.excType = ExchangeType::Target;
+        outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
         Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
@@ -67,10 +67,10 @@ namespace packet_exchange
         if (incoming->confirmed)
         {
             user->exchange.confirmed = true;
-            ExchangeConfirmOutgoing outgoing(ExchangeType::Sender, true);
+            ExchangeConfirmOutgoing outgoing(ExchangeConfirmOutgoing::Kind::Sender, true);
             Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-            outgoing.excType = ExchangeType::Target;
+            outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
             Helpers::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else

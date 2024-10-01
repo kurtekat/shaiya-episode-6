@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemDivType.h>
 #include <shaiya/include/common/PartyType.h>
 
 // CUser::PacketParty
@@ -11,7 +10,14 @@ namespace shaiya
     struct PartyItemDivIncoming
     {
         UINT16 opcode{ 0xB0F };
-        ItemDivType itemDivType;
+        enum struct 
+            ItemDivType : UINT32
+        {
+            Group = 1,
+            Random,
+            Unknown,
+            Master
+        } itemDivType;
     };
     #pragma pack(pop)
 

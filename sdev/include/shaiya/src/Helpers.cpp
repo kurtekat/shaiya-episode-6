@@ -228,14 +228,14 @@ void Helpers::SendUserLog(void* packet, int length)
 
 bool Helpers::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
 {
-    if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
+    if (user->status == CUser::Status::Death || user->where != CUser::Where::ZoneEnter)
         return false;
 
     user->recallMapId = mapId;
     user->recallPos.x = x;
     user->recallPos.y = y;
     user->recallPos.z = z;
-    user->recallType = UserRecallType(recallType);
+    user->recallType = RecallType(recallType);
     user->recallTick = GetTickCount() + delay;
     return true;
 }

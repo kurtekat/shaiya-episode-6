@@ -9,15 +9,6 @@ namespace shaiya
 {
     struct CItem;
 
-    enum struct GuildPvPStatus : UINT32
-    {
-        None,
-        RequestSent,
-        RequestReceived,
-        Countdown,
-        Start
-    };
-
     #pragma pack(push, 1)
     struct GuildNpc
     {
@@ -37,7 +28,15 @@ namespace shaiya
     #pragma pack(push, 1)
     struct GuildPvP
     {
-        GuildPvPStatus status;    //0x4B4
+        enum struct 
+            Status : UINT32
+        {
+            None,
+            RequestSent,
+            RequestReceived,
+            Countdown,
+            Start
+        } status;                 //0x4B4
         ULONG requestSenderId;    //0x4B8
         ULONG targetId;           //0x4BC
         ULONG requestTargetId;    //0x4C0

@@ -66,7 +66,7 @@ namespace item_effect
 
             auto mapId = gateKeeper->gates[index].mapId;
             auto pos = &gateKeeper->gates[index].pos;
-            auto recallType = int(UserRecallType::TownMoveScroll);
+            auto recallType = int(RecallType::TownMoveScroll);
 
             if (!Helpers::SetMovePosition(user, mapId, pos, recallType, 5000))
                 return 0;
@@ -87,7 +87,7 @@ namespace item_effect
     /// <param name="incoming"></param>
     void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
     {
-        if (user->status == UserStatus::Death)
+        if (user->status == CUser::Status::Death)
             return;
 
         if (!incoming->bag || incoming->bag > user->bagsUnlocked || incoming->slot >= max_inventory_slot)
@@ -118,7 +118,7 @@ namespace item_effect
         if (!item)
             return;
 
-        if (item->itemInfo->realType != ItemRealType::Teleportation)
+        if (item->itemInfo->realType != RealType::Teleportation)
             return;
 
         if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
@@ -153,9 +153,9 @@ namespace item_effect
     /// <param name="item"></param>
     /// <param name="kind"></param>
     /// <returns></returns>
-    int zone_enter_item_hook(CItem* item, ZoneEnterItemType kind)
+    int zone_enter_item_hook(CItem* item, int kind)
     {
-        if (kind != ZoneEnterItemType::MobDrop)
+        if (kind != int(ZoneEnterItemOutgoing::Kind::MobDrop))
             return 0;
 
         if (!item->object.zone)
@@ -182,12 +182,12 @@ namespace item_effect
             auto rate = user->increaseGoldDropRate;
             switch (user->charmType)
             {
-            case UserCharmType::BlueDragon:
+            case CUser::CharmType::BlueDragon:
                 break;
-            case UserCharmType::WhiteTiger:
+            case CUser::CharmType::WhiteTiger:
                 rate += 20;
                 break;
-            case UserCharmType::RedPhoenix:
+            case CUser::CharmType::RedPhoenix:
                 rate += 50;
                 break;
             default:
@@ -205,7 +205,7 @@ namespace item_effect
             if (!item->itemInfo)
                 return 0;
 
-            if (item->itemInfo->realType == ItemRealType::Quest)
+            if (item->itemInfo->realType == RealType::Quest)
                 return 0;
 
             auto effect = pet->itemInfo->effect;

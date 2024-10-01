@@ -7,12 +7,6 @@
 
 namespace shaiya
 {
-    enum struct SkillUseStatusType : UINT8
-    {
-        Triggered = 1,
-        Stopped = 3
-    };
-
     // Credit: Anna Melashkina (Imgeneus)
     enum struct UserAttackSuccessResult : UINT8
     {
@@ -29,13 +23,6 @@ namespace shaiya
         CannotAttack,
         WrongTarget,
         TooFastAttack
-    };
-
-    enum struct UserDeathKillerType : UINT8
-    {
-        User = 1,
-        Mob,
-        Npc
     };
 
     #pragma pack(push, 1)
@@ -82,7 +69,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x504 };
         ULONG charId;
-        UserDeathKillerType killerType;
+        enum struct 
+            KillerType : UINT8
+        {
+            User = 1,
+            Mob,
+            Npc
+        } killerType;
         ULONG killerId;
     };
     #pragma pack(pop)
@@ -179,22 +172,13 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct SkillUseOutgoing2
-    {
-        UINT16 opcode{ 0x511 };
-        UINT8 targetType;
-        ULONG senderId;
-        ULONG targetId;
-        UINT16 skillId;
-        UINT8 skillLv;
-        UINT16 health;
-        UINT16 stamina;
-        UINT16 mana;
-        SkillUseStatusType statusType;
+        // EP6
+        enum struct
+            Status : UINT8
+        {
+            Triggered = 1,
+            Stopped = 3
+        } status;
     };
     #pragma pack(pop)
 

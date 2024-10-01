@@ -9,13 +9,6 @@
 
 namespace shaiya
 {
-    enum struct GameLogItemCraftType : UINT8
-    {
-        None,
-        ItemCreate,
-        Remake
-    };
-
     #pragma pack(push, 1)
     // ActionType 111
     struct GameLogItemCreateIncoming
@@ -28,12 +21,17 @@ namespace shaiya
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
-        GameLogItemCraftType craftType;
+        enum struct CraftType : UINT8
+        {
+            None,
+            ItemCreate,
+            Remake
+        } craftType;
         UINT8 count;
 
         GameLogItemCreateIncoming() = default;
 
-        GameLogItemCreateIncoming(CUser* user, CItem* item, GameLogItemCraftType craftType, UINT8 count)
+        GameLogItemCreateIncoming(CUser* user, CItem* item, CraftType craftType, UINT8 count)
             : main{}, craftType(craftType), count(count)
         {
             CUser::SetGameLogMain(user, this);

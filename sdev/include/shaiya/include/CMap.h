@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/Country.h>
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
@@ -8,29 +7,6 @@ namespace shaiya
     struct CDoor;
     struct CZone;
     struct MobInfo;
-
-    enum struct MapCreateType : UINT32
-    {
-        Dungeon,    // D
-        Static,     // S
-        Field,      // F
-        Party,      // P
-        Guild,      // G
-        Restricted, // R
-        House       // H
-    };
-
-    enum struct MapType : UINT32
-    {
-        Dungeon, // D
-        Field    // F
-    };
-
-    enum struct MapWarType : UINT32
-    {
-        Default,
-        Peace    // P
-    };
 
     #pragma pack(push, 1)
     // aka spawn area
@@ -175,7 +151,13 @@ namespace shaiya
     struct MapPortal
     {
         UINT32 id;
-        PortalCountry country;
+        enum struct 
+            Country : UINT32
+        {
+            Neutral, 
+            Light, 
+            Fury
+        } country;
     };
     #pragma pack(pop)
 
@@ -226,12 +208,32 @@ namespace shaiya
         UINT32 namedAreaCount;     //0x70
         MapNamedArea* namedAreas;  //0x74
         ULONG id;                  //0x78
-        MapWarType warType;        //0x7C
-        MapType mapType;           //0x80
+        enum struct 
+            WarType : UINT32
+        {
+            Default, 
+            Peace    // P
+        } warType;                 //0x7C
+        enum struct 
+            MapType : UINT32
+        {
+            Dungeon, // D
+            Field    // F
+        } mapType;                 //0x80
         CharArray<256> svMapName;  //0x84
         MapRebirth rebirth1;       //0x184
         MapRebirth rebirth2;       //0x194
-        MapCreateType createType;  //0x1A4
+        enum struct 
+            CreateType : UINT32
+        {
+            Dungeon,    // D
+            Static,     // S
+            Field,      // F
+            Party,      // P
+            Guild,      // G
+            Restricted, // R
+            House       // H
+        } createType;              //0x1A4
         MapCreateTime createTime;  //0x1A8
         PAD(38);
         // value * 60000 + 30000

@@ -4,18 +4,10 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemType.h>
-#include <shaiya/include/common/ReqOg.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
 {
-    enum struct ExtDuration : UINT8
-    {
-        None,
-        Unexpandable,
-        Expandable
-    };
-
     #pragma pack(push, 1)
     struct ItemInfo
     {
@@ -41,7 +33,13 @@ namespace shaiya
         UINT16 reqWis;            //0x1E
         INT32 reqLuc;             //0x20
         INT16 reqVg;              //0x24
-        ReqOg reqOg;              //0x26
+        enum struct 
+            ReqOg : UINT8
+        {
+            Tradable,
+            AccountBound,
+            CharacterBound
+        } reqOg;                  //0x26
         UINT8 reqIg;              //0x27
         UINT16 range;             //0x28
         UINT8 attackTime;         //0x2A
@@ -70,7 +68,13 @@ namespace shaiya
         UINT8 count;              //0x59
         PAD(2);
         UINT32 duration;          //0x5C
-        ExtDuration extDuration;  //0x60
+        enum struct 
+            ExtDuration : UINT8
+        {
+            None,
+            Unexpandable,
+            Expandable
+        } extDuration;            //0x60
         PAD(47);
         UINT8 vehicleModel;       //0x90
         PAD(3);

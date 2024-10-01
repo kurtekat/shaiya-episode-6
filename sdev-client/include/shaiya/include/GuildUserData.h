@@ -4,13 +4,6 @@
 
 namespace shaiya
 {
-    enum struct GuildUserDataStatus : UINT8
-    {
-        EnterWorld = 1,
-        LeaveWorld,
-        EnterRankBattle
-    };
-
     #pragma pack(push, 1)
     // GUILDUSER_DATA
     struct GuildUserData
@@ -21,8 +14,12 @@ namespace shaiya
         UINT16 level;        //0x06
         PAD(1);
         CharArray<21> name;  //0x09
-        // 0x1E
-        GuildUserDataStatus status;
+        enum struct Status : UINT8
+        {
+            EnterWorld = 1,
+            LeaveWorld,
+            EnterRankBattle
+        } status;            //0x1E
         PAD(1);
         // 0x20
     };

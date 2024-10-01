@@ -13,13 +13,6 @@ namespace shaiya
         Rejected
     };
 
-    enum struct ExchangeType : UINT8
-    {
-        Sender = 1,
-        Target,
-        CancelReady
-    };
-
     #pragma pack(push, 1)
     struct ExchangeRequestOutgoing
     {
@@ -40,13 +33,19 @@ namespace shaiya
     struct ExchangeOutgoing
     {
         UINT16 opcode{ 0xA05 };
-        ExchangeType excType;
+        enum struct 
+            Kind : UINT8
+        {
+            Sender = 1,
+            Target,
+            CancelReady
+        } kind;
         bool canceled;
 
         ExchangeOutgoing() = default;
 
-        ExchangeOutgoing(ExchangeType excType, bool canceled)
-            : excType(excType), canceled(canceled)
+        ExchangeOutgoing(Kind kind, bool canceled)
+            : kind(kind), canceled(canceled)
         {
         }
     };
@@ -97,13 +96,19 @@ namespace shaiya
     struct ExchangeConfirmOutgoing
     {
         UINT16 opcode{ 0xA0A };
-        ExchangeType excType;
+        enum struct 
+            Kind : UINT8
+        {
+            Sender = 1,
+            Target,
+            CancelReady
+        } kind;
         bool confirmed;
 
         ExchangeConfirmOutgoing() = default;
 
-        ExchangeConfirmOutgoing(ExchangeType excType, bool confirmed)
-            : excType(excType), confirmed(confirmed)
+        ExchangeConfirmOutgoing(Kind kind, bool confirmed)
+            : kind(kind), confirmed(confirmed)
         {
         }
     };
