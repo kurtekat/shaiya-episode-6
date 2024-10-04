@@ -98,6 +98,30 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct CharEnterWorldOutgoing
+    {
+        UINT16 opcode{ 0x104 };
+        ULONG objectId;
+
+        CharEnterWorldOutgoing() = default;
+
+        CharEnterWorldOutgoing(ULONG objectId)
+            : objectId(objectId)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharLeaveWorldOutgoing
+    {
+        UINT16 opcode{ 0x107 };
+
+        CharLeaveWorldOutgoing() = default;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct CharMaxGrowOutgoing
     {
         UINT16 opcode{ 0x109 };
@@ -110,6 +134,15 @@ namespace shaiya
             : country(country), maxGrow(maxGrow)
         {
         }
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct UserLeaveWorldOutgoing
+    {
+        UINT16 opcode{ 0x10D };
+
+        UserLeaveWorldOutgoing() = default;
     };
     #pragma pack(pop)
 

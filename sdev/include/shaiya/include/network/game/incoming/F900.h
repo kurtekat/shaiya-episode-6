@@ -7,6 +7,14 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    struct AdminCmdMoveCharIncoming
+    {
+        UINT16 opcode{ 0xF904 };
+        CharArray<21> charName;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct AdminCmdNoticeToIncoming
     {
         UINT16 opcode{ 0xF908 };

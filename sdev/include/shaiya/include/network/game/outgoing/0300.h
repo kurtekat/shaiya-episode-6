@@ -15,10 +15,10 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct GetInfoTargetOutgoing
+    struct GetInfoTargetUserOutgoing
     {
         UINT16 opcode{ 0x302 };
-        ULONG targetId;
+        ULONG objectId;
         UINT32 maxHealth;
         UINT32 health;
     };
@@ -71,6 +71,15 @@ namespace shaiya
         CharArray<21> charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GetInfoTargetMobOutgoing
+    {
+        UINT16 opcode{ 0x305 };
+        ULONG objectId;
+        UINT32 health;
     };
     #pragma pack(pop)
 

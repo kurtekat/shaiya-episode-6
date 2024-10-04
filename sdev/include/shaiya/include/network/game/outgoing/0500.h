@@ -80,7 +80,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct RecoverAddOutgoing
+    struct UserRecoverAddOutgoing
     {
         UINT16 opcode{ 0x505 };
         ULONG charId;
@@ -201,7 +201,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct RecoverSetOutgoing
+    struct UserRecoverSetOutgoing
     {
         UINT16 opcode{ 0x521 };
         UINT32 health;

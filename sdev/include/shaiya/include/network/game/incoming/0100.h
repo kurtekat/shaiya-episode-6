@@ -35,7 +35,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharChangeIncoming
+    struct CharEnterWorldIncoming
+    {
+        UINT16 opcode{ 0x104 };
+        ULONG charId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct CharLeaveWorldIncoming
     {
         UINT16 opcode{ 0x107 };
     };
@@ -61,7 +69,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharExitIncoming
+    struct UserLeaveWorldIncoming
     {
         UINT16 opcode{ 0x10D };
     };

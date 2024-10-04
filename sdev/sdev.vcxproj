@@ -120,7 +120,9 @@
     <ClInclude Include="include\shaiya\include\network\game\incoming\2600.h" />
     <ClInclude Include="include\shaiya\include\network\game\incoming\B100.h" />
     <ClInclude Include="include\shaiya\include\network\game\incoming\F100.h" />
+    <ClInclude Include="include\shaiya\include\network\game\incoming\F800.h" />
     <ClInclude Include="include\shaiya\include\network\game\incoming\F900.h" />
+    <ClInclude Include="include\shaiya\include\network\game\incoming\FA00.h" />
     <ClInclude Include="include\shaiya\include\network\game\outgoing\0100.h" />
     <ClInclude Include="include\shaiya\include\network\game\outgoing\0200.h" />
     <ClInclude Include="include\shaiya\include\network\game\outgoing\0300.h" />

@@ -512,6 +512,12 @@
     <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\F800.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\incoming\FA00.h">
+      <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">
