@@ -15,7 +15,6 @@
     <ClInclude Include="include\common\Attribute.h" />
     <ClInclude Include="include\common\AuthStatus.h" />
     <ClInclude Include="include\common\BillingItem.h" />
-    <ClInclude Include="include\common\ChatType.h" />
     <ClInclude Include="include\common\Country.h" />
     <ClInclude Include="include\common\CraftName.h" />
     <ClInclude Include="include\common\Equipment.h" />
@@ -25,9 +24,7 @@
     <ClInclude Include="include\common\ItemEffect.h" />
     <ClInclude Include="include\common\ItemType.h" />
     <ClInclude Include="include\common\Job.h" />
-    <ClInclude Include="include\common\MakeType.h" />
     <ClInclude Include="include\common\MotionType.h" />
-    <ClInclude Include="include\common\NeedWeapon.h" />
     <ClInclude Include="include\common\NpcType.h" />
     <ClInclude Include="include\common\PartyType.h" />
     <ClInclude Include="include\common\Sex.h" />

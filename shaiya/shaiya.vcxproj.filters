@@ -37,9 +37,6 @@
     <ClInclude Include="include\common\BillingItem.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\ChatType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\AuthStatus.h">
       <Filter>include\common</Filter>
     </ClInclude>
@@ -55,13 +52,7 @@
     <ClInclude Include="include\common\ItemType.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\MakeType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\MotionType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\NeedWeapon.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\NpcType.h">

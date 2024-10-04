@@ -135,6 +135,8 @@ namespace user_shape
                 outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
             }
 
+            // hint: write weapon skin logic here :P
+
             outgoing.charName = user->charName;
 
             auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
@@ -235,6 +237,8 @@ namespace user_shape
                 outgoing.equipment[slot].typeId = item->typeId;
                 outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
             }
+
+            // hint: write weapon skin logic here :P
 
             outgoing.charName = user->charName;
 

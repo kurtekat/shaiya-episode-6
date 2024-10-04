@@ -2,7 +2,6 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/CraftName.h>
 #include <shaiya/include/common/Gems.h>
-#include <shaiya/include/common/MakeType.h>
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SVector.h"
@@ -11,6 +10,19 @@ namespace shaiya
 {
     struct CZone;
     struct ItemInfo;
+
+    enum struct MakeType : char
+    {
+        Billing = 'B',
+        MobDrop = 'D',
+        G = 'G',
+        QuestResult = 'Q',
+        S = 'S',
+        Exchange = 'T',
+        UserDrop = 'U',
+        V = 'V',
+        CashShop = 'X'
+    };
 
     #pragma pack(push, 1)
     struct CItem

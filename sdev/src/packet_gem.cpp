@@ -5,7 +5,6 @@
 #include <tuple>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemType.h>
-#include <shaiya/include/common/MakeType.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
