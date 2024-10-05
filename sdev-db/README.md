@@ -16,7 +16,7 @@ C++ 23
 
 ## Binary
 
-The file was patched to undo an edit that causes an item mall purchase duplicate.
+The file was patched to undo an edit that causes item mall purchase duplicates.
 
 ```
 // bug
