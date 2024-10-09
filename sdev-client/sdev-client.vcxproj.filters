@@ -161,6 +161,9 @@
     <ClInclude Include="include\shaiya\include\network\outgoing\F900.h">
       <Filter>include\shaiya\include\network\outgoing</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\STextIME.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

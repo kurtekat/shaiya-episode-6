@@ -5,9 +5,10 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
+    // 005678B0 ctor
     struct SIMM
     {
-        PAD(4);                 //0x22B3F74  0x00
+        void* vftable;          //0x22B3F74  0x00
         HMODULE imm32Dll;       //0x22B3F78  0x04
         FARPROC immLockIMC;     //0x22B3F7C  0x08
         FARPROC immUnlockIMC;   //0x22B3F80  0x0C

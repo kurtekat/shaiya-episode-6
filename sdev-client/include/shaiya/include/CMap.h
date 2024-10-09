@@ -3,6 +3,7 @@
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
     template<class K, class V>
     struct CMap
     {
@@ -11,6 +12,7 @@ namespace shaiya
         PAD(4);
         // 0x14
     };
+    #pragma pack(pop)
 
     static_assert(sizeof(CMap<ULONG, void*>) == 0x14);
 }

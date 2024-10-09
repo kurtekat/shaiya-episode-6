@@ -52,6 +52,7 @@
     <ClInclude Include="include\shaiya\include\SIMM.h" />
     <ClInclude Include="include\shaiya\include\SkillInfo.h" />
     <ClInclude Include="include\shaiya\include\SModel.h" />
+    <ClInclude Include="include\shaiya\include\STextIME.h" />
     <ClInclude Include="include\static.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>

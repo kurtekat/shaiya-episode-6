@@ -6,7 +6,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CWindow
     {
-        PAD(4);
+        void* vftable;                   //0x00
         D2D_POINT_2U pos;                //0x04
         D2D_SIZE_U size;                 //0x0C
         BOOL leftMouseButtonDown;        //0x14

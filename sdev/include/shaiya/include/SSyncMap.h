@@ -3,8 +3,6 @@
 
 namespace shaiya
 {
-    using String = CharArray<32>;
-
     // see std::_Tree_node
 
     #pragma pack(push, 1)
@@ -16,7 +14,7 @@ namespace shaiya
         TreeNode<K, V>* parent;  //0x04
         TreeNode<K, V>* right;   //0x08
         K key;                   //0x0C
-        V value;                 //0x10
+        V value;                 //0x10 (String: 0x2C)
         char color;              //0x14 (String: 0x30)
         bool isNil;              //0x15 (String: 0x31)
         // PAD(2)

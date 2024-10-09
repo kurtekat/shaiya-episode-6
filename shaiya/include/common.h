@@ -24,6 +24,8 @@ namespace shaiya
     template<size_t N>
     using CharArray = std::array<char, N>;
 
+    using String = std::array<char, 32>;
+
     using UserId = unsigned long;
     using CharId = unsigned long;
     using ItemId = uint32_t;

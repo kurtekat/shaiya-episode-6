@@ -9,7 +9,7 @@ namespace shaiya
     // 004185A0 ctor
     struct CMonster
     {
-        PAD(4);
+        void* vftable;          //0x00
         D3DVECTOR pos;          //0x04
         D3DVECTOR dir;          //0x10
         D3DVECTOR up;           //0x1C

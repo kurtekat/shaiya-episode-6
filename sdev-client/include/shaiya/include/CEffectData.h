@@ -25,7 +25,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CEffectData
     {
-        PAD(4);
+        void* vftable;               //0x00
         UINT32 numEffectModels;      //0x04
         UINT32 numTextures;          //0x08
         UINT32 numScenes;            //0x0C

@@ -10,7 +10,7 @@ namespace shaiya
     // 0049AB60 ctor
     struct CNpc
     {
-        PAD(4);
+        void* vftable;          //0x00
         CharArray<50> name;     //0x04
         PAD(2);
         D3DVECTOR pos;          //0x38
