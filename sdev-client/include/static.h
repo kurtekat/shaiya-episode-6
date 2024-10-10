@@ -109,6 +109,48 @@ namespace shaiya
     static_assert(sizeof(Camera) == 0x1634);
 
     #pragma pack(push, 1)
+    struct ExtraHotkey
+    {
+        int key1;   // DIK_NUMPAD1
+        int key2;   // DIK_NUMPAD2
+        int key3;   // DIK_NUMPAD3
+        int key4;   // DIK_NUMPAD4
+        int key5;   // DIK_NUMPAD5
+        int key6;   // DIK_NUMPAD6
+        int key7;   // DIK_NUMPAD7
+        int key8;   // DIK_NUMPAD8
+        int key9;   // DIK_NUMPAD9
+        int key10;  // DIK_NUMPAD0
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct HotkeyOptions
+    {
+        int moveLeft;        // DIK_A
+        int moveForward;     // DIK_W
+        int walkLeft;        // DIK_Q
+        int walkRun;         // DIK_TAB
+        int sitStand;        // DIK_C
+        int statWindow;      // DIK_T
+        int skillWindow;     // DIK_K
+        int questWindow;     // DIK_U
+        int optionWindow;    // DIK_O
+        int miniMap;         // DIK_V
+        int moveRight;       // DIK_D
+        int moveBackward;    // DIK_S
+        int walkRight;       // DIK_E
+        int autoMove;        // DIK_W
+        int jump;            // DIK_SPACE
+        int inventory;       // DIK_I
+        int subSkillWindow;  // DIK_B
+        int guildWindow;     // DIK_G
+        int map;             // DIK_M
+        int closeWindow;     // DIK_ESCAPE
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // the .data section
     struct Static
     {
@@ -153,7 +195,11 @@ namespace shaiya
         PAD(12);
         CharArray<16> ipv4Addr;              //0x7C0DD0
         // 0x7C0DE0
-        PAD(1468);
+        PAD(172);
+        ExtraHotkey extraHotkey;             //0x7C0E8C
+        HotkeyOptions hotkeyOptions;         //0x7C0EB4
+        // 0x7C0F04
+        PAD(1176);
         HWND hwnd;                           //0x7C139C
         HINSTANCE hinst;                     //0x7C13A0
         BOOL isFullscreenWindow;             //0x7C13A4
@@ -622,8 +668,11 @@ namespace shaiya
 
         // static functions
 
-        static void SystemMessageTextOut(int messageType, int lineNumber, int unknown);
+        static void DrawRect(D3DCOLOR argb, long x, long y, long w, long h);
+        static void SysMsgTextOut(int messageType, int messageId, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
+        static char* GetMsg(int messageId);
+        static bool PlayWav(const char* wavFileName, D3DVECTOR* origin, float volume, bool repeat);
     };
     #pragma pack(pop)
 

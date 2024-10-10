@@ -26,7 +26,7 @@ namespace packet
     {
         StringCbCopyA(g_var->sysMsgTargetName.data(), g_var->sysMsgTargetName.size(), killer->charName.data());
         g_var->sysMsgValue = killCount;
-        Static::SystemMessageTextOut(5, 509, 1);
+        Static::SysMsgTextOut(5, 509, 1);
     }
 }
 
