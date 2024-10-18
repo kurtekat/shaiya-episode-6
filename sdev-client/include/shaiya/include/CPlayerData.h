@@ -292,7 +292,8 @@ namespace shaiya
         // 0x22AF720  0x19A2550
         PAD(2792);
         // 0x19A3038
-
+        
+        static UINT8 GetItemRealType(int itemType);
         static GuildUserData* GetGuildUserData(ULONG charId);
     };
     #pragma pack(pop)

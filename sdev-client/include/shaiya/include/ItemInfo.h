@@ -8,6 +8,52 @@
 
 namespace shaiya
 {
+    // notes: item types
+    enum struct RealType : UINT8
+    {
+        OneHandedSword = 1,
+        TwoHandedSword,
+        OneHandedAxe,
+        TwoHandedAxe,
+        DualWeapon,
+        Spear,
+        OneHandedBlunt,
+        TwoHandedBlunt,
+        ReverseDagger,
+        Dagger,
+        Javelin,
+        Staff,
+        Bow,
+        Crossbow,
+        Knuckles,
+        Helmet,
+        UpperArmor,
+        LowerArmor,
+        Shield,
+        Gloves,
+        Shoes,
+        Ring,
+        Necklace,
+        Cloak,
+        Bracelet,
+        Teleportation,
+        // 27, 99
+        Quest,
+        // 30, 98
+        Lapis = 30,
+        FuryHelmet,
+        FuryUpperArmor,
+        FuryLowerArmor,
+        FuryShield,
+        FuryGloves,
+        FuryShoes,
+        FuryCloak,
+        Bracelet2,
+        // 100, 101, 102, 103
+        Special = 100,
+        Wings = 121
+    };
+    
     #pragma pack(push, 1)
     struct ItemInfo
     {
