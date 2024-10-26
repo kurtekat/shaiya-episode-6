@@ -1,9 +1,11 @@
+#include <sstream>
 #include <string>
+#include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "util.h"
 
-int util::detour(void* addr, void* func, int size)
+int util::detour(void* addr, void* func, size_t size)
 {
     constexpr int nop = 0x90;
     constexpr int jmp = 0xE9;
@@ -25,7 +27,7 @@ int util::detour(void* addr, void* func, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::read_memory(void* addr, void* dest, int size)
+int util::read_memory(void* addr, void* dest, size_t size)
 {
     if (size < 1)
         return 0;
@@ -40,7 +42,7 @@ int util::read_memory(void* addr, void* dest, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(void* addr, void* src, int size)
+int util::write_memory(void* addr, void* src, size_t size)
 {
     if (size < 1)
         return 0;
@@ -55,15 +57,37 @@ int util::write_memory(void* addr, void* src, int size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(void* addr, int value, int count)
+int util::write_memory(void* addr, int value, size_t size)
 {
-    if (count < 1)
+    if (size < 1)
         return 0;
 
     unsigned long protect;
-    if (!VirtualProtect(addr, count, PAGE_EXECUTE_READWRITE, &protect))
+    if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    std::memset(addr, value, count);
-    return VirtualProtect(addr, count, protect, &protect);
+    std::memset(addr, value, size);
+    return VirtualProtect(addr, size, protect, &protect);
+}
+
+int util::atoi(const std::string& str)
+{
+    return std::atoi(str.c_str());
+}
+
+std::vector<std::string> util::split(const std::string& str, char sep, size_t count)
+{
+    std::vector<std::string> vec;
+    if (!count)
+        return vec;
+
+    std::istringstream iss(str);
+    for (std::string str; std::getline(iss, str, sep); )
+    {
+        vec.push_back(str);
+        if (vec.size() == count)
+            break;
+    }
+
+    return vec;
 }
