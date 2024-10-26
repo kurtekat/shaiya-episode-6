@@ -5,6 +5,7 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <util/util.h>
 #include "include/shaiya/include/CLogConnection.h"
 #include "include/shaiya/include/SLog.h"
 #include "include/shaiya/include/Synthesis.h"
@@ -21,10 +22,7 @@ void Synthesis::init()
     path.append("ChaoticSquare.ini");
 
     if (!std::filesystem::exists(path))
-    {
-        SLog::PrintFileDirect(&g_pClientToLog->log, "Synthesis::init : %s does not exist", path.string().c_str());
         return;
-    }
 
     std::error_code ec;
     auto size = std::filesystem::file_size(path, ec);
@@ -38,12 +36,7 @@ void Synthesis::init()
 
     try
     {
-        std::istringstream iss(std::string(output.data(), count + 1));
-        std::vector<std::string> sections;
-
-        for (std::string str; std::getline(iss, str, '\0'); )
-            sections.push_back(str);
-
+        auto sections = util::split(std::string(output.data(), count + 1), '\0');
         for (const auto& section : sections)
         {
             std::vector<char> vec(INT16_MAX);
@@ -68,8 +61,8 @@ void Synthesis::init()
             if (kvp.size() != 8)
                 continue;
 
-            auto itemId = std::atoi(kvp[0].second.c_str());
-            auto successRate = std::atoi(kvp[1].second.c_str());
+            auto itemId = util::atoi(kvp[0].second);
+            auto successRate = util::atoi(kvp[1].second);
             successRate = (successRate > 100) ? 100 : successRate;
 
             Synthesis synthesis{};
@@ -81,37 +74,28 @@ void Synthesis::init()
                 synthesis.materialCount
             );
 
-            std::vector<int> vec1{};
-            for (const auto& token : std::views::split(kvp[2].second, ','))
-                vec1.push_back(std::atoi(token.data()));
-
+            auto vec1 = util::split(kvp[2].second, ',');
             if (vec1.size() != itemList.size())
                 continue;
 
-            std::vector<int> vec2{};
-            for (const auto& token : std::views::split(kvp[3].second, ','))
-                vec2.push_back(std::atoi(token.data()));
-
+            auto vec2 = util::split(kvp[3].second, ',');
             if (vec2.size() != itemList.size())
                 continue;
 
-            std::vector<int> vec3{};
-            for (const auto& token : std::views::split(kvp[4].second, ','))
-                vec3.push_back(std::atoi(token.data()));
-
+            auto vec3 = util::split(kvp[4].second, ',');
             if (vec3.size() != itemList.size())
                 continue;
 
             for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
             {
-                std::get<0>(itemList[i]) = vec1[i];
-                std::get<1>(itemList[i]) = vec2[i];
-                std::get<2>(itemList[i]) = vec3[i];
+                std::get<0>(itemList[i]) = util::atoi(vec1[i]);
+                std::get<1>(itemList[i]) = util::atoi(vec2[i]);
+                std::get<2>(itemList[i]) = util::atoi(vec3[i]);
             }
 
-            synthesis.createType = std::atoi(kvp[5].second.c_str());
-            synthesis.createTypeId = std::atoi(kvp[6].second.c_str());
-            synthesis.createCount = std::atoi(kvp[7].second.c_str());
+            synthesis.createType = util::atoi(kvp[5].second);
+            synthesis.createTypeId = util::atoi(kvp[6].second);
+            synthesis.createCount = util::atoi(kvp[7].second);
 
             if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
                 it->second.push_back(synthesis);
@@ -119,9 +103,8 @@ void Synthesis::init()
                 g_synthesis.insert({ itemId, { synthesis } });
         }
     }
-    catch (const std::exception& ex)
+    catch (...)
     {
-        SLog::PrintFileDirect(&g_pClientToLog->log, "Synthesis::init : %s", ex.what());
         g_synthesis.clear();
     }
 }
