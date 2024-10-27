@@ -226,21 +226,39 @@ void Helpers::SendUserLog(void* packet, int length)
     SConnectionTBaseReconnect::Send(&g_pClientToLog->connection, packet, length);
 }
 
-bool Helpers::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
+void Helpers::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
 {
-    if (user->status == CUser::Status::Death || user->where != CUser::Where::ZoneEnter)
-        return false;
-
     user->recallMapId = mapId;
     user->recallPos.x = x;
     user->recallPos.y = y;
     user->recallPos.z = z;
     user->recallType = RecallType(recallType);
     user->recallTick = GetTickCount() + delay;
+}
+
+void Helpers::SetMovePosition(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay)
+{
+    Helpers::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
+}
+
+bool Helpers::Teleport(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
+{
+    if (user->status == CUser::Status::Death || user->where != CUser::Where::ZoneEnter)
+        return false;
+
+    if (!user->connection.object.zone)
+        return false;
+
+    if (!CWorld::GetZone(mapId))
+        return false;
+
+    CUser::CancelActionExc(user);
+    MyShop::Ended(&user->myShop);
+    Helpers::SetMovePosition(user, mapId, x, y, z, recallType, delay);
     return true;
 }
 
-bool Helpers::SetMovePosition(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay)
+bool Helpers::Teleport(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay)
 {
-    return Helpers::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
+    return Helpers::Teleport(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
 }

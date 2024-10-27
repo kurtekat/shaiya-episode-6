@@ -66,10 +66,7 @@ namespace item_effect
 
             auto mapId = gateKeeper->gates[index].mapId;
             auto pos = &gateKeeper->gates[index].pos;
-            auto recallType = int(RecallType::TownMoveScroll);
-
-            if (!Helpers::SetMovePosition(user, mapId, pos, recallType, 5000))
-                return 0;
+            Helpers::SetMovePosition(user, mapId, pos, int(RecallType::TownMoveScroll), 5000);
 
             ItemCastOutgoing outgoing(user->connection.object.id);
             CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
