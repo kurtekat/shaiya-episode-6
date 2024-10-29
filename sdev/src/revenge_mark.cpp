@@ -64,31 +64,28 @@ namespace revenge_mark
     }
 }
 
-unsigned u0x4ED210 = 0x4ED210;
-unsigned u0x467D93 = 0x467D93;
-void __declspec(naked) naked_0x467D8E()
+unsigned u0x4656FD = 0x4656FD;
+void __declspec(naked) naked_0x4656F7()
 {
     __asm
     {
-        // original
-        call u0x4ED210
-
         pushad
 
-        push edi // killer
-        push ebp // target
+        push esi // killer
+        push edi // target
         call revenge_mark::send
         add esp,0x8
 
         popad
 
         // original
-        jmp u0x467D93
+        mov ebx,[esi+0x17F4]
+        jmp u0x4656FD
     }
 }
 
 void hook::revenge_mark()
 {
-    // CUser::KillPCTo
-    util::detour((void*)0x467D8E, naked_0x467D8E, 5);
+    // CUser::Death
+    util::detour((void*)0x4656F7, naked_0x4656F7, 6);
 }
