@@ -115,7 +115,7 @@ namespace item_effect
         if (!item)
             return;
 
-        if (item->itemInfo->realType != RealType::Teleportation)
+        if (item->itemInfo->realType != RealType::Consumable)
             return;
 
         if (item->itemInfo->effect != ItemEffect::TownMoveScroll)

@@ -36,7 +36,7 @@ namespace shaiya
         Necklace,
         Cloak,
         Bracelet,
-        Teleportation,
+        Consumable,
         // 27, 99
         Quest,
         // 30, 98

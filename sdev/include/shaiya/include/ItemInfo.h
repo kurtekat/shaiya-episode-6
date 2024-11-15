@@ -25,65 +25,120 @@ namespace shaiya
     | 11    | 2000     |
     */
     
+    // notes: item types
     enum struct RealType : UINT32
     {
+        // 1,45
         OneHandedSword = 1,
+        // 2,46
         TwoHandedSword,
+        // 3,47
         OneHandedAxe,
+        // 4,48
         TwoHandedAxe,
+        // 5,49,50
         DualWeapon,
+        // 6,51,52
         Spear,
+        // 7,53,54
         OneHandedBlunt,
+        // 8,55,56
         TwoHandedBlunt,
+        // 9,57
         ReverseDagger,
+        // 10,58
         Dagger,
+        // 11,59
         Javelin,
+        // 12,60,61
         Staff,
+        // 13,62,63
         Bow,
+        // 14,64
         Crossbow,
+        // 15,65
         Knuckles,
+        // 16,31,66,72,81,87
         Helmet,
+        // 17,32,67,73,82,88
         UpperArmor,
+        // 18,33,68,74,83,89
         LowerArmor,
+        // 19,34,69,75,84,90
         Shield,
+        // 20,35,70,76,85,91
         Gloves,
+        // 21,36,71,77,86,92
         Shoes,
+        // 22,37
         Ring,
+        // 23,96
         Necklace,
+        // 24,39
         Cloak,
+        // 40,97
         Bracelet,
-        Teleportation,
-        Quest
+        // 25,44,100,38,41,101,102,103
+        Consumable,
+        // 27,28,29,99
+        Quest,
+        // 30,95
+        Upgrade
     };
 
+    // notes: item types
     enum struct MarketType : UINT8
     {
+        // 2,4,46,48
         TwoHandedWeapon = 1,
+        // 1,3,45,47
         OneHandedWeapon,
+        // 5,49,50
         DualWeapon,
+        // 6,51,52
         Spear,
+        // 7,8,53,54,55,56
         HeavyWeapon,
+        // 9,15,57,65
         Knuckles,
+        // 10,58
         Dagger,
+        // 12,60,61
         Staff,
+        // 13,62,63
         Bow,
+        // 11,14,59,64
         Projectile,
+        // 16,31,66,72,81,87
         Helmet,
+        // 17,32,67,73,82,88
         UpperArmor,
+        // 18,33,68,74,83,89
         LowerArmor,
+        // 20,35,70,76,85,91
         Gloves,
+        // 21,36,71,77,86,92
         Shoes,
+        // 24,39
         Cloak,
+        // 19,34,69,75,84,90
         Shield,
+        // 23,96
         Necklace,
-        //Vehicle, // 6.4 PT
+        // 22,37
         Ring,
+        // 40,97
         Bracelet,
+        // 30
         Lapis,
+        // 95
         Lapisian,
-        Other,
+        // 25,44,38,41
+        Consumable,
+        // 42
         Mount,
-        HighQuality
+        // 100,101,102,103
+        Special
     };
 
     #pragma pack(push, 1)
