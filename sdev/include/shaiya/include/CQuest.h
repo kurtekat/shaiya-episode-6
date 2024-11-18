@@ -1,11 +1,10 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
-    struct QuestInfo;
-
     #pragma pack(push, 1)
     struct CQuest
     {

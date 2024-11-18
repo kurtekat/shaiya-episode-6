@@ -18,7 +18,7 @@ namespace packet_quest
     /// <param name="user"></param>
     /// <param name="quest"></param>
     /// <param name="npcId"></param>
-    void send_failure_result(CUser* user, CQuest* quest, uint32_t npcId)
+    void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
     {
         QuestEndResultOutgoing2 outgoing{};
         outgoing.npcId = npcId;
@@ -26,10 +26,9 @@ namespace packet_quest
         Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
     }
 
-    void send_success_result(CUser* user, CQuest* quest, QuestInfo* questInfo, uint32_t npcId, uint8_t index)
+    void send_success_result(CUser* user, CQuest* quest, QuestInfo_EP6* questInfo, ULONG npcId, int index)
     {
-#ifdef SHAIYA_EP6_4_PT
-        if (index >= questInfo->results.size())
+        if (index >= int(questInfo->results.size()))
             return;
 
         auto exp = questInfo->results[index].exp;
@@ -103,7 +102,6 @@ namespace packet_quest
 
         Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
         CUser::QuestRemove(user, quest, true);
-#endif
     }
 }
 

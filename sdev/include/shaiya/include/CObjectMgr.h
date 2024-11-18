@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include "include/shaiya/include/CloneUser.h"
 #include "include/shaiya/include/SSyncHeap.h"
 
 namespace shaiya
@@ -7,7 +8,6 @@ namespace shaiya
     struct AdminNotice;
     struct CDead;
     struct CItem;
-    struct CloneUser;
     struct CMob;
     struct CNpc;
     struct CQuest;
