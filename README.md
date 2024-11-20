@@ -26,6 +26,10 @@ wmic OS Get DataExecutionPrevention_SupportPolicy
 
 According to the [GetSystemDEPPolicy](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getsystemdeppolicy) documentation, Windows Server defaults to 3 (OptOut). The libraries will attempt to disable DEP for the process. Another option is to add the executable(s) to the exclusion list.
 
+## False Positives
+
+The files in this repository are submitted to antivirus companies for analysis when viruses are detected during VirusTotal scans, etc. VirusTotal provides a list of false positive [contacts](https://docs.virustotal.com/docs/false-positive-contacts).
+
 ## Inspiration
 
 [Cups](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4653021-shaiya-library.html)
