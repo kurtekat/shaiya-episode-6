@@ -667,7 +667,7 @@ namespace shaiya
         static void StatResetStatus(CUser* user/*edi*/, BOOL isEvent);
         static void TauntMob(CUser* user, float dist, int aggro);
         static void UpdateKCStatus(CUser* user/*eax*/);
-        static void UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);
+        static bool UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);
     };
     #pragma pack(pop)
 

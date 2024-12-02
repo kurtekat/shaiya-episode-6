@@ -678,7 +678,7 @@ void CUser::UpdateKCStatus(CUser* user/*eax*/)
     }
 }
 
-void CUser::UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/)
+bool CUser::UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/)
 {
     unsigned u0x4725B0 = 0x4725B0;
 
