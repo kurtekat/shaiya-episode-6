@@ -14,7 +14,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
         break;
     case DLL_PROCESS_ATTACH:
         DisableThreadLibraryCalls(hModule);
-        SetProcessDEPPolicy(0);
         Main();
         break;
     case DLL_THREAD_DETACH:
