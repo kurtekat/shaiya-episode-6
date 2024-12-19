@@ -2,11 +2,51 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/CraftName.h>
 #include <shaiya/include/common/Gems.h>
+#include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemInfo.h"
 
 // CUser::PacketUserItem
 
 namespace shaiya
 {
+    #pragma pack(push, 1)
+    struct DBAgentItemIncoming
+    {
+        UINT16 opcode{ 0x701 };
+        ULONG userId;
+        UINT64 itemUid;
+        UINT32 itemId;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT8 count;
+        UINT16 quality;
+        Gems gems;
+        CraftName craftName;
+        ULONG makeTime;
+        MakeType makeType;
+
+        DBAgentItemIncoming() = default;
+
+        DBAgentItemIncoming(CUser* user, CItem* item, UINT8 bag, UINT8 slot)
+            : userId(user->userId), bag(bag), slot(slot)
+        {
+            this->itemUid = item->uniqueId;
+            this->itemId = item->itemInfo->itemId;
+            this->type = item->type;
+            this->typeId = item->typeId;
+            this->count = item->count;
+            this->quality = item->quality;
+            this->gems = item->gems;
+            this->craftName = item->craftName;
+            this->makeTime = item->makeTime;
+            this->makeType = item->makeType;
+        }
+    };
+    #pragma pack(pop)
+
     #pragma pack(push, 1)
     // inventory
     struct DBAgentItemRemoveIncoming
