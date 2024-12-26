@@ -1,6 +1,9 @@
 #include <util/util.h>
 #include "include/main.h"
 
+// A market type for vehicles was added in episode 6.4, which is not 
+// supported. This is a simple workaround.
+
 unsigned u0x486320 = 0x486320;
 void __declspec(naked) naked_0x486319()
 {

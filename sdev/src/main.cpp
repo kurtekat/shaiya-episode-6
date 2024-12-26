@@ -12,6 +12,15 @@ void leave_world_hook(CUser* user)
     g_revengeMark.erase(user->connection.object.id);
 }
 
+/// <summary>
+/// Please check Cheat Engine scripts for instructions that access 
+/// extended user memory. Adjust the scripts and increase the user 
+/// allocation size as needed. (e.g., 0x6500)
+/// 
+/// The extended memory in this library ends at 0x6300, so scripts 
+/// accessing memory from 0x62A0 to 0x62FC are incompatible.
+/// </summary>
+/// <param name="user"></param>
 void user_hook(CUser* user)
 {
     user->exchange.confirmed = false;

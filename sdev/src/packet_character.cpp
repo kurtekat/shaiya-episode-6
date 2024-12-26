@@ -60,6 +60,7 @@ namespace packet_character
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
+        // Please note that warehouse access is read-only
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->warehouse)))
         {
@@ -98,9 +99,8 @@ namespace packet_character
     }
 
     /// <summary>
-    /// Sends packet 0x116 to the user. The client method will not return the 
-    /// exact values. The client defense steps are hard-coded to be multiples 
-    /// of five.
+    /// Sends packet 0x116 to the user. The client defense step values 
+    /// are hard-coded to be multiples of five.
     /// </summary>
     /// <param name="user"></param>
     void send_weapon_step(CUser* user)
@@ -250,7 +250,7 @@ void __declspec(naked) naked_0x47BCE8()
 
         pushad
 
-        push ebp
+        push ebp // user
         call packet_character::send_weapon_step
         add esp,0x4
 

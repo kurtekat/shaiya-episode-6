@@ -22,9 +22,15 @@ namespace packet
             user->wings = nullptr;
     }
 
+    // Adds support for system message 509
     void revenge_mark_hook(CCharacter* killer, uint32_t killCount)
     {
-        StringCbCopyA(g_var->sysMsgTargetName.data(), g_var->sysMsgTargetName.size(), killer->charName.data());
+        StringCbCopyA(
+            g_var->sysMsgTargetName.data(), 
+            g_var->sysMsgTargetName.size(), 
+            killer->charName.data()
+        );
+
         g_var->sysMsgValue = killCount;
         Static::SysMsgTextOut(5, 509, 1);
     }
