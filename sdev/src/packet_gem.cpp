@@ -27,10 +27,7 @@ namespace packet_gem
         if (!incoming->safetyCharm)
             return false;
 
-        if (Helpers::ItemRemove(user, ItemEffect::SafetyCharm, 1))
-            return true;
-
-        return false;
+        return Helpers::ItemRemove(user, ItemEffect::SafetyCharm, 1);
     }
 
     bool enable_perfect_enchant(CItem* lapisian, CItem* item)
@@ -103,12 +100,12 @@ namespace packet_gem
         if (!vial)
             return;
 
-        ItemRuneCombineOutgoing outgoing{};
-        outgoing.result = ItemRuneCombineResult::Failure;
+        ItemRuneCombineOutgoing failure{};
+        failure.result = ItemRuneCombineResult::Failure;
 
         if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::ItemCompose)
         {
-            Helpers::Send(user, &outgoing, 3);
+            Helpers::Send(user, &failure, 3);
             return;
         }
 
@@ -140,29 +137,22 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            Helpers::Send(user, &outgoing, 3);
+            Helpers::Send(user, &failure, 3);
+            return;
+        }
+        
+        int bag{}, slot{};
+        if (!Helpers::ItemCreate(user, itemInfo, 1, bag, slot))
+        {
+            Helpers::Send(user, &failure, 3);
             return;
         }
 
-        int bag = 1;
-        while (std::cmp_less_equal(bag, user->bagsUnlocked))
-        {
-            auto slot = Helpers::GetFreeItemSlot(user, bag);
-            if (slot != -1)
-            {
-                if (!CUser::ItemCreate(user, itemInfo, 1))
-                    break;
+        ItemRuneCombineOutgoing success(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
+        Helpers::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
 
-                ItemRuneCombineOutgoing outgoing(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-                Helpers::Send(user, &outgoing, sizeof(ItemRuneCombineOutgoing));
-
-                Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
-                Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
-                break;
-            }
-
-            ++bag;
-        }
+        Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
+        Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
     }
 
     /// <summary>
@@ -211,28 +201,30 @@ namespace packet_gem
 
         CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
 
+        // Failure result values are unclear. The client executes the same code 
+        // as long as the value is non-zero and not greater than 3.
+
+        ItemLapisianCombineOutgoing failure{};
+        failure.result = ItemLapisianCombineResult::Unknown1;
+
         for (int i = 0; i < requiredCount; ++i)
         {
             if (!Helpers::ItemRemove(user, itemInfo->itemId, 1))
-                return;
-        }
-
-        int bag = 1;
-        while (std::cmp_less_equal(bag, user->bagsUnlocked))
-        {
-            auto slot = Helpers::GetFreeItemSlot(user, bag);
-            if (slot != -1)
             {
-                if (!CUser::ItemCreate(user, createInfo, 1))
-                    break;
-
-                ItemLapisianCombineOutgoing outgoing(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
-                Helpers::Send(user, &outgoing, sizeof(ItemLapisianCombineOutgoing));
-                break;
+                Helpers::Send(user, &failure, 3);
+                return;
             }
-
-            ++bag;
         }
+
+        int bag{}, slot{};
+        if (!Helpers::ItemCreate(user, createInfo, 1, bag, slot))
+        {
+            Helpers::Send(user, &failure, 3);
+            return;
+        }
+
+        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        Helpers::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
     }
 
     /// <summary>
