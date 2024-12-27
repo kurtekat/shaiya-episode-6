@@ -1,18 +1,21 @@
 #pragma once
 #include <cstdint>
+#include <shaiya/include/common.h>
 #include <shaiya/include/common/ItemEffect.h>
 
 namespace shaiya
 {
+    struct CItem;
     struct CUser;
+    struct ItemInfo;
     struct SVector;
 
     struct Helpers
     {
-        static int GetFreeItemSlot(CUser* user, uint8_t bag);
-        static bool ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count);
-        static bool ItemRemove(CUser* user, uint32_t itemId, uint8_t count);
-        static bool ItemRemove(CUser* user, ItemEffect effect, uint8_t count);
+        static bool ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot);
+        static bool ItemRemove(CUser* user, int bag, int slot, int count);
+        static bool ItemRemove(CUser* user, ItemId itemId, int count);
+        static bool ItemRemove(CUser* user, ItemEffect effect, int count);
 
         static bool HasApplySkill(CUser* user, int skillId, int skillLv);
 

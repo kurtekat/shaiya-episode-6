@@ -24,23 +24,29 @@
 #include "include/shaiya/include/network/gameLog/incoming/0400.h"
 using namespace shaiya;
 
-int Helpers::GetFreeItemSlot(CUser* user, uint8_t bag)
+bool Helpers::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
 {
-    if (!bag || bag > user->bagsUnlocked)
-        return -1;
+    if (count > itemInfo->count)
+        return false;
 
-    for (int slot = 0; slot < max_inventory_slot; ++slot)
+    outBag = 1;
+    while (std::cmp_less_equal(outBag, user->bagsUnlocked))
     {
-        if (!user->inventory[bag][slot])
-            return slot;
+        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        {
+            if (!user->inventory[outBag][outSlot])
+                return CUser::ItemCreate(user, itemInfo, count);
+        }
+
+        ++outBag;
     }
 
-    return -1;
+    return false;
 }
 
-bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
+bool Helpers::ItemRemove(CUser* user, int bag, int slot, int count)
 {
-    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
+    if (!bag || bag > 5 || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -75,7 +81,7 @@ bool Helpers::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
     return true;
 }
 
-bool Helpers::ItemRemove(CUser* user, uint32_t itemId, uint8_t count)
+bool Helpers::ItemRemove(CUser* user, ItemId itemId, int count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -103,7 +109,7 @@ bool Helpers::ItemRemove(CUser* user, uint32_t itemId, uint8_t count)
     return false;
 }
 
-bool Helpers::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
+bool Helpers::ItemRemove(CUser* user, ItemEffect effect, int count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
