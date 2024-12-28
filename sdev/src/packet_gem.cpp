@@ -148,11 +148,11 @@ namespace packet_gem
             return;
         }
 
-        ItemRuneCombineOutgoing success(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-        Helpers::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
-
         Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
         Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
+
+        ItemRuneCombineOutgoing success(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
+        Helpers::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
     }
 
     /// <summary>
@@ -250,18 +250,18 @@ namespace packet_gem
         if (!item)
             return;
 
-        ItemComposeOutgoing outgoing{};
-        outgoing.result = ItemComposeResult::Failure;
+        ItemComposeOutgoing failure{};
+        failure.result = ItemComposeResult::Failure;
 
         if (!item->itemInfo->composeCount)
         {
-            Helpers::Send(user, &outgoing, 3);
+            Helpers::Send(user, &failure, 3);
             return;
         }
 
         if (!item->itemInfo->reqWis || item->itemInfo->reqWis > max_bonus)
         {
-            Helpers::Send(user, &outgoing, 3);
+            Helpers::Send(user, &failure, 3);
             return;
         }
 
@@ -450,7 +450,7 @@ namespace packet_gem
 
             break;
         default:
-            Helpers::Send(user, &outgoing, 3);
+            Helpers::Send(user, &failure, 3);
             return;
         }
 
@@ -471,11 +471,7 @@ namespace packet_gem
             CUser::SetAttack(user);
         }
 
-        outgoing.result = ItemComposeResult::Success;
-        outgoing.bag = incoming->itemBag;
-        outgoing.slot = incoming->itemSlot;
-        outgoing.craftName = item->craftName;
-        Helpers::Send(user, &outgoing, sizeof(ItemComposeOutgoing));
+        CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
 
         DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
         Helpers::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
@@ -483,7 +479,8 @@ namespace packet_gem
         GameLogItemComposeIncoming gameLog(user, item, oldItemUid, oldItemId, oldCraftName);
         Helpers::SendGameLog(&gameLog, sizeof(GameLogItemComposeIncoming));
 
-        CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
+        ItemComposeOutgoing success(ItemComposeResult::Success, incoming->itemBag, incoming->itemSlot, item->craftName);
+        Helpers::Send(user, &success, sizeof(ItemComposeOutgoing));
     }
 
     /// <summary>
