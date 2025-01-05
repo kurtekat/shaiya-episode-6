@@ -275,7 +275,6 @@ namespace packet_gem
         auto oldItemUid = item->uniqueId;
         auto oldItemId = item->itemInfo->itemId;
         auto oldCraftName = item->craftName;
-
         auto maxBonus = item->itemInfo->reqWis;
 
         switch (rune->itemInfo->effect)
@@ -300,10 +299,6 @@ namespace packet_gem
 
         std::uniform_int_distribution<uint16_t> uni(1, maxBonus);
         auto bonus = uni(eng);
-        auto text = std::to_string(bonus);
-
-        if (bonus < 10)
-            text.insert(text.begin(), 1, '0');
 
         auto maxHealth = user->maxHealth;
         auto maxMana = user->maxHealth;
@@ -330,18 +325,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftStrength = bonus;
-                item->craftName[0] = text[0];
-                item->craftName[1] = text[1];
-
+                Helpers::SetItemCraftStrength(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftStrength = bonus;
-            item->craftName[0] = text[0];
-            item->craftName[1] = text[1];
+            Helpers::SetItemCraftStrength(item, bonus);
 
             break;
         case ItemEffect::ItemComposeDex:
@@ -351,18 +340,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftDexterity = bonus;
-                item->craftName[2] = text[0];
-                item->craftName[3] = text[1];
-
+                Helpers::SetItemCraftDexterity(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftDexterity = bonus;
-            item->craftName[2] = text[0];
-            item->craftName[3] = text[1];
+            Helpers::SetItemCraftDexterity(item, bonus);
 
             break;
         case ItemEffect::ItemComposeInt:
@@ -372,18 +355,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftIntelligence = bonus;
-                item->craftName[6] = text[0];
-                item->craftName[7] = text[1];
-
+                Helpers::SetItemCraftIntelligence(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftIntelligence = bonus;
-            item->craftName[6] = text[0];
-            item->craftName[7] = text[1];
+            Helpers::SetItemCraftIntelligence(item, bonus);
 
             break;
         case ItemEffect::ItemComposeWis:
@@ -393,18 +370,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftWisdom = bonus;
-                item->craftName[8] = text[0];
-                item->craftName[9] = text[1];
-
+                Helpers::SetItemCraftWisdom(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftWisdom = bonus;
-            item->craftName[8] = text[0];
-            item->craftName[9] = text[1];
+            Helpers::SetItemCraftWisdom(item, bonus);
 
             break;
         case ItemEffect::ItemComposeRec:
@@ -414,18 +385,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftReaction = bonus;
-                item->craftName[4] = text[0];
-                item->craftName[5] = text[1];
-
+                Helpers::SetItemCraftReaction(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftReaction = bonus;
-            item->craftName[4] = text[0];
-            item->craftName[5] = text[1];
+            Helpers::SetItemCraftReaction(item, bonus);
 
             break;
         case ItemEffect::ItemComposeLuc:
@@ -435,18 +400,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-
-                item->craftLuck = bonus;
-                item->craftName[10] = text[0];
-                item->craftName[11] = text[1];
-
+                Helpers::SetItemCraftLuck(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            item->craftLuck = bonus;
-            item->craftName[10] = text[0];
-            item->craftName[11] = text[1];
+            Helpers::SetItemCraftLuck(item, bonus);
 
             break;
         default:
@@ -797,75 +756,27 @@ namespace packet_gem
             if (!incoming->toBag)
             {
                 CUser::ItemEquipmentOptionRem(user, to);
-
                 to->gems = from->gems;
-                to->craftName = from->craftName;
-                to->craftStrength = from->craftStrength;
-                to->craftDexterity = from->craftDexterity;
-                to->craftReaction = from->craftReaction;
-                to->craftIntelligence = from->craftIntelligence;
-                to->craftWisdom = from->craftWisdom;
-                to->craftLuck = from->craftLuck;
-                to->craftHealth = from->craftHealth;
-                to->craftMana = from->craftMana;
-                to->craftStamina = from->craftStamina;
-                to->craftAttackPower = from->craftAttackPower;
-                to->craftAbsorption = from->craftAbsorption;
-
+                Helpers::CopyItemCraftName(from, to);
                 CUser::ItemEquipmentOptionAdd(user, to);
             }
             else
             {
                 to->gems = from->gems;
-                to->craftName = from->craftName;
-                to->craftStrength = from->craftStrength;
-                to->craftDexterity = from->craftDexterity;
-                to->craftReaction = from->craftReaction;
-                to->craftIntelligence = from->craftIntelligence;
-                to->craftWisdom = from->craftWisdom;
-                to->craftLuck = from->craftLuck;
-                to->craftHealth = from->craftHealth;
-                to->craftMana = from->craftMana;
-                to->craftStamina = from->craftStamina;
-                to->craftAttackPower = from->craftAttackPower;
-                to->craftAbsorption = from->craftAbsorption;
+                Helpers::CopyItemCraftName(from, to);
             }
             
             if (!incoming->fromBag)
             {
                 CUser::ItemEquipmentOptionRem(user, from);
-
                 from->gems.fill(0);
-                CItem::InitCraftExpansion(from);
-                from->craftStrength = 0;
-                from->craftDexterity = 0;
-                from->craftReaction = 0;
-                from->craftIntelligence = 0;
-                from->craftWisdom = 0;
-                from->craftLuck = 0;
-                from->craftHealth = 0;
-                from->craftMana = 0;
-                from->craftStamina = 0;
-                from->craftAttackPower = 0;
-                from->craftAbsorption = 0;
-
+                Helpers::InitItemCraftName(from);
                 CUser::ItemEquipmentOptionAdd(user, from);
             }
             else
             {
                 from->gems.fill(0);
-                CItem::InitCraftExpansion(from);
-                from->craftStrength = 0;
-                from->craftDexterity = 0;
-                from->craftReaction = 0;
-                from->craftIntelligence = 0;
-                from->craftWisdom = 0;
-                from->craftLuck = 0;
-                from->craftHealth = 0;
-                from->craftMana = 0;
-                from->craftStamina = 0;
-                from->craftAttackPower = 0;
-                from->craftAbsorption = 0;
+                Helpers::InitItemCraftName(from);
             }
 
             if (!incoming->toBag || !incoming->fromBag)
@@ -885,20 +796,14 @@ namespace packet_gem
                 CUser::SetAttack(user);
             }
 
-            DBAgentItemCraftNameIncoming packet1(user->userId, incoming->toBag, incoming->toSlot, to->craftName);
-            Helpers::SendDBAgent(&packet1, sizeof(DBAgentItemCraftNameIncoming));
-
-            DBAgentItemGemsIncoming packet2(user->userId, incoming->toBag, incoming->toSlot, to->gems, user->money);
-            Helpers::SendDBAgent(&packet2, sizeof(DBAgentItemGemsIncoming));
+            Helpers::SendDBAgentItemCraftName(user, to, incoming->toBag, incoming->toSlot);
+            Helpers::SendDBAgentItemGems(user, to, incoming->toBag, incoming->toSlot);
 
             GameLogItemComposeIncoming gameLog1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
             Helpers::SendGameLog(&gameLog1, sizeof(GameLogItemComposeIncoming));
 
-            DBAgentItemCraftNameIncoming packet3(user->userId, incoming->fromBag, incoming->fromSlot, from->craftName);
-            Helpers::SendDBAgent(&packet3, sizeof(DBAgentItemCraftNameIncoming));
-
-            DBAgentItemGemsIncoming packet4(user->userId, incoming->fromBag, incoming->fromSlot, from->gems, user->money);
-            Helpers::SendDBAgent(&packet4, sizeof(DBAgentItemGemsIncoming));
+            Helpers::SendDBAgentItemCraftName(user, from, incoming->fromBag, incoming->fromSlot);
+            Helpers::SendDBAgentItemGems(user, from, incoming->fromBag, incoming->fromSlot);
 
             GameLogItemComposeIncoming gameLog2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
             Helpers::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));

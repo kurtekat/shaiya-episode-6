@@ -36,5 +36,22 @@ namespace shaiya
         static void SetMovePosition(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay);
         static bool Teleport(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay);
         static bool Teleport(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay);
+
+        static void SetItemCraftStrength(CItem* item, uint16_t value);
+        static void SetItemCraftDexterity(CItem* item, uint16_t value);
+        static void SetItemCraftReaction(CItem* item, uint16_t value);
+        static void SetItemCraftIntelligence(CItem* item, uint16_t value);
+        static void SetItemCraftWisdom(CItem* item, uint16_t value);
+        static void SetItemCraftLuck(CItem* item, uint16_t value);
+        static void SetItemCraftHealth(CItem* item, uint16_t value);
+        static void SetItemCraftMana(CItem* item, uint16_t value);
+        static void SetItemCraftStamina(CItem* item, uint16_t value);
+        //static void SetItemCraftAttackPower(CItem* item, uint16_t value);
+        //static void SetItemCraftAbsorption(CItem* item, uint16_t value);
+
+        static void CopyItemCraftName(CItem* from, CItem* to);
+        static void InitItemCraftName(CItem* item);
+        static void SendDBAgentItemCraftName(CUser* user, CItem* item, int bag, int slot);
+        static void SendDBAgentItemGems(CUser* user, CItem* item, int bag, int slot);
     };
 }
