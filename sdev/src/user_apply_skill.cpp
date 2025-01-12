@@ -1,7 +1,7 @@
 #pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/common/SkillAbilityType.h>
+#include <shaiya/include/common/SkillTypes.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
@@ -17,7 +17,7 @@ namespace user_apply_skill
 {
     void ability_70_handler(CUser* user, SkillInfo* skillInfo)
     {
-        SkillUseOutgoing outgoing{};
+        UserSkillUseOutgoing_EP6 outgoing{};
         outgoing.senderId = user->connection.object.id;
         outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
@@ -25,33 +25,33 @@ namespace user_apply_skill
 
         if (!user->skillAbility.type70.triggered)
         {
-            outgoing.status = SkillUseOutgoing::Status::Triggered;
+            outgoing.status = UserSkillUseStatus::Triggered;
 
             user->skillAbility.type70.triggered = true;
             user->skillAbility.type70.skillId = skillInfo->skillId;
             user->skillAbility.type70.skillLv = skillInfo->skillLv;
             user->skillAbility.type70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
+            Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
             CUser::AddApplySkillBuff(user, skillInfo);
         }
         else
         {
-            outgoing.status = SkillUseOutgoing::Status::Stopped;
+            outgoing.status = UserSkillUseStatus::Stopped;
 
             user->skillAbility.type70.triggered = false;
             user->skillAbility.type70.skillId = 0;
             user->skillAbility.type70.skillLv = 0;
             user->skillAbility.type70.keepTick = 0;
 
-            Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
+            Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
             CUser::RemApplySkillBuff(user, skillInfo);
         }
     }
 
     void ability_70_check_apply(CUser* user)
     {
-        if (user->status == CUser::Status::Death)
+        if (user->status == UserStatus::Death)
             return;
 
         if (!user->skillAbility.type70.triggered)
@@ -90,14 +90,14 @@ namespace user_apply_skill
         user->skillAbility.type70.skillLv = 0;
         user->skillAbility.type70.keepTick = 0;
 
-        SkillUseOutgoing outgoing{};
+        UserSkillUseOutgoing_EP6 outgoing{};
         outgoing.senderId = user->connection.object.id;
         outgoing.targetId = user->connection.object.id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
-        outgoing.status = SkillUseOutgoing::Status::Stopped;
+        outgoing.status = UserSkillUseStatus::Stopped;
 
-        Helpers::Send(user, &outgoing, sizeof(SkillUseOutgoing));
+        Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
         CUser::RemApplySkillBuff(user, skillInfo);
     }
 
@@ -113,7 +113,7 @@ namespace user_apply_skill
         switch (abilityType)
         {
         // skillId: 398, 399, 400, 401
-        case SkillAbilityType::DecreaseHpByPercentage:
+        case SkillAbilityType::Frenzied:
         {
             if (abilityValue < 0)
                 return;

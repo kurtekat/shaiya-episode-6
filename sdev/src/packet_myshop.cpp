@@ -8,13 +8,13 @@ using namespace shaiya;
 namespace packet_myshop
 {
     /// <summary>
-    /// Sends packet 0x230B (6.4 PT) to the user. The item dates will be zero.
+    /// Sends packet 0x230B (6.4) to the user. The item dates will be zero.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_item_list_hook(CUser* user, MyShopItemListOutgoing* packet)
+    void send_item_list_hook(CUser* user, MyShopItemListOutgoing_EP5* packet)
     {
-        MyShopItemListOutgoing2 outgoing{};
+        MyShopItemListOutgoing_EP6_4 outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.itemCount = packet->itemCount;
 
@@ -23,7 +23,7 @@ namespace packet_myshop
 
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
-            Item230Bv2 item230B{};
+            Item230B_EP6_4 item230B{};
             item230B.slot = packet->itemList[i].slot;
             item230B.price = packet->itemList[i].price;
             item230B.type = packet->itemList[i].type;
@@ -35,7 +35,7 @@ namespace packet_myshop
             outgoing.itemList[i] = item230B;
         }
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item230Bv2));
+        int length = MyShopItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item230B_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 }

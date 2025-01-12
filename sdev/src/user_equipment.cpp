@@ -1,7 +1,6 @@
 #include <array>
 #include <ranges>
-#include <shaiya/include/common/Equipment.h>
-#include <shaiya/include/common/ItemType.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
@@ -113,13 +112,13 @@ namespace user_equipment
     }
 
     /// <summary>
-    /// Sends packet 0x307 (6.4 PT) to the user.
+    /// Sends packet 0x307 (6.4) to the user.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="target"></param>
     void send_inspect(CUser* user, CUser* target)
     {
-        GetInfoInspectOutgoing2 outgoing{};
+        GetInfoInspectOutgoing_EP6_4 outgoing{};
         outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
@@ -149,7 +148,7 @@ namespace user_equipment
             }
         }
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0307));
+        int length = GetInfoInspectOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0307));
         Helpers::Send(user, &outgoing, length);
     }
 }
@@ -236,7 +235,7 @@ void hook::user_equipment()
     // CUser::ClearEquipment
     util::write_memory((void*)0x46BCCF, max_equipment_slot, 1);
     // CUser::PacketAdminCmdD
-    // the client does not support more than 13 items (0xF901)
+    // The client does not support more than 13 items (0xF901)
     //util::write_memory((void*)0x482896, max_equipment_slot, 1);
 
     // change 0x199 (user->itemQualityLv) to 0x62A0

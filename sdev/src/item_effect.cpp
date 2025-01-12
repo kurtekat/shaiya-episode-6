@@ -1,6 +1,5 @@
-//#define SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
-#include <shaiya/include/common/Equipment.h>
-#include <shaiya/include/common/ItemEffect.h>
+//#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
+#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
@@ -66,10 +65,10 @@ namespace item_effect
 
             auto mapId = gateKeeper->gates[index].mapId;
             auto pos = &gateKeeper->gates[index].pos;
-            Helpers::SetMovePosition(user, mapId, pos, int(RecallType::TownMoveScroll), 5000);
+            Helpers::SetMovePosition(user, mapId, pos, int(UserRecallType::TownMoveScroll), 5000);
 
-            ItemCastOutgoing outgoing(user->connection.object.id);
-            CObject::PSendViewCombat(user, &outgoing, sizeof(ItemCastOutgoing));
+            UserItemCastOutgoing outgoing(user->connection.object.id);
+            CObject::PSendViewCombat(user, &outgoing, sizeof(UserItemCastOutgoing));
             return 1;
         }
         default:
@@ -84,7 +83,7 @@ namespace item_effect
     /// <param name="incoming"></param>
     void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
     {
-        if (user->status == CUser::Status::Death)
+        if (user->status == UserStatus::Death)
             return;
 
         if (!incoming->bag || incoming->bag > user->bagsUnlocked || incoming->slot >= max_inventory_slot)
@@ -148,11 +147,11 @@ namespace item_effect
     /// Implements item effects 212, 213, and 214.
     /// </summary>
     /// <param name="item"></param>
-    /// <param name="kind"></param>
+    /// <param name="dropType"></param>
     /// <returns></returns>
-    int zone_enter_item_hook(CItem* item, int kind)
+    int zone_enter_item_hook(CItem* item, int dropType)
     {
-        if (kind != int(ZoneEnterItemOutgoing::Kind::MobDrop))
+        if (dropType != int(ZoneEnterItemDropType::Mob))
             return 0;
 
         if (!item->object.zone)
@@ -173,18 +172,18 @@ namespace item_effect
                 return 0;
 
             auto effect = pet->itemInfo->effect;
-            if (effect != ItemEffect::PetGold && effect != ItemEffect::PetGoldItem)
+            if (effect != ItemEffect::PetPickGoldDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
             auto rate = user->increaseGoldDropRate;
             switch (user->charmType)
             {
-            case CUser::CharmType::BlueDragon:
+            case UserCharmType::BlueDragon:
                 break;
-            case CUser::CharmType::WhiteTiger:
+            case UserCharmType::WhiteTiger:
                 rate += 20;
                 break;
-            case CUser::CharmType::RedPhoenix:
+            case UserCharmType::RedPhoenix:
                 rate += 50;
                 break;
             default:
@@ -206,7 +205,7 @@ namespace item_effect
                 return 0;
 
             auto effect = pet->itemInfo->effect;
-            if (effect != ItemEffect::PetItem && effect != ItemEffect::PetGoldItem)
+            if (effect != ItemEffect::PetPickItemDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
             CUser::ItemGet(user, item);
@@ -344,7 +343,7 @@ void hook::item_effect()
     util::detour((void*)0x4784D6, naked_0x4784D6, 5);
     // CUser::UpdateResetPosition
     util::detour((void*)0x49DDBF, naked_0x49DDBF, 9);
-#ifdef SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
+#ifdef SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
     // CZone::EnterItem
     util::detour((void*)0x41DA15, naked_0x41DA15, 5);
 #endif

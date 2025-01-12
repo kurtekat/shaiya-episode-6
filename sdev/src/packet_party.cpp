@@ -1,4 +1,4 @@
-#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CParty.h"
@@ -16,7 +16,7 @@ namespace packet_party
     /// <param name="incoming"></param>
     void map_ping_handler(CUser* user, PartyMapPingIncoming* incoming)
     {
-        if (user->status == CUser::Status::Death)
+        if (user->status == UserStatus::Death)
             return;
 
         if (!user->party)

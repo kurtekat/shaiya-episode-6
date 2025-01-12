@@ -51,12 +51,12 @@ namespace packet_character
     }
 
     /// <summary>
-    /// Sends packet 0x711 (6.4 PT) to the user. The item dates will be zero.
+    /// Sends packet 0x711 (6.4) to the user. The item dates will be zero.
     /// </summary>
     /// <param name="user"></param>
     void send_warehouse(CUser* user)
     {
-        UserBankItemListOutgoing2 outgoing{};
+        UserBankItemListOutgoing_EP6_4 outgoing{};
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
@@ -67,7 +67,7 @@ namespace packet_character
             if (!item)
                 continue;
 
-            Item0711v2 item0711{};
+            Item0711_EP6_4 item0711{};
             item0711.slot = slot;
             item0711.type = item->type;
             item0711.typeId = item->typeId;
@@ -83,7 +83,7 @@ namespace packet_character
                 continue;
             else
             {
-                int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
+                int length = UserBankItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
                 Helpers::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
@@ -94,7 +94,7 @@ namespace packet_character
         if (!outgoing.itemCount)
             return;
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item0711v2));
+        int length = UserBankItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 
@@ -114,13 +114,13 @@ namespace packet_character
     }
 
     /// <summary>
-    /// Sends packet 0x101 (6.4 PT) to the user.
+    /// Sends packet 0x101 (6.4) to the user.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="dbCharacter"></param>
-    void send_character(CUser* user, Character0403v2* dbCharacter)
+    void send_character(CUser* user, Character0403_EP6_4* dbCharacter)
     {
-        CharacterOutgoing2 character{};
+        CharacterOutgoing_EP6_4 character{};
         character.slot = dbCharacter->slot;
         character.charId = dbCharacter->id;
         character.regDate = dbCharacter->regDate;
@@ -147,7 +147,7 @@ namespace packet_character
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;
         character.cloakBadge = dbCharacter->cloakBadge;
-        Helpers::Send(user, &character, sizeof(CharacterOutgoing2));
+        Helpers::Send(user, &character, sizeof(CharacterOutgoing_EP6_4));
     }
 }
 
@@ -274,6 +274,6 @@ void hook::packet_character()
     util::detour((void*)0x47BCE8, naked_0x47BCE8, 5);
 
     // CUser::PacketUserDBChar
-    util::write_memory((void*)0x47B4EC, sizeof(Character0403v2), 1);
-    util::write_memory((void*)0x47B9C9, sizeof(Character0403v2), 1);
+    util::write_memory((void*)0x47B4EC, sizeof(Character0403_EP6_4), 1);
+    util::write_memory((void*)0x47B9C9, sizeof(Character0403_EP6_4), 1);
 }

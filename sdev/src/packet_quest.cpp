@@ -13,19 +13,26 @@ using namespace shaiya;
 namespace packet_quest
 {
     /// <summary>
-    /// Sends packet 0x903 to the user.
+    /// Sends packet 0x903 (6.4) to the user, which indicates failure.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="quest"></param>
     /// <param name="npcId"></param>
     void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
     {
-        QuestEndResultOutgoing2 outgoing{};
-        outgoing.npcId = npcId;
-        outgoing.questId = quest->questInfo->questId;
-        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
+        QuestEndResultOutgoing_EP6 outgoing(npcId, quest->questInfo->questId, false, 0, 0, 0, {});
+        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
     }
 
+    /// <summary>
+    /// Sends the episode 6.0 quest success result. Adds support for skill ability 87. Please note that 
+    /// the client does not prevent gold overflow when it handles the 0x903 packet.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="quest"></param>
+    /// <param name="questInfo"></param>
+    /// <param name="npcId"></param>
+    /// <param name="index"></param>
     void send_success_result(CUser* user, CQuest* quest, QuestInfo_EP6* questInfo, ULONG npcId, int index)
     {
         if (index >= int(questInfo->results.size()))
@@ -50,18 +57,11 @@ namespace packet_quest
 
         GameLogQuestEndResultIncoming gameLog{};
         CUser::SetGameLogMain(user, &gameLog);
-        gameLog.questId = questInfo->questId;
         StringCbCopyA(gameLog.questName.data(), gameLog.questName.size(), questInfo->questName.data());
         gameLog.success = true;
         gameLog.gold = gold;
 
-        QuestEndResultOutgoing2 outgoing{};
-        outgoing.npcId = npcId;
-        outgoing.questId = questInfo->questId;
-        outgoing.success = true;
-        outgoing.index = index;
-        outgoing.exp = exp;
-        outgoing.gold = gold;
+        QuestEndResultOutgoing_EP6 outgoing(npcId, questInfo->questId, true, index, exp, gold, {});
 
         auto& items = questInfo->results[index].items;
         for (int i = 0; std::cmp_less(i, items.size()); ++i)
@@ -100,7 +100,7 @@ namespace packet_quest
             Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
         }
 
-        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
         CUser::QuestRemove(user, quest, true);
     }
 }

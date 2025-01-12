@@ -16,7 +16,7 @@ namespace packet_exchange
     void send_cancel_ready(CUser* user)
     {
         user->exchange.ready = false;
-        ExchangeReadyOutgoing outgoing(ExchangeReadyOutgoing::Kind::Cancel, true);
+        ExchangeReadyOutgoing outgoing(ExchangeReadyType::Cancel, true);
         Helpers::Send(user, &outgoing, sizeof(ExchangeReadyOutgoing));
     }
 
@@ -28,17 +28,17 @@ namespace packet_exchange
     void send_cancel_confirm(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
-        ExchangeConfirmOutgoing outgoing(ExchangeConfirmOutgoing::Kind::Sender, false);
+        ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, false);
         Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
+        outgoing.type = ExchangeConfirmType::Target;
         Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
-        outgoing.kind = ExchangeConfirmOutgoing::Kind::Sender;
+        outgoing.type = ExchangeConfirmType::Sender;
         Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
+        outgoing.type = ExchangeConfirmType::Target;
         Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
@@ -67,10 +67,10 @@ namespace packet_exchange
         if (incoming->confirmed)
         {
             user->exchange.confirmed = true;
-            ExchangeConfirmOutgoing outgoing(ExchangeConfirmOutgoing::Kind::Sender, true);
+            ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, true);
             Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-            outgoing.kind = ExchangeConfirmOutgoing::Kind::Target;
+            outgoing.type = ExchangeConfirmType::Target;
             Helpers::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else
@@ -80,13 +80,13 @@ namespace packet_exchange
     }
 
     /// <summary>
-    /// Sends packets 0xA09 or 0x240D (6.4 PT) to the user. The item dates will be zero.
+    /// Sends packets 0xA09 or 0x240D (6.4) to the user. The item dates will be zero.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_item_hook(CUser* user, ExchangeItemOutgoing* packet)
+    void send_item_hook(CUser* user, ExchangeItemOutgoing_EP5* packet)
     {
-        ExchangeItemOutgoing2 outgoing{};
+        ExchangeItemOutgoing_EP6_4 outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.destSlot = packet->destSlot;
         outgoing.type = packet->type;
@@ -95,7 +95,7 @@ namespace packet_exchange
         outgoing.quality = packet->quality;
         outgoing.gems = packet->gems;
         outgoing.craftName = packet->craftName;
-        Helpers::Send(user, &outgoing, sizeof(ExchangeItemOutgoing2));
+        Helpers::Send(user, &outgoing, sizeof(ExchangeItemOutgoing_EP6_4));
     }
 }
 
@@ -239,11 +239,8 @@ void hook::packet_exchange()
     util::detour((void*)0x47DE08, naked_0x47DE08, 5);
     // CUser::PacketExchange case 0xA07
     util::detour((void*)0x47DFC0, naked_0x47DFC0, 5);
-
-#ifdef SHAIYA_EP6_4_PT
     // CUser::PacketExchange case 0xA06
     util::detour((void*)0x47DF22, naked_0x47DF22, 6);
     // CUser::PacketPvP case 0x240A
     util::detour((void*)0x48C741, naked_0x48C741, 6);
-#endif
 }

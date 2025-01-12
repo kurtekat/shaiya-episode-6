@@ -39,13 +39,13 @@ namespace packet_shop
     }
 
     /// <summary>
-    /// Sends packet 0x2602 (6.4 PT) to the user. The item dates will be zero.
+    /// Sends packet 0x2602 (6.4) to the user. The item dates will be zero.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_purchase(CUser* user, PointBuyItemOutgoing* packet)
+    void send_purchase(CUser* user, PointBuyItemOutgoing_EP5* packet)
     {
-        PointBuyItemOutgoing2 outgoing{};
+        PointBuyItemOutgoing_EP6_4 outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.result = packet->result;
         outgoing.points = packet->points;
@@ -59,7 +59,7 @@ namespace packet_shop
 
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
-            Item2602v2 item2602{};
+            Item2602_EP6_4 item2602{};
             item2602.bag = packet->itemList[i].bag;
             item2602.slot = packet->itemList[i].slot;
             item2602.type = packet->itemList[i].type;
@@ -68,7 +68,7 @@ namespace packet_shop
             outgoing.itemList[i] = item2602;
         }
 
-        int length = outgoing.size_without_list() + (outgoing.itemCount * sizeof(Item2602v2));
+        int length = PointBuyItemOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item2602_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 
@@ -233,6 +233,8 @@ void hook::packet_shop()
     util::detour((void*)0x488A80, naked_0x488A80, 5);
     // CUser::PacketUserDBPoint case 0xE06
     util::detour((void*)0x47D525, naked_0x47D525, 5);
+    // CUser::PacketShop case 0x2602
+    util::detour((void*)0x4886E0, naked_0x4886E0, 5);
 
     // CClientToMgr::OnRecv case 0x105
     util::write_memory((void*)0x4069CF, 0x90, 5);
@@ -240,9 +242,4 @@ void hook::packet_shop()
     // g_nPayLetterEnable
     int enabled = true;
     util::write_memory((void*)0x58799C, &enabled, 4);
-
-#ifdef SHAIYA_EP6_4_PT
-    // CUser::PacketShop case 0x2602
-    util::detour((void*)0x4886E0, naked_0x4886E0, 5);
-#endif
 }

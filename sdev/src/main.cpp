@@ -18,18 +18,16 @@ void leave_world_hook(CUser* user)
 /// allocation size as needed. (e.g., 0x6500)
 /// 
 /// The extended memory in this library ends at 0x6300, so scripts 
-/// accessing memory from 0x62A0 to 0x62FC are incompatible.
+/// accessing memory from 0x62A0 to 0x62FF are incompatible.
 /// </summary>
 /// <param name="user"></param>
 void user_hook(CUser* user)
 {
     user->exchange.confirmed = false;
-#ifdef SHAIYA_EP6_4_PT
     user->itemQualityLvEx = {};
     user->itemQualityEx = {};
     user->townMoveScroll = {};
     user->skillAbility = {};
-#endif
 }
 
 unsigned u0x45516B = 0x45516B;
@@ -97,11 +95,6 @@ void Main()
     util::detour((void*)0x455165, naked_0x455165, 6);
     // CUser::ResetCharacter
     util::detour((void*)0x455A83, naked_0x455A83, 6);
-
-    hook::packet_exchange();
-    hook::packet_shop();
-
-#ifdef SHAIYA_EP6_4_PT
     // CUser::LeaveWorld
     util::detour((void*)0x455C40, naked_0x455C40, 6);
     // change 0x62A0 to 0x6300
@@ -111,11 +104,13 @@ void Main()
 
     hook::item_effect();
     hook::packet_character();
+    hook::packet_exchange();
     hook::packet_gem();
     hook::packet_market();
     hook::packet_myshop();
     hook::packet_party();
     hook::packet_quest();
+    hook::packet_shop();
     hook::revenge_mark();
     hook::user_apply_skill();
     hook::user_equipment();
@@ -123,5 +118,4 @@ void Main()
     hook::user_status();
     Synergy::init();
     Synthesis::init();
-#endif
 }

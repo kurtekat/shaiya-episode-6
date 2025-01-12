@@ -15,7 +15,7 @@ namespace character_list
     /// <param name="sendCountry">Determines whether the game service sends packet 0x109 to the user.</param>
     void send(CUser* user, bool sendCountry)
     {
-        DBAgentCharListOutgoing2 outgoing{};
+        DBAgentCharListOutgoing_EP6_4 outgoing{};
         outgoing.userId = user->userId;
         outgoing.sendCountry = sendCountry;
         outgoing.characterCount = 0;
@@ -25,7 +25,7 @@ namespace character_list
             if (!character.id || character.slot >= user->characterList.size())
                 continue;
 
-            Character0403v2 character0403{};
+            Character0403_EP6_4 character0403{};
             character0403.id = character.id;
             character0403.regDate = character.regDate;
             character0403.nameChange = character.nameChange;
@@ -69,7 +69,7 @@ namespace character_list
         if (!user->connection)
             return;
 
-        int length = outgoing.size_without_list() + (outgoing.characterCount * sizeof(Character0403v2));
+        int length = DBAgentCharListOutgoing_EP6_4::baseLength + (outgoing.characterCount * sizeof(Character0403_EP6_4));
         SConnection::Send(user->connection, &outgoing, length);
     }
 

@@ -194,7 +194,6 @@ void hook::user_status()
     // CUser::StatResetSkill
     util::detour((void*)0x48FCD3, naked_0x48FCD3, 7);
 
-#ifdef SHAIYA_EP6_4_PT
     // CUser::SendRecoverAdd
     util::write_memory((void*)0x490E35, 0x90, 2);
     util::write_memory((void*)0x490E41, 0x90, 2);
@@ -204,5 +203,4 @@ void hook::user_status()
     util::write_memory((void*)0x490F52, 0x90, 2);
     util::write_memory((void*)0x490F5E, 0x90, 2);
     util::write_memory((void*)0x490F7A, 0x90, 2);
-#endif
 }

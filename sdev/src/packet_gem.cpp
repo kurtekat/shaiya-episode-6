@@ -1,10 +1,9 @@
-//#define SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
+//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
 #include <random>
 #include <ranges>
 #include <string>
 #include <tuple>
-#include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemType.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
@@ -22,7 +21,7 @@ using namespace shaiya;
 
 namespace packet_gem
 {
-    bool remove_safety_charm(CUser* user, ItemLapisianAddIncoming* incoming)
+    bool remove_safety_charm(CUser* user, ItemLapisianAddIncoming_EP6_4* incoming)
     {
         if (!incoming->safetyCharm)
             return false;
@@ -84,7 +83,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
+    void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
@@ -103,9 +102,9 @@ namespace packet_gem
         ItemRuneCombineOutgoing failure{};
         failure.result = ItemRuneCombineResult::Failure;
 
-        if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::ItemCompose)
+        if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::RecreationRune)
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
 
@@ -113,22 +112,22 @@ namespace packet_gem
 
         switch (vial->itemInfo->effect)
         {
-        case ItemEffect::ItemRemakeStr:
+        case ItemEffect::StrVial:
             itemInfo = CGameData::GetItemInfo(101, 1);
             break;
-        case ItemEffect::ItemRemakeDex:
+        case ItemEffect::DexVial:
             itemInfo = CGameData::GetItemInfo(101, 2);
             break;
-        case ItemEffect::ItemRemakeInt:
+        case ItemEffect::IntVial:
             itemInfo = CGameData::GetItemInfo(101, 3);
             break;
-        case ItemEffect::ItemRemakeWis:
+        case ItemEffect::WisVial:
             itemInfo = CGameData::GetItemInfo(101, 4);
             break;
-        case ItemEffect::ItemRemakeRec:
+        case ItemEffect::RecVial:
             itemInfo = CGameData::GetItemInfo(101, 5);
             break;
-        case ItemEffect::ItemRemakeLuc:
+        case ItemEffect::LucVial:
             itemInfo = CGameData::GetItemInfo(101, 6);
             break;
         default:
@@ -137,14 +136,14 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
         
         int bag{}, slot{};
         if (!Helpers::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
 
@@ -202,7 +201,7 @@ namespace packet_gem
         CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
 
         // Failure result values are unclear. The client executes the same code 
-        // as long as the value is non-zero and not greater than 3.
+        // as long as the value is nonzero and not greater than 3.
 
         ItemLapisianCombineOutgoing failure{};
         failure.result = ItemLapisianCombineResult::Unknown1;
@@ -211,7 +210,7 @@ namespace packet_gem
         {
             if (!Helpers::ItemRemove(user, itemInfo->itemId, 1))
             {
-                Helpers::Send(user, &failure, 3);
+                Helpers::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
                 return;
             }
         }
@@ -219,7 +218,7 @@ namespace packet_gem
         int bag{}, slot{};
         if (!Helpers::ItemCreate(user, createInfo, 1, bag, slot))
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
             return;
         }
 
@@ -232,10 +231,8 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_compose_handler(CUser* user, ItemComposeIncoming* incoming)
+    void item_compose_handler(CUser* user, ItemComposeIncoming_EP6_4* incoming)
     {
-        constexpr uint16_t max_bonus = 99;
-
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
 
@@ -255,20 +252,20 @@ namespace packet_gem
 
         if (!item->itemInfo->composeCount)
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
-        if (!item->itemInfo->reqWis || item->itemInfo->reqWis > max_bonus)
+        if (!item->itemInfo->reqWis || item->itemInfo->reqWis > 99)
         {
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
         // optional
         //if (item->makeType == MakeType::QuestResult)
         //{
-        //    Helpers::Send(user, &outgoing, 3);
+        //    Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
         //    return;
         //}
 
@@ -279,15 +276,15 @@ namespace packet_gem
 
         switch (rune->itemInfo->effect)
         {
-        case ItemEffect::ItemComposeStr:
-        case ItemEffect::ItemComposeDex:
-        case ItemEffect::ItemComposeInt:
-        case ItemEffect::ItemComposeWis:
-        case ItemEffect::ItemComposeRec:
-        case ItemEffect::ItemComposeLuc:
+        case ItemEffect::StrRecreationRune:
+        case ItemEffect::DexRecreationRune:
+        case ItemEffect::IntRecreationRune:
+        case ItemEffect::WisRecreationRune:
+        case ItemEffect::RecRecreationRune:
+        case ItemEffect::LucRecreationRune:
         {
             maxBonus *= 2;
-            maxBonus = (maxBonus > max_bonus) ? max_bonus : maxBonus;
+            maxBonus = (maxBonus > 99) ? 99 : maxBonus;
             break;
         }
         default:
@@ -306,7 +303,7 @@ namespace packet_gem
 
         switch (rune->itemInfo->effect)
         {
-        case ItemEffect::ItemCompose:
+        case ItemEffect::RecreationRune:
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
@@ -318,7 +315,7 @@ namespace packet_gem
             CItem::ReGenerationCraftExpansion(item, true);
 
             break;
-        case ItemEffect::ItemComposeStr:
+        case ItemEffect::StrRecreationRune:
             if (!item->craftStrength)
                 return;
 
@@ -333,7 +330,7 @@ namespace packet_gem
             Helpers::SetItemCraftStrength(item, bonus);
 
             break;
-        case ItemEffect::ItemComposeDex:
+        case ItemEffect::DexRecreationRune:
             if (!item->craftDexterity)
                 return;
 
@@ -348,7 +345,7 @@ namespace packet_gem
             Helpers::SetItemCraftDexterity(item, bonus);
 
             break;
-        case ItemEffect::ItemComposeInt:
+        case ItemEffect::IntRecreationRune:
             if (!item->craftIntelligence)
                 return;
 
@@ -363,7 +360,7 @@ namespace packet_gem
             Helpers::SetItemCraftIntelligence(item, bonus);
 
             break;
-        case ItemEffect::ItemComposeWis:
+        case ItemEffect::WisRecreationRune:
             if (!item->craftWisdom)
                 return;
 
@@ -378,7 +375,7 @@ namespace packet_gem
             Helpers::SetItemCraftWisdom(item, bonus);
 
             break;
-        case ItemEffect::ItemComposeRec:
+        case ItemEffect::RecRecreationRune:
             if (!item->craftReaction)
                 return;
 
@@ -393,7 +390,7 @@ namespace packet_gem
             Helpers::SetItemCraftReaction(item, bonus);
 
             break;
-        case ItemEffect::ItemComposeLuc:
+        case ItemEffect::LucRecreationRune:
             if (!item->craftLuck)
                 return;
 
@@ -409,7 +406,7 @@ namespace packet_gem
 
             break;
         default:
-            Helpers::Send(user, &failure, 3);
+            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
@@ -820,7 +817,7 @@ namespace packet_gem
         {
         case 0x80D:
         {
-            auto incoming = reinterpret_cast<ItemRuneCombineIncoming*>(packet);
+            auto incoming = reinterpret_cast<ItemRuneCombineIncoming_EP6_4*>(packet);
             item_rune_combine_handler(user, incoming);
             break;
         }
@@ -998,7 +995,7 @@ void hook::packet_gem()
     // CUser::ItemLapisianAdd (failure)
     util::detour((void*)0x46D3BC, naked_0x46D3BC, 8);
 
-#ifdef SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
+#ifdef SHAIYA_EP6_4_ENABLE_0806_HANDLER
     // CUser::PacketGem case 0x806
     util::detour((void*)0x47A003, naked_0x47A003, 9);
 #endif
