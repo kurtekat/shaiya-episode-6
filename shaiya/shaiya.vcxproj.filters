@@ -49,6 +49,9 @@
     <ClInclude Include="include\common\UserTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\QuestTypes.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ServerTime.cpp">

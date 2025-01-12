@@ -9,6 +9,7 @@ namespace shaiya
     using Gems = std::array<uint8_t, 6>;
 
     using ItemId = uint32_t;
+    using ItemName = std::array<char, 32>;
 
     template<size_t N>
     using ItemQuality = std::array<uint16_t, N>;

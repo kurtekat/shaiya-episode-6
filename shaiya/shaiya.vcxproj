@@ -19,6 +19,7 @@
     <ClInclude Include="include\common\ItemTypes.h" />
     <ClInclude Include="include\common\Job.h" />
     <ClInclude Include="include\common\PartyTypes.h" />
+    <ClInclude Include="include\common\QuestTypes.h" />
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\SkillTypes.h" />
     <ClInclude Include="include\common\UserTypes.h" />
