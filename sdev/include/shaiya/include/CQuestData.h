@@ -2,6 +2,7 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/QuestTypes.h>
 
 namespace shaiya
 {
@@ -42,7 +43,9 @@ namespace shaiya
     struct QuestInfo_EP5
     {
         UINT16 questId;            //0x00
-        CharArray<256> questName;  //0x02
+        QuestName questName;       //0x02
+        // summary (ignored)
+        PAD(224);                  //0x22
         UINT16 minLevel;           //0x102
         UINT16 maxLevel;           //0x104
         Country country;           //0x106
@@ -135,7 +138,9 @@ namespace shaiya
     struct QuestInfo_EP6
     {
         UINT16 questId;            //0x00
-        CharArray<256> questName;  //0x02
+        QuestName questName;       //0x02
+        // summary (ignored)
+        PAD(224);                  //0x22
         UINT16 minLevel;           //0x102
         UINT16 maxLevel;           //0x104
         Country country;           //0x106

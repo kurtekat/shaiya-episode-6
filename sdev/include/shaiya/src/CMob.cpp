@@ -65,19 +65,6 @@ void CMob::SetAttack(CMob* mob/*esi*/)
     }
 }
 
-void CMob::SetSkillAbility(CMob* mob/*edx*/, int _type/*ecx*/, int value/*eax*/)
-{
-    unsigned u0x4B5A70 = 0x4B5A70;
-
-    __asm
-    {
-        mov eax,value
-        mov ecx,_type
-        mov edx,mob
-        call u0x4B5A70
-    }
-}
-
 void CMob::SetStatus(CMob* mob/*eax*/, int status/*ecx*/)
 {
     unsigned u0x4A12C0 = 0x4A12C0;

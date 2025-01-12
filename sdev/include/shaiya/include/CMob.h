@@ -132,7 +132,6 @@ namespace shaiya
         static void UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
         static void SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage);
         static void SetAttack(CMob* mob/*esi*/);
-        static void SetSkillAbility(CMob* mob/*edx*/, int type/*ecx*/, int value/*eax*/);
         static void SetStatus(CMob* mob/*eax*/, int status/*ecx*/);
     };
     #pragma pack(pop)

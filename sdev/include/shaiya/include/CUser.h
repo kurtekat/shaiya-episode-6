@@ -69,14 +69,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    struct SkillAbilityEx
-    {
-        SkillAbility70 type70;
-        UINT32 multiplyQuestExpRate;
-    };
-    #pragma pack(pop)
-
     enum struct EquipmentSlot : UINT8
     {
         Helmet,      //0x1C0
@@ -653,10 +645,9 @@ namespace shaiya
         ItemQualityLv<24> itemQualityLvEx;     //0x62A0
         ItemQuality<24> itemQualityEx;         //0x62B8
         TownMoveScroll townMoveScroll;         //0x62E8
-        SkillAbilityEx skillAbility;           //0x62F4
+        SkillAbility70 skillAbility70;         //0x62F4
+        UINT32 multiplyQuestExpRate;           //0x62FC
 
-        static void AddApplySkillBuff(CUser* user, SkillInfo* skillInfo);
-        static void AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo);
         static void AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/);
@@ -684,8 +675,6 @@ namespace shaiya
         static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo* outInfo);
         static CQuest* QuestFind(CUser* user/*edi*/, int questId);
         static void QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess);
-        static void RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo);
-        static void RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/);
         static void SendAdminCmdError(CUser* user, UINT16 error/*ecx*/);
         static void SendAdminCmdSuccess(CUser* user);
         static void SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/);
@@ -716,7 +705,6 @@ namespace shaiya
         static void SendUserShape(CUser* user);
         static void SetAttack(CUser* user/*esi*/);
         static void SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/);
-        static void SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int type/*edx*/, int value/*eax*/);
         static void StatResetSkill(CUser* user/*eax*/, BOOL isEvent);
         static void StatResetStatus(CUser* user/*edi*/, BOOL isEvent);
         static void TauntMob(CUser* user, float dist, int aggro);

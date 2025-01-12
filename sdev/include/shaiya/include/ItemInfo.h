@@ -127,7 +127,7 @@ namespace shaiya
     struct ItemInfo
     {
         UINT32 itemId;              //0x00
-        CharArray<32> itemName;     //0x04
+        ItemName itemName;          //0x04
         UINT8 type;                 //0x24
         UINT8 typeId;               //0x25
         Faction country;            //0x26

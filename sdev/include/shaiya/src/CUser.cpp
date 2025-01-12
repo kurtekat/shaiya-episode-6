@@ -5,18 +5,6 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-void CUser::AddApplySkillBuff(CUser* user, SkillInfo* skillInfo)
-{
-    typedef void(__stdcall* LPFN)(CUser*, SkillInfo*);
-    (*(LPFN)0x494140)(user, skillInfo);
-}
-
-void CUser::AddApplySkillDebuff(CUser* user, CSkill* skill, SkillInfo* skillInfo)
-{
-    typedef void(__stdcall* LPFN)(CUser*, CSkill*, SkillInfo*);
-    (*(LPFN)0x494BD0)(user, skill, skillInfo);
-}
-
 void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest)
 {
     unsigned u0x465060 = 0x465060;
@@ -286,25 +274,6 @@ void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess
         mov eax,quest
         mov esi,user
         call u0x48D030
-    }
-}
-
-void CUser::RemApplySkillBuff(CUser* user/*ecx*/, SkillInfo* skillInfo)
-{
-    typedef void(__thiscall* LPFN)(CUser*, SkillInfo*);
-    (*(LPFN)0x494760)(user, skillInfo);
-}
-
-void CUser::RemApplySkillDebuff(CUser* user/*esi*/, CSkill* skill/*ebx*/, SkillInfo* skillInfo/*edx*/)
-{
-    unsigned u0x494EB0 = 0x494EB0;
-
-    __asm
-    {
-        mov esi,user
-        mov ebx,skill
-        mov edx,skillInfo
-        call u0x494EB0
     }
 }
 
@@ -620,20 +589,6 @@ void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
         mov esi,packet
         mov edi,user
         call u0x467F60
-    }
-}
-
-void CUser::SetSkillAbility(CUser* user, int typeEffect/*ecx*/, int _type/*edx*/, int value/*eax*/)
-{
-    unsigned u0x495570 = 0x495570;
-
-    __asm
-    {
-        push user
-        mov ecx,typeEffect
-        mov edx,_type
-        mov eax,value
-        call u0x495570
     }
 }
 
