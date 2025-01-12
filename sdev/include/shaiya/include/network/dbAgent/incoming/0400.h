@@ -73,7 +73,7 @@ namespace shaiya
             StringCbCopyA(this->name.data(), this->name.size(), name);
         }
 
-        constexpr int size_without_name() { return 6; }
+        constexpr static int baseLength = 6;
     };
     #pragma pack(pop)
 }

@@ -69,7 +69,7 @@ namespace character_list
         if (!user->connection)
             return;
 
-        int length = DBAgentCharListOutgoing_EP6_4::baseLength + (outgoing.characterCount * sizeof(Character0403_EP6_4));
+        int length = outgoing.baseLength + (outgoing.characterCount * sizeof(Character0403_EP6_4));
         SConnection::Send(user->connection, &outgoing, length);
     }
 

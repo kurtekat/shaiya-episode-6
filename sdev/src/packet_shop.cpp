@@ -68,7 +68,7 @@ namespace packet_shop
             outgoing.itemList[i] = item2602;
         }
 
-        int length = PointBuyItemOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item2602_EP6_4));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item2602_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 

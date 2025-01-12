@@ -148,7 +148,7 @@ namespace user_equipment
             }
         }
 
-        int length = GetInfoInspectOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0307));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0307));
         Helpers::Send(user, &outgoing, length);
     }
 }

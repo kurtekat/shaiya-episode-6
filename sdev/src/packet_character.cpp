@@ -35,7 +35,7 @@ namespace packet_character
         }
 
         DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
-        int length = request.size_without_name() + nameLength + 1;
+        int length = request.baseLength + nameLength + 1;
         Helpers::SendDBAgent(&request, length);
     }
 
@@ -83,7 +83,7 @@ namespace packet_character
                 continue;
             else
             {
-                int length = UserBankItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
+                int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
                 Helpers::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
@@ -94,7 +94,7 @@ namespace packet_character
         if (!outgoing.itemCount)
             return;
 
-        int length = UserBankItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 

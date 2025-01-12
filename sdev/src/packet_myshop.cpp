@@ -35,7 +35,7 @@ namespace packet_myshop
             outgoing.itemList[i] = item230B;
         }
 
-        int length = MyShopItemListOutgoing_EP6_4::baseLength + (outgoing.itemCount * sizeof(Item230B_EP6_4));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item230B_EP6_4));
         Helpers::Send(user, &outgoing, length);
     }
 }
