@@ -1,10 +1,33 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/NpcType.h>
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
+    enum struct NpcCountry : UINT32
+    {
+        Light,
+        Fury,
+        Neutral
+    };
+
+    enum struct NpcType : UINT8
+    {
+        Merchant = 1,
+        GateKeeper,
+        Blacksmith,
+        VetManager,
+        GamblingHouse,
+        Warehouse,
+        Normal,
+        Guard,
+        Animal,
+        Apprentice,
+        GuildMaster,
+        Dead,
+        SkillReset
+    };
+
     #pragma pack(push, 1)
     struct Npc
     {
@@ -13,12 +36,7 @@ namespace shaiya
         UINT16 typeId;        //0x02
         UINT32 shape;         //0x04
         PAD(8);
-        enum struct 
-            Country : UINT32 {
-            Light, 
-            Fury, 
-            Neutral
-        } country;            //0x10
+        NpcCountry country;   //0x10
         CharArray<256> name;  //0x14
         // 0x114
         PAD(16);
@@ -60,12 +78,32 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    // Credit: Matias Ramirez (Parsec)
+    enum struct NpcMerchantType : UINT8
+    {
+        GenericMerchant,
+        WeaponMerchant,
+        ProtectionMerchant,
+        AccessoryMerchant,
+        LiquidMedicineMerchant,
+        ProfessionalTrader,
+        RidingMerchant,
+        MantleMerchant,
+        BadgeMerchant,
+        BankTeller,
+        GoldBarMerchant,
+        ProfessionalBlacksmith = 15,
+        EtinManager = 100,
+        EtinSeller,
+        AuctionBoard = 117
+    };
+
     #pragma pack(push, 1)
     struct NpcMerchant
     {
         Npc npc;           //0x00
         // 0x124
-        MerchantType merchantType;
+        NpcMerchantType merchantType;
         PAD(3);
         UINT32 itemCount;  //0x128
         NpcItem* items;    //0x12C

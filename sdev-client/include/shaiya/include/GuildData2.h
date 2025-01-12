@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
@@ -7,12 +8,12 @@ namespace shaiya
     // GUILD_DATA2
     struct GuildData2
     {
-        ULONG id;                  //0x00
-        CharArray<25> name;        //0x04
-        CharArray<21> masterName;  //0x1D
-        CharArray<65> remark;      //0x32
-        UINT8 rank;                //0x73
-        UINT32 points;             //0x74
+        ULONG id;              //0x00
+        CharArray<25> name;    //0x04
+        CharName masterName;   //0x1D
+        CharArray<65> remark;  //0x32
+        UINT8 rank;            //0x73
+        UINT32 points;         //0x74
         // 0x78
 
         static GuildData2* Find(ULONG guildId);

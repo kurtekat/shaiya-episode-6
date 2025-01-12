@@ -1,6 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SSyncMap.h"
 #include "include/shaiya/include/SVector.h"
@@ -25,17 +26,19 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct GuildPvPStatus : UINT32
+    {
+        None,
+        RequestSent,
+        RequestReceived,
+        Countdown,
+        Start
+    };
+
     #pragma pack(push, 1)
     struct GuildPvP
     {
-        enum struct 
-            Status : UINT32 {
-            None,
-            RequestSent,
-            RequestReceived,
-            Countdown,
-            Start
-        } status;                 //0x4B4
+        GuildPvPStatus status;    //0x4B4
         ULONG requestSenderId;    //0x4B8
         ULONG targetId;           //0x4BC
         ULONG requestTargetId;    //0x4C0
@@ -57,15 +60,15 @@ namespace shaiya
     #pragma pack(push, 1)
     struct stGuildUserInfo
     {
-        SNode node;              //0x00
-        ULONG charId;            //0x08
-        CharArray<21> charName;  //0x0C
+        SNode node;         //0x00
+        ULONG charId;       //0x08
+        CharName charName;  //0x0C
         PAD(3);
-        Job job;                 //0x24
+        Job job;            //0x24
         PAD(3);
-        UINT16 level;            //0x28
+        UINT16 level;       //0x28
         PAD(2);
-        UINT8 rank;              //0x2C
+        UINT8 rank;         //0x2C
         PAD(15);
         // 0x3C
     };
@@ -88,7 +91,7 @@ namespace shaiya
         SNode node;                //0x00
         ULONG id;                  //0x08
         CharArray<25> name;        //0x0C
-        CharArray<21> masterName;  //0x25
+        CharName masterName;       //0x25
         PAD(2);
         UINT32 adminCount;         //0x3C
         UINT32 country;            //0x40
@@ -98,7 +101,8 @@ namespace shaiya
         UINT32 keepEtin;           //0x50
         bool hasHouse;             //0x54
         bool buyHouse;             //0x55
-        CharArray<66> remark;      //0x56
+        CharArray<65> remark;      //0x56
+        PAD(1);
         UINT32 guildRankPoints;    //0x98
         UINT32 etinReturnCount;    //0x9C
         UINT32 grbJoinCount;       //0xA0

@@ -1,12 +1,11 @@
 #pragma once
-#include <shaiya/include/common/AuthStatus.h>
-#include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/NpcType.h>
-#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CMap.h"
@@ -194,7 +193,7 @@ namespace shaiya
         UINT8 costumeTypeId;                //0x9144A4  0x72D4
         UINT8 wingsTypeId;                  //0x9144A5  0x72D5
         PAD(40);
-        CharArray<21> charName;             //0x9144CE  0x72FE
+        CharName charName;                  //0x9144CE  0x72FE
         PAD(1);
         WindowType windowType;              //0x9144E4  0x7314
         ULONG npcId1;                       //0x9144E8  0x7318
@@ -227,7 +226,7 @@ namespace shaiya
         UINT8 townMoveScrollBag;            //0x91AD3E  0xDB6E
         UINT8 townMoveScrollSlot;           //0x91AD3F  0xDB6F
         UINT32 npcTypeId;                   //0x91AD40  0xDB70
-        NpcType32 npcType;                  //0x91AD44  0xDB74
+        UINT32 npcType;                     //0x91AD44  0xDB74
         PAD(26802528);
         CVector<SkillData> skillData;            //0x22AA6A8  0x199D518
         CVector<QuestData> questData;            //0x22AA6C0  0x199D530

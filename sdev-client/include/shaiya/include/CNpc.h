@@ -1,18 +1,34 @@
 #pragma once
-#include <shaiya/include/common/NpcType.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
 {
     struct SStaticText;
 
+    enum struct NpcType : UINT8
+    {
+        Merchant = 1,
+        GateKeeper,
+        Blacksmith,
+        VetManager,
+        GamblingHouse,
+        Warehouse,
+        Normal,
+        Guard,
+        Animal,
+        Apprentice,
+        GuildMaster,
+        Dead,
+        SkillReset
+    };
+
     #pragma pack(push, 1)
     // 0049AB60 ctor
     struct CNpc
     {
         void* vftable;          //0x00
-        CharArray<50> name;     //0x04
-        PAD(2);
+        CharArray<51> name;     //0x04
+        PAD(1);
         D3DVECTOR pos;          //0x38
         D3DVECTOR dir;          //0x44
         D3DVECTOR up;           //0x50

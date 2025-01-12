@@ -1,5 +1,5 @@
 #pragma once
-#include <shaiya/include/common/SkillDebuffType.h>
+#include <shaiya/include/common/SkillTypes.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
@@ -37,7 +37,7 @@ namespace shaiya
         English,       // CP_ACP
         Germany,       // CP_ACP
         SingaMala,     // 950
-        HongKong,      //
+        HongKong,      // 950
         France,        // CP_ACP
         Russia,        // CP_ACP
         Turkey,        // 1254

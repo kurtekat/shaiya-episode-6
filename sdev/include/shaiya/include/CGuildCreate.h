@@ -19,8 +19,8 @@ namespace shaiya
         Array<ULONG, 30> joiners;   //0x30
         Array<CUser*, 30> members;  //0xA8
         CRITICAL_SECTION cs;        //0x120
-        CharArray<66> remark;       //0x138
-        PAD(2);
+        CharArray<65> remark;       //0x138
+        PAD(3);
         // 0x17C
     };
     #pragma pack(pop)

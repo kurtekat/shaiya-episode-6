@@ -2,37 +2,33 @@
 #include <array>
 #include <map>
 #include <vector>
-#include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
     struct CItem;
     struct CUser;
 
-    class Synergy
+    using SynergyEffect = std::array<int, 12>;
+
+    #pragma pack(push, 1)
+    struct Synergy
     {
-    public:
-
-        using Effect = std::array<int, 12>;
-
         int id;
-        std::array<Effect, 13> effects{};
-        std::array<ItemId, 13> set{};
+        std::array<SynergyEffect, 13> effects;
+        std::array<ItemId, 13> set;
 
         static void init();
         static void applySynergies(CUser* user, CItem* item, bool removeFlag);
         static void removeSynergies(CUser* user);
 
-        Synergy()
-            : id(0)
-        {
-        }
-
     private:
 
-        static void getWornSynergies(CUser* user, CItem* item, std::vector<Synergy::Effect>& effects, bool removeFlag);
+        static void getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag);
     };
+    #pragma pack(pop)
 
     inline std::vector<Synergy> g_synergies;
-    inline std::map<CharId, std::vector<Synergy::Effect>> g_appliedSynergies;
+    inline std::map<CharId, std::vector<SynergyEffect>> g_appliedSynergies;
 }

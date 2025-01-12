@@ -4,29 +4,15 @@
 
 namespace shaiya
 {
-    /*
-    | AttackSpecial3 | Cooldown  |
-    |----------------|-----------|
-    | 0              | 5000      |
-    | 1              | 30000     |
-    | 2              | 60000     |
-    | 3              | 180000    |
-    | 4              | 300000    |
-    | 5              | 900000    |
-    | 6              | 1800000   |
-    | 7              | 3600000   |
-    | 8              | 14400000  |
-    | 9              | 43200000  |
-    | 10             | 86400000  |
-    | 11             | 259200000 |
-    | 12             | 7200000   |
-    | 13             | 0         |
-    | 14             | 604800000 |
-    | 15             | 15000     |
-    */
-
     using MobResistSkill = Array<UINT8, 6>;
     using MobResistState = Array<bool, 15>;
+
+    enum struct MobCountry : UINT32
+    {
+        Light,
+        Fury,
+        Neutral
+    };
 
     #pragma pack(push, 1)
     struct MobQuestItem
@@ -99,12 +85,7 @@ namespace shaiya
         // 0x4A1A53
         DWORD cooldown;               //0x6C
         PAD(8);
-        enum struct 
-            Country : UINT32 {
-            Light, 
-            Fury, 
-            Neutral
-        } country;                    //0x78
+        MobCountry country;           //0x78
         Array<MobAttack, 3> attacks;  //0x7C
         // 0xB8
         PAD(12);

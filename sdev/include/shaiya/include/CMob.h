@@ -32,6 +32,25 @@ namespace shaiya
 
     static_assert(sizeof(stMobRespawn) == 0x24);
 
+    enum struct MobLuaEvent : UINT32
+    {
+        OnMoveEnd,
+        OnAttacked,
+        OnAttackable,
+        OnNormalReset,
+        OnDeath,
+        OnReturnHome
+    };
+
+    enum struct MobStatus : UINT32
+    {
+        Idle,
+        Chase,
+        Death,
+        ReturnHome,
+        Unknown100 = 100
+    };
+
     #pragma pack(push, 1)
     struct CMob
     {
@@ -43,14 +62,7 @@ namespace shaiya
         PAD(44);
         MobInfo* mobInfo;                  //0xD4
         PAD(208);
-        enum struct 
-            Status : UINT32 {
-            Idle,
-            Chase,
-            Death,
-            ReturnHome,
-            Unknown100 = 100
-        } status;                          //0x1A8
+        MobStatus status;                  //0x1A8
         PAD(4);
         ULONG targetId;                    //0x1B0
         PAD(4);
@@ -103,15 +115,7 @@ namespace shaiya
         ULONG luaTargetId;                 //0x308
         PAD(40);
         DWORD lockOnTick;                  //0x334
-        enum struct 
-            LuaEvent : UINT32 {
-            OnMoveEnd,
-            OnAttacked,
-            OnAttackable,
-            OnNormalReset,
-            OnDeath,
-            OnReturnHome
-        } luaEvent;                        //0x338
+        MobLuaEvent luaEvent;              //0x338
         PAD(2516);
         stMobRespawn* mobRespawn;          //0xD10
         PAD(40);
@@ -122,7 +126,9 @@ namespace shaiya
         CharArray<32> text3;               //0xDB4
         CharArray<32> text4;               //0xDD4
         // 0xDF4
-
+        
+        static bool IsBossMob(CMob* mob/*eax*/);
+        static bool IsObelisk(CMob* mob/*eax*/);
         static void UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
         static void SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage);
         static void SetAttack(CMob* mob/*esi*/);

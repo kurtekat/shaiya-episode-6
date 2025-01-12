@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -7,9 +8,9 @@ namespace shaiya
     struct GameLogMain
     {
         ULONG userId;
-        CharArray<32> username;
+        Username username;
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
         UINT16 level;
         UINT32 exp;
         UINT16 mapId;

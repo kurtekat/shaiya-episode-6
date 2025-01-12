@@ -3,7 +3,8 @@
 #pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/common/ItemEffect.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
@@ -47,7 +48,7 @@ bool Helpers::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag
 
 bool Helpers::ItemRemove(CUser* user, int bag, int slot, int count)
 {
-    if (!bag || bag > 5 || slot >= max_inventory_slot)
+    if (!bag || bag >= int(user->inventory.size()) || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -188,7 +189,7 @@ void Helpers::SendNoticeTo(CUser* user, const char* message)
     Helpers::Send(user, &outgoing, outgoing.length());
 }
 
-void Helpers::SendNoticeTo(uint32_t charId, const char* message)
+void Helpers::SendNoticeTo(ULONG charId, const char* message)
 {
     auto user = CWorld::FindUser(charId);
     if (!user)
@@ -239,7 +240,7 @@ void Helpers::SetMovePosition(CUser* user, int mapId, float x, float y, float z,
     user->recallPos.x = x;
     user->recallPos.y = y;
     user->recallPos.z = z;
-    user->recallType = RecallType(recallType);
+    user->recallType = UserRecallType(recallType);
     user->recallTick = GetTickCount() + delay;
 }
 
@@ -250,7 +251,7 @@ void Helpers::SetMovePosition(CUser* user, int mapId, SVector* pos, int recallTy
 
 bool Helpers::Teleport(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
 {
-    if (user->status == CUser::Status::Death || user->where != CUser::Where::ZoneEnter)
+    if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
         return false;
 
     if (!user->connection.object.zone)

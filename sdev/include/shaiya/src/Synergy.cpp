@@ -37,17 +37,20 @@ void Synergy::init()
         if (ifs.fail())
             return;
 
-        uint32_t records{};
-        ifs.read(reinterpret_cast<char*>(&records), 4);
+        uint32_t recordCount{};
+        ifs.read(reinterpret_cast<char*>(&recordCount), 4);
 
-        for (int i = 0; std::cmp_less(i, records); ++i)
+        for (int i = 0; std::cmp_less(i, recordCount); ++i)
         {
-            Synergy synergy{};
-            ifs.read(reinterpret_cast<char*>(&synergy.id), 2);
+            uint16_t id{};
+            ifs.read(reinterpret_cast<char*>(&id), 2);
 
-            uint32_t length{};
-            ifs.read(reinterpret_cast<char*>(&length), 4);
-            ifs.ignore(length);
+            Synergy synergy{};
+            synergy.id = id;
+
+            uint32_t nameLength{};
+            ifs.read(reinterpret_cast<char*>(&nameLength), 4);
+            ifs.ignore(nameLength);
 
             for (auto& itemId : synergy.set)
             {
@@ -59,14 +62,14 @@ void Synergy::init()
 
             for (auto& effect : synergy.effects)
             {
-                uint32_t length{};
-                ifs.read(reinterpret_cast<char*>(&length), 4);
+                uint32_t descLength{};
+                ifs.read(reinterpret_cast<char*>(&descLength), 4);
 
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
-                std::string text(length, '\0');
-                ifs.read(text.data(), text.size());
+                std::string desc(descLength, '\0');
+                ifs.read(desc.data(), desc.size());
 
-                auto vec = util::split(text, ',');
+                auto vec = util::split(desc, ',');
                 if (vec.size() != effect.size())
                     continue;
 
@@ -89,7 +92,7 @@ void Synergy::applySynergies(CUser* user, CItem* item, bool removeFlag)
 {
     Synergy::removeSynergies(user);
 
-    std::vector<Synergy::Effect> effects{};
+    std::vector<SynergyEffect> effects{};
     Synergy::getWornSynergies(user, item, effects, removeFlag);
 
     if (effects.empty())
@@ -215,7 +218,7 @@ void Synergy::removeSynergies(CUser* user)
     g_appliedSynergies.erase(user->connection.object.id);
 }
 
-void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<Synergy::Effect>& effects, bool removeFlag)
+void Synergy::getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag)
 {
     std::set<ItemId> equipment;
     for (const auto& wornItem : user->inventory[0])

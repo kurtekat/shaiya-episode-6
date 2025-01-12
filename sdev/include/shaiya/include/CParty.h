@@ -1,16 +1,19 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
     struct CUser;
 
+    #pragma pack(push, 1)
     struct PartyMember
     {
         UINT32 index;
         CUser* user;
     };
+    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct CParty
@@ -21,13 +24,7 @@ namespace shaiya
         UINT32 memberCount;       //0x10
         // 0x14
         Array<PartyMember, 30> members;
-        enum struct
-            ItemDivType : UINT32 {
-            Group = 1,
-            Random,
-            Unknown,
-            Master
-        } itemDivType;            //0x104
+        ItemDivType itemDivType;  //0x104
         UINT32 itemDivSeq;        //0x108
         UINT32 topMemberLevel;    //0x10C
         UINT32 subLeaderIndex;    //0x110

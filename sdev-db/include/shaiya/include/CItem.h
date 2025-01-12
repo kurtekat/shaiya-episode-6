@@ -1,23 +1,9 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 namespace shaiya
 {
-    enum struct MakeType : char
-    {
-        Billing = 'B',
-        MobDrop = 'D',
-        G = 'G',
-        QuestResult = 'Q',
-        S = 'S',
-        Exchange = 'T',
-        UserDrop = 'U',
-        V = 'V',
-        CashShop = 'X'
-    };
-
     #pragma pack(push, 1)
     struct CItem
     {

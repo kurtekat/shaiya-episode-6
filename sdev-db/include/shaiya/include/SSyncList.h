@@ -13,8 +13,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    // A circular linked list
     template<class T>
-    // circular :/
     struct SSyncList
     {
         Sentinel sentinel;    //0x00

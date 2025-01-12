@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SVector.h"
@@ -11,17 +10,11 @@ namespace shaiya
     struct CZone;
     struct ItemInfo;
 
-    enum struct MakeType : char
+    enum struct ItemDropType : UINT8
     {
-        Billing = 'B',
-        MobDrop = 'D',
-        G = 'G',
-        QuestResult = 'Q',
-        S = 'S',
-        Exchange = 'T',
-        UserDrop = 'U',
-        V = 'V',
-        CashShop = 'X'
+        Mob = 1,
+        User,
+        Death
     };
 
     #pragma pack(push, 1)
@@ -46,12 +39,7 @@ namespace shaiya
         DWORD enablePickTick;      //0x6C
         ULONG enablePickId;        //0x70
         ULONG enablePickPartyId;   //0x74
-        enum struct 
-            DropType : UINT8 {
-            Mob = 1,
-            User,
-            Death
-        } dropType;                //0x78
+        ItemDropType dropType;     //0x78
         PAD(3);
         // e.g., mobId
         ULONG dropById;            //0x7C

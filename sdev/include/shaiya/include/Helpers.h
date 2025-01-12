@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemEffect.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 namespace shaiya
 {
@@ -23,7 +23,7 @@ namespace shaiya
         static void SendMessageToServer(const char* senderName, const char* message);
         static void SendNotice(const char* message);
         static void SendNoticeTo(CUser* user, const char* message);
-        static void SendNoticeTo(uint32_t charId, const char* message);
+        static void SendNoticeTo(ULONG charId, const char* message);
         static void SendNoticeTo(const char* charName, const char* message);
 
         static void Send(CUser* user, void* packet, int length);

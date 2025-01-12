@@ -6,6 +6,14 @@ namespace shaiya
     struct CItem;
     struct CUser;
 
+    enum struct ExchangeStatus : UINT32
+    {
+        None,
+        RequestSent,
+        RequestReceived,
+        Start
+    };
+
     #pragma pack(push, 1)
     struct ExcItem
     {
@@ -18,13 +26,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct CExchange
     {
-        enum struct 
-            Status : UINT32 {
-            None,
-            RequestSent,
-            RequestReceived,
-            Start
-        } status;                 //0x15C0
+        ExchangeStatus status;    //0x15C0
         CUser* user;              //0x15C4
         UINT32 money;             //0x15C8
         Array<ExcItem, 8> items;  //0x15CC

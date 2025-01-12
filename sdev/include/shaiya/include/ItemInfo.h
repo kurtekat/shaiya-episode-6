@@ -3,28 +3,10 @@
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemType.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 namespace shaiya
 {
-    /*
-    | ReqIg | Cooldown |
-    |-------|----------|
-    | 0     | 0        |
-    | 1     | 15000    |
-    | 2     | 20000    |
-    | 3     | 25000    |
-    | 4     | 30000    |
-    | 5     | 60000    |
-    | 6     | 120000   |
-    | 7     | 0        |
-    | 8     | 0        |
-    | 9     | 0        |
-    | 10    | 600000   |
-    | 11    | 2000     |
-    */
-    
     // notes: item types
     enum struct RealType : UINT32
     {
@@ -158,12 +140,7 @@ namespace shaiya
         PAD(1);
         UINT16 reqLevel;            //0x2E
         Grow grow;                  //0x30
-        enum struct 
-            ReqOg : UINT8 {
-            Tradable, 
-            AccountBound, 
-            CharacterBound
-        } reqOg;                    //0x31
+        ReqOg reqOg;                //0x31
         UINT8 reqIg;                //0x32
         PAD(1);
         UINT16 reqVg;               //0x34

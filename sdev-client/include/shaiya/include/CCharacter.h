@@ -3,10 +3,9 @@
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/MotionType.h>
-#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
@@ -15,7 +14,7 @@ namespace shaiya
     struct CMonster;
     struct SStaticText;
 
-    enum struct CharacterActionType : UINT32
+    enum struct CharacterAction : UINT32
     {
         Idle,
         Move,
@@ -26,6 +25,13 @@ namespace shaiya
         Break,
         Cast,
         UseSkill
+    };
+
+    enum struct CharacterStatus : UINT32
+    {
+        None,
+        Death,
+        Unknown
     };
 
     #pragma pack(push, 1)
@@ -48,13 +54,12 @@ namespace shaiya
         Array<UINT32, 6> costume;     //0xB0
         // 0xC8
         PAD(32);
-        MotionType32 motionType1;     //0xE8
-        MotionType32 motionType2;     //0xEC
+        UINT32 motionType1;           //0xE8
+        UINT32 motionType2;           //0xEC
         PAD(8);
-        // 0xF8
-        CharacterActionType actionType1;
+        CharacterAction actionType1;  //0xF8
         PAD(16);
-        CharArray<21> charName;       //0x10C
+        CharName charName;            //0x10C
         CharArray<51> shapeName;      //0x121
         PAD(4);
         UINT32 health;                //0x158
@@ -105,9 +110,8 @@ namespace shaiya
         PAD(18);
         DWORD attackTime;             //0x1DC
         DWORD actionTime;             //0x1E0
-        // 0x1E4
-        CharacterActionType actionType2;
-        bool isEmoteAction;           //0x1E8
+        CharacterAction actionType2;  //0x1E4
+        bool isEmoting;               //0x1E8
         PAD(3);
         ULONG attackTargetId;         //0x1EC
         UINT16 targetDmgHP;           //0x1F0
@@ -116,12 +120,7 @@ namespace shaiya
         PAD(6);
         UINT8 attackResult;           //0x1FC
         PAD(135);
-        enum struct 
-            Status : UINT32 {
-            None,
-            Death,
-            Unknown
-        } status;                     //0x284
+        CharacterStatus status;       //0x284
         CCharacterChat* chatBalloon;  //0x288
         // 0x747538 5.0 (seconds)
         float chatBalloonTimer;       //0x28C

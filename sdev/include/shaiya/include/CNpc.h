@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/NpcType.h>
 #include "include/shaiya/include/CObject.h"
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SVector.h"
@@ -10,25 +9,27 @@ namespace shaiya
     struct CMap;
     struct CUser;
 
+    enum struct NpcStatus : UINT32
+    {
+        Idle,
+        Chase,
+        FindTarget,
+        ReturnHome
+    };
+
     #pragma pack(push, 1)
     struct CNpc
     {
         SNode node;        //0x00
         // 0x08
         CObjectMoveable moveable;
-        NpcType32 type;    //0x34
+        UINT32 type;       //0x34
         UINT32 typeId;     //0x38
         PAD(20);
         // use reinterpret_cast
         void* npcData;     //0x50
         PAD(4);
-        enum struct 
-            Status : UINT32 {
-            Idle,
-            Chase,
-            FindTarget,
-            ReturnHome
-        } status;          //0x58
+        NpcStatus status;  //0x58
         PAD(4);
         ULONG targetId;    //0x60
         PAD(4);

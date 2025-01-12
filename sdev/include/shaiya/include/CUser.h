@@ -1,15 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/Attribute.h>
-#include <shaiya/include/common/AuthStatus.h>
-#include <shaiya/include/common/BillingItem.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/include/CExchange.h"
 #include "include/shaiya/include/CFriend.h"
 #include "include/shaiya/include/CloneUser.h"
@@ -38,23 +36,27 @@ namespace shaiya
     using Warehouse = Array<CItem*, 240>;
     using Bank = Array<BillingItem, 240>;
 
-    template<size_t N>
-    using ItemQualityLv = Array<UINT8, N>;
-
-    template<size_t N>
-    using ItemQuality = Array<UINT16, N>;
+    #pragma pack(push, 1)
+    struct StoredPointItems
+    {
+        // uses 240
+        Array<BillingItem, 640> items;
+        CRITICAL_SECTION cs;
+    };
+    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct ProductItem
     {
-        CharArray<21> productCode;  //0x00
+        ProductCode productCode;  //0x00
         PAD(3);
-        ULONG purchaseDate;         //0x18
-        UINT32 itemPrice;           //0x1C
+        ULONG purchaseDate;       //0x18
+        UINT32 itemPrice;         //0x1C
         // 0x20
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(ProductItem) == 0x20);
     using ProductLog = Array<ProductItem, 10>;
 
     #pragma pack(push, 1)
@@ -75,50 +77,33 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    struct StoredPointItems
+    enum struct EquipmentSlot : UINT8
     {
-        // uses 240
-        Array<BillingItem, 640> items;
-        CRITICAL_SECTION cs;
-    };
-    #pragma pack(pop)
-
-    enum struct RecallType : UINT32
-    {
-        Default,
-        GateKeeper = 1,
-        Portal = 1,
-        SavePoint,
-        RecallRune,
-        PartyMemberSummon,
-        PartyMemberMoveTo,
-        // itemId 100169 (EP5)
-        MoveWar,
-        // custom
-        TownMoveScroll,
-        MoveMapId200 = 10,
-        MoveChar = 0xF904,
-        MoveCharZone = 0xF905,
-        MoveParty = 0xF90C,
-        MoveTo = 0xFA09,
-        MoveZone = 0xFA0A,
-        MoveMap = 0xFA11,
-        MoveInsZone = 0xFA12
-    };
-
-    enum struct RecallItemType : UINT32
-    {
-        None,
-        SavePoint1,
-        SavePoint2,
-        SavePoint3,
-        SavePoint4,
-        PartyMemberSummon = 100,
-        PartyMemberMoveTo = 101,
-        // itemId 100169 (EP5)
-        MoveWar = 254,
-        RecallRune = 255
+        Helmet,      //0x1C0
+        UpperArmor,  //0x1C4
+        LowerArmor,  //0x1C8
+        Gloves,      //0x1CC
+        Shoes,       //0x1D0
+        Weapon,      //0x1D4
+        Shield,      //0x1D8
+        Cloak,       //0x1DC
+        Necklace,    //0x1E0
+        Ring1,       //0x1E4
+        Ring2,       //0x1E8
+        Bracelet1,   //0x1EC
+        Bracelet2,   //0x1F0
+        Vehicle,     //0x1F4
+        Pet,         //0x1F8
+        Costume,     //0x1FC
+        Wings,       //0x200
+        Index17,     //0x204
+        Index18,     //0x208
+        Index19,     //0x20C
+        Index20,     //0x210
+        Index21,     //0x214
+        Index22,     //0x218
+        Index23      //0x21C
+        // 0x220
     };
 
     #pragma pack(push, 1)
@@ -220,6 +205,130 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct UserAttackType : UINT32
+    {
+        None, 
+        Basic, 
+        Skill
+    };
+
+    enum struct UserAttribute : UINT32
+    {
+        None,
+        Fire1,
+        Water1,
+        Earth1,
+        Wind1,
+        Fire2,
+        Water2,
+        Earth2,
+        Wind2
+    };
+
+    enum struct UserCharmType : UINT32
+    {
+        None,
+        BlueDragon,
+        WhiteTiger,
+        RedPhoenix
+    };
+
+    enum struct UserHPAssistType : UINT32
+    {
+        Sp, Mp, SpMp
+    };
+
+    enum struct UserLogoutType : UINT32
+    {
+        None,
+        CharacterScreen,
+        Exit
+    };
+
+    enum struct UserPvPStatus : UINT32
+    {
+        None,
+        RequestSent,
+        RequestReceived,
+        Countdown,
+        Start,
+        Exchange
+    };
+
+    enum struct UserRecallType : UINT32
+    {
+        Default,
+        GateKeeper = 1,
+        Portal = 1,
+        SavePoint,
+        RecallRune,
+        PartyMemberSummon,
+        PartyMemberMoveTo,
+        // itemId 100169 (EP5)
+        MoveWar,
+        // custom
+        TownMoveScroll,
+        MoveMapId200 = 10,
+        MoveChar = 0xF904,
+        MoveCharZone = 0xF905,
+        MoveParty = 0xF90C,
+        MoveTo = 0xFA09,
+        MoveZone = 0xFA0A,
+        MoveMap = 0xFA11,
+        MoveInsZone = 0xFA12
+    };
+
+    enum struct UserRecallItemType : UINT32
+    {
+        None,
+        SavePoint1,
+        SavePoint2,
+        SavePoint3,
+        SavePoint4,
+        PartyMemberSummon = 100,
+        PartyMemberMoveTo = 101,
+        // itemId 100169 (EP5)
+        MoveWar = 254,
+        RecallRune = 255
+    };
+
+    enum struct UserRecoveryType : UINT32
+    {
+        Sit,
+        Normal,
+        Combat
+    };
+
+    enum struct UserStatus : UINT32
+    {
+        None,
+        Death,
+        Combat
+    };
+
+    enum struct UserTargetType : UINT32
+    {
+        None, 
+        User, 
+        Mob
+    };
+
+    enum struct UserVehicleStatus : UINT32
+    {
+        None, 
+        Summon, 
+        Riding
+    };
+
+    enum struct UserWhere : UINT32
+    {
+        Default,
+        WorldLeave,
+        ZoneWait,
+        ZoneLeave,
+        ZoneEnter
+    };
+
     #pragma pack(push, 1)
     struct CUser
     {
@@ -254,7 +363,8 @@ namespace shaiya
         INT16 vg;                              //0x166
         UINT8 cg;                              //0x168
         UINT8 og;                              //0x169
-        UINT16 ig;                             //0x16A
+        UINT8 ig;                              //0x16A
+        PAD(1);
         UINT16 strength;                       //0x16C
         UINT16 dexterity;                      //0x16E
         UINT16 intelligence;                   //0x170
@@ -264,7 +374,7 @@ namespace shaiya
         UINT32 maxHealth;                      //0x178
         UINT32 maxMana;                        //0x17C
         UINT32 maxStamina;                     //0x180
-        CharArray<21> charName;                //0x184
+        CharName charName;                     //0x184
         ItemQualityLv<13> itemQualityLv;       //0x199
         ItemQuality<13> itemQuality;           //0x1A6
         Inventory inventory;                   //0x1C0
@@ -299,16 +409,11 @@ namespace shaiya
         UINT32 healthRecovery;                 //0x1264
         UINT32 staminaRecovery;                //0x1268
         UINT32 manaRecovery;                   //0x126C
-        enum struct 
-            RecoveryType : UINT32 {
-            Sit,
-            Normal,
-            Combat
-        } recoveryType;                        //0x1270
+        UserRecoveryType recoveryType;         //0x1270
         UINT32 decreaseMpCostPercentage;       //0x1274
         UINT32 decreaseSpCostPercentage;       //0x1278
-        Attribute32 weaponAttribute;           //0x127C
-        Attribute32 armorAttribute;            //0x1280
+        UserAttribute weaponAttribute;         //0x127C
+        UserAttribute armorAttribute;          //0x1280
         PAD(92);
         UINT32 addAttackPower;                 //0x12E0
         UINT32 maxAddAttackPower;              //0x12E4
@@ -326,12 +431,7 @@ namespace shaiya
         UserWeaponMasteryPower weaponPower;    //0x1324
         PAD(4);
         UINT32 shieldMasteryDefense;           //0x133C
-        enum struct 
-            HealthAssistType : UINT32 {
-            Sp,
-            Mp,
-            SpMp
-        } healthAssistType;                    //0x1340
+        UserHPAssistType healthAssistType;     //0x1340
         BOOL immobilized;                      //0x1344
         BOOL unconscious;                      //0x1348
         BOOL sleeping;                         //0x134C
@@ -405,24 +505,14 @@ namespace shaiya
         UINT32 magicResistance;                //0x142C
         UINT32 magicCriticalHitRate;           //0x1430
         PAD(16);
-        enum struct 
-            Status : UINT32 {
-            None,
-            Death,
-            Combat
-        } status;                              //0x1444
+        UserStatus status;                     //0x1444
         PAD(4);
         bool sitting;                          //0x144C
         UINT8 motionValue;                     //0x144D
         PAD(2);
         BOOL running;                          //0x1450
         BOOL attacking;                        //0x1454
-        enum struct 
-            AttackType : UINT32 {
-            None,
-            Basic,
-            Skill
-        } attackType;                          //0x1458
+        UserAttackType attackType;             //0x1458
         UINT32 prevSkillUseIndex;              //0x145C
         PAD(4);
         UINT32 itemQualityDecreaseSlot;        //0x1464
@@ -431,12 +521,7 @@ namespace shaiya
         DWORD rebirthExpireTick;               //0x1470
         BOOL leaderResurrect;                  //0x1474
         UINT32 expLossRate;                    //0x1478
-        enum struct 
-            VehicleStatus : UINT32 {
-            None,
-            Summon,
-            Riding
-        } vehicleStatus;                       //0x147C
+        UserVehicleStatus vehicleStatus;       //0x147C
         DWORD vehicleRideTick;                 //0x1480
         UINT32 vehicleShapeType;               //0x1484
         UINT32 vehicleShapeTypeAdd;            //0x1488
@@ -450,12 +535,7 @@ namespace shaiya
         UserKillCountStatus kcStatus;          //0x14D4
         // 0x1544
         PAD(16);
-        enum struct 
-            TargetType : UINT32 {
-            None,
-            User,
-            Mob
-        } targetType;                          //0x1554
+        UserTargetType targetType;             //0x1554
         ULONG targetId;                        //0x1558
         PAD(100);
         CExchange exchange;                    //0x15C0
@@ -481,15 +561,7 @@ namespace shaiya
         BOOL joinGuildDisabled;                //0x5580
         BOOL grbZoneEnterFlag;                 //0x5584
         BOOL insZoneEnterFlag;                 //0x5588
-        enum struct 
-            PvPStatus : UINT32 {
-            None,
-            RequestSent,
-            RequestReceived,
-            Countdown,
-            Start,
-            Exchange
-        } pvpStatus;                           //0x558C
+        UserPvPStatus pvpStatus;               //0x558C
         DWORD pvpRequestExpireTick;            //0x5590
         ULONG pvpRequestTargetId;              //0x5594
         SVector pvpPos;                        //0x5598
@@ -498,14 +570,7 @@ namespace shaiya
         DWORD gvgRequestExpireTick;            //0x55B4
         PAD(8);
         CUserCrypto crypto;                    //0x55C0
-        enum struct 
-            Where : UINT32 {
-            Default,
-            WorldLeave,
-            ZoneWait,
-            ZoneLeave,
-            ZoneEnter
-        } where;                               //0x57F4
+        UserWhere where;                       //0x57F4
         PAD(8);
         UINT64 sessionId;                      //0x5800
         AuthStatus authStatus;                 //0x5808
@@ -523,24 +588,19 @@ namespace shaiya
         // UserUID
         ULONG userId;                          //0x582C
         UINT32 serverId;                       //0x5830
-        CharArray<32> username;                //0x5834
+        Username username;                     //0x5834
         bool attackItemOptionFlag;             //0x5854
         bool ignoreMaxHpMpSpSpeed;             //0x5855
         PAD(14);
         UINT32 questKillPCCount;               //0x5864
         UINT32 questKillMobCount;              //0x5868
         PAD(12);
-        enum struct 
-            LogoutType : UINT32 {
-            None,
-            CharacterScreen,
-            Exit
-        } logoutType;                          //0x5878
+        UserLogoutType logoutType;             //0x5878
         DWORD logoutTick;                      //0x587C
         int connectionCloseType;               //0x5880
         PAD(44);
         UINT32 numWhereErrors;                 //0x58B0
-        RecallType recallType;                 //0x58B4
+        UserRecallType recallType;             //0x58B4
         DWORD recallTick;                      //0x58B8
         UINT32 recallMapId;                    //0x58BC
         SVector recallPos;                     //0x58C0
@@ -560,16 +620,10 @@ namespace shaiya
         PAD(4);
         UINT32 recallItemBag;                  //0x58FC
         UINT32 recallItemSlot;                 //0x5900
-        RecallItemType recallItemType;         //0x5904
+        UserRecallItemType recallItemType;     //0x5904
         UINT32 recallItemGroup;                //0x5908
         UserSavePoint savePoint;               //0x590C
-        enum struct 
-            CharmType : UINT32 {
-            None,
-            BlueDragon,
-            WhiteTiger,
-            RedPhoenix
-        } charmType;                           //0x594C
+        UserCharmType charmType;               //0x594C
         UINT32 increaseGoldDropRate;           //0x5950
         BOOL eternalEndurance;                 //0x5954
         BOOL preventExpLoss;                   //0x5958

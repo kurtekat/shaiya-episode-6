@@ -198,12 +198,7 @@ namespace shaiya
     #pragma pack(pop)
 
     static_assert(sizeof(QuestInfo_EP6) == 0x284);
-
-#ifdef SHAIYA_EP6_4_PT
     using QuestInfo = QuestInfo_EP6;
-#else
-    using QuestInfo = QuestInfo_EP5;
-#endif
 
     struct CQuestData
     {
