@@ -16,13 +16,7 @@ C++ 23
 
 ## Binaries
 
-https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep5
-
-| NpcQuest | Max Level |
-|----------|-----------|
-| EP5      | 70        |
-
-https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/ep6
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/
 
 | NpcQuest | Max Level |
 |----------|-----------|
@@ -49,7 +43,7 @@ The function that adds support for recreation runes is disabled by default becau
 
 ```cpp
 // sdev\src\packet_gem.cpp
-//#define SHAIYA_EP6_4_PT_ENABLE_0806_HANDLER
+//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
 ```
 
 The following items are supported:
@@ -296,7 +290,7 @@ The function that adds support for pet item effects is disabled by default becau
 
 ```cpp
 // sdev\src\packet_gem.cpp
-//#define SHAIYA_EP6_4_PT_ENABLE_PET_ITEM_EFFECT
+//#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
 ```
 
 The following item effects are supported:

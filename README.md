@@ -47,19 +47,3 @@ The files in this repository are submitted to antivirus companies for analysis w
 ## Pull Requests
 
 Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be disabled.
-
-## Configuration
-
-### Episode 5.4
-
-```cpp
-// shaiya\include\common.h
-//#define SHAIYA_EP6_4_PT
-```
-
-### Episode 6.4
-
-```cpp
-// shaiya\include\common.h
-#define SHAIYA_EP6_4_PT
-```
