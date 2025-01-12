@@ -34,49 +34,19 @@
     <ClInclude Include="include\common.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\BillingItem.h">
+    <ClInclude Include="include\common\PartyTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\AuthStatus.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\CraftName.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\Gems.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\ItemEffect.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\ItemType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\MotionType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\NpcType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\PartyType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\ShapeType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\SkillAbilityType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\SkillDebuffType.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\SkillTargetType.h">
+    <ClInclude Include="include\common\SkillTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\ServerTime.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\Equipment.h">
+    <ClInclude Include="include\common\ItemTypes.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\UserTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
   </ItemGroup>

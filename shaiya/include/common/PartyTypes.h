@@ -3,6 +3,14 @@
 
 namespace shaiya
 {
+    enum struct ItemDivType : uint32_t
+    {
+        Group = 1,
+        Random,
+        Unknown,
+        Master
+    };
+
     enum struct PartyType : uint8_t
     {
         None,
