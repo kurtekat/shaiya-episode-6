@@ -41,7 +41,7 @@ namespace packet_quest
         auto exp = questInfo->results[index].exp;
         if (exp)
         {
-            auto rate = user->skillAbility.multiplyQuestExpRate;
+            auto rate = user->multiplyQuestExpRate;
             if (rate >= 200)
                 exp *= rate / 100;
 
@@ -55,12 +55,7 @@ namespace packet_quest
             CUser::SendDBMoney(user);
         }
 
-        GameLogQuestEndResultIncoming gameLog{};
-        CUser::SetGameLogMain(user, &gameLog);
-        StringCbCopyA(gameLog.questName.data(), gameLog.questName.size(), questInfo->questName.data());
-        gameLog.success = true;
-        gameLog.gold = gold;
-
+        GameLogQuestEndResultIncoming gameLog(user, questInfo, true, gold, 0, 0, {});
         QuestEndResultOutgoing_EP6 outgoing(npcId, questInfo->questId, true, index, exp, gold, {});
 
         auto& items = questInfo->results[index].items;
