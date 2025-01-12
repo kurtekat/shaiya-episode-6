@@ -21,7 +21,7 @@ namespace shaiya
         GameLogMain main;
         UINT64 itemUid;
         UINT32 itemId;
-        CharArray<32> itemName;
+        ItemName itemName;
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
@@ -52,7 +52,7 @@ namespace shaiya
         GameLogMain main;
         UINT64 itemUid;
         UINT32 itemId;
-        CharArray<32> itemName;
+        ItemName itemName;
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
@@ -84,7 +84,7 @@ namespace shaiya
         GameLogMain main;
         UINT64 itemUid;
         UINT32 itemId;
-        CharArray<32> itemName;
+        ItemName itemName;
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
@@ -116,7 +116,7 @@ namespace shaiya
         GameLogMain main;
         UINT64 itemUid;
         UINT32 itemId;
-        CharArray<32> itemName;
+        ItemName itemName;
         Gems gems;
         ULONG makeTime;
         CraftName craftName;

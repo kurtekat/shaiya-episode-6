@@ -84,7 +84,8 @@ namespace shaiya
 
         QuestEndResultOutgoing_EP6() = default;
 
-        QuestEndResultOutgoing_EP6(ULONG npcId, UINT16 questId, bool success, UINT8 index, UINT32 exp, UINT32 gold, const ItemList0903& itemList)
+        QuestEndResultOutgoing_EP6(ULONG npcId, UINT16 questId, bool success, UINT8 index, UINT32 exp, UINT32 gold, 
+            const ItemList0903& itemList)
             : npcId(npcId), questId(questId), success(success), index(index), exp(exp), gold(gold), itemList(itemList)
         {
         }
