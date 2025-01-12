@@ -27,7 +27,8 @@ void user_hook(CUser* user)
     user->itemQualityLvEx = {};
     user->itemQualityEx = {};
     user->townMoveScroll = {};
-    user->skillAbility = {};
+    user->skillAbility70 = {};
+    user->multiplyQuestExpRate = 0;
 }
 
 unsigned u0x45516B = 0x45516B;
@@ -112,9 +113,9 @@ void Main()
     hook::packet_quest();
     hook::packet_shop();
     hook::revenge_mark();
-    hook::user_apply_skill();
     hook::user_equipment();
     hook::user_shape();
+    hook::user_skill();
     hook::user_status();
     Synergy::init();
     Synthesis::init();
