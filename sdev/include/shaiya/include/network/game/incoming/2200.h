@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketComm (community)
 
@@ -10,7 +11,7 @@ namespace shaiya
     struct FriendAddIncoming
     {
         UINT16 opcode{ 0x2202 };
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
@@ -37,7 +38,7 @@ namespace shaiya
     struct BlockAddIncoming
     {
         UINT16 opcode{ 0x2209 };
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 

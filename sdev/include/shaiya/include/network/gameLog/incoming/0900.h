@@ -1,10 +1,11 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
-    enum struct ChatType : UINT8
+    enum struct GameLogChatType : UINT8
     {
         Normal = 1,
         To,
@@ -23,21 +24,21 @@ namespace shaiya
         ULONG userId;
         ULONG charId;
         UINT16 mapId;
-        ChatType chatType;
+        GameLogChatType chatType;
         UINT8 messageLength;
         CharArray<128> message;
 
         GameLogChatIncoming() = default;
 
-        GameLogChatIncoming(ULONG userId, ULONG charId, UINT16 mapId, ChatType chatType, const char* message)
+        GameLogChatIncoming(ULONG userId, ULONG charId, UINT16 mapId, GameLogChatType chatType, const char* message)
             : userId(userId), charId(charId), mapId(mapId), chatType(chatType), messageLength(0), message{}
         {
             StringCbCopyA(this->message.data(), this->message.size(), message);
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 14; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 14;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -48,23 +49,23 @@ namespace shaiya
         ULONG userId;
         ULONG charId;
         UINT16 mapId;
-        ChatType chatType;
-        CharArray<21> targetName;
+        GameLogChatType chatType;
+        CharName targetName;
         UINT8 messageLength;
         CharArray<128> message;
 
         GameLogChatToIncoming() = default;
 
         GameLogChatToIncoming(ULONG userId, ULONG charId, UINT16 mapId, const char* targetName, const char* message)
-            : userId(userId), charId(charId), mapId(mapId), chatType(ChatType::To), targetName{}, messageLength(0), message{}
+            : userId(userId), charId(charId), mapId(mapId), chatType(GameLogChatType::To), targetName{}, messageLength(0), message{}
         {
             StringCbCopyA(this->targetName.data(), this->targetName.size(), targetName);
             StringCbCopyA(this->message.data(), this->message.size(), message);
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 35; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 35;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 }

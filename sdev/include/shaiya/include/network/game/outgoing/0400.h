@@ -5,16 +5,18 @@
 
 namespace shaiya
 {
+    enum struct ZoneEnterItemDropType : UINT8
+    {
+        User = 1,
+        Mob
+    };
+
     #pragma pack(push, 1)
     struct ZoneEnterItemOutgoing
     {
         UINT16 opcode{ 0x401 };
         ULONG objectId;
-        enum struct 
-            Kind : UINT8 {
-            UserDrop = 1,
-            MobDrop
-        } kind;
+        ZoneEnterItemDropType dropType;
         UINT8 type;
         UINT8 typeId;
         UINT8 count;

@@ -5,13 +5,14 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketCharacter
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CharCreateIncoming
+    struct CharacterCreateIncoming
     {
         UINT16 opcode{ 0x102 };
         UINT8 slot;
@@ -22,12 +23,12 @@ namespace shaiya
         UINT8 size;
         Job job;
         Sex sex;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharDeleteIncoming
+    struct CharacterDeleteIncoming
     {
         UINT16 opcode{ 0x103 };
         ULONG charId;
@@ -35,7 +36,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharEnterWorldIncoming
+    struct CharacterEnterWorldIncoming
     {
         UINT16 opcode{ 0x104 };
         ULONG charId;
@@ -43,7 +44,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharLeaveWorldIncoming
+    struct CharacterLeaveWorldIncoming
     {
         UINT16 opcode{ 0x107 };
     };
@@ -60,7 +61,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharQuickSlotIncoming
+    struct CharacterQuickSlotIncoming
     {
         UINT16 opcode{ 0x10B };
         UINT8 quickSlotCount;
@@ -80,12 +81,12 @@ namespace shaiya
     {
         UINT16 opcode{ 0x10E };
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharRestoreIncoming
+    struct CharacterRestoreIncoming
     {
         UINT16 opcode{ 0x10F };
         ULONG charId;

@@ -1,14 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyType.h>
+#include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketGetInfo
 
@@ -26,10 +25,10 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
-    struct GetInfoUserShapeOutgoing
+    struct GetInfoUserShapeOutgoing_EP5
     {
         UINT16 opcode{ 0x303 };
-        ULONG charId;
+        ULONG objectId;
         bool dead;
         bool sitting;
         Country country;
@@ -42,19 +41,19 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        ShapeEquipment<8> equipment;
-        CharArray<21> charName;
+        Equipment<8> equipment;
+        CharName charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 17 items (6.4 PT)
-    struct GetInfoUserShapeOutgoing2
+    // 17 items (6.4)
+    struct GetInfoUserShapeOutgoing_EP6_4
     {
         UINT16 opcode{ 0x303 };
-        ULONG charId;
+        ULONG objectId;
         bool dead;
         bool sitting;
         Country country;
@@ -67,8 +66,8 @@ namespace shaiya
         PartyType partyType;
         Grow grow;
         UINT32 kills;
-        ShapeEquipment<17> equipment;
-        CharArray<21> charName;
+        Equipment<17> equipment;
+        CharName charName;
         CloakBadge cloakBadge;
         CharArray<25> guildName;
     };
@@ -97,25 +96,25 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // 12 items (5.4, 6.0)
-    struct GetInfoInspectOutgoing
+    struct GetInfoInspectOutgoing_EP5
     {
         UINT16 opcode{ 0x307 };
         UINT8 itemCount;
         Array<Item0307, 12> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 17 items (6.4 PT)
-    struct GetInfoInspectOutgoing2
+    // 17 items (6.4)
+    struct GetInfoInspectOutgoing_EP6_4
     {
         UINT16 opcode{ 0x307 };
         UINT8 itemCount;
         Array<Item0307, 17> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 }

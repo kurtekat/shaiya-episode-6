@@ -1,8 +1,8 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketGuild
 
@@ -46,7 +46,7 @@ namespace shaiya
         ULONG charId;
         UINT16 level;
         Job job;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
@@ -70,7 +70,7 @@ namespace shaiya
         UINT8 itemCount;
         Array<Item0D29, 50> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 }

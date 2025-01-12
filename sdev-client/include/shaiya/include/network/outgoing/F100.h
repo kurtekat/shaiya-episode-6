@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -12,7 +13,7 @@ namespace shaiya
         UINT8 messageLength;
         CharArray<128> message;
 
-        AdminChatNormalOutgoing() = delete;
+        AdminChatNormalOutgoing() = default;
 
         AdminChatNormalOutgoing(const char* message)
             : messageLength(0), message{}
@@ -21,8 +22,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -30,12 +31,12 @@ namespace shaiya
     struct AdminChatWhisperOutgoing
     {
         UINT16 opcode{ 0xF102 };
-        CharArray<21> senderName;
+        CharName senderName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;
 
-        AdminChatWhisperOutgoing() = delete;
+        AdminChatWhisperOutgoing() = default;
 
         AdminChatWhisperOutgoing(const char* senderName, const char* message)
             : messageLength(0), senderName{}, message{}
@@ -45,8 +46,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 24; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 24;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -58,7 +59,7 @@ namespace shaiya
         UINT8 messageLength;
         CharArray<128> message;
 
-        AdminChatTradeOutgoing() = delete;
+        AdminChatTradeOutgoing() = default;
 
         AdminChatTradeOutgoing(const char* message)
             : messageLength(0), message{}
@@ -67,8 +68,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -80,7 +81,7 @@ namespace shaiya
         UINT8 messageLength;
         CharArray<128> message;
 
-        AdminChatGuildOutgoing() = delete;
+        AdminChatGuildOutgoing() = default;
 
         AdminChatGuildOutgoing(const char* message)
             : messageLength(0), message{}
@@ -89,8 +90,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -102,7 +103,7 @@ namespace shaiya
         UINT8 messageLength;
         CharArray<128> message;
 
-        AdminChatPartyOutgoing() = delete;
+        AdminChatPartyOutgoing() = default;
 
         AdminChatPartyOutgoing(const char* message)
             : messageLength(0), message{}
@@ -111,8 +112,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -124,7 +125,7 @@ namespace shaiya
         UINT16 messageLength;
         CharArray<2000> message;
 
-        AdminChatAllOutgoing() = delete;
+        AdminChatAllOutgoing() = default;
 
         AdminChatAllOutgoing(const char* message)
             : messageLength(0), message{}
@@ -133,8 +134,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT16>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 4; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 4;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 }

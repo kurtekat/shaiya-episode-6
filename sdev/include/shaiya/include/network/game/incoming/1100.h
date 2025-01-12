@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketChatE
 
@@ -20,7 +21,7 @@ namespace shaiya
     struct ChatWhisperIncoming
     {
         UINT16 opcode{ 0x1102 };
-        CharArray<21> senderName;
+        CharName senderName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;

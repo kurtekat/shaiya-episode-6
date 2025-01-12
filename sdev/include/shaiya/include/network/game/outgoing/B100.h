@@ -22,7 +22,7 @@ namespace shaiya
         UINT8 itemCount;
         Array<ItemB101, 240> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 

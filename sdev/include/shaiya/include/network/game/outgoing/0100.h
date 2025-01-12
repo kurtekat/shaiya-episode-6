@@ -2,12 +2,12 @@
 #include <strsafe.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
-#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketCharacter
 
@@ -15,7 +15,7 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
-    struct CharacterOutgoing
+    struct CharacterOutgoing_EP5
     {
         UINT16 opcode{ 0x101 };
         UINT8 slot;
@@ -39,7 +39,7 @@ namespace shaiya
         UINT16 health;
         UINT16 mana;
         UINT16 stamina;
-        Equipment<8> equipment;
+        ItemArray<8> equipment;
         CharArray<19> charName;
         bool deleted;
         bool nameChange;
@@ -48,8 +48,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 17 items (6.4 PT)
-    struct CharacterOutgoing2
+    // 17 items (6.4)
+    struct CharacterOutgoing_EP6_4
     {
         UINT16 opcode{ 0x101 };
         UINT8 slot;
@@ -73,7 +73,7 @@ namespace shaiya
         UINT16 health;
         UINT16 mana;
         UINT16 stamina;
-        Equipment<17> equipment;
+        ItemArray<17> equipment;
         CharArray<19> charName;
         bool deleted;
         bool nameChange;
@@ -82,15 +82,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharDeleteOutgoing
+    struct CharacterDeleteOutgoing
     {
         UINT16 opcode{ 0x103 };
         UINT8 unknown;
         ULONG charId;
 
-        CharDeleteOutgoing() = default;
+        CharacterDeleteOutgoing() = default;
 
-        CharDeleteOutgoing(ULONG charId)
+        CharacterDeleteOutgoing(ULONG charId)
             : unknown(0), charId(charId)
         {
         }
@@ -98,39 +98,39 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharEnterWorldOutgoing
+    struct CharacterEnterWorldOutgoing
     {
         UINT16 opcode{ 0x104 };
-        ULONG objectId;
+        ULONG charId;
 
-        CharEnterWorldOutgoing() = default;
+        CharacterEnterWorldOutgoing() = default;
 
-        CharEnterWorldOutgoing(ULONG objectId)
-            : objectId(objectId)
+        CharacterEnterWorldOutgoing(ULONG charId)
+            : charId(charId)
         {
         }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharLeaveWorldOutgoing
+    struct CharacterLeaveWorldOutgoing
     {
         UINT16 opcode{ 0x107 };
 
-        CharLeaveWorldOutgoing() = default;
+        CharacterLeaveWorldOutgoing() = default;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharMaxGrowOutgoing
+    struct UserMaxGrowOutgoing
     {
         UINT16 opcode{ 0x109 };
         Country country;
         Grow maxGrow;
 
-        CharMaxGrowOutgoing() = default;
+        UserMaxGrowOutgoing() = default;
 
-        CharMaxGrowOutgoing(Country country, Grow maxGrow)
+        UserMaxGrowOutgoing(Country country, Grow maxGrow)
             : country(country), maxGrow(maxGrow)
         {
         }
@@ -168,15 +168,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct CharRestoreOutgoing
+    struct CharacterRestoreOutgoing
     {
         UINT16 opcode{ 0x10F };
         UINT8 unknown;
         ULONG charId;
 
-        CharRestoreOutgoing() = default;
+        CharacterRestoreOutgoing() = default;
 
-        CharRestoreOutgoing(ULONG charId)
+        CharacterRestoreOutgoing(ULONG charId)
             : unknown(0), charId(charId)
         {
         }
@@ -226,7 +226,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x117 };
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
 
         GuildCharNameOutgoing() = default;
 

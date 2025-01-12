@@ -23,8 +23,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -45,8 +45,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 3; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 3;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 }

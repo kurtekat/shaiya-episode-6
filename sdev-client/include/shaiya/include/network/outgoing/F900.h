@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -8,7 +9,7 @@ namespace shaiya
     struct AdminCmdNoticeToOutgoing
     {
         UINT16 opcode{ 0xF908 };
-        CharArray<21> targetName;
+        CharName targetName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;
@@ -23,8 +24,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 24; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 24;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -46,8 +47,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 5; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 5;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 }

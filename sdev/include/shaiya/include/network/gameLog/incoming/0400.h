@@ -1,7 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/GameLogMain.h"
@@ -9,6 +7,12 @@
 
 namespace shaiya
 {
+    enum struct GameLogItemCreateType : UINT8
+    {
+        ItemCreate = 1,
+        ItemRemake
+    };
+
     #pragma pack(push, 1)
     // ActionType 111
     struct GameLogItemCreateIncoming
@@ -21,18 +25,13 @@ namespace shaiya
         Gems gems;
         ULONG makeTime;
         CraftName craftName;
-        enum struct 
-            CraftType : UINT8 {
-            None,
-            ItemCreate,
-            Remake
-        } craftType;
+        GameLogItemCreateType createType;
         UINT8 count;
 
         GameLogItemCreateIncoming() = default;
 
-        GameLogItemCreateIncoming(CUser* user, CItem* item, CraftType craftType, UINT8 count)
-            : main{}, craftType(craftType), count(count)
+        GameLogItemCreateIncoming(CUser* user, CItem* item, GameLogItemCreateType createType, UINT8 count)
+            : main{}, createType(createType), count(count)
         {
             CUser::SetGameLogMain(user, this);
             this->itemUid = item->uniqueId;
@@ -95,7 +94,7 @@ namespace shaiya
 
         GameLogItemComposeIncoming() = default;
 
-        GameLogItemComposeIncoming(CUser* user, CItem* item, UINT64 oldItemUid, UINT32 oldItemId, CraftName& oldCraftName)
+        GameLogItemComposeIncoming(CUser* user, CItem* item, UINT64 oldItemUid, UINT32 oldItemId, const CraftName& oldCraftName)
             : main{}, oldItemUid(oldItemUid), oldItemId(oldItemId), oldCraftName(oldCraftName)
         {
             CUser::SetGameLogMain(user, this);

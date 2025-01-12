@@ -1,6 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketComm (community)
 
@@ -27,7 +28,7 @@ namespace shaiya
         UINT16 opcode{ 0x2204 };
         ULONG charId;
         Job job;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
@@ -55,7 +56,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2209 };
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 

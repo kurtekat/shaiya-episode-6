@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/MotionType.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketPC
 
@@ -42,17 +42,19 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct UserRebirthType : UINT8
+    {
+        NearestTown = 2,
+        LeaderResurrect,
+        KillSoulByItem,
+        KillSoulByItemNoMove
+    };
+
     #pragma pack(push, 1)
     struct UserRebirthIncoming
     {
         UINT16 opcode{ 0x553 };
-        enum struct 
-            RebirthType : UINT8 {
-            NearestTown = 2,
-            LeaderResurrect,
-            KillSoulByItem,
-            KillSoulByItemNoMove
-        } rebirthType;
+        UserRebirthType rebirthType;
     };
     #pragma pack(pop)
 

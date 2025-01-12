@@ -23,7 +23,7 @@ namespace shaiya
     struct ItemPickIncoming
     {
         UINT16 opcode{ 0x205 };
-        ULONG zoneItemId;
+        ULONG objectId;
     };
     #pragma pack(pop)
 
@@ -68,7 +68,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GateKeeperUseIncoming
+    struct NpcGateKeeperUseIncoming
     {
         UINT16 opcode{ 0x20C };
         ULONG npcId;
@@ -77,21 +77,21 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetRewardLevelIncoming
+    struct NpcVetRewardLevelIncoming
     {
         UINT16 opcode{ 0x218 };
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetKillRewardIncoming
+    struct NpcVetKillRewardIncoming
     {
         UINT16 opcode{ 0x219 };
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetDeathRewardIncoming
+    struct NpcVetDeathRewardIncoming
     {
         UINT16 opcode{ 0x21A };
     };

@@ -1,6 +1,8 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketUserPoint
 
@@ -11,8 +13,8 @@ namespace shaiya
     {
         UINT16 opcode{ 0xE03 };
         ULONG userId;
-        CharArray<21> targetName;
-        CharArray<21> productCode;
+        CharName targetName;
+        ProductCode productCode;
         UINT32 itemPrice;
         ULONG purchaseDate;
         UINT32 purchaseNumber;

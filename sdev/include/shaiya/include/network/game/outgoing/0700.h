@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 // CUser::PacketShop
 
@@ -22,7 +21,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct Item0711
+    struct Item0711_EP5
     {
         UINT8 slot;
         UINT8 type;
@@ -36,19 +35,19 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // 50 items (5.4, 6.0)
-    struct UserBankItemListOutgoing
+    struct UserBankItemListOutgoing_EP5
     {
         UINT16 opcode{ 0x711 };
         UINT32 bankMoney;
         UINT8 itemCount;
-        Array<Item0711, 50> itemList;
+        Array<Item0711_EP5, 50> itemList;
 
-        constexpr int size_without_list() { return 7; }
+        constexpr static int baseLength = 7;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct Item0711v2
+    struct Item0711_EP6_4
     {
         UINT8 slot;
         UINT8 type;
@@ -63,15 +62,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 40 items (6.4 PT)
-    struct UserBankItemListOutgoing2
+    // 40 items (6.4)
+    struct UserBankItemListOutgoing_EP6_4
     {
         UINT16 opcode{ 0x711 };
         UINT32 bankMoney;
         UINT8 itemCount;
-        Array<Item0711v2, 40> itemList;
+        Array<Item0711_EP6_4, 40> itemList;
 
-        constexpr int size_without_list() { return 7; }
+        constexpr static int baseLength = 7;
     };
     #pragma pack(pop)
 }

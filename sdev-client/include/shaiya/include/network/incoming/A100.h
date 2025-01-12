@@ -1,7 +1,7 @@
 #pragma once
 #include <bitset>
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/AuthStatus.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {

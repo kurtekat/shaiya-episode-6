@@ -1,5 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketPoint
 
@@ -14,7 +16,7 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct Item2602
+    struct Item2602_EP5
     {
         UINT8 bag;
         UINT8 slot;
@@ -25,23 +27,23 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointBuyItemOutgoing
+    struct PointBuyItemOutgoing_EP5
     {
         UINT16 opcode{ 0x2602 };
         PointBuyItemResult result;
         UINT32 points;
-        CharArray<21> productCode;
+        ProductCode productCode;
         ULONG purchaseDate;
         UINT32 itemPrice;
         UINT8 itemCount;
-        Array<Item2602, 24> itemList;
+        Array<Item2602_EP5, 24> itemList;
 
-        constexpr int size_without_list() { return 37; }
+        constexpr static int baseLength = 37;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct Item2602v2
+    struct Item2602_EP6_4
     {
         UINT8 bag;
         UINT8 slot;
@@ -54,18 +56,18 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PointBuyItemOutgoing2
+    struct PointBuyItemOutgoing_EP6_4
     {
         UINT16 opcode{ 0x2602 };
         PointBuyItemResult result;
         UINT32 points;
-        CharArray<21> productCode;
+        ProductCode productCode;
         ULONG purchaseDate;
         UINT32 itemPrice;
         UINT8 itemCount;
-        Array<Item2602v2, 24> itemList;
+        Array<Item2602_EP6_4, 24> itemList;
 
-        constexpr int size_without_list() { return 37; }
+        constexpr static int baseLength = 37;
     };
     #pragma pack(pop)
 
@@ -89,9 +91,9 @@ namespace shaiya
     {
         UINT16 opcode{ 0x2603 };
         PointSendGiftItemResult result;
-        CharArray<21> targetName;
+        CharName targetName;
         UINT32 points;
-        CharArray<21> productCode;
+        ProductCode productCode;
         ULONG purchaseDate;
         UINT32 itemPrice;
     };
@@ -101,8 +103,8 @@ namespace shaiya
     struct PointRecvGiftItemOutgoing
     {
         UINT16 opcode{ 0x2604 };
-        CharArray<21> senderName;
-        CharArray<21> productCode;
+        CharName senderName;
+        ProductCode productCode;
         UINT8 bag;
         UINT8 slot;
         UINT8 type;
@@ -143,7 +145,7 @@ namespace shaiya
         UINT8 itemCount;
         Array<Item2606, 240> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 

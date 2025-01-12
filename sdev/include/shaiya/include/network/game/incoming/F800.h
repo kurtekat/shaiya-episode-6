@@ -1,21 +1,22 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketAdminCmdC
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct AdminCmdCharCureIncoming
+    struct AdminCmdCharacterCureIncoming
     {
         UINT16 opcode{ 0xF801 };
-        CharArray<21> charName;
+        CharName charName;
     };
 
-    struct AdminCmdCharKickIncoming
+    struct AdminCmdCharacterKickIncoming
     {
         UINT16 opcode{ 0xF804 };
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 }

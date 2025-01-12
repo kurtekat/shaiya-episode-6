@@ -13,16 +13,19 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct PvPGuildRequestResult : UINT8
+    {
+        Rejected,
+        Accepted,
+        CannotRequest,
+        DidNotRespond
+    };
+
     #pragma pack(push, 1)
     struct PvPGuildRequestResultIncoming
     {
         UINT16 opcode{ 0x2502 };
-        enum struct Result : UINT8 {
-            Rejected,
-            Accepted,
-            CannotRequest,
-            DidNotRespond
-        } result;
+        PvPGuildRequestResult result;
     };
     #pragma pack(pop)
 }

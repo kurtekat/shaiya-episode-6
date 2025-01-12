@@ -1,16 +1,17 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketAdminCmdD
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct AdminCmdMoveCharIncoming
+    struct AdminCmdMoveCharacterIncoming
     {
         UINT16 opcode{ 0xF904 };
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 
@@ -18,7 +19,7 @@ namespace shaiya
     struct AdminCmdNoticeToIncoming
     {
         UINT16 opcode{ 0xF908 };
-        CharArray<21> targetName;
+        CharName targetName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;

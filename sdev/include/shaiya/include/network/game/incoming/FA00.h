@@ -1,15 +1,16 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketAdminCmdE
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct AdminCmdFindCharIncoming
+    struct AdminCmdFindCharacterIncoming
     {
         UINT16 opcode{ 0xFA08 };
-        CharArray<21> charName;
+        CharName charName;
     };
 
     struct AdminCmdChatBanEnableIncoming
@@ -17,13 +18,13 @@ namespace shaiya
         UINT16 opcode{ 0xFA0D };
         // not implemented
         UINT16 unknown{ 0 };
-        CharArray<21> charName;
+        CharName charName;
     };
 
     struct AdminCmdChatBanDisableIncoming
     {
         UINT16 opcode{ 0xFA0E };
-        CharArray<21> charName;
+        CharName charName;
     };
 
     struct AdminCmdMoveBanEnableIncoming
@@ -31,13 +32,13 @@ namespace shaiya
         UINT16 opcode{ 0xFA0F };
         // not implemented
         UINT16 unknown{ 0 };
-        CharArray<21> charName;
+        CharName charName;
     };
 
     struct AdminCmdMoveBanDisableIncoming
     {
         UINT16 opcode{ 0xFA10 };
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 }

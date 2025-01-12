@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/MotionType.h>
-#include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketPC
 
@@ -11,7 +10,7 @@ namespace shaiya
     struct UserMoveOutgoing
     {
         UINT16 opcode{ 0x501 };
-        ULONG charId;
+        ULONG objectId;
         UINT8 motionValue;
         UINT16 direction;
         float x;
@@ -43,7 +42,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x502 };
         UserAttackSuccessResult result;
-        ULONG charId;
+        ULONG objectId;
         ULONG targetId;
         UINT16 targetDmgHP;
         UINT16 targetDmgSP;
@@ -56,7 +55,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0x503 };
         UserAttackSuccessResult result;
-        ULONG charId;
+        ULONG objectId;
         ULONG targetId;
         UINT16 targetDmgHP;
         UINT16 targetDmgSP;
@@ -64,17 +63,19 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct UserDeathKillerType : UINT8
+    {
+        User = 1,
+        Mob,
+        Npc
+    };
+
     #pragma pack(push, 1)
     struct UserDeathOutgoing
     {
         UINT16 opcode{ 0x504 };
-        ULONG charId;
-        enum struct 
-            KillerType : UINT8 {
-            User = 1,
-            Mob,
-            Npc
-        } killerType;
+        ULONG objectId;
+        UserDeathKillerType killerType;
         ULONG killerId;
     };
     #pragma pack(pop)
@@ -83,7 +84,7 @@ namespace shaiya
     struct UserRecoverAddOutgoing
     {
         UINT16 opcode{ 0x505 };
-        ULONG charId;
+        ULONG objectId;
         int health;
         int mana;
         int stamina;
@@ -94,7 +95,7 @@ namespace shaiya
     struct UserMotionOutgoing
     {
         UINT16 opcode{ 0x506 };
-        ULONG charId;
+        ULONG objectId;
         MotionType motionType;
     };
     #pragma pack(pop)
@@ -103,7 +104,7 @@ namespace shaiya
     struct UserEquipmentOutgoing
     {
         UINT16 opcode{ 0x507 };
-        ULONG charId;
+        ULONG objectId;
         UINT8 slot;
         UINT8 type;
         UINT8 typeId;
@@ -114,10 +115,10 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemUseOutgoing
+    struct UserItemUseOutgoing
     {
         UINT16 opcode{ 0x50A };
-        ULONG charId;
+        ULONG objectId;
         UINT8 bag;
         UINT8 slot;
         UINT8 type;
@@ -130,8 +131,7 @@ namespace shaiya
     struct SkillApplyOutgoing
     {
         UINT16 opcode{ 0x50D };
-        // CSkill->id
-        ULONG id;
+        ULONG objectId;
         UINT16 skillId;
         UINT8 skillLv;
     };
@@ -141,16 +141,15 @@ namespace shaiya
     struct SkillRemoveOutgoing
     {
         UINT16 opcode{ 0x50E };
-        // CSkill->id
-        ULONG id;
+        ULONG objectId;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct SkillKeepOutgoing
+    struct UserSkillKeepOutgoing
     {
         UINT16 opcode{ 0x50F };
-        ULONG charId;
+        ULONG objectId;
         UINT16 skillId;
         UINT8 skillLv;
         UINT16 health;
@@ -160,7 +159,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct SkillUseOutgoing
+    struct UserSkillUseOutgoing_EP5
     {
         UINT16 opcode{ 0x511 };
         UINT8 targetType;
@@ -171,32 +170,62 @@ namespace shaiya
         UINT16 health;
         UINT16 stamina;
         UINT16 mana;
-        // EP6
-        enum struct
-            Status : UINT8 {
-            Triggered = 1,
-            Stopped = 3
-        } status;
+    };
+    #pragma pack(pop)
+
+    enum struct UserSkillUseStatus : UINT8
+    {
+        Triggered = 1,
+        Stopped = 3
+    };
+
+    #pragma pack(push, 1)
+    struct UserSkillUseOutgoing_EP6
+    {
+        UINT16 opcode{ 0x511 };
+        UINT8 targetType;
+        ULONG senderId;
+        ULONG targetId;
+        UINT16 skillId;
+        UINT8 skillLv;
+        UINT16 health;
+        UINT16 stamina;
+        UINT16 mana;
+        UserSkillUseStatus status;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct UserShapeTypeOutgoing
+    struct UserShapeTypeOutgoing_EP5
     {
         UINT16 opcode{ 0x51D };
-        ULONG charId;
+        ULONG objectId;
         ShapeType shapeType;
+
+        UserShapeTypeOutgoing_EP5() = default;
+
+        UserShapeTypeOutgoing_EP5(ULONG objectId, ShapeType shapeType)
+            : objectId(objectId), shapeType(shapeType)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct UserShapeTypeOutgoing2
+    struct UserShapeTypeOutgoing_EP6_4
     {
         UINT16 opcode{ 0x51D };
-        ULONG charId;
+        ULONG objectId;
         ShapeType shapeType;
         UINT32 vehicleType;
         UINT32 vehicleTypeId;
+
+        UserShapeTypeOutgoing_EP6_4() = default;
+
+        UserShapeTypeOutgoing_EP6_4(ULONG objectId, ShapeType shapeType, UINT32 vehicleType, UINT32 vehicleTypeId)
+            : objectId(objectId), shapeType(shapeType), vehicleType(vehicleType), vehicleTypeId(vehicleTypeId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -207,6 +236,13 @@ namespace shaiya
         UINT32 health;
         UINT32 mana;
         UINT32 stamina;
+
+        UserRecoverSetOutgoing() = default;
+
+        UserRecoverSetOutgoing(UINT32 health, UINT32 mana, UINT32 stamina)
+            : health(health), mana(mana), stamina(stamina)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -214,8 +250,15 @@ namespace shaiya
     struct UserKillCountOutgoing
     {
         UINT16 opcode{ 0x522 };
-        ULONG charId;
+        ULONG objectId;
         UINT32 kills;
+
+        UserKillCountOutgoing() = default;
+
+        UserKillCountOutgoing(ULONG objectId, UINT32 kills)
+            : objectId(objectId), kills(kills)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -245,6 +288,13 @@ namespace shaiya
         UINT8 bag;
         UINT8 slot;
         UINT32 money;
+
+        ItemRepairOutgoing() = default;
+
+        ItemRepairOutgoing(UINT8 bag, UINT8 slot, UINT32 money)
+            : bag(bag), slot(slot), money(money)
+        {
+        }
     };
     #pragma pack(pop)
 }

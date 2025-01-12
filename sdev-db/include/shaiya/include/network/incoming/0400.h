@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketUserChar
 
@@ -12,7 +13,7 @@ namespace shaiya
         UINT16 opcode{ 0x409 };
         ULONG userId;
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
     };
     #pragma pack(pop)
 

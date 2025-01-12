@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -8,8 +9,8 @@ namespace shaiya
     struct LoginRequest
     {
         UINT16 opcode{ 0xA102 };
-        CharArray<32> username;
-        CharArray<32> password;
+        Username username;
+        Password password;
 
         LoginRequest() = default;
 

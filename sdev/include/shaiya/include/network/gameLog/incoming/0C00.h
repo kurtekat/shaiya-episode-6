@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/AuthStatus.h>
+#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -10,9 +10,9 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC01 };
         ULONG userId;
-        CharArray<32> username;
+        Username username;
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
         UINT16 mapId;
         float x;
         float y;
@@ -28,16 +28,16 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC02 };
         ULONG userId;
-        CharArray<32> username;
+        Username username;
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
         UINT16 mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
         CharArray<32> desc;
-        CharArray<21> targetName;
+        CharName targetName;
     };
     #pragma pack(pop)
 
@@ -47,16 +47,16 @@ namespace shaiya
     {
         UINT16 opcode{ 0xC03 };
         ULONG userId;
-        CharArray<32> username;
+        Username username;
         ULONG charId;
-        CharArray<21> charName;
+        CharName charName;
         UINT16 mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
         CharArray<32> desc;
-        CharArray<21> targetName;
+        CharName targetName;
         // e.g. "name=%s"
         CharArray<256> text;
     };

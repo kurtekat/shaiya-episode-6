@@ -4,6 +4,19 @@
 
 namespace shaiya
 {
+    enum struct GameLogBossMobActionType : UINT8
+    {
+        None, 
+        Attack, 
+        Damage, 
+        Heal, 
+        Death, 
+        DebuffAdd, 
+        DebuffRemove, 
+        ItemDrop, 
+        MoneyDrop
+    };
+
     #pragma pack(push, 1)
     // ActionType 173
     struct GameLogBossMobIncoming
@@ -13,18 +26,7 @@ namespace shaiya
         float x;
         float y;
         float z;
-        enum struct 
-            ActionType : UINT8 {
-            None,
-            Attack,
-            Damage,
-            Heal,
-            Death,
-            DebuffAdd,
-            DebuffRemove,
-            ItemDrop,
-            MoneyDrop
-        }  actionType;
+        GameLogBossMobActionType actionType;
         CharArray<32> text1;
         CharArray<32> text3;
         CharArray<32> text4;
@@ -33,11 +35,8 @@ namespace shaiya
 
         GameLogBossMobIncoming() = default;
 
-        GameLogBossMobIncoming(
-            UINT32 mapId, float x, float y, float z,
-            ActionType actionType,
-            const char* text1, const char* text3, const char* text4,
-            UINT32 damage, UINT32 health
+        GameLogBossMobIncoming(UINT32 mapId, float x, float y, float z, GameLogBossMobActionType actionType,
+            const char* text1, const char* text3, const char* text4, UINT32 damage, UINT32 health
         ) 
             : mapId(mapId), x(x), y(y), z(z), actionType(actionType), damage(damage), health(health)
         {

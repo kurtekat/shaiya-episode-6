@@ -63,21 +63,25 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct DBAgentStatusGroupType : UINT8
+    {
+        Honor = 1,
+        Vg, Cg, Og, Ig
+    };
+
     #pragma pack(push, 1)
     struct DBAgentStatusGroupIncoming
     {
         UINT16 opcode{ 0x605 };
         ULONG userId;
-        enum struct 
-            GroupType : UINT8 {
-            Honor = 1, // hg
-            Other = 2, // vg, cg, og, ig
-        } groupType;
+        // Set command logic wrongly assigns 2 for cg, og, and ig. 
+        // See dbAgent address 0x4066E2.
+        DBAgentStatusGroupType groupType;
         UINT16 value;
 
         DBAgentStatusGroupIncoming() = default;
 
-        DBAgentStatusGroupIncoming(ULONG userId, GroupType groupType, UINT16 value)
+        DBAgentStatusGroupIncoming(ULONG userId, DBAgentStatusGroupType groupType, UINT16 value)
             : userId(userId), groupType(groupType), value(value)
         {
         }
@@ -164,23 +168,25 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct DBAgentPvPStatusType : UINT8
+    {
+        Kill,
+        Death,
+        Win,
+        Loss
+    };
+
     #pragma pack(push, 1)
     struct DBAgentPvPStatusIncoming
     {
         UINT16 opcode{ 0x60C };
         ULONG userId;
-        enum struct 
-            StatusType : UINT8 {
-            Kill, 
-            Death, 
-            Win, 
-            Loss
-        } statusType;
+        DBAgentPvPStatusType statusType;
         UINT32 value;
 
         DBAgentPvPStatusIncoming() = default;
 
-        DBAgentPvPStatusIncoming(ULONG userId, StatusType statusType, UINT32 value)
+        DBAgentPvPStatusIncoming(ULONG userId, DBAgentPvPStatusType statusType, UINT32 value)
             : userId(userId), statusType(statusType), value(value)
         {
         }

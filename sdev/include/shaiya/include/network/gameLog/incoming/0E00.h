@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/GameLogMain.h"
 
@@ -12,7 +13,7 @@ namespace shaiya
         UINT16 opcode{ 0xE01 };
         GameLogMain main;
         ULONG targetId;
-        CharArray<21> targetName;
+        CharName targetName;
 
         GameLogPvPLossIncoming() = default;
 
@@ -31,7 +32,7 @@ namespace shaiya
         UINT16 opcode{ 0xE02 };
         GameLogMain main;
         ULONG killerId;
-        CharArray<21> killerName;
+        CharName killerName;
 
         GameLogPvPWinIncoming() = default;
 

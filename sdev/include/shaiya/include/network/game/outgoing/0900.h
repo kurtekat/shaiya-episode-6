@@ -11,11 +11,18 @@ namespace shaiya
         UINT16 opcode{ 0x902 };
         ULONG npcId;
         UINT16 questId;
+
+        QuestStartOutgoing() = default;
+
+        QuestStartOutgoing(ULONG npcId, UINT16 questId)
+            : npcId(npcId), questId(questId)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct QuestEndResultOutgoing
+    struct QuestEndResultOutgoing_EP5
     {
         UINT16 opcode{ 0x903 };
         ULONG npcId;
@@ -28,6 +35,24 @@ namespace shaiya
         UINT8 slot;
         UINT8 type;
         UINT8 typeId;
+
+        QuestEndResultOutgoing_EP5() = default;
+
+        QuestEndResultOutgoing_EP5(ULONG npcId, UINT16 questId, bool success, UINT8 index, UINT32 exp, UINT32 gold, 
+            UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId
+        )
+        {
+            this->npcId = npcId;
+            this->questId = questId;
+            this->success = success;
+            this->index = index;
+            this->exp = exp;
+            this->gold = gold;
+            this->bag = bag;
+            this->slot = slot;
+            this->type = type;
+            this->typeId = typeId;
+        }
     };
     #pragma pack(pop)
 
@@ -42,8 +67,11 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    using ItemList0903 = Array<Item0903, 3>;
+
     #pragma pack(push, 1)
-    struct QuestEndResultOutgoing2
+    // 6.0, 6.4
+    struct QuestEndResultOutgoing_EP6
     {
         UINT16 opcode{ 0x903 };
         ULONG npcId;
@@ -52,7 +80,14 @@ namespace shaiya
         UINT8 index;
         UINT32 exp;
         UINT32 gold;
-        Array<Item0903, 3> itemList;
+        ItemList0903 itemList;
+
+        QuestEndResultOutgoing_EP6() = default;
+
+        QuestEndResultOutgoing_EP6(ULONG npcId, UINT16 questId, bool success, UINT8 index, UINT32 exp, UINT32 gold, const ItemList0903& itemList)
+            : npcId(npcId), questId(questId), success(success), index(index), exp(exp), gold(gold), itemList(itemList)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -61,6 +96,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0x907 };
         UINT16 questId;
+
+        QuestEndSelectOutgoing() = default;
+
+        QuestEndSelectOutgoing(UINT16 questId)
+            : questId(questId)
+        {
+        }
     };
     #pragma pack(pop)
 }

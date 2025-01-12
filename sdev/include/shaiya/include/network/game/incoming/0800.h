@@ -21,7 +21,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemLapisianAddIncoming
+    struct ItemLapisianAddIncoming_EP5
     {
         UINT16 opcode{ 0x805 };
         UINT8 lapisianBag;
@@ -31,15 +31,53 @@ namespace shaiya
         UINT8 materialCount;
         UINT8 itemBag;
         UINT8 itemSlot;
-        // EP6
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianAddIncoming_EP6
+    {
+        UINT16 opcode{ 0x805 };
+        UINT8 lapisianBag;
+        UINT8 lapisianSlot;
+        UINT8 materialBag;
+        UINT8 materialSlot;
+        UINT8 materialCount;
+        UINT8 itemBag;
+        UINT8 itemSlot;
         bool safetyCharm;
-        // EP6.4
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianAddIncoming_EP6_4
+    {
+        UINT16 opcode{ 0x805 };
+        UINT8 lapisianBag;
+        UINT8 lapisianSlot;
+        UINT8 materialBag;
+        UINT8 materialSlot;
+        UINT8 materialCount;
+        UINT8 itemBag;
+        UINT8 itemSlot;
+        bool safetyCharm;
         ULONG npcId;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemComposeIncoming
+    struct ItemComposeIncoming_EP5
+    {
+        UINT16 opcode{ 0x806 };
+        UINT8 runeBag;
+        UINT8 runeSlot;
+        UINT8 itemBag;
+        UINT8 itemSlot;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemComposeIncoming_EP6_4
     {
         UINT16 opcode{ 0x806 };
         UINT8 runeBag;
@@ -51,7 +89,20 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemRemakeIncoming
+    struct ItemRemakeIncoming_EP5
+    {
+        UINT16 opcode{ 0x807 };
+        UINT8 bag1;
+        UINT8 bag2;
+        UINT8 bag3;
+        UINT8 slot1;
+        UINT8 slot2;
+        UINT8 slot3;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemRemakeIncoming_EP6_4
     {
         UINT16 opcode{ 0x807 };
         UINT8 bag1;
@@ -65,7 +116,19 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemRuneCombineIncoming
+    // not implemented
+    struct ItemRuneCombineIncoming_EP5
+    {
+        UINT16 opcode{ 0x80D };
+        UINT8 runeBag;
+        UINT8 runeSlot;
+        UINT8 vialBag;
+        UINT8 vialSlot;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemRuneCombineIncoming_EP6_4
     {
         UINT16 opcode{ 0x80D };
         UINT8 runeBag;

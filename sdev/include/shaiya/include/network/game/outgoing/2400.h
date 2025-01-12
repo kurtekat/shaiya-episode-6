@@ -1,14 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 // CUser::PacketPvP
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct PvPExchangeItemOutgoing
+    struct PvPExchangeItemOutgoing_EP5
     {
         UINT16 opcode{ 0x240D };
         UINT8 destSlot;
@@ -22,7 +21,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct PvPExchangeItemOutgoing2
+    struct PvPExchangeItemOutgoing_EP6_4
     {
         UINT16 opcode{ 0x240D };
         UINT8 destSlot;

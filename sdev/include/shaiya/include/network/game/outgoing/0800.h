@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 // CUser::PacketGem
 
@@ -21,6 +20,19 @@ namespace shaiya
         UINT8 backPatternColor;
         UINT8 emblemColor;
         UINT32 money;
+
+        ItemCloakBadgeOutgoing() = default;
+
+        ItemCloakBadgeOutgoing(bool success, UINT8 bag, UINT8 slot, const CloakBadge& badge, UINT32 money)
+            : success(success), bag(bag), slot(slot), money(money)
+        {
+            this->frontPattern = badge[0];
+            this->backPattern = badge[1];
+            this->emblem = badge[2];
+            this->frontPatternColor = badge[3];
+            this->backPatternColor = badge[4];
+            this->emblemColor = badge[5];
+        }
     };
     #pragma pack(pop)
 
@@ -49,7 +61,9 @@ namespace shaiya
         ItemLapisianAddOutgoing() = default;
 
         ItemLapisianAddOutgoing(ItemLapisianAddResult result, UINT8 lapisianBag, UINT8 lapisianSlot, UINT8 lapisianCount, 
-            UINT8 materialBag, UINT8 materialSlot, UINT8 materialCount, UINT8 itemBag, UINT8 itemSlot, UINT32 money, CraftName& craftName)
+            UINT8 materialBag, UINT8 materialSlot, UINT8 materialCount, UINT8 itemBag, UINT8 itemSlot, 
+            UINT32 money, const CraftName& craftName
+        )
         {
             this->result = result;
             this->lapisianBag = lapisianBag;
@@ -83,7 +97,7 @@ namespace shaiya
 
         ItemComposeOutgoing() = default;
 
-        ItemComposeOutgoing(ItemComposeResult result, UINT8 bag, UINT8 slot, CraftName& craftName)
+        ItemComposeOutgoing(ItemComposeResult result, UINT8 bag, UINT8 slot, const CraftName& craftName)
             : result(result), bag(bag), slot(slot), craftName(craftName)
         {
         }
@@ -110,6 +124,23 @@ namespace shaiya
         Gems gems;
         UINT8 count;
         CraftName craftName;
+
+        ItemRemakeOutgoing() = default;
+
+        ItemRemakeOutgoing(ItemRemakeResult result, UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId, UINT8 count,
+            UINT16 quality, const Gems& gems, const CraftName& craftName
+        )
+        {
+            this->result = result;
+            this->bag = bag;
+            this->slot = slot;
+            this->type = type;
+            this->typeId = typeId;
+            this->count = count;
+            this->quality = quality;
+            this->gems = gems;
+            this->craftName = craftName;
+        }
     };
     #pragma pack(pop)
 

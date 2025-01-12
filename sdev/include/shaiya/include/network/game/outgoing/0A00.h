@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 // CUser::PacketExchange
 
@@ -12,6 +11,13 @@ namespace shaiya
     {
         UINT16 opcode{ 0xA01 };
         ULONG targetId;
+
+        ExchangeRequestOutgoing() = default;
+
+        ExchangeRequestOutgoing(ULONG targetId)
+            : targetId(targetId)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -29,22 +35,24 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ExchangeReadyType : UINT8
+    {
+        Sender = 1,
+        Target,
+        Cancel
+    };
+
     #pragma pack(push, 1)
     struct ExchangeReadyOutgoing
     {
         UINT16 opcode{ 0xA05 };
-        enum struct 
-            Kind : UINT8 {
-            Sender = 1,
-            Target,
-            Cancel
-        } kind;
+        ExchangeReadyType type;
         bool canceled;
 
         ExchangeReadyOutgoing() = default;
 
-        ExchangeReadyOutgoing(Kind kind, bool canceled)
-            : kind(kind), canceled(canceled)
+        ExchangeReadyOutgoing(ExchangeReadyType type, bool canceled)
+            : type(type), canceled(canceled)
         {
         }
     };
@@ -62,7 +70,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ExchangeItemOutgoing
+    struct ExchangeItemOutgoing_EP5
     {
         UINT16 opcode{ 0xA09 };
         UINT8 destSlot;
@@ -76,7 +84,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ExchangeItemOutgoing2
+    struct ExchangeItemOutgoing_EP6_4
     {
         UINT16 opcode{ 0xA09 };
         UINT8 destSlot;
@@ -91,22 +99,24 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ExchangeConfirmType : UINT8
+    {
+        Sender = 1,
+        Target,
+        Cancel
+    };
+
     #pragma pack(push, 1)
     struct ExchangeConfirmOutgoing
     {
         UINT16 opcode{ 0xA0A };
-        enum struct 
-            Kind : UINT8 {
-            Sender = 1,
-            Target,
-            Cancel
-        } kind;
+        ExchangeConfirmType type;
         bool confirmed;
 
         ExchangeConfirmOutgoing() = default;
 
-        ExchangeConfirmOutgoing(Kind kind, bool confirmed)
-            : kind(kind), confirmed(confirmed)
+        ExchangeConfirmOutgoing(ExchangeConfirmType type, bool confirmed)
+            : type(type), confirmed(confirmed)
         {
         }
     };

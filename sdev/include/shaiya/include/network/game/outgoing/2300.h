@@ -1,14 +1,13 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 // CUser::PacketMyShop
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct Item230B
+    struct Item230B_EP5
     {
         UINT8 slot;
         UINT32 price;
@@ -22,18 +21,18 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct MyShopItemListOutgoing
+    struct MyShopItemListOutgoing_EP5
     {
         UINT16 opcode{ 0x230B };
         UINT8 itemCount;
-        Array<Item230B, 20> itemList;
+        Array<Item230B_EP5, 20> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct Item230Bv2
+    struct Item230B_EP6_4
     {
         UINT8 slot;
         UINT32 price;
@@ -49,13 +48,13 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct MyShopItemListOutgoing2
+    struct MyShopItemListOutgoing_EP6_4
     {
         UINT16 opcode{ 0x230B };
         UINT8 itemCount;
-        Array<Item230Bv2, 20> itemList;
+        Array<Item230B_EP6_4, 20> itemList;
 
-        constexpr int size_without_list() { return 3; }
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 }

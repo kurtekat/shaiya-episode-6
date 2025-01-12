@@ -1,6 +1,7 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketAdminChat
 
@@ -24,8 +25,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 7; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 7;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -34,7 +35,7 @@ namespace shaiya
     {
         UINT16 opcode{ 0xF102 };
         bool isToSender;
-        CharArray<21> senderName;
+        CharName senderName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;
@@ -49,8 +50,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 25; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 25;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -58,7 +59,7 @@ namespace shaiya
     struct AdminChatTradeOutgoing
     {
         UINT16 opcode{ 0xF103 };
-        CharArray<21> senderName;
+        CharName senderName;
         // w/ null-terminator
         UINT8 messageLength;
         CharArray<128> message;
@@ -73,8 +74,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 24; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 24;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -96,8 +97,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 7; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 7;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -119,8 +120,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT8>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 7; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 7;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 
@@ -140,8 +141,8 @@ namespace shaiya
             this->messageLength = static_cast<UINT16>(std::strlen(this->message.data()) + 1);
         }
 
-        constexpr int size_without_message() { return 4; }
-        constexpr int length() { return size_without_message() + this->messageLength; }
+        constexpr static int baseLength = 4;
+        constexpr int length() const { return baseLength + this->messageLength; }
     };
     #pragma pack(pop)
 }

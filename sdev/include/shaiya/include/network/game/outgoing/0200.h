@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/CraftName.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Sex.h>
 
 // CUser::PacketMainInterface
@@ -76,7 +75,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct SkillGetResult : UINT8
+    enum struct UserSkillGetResult : UINT8
     {
         Success,
         InsufficientPoints,
@@ -85,10 +84,10 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct SkillGetOutgoing
+    struct UserSkillGetOutgoing
     {
         UINT16 opcode{ 0x209 };
-        SkillGetResult result;
+        UserSkillGetResult result;
         UINT8 index;
         UINT16 skillId;
         UINT8 skillLv;
@@ -118,6 +117,13 @@ namespace shaiya
         UINT16 opcode{ 0x20A };
         UINT8 portalId;
         PortalEnableResult result;
+
+        PortalEnableOutgoing() = default;
+
+        PortalEnableOutgoing(UINT8 portalId, PortalEnableResult result)
+            : portalId(portalId), result(result)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -125,7 +131,7 @@ namespace shaiya
     struct UserMoveDestOutgoing
     {
         UINT16 opcode{ 0x20B };
-        ULONG charId;
+        ULONG objectId;
         UINT16 mapId;
         float x;
         float y;
@@ -133,38 +139,47 @@ namespace shaiya
 
         UserMoveDestOutgoing() = default;
 
-        UserMoveDestOutgoing(ULONG charId, UINT16 mapId, float x, float y, float z)
-            : charId(charId), mapId(mapId), x(x), y(y), z(z)
+        UserMoveDestOutgoing(ULONG objectId, UINT16 mapId, float x, float y, float z)
+            : objectId(objectId), mapId(mapId), x(x), y(y), z(z)
         {
         }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GateKeeperUseOutgoing
+    struct NpcGateKeeperUseOutgoing
     {
         UINT16 opcode{ 0x20C };
         bool success;
         UINT32 money;
+
+        NpcGateKeeperUseOutgoing() = default;
+
+        NpcGateKeeperUseOutgoing(bool success, UINT32 money)
+            : success(success), money(money)
+        {
+        }
     };
     #pragma pack(pop)
+
+    enum struct UserPvPStatusType : UINT8
+    {
+        Kill,
+        Death,
+        Win,
+        Loss
+    };
 
     #pragma pack(push, 1)
     struct UserPvPStatusOutgoing
     {
         UINT16 opcode{ 0x20E };
-        enum struct 
-            StatusType : UINT8 {
-            Kill, 
-            Death, 
-            Win, 
-            Loss
-        } statusType;
+        UserPvPStatusType statusType;
         UINT32 value;
 
         UserPvPStatusOutgoing() = default;
 
-        UserPvPStatusOutgoing(StatusType statusType, UINT32 value)
+        UserPvPStatusOutgoing(UserPvPStatusType statusType, UINT32 value)
             : statusType(statusType), value(value)
         {
         }
@@ -176,46 +191,74 @@ namespace shaiya
     {
         UINT16 opcode{ 0x213 };
         UINT32 money;
+
+        UserMoneyOutgoing() = default;
+
+        UserMoneyOutgoing(UINT32 money)
+            : money(money)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetRewardLevelOutgoing
+    struct NpcVetRewardLevelOutgoing
     {
         UINT16 opcode{ 0x218 };
         UINT8 killLv;
         UINT8 deathLv;
+
+        NpcVetRewardLevelOutgoing() = default;
+
+        NpcVetRewardLevelOutgoing(UINT8 killLv, UINT8 deathLv)
+            : killLv(killLv), deathLv(deathLv)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetKillRewardOutgoing
+    struct NpcVetKillRewardOutgoing
     {
         UINT16 opcode{ 0x219 };
         bool success;
         UINT8 statPoint;
+
+        NpcVetKillRewardOutgoing() = default;
+
+        NpcVetKillRewardOutgoing(bool success, UINT8 statPoint)
+            : success(success), statPoint(statPoint)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct VetDeathRewardOutgoing
+    struct NpcVetDeathRewardOutgoing
     {
         UINT16 opcode{ 0x21A };
         bool success;
         UINT32 money;
+
+        NpcVetDeathRewardOutgoing() = default;
+
+        NpcVetDeathRewardOutgoing(bool success, UINT32 money)
+            : success(success), money(money)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemCastOutgoing
+    struct UserItemCastOutgoing
     {
         UINT16 opcode{ 0x221 };
-        ULONG charId;
+        ULONG objectId;
 
-        ItemCastOutgoing() = default;
+        UserItemCastOutgoing() = default;
 
-        ItemCastOutgoing(ULONG charId)
-            : charId(charId)
+        UserItemCastOutgoing(ULONG objectId)
+            : objectId(objectId)
         {
         }
     };
@@ -230,6 +273,13 @@ namespace shaiya
         UINT8 face;
         UINT8 size;
         Sex sex;
+
+        AppearanceChangeOutgoing() = default;
+
+        AppearanceChangeOutgoing(ULONG charId, UINT8 hair, UINT8 face, UINT8 size, Sex sex)
+            : charId(charId), hair(hair), face(face), size(size), sex(sex)
+        {
+        }
     };
     #pragma pack(pop)
 
@@ -291,14 +341,28 @@ namespace shaiya
         UINT8 typeId;
         UINT8 timeValue;
         ItemExpireNoticeType noticeType;
+
+        ItemExpireNoticeOutgoing() = default;
+
+        ItemExpireNoticeOutgoing(UINT8 type, UINT8 typeId, UINT8 timeValue, ItemExpireNoticeType noticeType)
+            : type(type), typeId(typeId), timeValue(timeValue), noticeType(noticeType)
+        {
+        }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct UserHonorOutgoing
+    struct CharacterHonorOutgoing
     {
         UINT16 opcode{ 0x230 };
-        UINT16 honor; // hg
+        UINT16 honor;
+
+        CharacterHonorOutgoing() = default;
+
+        CharacterHonorOutgoing(UINT16 hg)
+            : honor(hg)
+        {
+        }
     };
     #pragma pack(pop)
 }

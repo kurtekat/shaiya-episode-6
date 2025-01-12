@@ -25,7 +25,7 @@ namespace shaiya
     struct GetInfoInspectIncoming
     {
         UINT16 opcode{ 0x307 };
-        ULONG charId;
+        ULONG targetId;
     };
     #pragma pack(pop)
 

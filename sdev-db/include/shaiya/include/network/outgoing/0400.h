@@ -1,12 +1,12 @@
 #pragma once
 #include <strsafe.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/Equipment.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/Gems.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
+#include <shaiya/include/common/UserTypes.h>
 
 // CUser::PacketUserChar
 
@@ -14,7 +14,7 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
-    struct Character0403
+    struct Character0403_EP5
     {
         ULONG id;                 //0x00
         ULONG regDate;            //0x04
@@ -39,29 +39,31 @@ namespace shaiya
         UINT16 stamina;           //0x23
         UINT16 mapId;             //0x25
         ULONG deleteDate;         //0x27
-        Equipment<8> equipment;   //0x2B
+        ItemArray<8> equipment;   //0x2B
         CloakBadge cloakBadge;    //0x3B
-        CharArray<21> charName;   //0x41
+        CharName charName;        //0x41
         // 0x56
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(Character0403_EP5) == 0x56);
+
     #pragma pack(push, 1)
-    struct DBAgentCharListOutgoing
+    struct DBAgentCharListOutgoing_EP5
     {
         UINT16 opcode{ 0x403 };
         ULONG userId;
         bool sendCountry;
         UINT8 characterCount;
-        Array<Character0403, 5> characterList;
+        Array<Character0403_EP5, 5> characterList;
 
-        constexpr int size_without_list() { return 8; }
+        constexpr static int baseLength = 8;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // 17 items (6.4 PT)
-    struct Character0403v2
+    // 17 items (6.4)
+    struct Character0403_EP6_4
     {
         ULONG id;                 //0x00
         ULONG regDate;            //0x04
@@ -86,23 +88,25 @@ namespace shaiya
         UINT16 stamina;           //0x23
         UINT16 mapId;             //0x25
         ULONG deleteDate;         //0x27
-        Equipment<17> equipment;  //0x2B
+        ItemArray<17> equipment;  //0x2B
         CloakBadge cloakBadge;    //0x4D
-        CharArray<21> charName;   //0x53
+        CharName charName;        //0x53
         // 0x68
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(Character0403_EP6_4) == 0x68);
+
     #pragma pack(push, 1)
-    struct DBAgentCharListOutgoing2
+    struct DBAgentCharListOutgoing_EP6_4
     {
         UINT16 opcode{ 0x403 };
         ULONG userId;
         bool sendCountry;
         UINT8 characterCount;
-        Array<Character0403v2, 5> characterList;
+        Array<Character0403_EP6_4, 5> characterList;
 
-        constexpr int size_without_list() { return 8; }
+        constexpr static int baseLength = 8;
     };
     #pragma pack(pop)
 
@@ -136,8 +140,8 @@ namespace shaiya
         ULONG userId;
         bool success;
         ULONG charId;
-        CharArray<21> oldCharName;
-        CharArray<21> newCharName;
+        CharName oldCharName;
+        CharName newCharName;
 
         DBAgentCharNameChangeOutgoing() = default;
 
