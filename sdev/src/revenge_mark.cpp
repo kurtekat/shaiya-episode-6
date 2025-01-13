@@ -10,8 +10,6 @@ namespace revenge_mark
 {
     void send(CUser* target, CUser* killer)
     {
-        constexpr int max_kill_count = 999;
-
         auto killerId = killer->connection.object.id;
         auto targetId = target->connection.object.id;
 
@@ -38,7 +36,7 @@ namespace revenge_mark
                 }
             ); revenge != it->second.end())
             {
-                if (revenge->killCount < max_kill_count)
+                if (revenge->killCount < RevengeMark::maxKillCount)
                 {
                     ++revenge->killCount;
 

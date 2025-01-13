@@ -448,8 +448,6 @@ namespace packet_gem
     /// <param name="incoming"></param>
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
-        constexpr auto gold_per_percentage = 100'000'000;
-
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
 
@@ -471,7 +469,7 @@ namespace packet_gem
         MyShop::Ended(&user->myShop);
 
         ItemSynthesisListOutgoing outgoing{};
-        outgoing.goldPerPercentage = gold_per_percentage;
+        outgoing.goldPerPercentage = Synthesis::goldPerPercentage;
 
         auto itemList = std::ranges::views::zip(
             outgoing.createType,
@@ -546,8 +544,9 @@ namespace packet_gem
     /// <param name="incoming"></param>
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
     {
-        constexpr auto gold_per_percentage = 100'000'000;
+        constexpr auto gold_per_percentage = Synthesis::goldPerPercentage;
         constexpr auto max_gold_per_percentage = gold_per_percentage * 5;
+
         constexpr auto min_success_rate = 100;
         constexpr auto max_success_rate = 10000;
 
@@ -705,6 +704,8 @@ namespace packet_gem
             return;
 
         int successRate = min_success_rate;
+
+        // 255 indicates that the slot is empty
         if (incoming->catalystSlot != 255)
         {
             if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked || incoming->catalystSlot >= max_inventory_slot)

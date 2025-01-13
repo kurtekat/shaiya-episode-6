@@ -18,6 +18,8 @@ namespace shaiya
         int createCount;
 
         static void init();
+
+        constexpr static uint32_t goldPerPercentage = 100'000'000;
     };
     #pragma pack(pop)
 
