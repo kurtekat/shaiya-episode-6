@@ -109,6 +109,8 @@ The client library adds support for system message 509.
 
 ## Skill Abilities
 
+Unsupported ability types will not be implemented.
+
 | SkillId | Ability | Supported          |
 |---------|---------|--------------------|
 | 375     | 52      | :x:                |
@@ -125,6 +127,14 @@ The client library adds support for system message 509.
 | 397     | 74      | :x:                |
 | 412     | 78      | :x:                |
 | 432     | 87      | :white_check_mark: |
+
+### Skill Ability 70
+
+The effect(s) will be removed a few seconds after the skill has been stopped.
+
+### Skill Ability 87
+
+The ability value is expected to be greater than or equal to 200. The library will divide the ability value by 100.
 
 ## Chaotic Squares
 
@@ -201,7 +211,8 @@ CreateCount=1
 The gold per percentage value in the library is the same as the official server.
 
 ```cpp
-constexpr auto gold_per_percentage = 100'000'000;
+// Synthesis.h
+constexpr static int goldPerPercentage = 100'000'000;
 ```
 
 ### Crafting Hammers
