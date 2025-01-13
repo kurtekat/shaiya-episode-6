@@ -2,8 +2,8 @@
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
@@ -70,7 +70,7 @@ namespace user_status
 
         outgoing.defense = user->defense;
         outgoing.resistance = user->magicResistance;
-        Helpers::Send(user, &outgoing, sizeof(UserStatusOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(UserStatusOutgoing));
     }
 }
 

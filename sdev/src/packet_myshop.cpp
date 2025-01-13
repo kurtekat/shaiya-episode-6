@@ -1,7 +1,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/outgoing/2300.h"
 using namespace shaiya;
 
@@ -36,7 +36,7 @@ namespace packet_myshop
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item230B_EP6_4));
-        Helpers::Send(user, &outgoing, length);
+        NetworkHelper::Send(user, &outgoing, length);
     }
 }
 

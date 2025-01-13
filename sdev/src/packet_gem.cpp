@@ -9,9 +9,11 @@
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/ItemHelper.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/Synthesis.h"
+#include "include/shaiya/include/UserHelper.h"
 #include "include/shaiya/include/network/game/incoming/0800.h"
 #include "include/shaiya/include/network/game/outgoing/0200.h"
 #include "include/shaiya/include/network/game/outgoing/0800.h"
@@ -26,7 +28,7 @@ namespace packet_gem
         if (!incoming->safetyCharm)
             return false;
 
-        return Helpers::ItemRemove(user, ItemEffect::SafetyCharm, 1);
+        return UserHelper::ItemRemove(user, ItemEffect::SafetyCharm, 1);
     }
 
     bool enable_perfect_enchant(CItem* lapisian, CItem* item)
@@ -104,7 +106,7 @@ namespace packet_gem
 
         if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::RecreationRune)
         {
-            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
 
@@ -136,22 +138,22 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
         
         int bag{}, slot{};
-        if (!Helpers::ItemCreate(user, itemInfo, 1, bag, slot))
+        if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            Helpers::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
             return;
         }
 
-        Helpers::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
-        Helpers::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
+        UserHelper::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
+        UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
 
         ItemRuneCombineOutgoing success(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-        Helpers::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
+        NetworkHelper::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
     }
 
     /// <summary>
@@ -208,22 +210,22 @@ namespace packet_gem
 
         for (int i = 0; i < requiredCount; ++i)
         {
-            if (!Helpers::ItemRemove(user, itemInfo->itemId, 1))
+            if (!UserHelper::ItemRemove(user, itemInfo->itemId, 1))
             {
-                Helpers::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+                NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
                 return;
             }
         }
 
         int bag{}, slot{};
-        if (!Helpers::ItemCreate(user, createInfo, 1, bag, slot))
+        if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
         {
-            Helpers::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
             return;
         }
 
         ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
-        Helpers::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
+        NetworkHelper::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
     }
 
     /// <summary>
@@ -252,20 +254,20 @@ namespace packet_gem
 
         if (!item->itemInfo->composeCount)
         {
-            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
         if (!item->itemInfo->reqWis || item->itemInfo->reqWis > 99)
         {
-            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
         // optional
         //if (item->makeType == MakeType::QuestResult)
         //{
-        //    Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
+        //    NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
         //    return;
         //}
 
@@ -322,12 +324,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftStrength(item, bonus);
+                ItemHelper::SetCraftStrength(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftStrength(item, bonus);
+            ItemHelper::SetCraftStrength(item, bonus);
 
             break;
         case ItemEffect::DexRecreationRune:
@@ -337,12 +339,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftDexterity(item, bonus);
+                ItemHelper::SetCraftDexterity(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftDexterity(item, bonus);
+            ItemHelper::SetCraftDexterity(item, bonus);
 
             break;
         case ItemEffect::IntRecreationRune:
@@ -352,12 +354,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftIntelligence(item, bonus);
+                ItemHelper::SetCraftIntelligence(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftIntelligence(item, bonus);
+            ItemHelper::SetCraftIntelligence(item, bonus);
 
             break;
         case ItemEffect::WisRecreationRune:
@@ -367,12 +369,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftWisdom(item, bonus);
+                ItemHelper::SetCraftWisdom(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftWisdom(item, bonus);
+            ItemHelper::SetCraftWisdom(item, bonus);
 
             break;
         case ItemEffect::RecRecreationRune:
@@ -382,12 +384,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftReaction(item, bonus);
+                ItemHelper::SetCraftReaction(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftReaction(item, bonus);
+            ItemHelper::SetCraftReaction(item, bonus);
 
             break;
         case ItemEffect::LucRecreationRune:
@@ -397,16 +399,16 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                Helpers::SetItemCraftLuck(item, bonus);
+                ItemHelper::SetCraftLuck(item, bonus);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            Helpers::SetItemCraftLuck(item, bonus);
+            ItemHelper::SetCraftLuck(item, bonus);
 
             break;
         default:
-            Helpers::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
             return;
         }
 
@@ -430,13 +432,13 @@ namespace packet_gem
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
 
         DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
+        NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
 
         GameLogItemComposeIncoming gameLog(user, item, oldItemUid, oldItemId, oldCraftName);
-        Helpers::SendGameLog(&gameLog, sizeof(GameLogItemComposeIncoming));
+        NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogItemComposeIncoming));
 
         ItemComposeOutgoing success(ItemComposeResult::Success, incoming->itemBag, incoming->itemSlot, item->craftName);
-        Helpers::Send(user, &success, sizeof(ItemComposeOutgoing));
+        NetworkHelper::Send(user, &success, sizeof(ItemComposeOutgoing));
     }
 
     /// <summary>
@@ -488,7 +490,7 @@ namespace packet_gem
                 continue;
             else
             {
-                Helpers::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
+                NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
 
                 std::fill(itemList.begin(), itemList.end(), std::tuple(0, 0));
                 index = 0;
@@ -498,7 +500,7 @@ namespace packet_gem
         if (!index)
             return;
 
-        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
     }
 
     /// <summary>
@@ -534,7 +536,7 @@ namespace packet_gem
         outgoing.createTypeId = synthesis.createTypeId;
         outgoing.materialCount = synthesis.materialCount;
         outgoing.createCount = synthesis.createCount;
-        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
     }
 
     /// <summary>
@@ -628,9 +630,9 @@ namespace packet_gem
             if (!itemInfo)
                 continue;
 
-            if (!Helpers::ItemRemove(user, itemInfo->itemId, count))
+            if (!UserHelper::ItemRemove(user, itemInfo->itemId, count))
             {
-                Helpers::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
+                NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
                 return;
             }
         }
@@ -641,7 +643,7 @@ namespace packet_gem
                 outgoing.result = ItemSynthesisResult::Success;
         }
 
-        Helpers::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
     }
 
     /// <summary>
@@ -754,26 +756,26 @@ namespace packet_gem
             {
                 CUser::ItemEquipmentOptionRem(user, to);
                 to->gems = from->gems;
-                Helpers::CopyItemCraftName(from, to);
+                ItemHelper::CopyCraftName(from, to);
                 CUser::ItemEquipmentOptionAdd(user, to);
             }
             else
             {
                 to->gems = from->gems;
-                Helpers::CopyItemCraftName(from, to);
+                ItemHelper::CopyCraftName(from, to);
             }
             
             if (!incoming->fromBag)
             {
                 CUser::ItemEquipmentOptionRem(user, from);
                 from->gems.fill(0);
-                Helpers::InitItemCraftName(from);
+                ItemHelper::InitCraftName(from);
                 CUser::ItemEquipmentOptionAdd(user, from);
             }
             else
             {
                 from->gems.fill(0);
-                Helpers::InitItemCraftName(from);
+                ItemHelper::InitCraftName(from);
             }
 
             if (!incoming->toBag || !incoming->fromBag)
@@ -793,20 +795,20 @@ namespace packet_gem
                 CUser::SetAttack(user);
             }
 
-            Helpers::SendDBAgentItemCraftName(user, to, incoming->toBag, incoming->toSlot);
-            Helpers::SendDBAgentItemGems(user, to, incoming->toBag, incoming->toSlot);
+            NetworkHelper::SendDBAgentItemCraftName(user, to, incoming->toBag, incoming->toSlot);
+            NetworkHelper::SendDBAgentItemGems(user, to, incoming->toBag, incoming->toSlot);
 
             GameLogItemComposeIncoming gameLog1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
-            Helpers::SendGameLog(&gameLog1, sizeof(GameLogItemComposeIncoming));
+            NetworkHelper::SendGameLog(&gameLog1, sizeof(GameLogItemComposeIncoming));
 
-            Helpers::SendDBAgentItemCraftName(user, from, incoming->fromBag, incoming->fromSlot);
-            Helpers::SendDBAgentItemGems(user, from, incoming->fromBag, incoming->fromSlot);
+            NetworkHelper::SendDBAgentItemCraftName(user, from, incoming->fromBag, incoming->fromSlot);
+            NetworkHelper::SendDBAgentItemGems(user, from, incoming->fromBag, incoming->fromSlot);
 
             GameLogItemComposeIncoming gameLog2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
-            Helpers::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));
+            NetworkHelper::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));
         }
 
-        Helpers::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
     }
 
     void extended_handler(CUser* user, uint8_t* packet)

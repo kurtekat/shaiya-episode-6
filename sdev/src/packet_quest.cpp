@@ -4,8 +4,8 @@
 #include "include/shaiya/include/CQuest.h"
 #include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/outgoing/0900.h"
 #include "include/shaiya/include/network/gameLog/incoming/0500.h"
 using namespace shaiya;
@@ -21,7 +21,7 @@ namespace packet_quest
     void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
     {
         QuestEndResultOutgoing_EP6 outgoing(npcId, quest->questInfo->questId, false, 0, 0, 0, {});
-        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
+        NetworkHelper::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
     }
 
     /// <summary>
@@ -92,10 +92,10 @@ namespace packet_quest
                 gameLog.itemName = {};
             }
 
-            Helpers::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
+            NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
         }
 
-        Helpers::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
+        NetworkHelper::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
         CUser::QuestRemove(user, quest, true);
     }
 }

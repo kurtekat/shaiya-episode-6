@@ -4,7 +4,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/dbAgent/incoming/0E00.h"
 #include "include/shaiya/include/network/dbAgent/outgoing/0E00.h"
 #include "include/shaiya/include/network/game/outgoing/2600.h"
@@ -19,7 +19,7 @@ namespace packet_shop
     void send_reload_point(CUser* user)
     {
         DBAgentPointReloadIncoming packet(user->userId);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointReloadIncoming));
+        NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentPointReloadIncoming));
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ namespace packet_shop
         InterlockedExchange(&user->points, incoming->points);
 
         PointBalanceOutgoing outgoing(user->points);
-        Helpers::Send(user, &outgoing, sizeof(PointBalanceOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(PointBalanceOutgoing));
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ namespace packet_shop
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item2602_EP6_4));
-        Helpers::Send(user, &outgoing, length);
+        NetworkHelper::Send(user, &outgoing, length);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ namespace packet_shop
     void send_purchase2(CUser* user)
     {
         DBAgentPointUpdateIncoming packet(user->userId);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointUpdateIncoming));
+        NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentPointUpdateIncoming));
 
         send_reload_point(user);
 
@@ -99,7 +99,7 @@ namespace packet_shop
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
         DBAgentPointGiftItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
-        Helpers::SendDBAgent(&packet, sizeof(DBAgentPointGiftItemIncoming));
+        NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentPointGiftItemIncoming));
 
         InterlockedExchange(&user->disableShop, 0);
     }

@@ -1,7 +1,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/incoming/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/0A00.h"
 #include "include/shaiya/include/network/game/outgoing/2400.h"
@@ -17,7 +17,7 @@ namespace packet_exchange
     {
         user->exchange.ready = false;
         ExchangeReadyOutgoing outgoing(ExchangeReadyType::Cancel, true);
-        Helpers::Send(user, &outgoing, sizeof(ExchangeReadyOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeReadyOutgoing));
     }
 
     /// <summary>
@@ -29,17 +29,17 @@ namespace packet_exchange
     {
         user->exchange.confirmed = false;
         ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, false);
-        Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         outgoing.type = ExchangeConfirmType::Target;
-        Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
         outgoing.type = ExchangeConfirmType::Sender;
-        Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
         outgoing.type = ExchangeConfirmType::Target;
-        Helpers::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
     }
 
     /// <summary>
@@ -68,10 +68,10 @@ namespace packet_exchange
         {
             user->exchange.confirmed = true;
             ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, true);
-            Helpers::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+            NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
             outgoing.type = ExchangeConfirmType::Target;
-            Helpers::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+            NetworkHelper::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
         }
         else
         {
@@ -95,7 +95,7 @@ namespace packet_exchange
         outgoing.quality = packet->quality;
         outgoing.gems = packet->gems;
         outgoing.craftName = packet->craftName;
-        Helpers::Send(user, &outgoing, sizeof(ExchangeItemOutgoing_EP6_4));
+        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeItemOutgoing_EP6_4));
     }
 }
 

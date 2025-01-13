@@ -25,8 +25,10 @@
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
-    <ClCompile Include="include\shaiya\src\Helpers.cpp" />
+    <ClCompile Include="include\shaiya\src\UserHelper.cpp" />
+    <ClCompile Include="include\shaiya\src\ItemHelper.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
+    <ClCompile Include="include\shaiya\src\NetworkHelper.cpp" />
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SConnectionTBaseReconnect.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
@@ -86,11 +88,13 @@
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />
-    <ClInclude Include="include\shaiya\include\Helpers.h" />
+    <ClInclude Include="include\shaiya\include\UserHelper.h" />
     <ClInclude Include="include\shaiya\include\ItemEnchant.h" />
+    <ClInclude Include="include\shaiya\include\ItemHelper.h" />
     <ClInclude Include="include\shaiya\include\ItemInfo.h" />
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
+    <ClInclude Include="include\shaiya\include\NetworkHelper.h" />
     <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0400.h" />
     <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0600.h" />
     <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0700.h" />

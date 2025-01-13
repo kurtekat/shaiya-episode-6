@@ -165,11 +165,17 @@
     <ClCompile Include="include\shaiya\src\SLog.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\Helpers.cpp">
+    <ClCompile Include="include\shaiya\src\UserHelper.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
     <ClCompile Include="src\packet_party.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\ItemHelper.cpp">
+      <Filter>include\shaiya\src</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\src\NetworkHelper.cpp">
+      <Filter>include\shaiya\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,7 +314,7 @@
     <ClInclude Include="include\shaiya\include\GameLogMain.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\Helpers.h">
+    <ClInclude Include="include\shaiya\include\UserHelper.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ItemEnchant.h">
@@ -517,6 +523,12 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\include\network\game\incoming\FA00.h">
       <Filter>include\shaiya\include\network\game\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ItemHelper.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\NetworkHelper.h">
+      <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

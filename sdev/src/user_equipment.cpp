@@ -5,8 +5,8 @@
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/outgoing/0300.h"
 using namespace shaiya;
 
@@ -149,7 +149,7 @@ namespace user_equipment
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0307));
-        Helpers::Send(user, &outgoing, length);
+        NetworkHelper::Send(user, &outgoing, length);
     }
 }
 

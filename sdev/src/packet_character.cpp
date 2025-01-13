@@ -5,9 +5,9 @@
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemEnchant.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/incoming/0100.h"
 #include "include/shaiya/include/network/game/outgoing/0100.h"
 #include "include/shaiya/include/network/game/outgoing/0700.h"
@@ -30,13 +30,13 @@ namespace packet_character
         if (nameLength < 3 || nameLength > 13)
         {
             CharNameAvailableOutgoing outgoing(false);
-            Helpers::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
+            NetworkHelper::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
             return;
         }
 
         DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
         int length = request.baseLength + nameLength + 1;
-        Helpers::SendDBAgent(&request, length);
+        NetworkHelper::SendDBAgent(&request, length);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ namespace packet_character
     void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
     {
         CharNameAvailableOutgoing outgoing(response->available);
-        Helpers::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ namespace packet_character
             else
             {
                 int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
-                Helpers::Send(user, &outgoing, length);
+                NetworkHelper::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
                 outgoing.itemList = {};
@@ -95,7 +95,7 @@ namespace packet_character
             return;
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
-        Helpers::Send(user, &outgoing, length);
+        NetworkHelper::Send(user, &outgoing, length);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ namespace packet_character
         for (int i = 0; std::cmp_less(i, outgoing.addValue.size()); ++i)
             outgoing.addValue[i] = g_LapisianEnchantAddValue->step[i].weapon;
 
-        Helpers::Send(user, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ namespace packet_character
         character.nameChange = dbCharacter->nameChange;
         character.deleted = dbCharacter->deleteDate ? true : false;
         character.cloakBadge = dbCharacter->cloakBadge;
-        Helpers::Send(user, &character, sizeof(CharacterOutgoing_EP6_4));
+        NetworkHelper::Send(user, &character, sizeof(CharacterOutgoing_EP6_4));
     }
 }
 

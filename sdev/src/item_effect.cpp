@@ -8,9 +8,10 @@
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
 #include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/Helpers.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/TownMoveScroll.h"
+#include "include/shaiya/include/UserHelper.h"
 #include "include/shaiya/include/network/game/incoming/0500.h"
 #include "include/shaiya/include/network/game/outgoing/0200.h"
 #include "include/shaiya/include/network/game/outgoing/0400.h"
@@ -65,7 +66,7 @@ namespace item_effect
 
             auto mapId = gateKeeper->gates[index].mapId;
             auto pos = &gateKeeper->gates[index].pos;
-            Helpers::SetMovePosition(user, mapId, pos, int(UserRecallType::TownMoveScroll), 5000);
+            UserHelper::SetMovePosition(user, mapId, pos, int(UserRecallType::TownMoveScroll), 5000);
 
             UserItemCastOutgoing outgoing(user->connection.object.id);
             CObject::PSendViewCombat(user, &outgoing, sizeof(UserItemCastOutgoing));
@@ -125,7 +126,7 @@ namespace item_effect
             CWorld::ZoneLeaveUserMove(user, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
 
             UserMoveDestOutgoing outgoing(user->connection.object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
-            Helpers::Send(user, &outgoing, sizeof(UserMoveDestOutgoing));
+            NetworkHelper::Send(user, &outgoing, sizeof(UserMoveDestOutgoing));
             CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, true);
         }
         else

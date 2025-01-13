@@ -7,7 +7,7 @@
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/network/game/outgoing/0300.h"
 #include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
@@ -98,13 +98,13 @@ namespace user_shape
             {
                 outgoing.cloakBadge = user->clone->cloakBadge;
                 outgoing.guildName = user->clone->guildName;
-                Helpers::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
+                NetworkHelper::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
             }
             else
             {
                 std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
                 int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
-                Helpers::Send(target, &outgoing, length);
+                NetworkHelper::Send(target, &outgoing, length);
             }
         }
         else
@@ -143,13 +143,13 @@ namespace user_shape
             {
                 CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
                 int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
-                Helpers::Send(target, &outgoing, length);
+                NetworkHelper::Send(target, &outgoing, length);
             }
             else
             {
                 outgoing.cloakBadge = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
-                Helpers::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
+                NetworkHelper::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
             }
         }
     }
@@ -305,7 +305,7 @@ namespace user_shape
 
         auto objectId = user->connection.object.id;
         UserShapeTypeOutgoing_EP6_4 outgoing(objectId, shapeType, type, typeId);
-        Helpers::Send(target, &outgoing, sizeof(UserShapeTypeOutgoing_EP6_4));
+        NetworkHelper::Send(target, &outgoing, sizeof(UserShapeTypeOutgoing_EP6_4));
     }
 }
 

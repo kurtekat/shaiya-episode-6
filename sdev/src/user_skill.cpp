@@ -5,7 +5,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/Helpers.h"
+#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/SkillInfo.h"
 #include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
@@ -33,7 +33,7 @@ namespace user_skill
             user->skillAbility70.skillLv = skillInfo->skillLv;
             user->skillAbility70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+            NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
         }
         else
         {
@@ -44,7 +44,7 @@ namespace user_skill
             user->skillAbility70.skillLv = 0;
             user->skillAbility70.keepTick = 0;
 
-            Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+            NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
         }
 
         return 1;
@@ -93,7 +93,7 @@ namespace user_skill
         user->skillAbility70.skillLv = 0;
         user->skillAbility70.keepTick = 0;
 
-        Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+        NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
     }
 
     void ability_70_hook4(CUser* user, SkillInfo* skillInfo)
@@ -120,7 +120,7 @@ namespace user_skill
         user->skillAbility70.skillLv = 0;
         user->skillAbility70.keepTick = 0;
 
-        Helpers::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+        NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
     }
 
     /// <summary>
