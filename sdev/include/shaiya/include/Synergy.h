@@ -1,6 +1,7 @@
 #pragma once
 #include <array>
 #include <map>
+#include <set>
 #include <vector>
 #include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/UserTypes.h>
@@ -20,12 +21,15 @@ namespace shaiya
         std::array<ItemId, 13> set;
 
         static void init();
-        static void applySynergies(CUser* user, CItem* item, bool removeFlag);
+        static void equipmentAdd(CUser* user);
+        static void equipmentRemove(CUser* user, int slot);
         static void removeSynergies(CUser* user);
 
     private:
 
-        static void getWornSynergies(CUser* user, CItem* item, std::vector<SynergyEffect>& effects, bool removeFlag);
+        static void applySynergies(CUser* user, const std::vector<SynergyEffect>& effects);
+        static void getWornEquipment(CUser* user, std::set<ItemId>& equipment);
+        static void getWornSynergies(const std::set<ItemId>& equipment, std::vector<SynergyEffect>& effects);
     };
     #pragma pack(pop)
 

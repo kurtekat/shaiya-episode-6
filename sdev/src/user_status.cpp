@@ -93,47 +93,46 @@ void __declspec(naked) naked_0x461005()
     }
 }
 
-unsigned u0x461646 = 0x461646;
-void __declspec(naked) naked_0x461640()
+unsigned u0x46166E = 0x46166E;
+void __declspec(naked) naked_0x461667()
 {
     __asm
     {
+        // original
+        mov [edi+ebp+0x199],al
+
         pushad
 
-        push 0x0 // flag
-        push eax // item
         push edi // user
-        call Synergy::applySynergies
-        add esp,0xC
+        call Synergy::equipmentAdd
+        add esp,0x4
 
         popad
 
-        sub esp,0x1C
-        push ebx
-        mov ebx,eax
-        jmp u0x461646
+        jmp u0x46166E
     }
 }
 
-unsigned u0x461D16 = 0x461D16;
-void __declspec(naked) naked_0x461D10()
+unsigned u0x461D43 = 0x461D43;
+void __declspec(naked) naked_0x461D3C()
 {
     __asm
     {
+        // original
+        mov ebx,ecx
+        mov ecx,[ebp+0x8]
+        mov edi,edx
+
         pushad
 
-        push 0x1 // flag
-        push ecx // item
-        push edx // user
-        call Synergy::applySynergies
-        add esp,0xC
+        push ecx // slot
+        push edi // user
+        call Synergy::equipmentRemove
+        add esp,0x8
 
         popad
 
-        push ebp
-        mov ebp,esp
-        and esp,-0x8
-        jmp u0x461D16
+        jmp u0x461D43
     }
 }
 
@@ -186,9 +185,9 @@ void hook::user_status()
     // CUser::SetAttack
     util::detour((void*)0x461005, naked_0x461005, 5);
     // CUser::ItemEquipmentAdd
-    util::detour((void*)0x461640, naked_0x461640, 6);
+    util::detour((void*)0x461667, naked_0x461667, 7);
     // CUser::ItemEquipmentRem
-    util::detour((void*)0x461D10, naked_0x461D10, 6);
+    util::detour((void*)0x461D3C, naked_0x461D3C, 7);
     // CUser::StatResetStatus
     util::detour((void*)0x48F9BE, naked_0x48F9BE, 7);
     // CUser::StatResetSkill
