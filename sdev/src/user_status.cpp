@@ -93,14 +93,11 @@ void __declspec(naked) naked_0x461005()
     }
 }
 
-unsigned u0x46166E = 0x46166E;
-void __declspec(naked) naked_0x461667()
+unsigned u0x461675 = 0x461675;
+void __declspec(naked) naked_0x46166E()
 {
     __asm
     {
-        // original
-        mov [edi+ebp+0x199],al
-
         pushad
 
         push edi // user
@@ -109,20 +106,17 @@ void __declspec(naked) naked_0x461667()
 
         popad
 
-        jmp u0x46166E
+        // original
+        cmp byte ptr [edi+0x5855],0x0
+        jmp u0x461675
     }
 }
 
-unsigned u0x461D43 = 0x461D43;
-void __declspec(naked) naked_0x461D3C()
+unsigned u0x461D4A = 0x461D4A;
+void __declspec(naked) naked_0x461D43()
 {
     __asm
     {
-        // original
-        mov ebx,ecx
-        mov ecx,[ebp+0x8]
-        mov edi,edx
-
         pushad
 
         push ecx // slot
@@ -132,7 +126,9 @@ void __declspec(naked) naked_0x461D3C()
 
         popad
 
-        jmp u0x461D43
+        // original
+        cmp byte ptr [edi+0x5855],0x0
+        jmp u0x461D4A
     }
 }
 
@@ -185,9 +181,9 @@ void hook::user_status()
     // CUser::SetAttack
     util::detour((void*)0x461005, naked_0x461005, 5);
     // CUser::ItemEquipmentAdd
-    util::detour((void*)0x461667, naked_0x461667, 7);
+    util::detour((void*)0x46166E, naked_0x46166E, 7);
     // CUser::ItemEquipmentRem
-    util::detour((void*)0x461D3C, naked_0x461D3C, 7);
+    util::detour((void*)0x461D43, naked_0x461D43, 7);
     // CUser::StatResetStatus
     util::detour((void*)0x48F9BE, naked_0x48F9BE, 7);
     // CUser::StatResetSkill
