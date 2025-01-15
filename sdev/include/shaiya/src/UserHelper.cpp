@@ -51,7 +51,7 @@ bool UserHelper::HasApplySkill(CUser* user, int skillId, int skillLv)
     return false;
 }
 
-bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
+bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint8_t count, int& outBag, int& outSlot)
 {
     if (count > itemInfo->count)
         return false;
@@ -71,9 +71,9 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& out
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
+bool UserHelper::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
 {
-    if (!bag || bag >= int(user->inventory.size()) || slot >= max_inventory_slot)
+    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -108,7 +108,7 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     return true;
 }
 
-bool UserHelper::ItemRemove(CUser* user, ItemId itemId, int count)
+bool UserHelper::ItemRemove(CUser* user, ItemId itemId, uint8_t count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -136,7 +136,7 @@ bool UserHelper::ItemRemove(CUser* user, ItemId itemId, int count)
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, ItemEffect effect, int count)
+bool UserHelper::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))

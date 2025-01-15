@@ -127,7 +127,7 @@ void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* p
     }
 }
 
-bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos)
+bool CZone::NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos)
 {
     unsigned u0x4257A0 = 0x4257A0;
 
@@ -138,7 +138,7 @@ bool CZone::NpcRemove(CZone* zone, int npcType, int npcId, int count, int cellX/
 
         push pos
         push count
-        push npcId
+        push npcTypeId
         push npcType
         push zone
         call u0x4257A0
