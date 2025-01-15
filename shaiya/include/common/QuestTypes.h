@@ -4,6 +4,9 @@
 
 namespace shaiya
 {
+    using NpcId = unsigned long;
+    using QuestId = uint16_t;
+
     using QuestName = std::array<char, 32>;
 
     // Credit: Matias Ramirez (Parsec)

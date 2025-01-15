@@ -17,8 +17,8 @@ namespace packet_quest
     /// </summary>
     /// <param name="user"></param>
     /// <param name="quest"></param>
-    /// <param name="npcId"></param>
-    void send_failure_result(CUser* user, CQuest* quest, ULONG npcId)
+    /// <param name="npcId">The unique npc identifier.</param>
+    void send_failure_result(CUser* user, CQuest* quest, NpcId npcId)
     {
         QuestEndResultOutgoing_EP6 outgoing(npcId, quest->questInfo->questId, false, 0, 0, 0, {});
         NetworkHelper::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
@@ -31,11 +31,11 @@ namespace packet_quest
     /// <param name="user"></param>
     /// <param name="quest"></param>
     /// <param name="questInfo"></param>
-    /// <param name="npcId"></param>
-    /// <param name="index"></param>
-    void send_success_result(CUser* user, CQuest* quest, QuestInfo_EP6* questInfo, ULONG npcId, int index)
+    /// <param name="npcId">The unique npc identifier.</param>
+    /// <param name="index">The reward chosen by the player.</param>
+    void send_success_result(CUser* user, CQuest* quest, QuestInfo_EP6* questInfo, NpcId npcId, uint8_t index)
     {
-        if (index >= int(questInfo->results.size()))
+        if (index >= questInfo->results.size())
             return;
 
         auto exp = questInfo->results[index].exp;
