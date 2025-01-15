@@ -27,6 +27,7 @@ namespace packet_character
         incoming->name[incoming->name.size() - 1] = '\0';
         auto nameLength = std::strlen(incoming->name.data());
 
+        // The maximum length may vary by client locale
         if (nameLength < 3 || nameLength > 13)
         {
             CharNameAvailableOutgoing outgoing(false);

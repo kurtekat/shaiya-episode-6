@@ -23,6 +23,12 @@ using namespace shaiya;
 
 namespace packet_gem
 {
+    /// <summary>
+    /// Adds support for enchant safety charms.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
+    /// <returns></returns>
     bool remove_safety_charm(CUser* user, ItemLapisianAddIncoming_EP6_4* incoming)
     {
         if (!incoming->safetyCharm)
@@ -31,6 +37,12 @@ namespace packet_gem
         return UserHelper::ItemRemove(user, ItemEffect::SafetyCharm, 1);
     }
 
+    /// <summary>
+    /// Adds support for perfect lapisian.
+    /// </summary>
+    /// <param name="lapisian"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
     bool enable_perfect_enchant(CItem* lapisian, CItem* item)
     {
         constexpr int max_enchant_step = 20;
@@ -58,7 +70,7 @@ namespace packet_gem
             return true;
 
         auto lapisianStep = lapisian->itemInfo->range;
-        auto lapisianType = static_cast<uint8_t>(lapisian->itemInfo->country);
+        auto lapisianType = uint8_t(lapisian->itemInfo->country);
 
         if (isWeapon)
         {
@@ -170,7 +182,7 @@ namespace packet_gem
         if (!cube)
             return;
 
-        // no effect :/
+        // The data does not specify an item effect
         if (cube->itemInfo->itemId != 101101)
             return;
 
@@ -229,7 +241,8 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Handles incoming 0x806 packets. Supports vanilla recreation runes.
+    /// Handles incoming 0x806 packets. Supports vanilla recreation runes. Adding custom 
+    /// item effects (e.g., perfect) will require a client modification.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
@@ -275,6 +288,8 @@ namespace packet_gem
         auto oldItemId = item->itemInfo->itemId;
         auto oldCraftName = item->craftName;
         auto maxBonus = item->itemInfo->reqWis;
+
+        // See the item descriptions
 
         switch (rune->itemInfo->effect)
         {
@@ -655,7 +670,7 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Handles incoming 0x811 packets.
+    /// Handles incoming 0x811 packets. PT clients do not support this feature.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
@@ -705,7 +720,7 @@ namespace packet_gem
 
         int successRate = min_success_rate;
 
-        // 255 indicates that the slot is empty
+        // 255 means the slot is empty
         if (incoming->catalystSlot != 255)
         {
             if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked || incoming->catalystSlot >= max_inventory_slot)
@@ -812,6 +827,11 @@ namespace packet_gem
         NetworkHelper::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
     }
 
+    /// <summary>
+    /// Adds support for 6.4 packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="packet"></param>
     void extended_handler(CUser* user, uint8_t* packet)
     {
         auto opcode = util::deserialize<uint16_t>(packet, 0);

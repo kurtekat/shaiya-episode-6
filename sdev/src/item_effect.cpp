@@ -19,6 +19,15 @@ using namespace shaiya;
 
 namespace item_effect
 {
+    /// <summary>
+    /// Adds support for additional item effects.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="item"></param>
+    /// <param name="effect"></param>
+    /// <param name="bag"></param>
+    /// <param name="slot"></param>
+    /// <returns></returns>
     int handler(CUser* user, CItem* item, ItemEffect effect, uint8_t bag, uint8_t slot)
     {
         switch (effect)
