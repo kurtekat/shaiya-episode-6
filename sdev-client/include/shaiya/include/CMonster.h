@@ -37,6 +37,8 @@ namespace shaiya
         long namePointX;        //0xFC
         PAD(52);
         // 0x134
+        
+        static D3DXMATRIX* GetBoneMatrix(CMonster* mob, int bone);
     };
     #pragma pack(pop)
 

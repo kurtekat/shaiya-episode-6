@@ -26,6 +26,7 @@
     <ClInclude Include="include\shaiya\include\CObjectData.h" />
     <ClInclude Include="include\shaiya\include\CParticleData.h" />
     <ClInclude Include="include\shaiya\include\CPlayerData.h" />
+    <ClInclude Include="include\shaiya\include\CQuickSlot.h" />
     <ClInclude Include="include\shaiya\include\CStaticText.h" />
     <ClInclude Include="include\shaiya\include\CTextureList.h" />
     <ClInclude Include="include\shaiya\include\CVector.h" />
@@ -60,8 +61,10 @@
     <ClCompile Include="include\shaiya\src\CCharacter.cpp" />
     <ClCompile Include="include\shaiya\src\CDataFile.cpp" />
     <ClCompile Include="include\shaiya\src\CEffectData.cpp" />
+    <ClCompile Include="include\shaiya\src\CMonster.cpp" />
     <ClCompile Include="include\shaiya\src\CNetwork.cpp" />
     <ClCompile Include="include\shaiya\src\CPlayerData.cpp" />
+    <ClCompile Include="include\shaiya\src\CQuickSlot.cpp" />
     <ClCompile Include="include\shaiya\src\GuildData2.cpp" />
     <ClCompile Include="include\shaiya\src\CStaticText.cpp" />
     <ClCompile Include="include\shaiya\src\CTexture.cpp" />

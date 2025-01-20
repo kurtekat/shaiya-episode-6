@@ -157,7 +157,10 @@ namespace shaiya
         PAD(2);
         UINT32 vehicleSpeed;          //0x3C4
         bool isSnowboard;             //0x3C8
-        PAD(91);
+        PAD(19);
+        D3DXMATRIX vehicleMatrix;     //0x3DC
+        // 0x41C
+        PAD(8);
         BOOL isGuildMaster;           //0x424
         PAD(8);
         CMonster* pet;                //0x430

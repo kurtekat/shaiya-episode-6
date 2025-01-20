@@ -17,7 +17,10 @@ namespace shaiya
         UINT32 effectRenderCount;   //0x9023EC  0x13D988
         PAD(9904);
         CCharacter* user;           //0x904AA0  0x140038
-        PAD(872);
+        PAD(536);
+        // F=2048, 70=1600, D=1024
+        UINT32 mapSize;             //0x904CBC  0x140254
+        PAD(332);
         CTexture attribute0Image;   //0x904E0C  0x1403A4  mon_not_ex.tga
         CTexture attribute1Image;   //0x904E1C  0x1403B4  mon_fire_ex.tga
         CTexture attribute2Image;   //0x904E2C  0x1403C4  mon_water_ex.tga
@@ -29,7 +32,11 @@ namespace shaiya
         CTexture pvpGradeImage;     //0x904E8C  0x140424  grade2.tga
         CTexture pvpArrowImage;     //0x904E9C  0x140434  pvp_arrow.tga
         // 0x904EAC  0x140444
-        PAD(7988);
+        PAD(8);
+        // see Dungeon_MiniMap.cfg
+        float mapImagePosX;         //0x904EB4  0x14044C
+        float mapImagePosY;         //0x904EB8  0x140450
+        PAD(7972);
         // 0x906DE0  0x142378
 
         static CCharacter* FindUser(ULONG objectId);
