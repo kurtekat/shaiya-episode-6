@@ -39,7 +39,13 @@ If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Lapis Combination and Lapisian Combination
 
-The client expects the merchant type of the npc be 20 (Alchemist). Use the following example to get started:
+The client expects the merchant type of the npc be 20 (Alchemist).
+
+| NpcType | NpcTypeID |
+|---------|-----------|
+| 1       | 310       |
+
+Use the following example to get started:
 
 ```ini
 ;PSM_Client\Bin\Data\ItemRemake.ini
