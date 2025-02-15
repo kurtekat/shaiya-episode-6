@@ -23,7 +23,9 @@ namespace shaiya
         BadgeMerchant,
         BankTeller,
         GoldBarMerchant,
-        ProfessionalBlacksmith = 15,
+        ProfessionalBlacksmith1 = 15,
+        ProfessionalBlacksmith2,
+        Alchemist = 20,
         EtinManager = 100,
         EtinSeller,
         AuctionBoard = 117

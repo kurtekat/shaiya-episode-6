@@ -1,6 +1,7 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/ItemRemake.h"
 #include "include/shaiya/include/RevengeMark.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/Synthesis.h"
@@ -117,6 +118,7 @@ void Main()
     hook::user_shape();
     hook::user_skill();
     hook::user_status();
+    ItemRemake::init();
     Synergy::init();
     Synthesis::init();
 }

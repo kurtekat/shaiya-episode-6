@@ -11,6 +11,7 @@
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemHelper.h"
 #include "include/shaiya/include/ItemInfo.h"
+#include "include/shaiya/include/ItemRemake.h"
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/Synthesis.h"
 #include "include/shaiya/include/UserHelper.h"
@@ -90,6 +91,211 @@ namespace packet_gem
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Handles incoming 0x80B packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
+    void item_lapis_combine_handler(CUser* user, ItemLapisCombineIncoming_EP6_4* incoming)
+    {
+        if (!incoming->lapisBag1 || incoming->lapisBag1 > user->bagsUnlocked || incoming->lapisSlot1 >= max_inventory_slot)
+            return;
+
+        auto& lapis1 = user->inventory[incoming->lapisBag1][incoming->lapisSlot1];
+        if (!lapis1)
+            return;
+
+        if (lapis1->type != std::to_underlying(ItemType::Lapis))
+            return;
+
+        if (!incoming->lapisBag2 || incoming->lapisBag2 > user->bagsUnlocked || incoming->lapisSlot2 >= max_inventory_slot)
+            return;
+
+        auto& lapis2 = user->inventory[incoming->lapisBag2][incoming->lapisSlot2];
+        if (!lapis2)
+            return;
+
+        if (lapis2->type != std::to_underlying(ItemType::Lapis))
+            return;
+
+        if (!incoming->lapisBag3 || incoming->lapisBag3 > user->bagsUnlocked || incoming->lapisSlot3 >= max_inventory_slot)
+            return;
+
+        auto& lapis3 = user->inventory[incoming->lapisBag3][incoming->lapisSlot3];
+        if (!lapis3)
+            return;
+
+        if (lapis3->type != std::to_underlying(ItemType::Lapis))
+            return;
+
+        if (!incoming->essenceBag || incoming->essenceBag > user->bagsUnlocked || incoming->essenceSlot >= max_inventory_slot)
+            return;
+
+        auto& essence = user->inventory[incoming->essenceBag][incoming->essenceSlot];
+        if (!essence)
+            return;
+
+        // Requires 1 per lapis Lv5 or higher
+
+        int requiredCount = 0;
+        if (lapis1->itemInfo->reqIg >= 35)
+            ++requiredCount;
+
+        if (lapis2->itemInfo->reqIg >= 35)
+            ++requiredCount;
+
+        if (lapis3->itemInfo->reqIg >= 35)
+            ++requiredCount;
+
+        if (incoming->essenceCount < requiredCount)
+            return;
+
+        ItemLapisCombineOutgoing failure{};
+        failure.result = ItemLapisCombineResult::Failure;
+
+        if (essence->count < requiredCount || essence->itemInfo->effect != ItemEffect::CrowleyEssence)
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            return;
+        }
+
+        auto itemId1 = lapis1->itemInfo->itemId;
+        auto itemId2 = lapis2->itemInfo->itemId;
+        auto itemId3 = lapis3->itemInfo->itemId;
+
+        auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
+            return remake.itemId1 == itemId1
+                && remake.itemId2 == itemId2
+                && remake.itemId3 == itemId3;
+            });
+
+        if (remake == g_itemRemake.end())
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            return;
+        }
+
+        auto createInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
+        if (!createInfo)
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            return;
+        }
+
+        int bag{}, slot{};
+        if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            return;
+        }
+
+        UserHelper::ItemRemove(user, incoming->lapisBag1, incoming->lapisSlot1, 1);
+        UserHelper::ItemRemove(user, incoming->lapisBag2, incoming->lapisSlot2, 1);
+        UserHelper::ItemRemove(user, incoming->lapisBag3, incoming->lapisSlot3, 1);
+        UserHelper::ItemRemove(user, incoming->essenceBag, incoming->essenceSlot, requiredCount);
+
+        ItemLapisCombineOutgoing success(ItemLapisCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        NetworkHelper::Send(user, &success, sizeof(ItemLapisCombineOutgoing));
+    }
+
+    /// <summary>
+    /// Handles incoming 0x80C packets.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="incoming"></param>
+    void item_lapisian_combine_handler(CUser* user, ItemLapisianCombineIncoming_EP6_4* incoming)
+    {
+        if (!incoming->lapisianBag1 || incoming->lapisianBag1 > user->bagsUnlocked || incoming->lapisianSlot1 >= max_inventory_slot)
+            return;
+
+        auto& lapisian1 = user->inventory[incoming->lapisianBag1][incoming->lapisianSlot1];
+        if (!lapisian1)
+            return;
+
+        if (lapisian1->type != std::to_underlying(ItemType::Lapisian))
+            return;
+
+        if (!incoming->lapisianBag2 || incoming->lapisianBag2 > user->bagsUnlocked || incoming->lapisianSlot2 >= max_inventory_slot)
+            return;
+
+        auto& lapisian2 = user->inventory[incoming->lapisianBag2][incoming->lapisianSlot2];
+        if (!lapisian2)
+            return;
+
+        if (lapisian2->type != std::to_underlying(ItemType::Lapisian))
+            return;
+
+        if (!incoming->lapisianBag3 || incoming->lapisianBag3 > user->bagsUnlocked || incoming->lapisianSlot3 >= max_inventory_slot)
+            return;
+
+        auto& lapisian3 = user->inventory[incoming->lapisianBag3][incoming->lapisianSlot3];
+        if (!lapisian3)
+            return;
+
+        if (lapisian3->type != std::to_underlying(ItemType::Lapisian))
+            return;
+
+        if (!incoming->liquidBag || incoming->liquidBag > user->bagsUnlocked || incoming->liquidSlot >= max_inventory_slot)
+            return;
+
+        auto& liquid = user->inventory[incoming->liquidBag][incoming->liquidSlot];
+        if (!liquid)
+            return;
+
+        // Allows up to 3, but seems to require 1 no matter what
+
+        int requiredCount = 1;
+        if (incoming->liquidCount < requiredCount)
+            return;
+
+        ItemLapisianCombineOutgoing failure{};
+        failure.result = ItemLapisianCombineResult::Failure;
+
+        if (liquid->count < requiredCount || liquid->itemInfo->effect != ItemEffect::CrowleyLiquid)
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            return;
+        }
+
+        auto itemId1 = lapisian1->itemInfo->itemId;
+        auto itemId2 = lapisian2->itemInfo->itemId;
+        auto itemId3 = lapisian3->itemInfo->itemId;
+
+        auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
+            return remake.itemId1 == itemId1
+                && remake.itemId2 == itemId2
+                && remake.itemId3 == itemId3;
+            });
+
+        if (remake == g_itemRemake.end())
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            return;
+        }
+
+        auto createInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
+        if (!createInfo)
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            return;
+        }
+
+        int bag{}, slot{};
+        if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            return;
+        }
+
+        UserHelper::ItemRemove(user, incoming->lapisianBag1, incoming->lapisianSlot1, 1);
+        UserHelper::ItemRemove(user, incoming->lapisianBag2, incoming->lapisianSlot2, 1);
+        UserHelper::ItemRemove(user, incoming->lapisianBag3, incoming->lapisianSlot3, 1);
+        UserHelper::ItemRemove(user, incoming->liquidBag, incoming->liquidSlot, requiredCount);
+
+        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        NetworkHelper::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
     }
 
     /// <summary>
@@ -173,7 +379,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_lapisian_combine_handler(CUser* user, ItemLapisianCombineIncoming* incoming)
+    void item_perfect_lapisian_combine_handler(CUser* user, ItemPerfectLapisianCombineIncoming* incoming)
     {
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
             return;
@@ -205,26 +411,29 @@ namespace packet_gem
         if (!requiredCount)
             return;
 
+        // Failure result values are unclear. The client executes the same code 
+        // as long as the value is nonzero and not greater than 3.
+
+        ItemPerfectLapisianCombineOutgoing failure{};
+        failure.result = ItemPerfectLapisianCombineResult::Unknown1;
+
         auto createType = incoming->lapisianType;
         auto createTypeId = incoming->lapisianTypeId + 1;
 
         auto createInfo = CGameData::GetItemInfo(createType, createTypeId);
         if (!createInfo)
+        {
+            NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
             return;
+        }
 
         CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
-
-        // Failure result values are unclear. The client executes the same code 
-        // as long as the value is nonzero and not greater than 3.
-
-        ItemLapisianCombineOutgoing failure{};
-        failure.result = ItemLapisianCombineResult::Unknown1;
 
         for (int i = 0; i < requiredCount; ++i)
         {
             if (!UserHelper::ItemRemove(user, itemInfo->itemId, 1))
             {
-                NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+                NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
                 return;
             }
         }
@@ -232,12 +441,12 @@ namespace packet_gem
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
             return;
         }
 
-        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
-        NetworkHelper::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
+        ItemPerfectLapisianCombineOutgoing success(ItemPerfectLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        NetworkHelper::Send(user, &success, sizeof(ItemPerfectLapisianCombineOutgoing));
     }
 
     /// <summary>
@@ -838,6 +1047,18 @@ namespace packet_gem
 
         switch (opcode)
         {
+        case 0x80B:
+        {
+            auto incoming = reinterpret_cast<ItemLapisCombineIncoming_EP6_4*>(packet);
+            item_lapis_combine_handler(user, incoming);
+            break;
+        }
+        case 0x80C:
+        {
+            auto incoming = reinterpret_cast<ItemLapisianCombineIncoming_EP6_4*>(packet);
+            item_lapisian_combine_handler(user, incoming);
+            break;
+        }
         case 0x80D:
         {
             auto incoming = reinterpret_cast<ItemRuneCombineIncoming_EP6_4*>(packet);
@@ -846,8 +1067,8 @@ namespace packet_gem
         }
         case 0x80E:
         {
-            auto incoming = reinterpret_cast<ItemLapisianCombineIncoming*>(packet);
-            item_lapisian_combine_handler(user, incoming);
+            auto incoming = reinterpret_cast<ItemPerfectLapisianCombineIncoming*>(packet);
+            item_perfect_lapisian_combine_handler(user, incoming);
             break;
         }
         case 0x811:

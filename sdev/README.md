@@ -37,6 +37,27 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
+## Lapis Combination && Lapisian Combination
+
+The client expects the merchant type of the npc be 20 (Alchemist). Use the following example to get started:
+
+```ini
+;PSM_Client\Bin\Data\ItemRemake.ini
+[ItemRemake_1]
+ItemID1=95001
+ItemID2=95001
+ItemID3=95001
+CreateType=95
+CreateTypeID=2
+
+[ItemRemake_2]
+ItemID1=30005
+ItemID2=30005
+ItemID3=30005
+CreateType=30
+CreateTypeID=6
+```
+
 ## Rune Combination
 
 The function that adds support for recreation runes is disabled by default because of Cheat Engine scripts.

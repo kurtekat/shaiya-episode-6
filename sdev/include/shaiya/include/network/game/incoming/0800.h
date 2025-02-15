@@ -116,6 +116,81 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct ItemRemake2Incoming
+    {
+        UINT16 opcode{ 0x808 };
+        UINT8 bag;
+        UINT8 slot;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisCombineIncoming_EP5
+    {
+        UINT16 opcode{ 0x80B };
+        UINT8 lapisBag1;
+        UINT8 lapisBag2;
+        UINT8 lapisBag3;
+        UINT8 lapisSlot1;
+        UINT8 lapisSlot2;
+        UINT8 lapisSlot3;
+        UINT8 essenceBag;
+        UINT8 essenceSlot;
+        UINT8 essenceCount;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisCombineIncoming_EP6_4
+    {
+        UINT16 opcode{ 0x80B };
+        UINT8 lapisBag1;
+        UINT8 lapisBag2;
+        UINT8 lapisBag3;
+        UINT8 lapisSlot1;
+        UINT8 lapisSlot2;
+        UINT8 lapisSlot3;
+        UINT8 essenceBag;
+        UINT8 essenceSlot;
+        UINT8 essenceCount;
+        ULONG npcId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianCombineIncoming_EP5
+    {
+        UINT16 opcode{ 0x80C };
+        UINT8 lapisianBag1;
+        UINT8 lapisianBag2;
+        UINT8 lapisianBag3;
+        UINT8 lapisianSlot1;
+        UINT8 lapisianSlot2;
+        UINT8 lapisianSlot3;
+        UINT8 liquidBag;
+        UINT8 liquidSlot;
+        UINT8 liquidCount;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ItemLapisianCombineIncoming_EP6_4
+    {
+        UINT16 opcode{ 0x80C };
+        UINT8 lapisianBag1;
+        UINT8 lapisianBag2;
+        UINT8 lapisianBag3;
+        UINT8 lapisianSlot1;
+        UINT8 lapisianSlot2;
+        UINT8 lapisianSlot3;
+        UINT8 liquidBag;
+        UINT8 liquidSlot;
+        UINT8 liquidCount;
+        ULONG npcId;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // not implemented
     struct ItemRuneCombineIncoming_EP5
     {
@@ -140,7 +215,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ItemLapisianCombineIncoming
+    struct ItemPerfectLapisianCombineIncoming
     {
         UINT16 opcode{ 0x80E };
         UINT8 cubeBag;

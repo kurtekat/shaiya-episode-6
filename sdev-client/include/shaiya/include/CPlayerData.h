@@ -56,7 +56,9 @@ namespace shaiya
         ProBlacksmith = 120,
         Recreation,
         Creation,
-        RuneCombination = 126,
+        LapisCombination = 124,
+        LapisianCombination,
+        RuneCombination
     };
 
     #pragma pack(push, 1)

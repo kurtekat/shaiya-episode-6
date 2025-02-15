@@ -16,56 +16,51 @@ using namespace shaiya;
 
 void Synergy::init()
 {
-    std::array<char, MAX_PATH> fileName{};
-    GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
-
-    std::filesystem::path path(fileName.data());
-    path.remove_filename();
-    path.append("Data");
-    path.append("SetItem.SData");
-
-    if (!std::filesystem::exists(path))
-        return;
-
     try
     {
-        std::ifstream ifs;
-        ifs.open(path, std::ios::binary);
+        std::array<char, MAX_PATH> fileName{};
+        GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
 
-        if (ifs.fail())
+        std::filesystem::path path(fileName.data());
+        path.remove_filename();
+        path.append("Data");
+        path.append("SetItem.SData");
+
+        std::ifstream sdata(path, std::ios::binary);
+        if (!sdata)
             return;
 
         uint32_t recordCount{};
-        ifs.read(reinterpret_cast<char*>(&recordCount), 4);
+        sdata.read(reinterpret_cast<char*>(&recordCount), 4);
 
         for (int i = 0; std::cmp_less(i, recordCount); ++i)
         {
             uint16_t id{};
-            ifs.read(reinterpret_cast<char*>(&id), 2);
+            sdata.read(reinterpret_cast<char*>(&id), 2);
 
             Synergy synergy{};
             synergy.id = id;
 
             uint32_t nameLength{};
-            ifs.read(reinterpret_cast<char*>(&nameLength), 4);
-            ifs.ignore(nameLength);
+            sdata.read(reinterpret_cast<char*>(&nameLength), 4);
+            sdata.ignore(nameLength);
 
-            for (auto& itemId : synergy.set)
+            for (auto&& itemId : synergy.set)
             {
                 uint16_t type{}, typeId{};
-                ifs.read(reinterpret_cast<char*>(&type), 2);
-                ifs.read(reinterpret_cast<char*>(&typeId), 2);
+                sdata.read(reinterpret_cast<char*>(&type), 2);
+                sdata.read(reinterpret_cast<char*>(&typeId), 2);
                 itemId = (type * 1000) + typeId;
             }
 
-            for (auto& effect : synergy.effects)
+            for (auto&& effect : synergy.effects)
             {
                 uint32_t descLength{};
-                ifs.read(reinterpret_cast<char*>(&descLength), 4);
+                sdata.read(reinterpret_cast<char*>(&descLength), 4);
 
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
                 std::string desc(descLength, '\0');
-                ifs.read(desc.data(), desc.size());
+                sdata.read(desc.data(), desc.size());
 
                 auto vec = util::split(desc, ',');
                 if (vec.size() != effect.size())
@@ -78,7 +73,7 @@ void Synergy::init()
             g_synergies.push_back(synergy);
         }
 
-        ifs.close();
+        sdata.close();
     }
     catch (...)
     {

@@ -144,6 +144,85 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct ItemRemake2Result : UINT8
+    {
+        Success,
+        Failure
+    };
+
+    #pragma pack(push, 1)
+    struct ItemRemake2Outgoing
+    {
+        UINT16 opcode{ 0x808 };
+        ItemRemake2Result result;
+
+        ItemRemake2Outgoing() = default;
+
+        ItemRemake2Outgoing(ItemRemake2Result result)
+            : result(result)
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    enum struct ItemLapisCombineResult : UINT8
+    {
+        Success,
+        Failure
+    };
+
+    #pragma pack(push, 1)
+    struct ItemLapisCombineOutgoing
+    {
+        UINT16 opcode{ 0x80B };
+        ItemLapisCombineResult result;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT16 quality;
+        Gems gems;
+        UINT8 count;
+        CraftName craftName;
+
+        ItemLapisCombineOutgoing() = default;
+
+        ItemLapisCombineOutgoing(ItemLapisCombineResult result, UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId, UINT8 count)
+            : result(result), bag(bag), slot(slot), type(type), typeId(typeId), quality(0), gems{}, count(count), craftName{}
+        {
+        }
+    };
+    #pragma pack(pop)
+
+    enum struct ItemLapisianCombineResult : UINT8
+    {
+        Success,
+        Failure
+    };
+
+    #pragma pack(push, 1)
+    struct ItemLapisianCombineOutgoing
+    {
+        UINT16 opcode{ 0x80C };
+        ItemLapisianCombineResult result;
+        UINT8 bag;
+        UINT8 slot;
+        UINT8 type;
+        UINT8 typeId;
+        UINT16 quality;
+        Gems gems;
+        UINT8 count;
+        CraftName craftName;
+
+        ItemLapisianCombineOutgoing() = default;
+
+        ItemLapisianCombineOutgoing(ItemLapisianCombineResult result, UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId, UINT8 count)
+            : result(result), bag(bag), slot(slot), type(type), typeId(typeId), quality(0), gems{}, count(count), craftName{}
+        {
+        }
+    };
+    #pragma pack(pop)
+
     enum struct ItemRuneCombineResult : UINT8
     {
         Success,
@@ -174,7 +253,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct ItemLapisianCombineResult : UINT8
+    enum struct ItemPerfectLapisianCombineResult : UINT8
     {
         Success,
         Unknown1,
@@ -183,10 +262,10 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct ItemLapisianCombineOutgoing
+    struct ItemPerfectLapisianCombineOutgoing
     {
         UINT16 opcode{ 0x80E };
-        ItemLapisianCombineResult result;
+        ItemPerfectLapisianCombineResult result;
         UINT8 bag;
         UINT8 slot;
         UINT8 type;
@@ -196,9 +275,9 @@ namespace shaiya
         UINT8 count;
         CraftName craftName;
 
-        ItemLapisianCombineOutgoing() = default;
+        ItemPerfectLapisianCombineOutgoing() = default;
 
-        ItemLapisianCombineOutgoing(ItemLapisianCombineResult result, UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId, UINT8 count)
+        ItemPerfectLapisianCombineOutgoing(ItemPerfectLapisianCombineResult result, UINT8 bag, UINT8 slot, UINT8 type, UINT8 typeId, UINT8 count)
             : result(result), bag(bag), slot(slot), type(type), typeId(typeId), quality(0), gems{}, count(count), craftName{}
         {
         }
