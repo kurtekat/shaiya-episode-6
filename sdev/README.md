@@ -37,7 +37,7 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
-## Lapis Combination && Lapisian Combination
+## Lapis Combination and Lapisian Combination
 
 The client expects the merchant type of the npc be 20 (Alchemist). Use the following example to get started:
 
@@ -57,6 +57,13 @@ ItemID3=30005
 CreateType=30
 CreateTypeID=6
 ```
+
+Lapis combination requires 1 Crowley Essence for each lapis Lv5 or higher. Lapisian combination requires 1 Crowley Liquid.
+
+| ItemID | ItemName        | ItemEffect |
+|--------|-----------------|------------|
+| 101247 | Crowley Essence | 85         |
+| 101248 | Crowley Liquid  | 92         |
 
 ## Rune Combination
 
