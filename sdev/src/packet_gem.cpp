@@ -110,6 +110,9 @@ namespace packet_gem
         if (lapis1->type != std::to_underlying(ItemType::Lapis))
             return;
 
+        if (lapis1->itemInfo->reqIg == 30 || lapis1->itemInfo->reqIg == 99)
+            return;
+
         if (!incoming->lapisBag2 || incoming->lapisBag2 > user->bagsUnlocked || incoming->lapisSlot2 >= max_inventory_slot)
             return;
 
@@ -118,6 +121,9 @@ namespace packet_gem
             return;
 
         if (lapis2->type != std::to_underlying(ItemType::Lapis))
+            return;
+
+        if (lapis2->itemInfo->reqIg == 30 || lapis2->itemInfo->reqIg == 99)
             return;
 
         if (!incoming->lapisBag3 || incoming->lapisBag3 > user->bagsUnlocked || incoming->lapisSlot3 >= max_inventory_slot)
@@ -130,6 +136,9 @@ namespace packet_gem
         if (lapis3->type != std::to_underlying(ItemType::Lapis))
             return;
 
+        if (lapis3->itemInfo->reqIg == 30 || lapis3->itemInfo->reqIg == 99)
+            return;
+
         if (!incoming->essenceBag || incoming->essenceBag > user->bagsUnlocked || incoming->essenceSlot >= max_inventory_slot)
             return;
 
@@ -140,13 +149,13 @@ namespace packet_gem
         // Requires 1 per lapis Lv5 or higher
 
         int requiredCount = 0;
-        if (lapis1->itemInfo->reqIg >= 35)
+        if (lapis1->itemInfo->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis2->itemInfo->reqIg >= 35)
+        if (lapis2->itemInfo->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis3->itemInfo->reqIg >= 35)
+        if (lapis3->itemInfo->reqIg >= 36)
             ++requiredCount;
 
         if (incoming->essenceCount < requiredCount)
@@ -166,9 +175,7 @@ namespace packet_gem
         auto itemId3 = lapis3->itemInfo->itemId;
 
         auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
-            return remake.itemId1 == itemId1
-                && remake.itemId2 == itemId2
-                && remake.itemId3 == itemId3;
+            return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
             });
 
         if (remake == g_itemRemake.end())
@@ -177,15 +184,15 @@ namespace packet_gem
             return;
         }
 
-        auto createInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
-        if (!createInfo)
+        auto itemInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
+        if (!itemInfo)
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
             return;
         }
 
         int bag{}, slot{};
-        if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
+        if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
             return;
@@ -196,7 +203,7 @@ namespace packet_gem
         UserHelper::ItemRemove(user, incoming->lapisBag3, incoming->lapisSlot3, 1);
         UserHelper::ItemRemove(user, incoming->essenceBag, incoming->essenceSlot, requiredCount);
 
-        ItemLapisCombineOutgoing success(ItemLapisCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        ItemLapisCombineOutgoing success(ItemLapisCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
         NetworkHelper::Send(user, &success, sizeof(ItemLapisCombineOutgoing));
     }
 
@@ -264,9 +271,7 @@ namespace packet_gem
         auto itemId3 = lapisian3->itemInfo->itemId;
 
         auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
-            return remake.itemId1 == itemId1
-                && remake.itemId2 == itemId2
-                && remake.itemId3 == itemId3;
+            return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
             });
 
         if (remake == g_itemRemake.end())
@@ -275,15 +280,15 @@ namespace packet_gem
             return;
         }
 
-        auto createInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
-        if (!createInfo)
+        auto itemInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
+        if (!itemInfo)
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
             return;
         }
 
         int bag{}, slot{};
-        if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
+        if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
             return;
@@ -294,7 +299,7 @@ namespace packet_gem
         UserHelper::ItemRemove(user, incoming->lapisianBag3, incoming->lapisianSlot3, 1);
         UserHelper::ItemRemove(user, incoming->liquidBag, incoming->liquidSlot, requiredCount);
 
-        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
+        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
         NetworkHelper::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
     }
 
