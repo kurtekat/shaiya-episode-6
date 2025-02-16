@@ -64,7 +64,7 @@ CreateType=30
 CreateTypeID=6
 ```
 
-Lapis combination requires 1 Crowley Essence for each lapis Lv5 or higher. Lapisian combination requires 1 Crowley Liquid.
+Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow `ReqIg` values 30 and 99. Lapisian combination requires 1 Crowley Liquid.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
