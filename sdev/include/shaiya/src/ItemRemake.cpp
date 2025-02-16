@@ -4,9 +4,10 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <ini/ini.h>
 #include <util/util.h>
-#include "include/shaiya/include/IniHelper.h"
 #include "include/shaiya/include/ItemRemake.h"
+using namespace ini;
 using namespace shaiya;
 
 void ItemRemake::init()

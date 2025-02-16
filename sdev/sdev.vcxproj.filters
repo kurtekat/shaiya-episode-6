@@ -180,9 +180,6 @@
     <ClCompile Include="include\shaiya\src\ItemRemake.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\IniHelper.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -537,9 +534,6 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\ItemRemake.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\IniHelper.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>
