@@ -5,40 +5,33 @@
 
 namespace ini
 {
+    using Path = std::filesystem::path;
+    using StringA = std::string;
+    using StringW = std::wstring;
+
     class IniHelper
     {
     public:
 
-        /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sectionName"></param>
-    /// <param name="fileName"></param>
-    /// <returns></returns>
-        static std::vector<std::pair<std::string, std::string>>
-            getSectionA(const std::string& sectionName, const std::filesystem::path& fileName);
+        static int deleteKeyA(const StringA& sectionName, const StringA& keyName, const Path& fileName);
+        static int deleteKeyW(const StringW& sectionName, const StringW& keyName, const Path& fileName);
+        static int deleteSectionA(const StringA& sectionName, const Path& fileName);
+        static int deleteSectionW(const StringW& sectionName, const Path& fileName);
+        static uint32_t getIntA(const StringA& sectionName, const StringA& keyName, int defaultValue, const Path& fileName);
+        static uint32_t getIntW(const StringW& sectionName, const StringW& keyName, int defaultValue, const Path& fileName);
+        static std::vector<StringA> getKeyNamesA(const StringA& sectionName, const Path& fileName);
+        static std::vector<StringW> getKeyNamesW(const StringW& sectionName, const Path& fileName);
+        static std::vector<std::pair<StringA, StringA>> getSectionA(const StringA& sectionName, const Path& fileName);
+        static std::vector<std::pair<StringW, StringW>> getSectionW(const StringW& sectionName, const Path& fileName);
+        static std::vector<StringA> getSectionNamesA(const Path& fileName);
+        static std::vector<StringW> getSectionNamesW(const Path& fileName);
+        static StringA getStringA(const StringA& sectionName, const StringA& keyName, const StringA& defaultValue, const Path& fileName);
+        static StringW getStringW(const StringW& sectionName, const StringW& keyName, const StringW& defaultValue, const Path& fileName);
+        static int writeStringA(const StringA& sectionName, const StringA& keyName, const StringA& value, const Path& fileName);
+        static int writeStringW(const StringW& sectionName, const StringW& keyName, const StringW& value, const Path& fileName);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sectionName"></param>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        static std::vector<std::pair<std::wstring, std::wstring>>
-            getSectionW(const std::wstring& sectionName, const std::filesystem::path& fileName);
+    private:
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        static std::vector<std::string> getSectionNamesA(const std::filesystem::path& fileName);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        static std::vector<std::wstring> getSectionNamesW(const std::filesystem::path& fileName);
+        static constexpr uint32_t max_buffer_size = UINT32_MAX;
     };
 }
