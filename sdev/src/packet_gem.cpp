@@ -146,8 +146,6 @@ namespace packet_gem
         if (!essence)
             return;
 
-        // Requires 1 per lapis Lv5 or higher
-
         int requiredCount = 0;
         if (lapis1->itemInfo->reqIg >= 36)
             ++requiredCount;

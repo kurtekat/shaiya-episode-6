@@ -70,19 +70,33 @@ int util::write_memory(void* addr, int value, size_t size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::atoi(const std::string& str)
-{
-    return std::atoi(str.c_str());
-}
-
 std::vector<std::string> util::split(const std::string& str, char sep, size_t count)
 {
-    std::vector<std::string> vec;
     if (!count)
-        return vec;
+        return {};
 
+    std::vector<std::string> vec;
     std::istringstream iss(str);
+
     for (std::string str; std::getline(iss, str, sep); )
+    {
+        vec.push_back(str);
+        if (vec.size() == count)
+            break;
+    }
+
+    return vec;
+}
+
+std::vector<std::wstring> util::split(const std::wstring& str, wchar_t sep, size_t count)
+{
+    if (!count)
+        return {};
+
+    std::vector<std::wstring> vec;
+    std::wistringstream iss(str);
+
+    for (std::wstring str; std::getline(iss, str, sep); )
     {
         vec.push_back(str);
         if (vec.size() == count)

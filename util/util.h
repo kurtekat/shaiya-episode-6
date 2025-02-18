@@ -17,6 +17,6 @@ namespace util
     int write_memory(void* addr, void* src, size_t size);
     int write_memory(void* addr, int value, size_t size);
 
-    int atoi(const std::string& str);
     std::vector<std::string> split(const std::string& str, char sep, size_t count = SIZE_MAX);
+    std::vector<std::wstring> split(const std::wstring& str, wchar_t sep, size_t count = SIZE_MAX);
 }

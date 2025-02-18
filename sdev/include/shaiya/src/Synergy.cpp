@@ -1,4 +1,3 @@
-#include <array>
 #include <filesystem>
 #include <fstream>
 #include <map>
@@ -18,10 +17,11 @@ void Synergy::init()
 {
     try
     {
-        std::array<char, MAX_PATH> fileName{};
-        GetModuleFileNameA(nullptr, fileName.data(), fileName.size());
+        std::wstring buffer(INT16_MAX, 0);
+        if (!GetModuleFileNameW(nullptr, buffer.data(), INT16_MAX))
+            return;
 
-        std::filesystem::path path(fileName.data());
+        std::filesystem::path path(buffer);
         path.remove_filename();
         path.append("Data");
         path.append("SetItem.SData");
@@ -67,7 +67,7 @@ void Synergy::init()
                     continue;
 
                 for (int i = 0; std::cmp_less(i, effect.size()); ++i)
-                    effect[i] = util::atoi(vec[i]);
+                    effect[i] = std::stoi(vec[i]);
             }
 
             g_synergies.push_back(synergy);
