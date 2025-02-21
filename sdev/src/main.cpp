@@ -108,6 +108,7 @@ void Main()
     hook::packet_character();
     hook::packet_exchange();
     hook::packet_gem();
+    //hook::packet_mailbox();
     hook::packet_market();
     hook::packet_myshop();
     hook::packet_party();

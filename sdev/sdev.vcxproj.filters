@@ -180,6 +180,9 @@
     <ClCompile Include="include\shaiya\src\ItemRemake.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\packet_mailbox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">

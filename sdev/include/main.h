@@ -9,6 +9,7 @@ namespace hook
     void packet_character();
     void packet_exchange();
     void packet_gem();
+    void packet_mailbox();
     void packet_market();
     void packet_myshop();
     void packet_party();
