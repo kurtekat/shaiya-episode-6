@@ -37,7 +37,7 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
-## Lapis Combination and Lapisian Combination
+## Alchemy
 
 The client expects the merchant type of the npc be 20 (Alchemist).
 
@@ -45,10 +45,69 @@ The client expects the merchant type of the npc be 20 (Alchemist).
 |---------|-----------|
 | 1       | 310       |
 
+### Lapis Combination
+
 Use the following example to get started:
 
 ```ini
-;PSM_Client\Bin\Data\ItemRemake.ini
+; PSM_Client\Bin\Data\ItemRemake5.ini
+
+[ItemRemake_1]
+ItemID1=30005
+ItemID2=30005
+ItemID3=30005
+CreateType=30
+CreateTypeID=6
+
+[ItemRemake_2]
+ItemID1=30012
+ItemID2=30012
+ItemID3=30012
+CreateType=30
+CreateTypeID=13
+
+[ItemRemake_3]
+ItemID1=30019
+ItemID2=30019
+ItemID3=30019
+CreateType=30
+CreateTypeID=20
+
+[ItemRemake_4]
+ItemID1=30026
+ItemID2=30026
+ItemID3=30026
+CreateType=30
+CreateTypeID=27
+
+[ItemRemake_5]
+ItemID1=30033
+ItemID2=30033
+ItemID3=30033
+CreateType=30
+CreateTypeID=34
+
+[ItemRemake_6]
+ItemID1=30040
+ItemID2=30040
+ItemID3=30040
+CreateType=30
+CreateTypeID=41
+```
+
+Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow `ReqIg` values 30 and 99. 
+
+| ItemID | ItemName        | ItemEffect |
+|--------|-----------------|------------|
+| 100247 | Crowley Essence | 85         |
+
+### Lapisian Combination
+
+Use the following example to get started:
+
+```ini
+; PSM_Client\Bin\Data\ItemRemake4.ini
+
 [ItemRemake_1]
 ItemID1=95001
 ItemID2=95001
@@ -57,19 +116,32 @@ CreateType=95
 CreateTypeID=2
 
 [ItemRemake_2]
-ItemID1=30005
-ItemID2=30005
-ItemID3=30005
-CreateType=30
-CreateTypeID=6
+ItemID1=95006
+ItemID2=95006
+ItemID3=95006
+CreateType=95
+CreateTypeID=7
+
+[ItemRemake_3]
+ItemID1=95002
+ItemID2=95002
+ItemID3=95002
+CreateType=95
+CreateTypeID=4
+
+[ItemRemake_4]
+ItemID1=95007
+ItemID2=95007
+ItemID3=95007
+CreateType=95
+CreateTypeID=9
 ```
 
-Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow `ReqIg` values 30 and 99. Lapisian combination requires 1 Crowley Liquid.
+Lapisian combination requires 1 Crowley Liquid.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
-| 101247 | Crowley Essence | 85         |
-| 101248 | Crowley Liquid  | 92         |
+| 100248 | Crowley Liquid  | 92         |
 
 ## Rune Combination
 
@@ -177,7 +249,7 @@ The ability value is expected to be greater than or equal to 200. The library wi
 Use the following example to get started:
 
 ```ini
-;PSM_Client\Bin\Data\ChaoticSquare.ini
+; PSM_Client\Bin\Data\ChaoticSquare.ini
 
 [ChaoticSquare_1]
 ItemID=102073
