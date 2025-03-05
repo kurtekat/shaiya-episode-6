@@ -172,11 +172,11 @@ namespace packet_gem
         auto itemId2 = lapis2->itemInfo->itemId;
         auto itemId3 = lapis3->itemInfo->itemId;
 
-        auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
+        auto remake = std::find_if(g_itemRemake5.begin(), g_itemRemake5.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
             });
 
-        if (remake == g_itemRemake.end())
+        if (remake == g_itemRemake5.end())
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
             return;
@@ -249,8 +249,6 @@ namespace packet_gem
         if (!liquid)
             return;
 
-        // Allows up to 3, but seems to require 1 no matter what
-
         int requiredCount = 1;
         if (incoming->liquidCount < requiredCount)
             return;
@@ -268,11 +266,11 @@ namespace packet_gem
         auto itemId2 = lapisian2->itemInfo->itemId;
         auto itemId3 = lapisian3->itemInfo->itemId;
 
-        auto remake = std::find_if(g_itemRemake.begin(), g_itemRemake.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
+        auto remake = std::find_if(g_itemRemake4.begin(), g_itemRemake4.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
             });
 
-        if (remake == g_itemRemake.end())
+        if (remake == g_itemRemake4.end())
         {
             NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
             return;

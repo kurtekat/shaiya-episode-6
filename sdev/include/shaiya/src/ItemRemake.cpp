@@ -8,7 +8,7 @@
 using namespace ini;
 using namespace shaiya;
 
-void ItemRemake::init()
+void ItemRemake4::init()
 {
     try
     {
@@ -19,7 +19,7 @@ void ItemRemake::init()
         std::filesystem::path path(buffer);
         path.remove_filename();
         path.append("Data");
-        path.append("ItemRemake.ini");
+        path.append("ItemRemake4.ini");
 
         auto sectionNames = IniHelper::getSectionNamesW(path);
         for (const auto& sectionName : sectionNames)
@@ -34,11 +34,46 @@ void ItemRemake::init()
             remake.itemId3 = std::stoi(kvp[2].second);
             remake.createType = std::stoi(kvp[3].second);
             remake.createTypeId = std::stoi(kvp[4].second);
-            g_itemRemake.push_back(remake);
+            g_itemRemake4.push_back(remake);
         }
     }
     catch (...)
     {
-        g_itemRemake.clear();
+        g_itemRemake4.clear();
+    }
+}
+
+void ItemRemake5::init()
+{
+    try
+    {
+        std::wstring buffer(INT16_MAX, 0);
+        if (!GetModuleFileNameW(nullptr, buffer.data(), INT16_MAX))
+            return;
+
+        std::filesystem::path path(buffer);
+        path.remove_filename();
+        path.append("Data");
+        path.append("ItemRemake5.ini");
+
+        auto sectionNames = IniHelper::getSectionNamesW(path);
+        for (const auto& sectionName : sectionNames)
+        {
+            auto kvp = IniHelper::getSectionW(sectionName, path);
+            if (kvp.size() != 5)
+                continue;
+
+            ItemRemake remake{};
+            remake.itemId1 = std::stoi(kvp[0].second);
+            remake.itemId2 = std::stoi(kvp[1].second);
+            remake.itemId3 = std::stoi(kvp[2].second);
+            remake.createType = std::stoi(kvp[3].second);
+            remake.createTypeId = std::stoi(kvp[4].second);
+            g_itemRemake5.push_back(remake);
+        }
+    }
+    catch (...)
+    {
+        g_itemRemake5.clear();
     }
 }

@@ -119,7 +119,8 @@ void Main()
     hook::user_shape();
     hook::user_skill();
     hook::user_status();
-    ItemRemake::init();
+    ItemRemake4::init();
+    ItemRemake5::init();
     Synergy::init();
     Synthesis::init();
 }
