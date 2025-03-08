@@ -39,7 +39,7 @@ If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Alchemy
 
-The client expects the merchant type of the npc be 20 (Alchemist).
+The client expects the merchant type of the npc to be 20 (Alchemist).
 
 | NpcType | NpcTypeID |
 |---------|-----------|
