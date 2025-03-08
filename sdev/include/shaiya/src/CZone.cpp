@@ -111,7 +111,7 @@ bool CZone::MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z)
     }
 }
 
-void CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/)
+bool CZone::NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/)
 {
     pos->y -= 0.9f;
 
