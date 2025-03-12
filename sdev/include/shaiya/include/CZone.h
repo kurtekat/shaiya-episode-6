@@ -51,8 +51,10 @@ namespace shaiya
         static int GetCurUserCount(CZone* zone/*ecx*/);
         static int GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
+        static ULONG MobGenEx(CZone* zone, ULONG objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
         static bool MobRemoveById(CZone* zone/*ecx*/, ULONG objectId);
+        static void MoveAllBindPos(CZone* zone/*edi*/);
         static bool MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z);
         static bool NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);

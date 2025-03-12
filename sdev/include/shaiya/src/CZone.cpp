@@ -69,6 +69,22 @@ bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos
     }
 }
 
+ULONG CZone::MobGenEx(CZone* zone, ULONG objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
+{
+    unsigned u0x424750 = 0x424750;
+
+    __asm
+    {
+        mov ebx,pos
+        mov eax,count
+        mov ecx,mobId
+        
+        push objectId
+        push zone
+        call u0x424750
+    }
+}
+
 bool CZone::MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos)
 {
     unsigned u0x424C30 = 0x424C30;
@@ -90,6 +106,17 @@ bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG objectId)
 {
     typedef bool(__thiscall* LPFN)(CZone*, ULONG);
     return (*(LPFN)0x425430)(zone, objectId);
+}
+
+void CZone::MoveAllBindPos(CZone* zone/*edi*/)
+{
+    unsigned u0x429A00 = 0x429A00;
+
+    _asm
+    {
+        mov edi,zone
+        call u0x429A00
+    }
 }
 
 bool CZone::MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z)

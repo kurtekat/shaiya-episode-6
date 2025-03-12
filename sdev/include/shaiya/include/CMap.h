@@ -178,8 +178,9 @@ namespace shaiya
     #pragma pack(push, 1)
     struct MapCreateTime
     {
-        UINT16 day;
-        // 24-hr format
+        // 0:6
+        UINT16 dayOfWeek;
+        // 0:23
         UINT16 hour;
         // hours
         UINT16 duration;
@@ -196,6 +197,17 @@ namespace shaiya
         Restricted, // R
         House       // H
     };
+
+    #pragma pack(push, 1)
+    struct MapCurse
+    {
+        UINT16 skillId;                 //0x1E4
+        Country country;                //0x1E6
+        UINT8 addPvPKillCount;          //0x1E7
+        UINT8 addPvPKillExpPercentage;  //0x1E8
+        PAD(3);
+    };
+    #pragma pack(pop)
 
     enum struct MapType : UINT32
     {
@@ -242,9 +254,12 @@ namespace shaiya
         PAD(38);
         // value * 60000 + 30000
         ULONG expireTime;          //0x1D4
-        UINT32 minUserCount;       //0x1D8
-        UINT32 maxUserCount;       //0x1DC
-        PAD(40);
+        UINT32 createMinUser;      //0x1D8
+        UINT32 enterMaxUser;       //0x1DC
+        BOOL enableMarket;         //0x1E0
+        MapCurse curse;            //0x1E4
+        // 0x1EC
+        PAD(28);
         // 0x208
 
         static CDoor* GetPortal(CMap* map/*ecx*/, int index/*eax*/);

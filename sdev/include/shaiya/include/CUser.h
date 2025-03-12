@@ -496,7 +496,11 @@ namespace shaiya
         UINT32 magicEvasionRate;               //0x1428
         UINT32 magicResistance;                //0x142C
         UINT32 magicCriticalHitRate;           //0x1430
-        PAD(16);
+        PAD(8);
+        UINT32 mapCurseSkillId;                //0x143C
+        UINT8 mapCurseAddPvPKillCount;         //0x1440
+        UINT8 mapCurseAddPvPExpPercentage;     //0x1441
+        PAD(2);
         UserStatus status;                     //0x1444
         PAD(4);
         bool sitting;                          //0x144C
