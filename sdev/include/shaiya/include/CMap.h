@@ -10,10 +10,10 @@ namespace shaiya
     struct MobInfo;
 
     #pragma pack(push, 1)
-    // aka spawn area
     struct MapBind
     {
-        PAD(16);
+        UINT32 mapId;
+        SVector pos;
         // 0x10
     };
     #pragma pack(pop)
@@ -152,14 +152,6 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct MapRebirth
-    {
-        UINT32 mapId;
-        SVector pos;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
     struct MapWeather
     {
         UINT32 state;
@@ -247,11 +239,12 @@ namespace shaiya
         MapWarType warType;        //0x7C
         MapType mapType;           //0x80
         CharArray<256> svMapName;  //0x84
-        MapRebirth rebirth1;       //0x184
-        MapRebirth rebirth2;       //0x194
+        MapBind rebirthPos1;       //0x184
+        MapBind rebirthPos2;       //0x194
         MapCreateType createType;  //0x1A4
-        MapCreateTime createTime;  //0x1A8
-        PAD(38);
+        // 0x1A8
+        Array<MapCreateTime, 7> createTimes;
+        PAD(2);
         // value * 60000 + 30000
         ULONG expireTime;          //0x1D4
         UINT32 createMinUser;      //0x1D8
