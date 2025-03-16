@@ -19,4 +19,7 @@ namespace util
 
     std::vector<std::string> split(const std::string& str, char sep, size_t count = SIZE_MAX);
     std::vector<std::wstring> split(const std::wstring& str, wchar_t sep, size_t count = SIZE_MAX);
+    
+    std::string wcstos(const std::wstring& str);
+    std::wstring stowcs(const std::string& str);
 }

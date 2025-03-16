@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -104,4 +105,14 @@ std::vector<std::wstring> util::split(const std::wstring& str, wchar_t sep, size
     }
 
     return vec;
+}
+
+std::string util::wcstos(const std::wstring& str)
+{
+    return std::filesystem::path(str).string();
+}
+
+std::wstring util::stowcs(const std::string& str)
+{
+    return std::filesystem::path(str).wstring();
 }
