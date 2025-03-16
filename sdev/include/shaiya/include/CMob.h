@@ -113,7 +113,12 @@ namespace shaiya
         BOOL sleeping;                     //0x2D0
         PAD(52);
         ULONG luaTargetId;                 //0x308
-        PAD(40);
+        DWORD retargetingTerm;             //0x30C
+        PAD(4);
+        BOOL onlyLuaAttack;                //0x314
+        BOOL holdPosition;                 //0x318
+        BOOL unbeatable;                   //0x31C
+        PAD(20);
         DWORD lockOnTick;                  //0x334
         MobLuaEvent luaEvent;              //0x338
         PAD(2516);
