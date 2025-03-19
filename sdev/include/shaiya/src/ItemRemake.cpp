@@ -5,7 +5,6 @@
 #include <windows.h>
 #include <ini/ini.h>
 #include "include/shaiya/include/ItemRemake.h"
-using namespace ini;
 using namespace shaiya;
 
 void ItemRemake4::init()
@@ -21,10 +20,10 @@ void ItemRemake4::init()
         path.append("Data");
         path.append("ItemRemake4.ini");
 
-        auto sectionNames = IniHelper::getSectionNamesW(path);
+        auto sectionNames = ini::IniHelper::getSectionNames(path);
         for (const auto& sectionName : sectionNames)
         {
-            auto kvp = IniHelper::getSectionW(sectionName, path);
+            auto kvp = ini::IniHelper::getSection(sectionName, path);
             if (kvp.size() != 5)
                 continue;
 
@@ -56,10 +55,10 @@ void ItemRemake5::init()
         path.append("Data");
         path.append("ItemRemake5.ini");
 
-        auto sectionNames = IniHelper::getSectionNamesW(path);
+        auto sectionNames = ini::IniHelper::getSectionNames(path);
         for (const auto& sectionName : sectionNames)
         {
-            auto kvp = IniHelper::getSectionW(sectionName, path);
+            auto kvp = ini::IniHelper::getSection(sectionName, path);
             if (kvp.size() != 5)
                 continue;
 

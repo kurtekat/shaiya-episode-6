@@ -7,7 +7,6 @@
 #include <ini/ini.h>
 #include <util/util.h>
 #include "include/shaiya/include/Synthesis.h"
-using namespace ini;
 using namespace shaiya;
 
 void Synthesis::init()
@@ -23,10 +22,10 @@ void Synthesis::init()
         path.append("Data");
         path.append("ChaoticSquare.ini");
 
-        auto sectionNames = IniHelper::getSectionNamesW(path);
+        auto sectionNames = ini::IniHelper::getSectionNames(path);
         for (const auto& sectionName : sectionNames)
         {
-            auto kvp = IniHelper::getSectionW(sectionName, path);
+            auto kvp = ini::IniHelper::getSection(sectionName, path);
             if (kvp.size() != 8)
                 continue;
 
