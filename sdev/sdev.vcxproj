@@ -91,6 +91,7 @@
     <ClInclude Include="include\shaiya\include\CZone.h" />
     <ClInclude Include="include\shaiya\include\GameLogMain.h" />
     <ClInclude Include="include\shaiya\include\ItemRemake.h" />
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0E00.h" />
     <ClInclude Include="include\shaiya\include\UserHelper.h" />
     <ClInclude Include="include\shaiya\include\ItemEnchant.h" />
     <ClInclude Include="include\shaiya\include\ItemHelper.h" />

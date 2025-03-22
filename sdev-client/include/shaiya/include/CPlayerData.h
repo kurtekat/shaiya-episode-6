@@ -291,7 +291,14 @@ namespace shaiya
         PAD(24);
         CVector<GuildNpcData> guildNpcData;      //0x22AF708  0x19A2538
         // 0x22AF720  0x19A2550
-        PAD(2792);
+        PAD(2042);
+        SYSTEMTIME serverTime;                   //0x22AFF1A  0x19A2D4A
+        // 0x22AFF2A  0x19A2D5A
+        PAD(6);
+        LARGE_INTEGER timeOffsetSeconds1;        //0x22AFF30  0x19A2D60
+        LARGE_INTEGER timeOffsetSeconds2;        //0x22AFF38  0x19A2D68
+        // 0x22AFF40  0x19A2D70
+        PAD(712);
         // 0x19A3038
         
         static UINT8 GetItemRealType(int itemType);

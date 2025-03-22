@@ -25,7 +25,8 @@ namespace shaiya
         CObjectMoveable moveable;
         UINT32 type;       //0x34
         UINT32 typeId;     //0x38
-        PAD(20);
+        UINT32 direction;  //0x3C
+        PAD(16);
         // use reinterpret_cast
         void* npcData;     //0x50
         PAD(4);

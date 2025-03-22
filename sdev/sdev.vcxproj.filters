@@ -539,6 +539,9 @@
     <ClInclude Include="include\shaiya\include\ItemRemake.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\include\network\game\outgoing\0E00.h">
+      <Filter>include\shaiya\include\network\game\outgoing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">
