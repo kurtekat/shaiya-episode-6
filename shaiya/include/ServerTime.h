@@ -28,7 +28,6 @@ namespace shaiya
         ServerTime()
             : timestamp(0)
         {
-            timestamp = now();
         }
 
         ServerTime(Timestamp ts)
@@ -52,6 +51,5 @@ namespace shaiya
         static time_t to_time_t(Timestamp ts);
         static Timestamp from_tm(const std::tm& tm);
         static void to_tm(Timestamp ts, std::tm& tm);
-        static Timestamp now();
     };
 }

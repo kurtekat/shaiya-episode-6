@@ -95,7 +95,10 @@ namespace packet_shop
     /// <param name="itemPrice"></param>
     void send_purchase3(CUser* user, const char* targetName, const char* productCode, uint32_t itemPrice)
     {
-        auto purchaseDate = ServerTime::now();
+        SYSTEMTIME lt{};
+        GetLocalTime(&lt);
+
+        auto purchaseDate = ServerTime::from_SYSTEMTIME(lt);
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
 
         DBAgentPointGiftItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);

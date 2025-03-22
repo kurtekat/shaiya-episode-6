@@ -158,11 +158,3 @@ void ServerTime::to_tm(Timestamp ts, std::tm& tm)
     tm.tm_sec = int(st.seconds().count());
     tm.tm_isdst = -1;
 }
-
-// see ps_game.004E1A50
-Timestamp ServerTime::now()
-{
-    SYSTEMTIME lt{};
-    GetLocalTime(&lt);
-    return ServerTime::from_SYSTEMTIME(lt);
-}
