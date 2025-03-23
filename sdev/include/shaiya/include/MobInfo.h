@@ -7,7 +7,7 @@ namespace shaiya
     using MobResistSkill = Array<UINT8, 6>;
     using MobResistState = Array<bool, 15>;
 
-    enum struct MobCountry : UINT32
+    enum struct MobTeam : UINT32
     {
         Light,
         Fury,
@@ -84,12 +84,13 @@ namespace shaiya
         PAD(2);
         // 0x4A1A53
         DWORD cooldown;               //0x6C
-        PAD(8);
-        MobCountry country;           //0x78
+        UINT32 attackTime3;           //0x70
+        UINT32 attack3;               //0x74
+        MobTeam team;                 //0x78
         Array<MobAttack, 3> attacks;  //0x7C
         // 0xB8
-        PAD(12);
-        Array<MobItem, 9> items;      //0xC4
+        PAD(4);
+        Array<MobItem, 10> items;     //0xBC
         // 0x10C
     };
     #pragma pack(pop)

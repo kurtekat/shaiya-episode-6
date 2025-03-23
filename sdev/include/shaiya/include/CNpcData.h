@@ -5,7 +5,7 @@
 
 namespace shaiya
 {
-    enum struct NpcCountry : UINT32
+    enum struct NpcTeam : UINT32
     {
         Light,
         Fury,
@@ -20,7 +20,7 @@ namespace shaiya
         UINT16 typeId;        //0x02
         UINT32 shape;         //0x04
         PAD(8);
-        NpcCountry country;   //0x10
+        NpcTeam team;         //0x10
         CharArray<256> name;  //0x14
         // 0x114
         PAD(16);
