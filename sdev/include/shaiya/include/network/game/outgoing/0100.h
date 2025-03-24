@@ -184,30 +184,31 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct SystemTimeOutgoing
+    struct ServerTimeOutgoing
     {
         UINT16 opcode{ 0x114 };
-        ULONG time;
+        ULONG timestamp;
 
-        SystemTimeOutgoing() = default;
+        ServerTimeOutgoing() = default;
 
-        SystemTimeOutgoing(ULONG time)
-            : time(time)
+        ServerTimeOutgoing(ULONG timestamp)
+            : timestamp(timestamp)
         {
         }
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ServerCmdTimeOutgoing
+    // timestamp = localtime + (seconds(hours) + seconds(minutes))
+    struct ServerTimeCmdOutgoing
     {
         UINT16 opcode{ 0x115 };
-        ULONG time;
+        ULONG timestamp;
 
-        ServerCmdTimeOutgoing() = default;
+        ServerTimeCmdOutgoing() = default;
 
-        ServerCmdTimeOutgoing(ULONG time)
-            : time(time)
+        ServerTimeCmdOutgoing(ULONG timestamp)
+            : timestamp(timestamp)
         {
         }
     };
