@@ -8,9 +8,6 @@
     <Filter Include="include\common">
       <UniqueIdentifier>{00a0a9e7-3372-40cf-89df-0f5a7cd1a7da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{841c0f40-1e66-4001-b860-811e30f2ff99}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\Attribute.h">
@@ -40,9 +37,6 @@
     <ClInclude Include="include\common\SkillTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\ServerTime.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\common\ItemTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
@@ -52,10 +46,8 @@
     <ClInclude Include="include\common\QuestTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ServerTime.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClInclude Include="include\common\DateTime.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

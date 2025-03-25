@@ -14,6 +14,7 @@
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\common\Attribute.h" />
     <ClInclude Include="include\common\Country.h" />
+    <ClInclude Include="include\common\DateTime.h" />
     <ClInclude Include="include\common\Family.h" />
     <ClInclude Include="include\common\Grow.h" />
     <ClInclude Include="include\common\ItemTypes.h" />
@@ -23,10 +24,6 @@
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\SkillTypes.h" />
     <ClInclude Include="include\common\UserTypes.h" />
-    <ClInclude Include="include\ServerTime.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ServerTime.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

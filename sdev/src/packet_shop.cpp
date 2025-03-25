@@ -1,6 +1,6 @@
 ﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/ServerTime.h>
+#include <shaiya/include/common/DateTime.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
@@ -98,9 +98,9 @@ namespace packet_shop
         SYSTEMTIME lt{};
         GetLocalTime(&lt);
 
-        auto purchaseDate = ServerTime::from_SYSTEMTIME(lt);
+        auto purchaseDate = DateTime::encode(lt);
         auto purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
-
+        
         DBAgentPointGiftItemIncoming packet(user->userId, targetName, productCode, itemPrice, purchaseDate, purchaseNumber);
         NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentPointGiftItemIncoming));
 
