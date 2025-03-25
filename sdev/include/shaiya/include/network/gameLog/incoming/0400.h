@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/GameLogMain.h"
@@ -23,7 +24,7 @@ namespace shaiya
         UINT32 itemId;
         ItemName itemName;
         Gems gems;
-        ULONG makeTime;
+        MakeTime makeTime;
         CraftName craftName;
         GameLogItemCreateType createType;
         UINT8 count;
@@ -54,7 +55,7 @@ namespace shaiya
         UINT32 itemId;
         ItemName itemName;
         Gems gems;
-        ULONG makeTime;
+        MakeTime makeTime;
         CraftName craftName;
         UINT8 bag;
         UINT8 slot;
@@ -86,7 +87,7 @@ namespace shaiya
         UINT32 itemId;
         ItemName itemName;
         Gems gems;
-        ULONG makeTime;
+        MakeTime makeTime;
         CraftName craftName;
         UINT64 oldItemUid;
         UINT32 oldItemId;
@@ -118,7 +119,7 @@ namespace shaiya
         UINT32 itemId;
         ItemName itemName;
         Gems gems;
-        ULONG makeTime;
+        MakeTime makeTime;
         CraftName craftName;
         UINT64 oldItemUid1;
         UINT64 oldItemUid2;

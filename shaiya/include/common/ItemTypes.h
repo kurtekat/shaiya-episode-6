@@ -17,6 +17,8 @@ namespace shaiya
     template<size_t N>
     using ItemQualityLv = std::array<uint8_t, N>;
 
+    using MakeTime = unsigned long;
+
     using ProductCode = std::array<char, 21>;
     using ProductName = std::array<char, 51>;
 

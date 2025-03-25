@@ -33,7 +33,7 @@ namespace shaiya
         Gems gems;                 //0x46
         CraftName craftName;       //0x4C
         PAD(3);
-        ULONG makeTime;            //0x64
+        MakeTime makeTime;         //0x64
         MakeType makeType;         //0x68
         PAD(3);
         DWORD enablePickTick;      //0x6C
