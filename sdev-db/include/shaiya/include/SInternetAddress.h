@@ -8,10 +8,10 @@ namespace shaiya
     struct SInternetAddress
     {
         // AF_INET
-        USHORT family;
-        USHORT port;
-        ULONG ip;
-        CharArray<8> zero;
+        uint16_t family;
+        uint16_t port;
+        uint32_t ipv4;
+        char zero[8];
     };
     #pragma pack(pop)
 

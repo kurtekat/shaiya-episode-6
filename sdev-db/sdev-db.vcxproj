@@ -21,23 +21,43 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
+    <ClInclude Include="include\shaiya\include\BaseItem.h" />
+    <ClInclude Include="include\shaiya\include\BillingItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\BlockInfo.h" />
+    <ClInclude Include="include\shaiya\include\CCharacterList.h" />
     <ClInclude Include="include\shaiya\include\CItem.h" />
+    <ClInclude Include="include\shaiya\include\ConcernMarket.h" />
+    <ClInclude Include="include\shaiya\include\CPointItem.h" />
+    <ClInclude Include="include\shaiya\include\CQuest.h" />
+    <ClInclude Include="include\shaiya\include\CQuick.h" />
+    <ClInclude Include="include\shaiya\include\CSkill.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
-    <ClInclude Include="include\shaiya\include\network\incoming\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\incoming\0600.h" />
-    <ClInclude Include="include\shaiya\include\network\incoming\0700.h" />
-    <ClInclude Include="include\shaiya\include\network\incoming\0E00.h" />
-    <ClInclude Include="include\shaiya\include\network\outgoing\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\outgoing\0E00.h" />
+    <ClInclude Include="include\shaiya\include\DBCharacterList.h" />
+    <ClInclude Include="include\shaiya\include\DeleteFriend.h" />
+    <ClInclude Include="include\shaiya\include\DeleteItem.h" />
+    <ClInclude Include="include\shaiya\include\DeleteQuest.h" />
+    <ClInclude Include="include\shaiya\include\FriendInfo.h" />
+    <ClInclude Include="include\shaiya\include\SavePoint.h" />
+    <ClInclude Include="include\shaiya\include\SaveType.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionParam.h" />
     <ClInclude Include="include\shaiya\include\SDatabase.h" />
     <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
+    <ClInclude Include="include\shaiya\include\SDBDispatchClient.h" />
     <ClInclude Include="include\shaiya\include\SInternetAddress.h" />
     <ClInclude Include="include\shaiya\include\SLog.h" />
     <ClInclude Include="include\shaiya\include\SNode.h" />
+    <ClInclude Include="include\shaiya\include\SPacketBufferSend.h" />
+    <ClInclude Include="include\shaiya\include\SQueuePrioritySendNode.h" />
+    <ClInclude Include="include\shaiya\include\SQueueSendNode.h" />
+    <ClInclude Include="include\shaiya\include\SQueueStatusNode.h" />
     <ClInclude Include="include\shaiya\include\SSyncList.h" />
     <ClInclude Include="include\shaiya\include\SSyncQueueBuffer.h" />
     <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h" />
+    <ClInclude Include="include\shaiya\include\PointItemGift.h" />
+    <ClInclude Include="include\shaiya\include\PointLog.h" />
+    <ClInclude Include="include\shaiya\include\SSyncQueueStatus.h" />
+    <ClInclude Include="include\shaiya\include\StatResetBackup.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -94,7 +114,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>
       </AdditionalOptions>
@@ -105,7 +125,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +142,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalOptions>
       </AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -134,7 +154,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>

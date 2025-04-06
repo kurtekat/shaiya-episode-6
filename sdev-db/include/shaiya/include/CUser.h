@@ -1,4 +1,6 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
@@ -7,153 +9,162 @@
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/UserTypes.h>
+#include "include/shaiya/include/BaseItem.h"
+#include "include/shaiya/include/BillingItemInfo.h"
+#include "include/shaiya/include/BlockInfo.h"
+#include "include/shaiya/include/CCharacterList.h"
+#include "include/shaiya/include/ConcernMarket.h"
+#include "include/shaiya/include/CPointItem.h"
+#include "include/shaiya/include/CQuick.h"
+#include "include/shaiya/include/CSkill.h"
+#include "include/shaiya/include/DeleteFriend.h"
+#include "include/shaiya/include/DeleteItem.h"
+#include "include/shaiya/include/DeleteQuest.h"
+#include "include/shaiya/include/FriendInfo.h"
+#include "include/shaiya/include/PointItemGift.h"
+#include "include/shaiya/include/PointLog.h"
+#include "include/shaiya/include/SavePoint.h"
+#include "include/shaiya/include/SDBDispatchClient.h"
+#include "include/shaiya/include/SNode.h"
+#include "include/shaiya/include/SSyncList.h"
+#include "include/shaiya/include/StatResetBackup.h"
 
 namespace shaiya
 {
     struct CItem;
+    struct CQuest;
+    struct CSkill;
     struct SConnection;
 
+    using CharacterList = Array<CCharacterList, 5>;
     using Inventory = Array<Array<CItem*, 24>, 6>;
     using Warehouse = Array<CItem*, 240>;
-    using StoredPointItems = Warehouse;
+    using ProductLog = Array<PointLog, 10>;
+    using StoredPointItems = Array<CPointItem*, 240>;
+    using Bank = Array<BillingItemInfo, 240>;
 
-    #pragma pack(push, 1)
-    struct Character
+    enum struct UserWhere : int32_t
     {
-        ULONG id;               //0x00
-        ULONG regDate;          //0x04
-        UINT8 slot;             //0x08
-        Family family;          //0x09
-        Grow grow;              //0x0A
-        UINT8 hair;             //0x0B
-        UINT8 face;             //0x0C
-        UINT8 size;             //0x0D
-        Job job;                //0x0E
-        Sex sex;                //0x0F
-        UINT16 level;           //0x10
-        UINT16 strength;        //0x12
-        UINT16 dexterity;       //0x14
-        UINT16 reaction;        //0x16
-        UINT16 intelligence;    //0x18
-        UINT16 wisdom;          //0x1A
-        UINT16 luck;            //0x1C
-        UINT16 health;          //0x1E
-        UINT16 mana;            //0x20
-        UINT16 stamina;         //0x22
-        UINT16 mapId;           //0x24
-        PAD(2);
-        ULONG deleteDate;       //0x28
-        ItemArray<8> equipment; //0x2C
-        CloakBadge cloakBadge;  //0x3C
-        CharName name;          //0x42
-        PAD(1);
-        bool nameChange;        //0x58
-        PAD(3);
-        // 0x5C
+        Default,
+        WorldLeave,
+        WorldEnter
     };
-    #pragma pack(pop)
-
-    static_assert(sizeof(Character) == 0x5C);
-    using CharacterList = Array<Character, 5>;
 
     #pragma pack(push, 1)
-    struct ProductItem
+    struct CUser : SDBDispatchClient, SNode
     {
+        uint32_t billingId;                   //0x38
+        int32_t serverId;                     //0x3C
+        Username username;                    //0x40
+        uint32_t charId;                      //0x60
+        uint8_t slot;                         //0x64
+        Country country;                      //0x65
+        Grow maxGrow;                         //0x66
+        Family family;                        //0x67
+        Grow grow;                            //0x68
+        uint8_t hair;                         //0x69
+        uint8_t face;                         //0x6A
+        uint8_t size;                         //0x6B
+        Job job;                              //0x6C
+        Sex sex;                              //0x6D
+        uint16_t level;                       //0x6E
+        uint16_t statusPoints;                //0x70
+        uint16_t skillPoints;                 //0x72
+        uint32_t exp;                         //0x74
+        uint32_t money;                       //0x78
+        uint32_t bankMoney;                   //0x7C
+        uint32_t kills;                       //0x80
+        uint32_t deaths;                      //0x84
+        uint32_t wins;                        //0x88
+        uint32_t losses;                      //0x8C
+        uint32_t killLv;                      //0x90
+        uint32_t deathLv;                     //0x94
+        uint16_t mapId;                       //0x98
+        uint16_t direction;                   //0x9A
+        float posX;                           //0x9C
+        float posY;                           //0xA0
+        float posZ;                           //0xA4
+        uint16_t honor;                       //0xA8
+        int16_t vg;                           //0xAA
+        uint8_t cg;                           //0xAC
+        uint8_t og;                           //0xAD
+        uint8_t ig;                           //0xAE
+        PAD(1);
+        uint16_t strength;                    //0xB0
+        uint16_t dexterity;                   //0xB2
+        uint16_t intelligence;                //0xB4
+        uint16_t wisdom;                      //0xB6
+        uint16_t reaction;                    //0xB8
+        uint16_t luck;                        //0xBA
+        uint16_t health;                      //0xBC
+        uint16_t mana;                        //0xBE
+        uint16_t stamina;                     //0xC0
+        PAD(2);
+        // 259200000
+        tick32_t nextGuildJoinTime;           //0xC4
+        CharName charName;                    //0xC8
+        PAD(3);
+        Inventory inventory;                  //0xE0
+        Warehouse warehouse;                  //0x320
+        Bank bank;                            //0x6E0
+        SSyncList<CSkill> applySkills;        //0x33E0
+        int32_t skillCount;                   //0x340C
+        Array<CSkill*, 256> skills;           //0x3410
+        int32_t quickSlotCount;               //0x3810
+        Array<CQuick, 128> quickSlots;        //0x3814
+        SSyncList<CQuest> quests;             //0x3B14
+        SSyncList<CQuest> completedQuests;    //0x3B40
+        CharacterList characterList;          //0x3B6C
+        int32_t baseItemCount;                //0x3D38
         PAD(4);
-        ProductCode productCode;  //0x04
-        PAD(3);
-        ULONG purchaseDate;       //0x1C
-        UINT32 itemPrice;         //0x20
-        // 0x24
-    };
-    #pragma pack(pop)
-
-    static_assert(sizeof(ProductItem) == 0x24);
-    using ProductLog = Array<ProductItem, 10>;
-
-    #pragma pack(push, 1)
-    struct CUser
-    {
-        PAD(56);
-        ULONG userId;                 //0x38
-        UINT32 serverId;              //0x3C
-        Username username;            //0x40
-        ULONG charId;                 //0x60
-        UINT8 slot;                   //0x64
-        Country country;              //0x65
-        Grow maxGrow;                 //0x66
-        Family family;                //0x67
-        Grow grow;                    //0x68
-        UINT8 hair;                   //0x69
-        UINT8 face;                   //0x6A
-        UINT8 size;                   //0x6B
-        Job job;                      //0x6C
-        Sex sex;                      //0x6D
-        UINT16 level;                 //0x6E
-        UINT16 statPoint;             //0x70
-        UINT16 skillPoint;            //0x72
-        UINT32 exp;                   //0x74
-        UINT32 money;                 //0x78
-        UINT32 bankMoney;             //0x7C
-        UINT32 kills;                 //0x80
-        UINT32 deaths;                //0x84
-        UINT32 wins;                  //0x88
-        UINT32 losses;                //0x8C
-        UINT16 killLv;                //0x90
+        Array<BaseItem, 10> baseItems;        //0x3D40
+        Array<FriendInfo, 100> friends;       //0x4060
+        Array<BlockInfo, 100> blocks;         //0x6130
+        StatResetBackup statResetBackup;      //0x8070
         PAD(2);
-        UINT16 deathLv;               //0x94
-        PAD(2);
-        UINT16 mapId;                 //0x98
-        UINT16 direction;             //0x9A
-        float posX;                   //0x9C
-        float posY;                   //0xA0
-        float posZ;                   //0xA4
-        UINT16 honor;                 //0xA8
-        INT16 vg;                     //0xAA
-        UINT8 cg;                     //0xAC
-        UINT8 og;                     //0xAD
-        UINT8 ig;                     //0xAE
-        PAD(1);
-        UINT16 strength;              //0xB0
-        UINT16 dexterity;             //0xB2
-        UINT16 intelligence;          //0xB4
-        UINT16 wisdom;                //0xB6
-        UINT16 reaction;              //0xB8
-        UINT16 luck;                  //0xBA
-        UINT16 health;                //0xBC
-        UINT16 mana;                  //0xBE
-        UINT16 stamina;               //0xC0
-        PAD(6);
-        CharName charName;            //0xC8
-        PAD(3);
-        Inventory inventory;          //0xE0
-        Warehouse warehouse;          //0x320
-        // 0x6E0
-        PAD(13452);
-        CharacterList characterList;  //0x3B6C
-        // 0x3D38
-        PAD(17236);
-        CharName newCharName;         //0x808C
+        time32_t charExitTime;                //0x8084
+        int32_t charRenameSlot;               //0x8088
+        CharName newCharName;                 //0x808C
         // 0x80A1
-        PAD(83);
-        UINT32 points;                //0x80F4
-        ProductLog productLog;        //0x80F8
-        CharName giftTargetName;      //0x8260
-        ProductCode giftProductCode;  //0x8275
+        PAD(3);
+        Array<SavePoint, 4> savePoints;       //0x80A4
+        uint32_t points;                      //0x80F4
+        ProductLog productLog;                //0x80F8
+        PointItemGift pointItemGift;          //0x8260
+        StoredPointItems storedPointItems;    //0x8298
+        uint32_t purchaseTargetId;            //0x8658
+        uint32_t purchaseNumber;              //0x865C
+        uint32_t autoConnectWar;              //0x8660
+        uint32_t guildId;                     //0x8664
+        ConcernMarket concernMarket;          //0x8668
+        bool appearanceChange;                //0x86B0
+        bool skillReset;                      //0x86B1
         PAD(2);
-        UINT32 giftItemPrice;         //0x828C
-        ULONG giftPurchaseDate;       //0x8290
-        UINT32 giftPurchaseNumber;    //0x8294
-        StoredPointItems giftItems;   //0x8298
-        ULONG purchaseTargetId;       //0x8658
-        UINT32 purchaseNumber;        //0x865C
-        PAD(408);
-        SConnection* connection;      //0x87F8
-        PAD(92);
+        int32_t dbSkillCount;                     //0x86B4
+        SSyncList<DeleteItem> deleteItems;        //0x86B8
+        SSyncList<DeleteItem> deleteStoredItems;  //0x86E4
+        SSyncList<DeleteQuest> deleteQuests;      //0x8710
+        SSyncList<DeleteFriend> deleteFriends;    //0x873C
+        SSyncList<DeleteFriend> deleteBlocks;     //0x8768
+        PAD(28); // pointItems (std::list)        //0x8794
+        CRITICAL_SECTION csPointItems;            //0x87B0
+        volatile unsigned pointsLock;             //0x87C8
+        SSyncList<DeleteFriend> pointUpdates;     //0x87CC
+        SConnection* connection;              //0x87F8
+        CRITICAL_SECTION csUser;              //0x87FC
+        UserWhere where;                      //0x8814
+        bool saveCountry;                     //0x8818
+        PAD(3);
+        // 900000
+        tick32_t nextDBSaveTime;              //0x881C
+        PAD(4);
+        CRITICAL_SECTION csItems;             //0x8824
+        CRITICAL_SECTION csSkills;            //0x883C
+        PAD(4);
         // 0x8858
 
         // custom
-        Array<ItemArray<24>, 5> equipment;
+        Array<ItemList<24>, 5> equipment;  //0x8858
     };
     #pragma pack(pop)
 

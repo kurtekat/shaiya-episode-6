@@ -1,9 +1,10 @@
-#include <array>
 #include <util/util.h>
+#include <shaiya/include/common.h>
+#include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/DBCharacterList.h"
 #include "include/shaiya/include/SConnection.h"
-#include "include/shaiya/include/network/outgoing/0400.h"
 using namespace shaiya;
 
 namespace character_list
@@ -12,70 +13,73 @@ namespace character_list
     /// Sends packet 0x403 to the game service.
     /// </summary>
     /// <param name="user"></param>
-    /// <param name="sendCountry">Determines whether the game service sends packet 0x109 to the user.</param>
+    /// <param name="sendCountry"></param>
     void send(CUser* user, bool sendCountry)
     {
-        DBAgentCharListOutgoing_EP6_4 outgoing{};
-        outgoing.userId = user->userId;
-        outgoing.sendCountry = sendCountry;
+        DBAgentCharListOutgoing<DBCharacterList_EP6_4> outgoing{};
+        outgoing.billingId = user->billingId;
+        outgoing.withCountry = sendCountry;
         outgoing.characterCount = 0;
 
         for (const auto& character : user->characterList)
         {
-            if (!character.id || character.slot >= user->characterList.size())
+            if (!character.charId || character.slot >= user->characterList.size())
                 continue;
 
-            Character0403_EP6_4 character0403{};
-            character0403.id = character.id;
-            character0403.regDate = character.regDate;
-            character0403.nameChange = character.nameChange;
-            character0403.slot = character.slot;
-            character0403.family = character.family;
-            character0403.grow = character.grow;
-            character0403.hair = character.hair;
-            character0403.face = character.face;
-            character0403.size = character.size;
-            character0403.job = character.job;
-            character0403.sex = character.sex;
-            character0403.level = character.level;
-            character0403.strength = character.strength;
-            character0403.dexterity = character.dexterity;
-            character0403.reaction = character.reaction;
-            character0403.intelligence = character.intelligence;
-            character0403.wisdom = character.wisdom;
-            character0403.luck = character.luck;
-            character0403.health = character.health;
-            character0403.mana = character.mana;
-            character0403.stamina = character.stamina;
-            character0403.mapId = character.mapId;
-            character0403.deleteDate = character.deleteDate;
+            DBCharacterList_EP6_4 dbCharacter{};
+            dbCharacter.charId = character.charId;
+            dbCharacter.createDate = character.createDate;
+            dbCharacter.enableRename = character.enableRename;
+            dbCharacter.slot = character.slot;
+            dbCharacter.family = character.family;
+            dbCharacter.grow = character.grow;
+            dbCharacter.hair = character.hair;
+            dbCharacter.face = character.face;
+            dbCharacter.size = character.size;
+            dbCharacter.job = character.job;
+            dbCharacter.sex = character.sex;
+            dbCharacter.level = character.level;
+            dbCharacter.strength = character.strength;
+            dbCharacter.dexterity = character.dexterity;
+            dbCharacter.reaction = character.reaction;
+            dbCharacter.intelligence = character.intelligence;
+            dbCharacter.wisdom = character.wisdom;
+            dbCharacter.luck = character.luck;
+            dbCharacter.health = character.health;
+            dbCharacter.mana = character.mana;
+            dbCharacter.stamina = character.stamina;
+            dbCharacter.mapId = character.mapId;
+            dbCharacter.deleteDate = character.deleteDate;
             std::copy_n(
                 user->equipment[character.slot].type.begin(), 
-                character0403.equipment.type.size(), 
-                character0403.equipment.type.begin()
+                dbCharacter.equipment.type.size(),
+                dbCharacter.equipment.type.begin()
             );
             std::copy_n(
-                user->equipment[character.slot].typeId.begin(), 
-                character0403.equipment.typeId.size(), 
-                character0403.equipment.typeId.begin()
+                user->equipment[character.slot].typeId.begin(),
+                dbCharacter.equipment.typeId.size(), 
+                dbCharacter.equipment.typeId.begin()
             );
-            character0403.cloakBadge = character.cloakBadge;
-            character0403.charName = character.name;
-            outgoing.characterList[outgoing.characterCount] = character0403;
+            dbCharacter.cloakInfo = character.cloakInfo;
+            dbCharacter.charName = character.charName;
 
+            outgoing.characterList[outgoing.characterCount] = dbCharacter;
             ++outgoing.characterCount;
         }
 
         if (!user->connection)
             return;
 
-        int length = outgoing.baseLength + (outgoing.characterCount * sizeof(Character0403_EP6_4));
+        int length = outgoing.baseLength + (outgoing.characterCount * sizeof(DBCharacterList_EP6_4));
         SConnection::Send(user->connection, &outgoing, length);
     }
 
-    void assign_equipment(CUser* user, uint8_t characterSlot, uint8_t equipmentSlot, uint8_t type, uint8_t typeId)
+    void assign_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
     {
-        if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
+        if (std::cmp_greater_equal(characterSlot, user->characterList.size()))
+            return;
+
+        if (equipmentSlot >= max_equipment_slot)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;

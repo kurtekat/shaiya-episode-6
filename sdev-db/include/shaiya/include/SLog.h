@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdio>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -11,8 +13,6 @@ namespace shaiya
         FILE* stream;         //0x04
         CRITICAL_SECTION cs;  //0x08
         // 0x20
-
-        static bool PrintFileDirect(SLog* log, const char* format, ...);
     };
     #pragma pack(pop)
 

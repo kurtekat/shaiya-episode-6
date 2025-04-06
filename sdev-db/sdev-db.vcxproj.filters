@@ -22,15 +22,6 @@
     <Filter Include="include\shaiya\src">
       <UniqueIdentifier>{0d90b2b8-763c-42b0-b724-9480d0d68042}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\include\network">
-      <UniqueIdentifier>{86785f2b-29d5-4bed-a9f7-e6fdd7d0fce7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\shaiya\include\network\incoming">
-      <UniqueIdentifier>{a965cf81-a53a-4473-931b-561092d125ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\shaiya\include\network\outgoing">
-      <UniqueIdentifier>{b55fda47-d609-4b1f-8258-1676928abd9a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shaiya\include\CUser.h">
@@ -44,24 +35,6 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CItem.h">
       <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\0E00.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\0400.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\0600.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\0700.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\0E00.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\0400.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SConnection.h">
       <Filter>include\shaiya\include</Filter>
@@ -88,6 +61,84 @@
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SConnectionParam.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\PointLog.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\PointItemGift.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CPointItem.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SavePoint.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SaveType.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\BillingItemInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CSkill.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CQuick.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SPacketBufferSend.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SQueueSendNode.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SQueuePrioritySendNode.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SDBDispatchClient.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SQueueStatusNode.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CQuest.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\BaseItem.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\BlockInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\FriendInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\StatResetBackup.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\DeleteItem.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\DeleteQuest.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\DeleteFriend.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ConcernMarket.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CCharacterList.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\DBCharacterList.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SSyncQueueStatus.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

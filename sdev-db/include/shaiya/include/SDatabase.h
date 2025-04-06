@@ -11,19 +11,21 @@ namespace shaiya
     struct SLog;
 
     #pragma pack(push, 1)
-    struct SDatabase
+    struct SDatabase : SNode
     {
-        SNode node;               //0x00
-        PAD(4);
-        SQLINTEGER queryError;    //0x0C
-        SQLINTEGER* nativeError;  //0x10
-        SQLCHAR* sqlState;        //0x14
-        PAD(2060);
-        SLog* log;                //0x824
-        SQLHENV env;              //0x828
-        SQLHDBC dbc;              //0x82C
-        SQLHSTMT stmt;            //0x830
-        PAD(4);
+        bool transacting;             //0x08
+        PAD(3);
+        SQLINTEGER queryError;        //0x0C
+        SQLINTEGER* nativeError;      //0x10
+        Array<SQLCHAR, 16> sqlState;  //0x14
+        CharArray<2048> errorMsg;     //0x24
+        SLog* log;                    //0x824
+        SQLHENV env;                  //0x828
+        SQLHDBC dbc;                  //0x82C
+        SQLHSTMT stmt;                //0x830
+        bool disconnectRequested;     //0x834
+        bool disconnectError;         //0x835
+        PAD(2);
         // 0x838
 
         static short ExecuteSql(SDatabase* db/*ecx*/);

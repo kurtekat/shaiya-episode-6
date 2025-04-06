@@ -4,13 +4,13 @@
 #include <sql.h>
 #include <sqlext.h>
 #include <util/util.h>
+#include <shaiya/include/network/dbAgent/incoming/0400.h>
+#include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/SConnection.h"
 #include "include/shaiya/include/SDatabase.h"
 #include "include/shaiya/include/SDatabasePool.h"
-#include "include/shaiya/include/network/incoming/0400.h"
-#include "include/shaiya/include/network/outgoing/0400.h"
 using namespace shaiya;
 
 namespace user_character
@@ -58,7 +58,7 @@ namespace user_character
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void name_available_handler(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
+    void handler_0x40D(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
         bool available = is_name_available(incoming->name.data());
@@ -66,7 +66,9 @@ namespace user_character
         if (!user->connection)
             return;
 
-        DBAgentCharNameAvailableOutgoing outgoing(user->userId, available);
+        DBAgentCharNameAvailableOutgoing outgoing{};
+        outgoing.billingId = user->billingId;
+        outgoing.available = available;
         SConnection::Send(user->connection, &outgoing, sizeof(DBAgentCharNameAvailableOutgoing));
     }
 }
@@ -87,7 +89,7 @@ void __declspec(naked) naked_0x4061D3()
 
         push eax // packet
         push ecx // user
-        call user_character::name_available_handler
+        call user_character::handler_0x40D
         add esp,0x8
 
         popad

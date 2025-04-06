@@ -1,20 +1,23 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/ItemTypes.h>
+#include "include/shaiya/include/SaveType.h"
+#include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CItem
+    struct CItem : SNode
     {
-        PAD(16);
-        UINT64 uniqueId;      //0x10
-        UINT32 itemId;        //0x18
-        UINT8 type;           //0x1C
-        UINT8 typeId;         //0x1D
-        UINT8 count;          //0x1E
+        SaveType saveType;    //0x08
+        PAD(4);
+        uint64_t uniqueId;    //0x10
+        uint32_t itemId;      //0x18
+        uint8_t type;         //0x1C
+        uint8_t typeId;       //0x1D
+        uint8_t count;        //0x1E
         PAD(1);
-        UINT16 quality;       //0x20
+        uint16_t quality;     //0x20
         Gems gems;            //0x22
         CraftName craftName;  //0x28
         PAD(3);
