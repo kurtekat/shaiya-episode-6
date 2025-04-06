@@ -95,7 +95,7 @@ CreateType=30
 CreateTypeID=41
 ```
 
-Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow `ReqIg` values 30 and 99. 
+Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack or `ReqIg` values 30 and 99. 
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
@@ -137,7 +137,7 @@ CreateType=95
 CreateTypeID=9
 ```
 
-Lapisian combination requires 1 Crowley Liquid.
+Lapisian combination requires 1 Crowley Liquid. The client does not allow more than one lapisian from the same stack.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
