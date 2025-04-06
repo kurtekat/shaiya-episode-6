@@ -10,12 +10,7 @@ namespace shaiya
         uint16_t opcode{ 0x803 };
         uint8_t bag;
         uint8_t slot;
-        uint8_t frontPattern;
-        uint8_t backPattern;
-        uint8_t emblem;
-        uint8_t frontPatternColor;
-        uint8_t backPatternColor;
-        uint8_t emblemColor;
+        CloakInfo cloakInfo;
     };
     #pragma pack(pop)
 

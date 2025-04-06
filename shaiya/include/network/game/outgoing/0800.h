@@ -13,12 +13,7 @@ namespace shaiya
         bool success;
         uint8_t bag;
         uint8_t slot;
-        uint8_t frontPattern;
-        uint8_t backPattern;
-        uint8_t emblem;
-        uint8_t frontPatternColor;
-        uint8_t backPatternColor;
-        uint8_t emblemColor;
+        CloakInfo cloakInfo;
         uint32_t money;
     };
     #pragma pack(pop)
@@ -51,8 +46,8 @@ namespace shaiya
         uint8_t materialBag;
         uint8_t materialSlot;
         uint8_t materialCount;
-        uint8_t equipmentBag;
-        uint8_t equipmentSlot;
+        uint8_t itemBag;
+        uint8_t itemSlot;
         uint32_t money;
         CraftName craftName;
     };

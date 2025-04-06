@@ -250,9 +250,6 @@
     <ClInclude Include="include\network\game\outgoing\0700.h">
       <Filter>include\network\game\outgoing</Filter>
     </ClInclude>
-    <ClInclude Include="include\network\game\RewardItemUnit.h">
-      <Filter>include\network\game</Filter>
-    </ClInclude>
     <ClInclude Include="include\network\game\ItemUnit.h">
       <Filter>include\network\game</Filter>
     </ClInclude>

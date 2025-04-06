@@ -156,10 +156,10 @@ namespace shaiya
 
     enum struct GameUserKillCountByIndex : uint8_t
     {
-        Kill,
-        Death,
-        Win,
-        Loss
+        Kills,
+        Deaths,
+        Wins,
+        Losses
     };
 
     #pragma pack(push, 1)

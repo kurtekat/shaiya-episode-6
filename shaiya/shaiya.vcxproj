@@ -98,7 +98,6 @@
     <ClInclude Include="include\network\game\PointStoredItemUnit.h" />
     <ClInclude Include="include\network\game\QuestItemUnit.h" />
     <ClInclude Include="include\network\game\QuickUnit.h" />
-    <ClInclude Include="include\network\game\RewardItemUnit.h" />
     <ClInclude Include="include\network\login\incoming\A100.h" />
     <ClInclude Include="include\network\login\incoming\A200.h" />
     <ClInclude Include="include\network\login\outgoing\A100.h" />
