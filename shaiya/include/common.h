@@ -1,7 +1,6 @@
 #pragma once
 #include <array>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include <cstdint>
 
 // thanks, Cups ^^
 #define CONCAT(x, y) x ## y
@@ -10,10 +9,16 @@
 
 namespace shaiya
 {
-    constexpr uint8_t max_equipment_slot = 24;
-    constexpr uint8_t max_inventory_slot = 24;
-    constexpr uint8_t max_warehouse_slot = 240;
-    constexpr uint8_t min_warehouse_slot = 120;
+    constexpr int max_equipment_slot = 24;
+    constexpr int max_inventory_slot = 24;
+    constexpr int max_warehouse_slot = 240;
+    constexpr int min_warehouse_slot = 120;
+
+    using bool32_t = uint32_t;
+    using tick32_t = uint32_t;
+    using time32_t = uint32_t;
+
+    using uint = unsigned int;
 
     template<class T, size_t N>
     using Array = std::array<T, N>;

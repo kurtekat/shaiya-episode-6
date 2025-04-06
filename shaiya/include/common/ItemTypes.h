@@ -4,20 +4,26 @@
 
 namespace shaiya
 {
-    using CloakBadge = std::array<uint8_t, 6>;
-    using CraftName = std::array<char, 21>;
     using Gems = std::array<uint8_t, 6>;
-
-    using ItemId = uint32_t;
+    using CloakInfo = Gems;
+    using CraftName = std::array<char, 21>;
     using ItemName = std::array<char, 32>;
+    using MakeTime = uint32_t;
+
+    #pragma pack(push, 1)
+    template<size_t N>
+    struct ItemList
+    {
+        std::array<uint8_t, N> type;
+        std::array<uint8_t, N> typeId;
+    };
+    #pragma pack(pop)
 
     template<size_t N>
     using ItemQuality = std::array<uint16_t, N>;
 
     template<size_t N>
     using ItemQualityLv = std::array<uint8_t, N>;
-
-    using MakeTime = unsigned long;
 
     using ProductCode = std::array<char, 21>;
     using ProductName = std::array<char, 51>;
@@ -31,36 +37,6 @@ namespace shaiya
         Skill = 100,
         BasicAction = 101
     };
-
-    #pragma pack(push, 1)
-    struct BillingItem
-    {
-        uint8_t type;
-        uint8_t typeId;
-        uint8_t count;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct EquipmentItem
-    {
-        uint8_t type;
-        uint8_t typeId;
-        uint8_t enchantStep;
-    };
-    #pragma pack(pop)
-
-    template<size_t N>
-    using Equipment = std::array<EquipmentItem, N>;
-
-    #pragma pack(push, 1)
-    template<size_t N>
-    struct ItemArray
-    {
-        std::array<uint8_t, N> type;
-        std::array<uint8_t, N> typeId;
-    };
-    #pragma pack(pop)
 
     enum struct ItemEffect : uint8_t
     {

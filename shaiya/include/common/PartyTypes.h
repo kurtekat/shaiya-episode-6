@@ -3,7 +3,7 @@
 
 namespace shaiya
 {
-    enum struct ItemDivType : uint32_t
+    enum struct DivType : int32_t
     {
         Group = 1,
         Random,
@@ -14,15 +14,15 @@ namespace shaiya
     enum struct PartyType : uint8_t
     {
         None,
-        Member,
-        Leader
+        User,
+        Boss
     };
 
-    enum struct UnionType : uint32_t
+    enum struct UnionType : int32_t
     {
-        Leader,
-        SubLeader,
-        Member,
-        Default = UINT32_MAX
+        Default = -1,
+        Boss,
+        SubBoss,
+        User
     };
 }

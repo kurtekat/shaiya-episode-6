@@ -20,10 +20,89 @@
     <ClInclude Include="include\common\ItemTypes.h" />
     <ClInclude Include="include\common\Job.h" />
     <ClInclude Include="include\common\PartyTypes.h" />
-    <ClInclude Include="include\common\QuestTypes.h" />
+    <ClInclude Include="include\common\NpcTypes.h" />
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\SkillTypes.h" />
     <ClInclude Include="include\common\UserTypes.h" />
+    <ClInclude Include="include\network\dbAgent\DBQuickUnit.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0400.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0600.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0700.h" />
+    <ClInclude Include="include\network\dbAgent\incoming\0E00.h" />
+    <ClInclude Include="include\network\dbAgent\outgoing\0400.h" />
+    <ClInclude Include="include\network\dbAgent\outgoing\0E00.h" />
+    <ClInclude Include="include\network\gameLog\GameLogItem.h" />
+    <ClInclude Include="include\network\gameLog\GameLogItemCompose.h" />
+    <ClInclude Include="include\network\gameLog\GameLogItemDrop.h" />
+    <ClInclude Include="include\network\gameLog\GameLogItemGet.h" />
+    <ClInclude Include="include\network\gameLog\GameLogItemRemake.h" />
+    <ClInclude Include="include\network\gameLog\GameLogMain.h" />
+    <ClInclude Include="include\network\gameLog\GameLogQuest.h" />
+    <ClInclude Include="include\network\gameLog\GameLogQuestEnd.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0400.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0500.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0900.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0A00.h" />
+    <ClInclude Include="include\network\gameLog\incoming\0C00.h" />
+    <ClInclude Include="include\network\game\BankUnit.h" />
+    <ClInclude Include="include\network\game\BillingItemUnit.h" />
+    <ClInclude Include="include\network\game\GetInfoItemUnit.h" />
+    <ClInclude Include="include\network\game\GuildBankUnit.h" />
+    <ClInclude Include="include\network\game\GuildJoinUserUnit.h" />
+    <ClInclude Include="include\network\game\incoming\0100.h" />
+    <ClInclude Include="include\network\game\incoming\0200.h" />
+    <ClInclude Include="include\network\game\incoming\0300.h" />
+    <ClInclude Include="include\network\game\incoming\0500.h" />
+    <ClInclude Include="include\network\game\incoming\0700.h" />
+    <ClInclude Include="include\network\game\incoming\0800.h" />
+    <ClInclude Include="include\network\game\incoming\0900.h" />
+    <ClInclude Include="include\network\game\incoming\0A00.h" />
+    <ClInclude Include="include\network\game\incoming\0B00.h" />
+    <ClInclude Include="include\network\game\GetInfoItemType.h" />
+    <ClInclude Include="include\network\game\incoming\1100.h" />
+    <ClInclude Include="include\network\game\incoming\2200.h" />
+    <ClInclude Include="include\network\game\incoming\2500.h" />
+    <ClInclude Include="include\network\game\incoming\2600.h" />
+    <ClInclude Include="include\network\game\incoming\B100.h" />
+    <ClInclude Include="include\network\game\incoming\F100.h" />
+    <ClInclude Include="include\network\game\incoming\F800.h" />
+    <ClInclude Include="include\network\game\incoming\F900.h" />
+    <ClInclude Include="include\network\game\incoming\FA00.h" />
+    <ClInclude Include="include\network\game\ItemUnit.h" />
+    <ClInclude Include="include\network\game\MyShopUnit.h" />
+    <ClInclude Include="include\network\game\outgoing\0100.h" />
+    <ClInclude Include="include\network\game\outgoing\0200.h" />
+    <ClInclude Include="include\network\game\outgoing\0300.h" />
+    <ClInclude Include="include\network\game\outgoing\0400.h" />
+    <ClInclude Include="include\network\game\outgoing\0500.h" />
+    <ClInclude Include="include\network\game\outgoing\0600.h" />
+    <ClInclude Include="include\network\game\outgoing\0700.h" />
+    <ClInclude Include="include\network\game\outgoing\0800.h" />
+    <ClInclude Include="include\network\game\outgoing\0900.h" />
+    <ClInclude Include="include\network\game\outgoing\0A00.h" />
+    <ClInclude Include="include\network\game\outgoing\0B00.h" />
+    <ClInclude Include="include\network\game\outgoing\0D00.h" />
+    <ClInclude Include="include\network\game\outgoing\0E00.h" />
+    <ClInclude Include="include\network\game\outgoing\1100.h" />
+    <ClInclude Include="include\network\game\outgoing\2200.h" />
+    <ClInclude Include="include\network\game\outgoing\2300.h" />
+    <ClInclude Include="include\network\game\outgoing\2400.h" />
+    <ClInclude Include="include\network\game\outgoing\2500.h" />
+    <ClInclude Include="include\network\game\outgoing\2600.h" />
+    <ClInclude Include="include\network\game\outgoing\B100.h" />
+    <ClInclude Include="include\network\game\outgoing\F100.h" />
+    <ClInclude Include="include\network\game\outgoing\F500.h" />
+    <ClInclude Include="include\network\game\outgoing\F900.h" />
+    <ClInclude Include="include\network\game\PointItemUnit.h" />
+    <ClInclude Include="include\network\game\PointLogUnit.h" />
+    <ClInclude Include="include\network\game\PointStoredItemUnit.h" />
+    <ClInclude Include="include\network\game\QuestItemUnit.h" />
+    <ClInclude Include="include\network\game\QuickUnit.h" />
+    <ClInclude Include="include\network\game\RewardItemUnit.h" />
+    <ClInclude Include="include\network\login\incoming\A100.h" />
+    <ClInclude Include="include\network\login\incoming\A200.h" />
+    <ClInclude Include="include\network\login\outgoing\A100.h" />
+    <ClInclude Include="include\network\login\outgoing\A200.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -71,7 +150,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -92,7 +171,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir);</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

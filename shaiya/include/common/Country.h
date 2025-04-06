@@ -16,7 +16,7 @@ namespace shaiya
         Human,
         Elf,
         Light,
-        DeathEater,
+        Deatheater,
         Vail,
         Fury,
         Neutral

@@ -5,11 +5,11 @@ namespace shaiya
 {
     enum struct Job : uint8_t
     {
-        AttackFighter,
-        DefenseFighter,
-        PatrolRogue,
-        ShootRogue,
-        AttackMage,
-        DefenseMage
+        Fighter,
+        Defender,
+        Ranger,
+        Archer,
+        Mage,
+        Priest
     };
 }

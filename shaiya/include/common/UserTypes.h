@@ -4,9 +4,6 @@
 
 namespace shaiya
 {
-    using CharId = unsigned long;
-    using UserId = unsigned long;
-
     using CharName = std::array<char, 21>;
     using Username = std::array<char, 32>;
     using Password = std::array<char, 32>;

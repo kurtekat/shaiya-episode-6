@@ -91,7 +91,15 @@ namespace shaiya
         MultiplyQuestExp = 87
     };
 
-    enum struct SkillDebuffType : uint8_t
+    enum struct SkillCharmType : int32_t
+    {
+        None,
+        BlueDragon,
+        WhiteTiger,
+        RedPhoenix
+    };
+
+    enum struct SkillStatusType : uint8_t
     {
         None,
         Sleep,

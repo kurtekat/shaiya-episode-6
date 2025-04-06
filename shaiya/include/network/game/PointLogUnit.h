@@ -1,0 +1,16 @@
+#pragma once
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+
+namespace shaiya
+{
+    #pragma pack(push, 1)
+    // TP_POINTLOG_UNIT
+    struct PointLogUnit
+    {
+        ProductCode productCode;
+        time32_t purchaseDate;
+        uint32_t purchasePoints;
+    };
+    #pragma pack(pop)
+}

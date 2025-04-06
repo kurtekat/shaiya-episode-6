@@ -1,0 +1,42 @@
+#pragma once
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/UserTypes.h>
+
+namespace shaiya
+{
+    #pragma pack(push, 1)
+    // TPC_POINT_BUY
+    struct GamePointBuyIncoming
+    {
+        uint16_t opcode{ 0x2602 };
+        ProductCode productCode;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TPC_POINT_GIFT_SEND
+    struct GamePointGiftSendIncoming
+    {
+        uint16_t opcode{ 0x2603 };
+        ProductCode productCode;
+        CharName targetName;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GamePointRequest
+    {
+        uint16_t opcode{ 0x2605 };
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TPC_POINT_STORED_ITEMGET
+    struct GamePointStoredItemGetIncoming
+    {
+        uint16_t opcode{ 0x2607 };
+        uint8_t npcSlot;
+    };
+    #pragma pack(pop)
+}
