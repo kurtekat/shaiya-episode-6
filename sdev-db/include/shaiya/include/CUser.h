@@ -102,7 +102,7 @@ namespace shaiya
         PAD(2);
         // 259200000
         tick32_t nextGuildJoinTime;           //0xC4
-        CharName charName;                    //0xC8
+        String<21> charName;                  //0xC8
         PAD(3);
         Inventory inventory;                  //0xE0
         Warehouse warehouse;                  //0x320
@@ -124,7 +124,7 @@ namespace shaiya
         PAD(2);
         time32_t charExitTime;                //0x8084
         int32_t charRenameSlot;               //0x8088
-        CharName newCharName;                 //0x808C
+        String<21> newCharName;               //0x808C
         // 0x80A1
         PAD(3);
         Array<SavePoint, 4> savePoints;       //0x80A4

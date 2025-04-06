@@ -25,7 +25,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0x1102 };
         bool toSender;
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;
@@ -40,7 +40,7 @@ namespace shaiya
     struct GameChatWorldOutgoing
     {
         uint16_t opcode{ 0x1103 };
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;
@@ -93,7 +93,7 @@ namespace shaiya
     struct GameChatAllOutgoing
     {
         uint16_t opcode{ 0x1108 };
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;
@@ -108,7 +108,7 @@ namespace shaiya
     struct GameChatZoneOutgoing
     {
         uint16_t opcode{ 0x1111 };
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;

@@ -7,8 +7,6 @@ namespace shaiya
     using Gems = std::array<uint8_t, 6>;
     using CloakInfo = Gems;
     using CraftName = std::array<char, 21>;
-    using ItemName = std::array<char, 32>;
-    using MakeTime = uint32_t;
 
     #pragma pack(push, 1)
     template<size_t N>
@@ -24,9 +22,6 @@ namespace shaiya
 
     template<size_t N>
     using ItemQualityLv = std::array<uint8_t, N>;
-
-    using ProductCode = std::array<char, 21>;
-    using ProductName = std::array<char, 51>;
 
     enum struct Bag : uint8_t
     {

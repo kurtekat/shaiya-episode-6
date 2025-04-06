@@ -21,7 +21,7 @@ namespace shaiya
         uint8_t size;
         Job job;
         Sex sex;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 
@@ -63,7 +63,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0x10E };
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

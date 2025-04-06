@@ -8,7 +8,7 @@ namespace shaiya
     struct GameAdminCmdMoveCharIncoming
     {
         uint16_t opcode{ 0xF904 };
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 
@@ -16,7 +16,7 @@ namespace shaiya
     struct GameAdminCmdNoticeToIncoming
     {
         uint16_t opcode{ 0xF908 };
-        CharName targetName;
+        String<21> targetName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;

@@ -32,7 +32,7 @@ namespace shaiya
         uint32_t kills;           //0x14
         // 0x18
         Array<GetInfoItemType, 8> equipment;
-        CharName charName;        //0x30
+        String<21> charName;      //0x30
         CloakInfo cloakInfo;      //0x45
         String<25> guildName;     //0x4B
         uint8_t packetLength;     //0x64
@@ -62,7 +62,7 @@ namespace shaiya
         uint32_t kills;           //0x14
         // 0x18
         Array<GetInfoItemType, 17> equipment;
-        CharName charName;        //0x4B
+        String<21> charName;      //0x4B
         CloakInfo cloakInfo;      //0x60
         String<25> guildName;     //0x66
         uint8_t packetLength;     //0x7F

@@ -49,7 +49,7 @@ namespace shaiya
         uint8_t itemBag;
         uint8_t itemSlot;
         uint32_t money;
-        CraftName craftName;
+        String<21> craftName;
     };
     #pragma pack(pop)
 
@@ -67,7 +67,7 @@ namespace shaiya
         GameItemComposeResult result;
         uint8_t bag;
         uint8_t slot;
-        CraftName craftName;
+        String<21> craftName;
     };
     #pragma pack(pop)
 

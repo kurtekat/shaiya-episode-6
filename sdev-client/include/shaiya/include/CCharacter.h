@@ -60,7 +60,7 @@ namespace shaiya
         PAD(8);
         CharacterAction actionType1;  //0xF8
         PAD(16);
-        CharName charName;            //0x10C
+        String<21> charName;          //0x10C
         String<51> shapeName;         //0x121
         PAD(4);
         uint32_t health;              //0x158

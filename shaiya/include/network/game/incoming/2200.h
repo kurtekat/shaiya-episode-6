@@ -9,7 +9,7 @@ namespace shaiya
     struct GameFriendRequestIncoming
     {
         uint16_t opcode{ 0x2202 };
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 
@@ -37,7 +37,7 @@ namespace shaiya
     struct GameBlockAddIncoming
     {
         uint16_t opcode{ 0x2209 };
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

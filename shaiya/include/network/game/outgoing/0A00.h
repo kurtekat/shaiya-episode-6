@@ -68,7 +68,7 @@ namespace shaiya
         uint8_t count;
         uint16_t quality;
         Gems gems;
-        CraftName craftName;
+        String<21> craftName;
     };
     #pragma pack(pop)
 

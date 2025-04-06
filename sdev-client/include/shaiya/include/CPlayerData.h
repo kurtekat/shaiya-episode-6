@@ -137,7 +137,7 @@ namespace shaiya
         uint8_t costumeTypeId;                //0x9144A4  0x72D4
         uint8_t wingsTypeId;                  //0x9144A5  0x72D5
         PAD(40);
-        CharName charName;                    //0x9144CE  0x72FE
+        String<21> charName;                  //0x9144CE  0x72FE
         PAD(1);
         WindowType windowType;                //0x9144E4  0x7314
         uint32_t npcId1;                      //0x9144E8  0x7318

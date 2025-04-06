@@ -8,8 +8,8 @@ namespace shaiya
     #pragma pack(push, 1)
     struct PointItemGift
     {
-        CharName targetName;      //0x00
-        ProductCode productCode;  //0x21
+        String<21> targetName;    //0x00
+        String<21> productCode;   //0x21
         PAD(2);
         uint32_t purchasePoints;  //0x2C
         time32_t purchaseDate;    //0x30

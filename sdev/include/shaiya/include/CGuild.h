@@ -36,7 +36,7 @@ namespace shaiya
     {
         uint32_t id;                   //0x08
         String<25> name;               //0x0C
-        CharName masterName;           //0x25
+        String<21> masterName;         //0x25
         PAD(2);
         int32_t adminCount;            //0x3C
         int32_t country;               //0x40

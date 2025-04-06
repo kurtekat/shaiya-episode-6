@@ -64,7 +64,7 @@ namespace shaiya
         int32_t maxHealth;                  //0x178
         int32_t maxMana;                    //0x17C
         int32_t maxStamina;                 //0x180
-        CharName charName;                  //0x184
+        String<21> charName;                //0x184
         ItemQualityLv<13> itemQualityLv;    //0x199
         ItemQuality<13> itemQuality;        //0x1A6
         Inventory inventory;                //0x1C0

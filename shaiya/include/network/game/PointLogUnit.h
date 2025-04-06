@@ -8,7 +8,7 @@ namespace shaiya
     // TP_POINTLOG_UNIT
     struct PointLogUnit
     {
-        ProductCode productCode;
+        String<21> productCode;
         time32_t purchaseDate;
         uint32_t purchasePoints;
     };

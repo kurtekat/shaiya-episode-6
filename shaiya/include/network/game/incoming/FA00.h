@@ -8,7 +8,7 @@ namespace shaiya
     struct GameAdminCmdFindCharIncoming
     {
         uint16_t opcode{ 0xFA08 };
-        CharName charName;
+        String<21> charName;
     };
 
     struct GameAdminCmdChatBanEnableIncoming
@@ -16,13 +16,13 @@ namespace shaiya
         uint16_t opcode{ 0xFA0D };
         // not implemented
         uint16_t unknown{ 0 };
-        CharName charName;
+        String<21> charName;
     };
 
     struct GameAdminCmdChatBanDisableIncoming
     {
         uint16_t opcode{ 0xFA0E };
-        CharName charName;
+        String<21> charName;
     };
 
     struct GameAdminCmdMoveBanEnableIncoming
@@ -30,13 +30,13 @@ namespace shaiya
         uint16_t opcode{ 0xFA0F };
         // not implemented
         uint16_t unknown{ 0 };
-        CharName charName;
+        String<21> charName;
     };
 
     struct GameAdminCmdMoveBanDisableIncoming
     {
         uint16_t opcode{ 0xFA10 };
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 }

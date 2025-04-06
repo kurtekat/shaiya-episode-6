@@ -8,13 +8,13 @@ namespace shaiya
     struct GameAdminCmdCharCureIncoming
     {
         uint16_t opcode{ 0xF801 };
-        CharName charName;
+        String<21> charName;
     };
 
     struct GameAdminCmdCharKickIncoming
     {
         uint16_t opcode{ 0xF804 };
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 }

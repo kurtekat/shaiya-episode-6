@@ -11,8 +11,8 @@ namespace shaiya
     {
         uint16_t opcode{ 0xE03 };
         uint32_t billingId;
-        CharName targetName;
-        ProductCode productCode;
+        String<21> targetName;
+        String<21> productCode;
         uint32_t purchasePoints;
         time32_t purchaseDate;
         uint32_t purchaseNumber;

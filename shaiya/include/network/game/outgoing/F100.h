@@ -25,7 +25,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0xF102 };
         bool toSender;
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;
@@ -39,7 +39,7 @@ namespace shaiya
     struct GameAdminChatTradeOutgoing
     {
         uint16_t opcode{ 0xF103 };
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;

@@ -13,7 +13,7 @@ namespace shaiya
         uint32_t gold;
         uint32_t itemId;
         uint8_t itemCount;
-        ItemName itemName;
+        String<32> itemName;
     };
     #pragma pack(pop)
 }

@@ -4,8 +4,6 @@
 
 namespace shaiya
 {
-    using CharName = std::array<char, 21>;
-
     enum struct AuthStatus : uint8_t
     {
         AdminA = 1,

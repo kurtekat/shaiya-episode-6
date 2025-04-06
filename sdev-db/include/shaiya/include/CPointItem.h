@@ -21,7 +21,7 @@ namespace shaiya
         PAD(1);
         uint16_t quality;   //0x20
         PAD(2);
-        MakeTime makeTime;  //0x24
+        time32_t makeTime;  //0x24
         MakeType makeType;  //0x28
         PAD(7);
         // 0x30

@@ -93,7 +93,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0x117 };
         uint32_t objectId;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

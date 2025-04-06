@@ -53,7 +53,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0x2603 };
         GamePointGiftSendResult result;
-        CharName targetName;
+        String<21> targetName;
         uint32_t remainingPoints;
         PointLogUnit log;
     };

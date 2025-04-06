@@ -9,7 +9,7 @@ namespace shaiya
     struct PointLog
     {
         SaveType saveType;        //0x00
-        ProductCode productCode;  //0x04
+        String<21> productCode;   //0x04
         PAD(3);
         time32_t purchaseDate;    //0x1C
         uint32_t purchasePoints;  //0x20

@@ -31,7 +31,7 @@ namespace shaiya
         Gems gems;                   //0x46
         CraftName craftName;         //0x4C
         PAD(3);
-        MakeTime makeTime;           //0x64
+        time32_t makeTime;           //0x64
         MakeType makeType;           //0x68
         PAD(3);
         tick32_t removeTime;         //0x6C

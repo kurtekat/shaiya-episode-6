@@ -10,7 +10,7 @@ namespace shaiya
     struct GamePointBuyIncoming
     {
         uint16_t opcode{ 0x2602 };
-        ProductCode productCode;
+        String<21> productCode;
     };
     #pragma pack(pop)
 
@@ -19,8 +19,8 @@ namespace shaiya
     struct GamePointGiftSendIncoming
     {
         uint16_t opcode{ 0x2603 };
-        ProductCode productCode;
-        CharName targetName;
+        String<21> productCode;
+        String<21> targetName;
     };
     #pragma pack(pop)
 

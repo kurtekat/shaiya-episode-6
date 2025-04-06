@@ -11,9 +11,9 @@ namespace shaiya
     {
         uint64_t uniqueId;
         uint32_t itemId;
-        ItemName itemName;
+        String<32> itemName;
         Gems gems;
-        MakeTime makeTime;
+        time32_t makeTime;
         CraftName craftName;
     };
     #pragma pack(pop)

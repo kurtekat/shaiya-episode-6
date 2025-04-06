@@ -12,7 +12,7 @@ namespace shaiya
         uint32_t billingId;
         String<32> username;
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
         uint16_t level;
         uint32_t exp;
         uint16_t mapId;

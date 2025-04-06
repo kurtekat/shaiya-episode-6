@@ -13,7 +13,7 @@ namespace shaiya
         uint32_t billingId;
         String<32> username;
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
         uint16_t mapId;
         float x;
         float y;
@@ -32,14 +32,14 @@ namespace shaiya
         uint32_t billingId;
         String<32> username;
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
         uint16_t mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
         String<32> cmdName;
-        CharName targetName;
+        String<21> targetName;
     };
     #pragma pack(pop)
 
@@ -52,14 +52,14 @@ namespace shaiya
         uint32_t billingId;
         String<32> username;
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
         uint16_t mapId;
         float x;
         float y;
         float z;
         AuthStatus authStatus;
         String<32> cmdName;
-        CharName targetName;
+        String<21> targetName;
         String<256> cmdInfo;
     };
     #pragma pack(pop)

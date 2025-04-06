@@ -11,7 +11,7 @@ namespace shaiya
         uint16_t opcode{ 0x409 };
         uint32_t billingId;
         uint32_t charId;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

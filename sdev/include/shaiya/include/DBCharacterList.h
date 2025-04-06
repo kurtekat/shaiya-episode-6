@@ -37,7 +37,7 @@ namespace shaiya
         time32_t deleteDate;
         ItemList<8> equipment;
         CloakInfo cloakInfo;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 
@@ -71,7 +71,7 @@ namespace shaiya
         time32_t deleteDate;
         ItemList<17> equipment;
         CloakInfo cloakInfo;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

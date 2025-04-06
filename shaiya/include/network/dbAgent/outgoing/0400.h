@@ -48,8 +48,8 @@ namespace shaiya
         uint32_t billingId;
         uint8_t result;
         uint32_t charId;
-        CharName oldCharName;
-        CharName newCharName;
+        String<21> oldCharName;
+        String<21> newCharName;
     };
     #pragma pack(pop)
 

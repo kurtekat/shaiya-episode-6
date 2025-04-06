@@ -19,7 +19,7 @@ namespace shaiya
     struct GameChatSendToIncoming
     {
         uint16_t opcode{ 0x1102 };
-        CharName senderName;
+        String<21> senderName;
         // w/ null-terminator
         uint8_t messageLength;
         String<128> message;

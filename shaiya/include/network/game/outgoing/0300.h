@@ -43,7 +43,7 @@ namespace shaiya
         Grow grow;
         uint32_t kills;
         Array<GetInfoItemType, 8> equipment;
-        CharName charName;
+        String<21> charName;
         CloakInfo cloakInfo;
         String<25> guildName;
     };
@@ -68,7 +68,7 @@ namespace shaiya
         Grow grow;
         uint32_t kills;
         Array<GetInfoItemType, 17> equipment;
-        CharName charName;
+        String<21> charName;
         CloakInfo cloakInfo;
         String<25> guildName;
     };

@@ -12,7 +12,7 @@ namespace shaiya
         uint32_t charId;
         uint16_t level;
         Job job;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 }

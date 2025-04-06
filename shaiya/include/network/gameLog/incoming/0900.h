@@ -42,7 +42,7 @@ namespace shaiya
         uint32_t charId;
         uint16_t mapId;
         GameLogChatType chatType;
-        CharName targetName;
+        String<21> targetName;
         uint8_t messageLength;
         String<128> message;
 

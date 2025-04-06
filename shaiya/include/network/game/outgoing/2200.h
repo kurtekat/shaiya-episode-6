@@ -28,7 +28,7 @@ namespace shaiya
         uint16_t opcode{ 0x2204 };
         uint32_t objectId;
         Job job;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 
@@ -59,7 +59,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0x2209 };
         uint32_t objectId;
-        CharName charName;
+        String<21> charName;
     };
     #pragma pack(pop)
 

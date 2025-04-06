@@ -38,7 +38,7 @@ namespace shaiya
         // 0x2C
         ItemList<8> equipment;
         CloakInfo cloakInfo;    //0x3C
-        CharName charName;      //0x42
+        String<21> charName;    //0x42
         PAD(1);
         int enableRename;       //0x58
         // 0x5C
