@@ -87,7 +87,7 @@ namespace packet_gem
             if (enchantStep < 10 && lapisian->info->itemId == 95009)
                 return true;
             else if (enchantStep == lapisianStep && lapisianType == 1)
-                return true;    
+                return true;
         }
 
         return false;
@@ -139,6 +139,12 @@ namespace packet_gem
         if (lapis3->info->reqIg == 30 || lapis3->info->reqIg == 99)
             return;
 
+        auto slot1 = incoming->lapisSlot1;
+        auto slot2 = incoming->lapisSlot2;
+        auto slot3 = incoming->lapisSlot3;
+        if (slot1 == slot2 || slot2 == slot3 || slot3 == slot1)
+            return;
+
         if (!incoming->essenceBag || incoming->essenceBag > user->bagsUnlocked || incoming->essenceSlot >= max_inventory_slot)
             return;
 
@@ -155,9 +161,6 @@ namespace packet_gem
 
         if (lapis3->info->reqIg >= 36)
             ++requiredCount;
-
-        if (incoming->essenceCount < requiredCount)
-            return;
 
         GameItemRemake5Outgoing failure{};
         failure.result = GameItemRemake5Result::Failure;
@@ -248,6 +251,12 @@ namespace packet_gem
         if (lapisian3->type != std::to_underlying(ItemType::Lapisian))
             return;
 
+        auto slot1 = incoming->lapisianSlot1;
+        auto slot2 = incoming->lapisianSlot2;
+        auto slot3 = incoming->lapisianSlot3;
+        if (slot1 == slot2 || slot2 == slot3 || slot3 == slot1)
+            return;
+
         if (!incoming->liquidBag || incoming->liquidBag > user->bagsUnlocked || incoming->liquidSlot >= max_inventory_slot)
             return;
 
@@ -255,14 +264,10 @@ namespace packet_gem
         if (!liquid)
             return;
 
-        int requiredCount = 1;
-        if (incoming->liquidCount < requiredCount)
-            return;
-
         GameItemRemake4Outgoing failure{};
         failure.result = GameItemRemake4Result::Failure;
 
-        if (liquid->count < requiredCount || liquid->info->effect != ItemEffect::CrowleyLiquid)
+        if (liquid->info->effect != ItemEffect::CrowleyLiquid)
         {
             NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
             return;
@@ -299,7 +304,7 @@ namespace packet_gem
         UserHelper::ItemRemove(user, incoming->lapisianBag1, incoming->lapisianSlot1, 1);
         UserHelper::ItemRemove(user, incoming->lapisianBag2, incoming->lapisianSlot2, 1);
         UserHelper::ItemRemove(user, incoming->lapisianBag3, incoming->lapisianSlot3, 1);
-        UserHelper::ItemRemove(user, incoming->liquidBag, incoming->liquidSlot, requiredCount);
+        UserHelper::ItemRemove(user, incoming->liquidBag, incoming->liquidSlot, 1);
 
         GameItemRemake4Outgoing success{};
         success.result = GameItemRemake4Result::Success;
