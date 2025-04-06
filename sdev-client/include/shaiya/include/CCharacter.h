@@ -61,7 +61,7 @@ namespace shaiya
         CharacterAction actionType1;  //0xF8
         PAD(16);
         CharName charName;            //0x10C
-        CharArray<51> shapeName;      //0x121
+        String<51> shapeName;         //0x121
         PAD(4);
         uint32_t health;              //0x158
         uint32_t maxHealth;           //0x15C
@@ -150,7 +150,7 @@ namespace shaiya
         PAD(12);
         uint32_t kills;               //0x334
         bool32_t myShopOpen;          //0x338
-        CharArray<128> myShopMsg;     //0x33C
+        String<128> myShopMessage;    //0x33C
         PAD(4);
         uint8_t vehicleSeatCount;     //0x3C0
         uint8_t vehicleModel;         //0x3C1

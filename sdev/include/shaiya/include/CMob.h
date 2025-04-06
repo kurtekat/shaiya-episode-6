@@ -110,8 +110,8 @@ namespace shaiya
         float moveRange;                     //0xD7C
         PAD(28);
         CRITICAL_SECTION cs;                 //0xD9C
-        CharArray<32> prevAttackCharName;    //0xDB4
-        CharArray<32> prevAttackSkillName;   //0xDD4
+        String<32> prevAttackCharName;       //0xDB4
+        String<32> prevAttackSkillName;      //0xDD4
         // 0xDF4
         
         static bool IsBossMob(CMob* mob/*eax*/);

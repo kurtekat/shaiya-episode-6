@@ -35,7 +35,7 @@ namespace shaiya
     struct CGuild : SNode
     {
         uint32_t id;                   //0x08
-        CharArray<25> name;            //0x0C
+        String<25> name;               //0x0C
         CharName masterName;           //0x25
         PAD(2);
         int32_t adminCount;            //0x3C
@@ -46,7 +46,7 @@ namespace shaiya
         uint32_t keepEtin;             //0x50
         bool hasHouse;                 //0x54
         bool buyHouse;                 //0x55
-        CharArray<65> remark;          //0x56
+        String<65> remark;             //0x56
         PAD(1);
         uint32_t grbPoints;            //0x98
         uint32_t etinReturnCount;      //0x9C

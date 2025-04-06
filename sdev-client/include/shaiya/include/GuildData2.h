@@ -9,9 +9,9 @@ namespace shaiya
     struct GuildData2
     {
         uint32_t id;           //0x00
-        CharArray<25> name;    //0x04
+        String<25> name;       //0x04
         CharName masterName;   //0x1D
-        CharArray<65> remark;  //0x32
+        String<65> remark;     //0x32
         uint8_t rank;          //0x73
         uint32_t rankPoints;   //0x74
         // 0x78

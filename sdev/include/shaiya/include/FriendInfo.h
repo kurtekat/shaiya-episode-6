@@ -10,12 +10,12 @@ namespace shaiya
     #pragma pack(push, 1)
     struct FriendInfo
     {
-        uint32_t charId;     //0x00
-        Family family;       //0x04
-        Grow grow;           //0x05
-        Job job;             //0x06
-        CharName charName;   //0x07
-        CharArray<51> memo;  //0x1C
+        uint32_t charId;    //0x00
+        Family family;      //0x04
+        Grow grow;          //0x05
+        Job job;            //0x06
+        CharName charName;  //0x07
+        String<51> memo;    //0x1C
         PAD(1);
         // 0x50
     };

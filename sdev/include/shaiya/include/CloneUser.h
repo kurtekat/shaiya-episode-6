@@ -34,7 +34,7 @@ namespace shaiya
         Array<GetInfoItemType, 8> equipment;
         CharName charName;        //0x30
         CloakInfo cloakInfo;      //0x45
-        CharArray<25> guildName;  //0x4B
+        String<25> guildName;     //0x4B
         uint8_t packetLength;     //0x64
         PAD(3);
         // 0x68
@@ -64,7 +64,7 @@ namespace shaiya
         Array<GetInfoItemType, 17> equipment;
         CharName charName;        //0x4B
         CloakInfo cloakInfo;      //0x60
-        CharArray<25> guildName;  //0x66
+        String<25> guildName;     //0x66
         uint8_t packetLength;     //0x7F
         // 0x80
     };

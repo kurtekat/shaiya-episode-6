@@ -12,7 +12,7 @@ namespace shaiya
         uint32_t senderId;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 7;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -28,7 +28,7 @@ namespace shaiya
         CharName senderName;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 25;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -42,7 +42,7 @@ namespace shaiya
         CharName senderName;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 24;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -57,7 +57,7 @@ namespace shaiya
         uint32_t senderId;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 7;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -72,7 +72,7 @@ namespace shaiya
         uint32_t senderId;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 7;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -86,7 +86,7 @@ namespace shaiya
         uint16_t opcode{ 0xF106 };
         // w/ null-terminator
         uint16_t messageLength;
-        CharArray<2000> message;
+        String<2000> message;
 
         constexpr static int baseLength = 4;
         constexpr int length() const { return baseLength + this->messageLength; }

@@ -35,7 +35,7 @@ namespace shaiya
         CTexture* textures;          //0x1C
         EffectScene* scenes;         //0x20
         EffectSequence* sequences;   //0x24
-        CharArray<260> path;         //0x28
+        String<260> path;            //0x28
         // 0x12C
 
         static int CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);

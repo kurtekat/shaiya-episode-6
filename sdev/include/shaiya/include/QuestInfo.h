@@ -11,7 +11,7 @@ namespace shaiya
     struct QuestInfo_EP5
     {
         uint16_t questId;            //0x00
-        CharArray<256> questName;    //0x02
+        String<256> questName;       //0x02
         uint16_t minLevel;           //0x102
         uint16_t maxLevel;           //0x104
         Country country;             //0x106
@@ -96,7 +96,7 @@ namespace shaiya
     struct QuestInfo
     {
         uint16_t questId;            //0x00
-        CharArray<256> questName;    //0x02
+        String<256> questName;       //0x02
         uint16_t minLevel;           //0x102
         uint16_t maxLevel;           //0x104
         Country country;             //0x106

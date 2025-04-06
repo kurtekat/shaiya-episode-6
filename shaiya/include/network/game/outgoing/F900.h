@@ -9,7 +9,7 @@ namespace shaiya
         uint16_t opcode{ 0xF908 };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 3;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -23,7 +23,7 @@ namespace shaiya
         uint16_t opcode{ 0xF90B };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 3;
         constexpr int length() const { return baseLength + this->messageLength; }

@@ -13,7 +13,7 @@ namespace shaiya
     {
         uint16_t skillId;            //0x00
         uint8_t skillLv;             //0x02
-        CharArray<32> skillName;     //0x03
+        String<32> skillName;        //0x03
         PAD(1);
         uint16_t level;              //0x24
         Faction country;             //0x26

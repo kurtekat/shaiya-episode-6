@@ -24,5 +24,5 @@ namespace shaiya
     using Array = std::array<T, N>;
 
     template<size_t N>
-    using CharArray = std::array<char, N>;
+    using String = std::array<char, N>;
 }

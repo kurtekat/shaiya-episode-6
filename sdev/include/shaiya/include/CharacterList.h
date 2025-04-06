@@ -35,7 +35,7 @@ namespace shaiya
         uint16_t mana;
         uint16_t stamina;
         ItemList<8> equipment;
-        CharArray<19> charName;
+        String<19> charName;
         bool deleted;
         bool enableRename;
         CloakInfo cloakInfo;
@@ -67,7 +67,7 @@ namespace shaiya
         uint16_t mana;
         uint16_t stamina;
         ItemList<17> equipment;
-        CharArray<19> charName;
+        String<19> charName;
         bool deleted;
         bool enableRename;
         CloakInfo cloakInfo;

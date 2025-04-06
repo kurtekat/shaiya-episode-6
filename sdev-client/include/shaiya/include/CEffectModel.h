@@ -8,7 +8,7 @@ namespace shaiya
     struct CEffectModel
     {
         PAD(16);
-        CharArray<16> fileName;  //0x10
+        String<16> fileName;  //0x10
         // 0x20
         PAD(20);
         // 0x34

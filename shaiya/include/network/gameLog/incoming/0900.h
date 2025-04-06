@@ -26,7 +26,7 @@ namespace shaiya
         uint16_t mapId;
         GameLogChatType chatType;
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 14;
         constexpr int length() const { return baseLength + this->messageLength; }
@@ -44,7 +44,7 @@ namespace shaiya
         GameLogChatType chatType;
         CharName targetName;
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
 
         constexpr static int baseLength = 35;
         constexpr int length() const { return baseLength + this->messageLength; }

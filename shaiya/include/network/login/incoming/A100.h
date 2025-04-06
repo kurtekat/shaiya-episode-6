@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
@@ -9,8 +8,8 @@ namespace shaiya
     struct LoginIncoming
     {
         uint16_t opcode{ 0xA102 };
-        Username username;
-        Password password;
+        String<32> username;
+        String<16> password;
     };
     #pragma pack(pop)
 }

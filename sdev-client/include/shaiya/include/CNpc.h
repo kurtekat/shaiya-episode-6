@@ -12,7 +12,7 @@ namespace shaiya
     struct CNpc
     {
         void* vftable;          //0x00
-        CharArray<51> name;     //0x04
+        String<51> name;        //0x04
         PAD(1);
         D3DVECTOR pos;          //0x38
         D3DVECTOR dir;          //0x44

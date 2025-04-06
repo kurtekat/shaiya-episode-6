@@ -11,7 +11,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0xC01 };
         uint32_t billingId;
-        Username username;
+        String<32> username;
         uint32_t charId;
         CharName charName;
         uint16_t mapId;
@@ -19,7 +19,7 @@ namespace shaiya
         float y;
         float z;
         AuthStatus authStatus;
-        CharArray<32> cmdName;
+        String<32> cmdName;
     };
     #pragma pack(pop)
 
@@ -30,7 +30,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0xC02 };
         uint32_t billingId;
-        Username username;
+        String<32> username;
         uint32_t charId;
         CharName charName;
         uint16_t mapId;
@@ -38,7 +38,7 @@ namespace shaiya
         float y;
         float z;
         AuthStatus authStatus;
-        CharArray<32> cmdName;
+        String<32> cmdName;
         CharName targetName;
     };
     #pragma pack(pop)
@@ -50,7 +50,7 @@ namespace shaiya
     {
         uint16_t opcode{ 0xC03 };
         uint32_t billingId;
-        Username username;
+        String<32> username;
         uint32_t charId;
         CharName charName;
         uint16_t mapId;
@@ -58,9 +58,9 @@ namespace shaiya
         float y;
         float z;
         AuthStatus authStatus;
-        CharArray<32> cmdName;
+        String<32> cmdName;
         CharName targetName;
-        CharArray<256> cmdInfo;
+        String<256> cmdInfo;
     };
     #pragma pack(pop)
 }

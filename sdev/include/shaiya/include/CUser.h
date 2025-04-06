@@ -405,7 +405,7 @@ namespace shaiya
         AdminInfo adminInfo;                     //0x580C
         uint32_t billingId;                      //0x582C
         int32_t serverId;                        //0x5830
-        Username username;                       //0x5834
+        String<32> username;                     //0x5834
         bool itemAttackFlag;                     //0x5854
         bool initStatusFlag;                     //0x5855
         PAD(2);

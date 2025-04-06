@@ -18,7 +18,7 @@ namespace shaiya
         SQLINTEGER queryError;        //0x0C
         SQLINTEGER* nativeError;      //0x10
         Array<SQLCHAR, 16> sqlState;  //0x14
-        CharArray<2048> errorMsg;     //0x24
+        String<2048> errorMessage;    //0x24
         SLog* log;                    //0x824
         SQLHENV env;                  //0x828
         SQLHDBC dbc;                  //0x82C

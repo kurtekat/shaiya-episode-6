@@ -45,7 +45,7 @@ namespace shaiya
         Array<GetInfoItemType, 8> equipment;
         CharName charName;
         CloakInfo cloakInfo;
-        CharArray<25> guildName;
+        String<25> guildName;
     };
     #pragma pack(pop)
 
@@ -70,7 +70,7 @@ namespace shaiya
         Array<GetInfoItemType, 17> equipment;
         CharName charName;
         CloakInfo cloakInfo;
-        CharArray<25> guildName;
+        String<25> guildName;
     };
     #pragma pack(pop)
 

@@ -27,9 +27,9 @@ namespace shaiya
         float y;
         float z;
         GameLogBossMobActionType actionType;
-        CharArray<32> bossName;  // Text1
-        CharArray<32> charName;  // Text3
-        CharArray<32> skillName; // Text4
+        String<32> bossName;  // Text1
+        String<32> charName;  // Text3
+        String<32> skillName; // Text4
         uint32_t damage;
         uint32_t health;
     };

@@ -5,8 +5,6 @@
 namespace shaiya
 {
     using CharName = std::array<char, 21>;
-    using Username = std::array<char, 32>;
-    using Password = std::array<char, 32>;
 
     enum struct AuthStatus : uint8_t
     {

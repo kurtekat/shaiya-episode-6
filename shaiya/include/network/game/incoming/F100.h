@@ -11,7 +11,7 @@ namespace shaiya
         uint16_t opcode{ 0xF101 };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -23,7 +23,7 @@ namespace shaiya
         CharName senderName;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -33,7 +33,7 @@ namespace shaiya
         uint16_t opcode{ 0xF103 };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -43,7 +43,7 @@ namespace shaiya
         uint16_t opcode{ 0xF104 };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -54,7 +54,7 @@ namespace shaiya
         uint16_t opcode{ 0xF105 };
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -64,7 +64,7 @@ namespace shaiya
         uint16_t opcode{ 0xF106 };
         // w/ null-terminator
         uint16_t messageLength;
-        CharArray<2000> message;
+        String<2000> message;
     };
     #pragma pack(pop)
 }

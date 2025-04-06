@@ -9,7 +9,7 @@ namespace shaiya
     struct GameLogQuest : GameLogMain
     {
         uint16_t questId;
-        CharArray<32> questName;
+        String<32> questName;
     };
     #pragma pack(pop)
 }

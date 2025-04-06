@@ -12,7 +12,7 @@ namespace shaiya
     struct CGuildCreate : SNode
     {
         bool typeCreate;              //0x08
-        CharArray<25> name;           //0x09
+        String<25> name;              //0x09
         PAD(2);
         int32_t okayCount;            //0x24
         uint32_t masterId;            //0x28
@@ -20,7 +20,7 @@ namespace shaiya
         Array<uint32_t, 30> userIds;  //0x30
         Array<CUser*, 30> users;      //0xA8
         CRITICAL_SECTION cs;          //0x120
-        CharArray<65> remark;         //0x138
+        String<65> remark;            //0x138
         PAD(3);
         // 0x17C
     };

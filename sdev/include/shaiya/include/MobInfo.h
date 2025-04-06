@@ -17,7 +17,7 @@ namespace shaiya
     struct MobInfo
     {
         uint16_t mobId;           //0x00
-        CharArray<32> mobName;    //0x02
+        String<32> mobName;       //0x02
         uint16_t level;           //0x22
         uint16_t exp;             //0x24
         uint8_t ai;               //0x26

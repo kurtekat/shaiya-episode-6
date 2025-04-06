@@ -13,7 +13,7 @@ namespace shaiya
     {
         int32_t numTextures;               //0x00
         SModelTexture* textures;           //0x04
-        CharArray<256> fileName;           //0x08
+        String<256> fileName;              //0x08
         D3DVECTOR center;                  //0x108
         float distanceToCenter;            //0x114
         SBoxAxis viewBox;                  //0x118

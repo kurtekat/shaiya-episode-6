@@ -19,7 +19,7 @@ namespace shaiya
         CharName targetName;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 
@@ -30,7 +30,7 @@ namespace shaiya
         uint16_t unknown;
         // w/ null-terminator
         uint8_t messageLength;
-        CharArray<128> message;
+        String<128> message;
     };
     #pragma pack(pop)
 }

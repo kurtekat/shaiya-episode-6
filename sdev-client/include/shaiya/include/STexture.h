@@ -8,8 +8,8 @@ namespace shaiya
     struct STexture
     {
         PAD(4);                      //0x00
-        CharArray<256> fileName;     //0x04
-        CharArray<256> path;         //0x104
+        String<256> fileName;        //0x04
+        String<256> path;            //0x104
         LPDIRECT3DTEXTURE9 texture;  //0x204
         // 0x208
     };

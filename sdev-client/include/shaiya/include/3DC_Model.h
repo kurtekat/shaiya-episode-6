@@ -16,7 +16,7 @@ namespace shaiya
         int32_t numBones;        //0x28
         D3DMATRIX* bones;        //0x2C
         PAD(8);
-        CharArray<260> path;     //0x38
+        String<260> path;        //0x38
         uint16_t unknown;        //0x13C
         PAD(2);
         // 333, 444

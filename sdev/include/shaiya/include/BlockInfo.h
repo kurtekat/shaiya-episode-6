@@ -7,9 +7,9 @@ namespace shaiya
     #pragma pack(push, 1)
     struct BlockInfo
     {
-        uint32_t charId;     //0x00
-        CharName charName;   //0x04
-        CharArray<51> memo;  //0x19
+        uint32_t charId;    //0x00
+        CharName charName;  //0x04
+        String<51> memo;    //0x19
         // 0x4C
     };
     #pragma pack(pop)

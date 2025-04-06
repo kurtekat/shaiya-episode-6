@@ -17,10 +17,10 @@ namespace shaiya
         uint32_t connectionTimeout;  //0x38
         uint32_t queryTimeout;       //0x3C
         // e.g., 127.0.0.1
-        CharArray<256> serverName;   //0x40
-        CharArray<256> dbName;       //0x140
-        CharArray<256> username;     //0x240
-        CharArray<256> password;     //0x340
+        String<256> serverName;      //0x40
+        String<256> dbName;          //0x140
+        String<256> username;        //0x240
+        String<256> password;        //0x340
         // 0: SQLDriverConnect
         // 1: SQLConnect
         bool connectionString;       //0x440

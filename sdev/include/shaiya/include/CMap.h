@@ -75,7 +75,7 @@ namespace shaiya
         WarType warType;           //0x7C
         MapType mapType;           //0x80
         // e.g., 0.svmap
-        CharArray<256> name;       //0x84
+        String<256> name;          //0x84
         MapPos rebirthPos1;        //0x184
         MapPos rebirthPos2;        //0x194
         MapCreateType createType;  //0x1A4

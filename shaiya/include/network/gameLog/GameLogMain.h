@@ -10,7 +10,7 @@ namespace shaiya
     {
         uint16_t opcode;
         uint32_t billingId;
-        Username username;
+        String<32> username;
         uint32_t charId;
         CharName charName;
         uint16_t level;

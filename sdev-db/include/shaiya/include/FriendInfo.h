@@ -11,13 +11,13 @@ namespace shaiya
     #pragma pack(push, 1)
     struct FriendInfo
     {
-        SaveType saveType;   //0x00
-        uint32_t charId;     //0x04
-        Job job;             //0x08
-        CharName charName;   //0x09
-        CharArray<51> memo;  //0x1E
-        Family family;       //0x51
-        Grow grow;           //0x52
+        SaveType saveType;  //0x00
+        uint32_t charId;    //0x04
+        Job job;            //0x08
+        CharName charName;  //0x09
+        String<51> memo;    //0x1E
+        Family family;      //0x51
+        Grow grow;          //0x52
         PAD(1);
         // 0x54
     };

@@ -49,7 +49,7 @@ namespace shaiya
         uint32_t objectId;
         // w/o null terminator
         uint8_t memoLength;
-        CharArray<51> memo;
+        String<51> memo;
     };
     #pragma pack(pop)
 
@@ -80,7 +80,7 @@ namespace shaiya
         uint32_t objectId;
         // w/o null terminator
         uint8_t memoLength;
-        CharArray<51> memo;
+        String<51> memo;
     };
     #pragma pack(pop)
 

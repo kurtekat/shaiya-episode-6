@@ -21,7 +21,7 @@ namespace shaiya
         Array<int32_t, 20> srcSlot;   //0x168C  0x58
         Array<int32_t, 20> money;     //0x16DC  0xA8
         int32_t messageLength;        //0x172C  0xF8
-        CharArray<121> message;       //0x1730  0xFC
+        String<121> message;          //0x1730  0xFC
         PAD(3);
         int32_t usingCount;           //0x17AC  0x178
         Array<uint32_t, 16> userIds;  //0x17B0  0x17C

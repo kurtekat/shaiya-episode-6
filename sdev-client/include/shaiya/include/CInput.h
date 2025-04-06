@@ -23,25 +23,25 @@ namespace shaiya
     {
         PAD(48);                           //0x22B291C
         uint32_t maxStrLen;                //0x22B294C  0x30
-        bool32_t disableCheckInput;        //0x22B2950  0x34
+        bool32_t disableChkInput;          //0x22B2950  0x34
         PAD(92);
-        Array<wchar_t, 8> wideString;      //0x22B29B0  0x94
-        uint32_t wideStrLen;               //0x22B29C0  0xA4
+        Array<wchar_t, 8> wideText;        //0x22B29B0  0x94
+        uint32_t wideTextLength;           //0x22B29C0  0xA4
         // 0x22B29B0 becomes wchar_t* if > 7
-        uint32_t wideChkStrLen;            //0x22B29C4  0xA8
+        uint32_t wideChkTextLength;        //0x22B29C4  0xA8
         PAD(4);
-        CharArray<16> ansiString;          //0x22B29CC  0xB0
-        uint32_t ansiStrLen;               //0x22B29DC  0xC0
+        Array<char, 16> text;              //0x22B29CC  0xB0
+        uint32_t textLength;               //0x22B29DC  0xC0
         // 0x22B29CC becomes char* if > 15
-        uint32_t ansiChkStrLen;            //0x22B29E0  0xC4
+        uint32_t chkTextLength;            //0x22B29E0  0xC4
         PAD(32);
         bool disableNonNumericInput;       //0x22B2A04  0xE8
-        CharArray<2048> ansiBuffer;        //0x22B2A05  0xE9
+        Array<char, 2048> buffer;          //0x22B2A05  0xE9
         Array<wchar_t, 1024> wideBuffer;   //0x22B3205  0x8E9
         // 0x22B3A05  0x10E9
         PAD(47);
-        CharArray<256> imeCompStrAttr;     //0x22B3A34  0x1118
-        CharArray<1024> imeCompStrClause;  //0x22B3B34  0x1218
+        String<256> imeCompStrAttr;        //0x22B3A34  0x1118
+        String<1024> imeCompStrClause;     //0x22B3B34  0x1218
         // 0x22B3F34  0x1618
         PAD(8);
         HWND hwnd;                         //0x22B3F3C  0x1620

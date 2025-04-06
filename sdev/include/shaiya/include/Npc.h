@@ -15,7 +15,7 @@ namespace shaiya
         int32_t moveDistance;  //0x08
         int32_t moveSpeed;     //0x0C
         NpcTeam country;       //0x10
-        CharArray<256> name;   //0x14
+        String<256> name;      //0x14
         QuestLink questLink;   //0x114
         // 0x124
     };

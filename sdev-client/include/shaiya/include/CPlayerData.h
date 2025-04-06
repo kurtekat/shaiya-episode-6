@@ -77,7 +77,7 @@ namespace shaiya
         uint32_t maxMagicPower;               //0x90D2D4  0x104
         uint32_t defense;                     //0x90D2D8  0x108
         uint32_t resistance;                  //0x90D2DC  0x10C
-        CharArray<4096> c110;                 //0x90D2E0  0x110
+        PAD(4096);                            //0x90D2E0  0x110
         uint16_t mapId;                       //0x90E2E0  0x1110
         PAD(2);
         D3DVECTOR rebirthPos;                 //0x90E2E4  0x1114
@@ -96,7 +96,7 @@ namespace shaiya
         uint8_t face;                         //0x913471  0x62A1
         uint8_t size;                         //0x913472  0x62A2
         Job job;                              //0x913473  0x62A3
-        CharArray<4096> c62A4;                //0x913474  0x62A4
+        PAD(4096);                            //0x913474  0x62A4
         Sex sex;                              //0x914474  0x72A4
         PAD(3);
         uint32_t health;                      //0x914478  0x72A8
@@ -217,7 +217,7 @@ namespace shaiya
         uint8_t guildAuthLv;                        //0x22AB7B2  0x199E5E2
         PAD(1);
         char* guildName;                            //0x22AB7B4  0x199E5E4
-        CharArray<128> textBuffer;                  //0x22AB7B8  0x199E5E8
+        Array<char, 128> textBuffer;                //0x22AB7B8  0x199E5E8
         // 0x22AB838  0x199E668
         PAD(36);
         uint32_t points;                            //0x22AB85C  0x199E68C

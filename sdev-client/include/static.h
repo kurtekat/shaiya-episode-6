@@ -175,7 +175,7 @@ namespace shaiya
         CEffectModelList effectModelList;    //0x7B1D68
         // 0x7B1D80
         PAD(59808);
-        CharArray<260> iniFileName;          //0x7C0720
+        String<260> iniFileName;             //0x7C0720
         // 0x7C0824
         PAD(1384);
         int enableWaterSurface;              //0x7C0D8C
@@ -195,7 +195,7 @@ namespace shaiya
         // user, npc, mob
         float otherFarthest;                 //0x7C0DC0
         PAD(12);
-        CharArray<16> ipv4;                  //0x7C0DD0
+        String<16> ipv4;                     //0x7C0DD0
         // 0x7C0DE0
         PAD(172);
         ExtraHotkey extraHotkey;             //0x7C0E8C
@@ -213,19 +213,19 @@ namespace shaiya
         SkillStatusType msgStatusType;       //0x7C1935  <zz>
         HealPointType msgHealPointType2;     //0x7C1936  <hp>
         PAD(1);
-        CharArray<512> msgLapisName;         //0x7C1938  <r>
-        CharArray<512> msgTargetName;        //0x7C1B38  <t>
-        CharArray<1024> msgBuffer;           //0x7C1D38  <b>
-        CharArray<512> msgSkillName;         //0x7C2138  <s>
-        CharArray<512> msgPlayerName;        //0x7C2338  <p>
-        CharArray<512> msgItemName;          //0x7C2538  <i>
+        Array<char, 512> msgLapisName;       //0x7C1938  <r>
+        Array<char, 512> msgTargetName;      //0x7C1B38  <t>
+        Array<char, 1024> msgBuffer;         //0x7C1D38  <b>
+        Array<char, 512> msgSkillName;       //0x7C2138  <s>
+        Array<char, 512> msgPlayerName;      //0x7C2338  <p>
+        Array<char, 512> msgItemName;        //0x7C2538  <i>
         uint32_t msgValue3;                  //0x7C2738  <v3>
         uint32_t msgValue;                   //0x7C273C  <v>
-        CharArray<1024> msgTextBuffer1;      //0x7C2740
-        CharArray<1024> msgTextBuffer2;      //0x7C2B40
-        CharArray<1024> msgTextBuffer3;      //0x7C2F40
-        CharArray<1024> msgTextBuffer4;      //0x7C3340
-        CharArray<1024> msgTextBuffer5;      //0x7C3740
+        Array<char, 1024> msgTextBuffer1;    //0x7C2740
+        Array<char, 1024> msgTextBuffer2;    //0x7C2B40
+        Array<char, 1024> msgTextBuffer3;    //0x7C2F40
+        Array<char, 1024> msgTextBuffer4;    //0x7C3340
+        Array<char, 1024> msgTextBuffer5;    //0x7C3740
         // 0:5 (switches buffers)
         uint32_t msgTextBufferIndex;         //0x7C3B40
         PAD(200);
@@ -637,7 +637,7 @@ namespace shaiya
         PAD(33608);
         int socket;                          //0x22FA304
         PAD(21368);
-        CharArray<260> exeFileName;          //0x22FF680
+        String<260> exeFileName;             //0x22FF680
         // 0x22FF784
         PAD(708);
         HMODULE hModule;                     //0x22FFA48

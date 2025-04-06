@@ -55,7 +55,7 @@ namespace shaiya
     {
         uint32_t billingId;                   //0x38
         int32_t serverId;                     //0x3C
-        Username username;                    //0x40
+        String<32> username;                  //0x40
         uint32_t charId;                      //0x60
         uint8_t slot;                         //0x64
         Country country;                      //0x65
