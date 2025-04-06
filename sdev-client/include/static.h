@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include <shaiya/include/common/SkillTypes.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CAniListData.h"
@@ -11,6 +12,7 @@
 #include "include/shaiya/include/CTextureList.h"
 #include "include/shaiya/include/CWorldMgr.h"
 #include "include/shaiya/include/SIMM.h"
+#include "include/shaiya/include/TargetType.h"
 
 namespace shaiya
 {
@@ -18,7 +20,7 @@ namespace shaiya
     struct CSwordEffect;
     struct CVertexShader;
 
-    enum struct HealPointType : UINT8
+    enum struct HealPointType : uint8_t
     {
         Health,
         Stamina,
@@ -27,7 +29,7 @@ namespace shaiya
 
     // notes: code page (see 0x408060)
     // CP_ACP (see winnls.h)
-    enum struct LoginVersion : UINT32
+    enum struct LoginVersion : int32_t
     {
         Korea = 1,     //
         China,         //
@@ -86,14 +88,14 @@ namespace shaiya
         long text1Width;            //0x22B6D64  0x3B4
         long text0Height;           //0x22B6D68  0x3B8
         long text1Height;           //0x22B6D6C  0x3BC
-        UINT32 textColorR;          //0x22B6D70  0x3C0
-        UINT32 textColorG;          //0x22B6D74  0x3C4
-        UINT32 textColorB;          //0x22B6D78  0x3C8
+        uint32_t textColorR;        //0x22B6D70  0x3C0
+        uint32_t textColorG;        //0x22B6D74  0x3C4
+        uint32_t textColorB;        //0x22B6D78  0x3C8
         D3DMATERIAL9 material;      //0x22B6D7C  0x3CC
         LPDIRECT3D9 d3d9;           //0x22B6DC0  0x410
         LPDIRECT3DDEVICE9 device;   //0x22B6DC4  0x414
-        UINT32 primitiveCount;      //0x22B6DC8  0x418
-        BOOL showInfoText;          //0x22B6DCC  0x41C
+        uint32_t primitiveCount;    //0x22B6DC8  0x418
+        int enableInfoText;         //0x22B6DCC  0x41C
         CStaticText* staticText;    //0x22B6DD0  0x420
         PAD(4);
         D3DGAMMARAMP gammaRamp1;    //0x22B6DD8  0x428
@@ -160,7 +162,7 @@ namespace shaiya
         D3DVIEWPORT9 viewport;               //0x7AB0E0
         // 0x7AB0F8
         PAD(2788);
-        ULONG targetId;                      //0x7ABBDC
+        uint32_t targetId;                   //0x7ABBDC
         TargetType targetType;               //0x7ABBE0
         PAD(24576);
         CMonsterData monMonster;             //0x7B1BE4  monster.mon
@@ -173,27 +175,27 @@ namespace shaiya
         CEffectModelList effectModelList;    //0x7B1D68
         // 0x7B1D80
         PAD(59808);
-        CharArray<MAX_PATH> iniFileName;     //0x7C0720
+        CharArray<260> iniFileName;          //0x7C0720
         // 0x7C0824
         PAD(1384);
-        BOOL enableWaterSurface;             //0x7C0D8C
-        BOOL enableShadows;                  //0x7C0D90
+        int enableWaterSurface;              //0x7C0D8C
+        int enableShadows;                   //0x7C0D90
         float viewFarthest;                  //0x7C0D94
         float viewNearest;                   //0x7C0D98
         // 0: 16-bit, 1: 32-bit
-        UINT32 colorDepth;                   //0x7C0D9C
+        int32_t colorDepth;                  //0x7C0D9C
         float cameraTargetSpeed;             //0x7C0DA0
         float fogNearest;                    //0x7C0DA4
         float fogFarthest;                   //0x7C0DA8
         float fogStart;                      //0x7C0DAC
         float fogEnd;                        //0x7C0DB0
-        BOOL disableFog;                     //0x7C0DB4
+        int disableFog;                      //0x7C0DB4
         float modelFarthest;                 //0x7C0DB8
         float grassFarthest;                 //0x7C0DBC
         // user, npc, mob
         float otherFarthest;                 //0x7C0DC0
         PAD(12);
-        CharArray<16> ipv4Addr;              //0x7C0DD0
+        CharArray<16> ipv4;                  //0x7C0DD0
         // 0x7C0DE0
         PAD(172);
         ExtraHotkey extraHotkey;             //0x7C0E8C
@@ -202,33 +204,33 @@ namespace shaiya
         PAD(1176);
         HWND hwnd;                           //0x7C139C
         HINSTANCE hinst;                     //0x7C13A0
-        BOOL isFullscreenWindow;             //0x7C13A4
+        int isFullscreenWindow;              //0x7C13A4
         PAD(4);
-        BOOL isActiveWindow;                 //0x7C13AC
+        int isActiveWindow;                  //0x7C13AC
         PAD(1408);
-        UINT32 sysMsgValue2;                 //0x7C1930  <v2>
-        HealPointType sysMsgHealPointType1;  //0x7C1934  <up>
-        SkillDebuffType sysMsgDebuffType;    //0x7C1935  <zz>
-        HealPointType sysMsgHealPointType2;  //0x7C1936  <hp>
+        uint32_t msgValue2;                  //0x7C1930  <v2>
+        HealPointType msgHealPointType1;     //0x7C1934  <up>
+        SkillStatusType msgStatusType;       //0x7C1935  <zz>
+        HealPointType msgHealPointType2;     //0x7C1936  <hp>
         PAD(1);
-        CharArray<512> sysMsgLapisName;      //0x7C1938  <r>
-        CharArray<512> sysMsgTargetName;     //0x7C1B38  <t>
-        CharArray<1024> sysMsgBuffer;        //0x7C1D38  <b>
-        CharArray<512> sysMsgSkillName;      //0x7C2138  <s>
-        CharArray<512> sysMsgPlayerName;     //0x7C2338  <p>
-        CharArray<512> sysMsgItemName;       //0x7C2538  <i>
-        UINT32 sysMsgValue3;                 //0x7C2738  <v3>
-        UINT32 sysMsgValue;                  //0x7C273C  <v>
-        CharArray<1024> sysMsgTextBuffer1;   //0x7C2740
-        CharArray<1024> sysMsgTextBuffer2;   //0x7C2B40
-        CharArray<1024> sysMsgTextBuffer3;   //0x7C2F40
-        CharArray<1024> sysMsgTextBuffer4;   //0x7C3340
-        CharArray<1024> sysMsgTextBuffer5;   //0x7C3740
+        CharArray<512> msgLapisName;         //0x7C1938  <r>
+        CharArray<512> msgTargetName;        //0x7C1B38  <t>
+        CharArray<1024> msgBuffer;           //0x7C1D38  <b>
+        CharArray<512> msgSkillName;         //0x7C2138  <s>
+        CharArray<512> msgPlayerName;        //0x7C2338  <p>
+        CharArray<512> msgItemName;          //0x7C2538  <i>
+        uint32_t msgValue3;                  //0x7C2738  <v3>
+        uint32_t msgValue;                   //0x7C273C  <v>
+        CharArray<1024> msgTextBuffer1;      //0x7C2740
+        CharArray<1024> msgTextBuffer2;      //0x7C2B40
+        CharArray<1024> msgTextBuffer3;      //0x7C2F40
+        CharArray<1024> msgTextBuffer4;      //0x7C3340
+        CharArray<1024> msgTextBuffer5;      //0x7C3740
         // 0:5 (switches buffers)
-        UINT32 sysMsgTextBufferIndex;        //0x7C3B40
+        uint32_t msgTextBufferIndex;         //0x7C3B40
         PAD(200);
-        UINT32 cursorX;                      //0x7C3C0C
-        UINT32 cursorY;                      //0x7C3C10
+        long cursorX;                        //0x7C3C0C
+        long cursorY;                        //0x7C3C10
         PAD(3660);
         CSwordEffect* seffEventEffect;       //0x7C4A60
         CSwordEffect* seffWeather;           //0x7C4A64
@@ -239,8 +241,8 @@ namespace shaiya
         CPlayerData playerData;              //0x90D1D0
         // 0x22B0208
         PAD(6384);
-        UINT32 killLv;                       //0x22B1AF8
-        UINT32 deathLv;                      //0x22B1AFC
+        int32_t killLv;                      //0x22B1AF8
+        int32_t deathLv;                     //0x22B1AFC
         PAD(2488);
         CInput input;                        //0x22B24B8
         HIMC inputContext;                   //0x22B3F70
@@ -635,7 +637,7 @@ namespace shaiya
         PAD(33608);
         int socket;                          //0x22FA304
         PAD(21368);
-        CharArray<MAX_PATH> exeFileName;     //0x22FF680
+        CharArray<260> exeFileName;          //0x22FF680
         // 0x22FF784
         PAD(708);
         HMODULE hModule;                     //0x22FFA48
@@ -669,9 +671,9 @@ namespace shaiya
         // static functions
 
         static void DrawRect(D3DCOLOR argb, long x, long y, long w, long h);
-        static void SysMsgTextOut(int messageType, int messageId, int unknown);
+        static void MsgTextOut(int messageType, int messageNumber, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
-        static char* GetMsg(int messageId);
+        static char* GetMsg(int messageNumber);
         static bool PlayWav(const char* wavFileName, D3DVECTOR* origin, float volume, bool repeat);
     };
     #pragma pack(pop)

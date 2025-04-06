@@ -1,5 +1,5 @@
 #pragma once
-#include "include/shaiya/common.h"
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -11,5 +11,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CVector<void*>) == 0x18);
+    static_assert(sizeof(CVector<void>) == 0x18);
 }

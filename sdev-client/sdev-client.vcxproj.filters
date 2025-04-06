@@ -21,15 +21,6 @@
     <Filter Include="include\shaiya\src">
       <UniqueIdentifier>{b78fdabe-c3b9-4511-8b28-843deaa34ee7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\include\network">
-      <UniqueIdentifier>{3985746f-cad3-4535-b65b-11313e41bc3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\shaiya\include\network\incoming">
-      <UniqueIdentifier>{cf292cfe-d007-41f7-9599-01f6679728ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\shaiya\include\network\outgoing">
-      <UniqueIdentifier>{8ab1abd6-1734-43b4-89c0-2ba96d7e14dd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -43,9 +34,6 @@
     </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\common.h">
-      <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\GuildData2.h">
       <Filter>include\shaiya\include</Filter>
@@ -137,34 +125,43 @@
     <ClInclude Include="include\shaiya\include\SIMM.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\A100.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\incoming\A200.h">
-      <Filter>include\shaiya\include\network\incoming</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\A100.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\A200.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\0003.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\1100.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\F100.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\network\outgoing\F900.h">
-      <Filter>include\shaiya\include\network\outgoing</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\include\STextIME.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\include\CQuickSlot.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\BillingItemInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\ExcItem.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\MeshFace.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\TargetType.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SBoxAxis.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\SModelTexture.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\STexture.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\common.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CUnionPartyInfo.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\CQuickPotionSlot.h">
+      <Filter>include\shaiya\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\include\WindowType.h">
       <Filter>include\shaiya\include</Filter>
     </ClInclude>
   </ItemGroup>

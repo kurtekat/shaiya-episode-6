@@ -2,14 +2,14 @@
 #include "include/shaiya/include/GuildUserData.h"
 using namespace shaiya;
 
-UINT8 CPlayerData::GetItemRealType(int itemType)
+int CPlayerData::GetItemRealType(int itemType)
 {
-    typedef UINT8(__thiscall* LPFN)(void*, int);
+    typedef int(__thiscall* LPFN)(void*, int);
     return (*(LPFN)0x4E5630)((void*)0x90D1D0, itemType);
 }
 
-GuildUserData* CPlayerData::GetGuildUserData(ULONG charId)
+GuildUserData* CPlayerData::GetGuildUserData(uint charId)
 {
-    typedef GuildUserData* (__thiscall* LPFN)(void*, ULONG);
+    typedef GuildUserData* (__thiscall* LPFN)(void*, uint);
     return (*(LPFN)0x4EB120)((void*)0x90D1D0, charId);
 }

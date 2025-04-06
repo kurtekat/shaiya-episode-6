@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
@@ -9,17 +10,17 @@ namespace shaiya
         LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
         LPDIRECT3DINDEXBUFFER9 indexBuffer;
         PAD(20);
-        UINT32 numVertices;        //0x1C
-        UINT32 numFaces;           //0x20
-        UINT32 numFaceIndices;     //0x24
-        UINT32 numBones;           //0x28
-        D3DMATRIX* bones;          //0x2C
+        int32_t numVertices;     //0x1C
+        int32_t numFaces;        //0x20
+        int32_t numFaceIndices;  //0x24
+        int32_t numBones;        //0x28
+        D3DMATRIX* bones;        //0x2C
         PAD(8);
-        CharArray<MAX_PATH> path;  //0x38
-        UINT16 unknown;            //0x13C
+        CharArray<260> path;     //0x38
+        uint16_t unknown;        //0x13C
         PAD(2);
         // 333, 444
-        UINT32 version;            //0x140
+        int32_t version;         //0x140
         // 0x144
     };
     #pragma pack(pop)

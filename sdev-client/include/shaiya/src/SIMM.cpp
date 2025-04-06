@@ -7,9 +7,9 @@ INPUTCONTEXT* SIMM::LockIMC(HIMC himc)
     return (*(LPFN)0x5679B0)((void*)0x22B3F74, himc);
 }
 
-BOOL SIMM::UnlockIMC(HIMC himc)
+int SIMM::UnlockIMC(HIMC himc)
 {
-    typedef BOOL(__thiscall* LPFN)(void*, HIMC);
+    typedef int(__thiscall* LPFN)(void*, HIMC);
     return (*(LPFN)0x5679C0)((void*)0x22B3F74, himc);
 }
 
@@ -19,8 +19,8 @@ void* SIMM::LockIMCC(HIMCC himcc)
     return (*(LPFN)0x5679D0)((void*)0x22B3F74, himcc);
 }
 
-BOOL SIMM::UnlockIMCC(HIMCC himcc)
+int SIMM::UnlockIMCC(HIMCC himcc)
 {
-    typedef BOOL(__thiscall* LPFN)(void*, HIMCC);
+    typedef int(__thiscall* LPFN)(void*, HIMCC);
     return (*(LPFN)0x5679E0)((void*)0x22B3F74, himcc);
 }

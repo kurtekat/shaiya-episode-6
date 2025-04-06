@@ -7,9 +7,9 @@ CQuickSlot* CQuickSlot::Create(void* block, int id)
     return (*(LPFN)0x4FE4A0)(block, id);
 }
 
-BOOL CQuickSlot::BagToBag(CQuickSlot* quickSlot, int bag, int slot)
+int CQuickSlot::BagToBag(CQuickSlot* quickSlot, int bag, int slot)
 {
-    typedef BOOL(__thiscall* LPFN)(CQuickSlot*, int, int);
+    typedef int(__thiscall* LPFN)(CQuickSlot*, int, int);
     return (*(LPFN)0x4FDFA0)(quickSlot, bag, slot);
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "include/shaiya/common.h"
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -7,7 +7,7 @@ namespace shaiya
     struct CEffectModelList
     {
         PAD(16);
-        UINT32 count;  //0x10
+        int32_t count;  //0x10
         PAD(4);
         // 0x18
     };

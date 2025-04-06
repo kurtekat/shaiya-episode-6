@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/CTexture.h"
 
@@ -14,12 +15,12 @@ namespace shaiya
     {
         PAD(1300868);               //0x7C4A68
         // max: 10000
-        UINT32 effectRenderCount;   //0x9023EC  0x13D988
+        uint32_t effectCount;       //0x9023EC  0x13D988
         PAD(9904);
         CCharacter* user;           //0x904AA0  0x140038
         PAD(536);
         // F=2048, 70=1600, D=1024
-        UINT32 mapSize;             //0x904CBC  0x140254
+        uint32_t mapSize;           //0x904CBC  0x140254
         PAD(332);
         CTexture attribute0Image;   //0x904E0C  0x1403A4  mon_not_ex.tga
         CTexture attribute1Image;   //0x904E1C  0x1403B4  mon_fire_ex.tga
@@ -39,10 +40,10 @@ namespace shaiya
         PAD(7972);
         // 0x906DE0  0x142378
 
-        static CCharacter* FindUser(ULONG objectId);
-        static CMonster* FindMob(ULONG objectId);
-        static CNpc* FindNpc(ULONG objectId);
-        static void RenderEffect(int effectDataId, int effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
+        static CCharacter* FindUser(uint objectId);
+        static CMonster* FindMob(uint objectId);
+        static CNpc* FindNpc(uint objectId);
+        static void RenderEffect(uint effectDataId, uint effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
     };
     #pragma pack(pop)
 

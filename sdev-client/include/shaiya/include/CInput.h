@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include "include/shaiya/common.h"
 #include "include/shaiya/include/STextIME.h"
 
@@ -21,18 +22,18 @@ namespace shaiya
     struct TextBox
     {
         PAD(48);                           //0x22B291C
-        UINT32 maxStrLen;                  //0x22B294C  0x30
-        BOOL disableCheckInput;            //0x22B2950  0x34
+        uint32_t maxStrLen;                //0x22B294C  0x30
+        bool32_t disableCheckInput;        //0x22B2950  0x34
         PAD(92);
         Array<wchar_t, 8> wideString;      //0x22B29B0  0x94
-        UINT32 wideStrLen;                 //0x22B29C0  0xA4
+        uint32_t wideStrLen;               //0x22B29C0  0xA4
         // 0x22B29B0 becomes wchar_t* if > 7
-        UINT32 wideChkStrLen;              //0x22B29C4  0xA8
+        uint32_t wideChkStrLen;            //0x22B29C4  0xA8
         PAD(4);
         CharArray<16> ansiString;          //0x22B29CC  0xB0
-        UINT32 ansiStrLen;                 //0x22B29DC  0xC0
+        uint32_t ansiStrLen;               //0x22B29DC  0xC0
         // 0x22B29CC becomes char* if > 15
-        UINT32 ansiChkStrLen;              //0x22B29E0  0xC4
+        uint32_t ansiChkStrLen;            //0x22B29E0  0xC4
         PAD(32);
         bool disableNonNumericInput;       //0x22B2A04  0xE8
         CharArray<2048> ansiBuffer;        //0x22B2A05  0xE9
@@ -47,11 +48,11 @@ namespace shaiya
         // e.g., 0x4090409
         HKL keyboardLayout;                //0x22B3F40  0x1624
         // e.g., 1033
-        UINT16 localeId;                   //0x22B3F44  0x1628
+        uint16_t localeId;                 //0x22B3F44  0x1628
         // e.g., 1252
-        UINT16 codePage;                   //0x22B3F46  0x162A
-        DWORD imeProperty;                 //0x22B3F48  0x162C
-        BOOL isImeOpen;                    //0x22B3F4C  0x1630
+        uint16_t codePage;                 //0x22B3F46  0x162A
+        uint32_t imeProperty;              //0x22B3F48  0x162C
+        bool32_t imeOpen;                  //0x22B3F4C  0x1630
         PAD(12);
         HMODULE imm32Dll;                  //0x22B3F5C  0x1640
         PAD(4);
@@ -67,12 +68,12 @@ namespace shaiya
     struct Keyboard
     {
         LPDIRECTINPUTDEVICE8A device;
-        Array<UINT8, 256> keyStates1;
-        Array<UINT8, 256> keyStates2;
-        Array<UINT8, 256> keyStates3;
-        Array<UINT8, 256> keyStates4;
-        BOOL unknown1;
-        BOOL unknown2;
+        Array<uint8_t, 256> keyStates1;
+        Array<uint8_t, 256> keyStates2;
+        Array<uint8_t, 256> keyStates3;
+        Array<uint8_t, 256> keyStates4;
+        int unknown1;
+        int unknown2;
         // 0x40C
     };
     #pragma pack(pop)
@@ -81,8 +82,8 @@ namespace shaiya
     struct Mouse
     {
         LPDIRECTINPUTDEVICE8A device;
-        BOOL unknown1;
-        BOOL unknown2;
+        int unknown1;
+        int unknown2;
         DIMOUSESTATE2 state1;
         DIMOUSESTATE2 state2;
         // 0x34

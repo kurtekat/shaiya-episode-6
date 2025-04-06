@@ -1,12 +1,12 @@
 #pragma once
-#include "include/shaiya/common.h"
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     struct CNetwork
     {
-        static void Send(void* buf, int len);
+        static void Send(void* buffer, int length);
     };
     #pragma pack(pop)
 }

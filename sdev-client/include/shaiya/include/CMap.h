@@ -1,5 +1,5 @@
 #pragma once
-#include "include/shaiya/common.h"
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -8,11 +8,11 @@ namespace shaiya
     struct CMap
     {
         PAD(12);
-        UINT32 count;  //0x0C
+        int32_t count;  //0x0C
         PAD(4);
         // 0x14
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CMap<ULONG, void*>) == 0x14);
+    static_assert(sizeof(CMap<uint32_t, void>) == 0x14);
 }

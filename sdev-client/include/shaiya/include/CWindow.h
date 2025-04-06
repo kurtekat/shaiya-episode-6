@@ -1,4 +1,5 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include "include/shaiya/common.h"
 
 namespace shaiya
@@ -9,9 +10,9 @@ namespace shaiya
         void* vftable;                   //0x00
         D2D_POINT_2U pos;                //0x04
         D2D_SIZE_U size;                 //0x0C
-        BOOL leftMouseButtonDown;        //0x14
+        bool32_t leftMouseButtonDown;    //0x14
         D2D_POINT_2U leftMouseClickPos;  //0x18
-        BOOL visible;                    //0x20
+        bool32_t visible;                //0x20
         // 0x24
 
         static void Draw(LPDIRECT3DBASETEXTURE9 texture, long x, long y);

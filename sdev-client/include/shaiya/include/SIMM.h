@@ -1,6 +1,7 @@
 #pragma once
 #include <dimm.h>
 #include <shaiya/include/common.h>
+#include "include/shaiya/common.h"
 
 namespace shaiya
 {
@@ -17,9 +18,9 @@ namespace shaiya
         // 0x18
 
         static INPUTCONTEXT* LockIMC(HIMC himc);
-        static BOOL UnlockIMC(HIMC himc);
+        static int UnlockIMC(HIMC himc);
         static void* LockIMCC(HIMCC himcc);
-        static BOOL UnlockIMCC(HIMCC himcc);
+        static int UnlockIMCC(HIMCC himcc);
     };
     #pragma pack(pop)
 }

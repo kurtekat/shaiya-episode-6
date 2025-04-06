@@ -1,13 +1,13 @@
 #pragma once
+#include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/ItemTypes.h>
-#include "include/shaiya/common.h"
 
 namespace shaiya
 {
-    enum struct ExtDuration : UINT8
+    enum struct ExtDuration : uint8_t
     {
         None,
         Unexpandable,
@@ -15,7 +15,7 @@ namespace shaiya
     };
 
     // notes: item types
-    enum struct RealType : UINT8
+    enum struct RealType : uint8_t
     {
         OneHandedSword = 1,
         TwoHandedSword,
@@ -64,63 +64,63 @@ namespace shaiya
     struct ItemInfo
     {
         char* name;               //0x00
-        char* desc;               //0x04
-        UINT8 type;               //0x08
-        UINT8 typeId;             //0x09
-        UINT8 model;              //0x0A
-        UINT8 icon;               //0x0B
-        UINT16 reqLevel;          //0x0C
+        char* description;        //0x04
+        uint8_t type;             //0x08
+        uint8_t typeId;           //0x09
+        uint8_t model;            //0x0A
+        uint8_t icon;             //0x0B
+        uint16_t level;           //0x0C
         Faction country;          //0x0E
-        bool attackFighter;       //0x0F
-        bool defenseFighter;      //0x10
-        bool patrolRogue;         //0x11
-        bool shootRogue;          //0x12
-        bool attackMage;          //0x13
-        bool defenseMage;;        //0x14
+        bool fighter;             //0x0F
+        bool defender;            //0x10
+        bool ranger;              //0x11
+        bool archer;              //0x12
+        bool mage;                //0x13
+        bool priest;              //0x14
         Grow grow;                //0x15
-        UINT16 reqStr;            //0x16
-        UINT16 reqDex;            //0x18
-        UINT16 reqRec;            //0x1A
-        UINT16 reqInt;            //0x1C
-        UINT16 reqWis;            //0x1E
-        INT32 reqLuc;             //0x20
-        INT16 reqVg;              //0x24
+        uint16_t reqStr;          //0x16
+        uint16_t reqDex;          //0x18
+        uint16_t reqRec;          //0x1A
+        uint16_t reqInt;          //0x1C
+        uint16_t reqWis;          //0x1E
+        int32_t reqLuc;           //0x20
+        int16_t reqVg;            //0x24
         ReqOg reqOg;              //0x26
-        UINT8 reqIg;              //0x27
-        UINT16 range;             //0x28
-        UINT8 attackTime;         //0x2A
+        uint8_t reqIg;            //0x27
+        uint16_t range;           //0x28
+        uint8_t attackTime;       //0x2A
         Attribute attribute;      //0x2B
         ItemEffect effect;        //0x2C
-        UINT8 slotCount;          //0x2D
-        UINT16 quality;           //0x2E
-        UINT16 minAtkPower;       //0x30
-        UINT16 addAtkPower;       //0x32
-        UINT16 defense;           //0x34
-        UINT16 resistance;        //0x36
-        UINT16 health;            //0x38
-        UINT16 stamina;           //0x3A
-        UINT16 mana;              //0x3C
-        UINT16 strength;          //0x3E
-        UINT16 dexterity;         //0x40
-        UINT16 reaction;          //0x42
-        UINT16 intelligence;      //0x44
-        UINT16 wisdom;            //0x46
-        UINT16 luck;              //0x48
+        uint8_t slots;            //0x2D
+        uint16_t quality;         //0x2E
+        uint16_t minAtkPower;     //0x30
+        uint16_t addAtkPower;     //0x32
+        uint16_t defense;         //0x34
+        uint16_t resistance;      //0x36
+        uint16_t health;          //0x38
+        uint16_t stamina;         //0x3A
+        uint16_t mana;            //0x3C
+        uint16_t strength;        //0x3E
+        uint16_t dexterity;       //0x40
+        uint16_t reaction;        //0x42
+        uint16_t intelligence;    //0x44
+        uint16_t wisdom;          //0x46
+        uint16_t luck;            //0x48
         PAD(2);
-        UINT32 buy;               //0x4C
-        UINT32 sell;              //0x50
-        UINT32 dropGrade;         //0x54
-        UINT8 composeCount;       //0x58
-        UINT8 count;              //0x59
+        uint32_t buy;             //0x4C
+        uint32_t sell;            //0x50
+        uint32_t dropGrade;       //0x54
+        uint8_t craftExpansions;  //0x58
+        uint8_t count;            //0x59
         PAD(2);
-        UINT32 duration;          //0x5C
+        uint32_t duration;        //0x5C
         ExtDuration extDuration;  //0x60
         PAD(47);
-        UINT8 vehicleModel;       //0x90
+        uint8_t vehicleModel;     //0x90
         PAD(3);
-        UINT8 vehicleSeats;       //0x94
+        uint8_t vehicleSeats;     //0x94
         PAD(3);
-        UINT32 vehicleSpeed;      //0x98
+        uint32_t vehicleSpeed;    //0x98
         bool isSnowboard;         //0x9C
         PAD(15);
         // 0xAC

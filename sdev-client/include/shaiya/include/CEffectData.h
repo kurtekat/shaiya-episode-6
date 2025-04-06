@@ -1,5 +1,5 @@
 #pragma once
-#include "include/shaiya/common.h"
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -7,7 +7,7 @@ namespace shaiya
     struct CParticleData;
     struct CTexture;
 
-    enum struct EffectDataType : UINT32
+    enum struct EffectDataType : int32_t
     {
         EFT,
         EF2,
@@ -26,19 +26,19 @@ namespace shaiya
     struct CEffectData
     {
         void* vftable;               //0x00
-        UINT32 numEffectModels;      //0x04
-        UINT32 numTextures;          //0x08
-        UINT32 numScenes;            //0x0C
-        UINT32 numSequences;         //0x10
+        int32_t numEffectModels;     //0x04
+        int32_t numTextures;         //0x08
+        int32_t numScenes;           //0x0C
+        int32_t numSequences;        //0x10
         PAD(4);
         CEffectModel* effectModels;  //0x18
         CTexture* textures;          //0x1C
         EffectScene* scenes;         //0x20
         EffectSequence* sequences;   //0x24
-        CharArray<MAX_PATH> path;    //0x28
+        CharArray<260> path;         //0x28
         // 0x12C
 
-        static BOOL CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
+        static int CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
     };
     #pragma pack(pop)
 

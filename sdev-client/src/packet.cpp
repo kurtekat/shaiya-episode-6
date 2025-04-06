@@ -7,7 +7,7 @@ using namespace shaiya;
 
 namespace packet
 {
-    void user_shape_hook(CCharacter* user)
+    void hook_0x303(CCharacter* user)
     {
         if (!user->petType)
             user->pet = nullptr;
@@ -23,16 +23,16 @@ namespace packet
     }
 
     // Adds support for system message 509
-    void revenge_mark_hook(CCharacter* killer, uint32_t killCount)
+    void hook_0x229(CCharacter* killer, uint killCount)
     {
         StringCbCopyA(
-            g_var->sysMsgTargetName.data(), 
-            g_var->sysMsgTargetName.size(), 
+            g_var->msgTargetName.data(), 
+            g_var->msgTargetName.size(), 
             killer->charName.data()
         );
 
-        g_var->sysMsgValue = killCount;
-        Static::SysMsgTextOut(5, 509, 1);
+        g_var->msgValue = killCount;
+        Static::MsgTextOut(5, 509, 1);
     }
 }
 
@@ -70,7 +70,7 @@ void __declspec(naked) naked_0x5933F8()
         pushad
 
         push esi // user
-        call packet::user_shape_hook
+        call packet::hook_0x303
         add esp,0x4
 
         popad
@@ -91,7 +91,7 @@ void __declspec(naked) naked_0x4EF2F3()
 
         push ebx // killCount
         push edi // killer
-        call packet::revenge_mark_hook
+        call packet::hook_0x229
         add esp,0x8
 
         popad
