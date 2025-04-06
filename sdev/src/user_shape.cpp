@@ -1,15 +1,16 @@
 #include <ranges>
 #include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/PartyTypes.h>
-#include <shaiya/include/common/UserTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/network/game/outgoing/0300.h>
+#include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
+#include "include/shaiya/include/CloneUser.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CZone.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/outgoing/0300.h"
-#include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
 
 namespace user_shape
@@ -19,8 +20,8 @@ namespace user_shape
         if (!user->clone)
             return;
 
-        user->clone->dead = target->status == UserStatus::Death ? true : false;
-        user->clone->sitting = target->sitting;
+        user->clone->dead = target->status == UserStatus::Death;
+        user->clone->motion = target->motion;
         user->clone->country = target->country;
         user->clone->family = target->family;
         user->clone->hair = target->hair;
@@ -34,7 +35,7 @@ namespace user_shape
 
         user->clone->equipment = {};
         user->clone->charName = {};
-        user->clone->cloakBadge = {};
+        user->clone->cloakInfo = {};
         user->clone->guildName = {};
 
         for (const auto& [slot, item] : std::views::enumerate(
@@ -57,13 +58,13 @@ namespace user_shape
         if (!item)
         {
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
+            user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
         }
         else
         {
-            user->clone->cloakBadge = item->gems;
+            user->clone->cloakInfo = item->gems;
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GetInfoUserShapeOutgoing_EP6_4);
+            user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
         }
     }
 
@@ -72,15 +73,15 @@ namespace user_shape
     /// </summary>
     /// <param name="user"></param>
     /// <param name="target"></param>
-    void send_user_shape(CUser* user, CUser* target)
+    void send_user_0x303(CUser* user, CUser* target)
     {
-        GetInfoUserShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->connection.object.id;
+        GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
+        outgoing.objectId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
             outgoing.dead = user->clone->dead;
-            outgoing.sitting = user->clone->sitting;
+            outgoing.motion = user->clone->motion;
             outgoing.country = user->clone->country;
             outgoing.family = user->clone->family;
             outgoing.hair = user->clone->hair;
@@ -94,23 +95,23 @@ namespace user_shape
             outgoing.equipment = user->clone->equipment;
             outgoing.charName = user->clone->charName;
 
-            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing_EP6_4))
+            if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
             {
-                outgoing.cloakBadge = user->clone->cloakBadge;
+                outgoing.cloakInfo = user->clone->cloakInfo;
                 outgoing.guildName = user->clone->guildName;
-                NetworkHelper::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
+                NetworkHelper::Send(target, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4));
             }
             else
             {
-                std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
-                int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
+                std::memcpy(&outgoing.cloakInfo, &user->clone->guildName, user->clone->guildName.size());
+                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
                 NetworkHelper::Send(target, &outgoing, length);
             }
         }
         else
         {
-            outgoing.dead = user->status == UserStatus::Death ? true : false;
-            outgoing.sitting = user->sitting;
+            outgoing.dead = user->status == UserStatus::Death;
+            outgoing.motion = user->motion;
             outgoing.country = user->country;
             outgoing.family = user->family;
             outgoing.hair = user->hair;
@@ -141,15 +142,15 @@ namespace user_shape
             auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
             if (!item)
             {
-                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
-                int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
+                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakInfo));
+                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
                 NetworkHelper::Send(target, &outgoing, length);
             }
             else
             {
-                outgoing.cloakBadge = item->gems;
+                outgoing.cloakInfo = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
-                NetworkHelper::Send(target, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4));
+                NetworkHelper::Send(target, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4));
             }
         }
     }
@@ -158,15 +159,15 @@ namespace user_shape
     /// Sends packet 0x303 (6.4) to the zone.
     /// </summary>
     /// <param name="user"></param>
-    void send_zone_shape(CUser* user)
+    void send_zone_0x303(CUser* user)
     {
-        GetInfoUserShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->connection.object.id;
+        GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
+        outgoing.objectId = user->id;
 
         if (user->shapeType == ShapeType::Disguise && user->clone)
         {
             outgoing.dead = user->clone->dead;
-            outgoing.sitting = user->clone->sitting;
+            outgoing.motion = user->clone->motion;
             outgoing.country = user->clone->country;
             outgoing.family = user->clone->family;
             outgoing.hair = user->clone->hair;
@@ -180,37 +181,31 @@ namespace user_shape
             outgoing.equipment = user->clone->equipment;
             outgoing.charName = user->clone->charName;
 
-            if (user->clone->packetLength == sizeof(GetInfoUserShapeOutgoing_EP6_4))
+            if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
             {
-                outgoing.cloakBadge = user->clone->cloakBadge;
+                outgoing.cloakInfo = user->clone->cloakInfo;
                 outgoing.guildName = user->clone->guildName;
 
-                auto zone = user->connection.object.zone;
-                if (!zone)
+                if (!user->zone)
                     return;
 
-                auto x = user->connection.object.cellX;
-                auto z = user->connection.object.cellZ;
-                CZone::SendView(zone, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4), x, z);
+                CZone::SendView(user->zone, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4), user->cellX, user->cellZ);
             }
             else
             {
-                std::memcpy(&outgoing.cloakBadge, &user->clone->guildName, user->clone->guildName.size());
+                std::memcpy(&outgoing.cloakInfo, &user->clone->guildName, user->clone->guildName.size());
 
-                auto zone = user->connection.object.zone;
-                if (!zone)
+                if (!user->zone)
                     return;
 
-                auto x = user->connection.object.cellX;
-                auto z = user->connection.object.cellZ;
-                int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
-                CZone::SendView(zone, &outgoing, length, x, z);
+                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
+                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
             }
         }
         else
         {
-            outgoing.dead = user->status == UserStatus::Death ? true : false;
-            outgoing.sitting = user->sitting;
+            outgoing.dead = user->status == UserStatus::Death;
+            outgoing.motion = user->motion;
             outgoing.country = user->country;
             outgoing.family = user->family;
             outgoing.hair = user->hair;
@@ -241,29 +236,23 @@ namespace user_shape
             auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
             if (!item)
             {
-                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakBadge));
+                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakInfo));
 
-                auto zone = user->connection.object.zone;
-                if (!zone)
+                if (!user->zone)
                     return;
 
-                auto x = user->connection.object.cellX;
-                auto z = user->connection.object.cellZ;
-                int length = sizeof(GetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakBadge);
-                CZone::SendView(zone, &outgoing, length, x, z);
+                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
+                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
             }
             else
             {
-                outgoing.cloakBadge = item->gems;
+                outgoing.cloakInfo = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
 
-                auto zone = user->connection.object.zone;
-                if (!zone)
+                if (!user->zone)
                     return;
 
-                auto x = user->connection.object.cellX;
-                auto z = user->connection.object.cellZ;
-                CZone::SendView(zone, &outgoing, sizeof(GetInfoUserShapeOutgoing_EP6_4), x, z);
+                CZone::SendView(user->zone, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4), user->cellX, user->cellZ);
             }
         }
     }
@@ -273,22 +262,19 @@ namespace user_shape
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_zone_shape_type(CUser* user, UserShapeTypeOutgoing_EP5* packet)
+    void send_zone_0x51D(CUser* user, GameCharShapeOutgoing_EP5* packet)
     {
+        GameCharShapeOutgoing_EP6_4 outgoing{};
+        outgoing.objectId = user->id;
+        outgoing.shapeType = packet->shapeType;
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
-        auto type = !vehicle ? 0 : vehicle->type;
-        auto typeId = !vehicle ? 0 : vehicle->typeId;
+        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
-        auto objectId = user->connection.object.id;
-        UserShapeTypeOutgoing_EP6_4 outgoing(objectId, packet->shapeType, type, typeId);
-
-        auto zone = user->connection.object.zone;
-        if (!zone)
+        if (!user->zone)
             return;
 
-        auto x = user->connection.object.cellX;
-        auto z = user->connection.object.cellZ;
-        CZone::SendView(zone, &outgoing, sizeof(UserShapeTypeOutgoing_EP6_4), x, z);
+        CZone::SendView(user->zone, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4), user->cellX, user->cellZ);
     }
 
     /// <summary>
@@ -297,15 +283,15 @@ namespace user_shape
     /// <param name="target"></param>
     /// <param name="user"></param>
     /// <param name="shapeType"></param>
-    void send_user_shape_type(CUser* target, CUser* user, ShapeType shapeType)
+    void send_user_0x51D(CUser* target, CUser* user, ShapeType shapeType)
     {
+        GameCharShapeOutgoing_EP6_4 outgoing{};
+        outgoing.objectId = user->id;
+        outgoing.shapeType = shapeType;
         auto& vehicle = user->inventory[0][int(EquipmentSlot::Vehicle)];
-        auto type = !vehicle ? 0 : vehicle->type;
-        auto typeId = !vehicle ? 0 : vehicle->typeId;
-
-        auto objectId = user->connection.object.id;
-        UserShapeTypeOutgoing_EP6_4 outgoing(objectId, shapeType, type, typeId);
-        NetworkHelper::Send(target, &outgoing, sizeof(UserShapeTypeOutgoing_EP6_4));
+        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
+        NetworkHelper::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
     }
 }
 
@@ -318,24 +304,12 @@ void __declspec(naked) naked_0x426948()
         
         push ebp // target
         push ebx // user
-        call user_shape::send_user_shape
+        call user_shape::send_user_0x303
         add esp,0x8
 
         popad
 
         jmp u0x426CA0
-    }
-}
-
-unsigned u0x411B26 = 0x411B26;
-unsigned u0x51B26B = 0x51B26B;
-void __declspec(naked) naked_0x411B1F()
-{
-    __asm
-    {
-        push 0x80 // size
-        call u0x51B26B // malloc
-        jmp u0x411B26
     }
 }
 
@@ -350,7 +324,7 @@ void __declspec(naked) naked_0x491B13()
         pushad
 
         push ebp // user
-        call user_shape::send_zone_shape
+        call user_shape::send_zone_0x303
         add esp,0x4
         
         popad
@@ -388,7 +362,7 @@ void __declspec(naked) naked_0x491490()
 
         push eax // packet
         push ecx // user
-        call user_shape::send_zone_shape_type
+        call user_shape::send_zone_0x51D
         add esp,0x8
         
         popad
@@ -407,7 +381,7 @@ void __declspec(naked) naked_0x42A56C()
         push eax // shapeType
         push esi // user
         push ebx // target
-        call user_shape::send_user_shape_type
+        call user_shape::send_user_0x51D
         add esp,0xC
         
         popad
@@ -455,8 +429,6 @@ void hook::user_shape()
 {
     // CZone::SendUserShape
     util::detour((void*)0x426948, naked_0x426948, 7);
-    // CObjectMgr::CreateCloneUser
-    util::detour((void*)0x411B1F, naked_0x411B1F, 7);
     // CUser::SendUserShape
     util::detour((void*)0x491B13, naked_0x491B13, 7);
     // CUser::CheckTargetUser case 2
@@ -467,4 +439,7 @@ void hook::user_shape()
     util::detour((void*)0x42A56C, naked_0x42A56C, 6);
     // CZone::SendMoveUser
     util::detour((void*)0x4263AD, naked_0x4263AD, 6);
+
+    // CObjectMgr::CreateCloneUser
+    util::write_memory((void*)0x411B20, sizeof(CloneUser), 1);
 }

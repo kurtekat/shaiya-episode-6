@@ -1,185 +1,29 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
+#include "include/shaiya/include/CBitArray.h"
+#include "include/shaiya/include/MapCurse.h"
+#include "include/shaiya/include/MapOpenTime.h"
+#include "include/shaiya/include/MapPos.h"
+#include "include/shaiya/include/MapWeather.h"
+#include "include/shaiya/include/MobRespawn.h"
 #include "include/shaiya/include/SVector.h"
 
 namespace shaiya
 {
     struct CDoor;
     struct CZone;
+    struct MapBind;
+    struct MapBoss;
+    struct MapDoor;
     struct MobInfo;
+    struct MapMob;
+    struct MapNpc;
+    struct MapOther;
+    struct MapPortal;
+    struct MapSadari;
 
-    #pragma pack(push, 1)
-    struct MapBind
-    {
-        UINT32 mapId;
-        SVector pos;
-        // 0x10
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapBossMob
-    {
-        SVector pos;               //0x00
-        float radius;              //0x0C
-        PAD(4);
-        UINT32 count;              //0x14
-        Array<UINT32, 16> mobId;   //0x18
-        Array<MobInfo*, 16> mobs;  //0x58
-        // 0x98
-        PAD(148);
-        // 0x12C
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapRandomRespawn
-    {
-        UINT32 mapId;  //0x11C
-        ULONG time;    //0x120
-        SVector pos1;  //0x124
-        SVector pos2;  //0x130
-        SVector pos3;  //0x13C
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapBoss
-    {
-        UINT32 id;                         //0x00
-        UINT32 count;                      //0x04
-        ULONG cooldown;                    //0x08
-        UINT32 portalMapId;                //0x0C
-        UINT32 portalInsZoneId;            //0x10
-        PAD(4);
-        UINT32 changeMobCount;             //0x18
-        SVector pos;                       //0x1C
-        PAD(12);
-        Array<UINT32, 16> mobId;           //0x34
-        Array<MobInfo*, 16> mobs;          //0x74
-        // 0xB4
-        PAD(100);
-        BOOL enableRandomRespawn;          //0x118
-        MapRandomRespawn randomRespawn;    //0x11C
-        Array<MapBossMob, 32> changeMobs;  //0x148
-        PAD(4);
-        // 0x26CC
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapLadder
-    {
-        SVector pos;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapMob2
-    {
-        UINT32 mobId;
-        UINT32 count;
-        PAD(28);
-        // 0x24
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapMob
-    {
-        SVector v;      //0x00
-        SVector w;      //0x0C
-        UINT32 cellX;   //0x18
-        UINT32 cellZ;   //0x1C
-        UINT32 count;   //0x20
-        MapMob2* mobs;  //0x24
-        // 0x28
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapNamedArea
-    {
-        SVector v;  //0x00
-        SVector w;  //0x0C
-        PAD(16);
-        // 0x28
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapNpc
-    {
-        UINT32 type;
-        UINT32 typeId;
-        UINT32 positionCount;
-        SVector* positions;
-        PAD(4);
-        // 0x14
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapObelisk
-    {
-        PAD(112);
-        // 0x70
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapObeliskMob
-    {
-        PAD(88);
-        // 0x58
-    };
-    #pragma pack(pop)
-
-    enum struct MapCountry : UINT32
-    {
-        Neutral,
-        Light,
-        Fury
-    };
-
-    #pragma pack(push, 1)
-    struct MapPortal
-    {
-        UINT32 id;
-        MapCountry country;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapWeather
-    {
-        UINT32 state;
-        UINT8 power;
-        PAD(3);
-        UINT32 rate;
-        DWORD delay;
-        DWORD noneDelay;
-        bool update;
-        PAD(3);
-        DWORD updateTick;
-        // 0x1C
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MapCreateTime
-    {
-        // 0:6
-        UINT16 dayOfWeek;
-        // 0:23
-        UINT16 hour;
-        // hours
-        UINT16 duration;
-    };
-    #pragma pack(pop)
-
-    enum struct MapCreateType : UINT32
+    enum struct MapCreateType : int32_t
     {
         Dungeon,    // D
         Static,     // S
@@ -190,24 +34,13 @@ namespace shaiya
         House       // H
     };
 
-    #pragma pack(push, 1)
-    struct MapCurse
-    {
-        UINT16 skillId;                 //0x1E4
-        Country country;                //0x1E6
-        UINT8 addPvPKillCount;          //0x1E7
-        UINT8 addPvPKillExpPercentage;  //0x1E8
-        PAD(3);
-    };
-    #pragma pack(pop)
-
-    enum struct MapType : UINT32
+    enum struct MapType : int32_t
     {
         Dungeon, // D
         Field    // F
     };
 
-    enum struct MapWarType : UINT32
+    enum struct WarType : int32_t
     {
         Default,
         Peace    // P
@@ -217,39 +50,43 @@ namespace shaiya
     struct CMap
     {
         CZone* zone;               //0x00
-        UINT32 size;               //0x04
-        PAD(12);
-        UINT32 mobAreaCount;       //0x14
-        MapMob* mobAreas;          //0x18
-        PAD(8);
+        int32_t size;              //0x04
+        CBitArray tile;            //0x08
+        int32_t mobCount;          //0x14
+        MapMob* mobs;              //0x18
+        int32_t bossMobCount;      //0x1C
+        MapBoss* bosses;           //0x20
         MapWeather weather;        //0x24
-        UINT32 npcCount;           //0x40
-        MapNpc* npcs;              //0x44
-        PAD(8);
-        UINT32 portalCount;        //0x50 
-        CDoor* portals;            //0x54
-        UINT32 spawnAreaCount;     //0x58
-        MapBind* spawnAreas;       //0x5C
-        UINT32 ladderCount;        //0x60
-        MapLadder* ladders;        //0x64
-        PAD(8);
-        UINT32 namedAreaCount;     //0x70
-        MapNamedArea* namedAreas;  //0x74
-        ULONG id;                  //0x78
-        MapWarType warType;        //0x7C
+        int32_t npcCount;          //0x40
+        MapNpc* nps;               //0x44
+        int32_t gmNpcCount;        //0x48
+        MapNpc* gmNpcs;            //0x4C
+        int32_t portalCount;       //0x50 
+        MapPortal* portals;        //0x54
+        int32_t bindCount;         //0x58
+        MapBind* bindings;         //0x5C
+        int32_t ladderCount;       //0x60
+        MapSadari* ladders;        //0x64
+        int32_t doorCount;         //0x68
+        MapDoor* doors;            //0x6C
+        int32_t otherCount;        //0x70
+        MapOther* others;          //0x74
+        int32_t id;                //0x78
+        WarType warType;           //0x7C
         MapType mapType;           //0x80
-        CharArray<256> svMapName;  //0x84
-        MapBind rebirthPos1;       //0x184
-        MapBind rebirthPos2;       //0x194
+        // e.g., 0.svmap
+        CharArray<256> name;       //0x84
+        MapPos rebirthPos1;        //0x184
+        MapPos rebirthPos2;        //0x194
         MapCreateType createType;  //0x1A4
         // 0x1A8
-        Array<MapCreateTime, 7> createTimes;
+        Array<MapOpenTime, 7> openTimes;
         PAD(2);
         // value * 60000 + 30000
-        ULONG expireTime;          //0x1D4
-        UINT32 createMinUser;      //0x1D8
-        UINT32 enterMaxUser;       //0x1DC
-        BOOL enableMarket;         //0x1E0
+        int32_t expireTime;        //0x1D4
+        int32_t createMinUser;     //0x1D8
+        int32_t enterMaxUser;      //0x1DC
+        bool32_t enableMarket;     //0x1E0
         MapCurse curse;            //0x1E4
         // 0x1EC
         PAD(28);
@@ -257,7 +94,6 @@ namespace shaiya
 
         static CDoor* GetPortal(CMap* map/*ecx*/, int index/*eax*/);
         static CDoor* GetPortalById(CMap* map/*ecx*/, int id/*edi*/);
-        static bool IsStatic(CMap* map/*ecx*/);
     };
     #pragma pack(pop)
 

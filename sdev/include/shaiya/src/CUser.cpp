@@ -5,7 +5,7 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, BOOL isQuest)
+void CUser::AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool32_t isQuest)
 {
     unsigned u0x465060 = 0x465060;
 
@@ -13,7 +13,7 @@ void CUser::AddExpFromUser(CUser* user/*esi*/, ULONG lastAttackCharId, int exp, 
     {
         push isQuest
         push exp
-        push lastAttackCharId
+        push lastTargetId
         mov esi,user
         call u0x465060
     }
@@ -30,22 +30,10 @@ void CUser::CancelActionExc(CUser* user/*edi*/)
     }
 }
 
-void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, ULONG money/*edx*/)
+void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, uint money/*edx*/)
 {
-    typedef void(__fastcall* LPFN)(CUser*, ULONG);
+    typedef void(__fastcall* LPFN)(CUser*, uint);
     (*(LPFN)0x486E60)(user, money);
-}
-
-void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
-{
-    unsigned u0x47E250 = 0x47E250;
-
-    __asm
-    {
-        mov esi,exchangeUser
-        mov ecx,user
-        call u0x47E250
-    }
 }
 
 void CUser::GetGuildName(CUser* user, char* output)
@@ -66,27 +54,15 @@ int CUser::GetPartyType(CUser* user)
     return (*(LPFN)0x49B120)(user);
 }
 
-bool CUser::HasBuffUpLevel(CUser* user/*esi*/, SkillInfo* info/*ebx*/)
-{
-    unsigned u0x472530 = 0x472530;
-
-    __asm
-    {
-        mov ebx,info
-        mov esi,user
-        call u0x472530
-    }
-}
-
 void CUser::InitEquipment(CUser* user/*ecx*/)
 {
     typedef void(__thiscall* LPFN)(CUser*);
     (*(LPFN)0x461010)(user);
 }
 
-void CUser::InitEquipment(CUser* user/*ecx*/, BOOL reset)
+void CUser::InitEquipment(CUser* user/*ecx*/, bool32_t reset)
 {
-    typedef void(__thiscall* LPFN)(CUser*, BOOL);
+    typedef void(__thiscall* LPFN)(CUser*, bool32_t);
     (*(LPFN)0x461570)(user, reset);
 }
 
@@ -209,7 +185,7 @@ void CUser::ItemGet(CUser* user/*ecx*/, CItem* item)
     (*(LPFN)0x46AE60)(user, item);
 }
 
-void CUser::ItemGetMoney(CUser* user/*edx*/, int money/*ecx*/)
+void CUser::ItemGetMoney(CUser* user/*edx*/, uint money/*ecx*/)
 {
     unsigned u0x46BBA0 = 0x46BBA0;
 
@@ -234,15 +210,15 @@ void CUser::ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/)
     }
 }
 
-void CUser::ItemUse(CUser* user, int bag, int slot, ULONG targetId, int byTargetType)
+void CUser::ItemUse(CUser* user, int bag, int slot, uint targetId, int targetType)
 {
-    typedef void(__stdcall* LPFN)(CUser*, int, int, ULONG, int);
-    (*(LPFN)0x472DA0)(user, bag, slot, targetId, byTargetType);
+    typedef void(__stdcall* LPFN)(CUser*, int, int, uint, int);
+    (*(LPFN)0x472DA0)(user, bag, slot, targetId, targetType);
 }
 
-void CUser::ItemUseNSend(CUser* user, int bag, int slot, BOOL moveMap)
+void CUser::ItemUseNSend(CUser* user, int bag, int slot, bool32_t moveMap)
 {
-    typedef void(__thiscall* LPFN)(CUser*, int, int, BOOL);
+    typedef void(__thiscall* LPFN)(CUser*, int, int, bool32_t);
     (*(LPFN)0x4728E0)(user, bag, slot, moveMap);
 }
 
@@ -264,73 +240,16 @@ CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
     }
 }
 
-void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, BOOL bySuccess)
+void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool32_t success)
 {
     unsigned u0x48D030 = 0x48D030;
 
     __asm
     {
-        push bySuccess
+        push success
         mov eax,quest
         mov esi,user
         call u0x48D030
-    }
-}
-
-void CUser::SendAdminCmdError(CUser* user, UINT16 error/*ecx*/)
-{
-    unsigned u0x480770 = 0x480770;
-
-    __asm
-    {
-        push user
-        movzx ecx,error
-        call u0x480770
-    }
-}
-
-void CUser::SendAdminCmdSuccess(CUser* user)
-{
-    typedef void(__stdcall* LPFN)(CUser*);
-    (*(LPFN)0x4807A0)(user);
-}
-
-void CUser::SendLogAdmin(CUser* user/*edx*/, const char* desc/*edi*/)
-{
-    unsigned u0x4807D0 = 0x4807D0;
-
-    __asm
-    {
-        mov edi,desc
-        mov edx,user
-        call u0x4807D0
-    }
-}
-
-void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/)
-{
-    unsigned u0x4808A0 = 0x4808A0;
-
-    __asm
-    {
-        mov ebx,targetName
-        mov edi,desc
-        mov ecx,user
-        call u0x4808A0
-    }
-}
-
-void CUser::SendLogAdmin(CUser* user/*ecx*/, const char* desc/*edi*/, const char* targetName/*ebx*/, const char* text)
-{
-    unsigned u0x480990 = 0x480990;
-
-    __asm
-    {
-        push text
-        mov ebx,targetName
-        mov edi,desc
-        mov ecx,user
-        call u0x480990
     }
 }
 
@@ -543,14 +462,6 @@ void CUser::SendRecoverSet(CUser* user/*esi*/, int health/*ecx*/, int stamina/*e
     }
 }
 
-void CUser::SendRunMode(CUser* user, BOOL runMode)
-{
-    user->running = runMode;
-
-    typedef void(__stdcall* LPFN)(CUser*, BOOL);
-    (*(LPFN)0x491510)(user, runMode);
-}
-
 void CUser::SendShape(CUser* user/*ecx*/)
 {
     typedef void(__thiscall* LPFN)(CUser*);
@@ -592,7 +503,7 @@ void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
     }
 }
 
-void CUser::StatResetSkill(CUser* user/*eax*/, BOOL isEvent)
+void CUser::StatResetSkill(CUser* user/*eax*/, bool32_t isEvent)
 {
     unsigned u0x48FBC0 = 0x48FBC0;
 
@@ -604,7 +515,7 @@ void CUser::StatResetSkill(CUser* user/*eax*/, BOOL isEvent)
     }
 }
 
-void CUser::StatResetStatus(CUser* user/*edi*/, BOOL isEvent)
+void CUser::StatResetStatus(CUser* user/*edi*/, bool32_t isEvent)
 {
     unsigned u0x48F710 = 0x48F710;
 

@@ -1,11 +1,11 @@
 #include <util/util.h>
+#include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/Synergy.h"
-#include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
 
 namespace user_status
@@ -14,9 +14,9 @@ namespace user_status
     /// Sends packet 0x526 to the user.
     /// </summary>
     /// <param name="user"></param>
-    void send(CUser* user)
+    void send_0x526(CUser* user)
     {
-        UserStatusOutgoing outgoing{};
+        GameUserStatusOutgoing outgoing{};
 
         auto strength = user->abilityStrength;
         strength -= user->strength;
@@ -42,17 +42,17 @@ namespace user_status
         luck -= user->luck;
         outgoing.luck = luck;
 
-        auto attackPower = user->minAttackPower;
+        auto attackPower = user->attack.power;
 
         auto& weapon = user->inventory[0][int(EquipmentSlot::Weapon)];
         if (weapon)
         {
-            switch (weapon->itemInfo->realType)
+            switch (weapon->info->realType)
             {
             case RealType::Javelin:
             case RealType::Bow:
             case RealType::Crossbow:
-                attackPower = user->minRangedAttackPower;
+                attackPower = user->attackRanged.power;
                 break;
             default:
                 break;
@@ -60,17 +60,17 @@ namespace user_status
         }
 
         outgoing.minAttackPower = attackPower;
-        attackPower += user->maxAddAttackPower;
+        attackPower += user->itemAttackPowerAdd;
         outgoing.maxAttackPower = attackPower;
 
-        auto magicPower = user->minMagicPower;
+        auto magicPower = user->attackMagic.power;
         outgoing.minMagicPower = magicPower;
-        magicPower += user->maxAddAttackPower;
+        magicPower += user->itemAttackPowerAdd;
         outgoing.maxMagicPower = magicPower;
 
-        outgoing.defense = user->defense;
-        outgoing.resistance = user->magicResistance;
-        NetworkHelper::Send(user, &outgoing, sizeof(UserStatusOutgoing));
+        outgoing.defense = user->attack.defense;
+        outgoing.resistance = user->attackMagic.defense;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameUserStatusOutgoing));
     }
 }
 
@@ -81,7 +81,7 @@ void __declspec(naked) naked_0x461005()
         pushad
 
         push esi // user
-        call user_status::send
+        call user_status::send_0x526
         add esp,0x4
 
         popad

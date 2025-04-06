@@ -1,44 +1,48 @@
 #include <strsafe.h>
 #include <util/util.h>
+#include <shaiya/include/network/game/outgoing/0900.h>
+#include <shaiya/include/network/gameLog/incoming/0500.h>
 #include "include/main.h"
 #include "include/shaiya/include/CQuest.h"
-#include "include/shaiya/include/CQuestData.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/outgoing/0900.h"
-#include "include/shaiya/include/network/gameLog/incoming/0500.h"
+#include "include/shaiya/include/QuestInfo.h"
 using namespace shaiya;
 
 namespace packet_quest
 {
     /// <summary>
-    /// Sends packet 0x903 (6.4) to the user, which indicates failure.
+    /// Sends packet 0x903 (6.0) failure packet to the user.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="quest"></param>
-    /// <param name="npcId">The unique npc identifier.</param>
-    void send_failure_result(CUser* user, CQuest* quest, NpcId npcId)
+    /// <param name="npcId"></param>
+    void send_failure_0x903(CUser* user, CQuest* quest, uint npcId)
     {
-        QuestEndResultOutgoing_EP6 outgoing(npcId, quest->questInfo->questId, false, 0, 0, 0, {});
-        NetworkHelper::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
+        GameQuestEndOutgoing_EP6 outgoing{};
+        outgoing.npcId = npcId;
+        outgoing.questId = quest->info->questId;
+        outgoing.success = false;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
     }
 
     /// <summary>
-    /// Sends the episode 6.0 quest success result. Adds support for skill ability 87. Please note that 
-    /// the client does not prevent gold overflow when it handles the 0x903 packet.
+    /// Sends the 0x903 (6.0) success packet to the user. Adds support for skill ability 87. 
+    /// Please note that the client does not prevent gold overflow when it handles the 0x903 
+    /// packet. Do not report it.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="quest"></param>
-    /// <param name="questInfo"></param>
-    /// <param name="npcId">The unique npc identifier.</param>
-    /// <param name="index">The reward chosen by the player.</param>
-    void send_success_result(CUser* user, CQuest* quest, QuestInfo_EP6* questInfo, NpcId npcId, uint8_t index)
+    /// <param name="npcId"></param>
+    /// <param name="resultIndex"></param>
+    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, int resultIndex)
     {
-        if (index >= questInfo->results.size())
+        auto questInfo = quest->info;
+        if (std::cmp_greater_equal(resultIndex, questInfo->results.size()))
             return;
 
-        auto exp = questInfo->results[index].exp;
+        auto exp = questInfo->results[resultIndex].exp;
         if (exp)
         {
             auto rate = user->multiplyQuestExpRate;
@@ -48,22 +52,34 @@ namespace packet_quest
             CUser::AddExpFromUser(user, 0, exp, true);
         }
 
-        auto gold = questInfo->results[index].gold;
+        auto gold = questInfo->results[resultIndex].gold;
         if (gold)
         {
             CUser::ChkAddMoneyGet(user, gold);
             CUser::SendDBMoney(user);
         }
 
-        GameLogQuestEndResultIncoming gameLog(user, questInfo, true, gold, 0, 0, {});
-        QuestEndResultOutgoing_EP6 outgoing(npcId, questInfo->questId, true, index, exp, gold, {});
+        GameLogQuestEndIncoming gameLog{};
+        CUser::SetGameLogMain(user, &gameLog.packet);
+        gameLog.packet.questId = questInfo->questId;
+        StringCbCopyA(gameLog.packet.questName.data(), gameLog.packet.questName.size(), questInfo->questName.data());
+        gameLog.packet.success = true;
+        gameLog.packet.gold = gold;
 
-        auto& items = questInfo->results[index].items;
-        for (int i = 0; std::cmp_less(i, items.size()); ++i)
+        GameQuestEndOutgoing_EP6 outgoing{};
+        outgoing.npcId = npcId;
+        outgoing.questId = questInfo->questId;
+        outgoing.success = true;
+        outgoing.resultIndex = resultIndex;
+        outgoing.exp = exp;
+        outgoing.gold = gold;
+
+        auto& itemList = questInfo->results[resultIndex].itemList;
+        for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
         {
-            int type = items[i].type;
-            int typeId = items[i].typeId;
-            int count = items[i].count;
+            int type = itemList[i].type;
+            int typeId = itemList[i].typeId;
+            int count = itemList[i].count;
 
             int bag{}, slot{};
             ItemInfo itemInfo{};
@@ -75,9 +91,9 @@ namespace packet_quest
                 outgoing.itemList[i].type = type;
                 outgoing.itemList[i].typeId = typeId;
 
-                gameLog.itemId = itemInfo.itemId;
-                gameLog.itemCount = count;
-                gameLog.itemName = itemInfo.itemName;
+                gameLog.packet.itemId = itemInfo.itemId;
+                gameLog.packet.itemCount = count;
+                gameLog.packet.itemName = itemInfo.itemName;
             }
             else
             {
@@ -87,15 +103,15 @@ namespace packet_quest
                 outgoing.itemList[i].type = 0;
                 outgoing.itemList[i].typeId = 0;
 
-                gameLog.itemId = 0;
-                gameLog.itemCount = 0;
-                gameLog.itemName = {};
+                gameLog.packet.itemId = 0;
+                gameLog.packet.itemCount = 0;
+                gameLog.packet.itemName = {};
             }
 
-            NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogQuestEndResultIncoming));
+            NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogQuestEndIncoming));
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(QuestEndResultOutgoing_EP6));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
         CUser::QuestRemove(user, quest, true);
     }
 }
@@ -110,7 +126,7 @@ void __declspec(naked) naked_0x48D1F2()
         push 0x0 // npcId
         push ebp // quest
         push ebx // user
-        call packet_quest::send_failure_result
+        call packet_quest::send_failure_0x903
         add esp,0xC
 
         popad
@@ -132,7 +148,7 @@ void __declspec(naked) naked_0x48DC3D()
         push ecx // npcId
         push ebx // quest
         push edi // user
-        call packet_quest::send_failure_result
+        call packet_quest::send_failure_0x903
         add esp,0xC
 
         popad
@@ -152,11 +168,10 @@ void __declspec(naked) naked_0x48DE38()
 
         push edx // index
         push ecx // npcId
-        push eax // questInfo
         push ebx // quest
         push edi // user
-        call packet_quest::send_success_result
-        add esp,0x14
+        call packet_quest::send_success_0x903
+        add esp,0x10
 
         popad
 

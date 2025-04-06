@@ -6,16 +6,16 @@ namespace shaiya
     #pragma pack(push, 1)
     struct LapisionEnchantStep16
     {
-        UINT16 weapon;
-        UINT16 defense;
+        uint16_t weapon;
+        uint16_t defense;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct LapisionEnchantStep32
     {
-        UINT32 weapon;
-        UINT32 defense;
+        uint32_t weapon;
+        uint32_t defense;
     };
     #pragma pack(pop)
 

@@ -2,25 +2,24 @@
 #include "include/shaiya/include/CMob.h"
 #include "include/shaiya/include/CNpc.h"
 #include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/Obelisk.h"
 #include "include/shaiya/include/SVector.h"
 using namespace shaiya;
 
-CMob* CZone::FindMob(CZone* zone/*ecx*/, ULONG objectId)
+CMob* CZone::FindMob(CZone* zone/*ecx*/, uint objectId)
 {
-    typedef CMob* (__thiscall* LPFN)(CZone*, ULONG);
+    typedef CMob* (__thiscall* LPFN)(CZone*, uint);
     return (*(LPFN)0x41CFD0)(zone, objectId);
 }
 
-CNpc* CZone::FindNpc(CZone* zone/*ecx*/, ULONG objectId)
+CNpc* CZone::FindNpc(CZone* zone/*ecx*/, uint objectId)
 {
-    typedef CNpc* (__thiscall* LPFN)(CZone*, ULONG);
+    typedef CNpc* (__thiscall* LPFN)(CZone*, uint);
     return (*(LPFN)0x41D4A0)(zone, objectId);
 }
 
-CUser* CZone::FindUser(CZone* zone/*ecx*/, ULONG objectId)
+CUser* CZone::FindUser(CZone* zone/*ecx*/, uint objectId)
 {
-    typedef CUser* (__thiscall* LPFN)(CZone*, ULONG);
+    typedef CUser* (__thiscall* LPFN)(CZone*, uint);
     return (*(LPFN)0x41C6E0)(zone, objectId);
 }
 
@@ -34,12 +33,6 @@ MapBoss* CZone::GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/)
         mov ecx,zone
         call u0x4224C0
     }
-}
-
-int CZone::GetCurUserCount(CZone* zone/*ecx*/)
-{
-    typedef int(__thiscall* LPFN)(CZone*);
-    return (*(LPFN)0x429AF0)(zone);
 }
 
 int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/)
@@ -69,7 +62,7 @@ bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos
     }
 }
 
-ULONG CZone::MobGenEx(CZone* zone, ULONG objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
+uint CZone::MobGenEx(CZone* zone, uint objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
 {
     unsigned u0x424750 = 0x424750;
 
@@ -102,9 +95,9 @@ bool CZone::MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, S
     }
 }
 
-bool CZone::MobRemoveById(CZone* zone/*ecx*/, ULONG objectId)
+bool CZone::MobRemoveById(CZone* zone/*ecx*/, uint objectId)
 {
-    typedef bool(__thiscall* LPFN)(CZone*, ULONG);
+    typedef bool(__thiscall* LPFN)(CZone*, uint);
     return (*(LPFN)0x425430)(zone, objectId);
 }
 
@@ -172,9 +165,9 @@ bool CZone::NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int ce
     }
 }
 
-void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority)
+void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint senderId, uint targetId, int priority)
 {
-    typedef void(__stdcall* LPFN)(CZone*, void*, int, SVector*, float, ULONG, ULONG, int);
+    typedef void(__stdcall* LPFN)(CZone*, void*, int, SVector*, float, uint, uint, int);
     (*(LPFN)0x427CF0)(zone, packet, length, base, radius, senderId, targetId, priority);
 }
 

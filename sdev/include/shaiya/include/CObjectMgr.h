@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/CloneUser.h"
 #include "include/shaiya/include/SSyncHeap.h"
 
 namespace shaiya
@@ -8,6 +7,7 @@ namespace shaiya
     struct AdminNotice;
     struct CDead;
     struct CItem;
+    struct CloneUser;
     struct CMob;
     struct CNpc;
     struct CQuest;
@@ -19,13 +19,12 @@ namespace shaiya
     // 00411260 ctor
     struct CObjectMgr
     {
-        // to-do: count of what?
-        UINT32 userCount;                   //0x00
-        UINT32 itemCount;                   //0x04
-        UINT32 mobCount;                    //0x08
-        UINT32 npcCount;                    //0x0C
-        UINT32 skillCount;                  //0x10
-        UINT32 trapCount;                   //0x14
+        uint32_t allocUserIdCount;          //0x00
+        uint32_t allocItemIdCount;          //0x04
+        uint32_t allocMobIdCount;           //0x08
+        uint32_t allocNpcIdCount;           //0x0C
+        uint32_t allocSkillIdCount;         //0x10
+        uint32_t allocTrapIdCount;          //0x14
         SSyncHeap<CUser> userHeap;          //0x18
         SSyncHeap<CMob> mobHeap;            //0x3C
         SSyncHeap<CNpc> npcHeap;            //0x60

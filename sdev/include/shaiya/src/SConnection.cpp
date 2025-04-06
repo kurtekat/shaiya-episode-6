@@ -7,8 +7,8 @@ void SConnection::Send(SConnection* connection/*ecx*/, void* packet, int length)
     (*(LPFN)0x4ED0E0)(connection, packet, length);
 }
 
-void SConnection::Close(SConnection* connection/*ecx*/, int closeType, int closeErr)
+void SConnection::Close(SConnection* connection/*ecx*/, int closeType, int closeError)
 {
     typedef void(__thiscall* LPFN)(SConnection*, int, int);
-    (*(LPFN)0x4EC760)(connection, closeType, closeErr);
+    (*(LPFN)0x4EC760)(connection, closeType, closeError);
 }

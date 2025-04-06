@@ -2,18 +2,6 @@
 #include "include/shaiya/include/CUser.h"
 using namespace shaiya;
 
-void CNpc::SetStatus(CNpc* npc/*eax*/, int status/*ecx*/)
-{
-    unsigned u0x4D45F0 = 0x4D45F0;
-
-    __asm
-    {
-        mov ecx,status
-        mov eax,npc
-        call u0x4D45F0
-    }
-}
-
 void CNpc::SetTarget(CNpc* npc/*eax*/, CUser* user/*esi*/)
 {
     unsigned u0x4D4550 = 0x4D4550;

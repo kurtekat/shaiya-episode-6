@@ -1,7 +1,10 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/UserTypes.h>
+#include "include/shaiya/include/GuildUserInfo.h"
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SSyncMap.h"
 #include "include/shaiya/include/SVector.h"
@@ -9,108 +12,64 @@
 namespace shaiya
 {
     struct CItem;
+    struct CUser;
 
-    #pragma pack(push, 1)
-    struct GuildNpc
-    {
-        UINT16 type;
-        UINT16 level;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct GuildNpcs
-    {
-        Array<GuildNpc, 8> npcs;  //0x47C
-        CRITICAL_SECTION cs;      //0x49C
-    };
-    #pragma pack(pop)
-
-    enum struct GuildPvPStatus : UINT32
+    enum struct GuildPvPStatus : int32_t
     {
         None,
         RequestSent,
-        RequestReceived,
+        RequestRecv,
         Countdown,
         Start
     };
 
     #pragma pack(push, 1)
-    struct GuildPvP
+    struct GuildNpc
     {
-        GuildPvPStatus status;    //0x4B4
-        ULONG requestSenderId;    //0x4B8
-        ULONG targetId;           //0x4BC
-        ULONG requestTargetId;    //0x4C0
-        SVector area;             //0x4C4
-        UINT32 mapId;             //0x4D0
-        UINT32 memberCount;       //0x4D4
-        Array<ULONG, 7> members;  //0x4D8
+        uint16_t type;
+        uint16_t level;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GuildWarehouse
+    struct CGuild : SNode
     {
-        Array<CItem*, 240> items;  //0xA4
-        CRITICAL_SECTION cs;       //0x464
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct stGuildUserInfo
-    {
-        SNode node;         //0x00
-        ULONG charId;       //0x08
-        CharName charName;  //0x0C
-        PAD(3);
-        Job job;            //0x24
-        PAD(3);
-        UINT16 level;       //0x28
+        uint32_t id;                   //0x08
+        CharArray<25> name;            //0x0C
+        CharName masterName;           //0x25
         PAD(2);
-        UINT8 rank;         //0x2C
-        PAD(15);
-        // 0x3C
-    };
-    #pragma pack(pop)
-
-    static_assert(sizeof(stGuildUserInfo) == 0x3C);
-
-    #pragma pack(push, 1)
-    struct GuildMembers
-    {
-        SSyncMap<ULONG, stGuildUserInfo*> online;   //0x4F4
-        SSyncMap<ULONG, stGuildUserInfo*> offline;  //0x53C
-        SSyncMap<ULONG, stGuildUserInfo*> joiners;  //0x584
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct CGuild
-    {
-        SNode node;                //0x00
-        ULONG id;                  //0x08
-        CharArray<25> name;        //0x0C
-        CharName masterName;       //0x25
-        PAD(2);
-        UINT32 adminCount;         //0x3C
-        UINT32 country;            //0x40
-        UINT32 points;             //0x44
-        UINT32 rank;               //0x48
-        UINT32 etin;               //0x4C
-        UINT32 keepEtin;           //0x50
-        bool hasHouse;             //0x54
-        bool buyHouse;             //0x55
-        CharArray<65> remark;      //0x56
+        int32_t adminCount;            //0x3C
+        int32_t country;               //0x40
+        uint32_t rankPoints;           //0x44
+        uint32_t rank;                 //0x48
+        uint32_t etin;                 //0x4C
+        uint32_t keepEtin;             //0x50
+        bool hasHouse;                 //0x54
+        bool buyHouse;                 //0x55
+        CharArray<65> remark;          //0x56
         PAD(1);
-        UINT32 guildRankPoints;    //0x98
-        UINT32 etinReturnCount;    //0x9C
-        UINT32 grbJoinCount;       //0xA0
-        GuildWarehouse warehouse;  //0xA4
-        GuildNpcs npcs;            //0x47C
-        GuildPvP pvp;              //0x4B4
-        GuildMembers members;      //0x4F4
-        CRITICAL_SECTION cs;       //0x5CC
+        uint32_t grbPoints;            //0x98
+        uint32_t etinReturnCount;      //0x9C
+        uint32_t grbJoinCount;         //0xA0
+        Array<CItem*, 240> warehouse;  //0xA4
+        CRITICAL_SECTION csWarehouse;  //0x464
+        Array<GuildNpc, 8> npcs;       //0x47C
+        CRITICAL_SECTION csNpcs;       //0x49C
+        GuildPvPStatus pvpStatus;      //0x4B4
+        uint32_t pvpMasterId;          //0x4B8
+        uint32_t pvpGuildId;           //0x4BC
+        uint32_t pvpGuildMasterId;     //0x4C0
+        SVector pvpPos;                //0x4C4
+        int32_t pvpMapId;              //0x4D0
+        int32_t pvpUserCount;          //0x4D4
+        Array<uint32_t, 7> pvpUsers;   //0x4D8
+        // 0x4F4
+        SSyncMap<uint32_t, GuildUserInfo*> online;
+        // 0x53C
+        SSyncMap<uint32_t, GuildUserInfo*> offline;
+        // 0x584
+        SSyncMap<uint32_t, GuildUserInfo*> join;
+        CRITICAL_SECTION cs;           //0x5CC
         // 0x5E4
 
         static void Send(CGuild* guild, void* packet/*ecx*/, int length/*eax*/);

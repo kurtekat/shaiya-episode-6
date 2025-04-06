@@ -1,20 +1,15 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/SLog.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CLogConnection
+    struct CLogConnection : SConnectionTBaseReconnect, SLog
     {
-        SConnection connection;  //0x00
-        PAD(8);
-        bool connected;          //0xD8
+        bool logNetSend;  //0x100
         PAD(7);
-        SLog log;                //0xE0
-        // 0x100
-        PAD(8);
         // 0x108
     };
     #pragma pack(pop)

@@ -1,63 +1,53 @@
 #include <util/util.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/RevengeMark.h"
-#include "include/shaiya/include/network/game/outgoing/0200.h"
 using namespace shaiya;
 
 namespace revenge_mark
 {
-    void send(CUser* target, CUser* killer)
+    void hook(CUser* target, CUser* killer)
     {
-        auto killerId = killer->connection.object.id;
-        auto targetId = target->connection.object.id;
+        auto killerId = killer->id;
+        auto targetId = target->id;
 
-        if (auto it = g_revengeMark.find(killerId); it != g_revengeMark.end())
+        if (auto it = g_revengeMarks.find(killerId); it != g_revengeMarks.end())
         {
-            if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&targetId](const auto& revenge) {
-                    return revenge.killerId == targetId;
+            if (auto revengeMark = std::find_if(
+                it->second.begin(), it->second.end(), [&targetId](const auto& revengeMark) {
+                    return revengeMark.charId == targetId;
                 }
-            ); revenge != it->second.end())
+            ); revengeMark != it->second.end())
             {
-                it->second.erase(revenge);
-
-                RevengeMarkOutgoing outgoing(targetId, 0);
-                NetworkHelper::Send(killer, &outgoing, sizeof(RevengeMarkOutgoing));
+                it->second.erase(revengeMark);
+                RevengeMark::send(killer, targetId, 0);
             }
         }
 
-        if (auto it = g_revengeMark.find(targetId); it != g_revengeMark.end())
+        if (auto it = g_revengeMarks.find(targetId); it != g_revengeMarks.end())
         {
-            if (auto revenge = std::find_if(
-                it->second.begin(), it->second.end(), [&killerId](const auto& revenge) {
-                    return revenge.killerId == killerId;
+            if (auto revengeMark = std::find_if(
+                it->second.begin(), it->second.end(), [&killerId](const auto& revengeMark) {
+                    return revengeMark.charId == killerId;
                 }
-            ); revenge != it->second.end())
+            ); revengeMark != it->second.end())
             {
-                if (revenge->killCount < RevengeMark::maxKillCount)
+                if (revengeMark->killCount < RevengeMark::maxKillCount)
                 {
-                    ++revenge->killCount;
-
-                    RevengeMarkOutgoing outgoing(revenge->killerId, revenge->killCount);
-                    NetworkHelper::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
+                    ++revengeMark->killCount;
+                    RevengeMark::send(target, revengeMark->charId, revengeMark->killCount);
                 }
             }
             else
             {
                 it->second.push_back({ killerId, 1 });
-
-                RevengeMarkOutgoing outgoing(killerId, 1);
-                NetworkHelper::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
+                RevengeMark::send(target, killerId, 1);
             }
         }
         else
         {
-            g_revengeMark.insert({ targetId, {{ killerId, 1 }} });
-
-            RevengeMarkOutgoing outgoing(killerId, 1);
-            NetworkHelper::Send(target, &outgoing, sizeof(RevengeMarkOutgoing));
+            g_revengeMarks.insert({ targetId, {{ killerId, 1 }} });
+            RevengeMark::send(target, killerId, 1);
         }
     }
 }
@@ -71,7 +61,7 @@ void __declspec(naked) naked_0x4656F7()
 
         push esi // killer
         push edi // target
-        call revenge_mark::send
+        call revenge_mark::hook
         add esp,0x8
 
         popad

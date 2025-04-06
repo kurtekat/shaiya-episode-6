@@ -7,8 +7,6 @@
 #include "include/shaiya/include/CObjectMgr.h"
 #include "include/shaiya/include/CMonitorNet.h"
 #include "include/shaiya/include/CWorld.h"
-#include "include/shaiya/include/Obelisk.h"
-#include "include/shaiya/include/SConnection.h"
 
 namespace shaiya
 {
@@ -23,10 +21,7 @@ namespace shaiya
         CLogConnection clientToLog;            //0x10A2710  0x5840
         CClientToGameLog clientToGameLog;      //0x10A2818  0x5948
         CMonitorNet monitorNet;                //0x10A28F8  0x5A28
-        PAD(696);
-        Array<ObeliskZone, 64> obeliskZones;   //0x10A2C38  0x5D68
-        Array<ObeliskBoss, 64> obeliskBosses;  //0x18C6E38  0x829F68
-        // 0x3F93038
+        //
     };
     #pragma pack(pop)
 

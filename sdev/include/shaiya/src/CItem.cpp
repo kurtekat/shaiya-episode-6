@@ -57,14 +57,14 @@ bool CItem::IsEquipment(CItem* item/*eax*/)
     }
 }
 
-bool CItem::IsEquipSex(CItem* item/*eax*/, int bySex/*ecx*/)
+bool CItem::IsEquipSex(CItem* item/*eax*/, int sex/*ecx*/)
 {
     unsigned u0x468180 = 0x468180;
 
     __asm
     {
         mov eax,item
-        mov ecx,bySex
+        mov ecx,sex
         call u0x468180
     }
 }
@@ -124,7 +124,7 @@ bool CItem::IsWeapon(CItem* item/*eax*/)
     }
 }
 
-void CItem::ReGenerationCraftExpansion(CItem* item/*esi*/, BOOL compose)
+void CItem::ReGenerationCraftExpansion(CItem* item/*esi*/, bool32_t compose)
 {
     unsigned u0x4D29C0 = 0x4D29C0;
 

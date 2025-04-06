@@ -1,10 +1,10 @@
-#include <shaiya/include/common/PartyTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/network/game/incoming/0B00.h>
+#include <shaiya/include/network/game/outgoing/0B00.h>
 #include "include/main.h"
 #include "include/shaiya/include/CParty.h"
 #include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/network/game/incoming/0B00.h"
-#include "include/shaiya/include/network/game/outgoing/0B00.h"
 using namespace shaiya;
 
 namespace packet_party
@@ -14,7 +14,7 @@ namespace packet_party
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void map_ping_handler(CUser* user, PartyMapPingIncoming* incoming)
+    void handler_0xB1C(CUser* user, GamePartyBossMapPosIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
             return;
@@ -24,13 +24,13 @@ namespace packet_party
 
         switch (incoming->partyType)
         {
-        case UnionType::Leader:
+        case UnionType::Boss:
         {
             if (!CParty::IsPartyBoss(user->party, user))
                 return;
             break;
         }
-        case UnionType::SubLeader:
+        case UnionType::SubBoss:
         {
             if (!CParty::IsPartySubBoss(user->party, user))
                 return;
@@ -40,8 +40,11 @@ namespace packet_party
             return;
         }
 
-        PartyMapPingOutgoing outgoing(incoming->x, incoming->y, incoming->partyType);
-        CParty::Send(user->party, &outgoing, sizeof(PartyMapPingOutgoing));
+        GamePartyBossMapPosOutgoing outgoing{};
+        outgoing.x = incoming->x;
+        outgoing.y = incoming->y;
+        outgoing.partyType = incoming->partyType;
+        CParty::Send(user->party, &outgoing, sizeof(GamePartyBossMapPosOutgoing));
     }
 }
 
@@ -62,7 +65,7 @@ void __declspec(naked) naked_0x4752EB()
 
         push ebx // packet
         push ebp // user
-        call packet_party::map_ping_handler
+        call packet_party::handler_0xB1C
         add esp,0x8
 
         popad

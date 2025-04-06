@@ -1,10 +1,9 @@
 #include <util/util.h>
+#include <shaiya/include/network/game/incoming/0A00.h>
+#include <shaiya/include/network/game/outgoing/0A00.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/incoming/0A00.h"
-#include "include/shaiya/include/network/game/outgoing/0A00.h"
-#include "include/shaiya/include/network/game/outgoing/2400.h"
 using namespace shaiya;
 
 namespace packet_exchange
@@ -13,11 +12,14 @@ namespace packet_exchange
     /// Sends packet 0xA05 to the user.
     /// </summary>
     /// <param name="user"></param>
-    void send_cancel_ready(CUser* user)
+    void send_cancel_0xA05(CUser* user)
     {
         user->exchange.ready = false;
-        ExchangeReadyOutgoing outgoing(ExchangeReadyType::Cancel, true);
-        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeReadyOutgoing));
+
+        GameExchangeReadyOutgoing outgoing{};
+        outgoing.type = GameExchangeReadyType::Cancel;
+        outgoing.canceled = true;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeReadyOutgoing));
     }
 
     /// <summary>
@@ -25,21 +27,24 @@ namespace packet_exchange
     /// </summary>
     /// <param name="user"></param>
     /// <param name="exchangeUser"></param>
-    void send_cancel_confirm(CUser* user, CUser* exchangeUser)
+    void send_cancel_0xA0A(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
-        ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, false);
-        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-        outgoing.type = ExchangeConfirmType::Target;
-        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        GameExchangeConfirmOutgoing outgoing{}; 
+        outgoing.type = GameExchangeConfirmType::Sender;
+        outgoing.confirmed = false;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+
+        outgoing.type = GameExchangeConfirmType::Target;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
-        outgoing.type = ExchangeConfirmType::Sender;
-        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        outgoing.type = GameExchangeConfirmType::Sender;
+        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
-        outgoing.type = ExchangeConfirmType::Target;
-        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(ExchangeConfirmOutgoing));
+        outgoing.type = GameExchangeConfirmType::Target;
+        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
     }
 
     /// <summary>
@@ -49,9 +54,9 @@ namespace packet_exchange
     /// <param name="exchangeUser"></param>
     void send_cancel(CUser* user, CUser* exchangeUser)
     {
-        send_cancel_ready(user);
-        send_cancel_ready(exchangeUser);
-        send_cancel_confirm(user, exchangeUser);
+        send_cancel_0xA05(user);
+        send_cancel_0xA05(exchangeUser);
+        send_cancel_0xA0A(user, exchangeUser);
     }
 
     /// <summary>
@@ -59,7 +64,7 @@ namespace packet_exchange
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void confirm_handler(CUser* user, ExchangeConfirmIncoming* incoming)
+    void handler_0xA0A(CUser* user, GameExchangeConfirmIncoming* incoming)
     {
         if (!user->exchange.user)
             return;
@@ -67,11 +72,14 @@ namespace packet_exchange
         if (incoming->confirmed)
         {
             user->exchange.confirmed = true;
-            ExchangeConfirmOutgoing outgoing(ExchangeConfirmType::Sender, true);
-            NetworkHelper::Send(user, &outgoing, sizeof(ExchangeConfirmOutgoing));
 
-            outgoing.type = ExchangeConfirmType::Target;
-            NetworkHelper::Send(user->exchange.user, &outgoing, sizeof(ExchangeConfirmOutgoing));
+            GameExchangeConfirmOutgoing outgoing{};
+            outgoing.type = GameExchangeConfirmType::Sender;
+            outgoing.confirmed = true;
+            NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+
+            outgoing.type = GameExchangeConfirmType::Target;
+            NetworkHelper::Send(user->exchange.user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
         }
         else
         {
@@ -84,9 +92,9 @@ namespace packet_exchange
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_item_hook(CUser* user, ExchangeItemOutgoing_EP5* packet)
+    void dest_hook(CUser* user, GameExchangeAddDestOutgoing_EP5* packet)
     {
-        ExchangeItemOutgoing_EP6_4 outgoing{};
+        GameExchangeAddDestOutgoing_EP6_4 outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.destSlot = packet->destSlot;
         outgoing.type = packet->type;
@@ -95,7 +103,7 @@ namespace packet_exchange
         outgoing.quality = packet->quality;
         outgoing.gems = packet->gems;
         outgoing.craftName = packet->craftName;
-        NetworkHelper::Send(user, &outgoing, sizeof(ExchangeItemOutgoing_EP6_4));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeAddDestOutgoing_EP6_4));
     }
 }
 
@@ -115,7 +123,7 @@ void __declspec(naked) naked_0x47D964()
 
         push edi // packet
         push ebx // user
-        call packet_exchange::confirm_handler
+        call packet_exchange::handler_0xA0A
         add esp,0x8
 
         popad
@@ -131,7 +139,7 @@ void __declspec(naked) naked_0x47E26F()
     {
         pushad
 
-        push esi // exchange user
+        push esi // exchangeUser
         push ecx // user
         call packet_exchange::send_cancel
         add esp,0x8
@@ -150,7 +158,7 @@ void __declspec(naked) naked_0x47DE08()
     {
         pushad
 
-        push esi // exchange user
+        push esi // exchangeUser
         push ebx // user
         call packet_exchange::send_cancel
         add esp,0x8
@@ -170,7 +178,7 @@ void __declspec(naked) naked_0x47DFC0()
     {
         pushad
 
-        push esi // exchange user
+        push esi // exchangeUser
         push ebx // user
         call packet_exchange::send_cancel
         add esp,0x8
@@ -197,7 +205,7 @@ void __declspec(naked) naked_0x47DF22()
 
         push eax // packet
         push esi // user
-        call packet_exchange::send_item_hook
+        call packet_exchange::dest_hook
         add esp,0x8
 
         popad
@@ -220,7 +228,7 @@ void __declspec(naked) naked_0x48C741()
 
         push eax // packet
         push esi // user
-        call packet_exchange::send_item_hook
+        call packet_exchange::dest_hook
         add esp,0x8
 
         popad

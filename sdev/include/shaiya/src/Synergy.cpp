@@ -55,14 +55,14 @@ void Synergy::init()
 
             for (auto&& effect : synergy.effects)
             {
-                uint32_t descLength{};
-                sdata.read(reinterpret_cast<char*>(&descLength), 4);
+                uint32_t textLength{};
+                sdata.read(reinterpret_cast<char*>(&textLength), 4);
 
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
-                std::string desc(descLength, '\0');
-                sdata.read(desc.data(), desc.size());
+                std::string text(textLength, '\0');
+                sdata.read(text.data(), text.size());
 
-                auto vec = util::split(desc, ',');
+                auto vec = util::split(text, ',');
                 if (vec.size() != effect.size())
                     continue;
 
@@ -91,7 +91,7 @@ void Synergy::equipmentAdd(CUser* user)
     if (equipment.empty())
         return;
 
-    std::vector<SynergyEffect> effects;
+    std::vector<StatusEffects> effects;
     Synergy::getWornSynergies(equipment, effects);
 
     if (effects.empty())
@@ -121,7 +121,7 @@ void Synergy::equipmentRemove(CUser* user, int slot)
     if (equipment.empty())
         return;
 
-    std::vector<SynergyEffect> effects;
+    std::vector<StatusEffects> effects;
     Synergy::getWornSynergies(equipment, effects);
 
     if (effects.empty())
@@ -132,7 +132,7 @@ void Synergy::equipmentRemove(CUser* user, int slot)
 
 void Synergy::removeSynergies(CUser* user)
 {
-    auto it = g_appliedSynergies.find(user->connection.object.id);
+    auto it = g_appliedSynergies.find(user->id);
     if (it == g_appliedSynergies.end())
         return;
 
@@ -165,9 +165,9 @@ void Synergy::removeSynergies(CUser* user)
         user->maxHealth -= health;
         user->maxMana -= mana;
         user->maxStamina -= stamina;
-        user->abilityAttackPower -= attackPower;
-        user->abilityRangedAttackPower -= rangedAttackPower;
-        user->abilityMagicPower -= magicPower;
+        user->attackAdd.power -= attackPower;
+        user->attackAddRanged.power -= rangedAttackPower;
+        user->attackAddMagic.power -= magicPower;
 
         if (reaction)
             user->maxHealth -= reaction * 5;
@@ -179,7 +179,7 @@ void Synergy::removeSynergies(CUser* user)
             user->maxStamina -= dexterity * 5;
     }
 
-    if (!user->ignoreMaxHpMpSpSpeed)
+    if (!user->initStatusFlag)
     {
         if (maxHealth != user->maxHealth)
             CUser::SendMaxHP(user);
@@ -191,13 +191,12 @@ void Synergy::removeSynergies(CUser* user)
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.erase(user->connection.object.id);
+    g_appliedSynergies.erase(user->id);
 }
 
-void Synergy::applySynergies(CUser* user, const std::vector<SynergyEffect>& effects)
+void Synergy::applySynergies(CUser* user, const std::vector<StatusEffects>& effects)
 {
-    auto objectId = user->connection.object.id;
-    if (g_appliedSynergies.count(objectId))
+    if (g_appliedSynergies.count(user->id))
         Synergy::removeSynergies(user);
 
     auto maxHealth = user->maxHealth;
@@ -228,9 +227,9 @@ void Synergy::applySynergies(CUser* user, const std::vector<SynergyEffect>& effe
         user->maxHealth += health;
         user->maxMana += mana;
         user->maxStamina += stamina;
-        user->abilityAttackPower += attackPower;
-        user->abilityRangedAttackPower += rangedAttackPower;
-        user->abilityMagicPower += magicPower;
+        user->attackAdd.power += attackPower;
+        user->attackAddRanged.power += rangedAttackPower;
+        user->attackAddMagic.power += magicPower;
 
         if (reaction)
             user->maxHealth += reaction * 5;
@@ -242,7 +241,7 @@ void Synergy::applySynergies(CUser* user, const std::vector<SynergyEffect>& effe
             user->maxStamina += dexterity * 5;
     }
 
-    if (!user->ignoreMaxHpMpSpSpeed)
+    if (!user->initStatusFlag)
     {
         if (maxHealth != user->maxHealth)
             CUser::SendMaxHP(user);
@@ -254,7 +253,7 @@ void Synergy::applySynergies(CUser* user, const std::vector<SynergyEffect>& effe
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.insert({ objectId, effects });
+    g_appliedSynergies.insert({ user->id, effects });
 }
 
 void Synergy::getWornEquipment(CUser* user, std::set<ItemId>& equipment)
@@ -269,14 +268,14 @@ void Synergy::getWornEquipment(CUser* user, std::set<ItemId>& equipment)
     }
 }
 
-void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<SynergyEffect>& effects)
+void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<StatusEffects>& effects)
 {
     if (equipment.empty())
         return;
 
     for (const auto& synergy : g_synergies)
     {
-        size_t wornCount = 0;
+        int wornCount = 0;
         for (const auto& itemId : synergy.set)
         {
             if (equipment.count(itemId))
@@ -287,10 +286,10 @@ void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<Sy
             continue;
 
         --wornCount;
-        if (!wornCount || wornCount >= synergy.effects.size())
+        if (!wornCount || std::cmp_greater_equal(wornCount, synergy.effects.size()))
             continue;
 
-        for (auto i = wornCount; i > 0; --i)
+        for (int i = wornCount; i > 0; --i)
         {
             auto& effect = synergy.effects[i];
             if (std::all_of(effect.begin(), effect.end(), [](auto& e) { return !e; }))

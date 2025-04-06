@@ -1,13 +1,12 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Attribute.h>
+#include "include/shaiya/include/MobAttackInfo.h"
+#include "include/shaiya/include/MobItemDropInfo.h"
 
 namespace shaiya
 {
-    using MobResistSkill = Array<UINT8, 6>;
-    using MobResistState = Array<bool, 15>;
-
-    enum struct MobTeam : UINT32
+    enum struct MobTeam : int32_t
     {
         Light,
         Fury,
@@ -15,82 +14,57 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct MobQuestItem
-    {
-        UINT8 type;
-        UINT8 typeId;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MobAttack
-    {
-        PAD(4);
-        UINT16 type;
-        bool enabled;
-        PAD(1);
-        UINT32 time;
-        UINT8 range;
-        PAD(1);
-        UINT16 power;
-        UINT16 addPower;
-        Attribute attribute;
-        UINT8 special;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct MobItem
-    {
-        UINT32 grade;
-        UINT32 dropRate;
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
     struct MobInfo
     {
-        UINT16 mobId;                 //0x00
-        CharArray<32> mobName;        //0x02
-        UINT16 level;                 //0x22
-        UINT16 exp;                   //0x24
-        UINT8 ai;                     //0x26
+        uint16_t mobId;           //0x00
+        CharArray<32> mobName;    //0x02
+        uint16_t level;           //0x22
+        uint16_t exp;             //0x24
+        uint8_t ai;               //0x26
         PAD(1);
-        UINT16 money1;                //0x28
-        UINT16 money2;                //0x2A
-        MobQuestItem questItem;       //0x2C
+        uint16_t money;           //0x28
+        uint16_t moneyAdd;        //0x2A
+        uint8_t questItemType;    //0x2C
+        uint8_t questItemTypeId;  //0x2D
         PAD(2);
-        UINT32 health;                //0x30
-        UINT16 stamina;               //0x34
-        UINT16 mana;                  //0x36
-        UINT16 dexterity;             //0x38
-        UINT16 wisdom;                //0x3A
-        UINT16 luck;                  //0x3C
-        UINT8 height;                 //0x3E
-        UINT8 size;                   //0x3F
-        Attribute attribute;          //0x40
+        uint32_t health;          //0x30
+        uint16_t stamina;         //0x34
+        uint16_t mana;            //0x36
+        uint16_t dexterity;       //0x38
+        uint16_t wisdom;          //0x3A
+        uint16_t luck;            //0x3C
+        // Day
+        uint8_t height;           //0x3E
+        uint8_t size;             //0x3F
+        Attribute attribute;      //0x40
         PAD(1);
-        UINT16 defense;               //0x42
-        UINT16 resistance;            //0x44
-        MobResistState resistState;   //0x46
-        MobResistSkill resistSkill;   //0x55
+        uint16_t defense;         //0x42
+        uint16_t resistance;      //0x44
+        // 0x46
+        Array<bool, 15> resistStates;
+        // 0x55
+        Array<uint8_t, 6> resistSkills;
         PAD(1);
-        UINT32 normalTime;            //0x5C
-        UINT8 normalStep;             //0x60
+        uint32_t normalTime;      //0x5C
+        uint8_t normalStep;       //0x60
         PAD(3);
-        UINT32 chaseTime;             //0x64
-        UINT8 chaseStep;              //0x68
-        UINT8 chaseRange;             //0x69
+        uint32_t chaseTime;       //0x64
+        uint8_t chaseStep;        //0x68
+        uint8_t chaseRange;       //0x69
         PAD(2);
         // 0x4A1A53
-        DWORD cooldown;               //0x6C
-        UINT32 attackTime3;           //0x70
-        UINT32 attack3;               //0x74
-        MobTeam team;                 //0x78
-        Array<MobAttack, 3> attacks;  //0x7C
-        // 0xB8
-        PAD(4);
-        Array<MobItem, 10> items;     //0xBC
+        uint32_t respawnTime;     //0x6C
+        // AttackTime3
+        uint32_t defenseAdd;      //0x70
+        // Attack3
+        uint32_t recoverValue;    //0x74
+        MobTeam country;          //0x78
+        bool isObelisk;           //0x7C
+        PAD(3);
+        // 0x80
+        Array<MobAttackInfo, 3> attacks;
+        // 0xBC
+        Array<MobItemDropInfo, 10> dropInfo;
         // 0x10C
     };
     #pragma pack(pop)

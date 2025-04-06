@@ -1,28 +1,26 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include "include/shaiya/include/SNode.h"
+#include "include/shaiya/include/Target.h"
 
 namespace shaiya
 {
     struct SkillInfo;
 
     #pragma pack(push, 1)
-    struct CSkill
+    struct CSkill : SNode
     {
-        SNode node;             //0x00
-        ULONG id;               //0x08
-        UINT32 skillId;         //0x0C
-        UINT32 skillLv;         //0x10
-        // CUser->skillList
-        UINT32 skillListIndex;  //0x14
+        uint32_t id;          //0x08
+        int32_t skillId;      //0x0C
+        int32_t skillLv;      //0x10
+        int32_t index;        //0x14
+        tick32_t attackTime;  //0x18
+        tick32_t resetTime;   //0x1C
+        tick32_t endTime;     //0x20
+        tick32_t prevTime;    //0x24
         PAD(4);
-        DWORD learnTick;        //0x1C
-        DWORD resetTick;        //0x20
-        DWORD applyTick;        //0x24
-        PAD(8);
-        // objectId (user, mob)
-        ULONG debuffCasterId;   //0x30
-        SkillInfo* skillInfo;   //0x34
+        Target attacker;      //0x2C
+        SkillInfo* info;      //0x34
         // 0x38
     };
     #pragma pack(pop)

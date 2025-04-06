@@ -2,17 +2,19 @@
 #include <string>
 #include <strsafe.h>
 #include <util/util.h>
+#include <shaiya/include/network/dbAgent/incoming/0400.h>
+#include <shaiya/include/network/dbAgent/outgoing/0400.h>
+#include <shaiya/include/network/game/incoming/0100.h>
+#include <shaiya/include/network/game/outgoing/0100.h>
+#include <shaiya/include/network/game/outgoing/0700.h>
 #include "include/main.h"
+#include "include/shaiya/include/CharacterList.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/DBCharacterList.h"
 #include "include/shaiya/include/ItemEnchant.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/incoming/0100.h"
-#include "include/shaiya/include/network/game/outgoing/0100.h"
-#include "include/shaiya/include/network/game/outgoing/0700.h"
-#include "include/shaiya/include/network/dbAgent/incoming/0400.h"
-#include "include/shaiya/include/network/dbAgent/outgoing/0400.h"
 using namespace shaiya;
 
 namespace packet_character
@@ -22,42 +24,46 @@ namespace packet_character
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void name_available_handler(CUser* user, CharNameAvailableIncoming* incoming)
+    void handler_0x119(CUser* user, GameCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
         auto nameLength = std::strlen(incoming->name.data());
 
-        // The maximum length may vary by client locale
         if (nameLength < 3 || nameLength > 13)
         {
-            CharNameAvailableOutgoing outgoing(false);
-            NetworkHelper::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
+            GameCharNameAvailableOutgoing outgoing{};
+            outgoing.available = false;
+            NetworkHelper::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
             return;
         }
 
-        DBAgentCharNameAvailableIncoming request(user->userId, incoming->name.data());
-        int length = request.baseLength + nameLength + 1;
-        NetworkHelper::SendDBAgent(&request, length);
+        DBAgentCharNameAvailableIncoming outgoing{};
+        outgoing.billingId = user->billingId;
+        StringCbCopyA(outgoing.name.data(), outgoing.name.size(), incoming->name.data());
+
+        int length = outgoing.baseLength + nameLength + 1;
+        NetworkHelper::SendDBAgent(&outgoing, length);
     }
 
     /// <summary>
     /// Sends packet 0x119 to the user.
     /// </summary>
     /// <param name="user"></param>
-    /// <param name="response"></param>
-    void send_name_available(CUser* user, DBAgentCharNameAvailableOutgoing* response)
+    /// <param name="incoming"></param>
+    void send_0x119(CUser* user, DBAgentCharNameAvailableOutgoing* incoming)
     {
-        CharNameAvailableOutgoing outgoing(response->available);
-        NetworkHelper::Send(user, &outgoing, sizeof(CharNameAvailableOutgoing));
+        GameCharNameAvailableOutgoing outgoing{};
+        outgoing.available = incoming->available;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
     }
 
     /// <summary>
     /// Sends packet 0x711 (6.4) to the user. The item dates will be zero.
     /// </summary>
     /// <param name="user"></param>
-    void send_warehouse(CUser* user)
+    void send_0x711(CUser* user)
     {
-        UserBankItemListOutgoing_EP6_4 outgoing{};
+        GameCharBankOutgoing<BankUnit_EP6_4, 40> outgoing{};
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
@@ -68,7 +74,7 @@ namespace packet_character
             if (!item)
                 continue;
 
-            Item0711_EP6_4 item0711{};
+            BankUnit_EP6_4 item0711{};
             item0711.slot = slot;
             item0711.type = item->type;
             item0711.typeId = item->typeId;
@@ -84,7 +90,7 @@ namespace packet_character
                 continue;
             else
             {
-                int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
+                int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
                 NetworkHelper::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
@@ -95,7 +101,7 @@ namespace packet_character
         if (!outgoing.itemCount)
             return;
 
-        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0711_EP6_4));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
         NetworkHelper::Send(user, &outgoing, length);
     }
 
@@ -104,14 +110,14 @@ namespace packet_character
     /// are hard-coded to be multiples of five.
     /// </summary>
     /// <param name="user"></param>
-    void send_weapon_step(CUser* user)
+    void send_0x116(CUser* user)
     {
-        LapisianEnchantWeaponStepOutgoing outgoing{};
+        GameWeaponStepOutgoing outgoing{};
 
-        for (int i = 0; std::cmp_less(i, outgoing.addValue.size()); ++i)
-            outgoing.addValue[i] = g_LapisianEnchantAddValue->step[i].weapon;
+        for (int i = 0; std::cmp_less(i, outgoing.weaponStep.size()); ++i)
+            outgoing.weaponStep[i] = g_LapisianEnchantAddValue->step[i].weapon;
 
-        NetworkHelper::Send(user, &outgoing, sizeof(LapisianEnchantWeaponStepOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameWeaponStepOutgoing));
     }
 
     /// <summary>
@@ -119,36 +125,36 @@ namespace packet_character
     /// </summary>
     /// <param name="user"></param>
     /// <param name="dbCharacter"></param>
-    void send_character(CUser* user, Character0403_EP6_4* dbCharacter)
+    void send_0x101(CUser* user, DBCharacterList_EP6_4* dbCharacter)
     {
-        CharacterOutgoing_EP6_4 character{};
-        character.slot = dbCharacter->slot;
-        character.charId = dbCharacter->id;
-        character.regDate = dbCharacter->regDate;
-        character.level = dbCharacter->level;
-        character.family = dbCharacter->family;
-        character.grow = dbCharacter->grow;
-        character.hair = dbCharacter->hair;
-        character.face = dbCharacter->face;
-        character.size = dbCharacter->size;
-        character.job = dbCharacter->job;
-        character.sex = dbCharacter->sex;
-        character.mapId = dbCharacter->mapId;
-        character.strength = dbCharacter->strength;
-        character.dexterity = dbCharacter->dexterity;
-        character.reaction = dbCharacter->reaction;
-        character.intelligence = dbCharacter->intelligence;
-        character.wisdom = dbCharacter->wisdom;
-        character.luck = dbCharacter->luck;
-        character.health = dbCharacter->health;
-        character.mana = dbCharacter->mana;
-        character.stamina = dbCharacter->stamina;
-        character.equipment = dbCharacter->equipment;
-        StringCbCopyA(character.charName.data(), character.charName.size(), dbCharacter->charName.data());
-        character.nameChange = dbCharacter->nameChange;
-        character.deleted = dbCharacter->deleteDate ? true : false;
-        character.cloakBadge = dbCharacter->cloakBadge;
-        NetworkHelper::Send(user, &character, sizeof(CharacterOutgoing_EP6_4));
+        GameCharListOutgoing<CharacterList_EP6_4> outgoing{};
+        outgoing.slot = dbCharacter->slot;
+        outgoing.character.charId = dbCharacter->charId;
+        outgoing.character.createDate = dbCharacter->createDate;
+        outgoing.character.level = dbCharacter->level;
+        outgoing.character.family = dbCharacter->family;
+        outgoing.character.grow = dbCharacter->grow;
+        outgoing.character.hair = dbCharacter->hair;
+        outgoing.character.face = dbCharacter->face;
+        outgoing.character.size = dbCharacter->size;
+        outgoing.character.job = dbCharacter->job;
+        outgoing.character.sex = dbCharacter->sex;
+        outgoing.character.mapId = dbCharacter->mapId;
+        outgoing.character.strength = dbCharacter->strength;
+        outgoing.character.dexterity = dbCharacter->dexterity;
+        outgoing.character.reaction = dbCharacter->reaction;
+        outgoing.character.intelligence = dbCharacter->intelligence;
+        outgoing.character.wisdom = dbCharacter->wisdom;
+        outgoing.character.luck = dbCharacter->luck;
+        outgoing.character.health = dbCharacter->health;
+        outgoing.character.mana = dbCharacter->mana;
+        outgoing.character.stamina = dbCharacter->stamina;
+        outgoing.character.equipment = dbCharacter->equipment;
+        StringCbCopyA(outgoing.character.charName.data(), outgoing.character.charName.size(), dbCharacter->charName.data());
+        outgoing.character.enableRename = dbCharacter->enableRename;
+        outgoing.character.deleted = dbCharacter->deleteDate ? true : false;
+        outgoing.character.cloakInfo = dbCharacter->cloakInfo;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameCharListOutgoing<CharacterList_EP6_4>));
     }
 }
 
@@ -171,7 +177,7 @@ void __declspec(naked) naked_0x47A231()
 
         push edi // packet
         push esi // user
-        call packet_character::name_available_handler
+        call packet_character::handler_0x119
         add esp,0x8
 
         popad
@@ -187,7 +193,7 @@ void __declspec(naked) naked_0x492660()
         pushad
 
         push ebp // user
-        call packet_character::send_warehouse
+        call packet_character::send_0x711
         add esp,0x4
 
         popad
@@ -205,7 +211,7 @@ void __declspec(naked) naked_0x47B8FB()
         
         push esi // packet
         push ebp // user
-        call packet_character::send_character
+        call packet_character::send_0x101
         add esp,0x8
 
         popad
@@ -231,7 +237,7 @@ void __declspec(naked) naked_0x47B3E7()
 
         push edi // packet
         push ebp // user
-        call packet_character::send_name_available
+        call packet_character::send_0x119
         add esp,0x8
 
         popad
@@ -252,7 +258,7 @@ void __declspec(naked) naked_0x47BCE8()
         pushad
 
         push ebp // user
-        call packet_character::send_weapon_step
+        call packet_character::send_0x116
         add esp,0x4
 
         popad
@@ -275,6 +281,6 @@ void hook::packet_character()
     util::detour((void*)0x47BCE8, naked_0x47BCE8, 5);
 
     // CUser::PacketUserDBChar
-    util::write_memory((void*)0x47B4EC, sizeof(Character0403_EP6_4), 1);
-    util::write_memory((void*)0x47B9C9, sizeof(Character0403_EP6_4), 1);
+    util::write_memory((void*)0x47B4EC, sizeof(DBCharacterList_EP6_4), 1);
+    util::write_memory((void*)0x47B9C9, sizeof(DBCharacterList_EP6_4), 1);
 }

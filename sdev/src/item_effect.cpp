@@ -1,6 +1,10 @@
 //#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
-#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/SkillTypes.h>
+#include <shaiya/include/network/game/incoming/0500.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/0400.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CNpcData.h"
@@ -10,11 +14,8 @@
 #include "include/shaiya/include/CZone.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/TownMoveScroll.h"
+#include "include/shaiya/include/NpcGateKeeper.h"
 #include "include/shaiya/include/UserHelper.h"
-#include "include/shaiya/include/network/game/incoming/0500.h"
-#include "include/shaiya/include/network/game/outgoing/0200.h"
-#include "include/shaiya/include/network/game/outgoing/0400.h"
 using namespace shaiya;
 
 namespace item_effect
@@ -28,7 +29,7 @@ namespace item_effect
     /// <param name="bag"></param>
     /// <param name="slot"></param>
     /// <returns></returns>
-    int handler(CUser* user, CItem* item, ItemEffect effect, uint8_t bag, uint8_t slot)
+    int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
     {
         switch (effect)
         {
@@ -36,7 +37,7 @@ namespace item_effect
         {
             NpcGateKeeper* gateKeeper = nullptr;
 
-            switch (item->itemInfo->itemId)
+            switch (item->info->itemId)
             {
             case 101102:
                 gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, 111);
@@ -69,16 +70,19 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            auto index = user->townMoveScroll.gateIndex;
+            auto index = user->savePosUseIndex;
             if (index > 2)
                 return 0;
 
             auto mapId = gateKeeper->gates[index].mapId;
-            auto pos = &gateKeeper->gates[index].pos;
-            UserHelper::SetMovePosition(user, mapId, pos, int(UserRecallType::TownMoveScroll), 5000);
+            auto x = gateKeeper->gates[index].x;
+            auto y = gateKeeper->gates[index].y;
+            auto z = gateKeeper->gates[index].z;
+            UserHelper::SetMovePosition(user, mapId, x, y, z, int(UserMovePosType::TownMoveScroll), 5000);
 
-            UserItemCastOutgoing outgoing(user->connection.object.id);
-            CObject::PSendViewCombat(user, &outgoing, sizeof(UserItemCastOutgoing));
+            GameUserItemCastOutgoing outgoing{};
+            outgoing.objectId = user->id;
+            CObject::PSendViewCombat(user, &outgoing, sizeof(GameUserItemCastOutgoing));
             return 1;
         }
         default:
@@ -91,7 +95,7 @@ namespace item_effect
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void town_move_scroll_handler(CUser* user, TownMoveScrollIncoming* incoming)
+    void handler_0x55A(CUser* user, GameTownMoveScrollIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
             return;
@@ -103,53 +107,62 @@ namespace item_effect
         if (!item)
             return;
 
-        if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
+        if (item->info->effect != ItemEffect::TownMoveScroll)
             return;
 
         if (incoming->gateIndex > 2)
             return;
 
-        user->townMoveScroll.bag = incoming->bag;
-        user->townMoveScroll.slot = incoming->slot;
-        user->townMoveScroll.gateIndex = incoming->gateIndex;
+        user->savePosUseBag = incoming->bag;
+        user->savePosUseSlot = incoming->slot;
+        user->savePosUseIndex = incoming->gateIndex;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, incoming->bag, incoming->slot, user->connection.object.id, 0);
+        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
     }
 
     void town_move_scroll_hook(CUser* user)
     {
-        auto& item = user->inventory[user->townMoveScroll.bag][user->townMoveScroll.slot];
+        auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
         if (!item)
             return;
 
-        if (item->itemInfo->realType != RealType::Consumable)
+        if (item->info->realType != RealType::Consumable)
             return;
 
-        if (item->itemInfo->effect != ItemEffect::TownMoveScroll)
+        if (item->info->effect != ItemEffect::TownMoveScroll)
             return;
 
-        if (user->mapId != user->recallMapId)
+        if (user->mapId != user->moveMapId)
         {
-            CWorld::ZoneLeaveUserMove(user, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
+            CWorld::ZoneLeaveUserMove(user, user->moveMapId, user->movePos.x, user->movePos.y, user->movePos.z);
 
-            UserMoveDestOutgoing outgoing(user->connection.object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
-            NetworkHelper::Send(user, &outgoing, sizeof(UserMoveDestOutgoing));
-            CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, true);
+            GameUserSetMapPosOutgoing outgoing{};
+            outgoing.objectId = user->id;
+            outgoing.mapId = user->moveMapId;
+            outgoing.x = user->movePos.x;
+            outgoing.y = user->movePos.y;
+            outgoing.z = user->movePos.z;
+            NetworkHelper::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
+            CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, true);
         }
         else
         {
-            auto zone = user->connection.object.zone;
-            if (!zone)
+            if (!user->zone)
                 return;
 
-            if (!CZone::MoveUser(zone, user, user->recallPos.x, user->recallPos.y, user->recallPos.z))
+            if (!CZone::MoveUser(user->zone, user, user->movePos.x, user->movePos.y, user->movePos.z))
                 return;
 
-            UserMoveDestOutgoing outgoing(user->connection.object.id, user->recallMapId, user->recallPos.x, user->recallPos.y, user->recallPos.z);
-            CObject::SendView(&user->connection.object, &outgoing, sizeof(UserMoveDestOutgoing));
-            CUser::ItemUseNSend(user, user->townMoveScroll.bag, user->townMoveScroll.slot, false);
+            GameUserSetMapPosOutgoing outgoing{};
+            outgoing.objectId = user->id;
+            outgoing.mapId = user->moveMapId;
+            outgoing.x = user->movePos.x;
+            outgoing.y = user->movePos.y;
+            outgoing.z = user->movePos.z;
+            CObject::SendView(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
+            CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, false);
         }
     }
 
@@ -157,17 +170,17 @@ namespace item_effect
     /// Implements item effects 212, 213, and 214.
     /// </summary>
     /// <param name="item"></param>
-    /// <param name="dropType"></param>
+    /// <param name="enterType"></param>
     /// <returns></returns>
-    int zone_enter_item_hook(CItem* item, int dropType)
+    int zone_enter_item_hook(CItem* item, int enterType)
     {
-        if (dropType != int(ZoneEnterItemDropType::Mob))
+        if (enterType != int(GameItemZoneEnterType::MobDrop))
             return 0;
 
-        if (!item->object.zone)
+        if (!item->zone)
             return 0;
 
-        auto user = CZone::FindUser(item->object.zone, item->enablePickId);
+        auto user = CZone::FindUser(item->zone, item->userId);
         if (!user)
             return 0;
 
@@ -177,23 +190,23 @@ namespace item_effect
 
         if (item->type == int(ItemType::Gold))
         {
-            auto money = item->money;
+            auto money = item->dropMoney;
             if (!money)
                 return 0;
 
-            auto effect = pet->itemInfo->effect;
+            auto effect = pet->info->effect;
             if (effect != ItemEffect::PetPickGoldDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
             auto rate = user->increaseGoldDropRate;
             switch (user->charmType)
             {
-            case UserCharmType::BlueDragon:
+            case SkillCharmType::BlueDragon:
                 break;
-            case UserCharmType::WhiteTiger:
+            case SkillCharmType::WhiteTiger:
                 rate += 20;
                 break;
-            case UserCharmType::RedPhoenix:
+            case SkillCharmType::RedPhoenix:
                 rate += 50;
                 break;
             default:
@@ -208,13 +221,13 @@ namespace item_effect
         }
         else
         {
-            if (!item->itemInfo)
+            if (!item->info)
                 return 0;
 
-            if (item->itemInfo->realType == RealType::Quest)
+            if (item->info->realType == RealType::Quest)
                 return 0;
 
-            auto effect = pet->itemInfo->effect;
+            auto effect = pet->info->effect;
             if (effect != ItemEffect::PetPickItemDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
@@ -240,7 +253,7 @@ void __declspec(naked) naked_0x47468A()
         push ecx // effect
         push ebx // item
         push ebp // user
-        call item_effect::handler
+        call item_effect::hook
         add esp,0x14
         test eax,eax
 
@@ -274,7 +287,7 @@ void __declspec(naked) naked_0x4784D6()
 
         push ebp // packet
         push ecx // user
-        call item_effect::town_move_scroll_handler
+        call item_effect::handler_0x55A
         add esp,0x8
 
         popad

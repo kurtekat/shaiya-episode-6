@@ -21,11 +21,11 @@
     <ClCompile Include="include\shaiya\src\CObject.cpp" />
     <ClCompile Include="include\shaiya\src\CObjectMgr.cpp" />
     <ClCompile Include="include\shaiya\src\CParty.cpp" />
-    <ClCompile Include="include\shaiya\src\CQuestData.cpp" />
     <ClCompile Include="include\shaiya\src\CUser.cpp" />
     <ClCompile Include="include\shaiya\src\CWorld.cpp" />
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\ItemRemake.cpp" />
+    <ClCompile Include="include\shaiya\src\RevengeMark.cpp" />
     <ClCompile Include="include\shaiya\src\UserHelper.cpp" />
     <ClCompile Include="include\shaiya\src\ItemHelper.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
@@ -58,15 +58,46 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
+    <ClInclude Include="include\shaiya\include\AdminInfo.h" />
+    <ClInclude Include="include\shaiya\include\AStar.h" />
+    <ClInclude Include="include\shaiya\include\Attack.h" />
+    <ClInclude Include="include\shaiya\include\AttackAdd.h" />
+    <ClInclude Include="include\shaiya\include\AttackMob.h" />
+    <ClInclude Include="include\shaiya\include\BlockInfo.h" />
+    <ClInclude Include="include\shaiya\include\CBitArray.h" />
     <ClInclude Include="include\shaiya\include\CClientToDBAgent.h" />
     <ClInclude Include="include\shaiya\include\CClientToGameLog.h" />
     <ClInclude Include="include\shaiya\include\CClientToMgr.h" />
+    <ClInclude Include="include\shaiya\include\CDamage.h" />
     <ClInclude Include="include\shaiya\include\CDamageMob.h" />
-    <ClInclude Include="include\shaiya\include\CLogConnection.h" />
-    <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
-    <ClInclude Include="include\shaiya\include\CServer.h" />
-    <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
     <ClInclude Include="include\shaiya\include\CDoor.h" />
+    <ClInclude Include="include\shaiya\include\CExchangePvP.h" />
+    <ClInclude Include="include\shaiya\include\CharacterList.h" />
+    <ClInclude Include="include\shaiya\include\ChasePathList.h" />
+    <ClInclude Include="include\shaiya\include\ChasePathNode.h" />
+    <ClInclude Include="include\shaiya\include\CInterfaceAI.h" />
+    <ClInclude Include="include\shaiya\include\CLogConnection.h" />
+    <ClInclude Include="include\shaiya\include\CMapRegion.h" />
+    <ClInclude Include="include\shaiya\include\CMonitorNet.h" />
+    <ClInclude Include="include\shaiya\include\CObjectConnection.h" />
+    <ClInclude Include="include\shaiya\include\CObjectLink.h" />
+    <ClInclude Include="include\shaiya\include\CObjectMoveable.h" />
+    <ClInclude Include="include\shaiya\include\CServer.h" />
+    <ClInclude Include="include\shaiya\include\CTrap.h" />
+    <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
+    <ClInclude Include="include\shaiya\include\CZoneLink.h" />
+    <ClInclude Include="include\shaiya\include\CZoneNode.h" />
+    <ClInclude Include="include\shaiya\include\Damage.h" />
+    <ClInclude Include="include\shaiya\include\DBCharacterList.h" />
+    <ClInclude Include="include\shaiya\include\HPAbility.h" />
+    <ClInclude Include="include\shaiya\include\InsZonePortal.h" />
+    <ClInclude Include="include\shaiya\include\KillCountInfo.h" />
+    <ClInclude Include="include\shaiya\include\MapBind.h" />
+    <ClInclude Include="include\shaiya\include\MapBoss.h" />
+    <ClInclude Include="include\shaiya\include\MapCurse.h" />
+    <ClInclude Include="include\shaiya\include\MapDoor.h" />
+    <ClInclude Include="include\shaiya\include\MapOther.h" />
+    <ClInclude Include="include\shaiya\include\MapPortal.h" />
     <ClInclude Include="include\shaiya\include\CExchange.h" />
     <ClInclude Include="include\shaiya\include\CFriend.h" />
     <ClInclude Include="include\shaiya\include\CGameData.h" />
@@ -84,14 +115,53 @@
     <ClInclude Include="include\shaiya\include\CObjectMgr.h" />
     <ClInclude Include="include\shaiya\include\CParty.h" />
     <ClInclude Include="include\shaiya\include\CQuest.h" />
-    <ClInclude Include="include\shaiya\include\CQuestData.h" />
     <ClInclude Include="include\shaiya\include\CSkill.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\CWorld.h" />
     <ClInclude Include="include\shaiya\include\CZone.h" />
-    <ClInclude Include="include\shaiya\include\GameLogMain.h" />
+    <ClInclude Include="include\shaiya\include\FriendInfo.h" />
     <ClInclude Include="include\shaiya\include\ItemRemake.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0E00.h" />
+    <ClInclude Include="include\shaiya\include\MapBossMob.h" />
+    <ClInclude Include="include\shaiya\include\MapMob.h" />
+    <ClInclude Include="include\shaiya\include\MapNpc.h" />
+    <ClInclude Include="include\shaiya\include\MapOpenTime.h" />
+    <ClInclude Include="include\shaiya\include\MapPos.h" />
+    <ClInclude Include="include\shaiya\include\MapSadari.h" />
+    <ClInclude Include="include\shaiya\include\MapWeather.h" />
+    <ClInclude Include="include\shaiya\include\MobAttackInfo.h" />
+    <ClInclude Include="include\shaiya\include\MobItemDropInfo.h" />
+    <ClInclude Include="include\shaiya\include\MobRespawn.h" />
+    <ClInclude Include="include\shaiya\include\PartyUser.h" />
+    <ClInclude Include="include\shaiya\include\QuestInfo.h" />
+    <ClInclude Include="include\shaiya\include\QuestItem.h" />
+    <ClInclude Include="include\shaiya\include\QuestResult.h" />
+    <ClInclude Include="include\shaiya\include\Quick.h" />
+    <ClInclude Include="include\shaiya\include\SBoxAxis.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionCustomRecv.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionCustomRecvTBase.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionParam.h" />
+    <ClInclude Include="include\shaiya\include\BillingItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\DamageMob.h" />
+    <ClInclude Include="include\shaiya\include\ExcItem.h" />
+    <ClInclude Include="include\shaiya\include\GateLink.h" />
+    <ClInclude Include="include\shaiya\include\GuildUserInfo.h" />
+    <ClInclude Include="include\shaiya\include\Npc.h" />
+    <ClInclude Include="include\shaiya\include\NpcGateKeeper.h" />
+    <ClInclude Include="include\shaiya\include\NpcShop.h" />
+    <ClInclude Include="include\shaiya\include\PointLog.h" />
+    <ClInclude Include="include\shaiya\include\QuestLink.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionTBase.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionTServer.h" />
+    <ClInclude Include="include\shaiya\include\SConnectionTServerReconnect.h" />
+    <ClInclude Include="include\shaiya\include\ShopItem.h" />
+    <ClInclude Include="include\shaiya\include\SNodeSendAll.h" />
+    <ClInclude Include="include\shaiya\include\SPacketBufferSend.h" />
+    <ClInclude Include="include\shaiya\include\SQueuePrioritySendNode.h" />
+    <ClInclude Include="include\shaiya\include\SQueueSendNode.h" />
+    <ClInclude Include="include\shaiya\include\StackStateMachine.h" />
+    <ClInclude Include="include\shaiya\include\StoredPointItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\Target.h" />
+    <ClInclude Include="include\shaiya\include\TypeValue.h" />
     <ClInclude Include="include\shaiya\include\UserHelper.h" />
     <ClInclude Include="include\shaiya\include\ItemEnchant.h" />
     <ClInclude Include="include\shaiya\include\ItemHelper.h" />
@@ -99,62 +169,6 @@
     <ClInclude Include="include\shaiya\include\MobInfo.h" />
     <ClInclude Include="include\shaiya\include\MyShop.h" />
     <ClInclude Include="include\shaiya\include\NetworkHelper.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0600.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0700.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\incoming\0E00.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\outgoing\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\dbAgent\outgoing\0E00.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0500.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0900.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0A00.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0C00.h" />
-    <ClInclude Include="include\shaiya\include\network\gameLog\incoming\0E00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0003.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0200.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0300.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0500.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0700.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0800.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0900.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0A00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\0B00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\1100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\1F00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\2200.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\2500.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\2600.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\B100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\F100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\F800.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\F900.h" />
-    <ClInclude Include="include\shaiya\include\network\game\incoming\FA00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0200.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0300.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0400.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0500.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0600.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0700.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0800.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0900.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0A00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0B00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\0D00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\1100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\1F00.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\2200.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\2300.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\2400.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\2500.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\2600.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\B100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\F100.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\F500.h" />
-    <ClInclude Include="include\shaiya\include\network\game\outgoing\F900.h" />
-    <ClInclude Include="include\shaiya\include\Obelisk.h" />
     <ClInclude Include="include\shaiya\include\ProductInfo.h" />
     <ClInclude Include="include\shaiya\include\RevengeMark.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
@@ -174,7 +188,7 @@
     <ClInclude Include="include\shaiya\include\SVector.h" />
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\include\Synthesis.h" />
-    <ClInclude Include="include\shaiya\include\TownMoveScroll.h" />
+    <ClInclude Include="include\shaiya\include\UserInfo.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +245,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
@@ -242,7 +256,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ini.lib;shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ini.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
     </Link>
   </ItemDefinitionGroup>
@@ -257,7 +271,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>Default</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
       <AdditionalOptions>
       </AdditionalOptions>
@@ -270,7 +284,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(OutDir);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ini.lib;shaiya.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ini.lib;util.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>

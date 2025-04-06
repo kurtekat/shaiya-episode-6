@@ -8,7 +8,7 @@
 namespace shaiya
 {
     // notes: item types
-    enum struct RealType : UINT32
+    enum struct RealType : int32_t
     {
         // 1,45
         OneHandedSword = 1,
@@ -69,7 +69,7 @@ namespace shaiya
     };
 
     // notes: item types
-    enum struct MarketType : UINT8
+    enum struct MarketType : uint8_t
     {
         // 2,4,46,48
         TwoHandedWeapon = 1,
@@ -126,74 +126,75 @@ namespace shaiya
     #pragma pack(push, 1)
     struct ItemInfo
     {
-        UINT32 itemId;              //0x00
+        uint32_t itemId;            //0x00
         ItemName itemName;          //0x04
-        UINT8 type;                 //0x24
-        UINT8 typeId;               //0x25
+        uint8_t type;               //0x24
+        uint8_t typeId;             //0x25
         Faction country;            //0x26
-        bool attackFighter;         //0x27
-        bool defenseFighter;        //0x28
-        bool patrolRogue;           //0x29
-        bool shootRogue;            //0x2A
-        bool attackMage;            //0x2B
-        bool defenseMage;;          //0x2C
+        bool fighter;               //0x27
+        bool defender;              //0x28
+        bool ranger;                //0x29
+        bool archer;                //0x2A
+        bool mage;                  //0x2B
+        bool priest;                //0x2C
         PAD(1);
-        UINT16 reqLevel;            //0x2E
+        uint16_t level;             //0x2E
         Grow grow;                  //0x30
         ReqOg reqOg;                //0x31
-        UINT8 reqIg;                //0x32
+        uint8_t reqIg;              //0x32
         PAD(1);
-        UINT16 reqVg;               //0x34
-        UINT16 reqStr;              //0x36
-        UINT16 reqDex;              //0x38
-        UINT16 reqRec;              //0x3A
-        UINT16 reqInt;              //0x3C
-        UINT16 reqWis;              //0x3E
-        UINT16 reqLuc;              //0x40
-        UINT16 range;               //0x42
-        UINT8 attackTime;           //0x44
+        uint16_t reqVg;             //0x34
+        uint16_t reqStr;            //0x36
+        uint16_t reqDex;            //0x38
+        uint16_t reqRec;            //0x3A
+        uint16_t reqInt;            //0x3C
+        uint16_t reqWis;            //0x3E
+        uint16_t reqLuc;            //0x40
+        uint16_t range;             //0x42
+        uint8_t attackTime;         //0x44
         Attribute attribute;        //0x45
         ItemEffect effect;          //0x46
-        UINT8 slotCount;            //0x47
-        UINT8 speed;                //0x48
-        UINT8 exp;                  //0x49
-        UINT8 composeCount;         //0x4A
-        UINT8 count;                //0x4B
-        UINT16 maxQuality;          //0x4C
-        UINT16 midQuality;          //0x4E
-        UINT16 lowQuality;          //0x50
-        UINT16 maxAtkPower;         //0x52
-        UINT16 maxAtkPowerMidQ;     //0x54
-        UINT16 maxAtkPowerLowQ;     //0x56
-        UINT16 minAtkPower;         //0x58
-        UINT16 minAtkPowerMidQ;     //0x5A
-        UINT16 minAtkPowerLowQ;     //0x5C
-        UINT16 defense;             //0x5E
-        UINT16 defenseMidQ;         //0x60
-        UINT16 defenseLowQ;         //0x62
-        UINT16 resistance;          //0x64
-        UINT16 resistanceMidQ;      //0x66
-        UINT16 resistanceLowQ;      //0x68
-        UINT16 health;              //0x6A
-        UINT16 stamina;             //0x6C
-        UINT16 mana;                //0x6E
-        UINT16 strength;            //0x70
-        UINT16 dexterity;           //0x72
-        UINT16 reaction;            //0x74
-        UINT16 intelligence;        //0x76
-        UINT16 wisdom;              //0x78
-        UINT16 luck;                //0x7A
+        uint8_t slots;              //0x47
+        uint8_t speed;              //0x48
+        uint8_t exp;                //0x49
+        uint8_t craftExpansions;    //0x4A
+        uint8_t count;              //0x4B
+        uint16_t maxQuality;        //0x4C
+        uint16_t midQuality;        //0x4E
+        uint16_t lowQuality;        //0x50
+        uint16_t maxAtkPower;       //0x52
+        uint16_t maxAtkPowerMidQ;   //0x54
+        uint16_t maxAtkPowerLowQ;   //0x56
+        uint16_t minAtkPower;       //0x58
+        uint16_t minAtkPowerMidQ;   //0x5A
+        uint16_t minAtkPowerLowQ;   //0x5C
+        uint16_t defense;           //0x5E
+        uint16_t defenseMidQ;       //0x60
+        uint16_t defenseLowQ;       //0x62
+        uint16_t resistance;        //0x64
+        uint16_t resistanceMidQ;    //0x66
+        uint16_t resistanceLowQ;    //0x68
+        uint16_t health;            //0x6A
+        uint16_t stamina;           //0x6C
+        uint16_t mana;              //0x6E
+        uint16_t strength;          //0x70
+        uint16_t dexterity;         //0x72
+        uint16_t reaction;          //0x74
+        uint16_t intelligence;      //0x76
+        uint16_t wisdom;            //0x78
+        uint16_t luck;              //0x7A
         // max: 3072
-        UINT16 itemDropGrade;       //0x7C
-        UINT16 itemDropLimit;       //0x7E
-        UINT32 buy;                 //0x80
-        UINT32 sell;                //0x84
-        PAD(4);
-        UINT32 itemDropCount;       //0x8C
-        PAD(4);
-        UINT32 itemDropDelay;       //0x94
-        DWORD itemDropEnableTick;   //0x98
-        PAD(4);
+        uint16_t dropGrade;         //0x7C
+        uint16_t dropLimit;         //0x7E
+        uint32_t buy;               //0x80
+        uint32_t sell;              //0x84
+        int32_t dropByServerCount;  //0x88
+        int32_t dropCount;          //0x8C
+        uint32_t dropDelay;         //0x90
+        uint32_t dropRandom;        //0x94
+        tick32_t nextDropTime;      //0x98
+        bool questStart;            //0x9C
+        PAD(3);
         RealType realType;          //0xA0
         MarketType marketType;      //0xA4
         PAD(3);

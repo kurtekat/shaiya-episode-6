@@ -1,8 +1,8 @@
 #include <util/util.h>
+#include <shaiya/include/network/game/outgoing/2300.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/outgoing/2300.h"
 using namespace shaiya;
 
 namespace packet_myshop
@@ -12,20 +12,17 @@ namespace packet_myshop
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void send_item_list_hook(CUser* user, MyShopItemListOutgoing_EP5* packet)
+    void send_0x230B(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
     {
-        MyShopItemListOutgoing_EP6_4 outgoing{};
+        GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};
         outgoing.opcode = packet->opcode;
         outgoing.itemCount = packet->itemCount;
 
-        if (outgoing.itemCount > outgoing.itemList.size())
-            return;
-
         for (int i = 0; i < outgoing.itemCount; ++i)
         {
-            Item230B_EP6_4 item230B{};
-            item230B.slot = packet->itemList[i].slot;
-            item230B.price = packet->itemList[i].price;
+            MyShopUnit_EP6_4 item230B{};
+            item230B.shopSlot = packet->itemList[i].shopSlot;
+            item230B.money = packet->itemList[i].money;
             item230B.type = packet->itemList[i].type;
             item230B.typeId = packet->itemList[i].typeId;
             item230B.count = packet->itemList[i].count;
@@ -35,7 +32,7 @@ namespace packet_myshop
             outgoing.itemList[i] = item230B;
         }
 
-        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item230B_EP6_4));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));
         NetworkHelper::Send(user, &outgoing, length);
     }
 }
@@ -51,7 +48,7 @@ void __declspec(naked) naked_0x48733F()
 
         push eax // packet
         push ecx // user
-        call packet_myshop::send_item_list_hook
+        call packet_myshop::send_0x230B
         add esp,0x8
 
         popad

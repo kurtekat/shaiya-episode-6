@@ -1,17 +1,12 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/include/SConnectionTBaseReconnect.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CClientToGameLog
+    struct CClientToGameLog : SConnectionTBaseReconnect
     {
-        SConnection connection;  //0x00
-        PAD(8);
-        bool connected;          //0xD8
-        PAD(7);
-        // 0xE0
     };
     #pragma pack(pop)
 

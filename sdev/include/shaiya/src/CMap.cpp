@@ -24,9 +24,3 @@ CDoor* CMap::GetPortalById(CMap* map/*ecx*/, int id/*edi*/)
         call u0x430230
     }
 }
-
-bool CMap::IsStatic(CMap* map/*ecx*/)
-{
-    typedef bool(__thiscall* LPFN)(CMap*);
-    return (*(LPFN)0x4033D0)(map);
-}

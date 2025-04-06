@@ -8,33 +8,34 @@
 #include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/network/game/GetInfoItemType.h>
 #include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     // 8 items (5.4, 6.0)
-    struct CloneUser_EP5
+    struct CloneUser_EP5 : SNode
     {
-        SNode node;               //0x00
         bool dead;                //0x08
-        bool sitting;             //0x09
+        uint8_t motion;           //0x09
         Country country;          //0x0A
         Family family;            //0x0B
-        UINT8 hair;               //0x0C
-        UINT8 face;               //0x0D
-        UINT8 size;               //0x0E
+        uint8_t hair;             //0x0C
+        uint8_t face;             //0x0D
+        uint8_t size;             //0x0E
         Job job;                  //0x0F
         Sex sex;                  //0x10
         PartyType partyType;      //0x11
         Grow grow;                //0x12
         PAD(1);
-        UINT32 kills;             //0x14
-        Equipment<8> equipment;   //0x18
+        uint32_t kills;           //0x14
+        // 0x18
+        Array<GetInfoItemType, 8> equipment;
         CharName charName;        //0x30
-        CloakBadge cloakBadge;    //0x45
+        CloakInfo cloakInfo;      //0x45
         CharArray<25> guildName;  //0x4B
-        UINT8 packetLength;       //0x64
+        uint8_t packetLength;     //0x64
         PAD(3);
         // 0x68
     };
@@ -44,31 +45,30 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // 17 items (6.4)
-    struct CloneUser_EP6_4
+    struct CloneUser : SNode
     {
-        SNode node;               //0x00
         bool dead;                //0x08
-        bool sitting;             //0x09
+        uint8_t motion;           //0x09
         Country country;          //0x0A
         Family family;            //0x0B
-        UINT8 hair;               //0x0C
-        UINT8 face;               //0x0D
-        UINT8 size;               //0x0E
+        uint8_t hair;             //0x0C
+        uint8_t face;             //0x0D
+        uint8_t size;             //0x0E
         Job job;                  //0x0F
         Sex sex;                  //0x10
         PartyType partyType;      //0x11
         Grow grow;                //0x12
         PAD(1);
-        UINT32 kills;             //0x14
-        Equipment<17> equipment;  //0x18
+        uint32_t kills;           //0x14
+        // 0x18
+        Array<GetInfoItemType, 17> equipment;
         CharName charName;        //0x4B
-        CloakBadge cloakBadge;    //0x60
+        CloakInfo cloakInfo;      //0x60
         CharArray<25> guildName;  //0x66
-        UINT8 packetLength;       //0x7F
+        uint8_t packetLength;     //0x7F
         // 0x80
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CloneUser_EP6_4) == 0x80);
-    using CloneUser = CloneUser_EP6_4;
+    static_assert(sizeof(CloneUser) == 0x80);
 }

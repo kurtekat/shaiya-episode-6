@@ -1,13 +1,13 @@
 #include <array>
 #include <ranges>
-#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/network/game/outgoing/0300.h"
 using namespace shaiya;
 
 namespace user_equipment
@@ -93,7 +93,7 @@ namespace user_equipment
 
     void init(CUser* user)
     {
-        user->ignoreMaxHpMpSpSpeed = true;
+        user->initStatusFlag = true;
 
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(user->inventory[0])))
@@ -107,7 +107,7 @@ namespace user_equipment
             CUser::ItemEquipmentAdd(user, item, slot);
         }
 
-        user->ignoreMaxHpMpSpSpeed = false;
+        user->initStatusFlag = false;
         CUser::SetAttack(user);
     }
 
@@ -116,9 +116,9 @@ namespace user_equipment
     /// </summary>
     /// <param name="user"></param>
     /// <param name="target"></param>
-    void send_inspect(CUser* user, CUser* target)
+    void send_0x307(CUser* user, CUser* target)
     {
-        GetInfoInspectOutgoing_EP6_4 outgoing{};
+        GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
         outgoing.itemCount = 0;
 
         for (const auto& [slot, item] : std::views::enumerate(
@@ -132,7 +132,7 @@ namespace user_equipment
 
             if (slot < int(EquipmentSlot::Wings))
             {
-                Item0307 item0307{};
+                GetInfoItemUnit_EP5 item0307{};
                 item0307.slot = slot;
                 item0307.type = item->type;
                 item0307.typeId = item->typeId;
@@ -148,7 +148,7 @@ namespace user_equipment
             }
         }
 
-        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(Item0307));
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
         NetworkHelper::Send(user, &outgoing, length);
     }
 }
@@ -205,7 +205,7 @@ void __declspec(naked) naked_0x477D4F()
 
         push eax // target
         push edi // user
-        call user_equipment::send_inspect
+        call user_equipment::send_0x307
         add esp,0x8
 
         popad

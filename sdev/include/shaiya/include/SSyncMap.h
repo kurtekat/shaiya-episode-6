@@ -1,4 +1,6 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -22,27 +24,16 @@ namespace shaiya
 
     #pragma pack(push, 1)
     template<class K, class V>
-    struct SyncMapFindResult
-    {
-        PAD(4);                //0x38
-        TreeNode<K, V>* node;  //0x3C
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    template<class K, class V>
     struct SSyncMap
     {
         CRITICAL_SECTION cs;   //0x00
         PAD(24);
         TreeNode<K, V>* head;  //0x30
-        UINT32 count;          //0x34
-        // 0x38
-        SyncMapFindResult<K, V> findResult;
-        PAD(8);
+        int32_t count;         //0x34
+        PAD(16);
         // 0x48
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(SSyncMap<ULONG, void*>) == 0x48);
+    static_assert(sizeof(SSyncMap<uint32_t, void>) == 0x48);
 }

@@ -1,43 +1,22 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/Country.h>
-#include "include/shaiya/include/SVector.h"
+#include "include/shaiya/include/CObject.h"
+#include "include/shaiya/include/SNode.h"
 
 namespace shaiya
 {
-    enum struct Invasion : UINT16
-    {
-        StableErdeLight = 1010,
-        DeepDesertLight = 1011,
-        StableErdeFury = 1020,
-        DeepDesertFury = 1021,
-        PalaionRegnumLight = 1060,
-        ValdemarRegnumFury = 1061,
-        OpalusFury = 1065,
-        OpalusLight = 1066
-    };
-
-    enum struct PortalCountry : UINT32
-    {
-        Neutral,
-        Light,
-        Fury
-    };
-
     #pragma pack(push, 1)
-    struct CDoor
+    struct CDoor : CObject, SNode
     {
-        UINT32 insZoneId;       //0x00
-        SVector pos;            //0x04
-        ULONG id;               //0x10
-        PortalCountry country;  //0x14
-        UINT32 minLevel;        //0x18
-        UINT32 maxLevel;        //0x1C
-        UINT32 destMapId;       //0x20
-        SVector destPos;        //0x24
-        // 0x30
+        bool open;               //0x30
+        PAD(3);
+        tick32_t nextCloseTime;  //0x34
+        tick32_t nextUseTime;    //0x38
+        bool32_t autoClose;      //0x3C
+        int32_t closeTime;       //0x40
+        // 0x44
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CDoor) == 0x30);
+    static_assert(sizeof(CDoor) == 0x44);
 }

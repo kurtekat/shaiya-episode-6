@@ -1,64 +1,77 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/CMap.h"
+#include "include/shaiya/include/CZoneLink.h"
+#include "include/shaiya/include/CZoneNode.h"
+#include "include/shaiya/include/InsZonePortal.h"
+#include "include/shaiya/include/MapWeather.h"
+#include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SSyncList.h"
 #include "include/shaiya/include/SSyncMap.h"
 
 namespace shaiya
 {
+    struct CCell;
+    struct CDoor;
     struct CItem;
+    struct CMap;
     struct CMapRegion;
     struct CMob;
     struct CNpc;
     struct CTrap;
     struct CUser;
+    struct MapBoss;
+    struct MapMob;
+    struct SNodeSendAll;
     struct SVector;
 
     #pragma pack(push, 1)
-    struct CZone
+    struct CZone : SNode
     {
-        PAD(24);
-        ULONG id;                       //0x18
+        CZoneLink link;                        //0x08
+        CZoneNode* node;                       //0x14
+        int32_t id;                            //0x18
         PAD(12);
-        CMap* map;                      //0x28
-        PAD(12);
-        SSyncList<int> list38;          //0x38
-        SSyncMap<ULONG, CUser*> users;  //0x64
-        SSyncMap<ULONG, CMob*> mobs;    //0xAC
-        SSyncMap<ULONG, CNpc*> npcs;    //0xF4
-        SSyncMap<ULONG, CItem*> items;  //0x13C
-        SSyncList<CUser> userList;      //0x184
-        SSyncList<CMob> mobList;        //0x1B0
-        SSyncList<CNpc> npcList;        //0x1DC
-        SSyncList<CItem> itemList;      //0x208
-        SSyncList<CTrap> trapList;      //0x234
-        SSyncList<int> list260;         //0x260
-        PAD(80);
-        UINT32 mobAreaCount;            //0x2DC
-        MapMob* mobAreas;               //0x2E0
-        UINT32 bossMobCount;            //0x2E4
-        MapBoss* bossMobs;              //0x2E8
-        MapWeather weather;             //0x2EC
-        PAD(8);
-        UINT32 regionCount;             //0x310
-        CMapRegion* regions;            //0x314
+        CMap* map;                             //0x28
+        int32_t cellXCount;                    //0x2C
+        int32_t cellZCount;                    //0x30
+        CCell** cell;
+        SSyncList<CUser> waitList;             //0x38
+        SSyncMap<uint32_t, CUser*> userMap;    //0x64
+        SSyncMap<uint32_t, CMob*> mobMap;      //0xAC
+        SSyncMap<uint32_t, CNpc*> npcMap;      //0xF4
+        SSyncMap<uint32_t, CItem*> itemMap;    //0x13C
+        SSyncList<CUser> userList;             //0x184
+        SSyncList<CMob> mobList;               //0x1B0
+        SSyncList<CNpc> npcList;               //0x1DC
+        SSyncList<CItem> itemList;             //0x208
+        SSyncList<CTrap> trapList;             //0x234
+        SSyncList<SNodeSendAll> sendAllQueue;  //0x260
+        Array<InsZonePortal, 10> portals;      //0x28C
+        int32_t mapMobCount;                   //0x2DC
+        MapMob* mapMobs;                       //0x2E0
+        int32_t mapBossCount;                  //0x2E4
+        MapBoss* mapBosses;                    //0x2E8
+        MapWeather mapWeather;                 //0x2EC
+        int32_t doorCount;                     //0x308
+        CDoor* doors;                          //0x30C
+        int32_t mapRegionCount;                //0x310
+        CMapRegion* mapRegions;                //0x314
         // 0x318
 
-        static CMob* FindMob(CZone* zone/*ecx*/, ULONG objectId);
-        static CNpc* FindNpc(CZone* zone/*ecx*/, ULONG objectId);
-        static CUser* FindUser(CZone* zone/*ecx*/, ULONG objectId);
+        static CMob* FindMob(CZone* zone/*ecx*/, uint objectId);
+        static CNpc* FindNpc(CZone* zone/*ecx*/, uint objectId);
+        static CUser* FindUser(CZone* zone/*ecx*/, uint objectId);
         static MapBoss* GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/);
-        static int GetCurUserCount(CZone* zone/*ecx*/);
         static int GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
-        static ULONG MobGenEx(CZone* zone, ULONG objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
+        static uint MobGenEx(CZone* zone, uint objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
-        static bool MobRemoveById(CZone* zone/*ecx*/, ULONG objectId);
+        static bool MobRemoveById(CZone* zone/*ecx*/, uint objectId);
         static void MoveAllBindPos(CZone* zone/*edi*/);
         static bool MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z);
         static bool NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);
-        static void PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, ULONG senderId, ULONG targetId, int priority);
+        static void PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint senderId, uint targetId, int priority);
         static void SendView(CZone* zone, void* packet, int length, int cellX/*ecx*/, int cellZ/*eax*/);
         static void UpdateInsZonePortalCountry(CZone* zone/*esi*/, int id/*edi*/, int country/*ebx*/);
     };

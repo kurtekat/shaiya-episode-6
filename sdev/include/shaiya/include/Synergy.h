@@ -1,24 +1,23 @@
 #pragma once
-#include <array>
 #include <map>
 #include <set>
 #include <vector>
-#include <shaiya/include/common/ItemTypes.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     struct CItem;
     struct CUser;
 
-    using SynergyEffect = std::array<int, 12>;
-
     #pragma pack(push, 1)
     struct Synergy
     {
-        int id;
-        std::array<SynergyEffect, 13> effects;
-        std::array<ItemId, 13> set;
+        using ItemId = uint32_t;
+        using StatusEffects = Array<int32_t, 12>;
+
+        int32_t id;
+        Array<StatusEffects, 13> effects;
+        Array<ItemId, 13> set;
 
         static void init();
         static void equipmentAdd(CUser* user);
@@ -27,12 +26,12 @@ namespace shaiya
 
     private:
 
-        static void applySynergies(CUser* user, const std::vector<SynergyEffect>& effects);
+        static void applySynergies(CUser* user, const std::vector<StatusEffects>& effects);
         static void getWornEquipment(CUser* user, std::set<ItemId>& equipment);
-        static void getWornSynergies(const std::set<ItemId>& equipment, std::vector<SynergyEffect>& effects);
+        static void getWornSynergies(const std::set<ItemId>& equipment, std::vector<StatusEffects>& effects);
     };
     #pragma pack(pop)
 
     inline std::vector<Synergy> g_synergies;
-    inline std::map<CharId, std::vector<SynergyEffect>> g_appliedSynergies;
+    inline std::map<uint32_t, std::vector<Synergy::StatusEffects>> g_appliedSynergies;
 }

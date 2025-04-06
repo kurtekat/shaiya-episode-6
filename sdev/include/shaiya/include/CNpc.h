@@ -1,15 +1,18 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/CObject.h"
+#include "include/shaiya/include/AStar.h"
+#include "include/shaiya/include/ChasePathList.h"
+#include "include/shaiya/include/CObjectMoveable.h"
 #include "include/shaiya/include/SNode.h"
-#include "include/shaiya/include/SVector.h"
+#include "include/shaiya/include/Target.h"
 
 namespace shaiya
 {
-    struct CMap;
     struct CUser;
+    struct MapNpc;
+    struct Npc;
 
-    enum struct NpcStatus : UINT32
+    enum struct NpcStatus : int
     {
         Idle,
         Chase,
@@ -18,27 +21,26 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct CNpc
+    struct CNpc : SNode, CObjectMoveable
     {
-        SNode node;        //0x00
-        // 0x08
-        CObjectMoveable moveable;
-        UINT32 type;       //0x34
-        UINT32 typeId;     //0x38
-        UINT32 direction;  //0x3C
-        PAD(16);
-        // use reinterpret_cast
-        void* npcData;     //0x50
-        PAD(4);
-        NpcStatus status;  //0x58
-        PAD(4);
-        ULONG targetId;    //0x60
-        PAD(4);
-        DWORD lockOnTick;  //0x68
-        PAD(44);
+        int32_t type;                 //0x34
+        int32_t typeId;               //0x38
+        int32_t angle;                //0x3C
+        int32_t usingCount;           //0x40
+        bool unknown;                 //0x44
+        PAD(3);
+        int32_t nextPos;              //0x48
+        tick32_t nextMoveTime;        //0x4C
+        Npc* info;                    //0x50
+        MapNpc* posInfo;              //0x54
+        NpcStatus status;             //0x58
+        Target target;                //0x5C
+        tick32_t nextChaseTime;       //0x64
+        tick32_t disableTime;         //0x68
+        AStar star;                   //0x6C
+        ChasePathList chasePathList;  //0x94
         // 0x98
 
-        static void SetStatus(CNpc* npc/*eax*/, int status/*ecx*/);
         static void SetTarget(CNpc* npc/*eax*/, CUser* user/*esi*/);
         static void StatusChange(CNpc* npc/*eax*/, int nextStatus/*ecx*/);
         static void StatusAttackStop(CNpc* npc/*eax*/);

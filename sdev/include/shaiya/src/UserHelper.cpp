@@ -5,6 +5,10 @@
 #include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/network/dbAgent/incoming/0600.h>
+#include <shaiya/include/network/dbAgent/incoming/0700.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/gameLog/incoming/0400.h>
 #include "include/shaiya/include/CClientToDBAgent.h"
 #include "include/shaiya/include/CClientToGameLog.h"
 #include "include/shaiya/include/CClientToMgr.h"
@@ -15,43 +19,14 @@
 #include "include/shaiya/include/CSkill.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/CWorld.h"
+#include "include/shaiya/include/ItemInfo.h"
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/SConnection.h"
 #include "include/shaiya/include/SConnectionTBaseReconnect.h"
 #include "include/shaiya/include/UserHelper.h"
-#include "include/shaiya/include/network/dbAgent/incoming/0600.h"
-#include "include/shaiya/include/network/dbAgent/incoming/0700.h"
-#include "include/shaiya/include/network/game/outgoing/0200.h"
-#include "include/shaiya/include/network/gameLog/incoming/0400.h"
 using namespace shaiya;
 
-bool UserHelper::HasApplySkill(CUser* user, int skillId, int skillLv)
-{
-    EnterCriticalSection(&user->applySkills.cs);
-
-    auto node = user->applySkills.sentinel.tail;
-    node = node->next;
-    user->applySkills.sentinel.head = node;
-
-    while (node && node != user->applySkills.sentinel.tail)
-    {
-        auto skill = reinterpret_cast<CSkill*>(node);
-        if (skill->skillId == skillId && skill->skillLv == skillLv)
-        {
-            LeaveCriticalSection(&user->applySkills.cs);
-            return true;
-        }
-
-        node = user->applySkills.sentinel.head;
-        node = node->next;
-        user->applySkills.sentinel.head = node;
-    }
-
-    LeaveCriticalSection(&user->applySkills.cs);
-    return false;
-}
-
-bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint8_t count, int& outBag, int& outSlot)
+bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
 {
     if (count > itemInfo->count)
         return false;
@@ -71,9 +46,9 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint8_t count, int&
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
+bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
 {
-    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
+    if (!bag || std::cmp_greater_equal(bag, user->inventory.size()) || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -85,30 +60,51 @@ bool UserHelper::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t coun
 
     item->count -= count;
 
-    DBAgentItemRemoveIncoming packet(user->userId, bag, slot, count);
-    NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentItemRemoveIncoming));
+    DBAgentItemDropIncoming packet{};
+    packet.billingId = user->billingId;
+    packet.bag = bag;
+    packet.slot = slot;
+    packet.count = count;
+    NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentItemDropIncoming));
 
-    GameLogItemRemoveIncoming gameLog(user, item, bag, slot, count);
-    NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogItemRemoveIncoming));
+    GameLogItemDropIncoming gameLog{};
+    CUser::SetGameLogMain(user, &gameLog.packet);
+    gameLog.packet.uniqueId = item->uniqueId;
+    gameLog.packet.itemId = item->info->itemId;
+    gameLog.packet.itemName = item->info->itemName;
+    gameLog.packet.gems = item->gems;
+    gameLog.packet.makeTime = item->makeTime;
+    gameLog.packet.craftName = item->craftName;
+    gameLog.packet.bag = bag;
+    gameLog.packet.slot = slot;
+    gameLog.packet.count = count;
+    NetworkHelper::SendGameLog(&gameLog.packet, sizeof(GameLogItemDropIncoming));
 
     if (!item->count)
     {
-        ItemRemoveOutgoing outgoing(bag, slot, 0, 0, 0);
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemRemoveOutgoing));
+        GameItemDropOutgoing outgoing{};
+        outgoing.bag = bag;
+        outgoing.slot = slot;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
 
         CObjectMgr::FreeItem(item);
         user->inventory[bag][slot] = nullptr;
     }
     else
     {
-        ItemRemoveOutgoing outgoing(bag, slot, item->type, item->typeId, item->count);
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemRemoveOutgoing));
+        GameItemDropOutgoing outgoing{};
+        outgoing.bag = bag;
+        outgoing.slot = slot;
+        outgoing.type = item->type;
+        outgoing.typeId = item->typeId;
+        outgoing.count = item->count;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
     }
 
     return true;
 }
 
-bool UserHelper::ItemRemove(CUser* user, ItemId itemId, uint8_t count)
+bool UserHelper::ItemRemove(CUser* user, uint itemId, int count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -122,7 +118,7 @@ bool UserHelper::ItemRemove(CUser* user, ItemId itemId, uint8_t count)
             if (!item)
                 continue;
 
-            if (item->itemInfo->itemId != itemId)
+            if (item->info->itemId != itemId)
                 continue;
 
             if (item->count < count)
@@ -136,7 +132,7 @@ bool UserHelper::ItemRemove(CUser* user, ItemId itemId, uint8_t count)
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
+bool UserHelper::ItemRemove(CUser* user, ItemEffect itemEffect, int count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -150,7 +146,7 @@ bool UserHelper::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
             if (!item)
                 continue;
 
-            if (item->itemInfo->effect != effect)
+            if (item->info->effect != itemEffect)
                 continue;
 
             if (item->count < count)
@@ -164,27 +160,27 @@ bool UserHelper::ItemRemove(CUser* user, ItemEffect effect, uint8_t count)
     return false;
 }
 
-void UserHelper::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
+void UserHelper::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int movePosType, uint delay)
 {
-    user->recallMapId = mapId;
-    user->recallPos.x = x;
-    user->recallPos.y = y;
-    user->recallPos.z = z;
-    user->recallType = UserRecallType(recallType);
-    user->recallTick = GetTickCount() + delay;
+    user->moveMapId = mapId;
+    user->movePos.x = x;
+    user->movePos.y = y;
+    user->movePos.z = z;
+    user->movePosType = UserMovePosType(movePosType);
+    user->movePosTime = GetTickCount() + delay;
 }
 
-void UserHelper::SetMovePosition(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay)
+void UserHelper::SetMovePosition(CUser* user, int mapId, SVector* pos, int movePosType, uint delay)
 {
-    UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
+    UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
 
-bool UserHelper::Teleport(CUser* user, int mapId, float x, float y, float z, int recallType, ULONG delay)
+bool UserHelper::Move(CUser* user, int mapId, float x, float y, float z, int movePosType, uint delay)
 {
     if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
         return false;
 
-    if (!user->connection.object.zone)
+    if (!user->zone)
         return false;
 
     if (!CWorld::GetZone(mapId))
@@ -192,11 +188,11 @@ bool UserHelper::Teleport(CUser* user, int mapId, float x, float y, float z, int
 
     CUser::CancelActionExc(user);
     MyShop::Ended(&user->myShop);
-    UserHelper::SetMovePosition(user, mapId, x, y, z, recallType, delay);
+    UserHelper::SetMovePosition(user, mapId, x, y, z, movePosType, delay);
     return true;
 }
 
-bool UserHelper::Teleport(CUser* user, int mapId, SVector* pos, int recallType, ULONG delay)
+bool UserHelper::Move(CUser* user, int mapId, SVector* pos, int recallType, uint delay)
 {
-    return UserHelper::Teleport(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
+    return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
 }

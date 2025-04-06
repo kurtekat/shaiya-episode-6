@@ -1,16 +1,14 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/include/SConnectionTServerReconnect.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct CClientToDBAgent
+    struct CClientToDBAgent : SConnectionTServerReconnect
     {
-        SConnection connection;  //0x00
-        PAD(8);
-        bool connected;          //0xD8
-        PAD(15);
+        bool connectionReady;  //0xE0
+        PAD(7);
         // 0xE8
     };
     #pragma pack(pop)

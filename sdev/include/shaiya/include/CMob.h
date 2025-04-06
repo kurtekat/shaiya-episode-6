@@ -1,10 +1,19 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 #include <shaiya/include/common.h>
+#include "include/shaiya/include/AttackAdd.h"
+#include "include/shaiya/include/AttackMob.h"
+#include "include/shaiya/include/AStar.h"
+#include "include/shaiya/include/ChasePathList.h"
 #include "include/shaiya/include/CDamageMob.h"
-#include "include/shaiya/include/CObject.h"
+#include "include/shaiya/include/CInterfaceAI.h"
+#include "include/shaiya/include/CObjectMoveable.h"
 #include "include/shaiya/include/SNode.h"
 #include "include/shaiya/include/SSyncList.h"
+#include "include/shaiya/include/StackStateMachine.h"
 #include "include/shaiya/include/SVector.h"
+#include "include/shaiya/include/Target.h"
 
 namespace shaiya
 {
@@ -13,26 +22,10 @@ namespace shaiya
     struct CUser;
     struct CZone;
     struct MobInfo;
+    struct MobRespawn;
     struct SkillInfo;
 
-    #pragma pack(push, 1)
-    struct stMobRespawn
-    {
-        UINT32 mobId;    //0x00
-        PAD(8);
-        DWORD tick;      //0x0C
-        PAD(4);
-        BOOL isObelisk;  //0x14
-        PAD(4);
-        BOOL isBossMob;  //0x1C
-        PAD(4);
-        // 0x24
-    };
-    #pragma pack(pop)
-
-    static_assert(sizeof(stMobRespawn) == 0x24);
-
-    enum struct MobLuaEvent : UINT32
+    enum struct MobFuncType : int32_t
     {
         OnMoveEnd,
         OnAttacked,
@@ -42,7 +35,7 @@ namespace shaiya
         OnReturnHome
     };
 
-    enum struct MobStatus : UINT32
+    enum struct MobStatus : int32_t
     {
         Idle,
         Chase,
@@ -52,92 +45,79 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct CMob
+    struct CMob : CInterfaceAI, StackStateMachine<CMob, -1>, SNode, CObjectMoveable
     {
-        void* vftable1;                    //0x00
-        void* vftable2;                    //0x04
-        PAD(116);
-        CObjectMoveable moveable;          //0x7C
-        // 0xA8
-        PAD(44);
-        MobInfo* mobInfo;                  //0xD4
+        PAD(88);
+        MobInfo* info;                       //0xD4
         PAD(208);
-        MobStatus status;                  //0x1A8
-        PAD(4);
-        ULONG targetId;                    //0x1B0
-        PAD(4);
-        BOOL attackBlinded;                //0x1B8
-        UINT32 hitRate;                    //0x1BC
-        UINT32 addAttackPower;             //0x1C0
-        UINT32 evasionRate;                //0x1C4
-        UINT32 defense;                    //0x1C8
-        UINT32 criticalHitRate;            //0x1CC
-        PAD(4);
-        BOOL rangedAttackBlinded;          //0x1D4
-        UINT32 rangedHitRate;              //0x1D8
-        UINT32 addRangedAttackPower;       //0x1DC
-        UINT32 rangedEvasionRate;          //0x1E0
-        UINT32 rangedDefense;              //0x1E4
-        UINT32 rangedCriticalHitRate;      //0x1E8
-        PAD(4);
-        BOOL silenced;                     //0x1F0
-        UINT32 magicHitRate;               //0x1F4
-        UINT32 addMagicPower;              //0x1F8
-        UINT32 magicEvasionRate;           //0x1FC
-        UINT32 magicResistance;            //0x200
-        UINT32 magicCriticalHitRate;       //0x204
-        PAD(4);
-        UINT32 abilityAddHitRate;          //0x20C
-        UINT32 abilityAddAttackPower;      //0x210
-        UINT32 abilityAddEvasionRate;      //0x214
-        UINT32 abilityAddDefense;          //0x218
-        PAD(12);
-        UINT32 abilityAddRangedDefense;    //0x228
-        PAD(12);
-        UINT32 abilityAddMagicResistance;  //0x238
-        PAD(12);
-        SSyncList<CSkill> applySkills;     //0x248
-        CDamageMob damageMob;              //0x274
-        UINT32 mobId;                      //0x2A4
-        UINT32 health;                     //0x2A8
-        UINT16 stamina;                    //0x2AC
-        UINT16 mana;                       //0x2AE
-        UINT32 dexterity;                  //0x2B0
-        UINT32 wisdom;                     //0x2B4
-        UINT32 luck;                       //0x2B8
-        UINT32 attribute;                  //0x2BC
-        UINT32 moveSpeed;                  //0x2C0
-        UINT32 attackSpeed;                //0x2C4
-        BOOL immobilized;                  //0x2C8
-        BOOL unconscious;                  //0x2CC
-        BOOL sleeping;                     //0x2D0
-        PAD(52);
-        ULONG luaTargetId;                 //0x308
-        DWORD retargetingTerm;             //0x30C
-        PAD(4);
-        BOOL onlyLuaAttack;                //0x314
-        BOOL holdPosition;                 //0x318
-        BOOL unbeatable;                   //0x31C
-        PAD(20);
-        DWORD lockOnTick;                  //0x334
-        MobLuaEvent luaEvent;              //0x338
+        MobStatus status;                    //0x1A8
+        Target target;                       //0x1AC
+        int32_t currentAttack;               //0x1B4
+        AttackMob attack;                    //0x1B8
+        AttackMob attackRanged;              //0x1D4
+        AttackMob attackMagic;               //0x1F0
+        AttackAdd attackAdd;                 //0x20C
+        AttackAdd attackRangedAdd;           //0x21C
+        AttackAdd attackMagicAdd;            //0x22C
+        uint32_t attackTime1;                //0x23C
+        uint32_t attackTime2;                //0x240
+        uint32_t attackTime3;                //0x244
+        SSyncList<CSkill> applySkills;       //0x248
+        CDamageMob damage;                   //0x274
+        uint32_t mobId;                      //0x2A4
+        uint32_t health;                     //0x2A8
+        uint16_t stamina;                    //0x2AC
+        uint16_t mana;                       //0x2AE
+        uint32_t dexterity;                  //0x2B0
+        uint32_t wisdom;                     //0x2B4
+        uint32_t luck;                       //0x2B8
+        uint32_t attributeDefense;           //0x2BC
+        uint32_t moveSpeed;                  //0x2C0
+        uint32_t attackSpeed;                //0x2C4
+        bool32_t immobilized;                //0x2C8
+        bool32_t unconscious;                //0x2CC
+        bool32_t sleeping;                   //0x2D0
+        PAD(56);
+        tick32_t retargetingTime;            //0x30C
+        uint32_t attackedCount;              //0x310
+        bool32_t onlyLuaAttack;              //0x314
+        bool32_t holdPosition;               //0x318
+        bool32_t unbeatable;                 //0x31C
+        uint32_t luaOrderTime;               //0x320
+        int32_t moveMode;                    //0x324
+        SVector targetMovePos;               //0x328
+        tick32_t lockOnTime;                 //0x334
+        MobFuncType funcType;                //0x338
         PAD(2516);
-        stMobRespawn* mobRespawn;          //0xD10
-        PAD(40);
-        DWORD destroyTick;                 //0xD3C
-        PAD(92);
-        CRITICAL_SECTION cs;               //0xD9C
-        // gameLog
-        CharArray<32> text3;               //0xDB4
-        CharArray<32> text4;               //0xDD4
+        MobRespawn* respawn;                 //0xD10
+        SVector respawnPos;                  //0xD14
+        SVector exitPos;                     //0xD20
+        SVector selectedPos;                 //0xD2C
+        bool deathRemove;                    //0xD38
+        PAD(3);
+        tick32_t deathTime;                  //0xD3C
+        tick32_t nextAttackTime;             //0xD40
+        tick32_t nextChaseTime;              //0xD44
+        tick32_t nextMoveTime;               //0xD48
+        tick32_t nextMobCreateTime;          //0xD4C
+        tick32_t nextTargetingTime;          //0xD50
+        tick32_t nextNewTargetingTime;       //0xD54
+        tick32_t nextRecoverTime;            //0xD58
+        tick32_t currentTime;                //0xD5C
+        SVector prevPos;                     //0xD60
+        SVector moveDir;                     //0xD6C
+        tick32_t prevMoveTime;               //0xD78
+        float moveRange;                     //0xD7C
+        PAD(28);
+        CRITICAL_SECTION cs;                 //0xD9C
+        CharArray<32> prevAttackCharName;    //0xDB4
+        CharArray<32> prevAttackSkillName;   //0xDD4
         // 0xDF4
         
         static bool IsBossMob(CMob* mob/*eax*/);
         static bool IsObelisk(CMob* mob/*eax*/);
-        static void UseSkill(CMob* mob/*edi*/, ULONG time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
-        static void SendLogBossMob(CMob* mob/*edx*/, UINT byAction, const char* text3/*edi*/, const char* text4, ULONG damage);
+        static void UseSkill(CMob* mob/*edi*/, tick32_t time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
         static void SetAttack(CMob* mob/*esi*/);
-        static void SetStatus(CMob* mob/*eax*/, int status/*ecx*/);
     };
     #pragma pack(pop)
 

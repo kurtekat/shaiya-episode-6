@@ -3,8 +3,13 @@
 #include <ranges>
 #include <string>
 #include <tuple>
-#include <shaiya/include/common/ItemTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/network/dbAgent/incoming/0700.h>
+#include <shaiya/include/network/game/incoming/0800.h>
+#include <shaiya/include/network/game/outgoing/0200.h>
+#include <shaiya/include/network/game/outgoing/0800.h>
+#include <shaiya/include/network/gameLog/incoming/0400.h>
 #include "include/main.h"
 #include "include/shaiya/include/CGameData.h"
 #include "include/shaiya/include/CItem.h"
@@ -15,22 +20,17 @@
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/Synthesis.h"
 #include "include/shaiya/include/UserHelper.h"
-#include "include/shaiya/include/network/game/incoming/0800.h"
-#include "include/shaiya/include/network/game/outgoing/0200.h"
-#include "include/shaiya/include/network/game/outgoing/0800.h"
-#include "include/shaiya/include/network/dbAgent/incoming/0700.h"
-#include "include/shaiya/include/network/gameLog/incoming/0400.h"
 using namespace shaiya;
 
 namespace packet_gem
 {
     /// <summary>
-    /// Adds support for enchant safety charms.
+    /// Adds support for safety charms.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
     /// <returns></returns>
-    bool remove_safety_charm(CUser* user, ItemLapisianAddIncoming_EP6_4* incoming)
+    bool remove_charm(CUser* user, GameLapisianAddIncoming_EP6_4* incoming)
     {
         if (!incoming->safetyCharm)
             return false;
@@ -44,7 +44,7 @@ namespace packet_gem
     /// <param name="lapisian"></param>
     /// <param name="item"></param>
     /// <returns></returns>
-    bool enable_perfect_enchant(CItem* lapisian, CItem* item)
+    bool enable_step(CItem* lapisian, CItem* item)
     {
         constexpr int max_enchant_step = 20;
         constexpr int armor_difference = 50;
@@ -58,25 +58,25 @@ namespace packet_gem
         if (enchantStep >= max_enchant_step)
             return false;
 
-        auto successRate = lapisian->itemInfo->reqRec;
+        auto successRate = lapisian->info->reqRec;
         if (successRate != 10000)
             return false;
 
-        auto lapisianLv = lapisian->itemInfo->attackTime;
+        auto lapisianLv = lapisian->info->attackTime;
         if (!lapisianLv || lapisianLv > max_enchant_step)
             return false;
 
         // Hot Time Lapisia +1
-        if (enchantStep < 10 && lapisian->itemInfo->itemId == 95005)
+        if (enchantStep < 10 && lapisian->info->itemId == 95005)
             return true;
 
-        auto lapisianStep = lapisian->itemInfo->range;
-        auto lapisianType = uint8_t(lapisian->itemInfo->country);
+        auto lapisianStep = lapisian->info->range;
+        auto lapisianType = std::to_underlying(lapisian->info->country);
 
         if (isWeapon)
         {
             // Weapon Lapisia +1
-            if (enchantStep < 10 && lapisian->itemInfo->itemId == 95004)
+            if (enchantStep < 10 && lapisian->info->itemId == 95004)
                 return true;
             else if (enchantStep == lapisianStep && lapisianType == 0)
                 return true;
@@ -84,7 +84,7 @@ namespace packet_gem
         else
         {
             // Armor Lapisia +1
-            if (enchantStep < 10 && lapisian->itemInfo->itemId == 95009)
+            if (enchantStep < 10 && lapisian->info->itemId == 95009)
                 return true;
             else if (enchantStep == lapisianStep && lapisianType == 1)
                 return true;    
@@ -98,7 +98,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_lapis_combine_handler(CUser* user, ItemLapisCombineIncoming_EP6_4* incoming)
+    void handler_0x80B(CUser* user, GameItemRemake5Incoming_EP6_4* incoming)
     {
         if (!incoming->lapisBag1 || incoming->lapisBag1 > user->bagsUnlocked || incoming->lapisSlot1 >= max_inventory_slot)
             return;
@@ -110,7 +110,7 @@ namespace packet_gem
         if (lapis1->type != std::to_underlying(ItemType::Lapis))
             return;
 
-        if (lapis1->itemInfo->reqIg == 30 || lapis1->itemInfo->reqIg == 99)
+        if (lapis1->info->reqIg == 30 || lapis1->info->reqIg == 99)
             return;
 
         if (!incoming->lapisBag2 || incoming->lapisBag2 > user->bagsUnlocked || incoming->lapisSlot2 >= max_inventory_slot)
@@ -123,7 +123,7 @@ namespace packet_gem
         if (lapis2->type != std::to_underlying(ItemType::Lapis))
             return;
 
-        if (lapis2->itemInfo->reqIg == 30 || lapis2->itemInfo->reqIg == 99)
+        if (lapis2->info->reqIg == 30 || lapis2->info->reqIg == 99)
             return;
 
         if (!incoming->lapisBag3 || incoming->lapisBag3 > user->bagsUnlocked || incoming->lapisSlot3 >= max_inventory_slot)
@@ -136,7 +136,7 @@ namespace packet_gem
         if (lapis3->type != std::to_underlying(ItemType::Lapis))
             return;
 
-        if (lapis3->itemInfo->reqIg == 30 || lapis3->itemInfo->reqIg == 99)
+        if (lapis3->info->reqIg == 30 || lapis3->info->reqIg == 99)
             return;
 
         if (!incoming->essenceBag || incoming->essenceBag > user->bagsUnlocked || incoming->essenceSlot >= max_inventory_slot)
@@ -147,30 +147,30 @@ namespace packet_gem
             return;
 
         int requiredCount = 0;
-        if (lapis1->itemInfo->reqIg >= 36)
+        if (lapis1->info->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis2->itemInfo->reqIg >= 36)
+        if (lapis2->info->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis3->itemInfo->reqIg >= 36)
+        if (lapis3->info->reqIg >= 36)
             ++requiredCount;
 
         if (incoming->essenceCount < requiredCount)
             return;
 
-        ItemLapisCombineOutgoing failure{};
-        failure.result = ItemLapisCombineResult::Failure;
+        GameItemRemake5Outgoing failure{};
+        failure.result = GameItemRemake5Result::Failure;
 
-        if (essence->count < requiredCount || essence->itemInfo->effect != ItemEffect::CrowleyEssence)
+        if (essence->count < requiredCount || essence->info->effect != ItemEffect::CrowleyEssence)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
             return;
         }
 
-        auto itemId1 = lapis1->itemInfo->itemId;
-        auto itemId2 = lapis2->itemInfo->itemId;
-        auto itemId3 = lapis3->itemInfo->itemId;
+        auto itemId1 = lapis1->info->itemId;
+        auto itemId2 = lapis2->info->itemId;
+        auto itemId3 = lapis3->info->itemId;
 
         auto remake = std::find_if(g_itemRemake5.begin(), g_itemRemake5.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
@@ -178,21 +178,21 @@ namespace packet_gem
 
         if (remake == g_itemRemake5.end())
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
             return;
         }
 
         auto itemInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
         if (!itemInfo)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
             return;
         }
 
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
             return;
         }
 
@@ -201,8 +201,14 @@ namespace packet_gem
         UserHelper::ItemRemove(user, incoming->lapisBag3, incoming->lapisSlot3, 1);
         UserHelper::ItemRemove(user, incoming->essenceBag, incoming->essenceSlot, requiredCount);
 
-        ItemLapisCombineOutgoing success(ItemLapisCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-        NetworkHelper::Send(user, &success, sizeof(ItemLapisCombineOutgoing));
+        GameItemRemake5Outgoing success{};
+        success.result = GameItemRemake5Result::Success;
+        success.newItem.bag = bag;
+        success.newItem.slot = slot;
+        success.newItem.type = itemInfo->type;
+        success.newItem.typeId = itemInfo->typeId;
+        success.newItem.count = 1;
+        NetworkHelper::Send(user, &success, sizeof(GameItemRemake5Outgoing));
     }
 
     /// <summary>
@@ -210,7 +216,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_lapisian_combine_handler(CUser* user, ItemLapisianCombineIncoming_EP6_4* incoming)
+    void handler_0x80C(CUser* user, GameItemRemake4Incoming_EP6_4* incoming)
     {
         if (!incoming->lapisianBag1 || incoming->lapisianBag1 > user->bagsUnlocked || incoming->lapisianSlot1 >= max_inventory_slot)
             return;
@@ -253,18 +259,18 @@ namespace packet_gem
         if (incoming->liquidCount < requiredCount)
             return;
 
-        ItemLapisianCombineOutgoing failure{};
-        failure.result = ItemLapisianCombineResult::Failure;
+        GameItemRemake4Outgoing failure{};
+        failure.result = GameItemRemake4Result::Failure;
 
-        if (liquid->count < requiredCount || liquid->itemInfo->effect != ItemEffect::CrowleyLiquid)
+        if (liquid->count < requiredCount || liquid->info->effect != ItemEffect::CrowleyLiquid)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
             return;
         }
 
-        auto itemId1 = lapisian1->itemInfo->itemId;
-        auto itemId2 = lapisian2->itemInfo->itemId;
-        auto itemId3 = lapisian3->itemInfo->itemId;
+        auto itemId1 = lapisian1->info->itemId;
+        auto itemId2 = lapisian2->info->itemId;
+        auto itemId3 = lapisian3->info->itemId;
 
         auto remake = std::find_if(g_itemRemake4.begin(), g_itemRemake4.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
@@ -272,21 +278,21 @@ namespace packet_gem
 
         if (remake == g_itemRemake4.end())
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
             return;
         }
 
         auto itemInfo = CGameData::GetItemInfo(remake->createType, remake->createTypeId);
         if (!itemInfo)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
             return;
         }
 
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
             return;
         }
 
@@ -295,8 +301,14 @@ namespace packet_gem
         UserHelper::ItemRemove(user, incoming->lapisianBag3, incoming->lapisianSlot3, 1);
         UserHelper::ItemRemove(user, incoming->liquidBag, incoming->liquidSlot, requiredCount);
 
-        ItemLapisianCombineOutgoing success(ItemLapisianCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-        NetworkHelper::Send(user, &success, sizeof(ItemLapisianCombineOutgoing));
+        GameItemRemake4Outgoing success{};
+        success.result = GameItemRemake4Result::Success;
+        success.newItem.bag = bag;
+        success.newItem.slot = slot;
+        success.newItem.type = itemInfo->type;
+        success.newItem.typeId = itemInfo->typeId;
+        success.newItem.count = 1;
+        NetworkHelper::Send(user, &success, sizeof(GameItemRemake4Outgoing));
     }
 
     /// <summary>
@@ -304,7 +316,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming_EP6_4* incoming)
+    void handler_0x80D(CUser* user, GameRecreationRuneUpgradeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
@@ -320,18 +332,18 @@ namespace packet_gem
         if (!vial)
             return;
 
-        ItemRuneCombineOutgoing failure{};
-        failure.result = ItemRuneCombineResult::Failure;
+        GameRecreationRuneUpgradeOutgoing failure{};
+        failure.result = GameRecreationRuneUpgradeResult::Failure;
 
-        if (rune->count < 2 || rune->itemInfo->effect != ItemEffect::RecreationRune)
+        if (rune->count < 2 || rune->info->effect != ItemEffect::RecreationRune)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
             return;
         }
 
         ItemInfo* itemInfo = nullptr;
 
-        switch (vial->itemInfo->effect)
+        switch (vial->info->effect)
         {
         case ItemEffect::StrVial:
             itemInfo = CGameData::GetItemInfo(101, 1);
@@ -357,22 +369,28 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
             return;
         }
         
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemRuneCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
             return;
         }
 
         UserHelper::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
         UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
 
-        ItemRuneCombineOutgoing success(ItemRuneCombineResult::Success, bag, slot, itemInfo->type, itemInfo->typeId, 1);
-        NetworkHelper::Send(user, &success, sizeof(ItemRuneCombineOutgoing));
+        GameRecreationRuneUpgradeOutgoing success{};
+        success.result = GameRecreationRuneUpgradeResult::Success;
+        success.newItem.bag = bag;
+        success.newItem.slot = slot;
+        success.newItem.type = itemInfo->type;
+        success.newItem.typeId = itemInfo->typeId;
+        success.newItem.count = 1;
+        NetworkHelper::Send(user, &success, sizeof(GameRecreationRuneUpgradeOutgoing));
     }
 
     /// <summary>
@@ -380,7 +398,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_perfect_lapisian_combine_handler(CUser* user, ItemPerfectLapisianCombineIncoming* incoming)
+    void handler_0x80E(CUser* user, GameLapisianUpgradeIncoming* incoming)
     {
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
             return;
@@ -390,7 +408,7 @@ namespace packet_gem
             return;
 
         // The data does not specify an item effect
-        if (cube->itemInfo->itemId != 101101)
+        if (cube->info->itemId != 101101)
             return;
 
         if (incoming->lapisianType != std::to_underlying(ItemType::Lapisian))
@@ -415,8 +433,8 @@ namespace packet_gem
         // Failure result values are unclear. The client executes the same code 
         // as long as the value is nonzero and not greater than 3.
 
-        ItemPerfectLapisianCombineOutgoing failure{};
-        failure.result = ItemPerfectLapisianCombineResult::Unknown1;
+        GameLapisianUpgradeOutgoing failure{};
+        failure.result = GameLapisianUpgradeResult::Unknown1;
 
         auto createType = incoming->lapisianType;
         auto createTypeId = incoming->lapisianTypeId + 1;
@@ -424,7 +442,7 @@ namespace packet_gem
         auto createInfo = CGameData::GetItemInfo(createType, createTypeId);
         if (!createInfo)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
             return;
         }
 
@@ -434,7 +452,7 @@ namespace packet_gem
         {
             if (!UserHelper::ItemRemove(user, itemInfo->itemId, 1))
             {
-                NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
+                NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
                 return;
             }
         }
@@ -442,12 +460,18 @@ namespace packet_gem
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, createInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemPerfectLapisianCombineOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
             return;
         }
 
-        ItemPerfectLapisianCombineOutgoing success(ItemPerfectLapisianCombineResult::Success, bag, slot, createInfo->type, createInfo->typeId, 1);
-        NetworkHelper::Send(user, &success, sizeof(ItemPerfectLapisianCombineOutgoing));
+        GameLapisianUpgradeOutgoing success{};
+        success.result = GameLapisianUpgradeResult::Success;
+        success.newItem.bag = bag;
+        success.newItem.slot = slot;
+        success.newItem.type = createInfo->type;
+        success.newItem.typeId = createInfo->typeId;
+        success.newItem.count = 1;
+        NetworkHelper::Send(user, &success, sizeof(GameLapisianUpgradeOutgoing));
     }
 
     /// <summary>
@@ -456,7 +480,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_compose_handler(CUser* user, ItemComposeIncoming_EP6_4* incoming)
+    void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
@@ -472,36 +496,36 @@ namespace packet_gem
         if (!item)
             return;
 
-        ItemComposeOutgoing failure{};
-        failure.result = ItemComposeResult::Failure;
+        GameItemComposeOutgoing failure{};
+        failure.result = GameItemComposeResult::Failure;
 
-        if (!item->itemInfo->composeCount)
+        if (!item->info->craftExpansions)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
-        if (!item->itemInfo->reqWis || item->itemInfo->reqWis > 99)
+        if (!item->info->reqWis || item->info->reqWis > 99)
         {
-            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
         // optional
         //if (item->makeType == MakeType::QuestResult)
         //{
-        //    NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
+        //    NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
         //    return;
         //}
 
-        auto oldItemUid = item->uniqueId;
-        auto oldItemId = item->itemInfo->itemId;
+        auto composeUniqueId = rune->uniqueId;
+        auto composeItemId = rune->info->itemId;
         auto oldCraftName = item->craftName;
-        auto maxBonus = item->itemInfo->reqWis;
+        auto maxCraftValue = item->info->reqWis;
 
         // See the item descriptions
 
-        switch (rune->itemInfo->effect)
+        switch (rune->info->effect)
         {
         case ItemEffect::StrRecreationRune:
         case ItemEffect::DexRecreationRune:
@@ -510,8 +534,8 @@ namespace packet_gem
         case ItemEffect::RecRecreationRune:
         case ItemEffect::LucRecreationRune:
         {
-            maxBonus *= 2;
-            maxBonus = (maxBonus > 99) ? 99 : maxBonus;
+            maxCraftValue *= 2;
+            maxCraftValue = (maxCraftValue > 99) ? 99 : maxCraftValue;
             break;
         }
         default:
@@ -521,14 +545,14 @@ namespace packet_gem
         std::random_device seed;
         std::mt19937 eng(seed());
 
-        std::uniform_int_distribution<uint16_t> uni(1, maxBonus);
-        auto bonus = uni(eng);
+        std::uniform_int_distribution<uint16_t> uni(1, maxCraftValue);
+        auto craftValue = uni(eng);
 
         auto maxHealth = user->maxHealth;
         auto maxMana = user->maxHealth;
         auto maxStamina = user->maxHealth;
 
-        switch (rune->itemInfo->effect)
+        switch (rune->info->effect)
         {
         case ItemEffect::RecreationRune:
             if (!incoming->itemBag)
@@ -549,12 +573,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftStrength(item, bonus);
+                ItemHelper::SetCraftStrength(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftStrength(item, bonus);
+            ItemHelper::SetCraftStrength(item, craftValue);
 
             break;
         case ItemEffect::DexRecreationRune:
@@ -564,12 +588,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftDexterity(item, bonus);
+                ItemHelper::SetCraftDexterity(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftDexterity(item, bonus);
+            ItemHelper::SetCraftDexterity(item, craftValue);
 
             break;
         case ItemEffect::IntRecreationRune:
@@ -579,12 +603,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftIntelligence(item, bonus);
+                ItemHelper::SetCraftIntelligence(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftIntelligence(item, bonus);
+            ItemHelper::SetCraftIntelligence(item, craftValue);
 
             break;
         case ItemEffect::WisRecreationRune:
@@ -594,12 +618,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftWisdom(item, bonus);
+                ItemHelper::SetCraftWisdom(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftWisdom(item, bonus);
+            ItemHelper::SetCraftWisdom(item, craftValue);
 
             break;
         case ItemEffect::RecRecreationRune:
@@ -609,12 +633,12 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftReaction(item, bonus);
+                ItemHelper::SetCraftReaction(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftReaction(item, bonus);
+            ItemHelper::SetCraftReaction(item, craftValue);
 
             break;
         case ItemEffect::LucRecreationRune:
@@ -624,22 +648,22 @@ namespace packet_gem
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftLuck(item, bonus);
+                ItemHelper::SetCraftLuck(item, craftValue);
                 CUser::ItemEquipmentOptionAdd(user, item);
                 break;
             }
 
-            ItemHelper::SetCraftLuck(item, bonus);
+            ItemHelper::SetCraftLuck(item, craftValue);
 
             break;
         default:
-            NetworkHelper::Send(user, &failure, sizeof(ItemComposeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
         if (!incoming->itemBag)
         {
-            if (!user->ignoreMaxHpMpSpSpeed)
+            if (!user->initStatusFlag)
             {
                 if (maxHealth != user->maxHealth)
                     CUser::SendMaxHP(user);
@@ -655,15 +679,27 @@ namespace packet_gem
         }
 
         CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
+        ItemHelper::SendDBAgentCraftName(user, item, incoming->itemBag, incoming->itemSlot);
 
-        DBAgentItemCraftNameIncoming packet(user->userId, incoming->itemBag, incoming->itemSlot, item->craftName);
-        NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentItemCraftNameIncoming));
+        GameLogItemComposeIncoming gameLog{};
+        CUser::SetGameLogMain(user, &gameLog.packet);
+        gameLog.packet.uniqueId = item->uniqueId;
+        gameLog.packet.itemId = item->info->itemId;
+        gameLog.packet.itemName = item->info->itemName;
+        gameLog.packet.gems = item->gems;
+        gameLog.packet.makeTime = item->makeTime;
+        gameLog.packet.craftName = item->craftName;
+        gameLog.packet.composeUniqueId = composeUniqueId;
+        gameLog.packet.composeItemId = composeItemId;
+        gameLog.packet.oldCraftName = oldCraftName;
+        NetworkHelper::SendGameLog(&gameLog.packet, sizeof(GameLogItemComposeIncoming));
 
-        GameLogItemComposeIncoming gameLog(user, item, oldItemUid, oldItemId, oldCraftName);
-        NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogItemComposeIncoming));
-
-        ItemComposeOutgoing success(ItemComposeResult::Success, incoming->itemBag, incoming->itemSlot, item->craftName);
-        NetworkHelper::Send(user, &success, sizeof(ItemComposeOutgoing));
+        GameItemComposeOutgoing success{};
+        success.result = GameItemComposeResult::Success;
+        success.bag = incoming->itemBag;
+        success.slot = incoming->itemSlot;
+        success.craftName = item->craftName;
+        NetworkHelper::Send(user, &success, sizeof(GameItemComposeOutgoing));
     }
 
     /// <summary>
@@ -671,7 +707,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
+    void handler_0x830(CUser* user, GameItemSynthesisListIncoming* incoming)
     {
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
@@ -680,20 +716,20 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
+        if (square->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto synthesis = g_synthesis.find(square->itemInfo->itemId);
+        auto synthesis = g_synthesis.find(square->info->itemId);
         if (synthesis == g_synthesis.end())
             return;
 
-        user->recallItemBag = incoming->squareBag;
-        user->recallItemSlot = incoming->squareSlot;
+        user->savePosUseBag = incoming->squareBag;
+        user->savePosUseSlot = incoming->squareSlot;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
 
-        ItemSynthesisListOutgoing outgoing{};
+        GameItemSynthesisListOutgoing outgoing{};
         outgoing.goldPerPercentage = Synthesis::goldPerPercentage;
 
         auto itemList = std::ranges::views::zip(
@@ -713,7 +749,7 @@ namespace packet_gem
                 continue;
             else
             {
-                NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
+                NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisListOutgoing));
 
                 std::fill(itemList.begin(), itemList.end(), std::tuple(0, 0));
                 index = 0;
@@ -723,7 +759,7 @@ namespace packet_gem
         if (!index)
             return;
 
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisListOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisListOutgoing));
     }
 
     /// <summary>
@@ -731,16 +767,16 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_synthesis_material_handler(CUser* user, ItemSynthesisMaterialIncoming* incoming)
+    void handler_0x831(CUser* user, GameItemSynthesisMaterialIncoming* incoming)
     {
-        auto& square = user->inventory[user->recallItemBag][user->recallItemSlot];
+        auto& square = user->inventory[user->savePosUseBag][user->savePosUseSlot];
         if (!square)
             return;
 
-        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
+        if (square->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_synthesis.find(square->itemInfo->itemId);
+        auto it = g_synthesis.find(square->info->itemId);
         if (it == g_synthesis.end())
             return;
 
@@ -751,7 +787,7 @@ namespace packet_gem
         if (incoming->createType != synthesis.createType || incoming->createTypeId != synthesis.createTypeId)
             return;
 
-        ItemSynthesisMaterialOutgoing outgoing{};
+        GameItemSynthesisMaterialOutgoing outgoing{};
         outgoing.successRate = synthesis.successRate;
         outgoing.materialType = synthesis.materialType;
         outgoing.createType = synthesis.createType;
@@ -759,7 +795,7 @@ namespace packet_gem
         outgoing.createTypeId = synthesis.createTypeId;
         outgoing.materialCount = synthesis.materialCount;
         outgoing.createCount = synthesis.createCount;
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisMaterialOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisMaterialOutgoing));
     }
 
     /// <summary>
@@ -767,11 +803,8 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
+    void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     {
-        constexpr auto gold_per_percentage = Synthesis::goldPerPercentage;
-        constexpr auto max_gold_per_percentage = gold_per_percentage * 5;
-
         constexpr auto min_success_rate = 100;
         constexpr auto max_success_rate = 10000;
 
@@ -782,10 +815,10 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (square->itemInfo->effect != ItemEffect::ChaoticSquare)
+        if (square->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_synthesis.find(square->itemInfo->itemId);
+        auto it = g_synthesis.find(square->info->itemId);
         if (it == g_synthesis.end())
             return;
 
@@ -801,12 +834,12 @@ namespace packet_gem
             return;
 
         auto money = incoming->money;
-        if (money > max_gold_per_percentage)
-            money = max_gold_per_percentage;
+        if (money > Synthesis::goldPerPercentage5x)
+            money = Synthesis::goldPerPercentage5x;
 
         auto successRate = synthesis.successRate;
-        if (money >= gold_per_percentage && gold_per_percentage > 0)
-            successRate += (money / gold_per_percentage) * 100;
+        if (money >= Synthesis::goldPerPercentage && Synthesis::goldPerPercentage > 0)
+            successRate += (money / Synthesis::goldPerPercentage) * 100;
 
         if (incoming->hammerBag != 0)
         {
@@ -817,10 +850,10 @@ namespace packet_gem
             if (!hammer)
                 return;
 
-            if (hammer->itemInfo->effect != ItemEffect::CraftingHammer)
+            if (hammer->info->effect != ItemEffect::CraftingHammer)
                 return;
 
-            successRate += hammer->itemInfo->reqVg * 100;
+            successRate += hammer->info->reqVg * 100;
             CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
         }
 
@@ -845,8 +878,8 @@ namespace packet_gem
             std::as_const(synthesis.materialCount)
         );
 
-        ItemSynthesisOutgoing outgoing{};
-        outgoing.result = ItemSynthesisResult::Failure;
+        GameItemSynthesisOutgoing outgoing{};
+        outgoing.result = GameItemSynthesisResult::Failure;
 
         for (const auto& [type, typeId, count] : materials)
         {
@@ -856,7 +889,7 @@ namespace packet_gem
 
             if (!UserHelper::ItemRemove(user, itemInfo->itemId, count))
             {
-                NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
+                NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisOutgoing));
                 return;
             }
         }
@@ -864,10 +897,10 @@ namespace packet_gem
         if (randomRate <= successRate)
         {
             if (CUser::ItemCreate(user, createInfo, synthesis.createCount))
-                outgoing.result = ItemSynthesisResult::Success;
+                outgoing.result = GameItemSynthesisResult::Success;
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemSynthesisOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisOutgoing));
     }
 
     /// <summary>
@@ -875,16 +908,16 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
+    void handler_0x833(CUser* user, GameItemFreeSynthesisIncoming* incoming)
     {
     }
 
     /// <summary>
-    /// Handles incoming 0x811 packets. PT clients do not support this feature.
+    /// Handles incoming 0x811 packets. ES client 171 supports this feature.
     /// </summary>
     /// <param name="user"></param>
     /// <param name="incoming"></param>
-    void item_ability_transfer_handler(CUser* user, ItemAbilityTransferIncoming* incoming)
+    void handler_0x811(CUser* user, GameItemAbilityTransferIncoming* incoming)
     {
         constexpr auto min_success_rate = 30;
         constexpr auto max_success_rate = 100;
@@ -896,36 +929,36 @@ namespace packet_gem
         if (!cube)
             return;
 
-        if (cube->itemInfo->effect != ItemEffect::ItemAbilityTransfer)
+        if (cube->info->effect != ItemEffect::ItemAbilityTransfer)
             return;
 
-        if (incoming->fromBag > user->bagsUnlocked || incoming->fromSlot >= max_inventory_slot)
+        if (incoming->srcBag > user->bagsUnlocked || incoming->srcSlot >= max_inventory_slot)
             return;
 
-        auto& from = user->inventory[incoming->fromBag][incoming->fromSlot];
-        if (!from)
+        auto& srcItem = user->inventory[incoming->srcBag][incoming->srcSlot];
+        if (!srcItem)
             return;
 
-        if (incoming->toBag > user->bagsUnlocked || incoming->toSlot >= max_inventory_slot)
+        if (incoming->destBag > user->bagsUnlocked || incoming->destSlot >= max_inventory_slot)
             return;
 
-        auto& to = user->inventory[incoming->toBag][incoming->toSlot];
-        if (!to)
+        auto& destItem = user->inventory[incoming->destBag][incoming->destSlot];
+        if (!destItem)
             return;
 
-        if (to->itemInfo->realType != from->itemInfo->realType)
+        if (destItem->info->realType != srcItem->info->realType)
             return;
 
-        if (to->itemInfo->reqLevel < from->itemInfo->reqLevel)
+        if (destItem->info->level < srcItem->info->level)
             return;
 
-        if (to->itemInfo->slotCount < from->itemInfo->slotCount)
+        if (destItem->info->slots < srcItem->info->slots)
             return;
 
-        if (to->itemInfo->composeCount < from->itemInfo->composeCount)
+        if (destItem->info->craftExpansions < srcItem->info->craftExpansions)
             return;
 
-        if (to->itemInfo->reqWis < from->itemInfo->reqWis)
+        if (destItem->info->reqWis < srcItem->info->reqWis)
             return;
 
         int successRate = min_success_rate;
@@ -940,10 +973,10 @@ namespace packet_gem
             if (!catalyst)
                 return;
 
-            if (catalyst->itemInfo->effect != ItemEffect::Catalyst)
+            if (catalyst->info->effect != ItemEffect::Catalyst)
                 return;
 
-            successRate += catalyst->itemInfo->reqVg;
+            successRate += catalyst->info->reqVg;
             CUser::ItemUseNSend(user, incoming->catalystBag, incoming->catalystSlot, false);
         }
 
@@ -959,54 +992,53 @@ namespace packet_gem
             randomRate = uni(eng);
         }
 
-        auto toOldItemUid = to->uniqueId;
-        auto toOldItemId = to->itemInfo->itemId;
-        auto toOldCraftName = to->craftName;
+        auto oldCraftName1 = destItem->craftName;
+        auto oldCraftName2 = srcItem->craftName;
 
-        auto fromOldItemUid = from->uniqueId;
-        auto fromOldItemId = from->itemInfo->itemId;
-        auto fromOldCraftName = from->craftName;
-
-        auto result = ItemAbilityTransferResult::Failure;
-        ItemAbilityTransferOutgoing outgoing(result, incoming->fromBag, incoming->fromSlot, incoming->toBag, incoming->toSlot);
+        GameItemAbilityTransferOutgoing outgoing{};
+        outgoing.result = GameItemAbilityTransferResult::Failure;
+        outgoing.srcBag = incoming->srcBag;
+        outgoing.srcSlot = incoming->srcSlot;
+        outgoing.destBag = incoming->destBag;
+        outgoing.destSlot = incoming->destSlot;
 
         if (randomRate <= successRate)
         {
-            outgoing.result = ItemAbilityTransferResult::Success;
+            outgoing.result = GameItemAbilityTransferResult::Success;
 
             auto maxHealth = user->maxHealth;
             auto maxMana = user->maxHealth;
             auto maxStamina = user->maxHealth;
 
-            if (!incoming->toBag)
+            if (!incoming->destBag)
             {
-                CUser::ItemEquipmentOptionRem(user, to);
-                to->gems = from->gems;
-                ItemHelper::CopyCraftName(from, to);
-                CUser::ItemEquipmentOptionAdd(user, to);
+                CUser::ItemEquipmentOptionRem(user, destItem);
+                destItem->gems = srcItem->gems;
+                ItemHelper::CopyCraftExpansion(srcItem, destItem);
+                CUser::ItemEquipmentOptionAdd(user, destItem);
             }
             else
             {
-                to->gems = from->gems;
-                ItemHelper::CopyCraftName(from, to);
+                destItem->gems = srcItem->gems;
+                ItemHelper::CopyCraftExpansion(srcItem, destItem);
             }
             
-            if (!incoming->fromBag)
+            if (!incoming->srcBag)
             {
-                CUser::ItemEquipmentOptionRem(user, from);
-                from->gems.fill(0);
-                ItemHelper::InitCraftName(from);
-                CUser::ItemEquipmentOptionAdd(user, from);
+                CUser::ItemEquipmentOptionRem(user, srcItem);
+                srcItem->gems.fill(0);
+                ItemHelper::InitCraftExpansion(srcItem);
+                CUser::ItemEquipmentOptionAdd(user, srcItem);
             }
             else
             {
-                from->gems.fill(0);
-                ItemHelper::InitCraftName(from);
+                srcItem->gems.fill(0);
+                ItemHelper::InitCraftExpansion(srcItem);
             }
 
-            if (!incoming->toBag || !incoming->fromBag)
+            if (!incoming->destBag || !incoming->srcBag)
             {
-                if (!user->ignoreMaxHpMpSpSpeed)
+                if (!user->initStatusFlag)
                 {
                     if (maxHealth != user->maxHealth)
                         CUser::SendMaxHP(user);
@@ -1021,20 +1053,14 @@ namespace packet_gem
                 CUser::SetAttack(user);
             }
 
-            NetworkHelper::SendDBAgentItemCraftName(user, to, incoming->toBag, incoming->toSlot);
-            NetworkHelper::SendDBAgentItemGems(user, to, incoming->toBag, incoming->toSlot);
+            ItemHelper::SendDBAgentCraftName(user, destItem, incoming->destBag, incoming->destSlot);
+            ItemHelper::SendDBAgentGems(user, destItem, incoming->destBag, incoming->destSlot);
 
-            GameLogItemComposeIncoming gameLog1(user, to, toOldItemUid, toOldItemId, toOldCraftName);
-            NetworkHelper::SendGameLog(&gameLog1, sizeof(GameLogItemComposeIncoming));
-
-            NetworkHelper::SendDBAgentItemCraftName(user, from, incoming->fromBag, incoming->fromSlot);
-            NetworkHelper::SendDBAgentItemGems(user, from, incoming->fromBag, incoming->fromSlot);
-
-            GameLogItemComposeIncoming gameLog2(user, from, fromOldItemUid, fromOldItemId, fromOldCraftName);
-            NetworkHelper::SendGameLog(&gameLog2, sizeof(GameLogItemComposeIncoming));
+            ItemHelper::SendDBAgentCraftName(user, srcItem, incoming->srcBag, incoming->srcSlot);
+            ItemHelper::SendDBAgentGems(user, srcItem, incoming->srcBag, incoming->srcSlot);
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(ItemAbilityTransferOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemAbilityTransferOutgoing));
     }
 
     /// <summary>
@@ -1042,7 +1068,7 @@ namespace packet_gem
     /// </summary>
     /// <param name="user"></param>
     /// <param name="packet"></param>
-    void extended_handler(CUser* user, uint8_t* packet)
+    void handler(CUser* user, uint8_t* packet)
     {
         auto opcode = util::deserialize<uint16_t>(packet, 0);
 
@@ -1050,60 +1076,60 @@ namespace packet_gem
         {
         case 0x80B:
         {
-            auto incoming = reinterpret_cast<ItemLapisCombineIncoming_EP6_4*>(packet);
-            item_lapis_combine_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemRemake5Incoming_EP6_4*>(packet);
+            handler_0x80B(user, incoming);
             break;
         }
         case 0x80C:
         {
-            auto incoming = reinterpret_cast<ItemLapisianCombineIncoming_EP6_4*>(packet);
-            item_lapisian_combine_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemRemake4Incoming_EP6_4*>(packet);
+            handler_0x80C(user, incoming);
             break;
         }
         case 0x80D:
         {
-            auto incoming = reinterpret_cast<ItemRuneCombineIncoming_EP6_4*>(packet);
-            item_rune_combine_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameRecreationRuneUpgradeIncoming_EP6_4*>(packet);
+            handler_0x80D(user, incoming);
             break;
         }
         case 0x80E:
         {
-            auto incoming = reinterpret_cast<ItemPerfectLapisianCombineIncoming*>(packet);
-            item_perfect_lapisian_combine_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameLapisianUpgradeIncoming*>(packet);
+            handler_0x80E(user, incoming);
             break;
         }
         case 0x811:
         {
-            auto incoming = reinterpret_cast<ItemAbilityTransferIncoming*>(packet);
-            item_ability_transfer_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemAbilityTransferIncoming*>(packet);
+            handler_0x811(user, incoming);
             break;
         }
         case 0x830:
         {
-            auto incoming = reinterpret_cast<ItemSynthesisListIncoming*>(packet);
-            item_synthesis_list_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemSynthesisListIncoming*>(packet);
+            handler_0x830(user, incoming);
             break;
         }
         case 0x831:
         {
-            auto incoming = reinterpret_cast<ItemSynthesisMaterialIncoming*>(packet);
-            item_synthesis_material_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemSynthesisMaterialIncoming*>(packet);
+            handler_0x831(user, incoming);
             break;
         }
         case 0x832:
         {
-            auto incoming = reinterpret_cast<ItemSynthesisIncoming*>(packet);
-            item_synthesis_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemSynthesisIncoming*>(packet);
+            handler_0x832(user, incoming);
             break;
         }
         case 0x833:
         {
-            auto incoming = reinterpret_cast<ItemFreeSynthesisIncoming*>(packet);
-            item_free_synthesis_handler(user, incoming);
+            auto incoming = reinterpret_cast<GameItemFreeSynthesisIncoming*>(packet);
+            handler_0x833(user, incoming);
             break;
         }
         default:
-            SConnection::Close(&user->connection.connection, 9, 0);
+            SConnection::Close(user, 9, 0);
             break;
         }
     }
@@ -1118,7 +1144,7 @@ void __declspec(naked) naked_0x47A040()
 
         push esi // packet
         push edi // user
-        call packet_gem::extended_handler
+        call packet_gem::handler
         add esp,0x8
 
         popad
@@ -1136,7 +1162,7 @@ void __declspec(naked) naked_0x47A003()
 
         push esi // packet
         push edi // user
-        call packet_gem::item_compose_handler
+        call packet_gem::handler_0x806
         add esp,0x8
         
         popad
@@ -1160,7 +1186,7 @@ void __declspec(naked) naked_0x46CCF0()
         mov eax,[esp+0x3C]
         push eax // item
         push esi // lapisian
-        call packet_gem::enable_perfect_enchant
+        call packet_gem::enable_step
         add esp,0x8
         test al,al
 
@@ -1192,7 +1218,7 @@ void __declspec(naked) naked_0x46CDB0()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_safety_charm
+        call packet_gem::remove_charm
         add esp,0x8
 
         popad
@@ -1211,7 +1237,7 @@ void __declspec(naked) naked_0x46D3BC()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::remove_safety_charm
+        call packet_gem::remove_charm
         add esp,0x8
         test al,al
 

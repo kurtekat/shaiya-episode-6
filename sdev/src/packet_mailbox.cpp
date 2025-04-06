@@ -31,7 +31,7 @@ namespace packet_mailbox
             break;
         }
         default:
-            SConnection::Close(&user->connection.connection, 9, 0);
+            SConnection::Close(user, 9, 0);
             break;
         }
     }

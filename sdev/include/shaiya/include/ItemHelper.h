@@ -10,19 +10,23 @@ namespace shaiya
     {
     public:
 
-        static void SetCraftStrength(CItem* item, UINT16 value);
-        static void SetCraftDexterity(CItem* item, UINT16 value);
-        static void SetCraftReaction(CItem* item, UINT16 value);
-        static void SetCraftIntelligence(CItem* item, UINT16 value);
-        static void SetCraftWisdom(CItem* item, UINT16 value);
-        static void SetCraftLuck(CItem* item, UINT16 value);
-        static void SetCraftHealth(CItem* item, UINT16 value);
-        static void SetCraftMana(CItem* item, UINT16 value);
-        static void SetCraftStamina(CItem* item, UINT16 value);
-        //static void SetCraftAttackPower(CItem* item, UINT16 value);
-        //static void SetCraftAbsorption(CItem* item, UINT16 value);
+        static void SetCraftStrength(CItem* item, int value);
+        static void SetCraftDexterity(CItem* item, int value);
+        static void SetCraftReaction(CItem* item, int value);
+        static void SetCraftIntelligence(CItem* item, int value);
+        static void SetCraftWisdom(CItem* item, int value);
+        static void SetCraftLuck(CItem* item, int value);
+        static void SetCraftHealth(CItem* item, int value);
+        static void SetCraftMana(CItem* item, int value);
+        static void SetCraftStamina(CItem* item, int value);
+        //static void SetCraftAttackPower(CItem* item, int value);
+        //static void SetCraftAbsorption(CItem* item, int value);
 
-        static void CopyCraftName(CItem* from, CItem* to);
-        static void InitCraftName(CItem* item);
+        static void CopyCraftExpansion(CItem* src, CItem* dest);
+        static void InitCraftExpansion(CItem* item);
+
+        static void SendDBAgentCraftName(CUser* user, CItem* item, int bag, int slot);
+        static void SendDBAgentGems(CUser* user, CItem* item, int bag, int slot);
+        static void SendDBAgentCloakInfo(CUser* user, CItem* item, int bag, int slot);
     };
 }

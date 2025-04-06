@@ -1,16 +1,17 @@
 #pragma once
 #include <vector>
+#include <shaiya/include/common.h>
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     struct ItemRemake
     {
-        int itemId1;
-        int itemId2;
-        int itemId3;
-        int createType;
-        int createTypeId;
+        uint32_t itemId1;
+        uint32_t itemId2;
+        uint32_t itemId3;
+        int32_t createType;
+        int32_t createTypeId;
     };
     #pragma pack(pop)
 

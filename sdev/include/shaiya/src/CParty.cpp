@@ -1,7 +1,7 @@
 #include "include/shaiya/include/CParty.h"
 using namespace shaiya;
 
-CUser* CParty::FindUser(CParty* party/*edi*/, ULONG objectId)
+CUser* CParty::FindUser(CParty* party/*edi*/, uint objectId)
 {
     unsigned u0x44E8B0 = 0x44E8B0;
 

@@ -1,13 +1,13 @@
 #pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <shaiya/include/common/SkillTypes.h>
 #include <util/util.h>
+#include <shaiya/include/common/SkillTypes.h>
+#include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/SkillInfo.h"
-#include "include/shaiya/include/network/game/outgoing/0500.h"
 using namespace shaiya;
 
 namespace user_skill
@@ -18,33 +18,31 @@ namespace user_skill
         if (abilityType1 != SkillAbilityType::Frenzied)
             return 0;
 
-        UserSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->connection.object.id;
-        outgoing.targetId = user->connection.object.id;
+        GameCharSkillUseOutgoing_EP6 outgoing{};
+        outgoing.senderId = user->id;
+        outgoing.targetId = user->id;
         outgoing.skillId = skillInfo->skillId;
         outgoing.skillLv = skillInfo->skillLv;
 
         if (!user->skillAbility70.triggered)
         {
-            outgoing.status = UserSkillUseStatus::Triggered;
-
             user->skillAbility70.triggered = true;
             user->skillAbility70.skillId = skillInfo->skillId;
             user->skillAbility70.skillLv = skillInfo->skillLv;
-            user->skillAbility70.keepTick = GetTickCount() + (skillInfo->keepTime * 1000);
+            user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+            outgoing.statusType = GameCharSkillUseStatusType::Triggered;
+            NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
         else
         {
-            outgoing.status = UserSkillUseStatus::Stopped;
-
             user->skillAbility70.triggered = false;
             user->skillAbility70.skillId = 0;
             user->skillAbility70.skillLv = 0;
-            user->skillAbility70.keepTick = 0;
+            user->skillAbility70.keepTime = 0;
 
-            NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+            outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+            NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
 
         return 1;
@@ -60,10 +58,10 @@ namespace user_skill
             return 0;
 
         auto now = GetTickCount();
-        if (now < user->skillAbility70.keepTick)
+        if (now < user->skillAbility70.keepTime)
             return 1;
 
-        user->skillAbility70.keepTick = now + (skillInfo->keepTime * 1000);
+        user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
 
         auto abilityValue1 = skillInfo->abilities[0].value;
         auto damage = (user->health * abilityValue1) / 100;
@@ -78,22 +76,18 @@ namespace user_skill
         if (!user->skillAbility70.triggered)
             return;
 
-        auto skillId = user->skillAbility70.skillId;
-        auto skillLv = user->skillAbility70.skillLv;
-
-        UserSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->connection.object.id;
-        outgoing.targetId = user->connection.object.id;
-        outgoing.skillId = skillId;
-        outgoing.skillLv = skillLv;
-        outgoing.status = UserSkillUseStatus::Stopped;
-
         user->skillAbility70.triggered = false;
         user->skillAbility70.skillId = 0;
         user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTick = 0;
+        user->skillAbility70.keepTime = 0;
 
-        NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+        GameCharSkillUseOutgoing_EP6 outgoing{};
+        outgoing.senderId = user->id;
+        outgoing.targetId = user->id;
+        outgoing.skillId = user->skillAbility70.skillId;;
+        outgoing.skillLv = user->skillAbility70.skillLv;
+        outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
     void ability_70_hook4(CUser* user, SkillInfo* skillInfo)
@@ -105,22 +99,18 @@ namespace user_skill
         if (!user->skillAbility70.triggered)
             return;
 
-        auto skillId = user->skillAbility70.skillId;
-        auto skillLv = user->skillAbility70.skillLv;
-
-        UserSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->connection.object.id;
-        outgoing.targetId = user->connection.object.id;
-        outgoing.skillId = skillId;
-        outgoing.skillLv = skillLv;
-        outgoing.status = UserSkillUseStatus::Stopped;
-
         user->skillAbility70.triggered = false;
         user->skillAbility70.skillId = 0;
         user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTick = 0;
+        user->skillAbility70.keepTime = 0;
 
-        NetworkHelper::Send(user, &outgoing, sizeof(UserSkillUseOutgoing_EP6));
+        GameCharSkillUseOutgoing_EP6 outgoing{};
+        outgoing.senderId = user->id;
+        outgoing.targetId = user->id;
+        outgoing.skillId = user->skillAbility70.skillId;;
+        outgoing.skillLv = user->skillAbility70.skillLv;
+        outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
     /// <summary>
