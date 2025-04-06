@@ -22,7 +22,7 @@ namespace shaiya
     struct TextBox
     {
         PAD(48);                           //0x22B291C
-        uint32_t maxStrLen;                //0x22B294C  0x30
+        uint32_t maxTextLength;            //0x22B294C  0x30
         bool32_t disableChkInput;          //0x22B2950  0x34
         PAD(92);
         Array<wchar_t, 8> wideText;        //0x22B29B0  0x94

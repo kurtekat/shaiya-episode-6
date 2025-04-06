@@ -95,7 +95,7 @@ namespace shaiya
         LPDIRECT3D9 d3d9;           //0x22B6DC0  0x410
         LPDIRECT3DDEVICE9 device;   //0x22B6DC4  0x414
         uint32_t primitiveCount;    //0x22B6DC8  0x418
-        int enableInfoText;         //0x22B6DCC  0x41C
+        bool32_t enableInfoText;    //0x22B6DCC  0x41C
         CStaticText* staticText;    //0x22B6DD0  0x420
         PAD(4);
         D3DGAMMARAMP gammaRamp1;    //0x22B6DD8  0x428
@@ -164,7 +164,10 @@ namespace shaiya
         PAD(2788);
         uint32_t targetId;                   //0x7ABBDC
         TargetType targetType;               //0x7ABBE0
-        PAD(24576);
+        PAD(16164);
+        WNDCLASSEXA wndClassExa;             //0x7AFB08
+        // 0x7AFB38
+        PAD(8364);
         CMonsterData monMonster;             //0x7B1BE4  monster.mon
         CMonsterData monNpc;                 //0x7B1BF8  npc.mon
         CMonsterData monStrip;               //0x7B1C0C  strip.mon
@@ -178,8 +181,8 @@ namespace shaiya
         String<260> iniFileName;             //0x7C0720
         // 0x7C0824
         PAD(1384);
-        int enableWaterSurface;              //0x7C0D8C
-        int enableShadows;                   //0x7C0D90
+        bool32_t enableWaterSurface;         //0x7C0D8C
+        bool32_t enableShadows;              //0x7C0D90
         float viewFarthest;                  //0x7C0D94
         float viewNearest;                   //0x7C0D98
         // 0: 16-bit, 1: 32-bit
@@ -189,7 +192,7 @@ namespace shaiya
         float fogFarthest;                   //0x7C0DA8
         float fogStart;                      //0x7C0DAC
         float fogEnd;                        //0x7C0DB0
-        int disableFog;                      //0x7C0DB4
+        bool32_t disableFog;                 //0x7C0DB4
         float modelFarthest;                 //0x7C0DB8
         float grassFarthest;                 //0x7C0DBC
         // user, npc, mob
@@ -204,9 +207,9 @@ namespace shaiya
         PAD(1176);
         HWND hwnd;                           //0x7C139C
         HINSTANCE hinst;                     //0x7C13A0
-        int isFullscreenWindow;              //0x7C13A4
+        bool32_t isFullscreenWindow;         //0x7C13A4
         PAD(4);
-        int isActiveWindow;                  //0x7C13AC
+        bool32_t isActiveWindow;             //0x7C13AC
         PAD(1408);
         uint32_t msgValue2;                  //0x7C1930  <v2>
         HealPointType msgHealPointType1;     //0x7C1934  <up>
@@ -639,7 +642,10 @@ namespace shaiya
         PAD(21368);
         String<260> exeFileName;             //0x22FF680
         // 0x22FF784
-        PAD(708);
+        PAD(116);
+        CRITICAL_SECTION cs;                 //0x22FF7F8
+        // 0x22FF810
+        PAD(568);
         HMODULE hModule;                     //0x22FFA48
         PAD(116);
         FARPROC gdi32_GetCharABCWidthsI;     //0x22FFAC0
