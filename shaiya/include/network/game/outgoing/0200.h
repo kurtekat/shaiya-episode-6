@@ -17,7 +17,7 @@ namespace shaiya
         uint8_t srcCount;
         uint16_t srcQuality;
         Gems srcGems;
-        String<21> srcCraftName;
+        CraftName srcCraftName;
         uint8_t destBag;
         uint8_t destSlot;
         uint8_t destType;
@@ -25,7 +25,7 @@ namespace shaiya
         uint8_t destCount;
         uint16_t destQuality;
         Gems destGems;
-        String<21> destCraftName;
+        CraftName destCraftName;
     } GameItemBagToBankOutgoing, GameItemBankToBankOutgoing;
     #pragma pack(pop)
 
@@ -67,7 +67,7 @@ namespace shaiya
         uint16_t quality;
         Gems gems;
         // or '\0'
-        String<21> craftName;
+        CraftName craftName;
     };
     #pragma pack(pop)
 
