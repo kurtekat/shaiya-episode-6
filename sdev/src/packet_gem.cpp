@@ -455,7 +455,7 @@ namespace packet_gem
 
         for (int i = 0; i < requiredCount; ++i)
         {
-            if (!UserHelper::ItemRemove(user, itemInfo->itemId, 1))
+            if (!UserHelper::ItemRemove(user, itemInfo, 1))
             {
                 NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
                 return;
@@ -892,7 +892,7 @@ namespace packet_gem
             if (!itemInfo)
                 continue;
 
-            if (!UserHelper::ItemRemove(user, itemInfo->itemId, count))
+            if (!UserHelper::ItemRemove(user, itemInfo, count))
             {
                 NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisOutgoing));
                 return;

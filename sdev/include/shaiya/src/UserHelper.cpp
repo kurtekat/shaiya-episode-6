@@ -26,13 +26,13 @@
 #include "include/shaiya/include/UserHelper.h"
 using namespace shaiya;
 
-bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
+bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint8_t count, int& outBag, int& outSlot)
 {
-    if (count > itemInfo->count)
+    if (count < 1 || count > itemInfo->count)
         return false;
 
     outBag = 1;
-    while (std::cmp_less_equal(outBag, user->bagsUnlocked))
+    while (outBag <= user->bagsUnlocked)
     {
         for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
         {
@@ -46,16 +46,16 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& out
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
+bool UserHelper::ItemRemove(CUser* user, uint8_t bag, uint8_t slot, uint8_t count)
 {
-    if (!bag || std::cmp_greater_equal(bag, user->inventory.size()) || slot >= max_inventory_slot)
+    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
     if (!item)
         return false;
 
-    if (item->count < count)
+    if (count < 1 || count > item->count)
         return false;
 
     item->count -= count;
@@ -104,7 +104,7 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     return true;
 }
 
-bool UserHelper::ItemRemove(CUser* user, uint itemId, int count)
+bool UserHelper::ItemRemove(CUser* user, ItemInfo* itemInfo, uint8_t count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -118,7 +118,7 @@ bool UserHelper::ItemRemove(CUser* user, uint itemId, int count)
             if (!item)
                 continue;
 
-            if (item->info->itemId != itemId)
+            if (item->info->itemId != itemInfo->itemId)
                 continue;
 
             if (item->count < count)
@@ -132,7 +132,7 @@ bool UserHelper::ItemRemove(CUser* user, uint itemId, int count)
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, ItemEffect itemEffect, int count)
+bool UserHelper::ItemRemove(CUser* user, ItemEffect itemEffect, uint8_t count)
 {
     for (const auto& [bag, items] : std::views::enumerate(
         std::as_const(user->inventory)))
@@ -160,8 +160,11 @@ bool UserHelper::ItemRemove(CUser* user, ItemEffect itemEffect, int count)
     return false;
 }
 
-void UserHelper::SetMovePosition(CUser* user, int mapId, float x, float y, float z, int movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint16_t mapId, float x, float y, float z, int movePosType, uint delay)
 {
+    if (delay < 500)
+        delay = 500;
+
     user->moveMapId = mapId;
     user->movePos.x = x;
     user->movePos.y = y;
@@ -170,13 +173,16 @@ void UserHelper::SetMovePosition(CUser* user, int mapId, float x, float y, float
     user->movePosTime = GetTickCount() + delay;
 }
 
-void UserHelper::SetMovePosition(CUser* user, int mapId, SVector* pos, int movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint16_t mapId, SVector* pos, int movePosType, uint delay)
 {
     UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
 
-bool UserHelper::Move(CUser* user, int mapId, float x, float y, float z, int movePosType, uint delay)
+bool UserHelper::Move(CUser* user, uint16_t mapId, float x, float y, float z, int movePosType, uint delay)
 {
+    if (delay < 500)
+        delay = 500;
+
     if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
         return false;
 
@@ -192,7 +198,7 @@ bool UserHelper::Move(CUser* user, int mapId, float x, float y, float z, int mov
     return true;
 }
 
-bool UserHelper::Move(CUser* user, int mapId, SVector* pos, int recallType, uint delay)
+bool UserHelper::Move(CUser* user, uint16_t mapId, SVector* pos, int movePosType, uint delay)
 {
-    return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, recallType, delay);
+    return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
