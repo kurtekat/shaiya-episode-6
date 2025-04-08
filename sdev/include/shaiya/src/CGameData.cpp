@@ -5,14 +5,14 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-ItemInfo* CGameData::GetItemInfo(int _type/*eax*/, int typeId/*ecx*/)
+ItemInfo* CGameData::GetItemInfo(int type_/*eax*/, int typeId/*ecx*/)
 {
     unsigned u0x4059B0 = 0x4059B0;
 
     __asm
     {
         mov ecx,typeId
-        mov eax,_type
+        mov eax,type_
         call u0x4059B0
     }
 }

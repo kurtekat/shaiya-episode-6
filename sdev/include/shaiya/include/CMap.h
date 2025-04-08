@@ -11,7 +11,6 @@
 
 namespace shaiya
 {
-    struct CDoor;
     struct CZone;
     struct MapBind;
     struct MapBoss;
@@ -91,9 +90,6 @@ namespace shaiya
         // 0x1EC
         PAD(28);
         // 0x208
-
-        static CDoor* GetPortal(CMap* map/*ecx*/, int index/*eax*/);
-        static CDoor* GetPortalById(CMap* map/*ecx*/, int id/*edi*/);
     };
     #pragma pack(pop)
 

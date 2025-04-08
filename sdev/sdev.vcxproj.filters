@@ -48,9 +48,6 @@
     <ClCompile Include="include\shaiya\src\CItemDrop.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CMap.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\src\CMob.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>

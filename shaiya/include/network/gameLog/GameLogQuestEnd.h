@@ -10,7 +10,7 @@ namespace shaiya
     struct GameLogQuestEnd : GameLogQuest
     {
         bool success;
-        uint32_t gold;
+        uint32_t money;
         uint32_t itemId;
         uint8_t itemCount;
         String<32> itemName;

@@ -15,7 +15,7 @@ namespace shaiya
         bool32_t visible;                //0x20
         // 0x24
 
-        static void Draw(LPDIRECT3DBASETEXTURE9 texture, long x, long y);
+        static void Draw(LPDIRECT3DBASETEXTURE9 texture, int x, int y);
     };
     #pragma pack(pop) 
 

@@ -29,9 +29,9 @@ namespace shaiya
         int32_t model;          //0xA4
         PAD(100);
         SStaticText* typeText;  //0x10C
-        long typePointX;        //0x110
+        int32_t typePointX;     //0x110
         SStaticText* nameText;  //0x114
-        long namePointX;        //0x118
+        int32_t namePointX;     //0x118
         PAD(16);
         // 0x12C
     };

@@ -32,7 +32,7 @@ namespace shaiya
         static SDatabase* AllocDB();
         static void FreeDB(SDatabase* db);
         static bool Connect(
-            long connectionCount,
+            int connectionCount,
             const char* serverName,
             const char* dbName,
             const char* username,

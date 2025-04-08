@@ -84,10 +84,10 @@ namespace shaiya
         LPD3DXFONT d3dxFont1;       //0x22B6D54  0x3A4
         LPD3DXFONT d3dxFont0;       //0x22B6D58  0x3A8
         HFONT hFont;                //0x22B6D5C  0x3AC
-        long text0Width;            //0x22B6D60  0x3B0
-        long text1Width;            //0x22B6D64  0x3B4
-        long text0Height;           //0x22B6D68  0x3B8
-        long text1Height;           //0x22B6D6C  0x3BC
+        int32_t text0Width;         //0x22B6D60  0x3B0
+        int32_t text1Width;         //0x22B6D64  0x3B4
+        int32_t text0Height;        //0x22B6D68  0x3B8
+        int32_t text1Height;        //0x22B6D6C  0x3BC
         uint32_t textColorR;        //0x22B6D70  0x3C0
         uint32_t textColorG;        //0x22B6D74  0x3C4
         uint32_t textColorB;        //0x22B6D78  0x3C8
@@ -232,8 +232,8 @@ namespace shaiya
         // 0:5 (switches buffers)
         uint32_t msgTextBufferIndex;         //0x7C3B40
         PAD(200);
-        long cursorX;                        //0x7C3C0C
-        long cursorY;                        //0x7C3C10
+        int32_t cursorX;                     //0x7C3C0C
+        int32_t cursorY;                     //0x7C3C10
         PAD(3660);
         CSwordEffect* seffEventEffect;       //0x7C4A60
         CSwordEffect* seffWeather;           //0x7C4A64
@@ -676,7 +676,7 @@ namespace shaiya
 
         // static functions
 
-        static void DrawRect(D3DCOLOR argb, long x, long y, long w, long h);
+        static void DrawRect(D3DCOLOR argb, int x, int y, int w, int h);
         static void MsgTextOut(int messageType, int messageNumber, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
         static char* GetMsg(int messageNumber);

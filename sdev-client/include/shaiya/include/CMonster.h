@@ -35,7 +35,7 @@ namespace shaiya
         uint8_t moveSpeed;      //0xB5
         PAD(66);
         SStaticText* nameText;  //0xF8
-        long namePointX;        //0xFC
+        int32_t namePointX;     //0xFC
         PAD(52);
         // 0x134
         

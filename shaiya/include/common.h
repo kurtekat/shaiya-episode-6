@@ -11,8 +11,6 @@ namespace shaiya
 {
     constexpr int max_equipment_slot = 24;
     constexpr int max_inventory_slot = 24;
-    constexpr int max_warehouse_slot = 240;
-    constexpr int min_warehouse_slot = 120;
 
     using bool32_t = uint32_t;
     using tick32_t = uint32_t;

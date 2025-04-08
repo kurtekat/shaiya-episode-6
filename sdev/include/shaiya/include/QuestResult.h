@@ -18,7 +18,7 @@ namespace shaiya
         uint8_t needOg;         //0x10
         PAD(3);
         uint32_t exp;           //0x14
-        uint32_t gold;          //0x18
+        uint32_t money;         //0x18
         uint8_t itemType;       //0x1C
         uint8_t itemTypeId;     //0x1D
         uint16_t nextQuestId;   //0x1E
@@ -42,7 +42,7 @@ namespace shaiya
         uint8_t needOg;         //0x10
         PAD(3);
         uint32_t exp;           //0x14
-        uint32_t gold;          //0x18
+        uint32_t money;         //0x18
         // 0x1C
         Array<QuestItem, 3> itemList;
         // 0x25

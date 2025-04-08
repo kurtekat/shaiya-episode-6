@@ -28,8 +28,8 @@ namespace shaiya
         // 0x14
 
         static SStaticText* Create(const char* text);
-        static void Draw(SStaticText* staticText, long x, long y, float z, D3DCOLOR color);
-        static long GetTextWidth(const char* text);
+        static void Draw(SStaticText* staticText, int x, int y, float z, D3DCOLOR color);
+        static int GetTextWidth(const char* text);
     };
     #pragma pack(pop)
 

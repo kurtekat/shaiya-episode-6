@@ -1,9 +1,9 @@
 #include "include/static.h"
 using namespace shaiya;
 
-void Static::DrawRect(D3DCOLOR argb, long x, long y, long w, long h)
+void Static::DrawRect(D3DCOLOR argb, int x, int y, int w, int h)
 {
-    typedef void(__cdecl* LPFN)(D3DCOLOR, long, long, long, long);
+    typedef void(__cdecl* LPFN)(D3DCOLOR, int, int, int, int);
     (*(LPFN)0x4B6180)(argb, x, y, w, h);
 }
 

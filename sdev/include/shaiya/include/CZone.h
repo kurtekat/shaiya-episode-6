@@ -61,8 +61,6 @@ namespace shaiya
         static CMob* FindMob(CZone* zone/*ecx*/, uint objectId);
         static CNpc* FindNpc(CZone* zone/*ecx*/, uint objectId);
         static CUser* FindUser(CZone* zone/*ecx*/, uint objectId);
-        static MapBoss* GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/);
-        static int GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static uint MobGenEx(CZone* zone, uint objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
@@ -73,7 +71,6 @@ namespace shaiya
         static bool NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);
         static void PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint senderId, uint targetId, int priority);
         static void SendView(CZone* zone, void* packet, int length, int cellX/*ecx*/, int cellZ/*eax*/);
-        static void UpdateInsZonePortalCountry(CZone* zone/*esi*/, int id/*edi*/, int country/*ebx*/);
     };
     #pragma pack(pop)
 

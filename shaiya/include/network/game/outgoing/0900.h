@@ -24,7 +24,7 @@ namespace shaiya
         bool success;
         uint8_t resultIndex;
         uint32_t exp;
-        uint32_t gold;
+        uint32_t money;
         uint8_t itemBag;
         uint8_t itemSlot;
         uint8_t itemType;
@@ -42,7 +42,7 @@ namespace shaiya
         bool success;
         uint8_t resultIndex;
         uint32_t exp;
-        uint32_t gold;
+        uint32_t money;
         Array<QuestItemUnit, 3> itemList;
     };
     #pragma pack(pop)

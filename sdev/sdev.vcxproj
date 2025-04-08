@@ -15,7 +15,6 @@
     <ClCompile Include="include\shaiya\src\CGuild.cpp" />
     <ClCompile Include="include\shaiya\src\CItem.cpp" />
     <ClCompile Include="include\shaiya\src\CItemDrop.cpp" />
-    <ClCompile Include="include\shaiya\src\CMap.cpp" />
     <ClCompile Include="include\shaiya\src\CMob.cpp" />
     <ClCompile Include="include\shaiya\src\CNpc.cpp" />
     <ClCompile Include="include\shaiya\src\CObject.cpp" />

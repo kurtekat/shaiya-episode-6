@@ -30,27 +30,27 @@ CZone* CWorld::GetZone(int mapId/*eax*/)
     }
 }
 
-void CWorld::SendAll(void* packet/*ecx*/, int _length/*eax*/)
+void CWorld::SendAll(void* packet/*ecx*/, int length_/*eax*/)
 {
     unsigned u0x419120 = 0x419120;
 
     __asm
     {
         mov esi,g_pWorld
-        mov eax,_length
+        mov eax,length_
         mov ecx,[packet]
         call u0x419120
     }
 }
 
-void CWorld::SendAllCountry(void* packet/*ecx*/, int _length/*eax*/, int country)
+void CWorld::SendAllCountry(void* packet/*ecx*/, int length_/*eax*/, int country)
 {
     unsigned u0x4191B0 = 0x4191B0;
 
     __asm
     {
         mov esi,g_pWorld
-        mov eax,_length
+        mov eax,length_
         mov ecx,[packet]
         push country
         call u0x4191B0

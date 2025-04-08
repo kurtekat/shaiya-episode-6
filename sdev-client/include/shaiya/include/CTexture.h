@@ -13,12 +13,12 @@ namespace shaiya
         D2D_SIZE_F size;
         // 0x10
 
-        static int CreateFromFile(CTexture* texture, const char* path, const char* fileName/*.tga*/, long w, long h);
-        static void Render(CTexture* texture, long x, long y, float z);
+        static int CreateFromFile(CTexture* texture, const char* path, const char* fileName/*.tga*/, int w, int h);
+        static void Render(CTexture* texture, int x, int y, float z);
         // to-do: name the last 4 parameters
         static void Render(CTexture* texture, D3DCOLOR diffuse, 
-            long x, long y, float z, 
-            long w, long h, 
+            int x, int y, float z, 
+            int w, int h, 
             float a, float b, float c, float d
         );
     };

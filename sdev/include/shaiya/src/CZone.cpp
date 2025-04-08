@@ -23,30 +23,6 @@ CUser* CZone::FindUser(CZone* zone/*ecx*/, uint objectId)
     return (*(LPFN)0x41C6E0)(zone, objectId);
 }
 
-MapBoss* CZone::GetBossMobInfo(CZone* zone/*ecx*/, int index/*eax*/)
-{
-    unsigned u0x4224C0 = 0x4224C0;
-
-    __asm
-    {
-        mov eax,index
-        mov ecx,zone
-        call u0x4224C0
-    }
-}
-
-int CZone::GetInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edx*/)
-{
-    unsigned u0x41DF50 = 0x41DF50;
-
-    __asm
-    {
-        mov edx,insZoneId
-        mov esi,zone
-        call u0x41DF50
-    }
-}
-
 bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
 {
     unsigned u0x4245A0 = 0x4245A0;
@@ -171,7 +147,7 @@ void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, floa
     (*(LPFN)0x427CF0)(zone, packet, length, base, radius, senderId, targetId, priority);
 }
 
-void CZone::SendView(CZone* zone, void* packet, int _length, int cellX/*ecx*/, int cellZ/*eax*/)
+void CZone::SendView(CZone* zone, void* packet, int length_, int cellX/*ecx*/, int cellZ/*eax*/)
 {
     unsigned u0x427470 = 0x427470;
 
@@ -180,22 +156,9 @@ void CZone::SendView(CZone* zone, void* packet, int _length, int cellX/*ecx*/, i
         mov eax,cellZ
         mov ecx,cellX
 
-        push _length
+        push length_
         push packet
         push zone
         call u0x427470
-    }
-}
-
-void CZone::UpdateInsZonePortalCountry(CZone* zone/*esi*/, int insZoneId/*edi*/, int country/*ebx*/)
-{
-    unsigned u0x41DF80 = 0x41DF80;
-
-    __asm
-    {
-        mov ebx,country
-        mov edi,insZoneId
-        mov esi,zone
-        call u0x41DF80
     }
 }

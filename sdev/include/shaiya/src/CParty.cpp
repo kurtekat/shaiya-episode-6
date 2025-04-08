@@ -83,14 +83,14 @@ void CParty::LeaveParty(CUser* user/*eax*/, CParty* party/*ecx*/)
     }
 }
 
-void CParty::Send(CParty* party/*esi*/, void* packet/*ecx*/, int _length/*eax*/)
+void CParty::Send(CParty* party/*esi*/, void* packet/*ecx*/, int length_/*eax*/)
 {
     unsigned u0x44E950 = 0x44E950;
 
     __asm
     {
         mov esi,party
-        mov eax,_length
+        mov eax,length_
         mov ecx,[packet]
         call u0x44E950
     }

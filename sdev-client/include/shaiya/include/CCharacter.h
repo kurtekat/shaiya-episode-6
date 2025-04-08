@@ -143,9 +143,9 @@ namespace shaiya
         char* guildName;              //0x30C
         uint32_t guildId;             //0x310
         SStaticText* charNameText;    //0x314
-        long charNamePointX;          //0x318
+        int32_t charNamePointX;       //0x318
         SStaticText* guildNameText;   //0x31C
-        long guildNamePointX;         //0x320
+        int32_t guildNamePointX;      //0x320
         SStaticText* myShopMsgText;   //0x324
         PAD(12);
         uint32_t kills;               //0x334
