@@ -174,6 +174,8 @@ namespace packet_gem
         auto itemId1 = lapis1->info->itemId;
         auto itemId2 = lapis2->info->itemId;
         auto itemId3 = lapis3->info->itemId;
+        if (itemId1 != itemId2 || itemId2 != itemId3 || itemId3 != itemId1)
+            return;
 
         auto remake = std::find_if(g_itemRemake5.begin(), g_itemRemake5.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
@@ -276,6 +278,8 @@ namespace packet_gem
         auto itemId1 = lapisian1->info->itemId;
         auto itemId2 = lapisian2->info->itemId;
         auto itemId3 = lapisian3->info->itemId;
+        if (itemId1 != itemId2 || itemId2 != itemId3 || itemId3 != itemId1)
+            return;
 
         auto remake = std::find_if(g_itemRemake4.begin(), g_itemRemake4.end(), [&itemId1, &itemId2, &itemId3](const auto& remake) {
             return remake.itemId1 == itemId1 && remake.itemId2 == itemId2 && remake.itemId3 == itemId3;
