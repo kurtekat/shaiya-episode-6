@@ -36,13 +36,14 @@ namespace packet_quest
     /// <param name="quest"></param>
     /// <param name="npcId"></param>
     /// <param name="resultIndex"></param>
-    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, int resultIndex)
+    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, uint8_t resultIndex)
     {
-        auto questInfo = quest->info;
-        if (std::cmp_greater_equal(resultIndex, questInfo->results.size()))
+        if (resultIndex >= quest->info->results.size())
             return;
 
-        auto exp = questInfo->results[resultIndex].exp;
+        auto exp = quest->info->results[resultIndex].exp;
+        auto money = quest->info->results[resultIndex].money;
+
         if (exp)
         {
             auto rate = user->multiplyQuestExpRate;
@@ -52,34 +53,33 @@ namespace packet_quest
             CUser::AddExpFromUser(user, 0, exp, true);
         }
 
-        auto gold = questInfo->results[resultIndex].gold;
-        if (gold)
+        if (money)
         {
-            CUser::ChkAddMoneyGet(user, gold);
+            CUser::ChkAddMoneyGet(user, money);
             CUser::SendDBMoney(user);
         }
 
         GameLogQuestEndIncoming gameLog{};
         CUser::SetGameLogMain(user, &gameLog.packet);
-        gameLog.packet.questId = questInfo->questId;
-        StringCbCopyA(gameLog.packet.questName.data(), gameLog.packet.questName.size(), questInfo->questName.data());
+        gameLog.packet.questId = quest->info->questId;
+        StringCbCopyA(gameLog.packet.questName.data(), gameLog.packet.questName.size(), quest->info->questName.data());
         gameLog.packet.success = true;
-        gameLog.packet.gold = gold;
+        gameLog.packet.money = money;
 
         GameQuestEndOutgoing_EP6 outgoing{};
         outgoing.npcId = npcId;
-        outgoing.questId = questInfo->questId;
+        outgoing.questId = quest->info->questId;
         outgoing.success = true;
         outgoing.resultIndex = resultIndex;
         outgoing.exp = exp;
-        outgoing.gold = gold;
+        outgoing.money = money;
 
-        auto& itemList = questInfo->results[resultIndex].itemList;
+        auto& itemList = quest->info->results[resultIndex].itemList;
         for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
         {
-            int type = itemList[i].type;
-            int typeId = itemList[i].typeId;
-            int count = itemList[i].count;
+            auto type = itemList[i].type;
+            auto typeId = itemList[i].typeId;
+            auto count = itemList[i].count;
 
             int bag{}, slot{};
             ItemInfo itemInfo{};

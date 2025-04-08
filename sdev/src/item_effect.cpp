@@ -29,7 +29,7 @@ namespace item_effect
     /// <param name="bag"></param>
     /// <param name="slot"></param>
     /// <returns></returns>
-    int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
+    int hook(CUser* user, CItem* item, ItemEffect effect, uint8_t bag, uint8_t slot)
     {
         switch (effect)
         {
@@ -71,7 +71,7 @@ namespace item_effect
                 return 0;
 
             auto index = user->savePosUseIndex;
-            if (index > 2)
+            if (index < 0 || index > 2)
                 return 0;
 
             auto mapId = gateKeeper->gates[index].mapId;
@@ -174,7 +174,7 @@ namespace item_effect
     /// <returns></returns>
     int zone_enter_item_hook(CItem* item, int enterType)
     {
-        if (enterType != int(GameItemZoneEnterType::MobDrop))
+        if (enterType != std::to_underlying(GameItemZoneEnterType::MobDrop))
             return 0;
 
         if (!item->zone)
@@ -188,7 +188,7 @@ namespace item_effect
         if (!pet)
             return 0;
 
-        if (item->type == int(ItemType::Gold))
+        if (item->type == std::to_underlying(ItemType::Gold))
         {
             auto money = item->dropMoney;
             if (!money)

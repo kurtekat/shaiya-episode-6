@@ -1,5 +1,4 @@
 #include <util/util.h>
-#include <shaiya/include/common.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
@@ -74,12 +73,9 @@ namespace character_list
         SConnection::Send(user->connection, &outgoing, length);
     }
 
-    void assign_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
+    void assign_equipment(CUser* user, uint8_t characterSlot, uint8_t equipmentSlot, uint8_t type, uint8_t typeId)
     {
-        if (std::cmp_greater_equal(characterSlot, user->characterList.size()))
-            return;
-
-        if (equipmentSlot >= max_equipment_slot)
+        if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;
