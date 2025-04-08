@@ -53,18 +53,18 @@ namespace user_shape
         }
 
         user->clone->charName = target->charName;
+        user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
         auto& item = target->inventory[0][int(EquipmentSlot::Cloak)];
         if (!item)
         {
+            user->clone->packetLength -= sizeof(CloakInfo);
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
         }
         else
         {
             user->clone->cloakInfo = item->gems;
             CUser::GetGuildName(target, user->clone->guildName.data());
-            user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
         }
     }
 
@@ -78,7 +78,7 @@ namespace user_shape
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
 
-        if (user->shapeType == ShapeType::Disguise && user->clone)
+        if (user->shapeType == ShapeType::Disguise && user->clone != nullptr)
         {
             outgoing.dead = user->clone->dead;
             outgoing.motion = user->clone->motion;
@@ -99,14 +99,14 @@ namespace user_shape
             {
                 outgoing.cloakInfo = user->clone->cloakInfo;
                 outgoing.guildName = user->clone->guildName;
-                NetworkHelper::Send(target, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4));
             }
             else
             {
-                std::memcpy(&outgoing.cloakInfo, &user->clone->guildName, user->clone->guildName.size());
-                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
-                NetworkHelper::Send(target, &outgoing, length);
+                std::memcpy(outgoing.cloakInfo.data(),
+                    user->clone->guildName.data(), user->clone->guildName.size());
             }
+
+            NetworkHelper::Send(target, &outgoing, user->clone->packetLength);
         }
         else
         {
@@ -138,20 +138,21 @@ namespace user_shape
             }
 
             outgoing.charName = user->charName;
+            int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
             auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
             if (!item)
             {
-                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakInfo));
-                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
-                NetworkHelper::Send(target, &outgoing, length);
+                length -= sizeof(CloakInfo);
+                CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
             }
             else
             {
                 outgoing.cloakInfo = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
-                NetworkHelper::Send(target, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4));
             }
+
+            NetworkHelper::Send(target, &outgoing, length);
         }
     }
 
@@ -164,7 +165,7 @@ namespace user_shape
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
 
-        if (user->shapeType == ShapeType::Disguise && user->clone)
+        if (user->shapeType == ShapeType::Disguise && user->clone != nullptr)
         {
             outgoing.dead = user->clone->dead;
             outgoing.motion = user->clone->motion;
@@ -185,22 +186,17 @@ namespace user_shape
             {
                 outgoing.cloakInfo = user->clone->cloakInfo;
                 outgoing.guildName = user->clone->guildName;
-
-                if (!user->zone)
-                    return;
-
-                CZone::SendView(user->zone, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4), user->cellX, user->cellZ);
             }
             else
             {
-                std::memcpy(&outgoing.cloakInfo, &user->clone->guildName, user->clone->guildName.size());
-
-                if (!user->zone)
-                    return;
-
-                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
-                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
+                std::memcpy(outgoing.cloakInfo.data(), 
+                    user->clone->guildName.data(), user->clone->guildName.size());
             }
+
+            if (!user->zone)
+                return;
+
+            CZone::SendView(user->zone, &outgoing, user->clone->packetLength, user->cellX, user->cellZ);
         }
         else
         {
@@ -232,28 +228,24 @@ namespace user_shape
             }
 
             outgoing.charName = user->charName;
+            int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
             auto& item = user->inventory[0][int(EquipmentSlot::Cloak)];
             if (!item)
             {
-                CUser::GetGuildName(user, reinterpret_cast<char*>(&outgoing.cloakInfo));
-
-                if (!user->zone)
-                    return;
-
-                int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4) - sizeof(CloakInfo);
-                CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
+                length -= sizeof(CloakInfo);
+                CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
             }
             else
             {
                 outgoing.cloakInfo = item->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
-
-                if (!user->zone)
-                    return;
-
-                CZone::SendView(user->zone, &outgoing, sizeof(GameGetInfoUserShapeOutgoing_EP6_4), user->cellX, user->cellZ);
             }
+
+            if (!user->zone)
+                return;
+
+            CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
         }
     }
 
@@ -425,6 +417,18 @@ void __declspec(naked) naked_0x4263AD()
     }
 }
 
+unsigned u0x411B26 = 0x411B26;
+unsigned u0x51B26B = 0x51B26B;
+void __declspec(naked) naked_0x411B1F()
+{
+    __asm
+    {
+        push 0x80 // size
+        call u0x51B26B // malloc
+        jmp u0x411B26
+    }
+}
+
 void hook::user_shape()
 {
     // CZone::SendUserShape
@@ -439,7 +443,6 @@ void hook::user_shape()
     util::detour((void*)0x42A56C, naked_0x42A56C, 6);
     // CZone::SendMoveUser
     util::detour((void*)0x4263AD, naked_0x4263AD, 6);
-
     // CObjectMgr::CreateCloneUser
-    util::write_memory((void*)0x411B20, sizeof(CloneUser), 1);
+    util::detour((void*)0x411B1F, naked_0x411B1F, 7);
 }
