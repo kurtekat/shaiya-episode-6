@@ -47,7 +47,7 @@ The client expects the merchant type of the npc to be 20 (Alchemist).
 
 ### Lapis Combination
 
-Use the following example to get started:
+The client expects the 3 items to be the same. Use the following example to get started:
 
 ```ini
 ; PSM_Client\Bin\Data\ItemRemake5.ini
@@ -95,7 +95,7 @@ CreateType=30
 CreateTypeID=41
 ```
 
-Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack or `ReqIg` values 30 and 99. 
+Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack or `ReqIg` values 30 and 99.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
@@ -103,7 +103,7 @@ Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than
 
 ### Lapisian Combination
 
-Use the following example to get started:
+The client expects the 3 items to be the same. Use the following example to get started:
 
 ```ini
 ; PSM_Client\Bin\Data\ItemRemake4.ini
