@@ -40,10 +40,6 @@ namespace shaiya
         AStar star;                   //0x6C
         ChasePathList chasePathList;  //0x94
         // 0x98
-
-        static void SetTarget(CNpc* npc/*eax*/, CUser* user/*esi*/);
-        static void StatusChange(CNpc* npc/*eax*/, int nextStatus/*ecx*/);
-        static void StatusAttackStop(CNpc* npc/*eax*/);
     };
     #pragma pack(pop)
 

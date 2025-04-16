@@ -124,13 +124,14 @@ bool CItem::IsWeapon(CItem* item/*eax*/)
     }
 }
 
-void CItem::ReGenerationCraftExpansion(CItem* item/*esi*/, bool32_t compose)
+void CItem::ReGenerationCraftExpansion(CItem* item/*esi*/, bool compose)
 {
     unsigned u0x4D29C0 = 0x4D29C0;
 
     __asm
     {
-        push compose
+        movzx eax,compose
+        push eax
         mov esi,item
         call u0x4D29C0
     }

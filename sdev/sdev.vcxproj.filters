@@ -111,9 +111,6 @@
     <ClCompile Include="src\user_skill.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CNpc.cpp">
-      <Filter>include\shaiya\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\revenge_mark.cpp">
       <Filter>src</Filter>
     </ClCompile>

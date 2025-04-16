@@ -5,13 +5,14 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-void CUser::AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool32_t isQuest)
+void CUser::AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool quest)
 {
     unsigned u0x465060 = 0x465060;
 
     __asm
     {
-        push isQuest
+        movzx eax,quest
+        push eax
         push exp
         push lastTargetId
         mov esi,user
@@ -34,6 +35,32 @@ void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, uint money/*edx*/)
 {
     typedef void(__fastcall* LPFN)(CUser*, uint);
     (*(LPFN)0x486E60)(user, money);
+}
+
+void CUser::GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/)
+{
+    unsigned u0x462A70 = 0x462A70;
+
+    _asm
+    {
+        mov ecx,gem
+        mov esi,slot
+        mov eax,user
+        call u0x462A70
+    }
+}
+
+void CUser::GemEquipmentRem(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/)
+{
+    unsigned u0x462C10 = 0x462C10;
+
+    _asm
+    {
+        mov ecx,gem
+        mov esi,slot
+        mov eax,user
+        call u0x462C10
+    }
 }
 
 void CUser::GetGuildName(CUser* user, char* output)
@@ -60,9 +87,9 @@ void CUser::InitEquipment(CUser* user/*ecx*/)
     (*(LPFN)0x461010)(user);
 }
 
-void CUser::InitEquipment(CUser* user/*ecx*/, bool32_t reset)
+void CUser::InitEquipment(CUser* user/*ecx*/, bool reset)
 {
-    typedef void(__thiscall* LPFN)(CUser*, bool32_t);
+    typedef void(__thiscall* LPFN)(CUser*, bool);
     (*(LPFN)0x461570)(user, reset);
 }
 
@@ -216,9 +243,9 @@ void CUser::ItemUse(CUser* user, int bag, int slot, uint targetId, int targetTyp
     (*(LPFN)0x472DA0)(user, bag, slot, targetId, targetType);
 }
 
-void CUser::ItemUseNSend(CUser* user, int bag, int slot, bool32_t moveMap)
+void CUser::ItemUseNSend(CUser* user, int bag, int slot, bool moveMap)
 {
-    typedef void(__thiscall* LPFN)(CUser*, int, int, bool32_t);
+    typedef void(__thiscall* LPFN)(CUser*, int, int, bool);
     (*(LPFN)0x4728E0)(user, bag, slot, moveMap);
 }
 
@@ -240,13 +267,14 @@ CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
     }
 }
 
-void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool32_t success)
+void CUser::QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool success)
 {
     unsigned u0x48D030 = 0x48D030;
 
     __asm
     {
-        push success
+        movzx eax,success
+        push eax
         mov eax,quest
         mov esi,user
         call u0x48D030
@@ -503,25 +531,27 @@ void CUser::SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/)
     }
 }
 
-void CUser::StatResetSkill(CUser* user/*eax*/, bool32_t isEvent)
+void CUser::StatResetSkill(CUser* user/*eax*/, bool event)
 {
     unsigned u0x48FBC0 = 0x48FBC0;
 
     __asm
     {
-        push isEvent
+        movzx eax,event
+        push eax
         mov eax,user
         call u0x48FBC0
     }
 }
 
-void CUser::StatResetStatus(CUser* user/*edi*/, bool32_t isEvent)
+void CUser::StatResetStatus(CUser* user/*edi*/, bool event)
 {
     unsigned u0x48F710 = 0x48F710;
 
     __asm
     {
-        push isEvent
+        movzx eax,event
+        push eax
         mov edi,user
         call u0x48F710
     }

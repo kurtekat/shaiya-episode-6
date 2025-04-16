@@ -486,13 +486,15 @@ namespace shaiya
         SkillAbility70 skillAbility70;           //0x62E8
         uint32_t multiplyQuestExpRate;           //0x62F0
 
-        static void AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool32_t isQuest);
+        static void AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool quest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, uint money/*edx*/);
+        static void GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
+        static void GemEquipmentRem(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
         static int GetPartyType(CUser* user);
         static void InitEquipment(CUser* user/*ecx*/);
-        static void InitEquipment(CUser* user/*ecx*/, bool32_t isReset);
+        static void InitEquipment(CUser* user/*ecx*/, bool reset);
         static void ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag, int destSlot);
         static void ItemBagToBank(CUser* user/*edx*/, int srcBag, int srcSlot, int destBag/*100*/, int destSlot/*ecx*/);
         static void ItemBankToBag(CUser* user/*edx*/, int srcBag/*100*/, int srcSlot/*ecx*/, int destBag, int destSlot);
@@ -507,10 +509,10 @@ namespace shaiya
         static void ItemGetMoney(CUser* user/*edx*/, uint money/*ecx*/);
         static void ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/);
         static void ItemUse(CUser* user, int bag, int slot, uint targetId, int targetType);
-        static void ItemUseNSend(CUser* user, int bag, int slot, bool32_t moveMap);
+        static void ItemUseNSend(CUser* user, int bag, int slot, bool moveMap);
         static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo* outInfo);
         static CQuest* QuestFind(CUser* user/*edi*/, int questId);
-        static void QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool32_t success);
+        static void QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool success);
         static void SendCharacterHonor(CUser* user/*ecx*/);
         static void SendDBExp(CUser* user/*eax*/);
         static void SendDBMoney(CUser* user/*eax*/);
@@ -535,8 +537,8 @@ namespace shaiya
         static void SendUserShape(CUser* user);
         static void SetAttack(CUser* user/*esi*/);
         static void SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/);
-        static void StatResetSkill(CUser* user/*eax*/, bool32_t isEvent);
-        static void StatResetStatus(CUser* user/*edi*/, bool32_t isEvent);
+        static void StatResetSkill(CUser* user/*eax*/, bool event);
+        static void StatResetStatus(CUser* user/*edi*/, bool event);
         static void TauntMob(CUser* user, float dist, int aggro);
         static void UpdateKCStatus(CUser* user/*eax*/);
         static bool UseItemSkill(CUser* user/*edi*/, SkillInfo* info/*eax*/);

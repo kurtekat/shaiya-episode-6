@@ -23,28 +23,3 @@ bool CMob::IsObelisk(CMob* mob/*eax*/)
         call u0x45A130
     }
 }
-
-void CMob::UseSkill(CMob* mob/*edi*/, tick32_t time, CUser* user/*edx*/, SkillInfo* info/*eax*/)
-{
-    unsigned u0x4B9280 = 0x4B9280;
-
-    __asm
-    {
-        push time
-        mov eax,info
-        mov edx,user
-        mov edi,mob
-        call u0x4B9280
-    }
-}
-
-void CMob::SetAttack(CMob* mob/*esi*/)
-{
-    unsigned u0x4A0DB0 = 0x4A0DB0;
-
-    __asm
-    {
-        mov esi,mob
-        call u0x4A0DB0
-    }
-}

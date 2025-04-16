@@ -80,7 +80,7 @@ namespace shaiya
         static bool IsShield(CItem* item/*eax*/);
         /*itemInfo->itemRealType >= 1 and <= 15*/
         static bool IsWeapon(CItem* item/*eax*/);
-        static void ReGenerationCraftExpansion(CItem* item/*esi*/, bool32_t compose);
+        static void ReGenerationCraftExpansion(CItem* item/*esi*/, bool compose);
     };
     #pragma pack(pop)
 

@@ -116,8 +116,6 @@ namespace shaiya
         
         static bool IsBossMob(CMob* mob/*eax*/);
         static bool IsObelisk(CMob* mob/*eax*/);
-        static void UseSkill(CMob* mob/*edi*/, tick32_t time, CUser* user/*edx*/, SkillInfo* info/*eax*/);
-        static void SetAttack(CMob* mob/*esi*/);
     };
     #pragma pack(pop)
 

@@ -12,8 +12,6 @@ namespace shaiya
     {
         static ItemInfo* GetItem(int grade/*eax*/);
         static ItemInfo* GetItemPlz(int grade/*eax*/);
-        static int GetItemCreateByGrade(int reqVg/*eax*/);
-        static bool EnableItemCreateByGrade(int reqVg/*ecx*/);
     };
     #pragma pack(pop)
 }
