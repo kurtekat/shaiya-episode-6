@@ -1021,8 +1021,17 @@ namespace packet_gem
 
             if (!incoming->destBag)
             {
-                CUser::ItemEquipmentOptionRem(user, destItem);
+                for (const auto& gem : destItem->gems)
+                {
+                    if (!gem)
+                        continue;
+
+                    CUser::GemEquipmentRem(user, incoming->destSlot, gem);
+                }
+
                 destItem->gems = srcItem->gems;
+
+                CUser::ItemEquipmentOptionRem(user, destItem);
                 ItemHelper::CopyCraftExpansion(srcItem, destItem);
                 CUser::ItemEquipmentOptionAdd(user, destItem);
             }
@@ -1034,8 +1043,17 @@ namespace packet_gem
             
             if (!incoming->srcBag)
             {
-                CUser::ItemEquipmentOptionRem(user, srcItem);
+                for (const auto& gem : srcItem->gems)
+                {
+                    if (!gem)
+                        continue;
+
+                    CUser::GemEquipmentRem(user, incoming->srcSlot, gem);
+                }
+
                 srcItem->gems.fill(0);
+
+                CUser::ItemEquipmentOptionRem(user, srcItem);
                 ItemHelper::InitCraftExpansion(srcItem);
                 CUser::ItemEquipmentOptionAdd(user, srcItem);
             }
