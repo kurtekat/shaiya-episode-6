@@ -1,4 +1,3 @@
-#include <strsafe.h>
 #include <util/util.h>
 #include "include/main.h"
 #include "include/static.h"
@@ -25,12 +24,8 @@ namespace packet
     // Adds support for system message 509
     void hook_0x229(CCharacter* killer, uint killCount)
     {
-        StringCbCopyA(
-            g_var->msgTargetName.data(), 
-            g_var->msgTargetName.size(), 
-            killer->charName.data()
-        );
-
+        std::memcpy(g_var->msgTargetName.data(), killer->charName.data(), killer->charName.size());
+        g_var->msgTargetName[killer->charName.size() - 1] = '\0';
         g_var->msgValue = killCount;
         Static::MsgTextOut(5, 509, 1);
     }

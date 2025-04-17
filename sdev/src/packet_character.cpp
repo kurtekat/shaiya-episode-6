@@ -1,6 +1,5 @@
 #include <ranges>
 #include <string>
-#include <strsafe.h>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/incoming/0400.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
@@ -39,10 +38,8 @@ namespace packet_character
 
         DBAgentCharNameAvailableIncoming outgoing{};
         outgoing.billingId = user->billingId;
-        StringCbCopyA(outgoing.name.data(), outgoing.name.size(), incoming->name.data());
-
-        int length = outgoing.baseLength + nameLength + 1;
-        NetworkHelper::SendDBAgent(&outgoing, length);
+        outgoing.name = incoming->name;
+        NetworkHelper::SendDBAgent(&outgoing, outgoing.baseLength + nameLength + 1);
     }
 
     /// <summary>
@@ -150,7 +147,7 @@ namespace packet_character
         outgoing.character.mana = dbCharacter->mana;
         outgoing.character.stamina = dbCharacter->stamina;
         outgoing.character.equipment = dbCharacter->equipment;
-        StringCbCopyA(outgoing.character.charName.data(), outgoing.character.charName.size(), dbCharacter->charName.data());
+        std::memcpy(outgoing.character.charName.data(), dbCharacter->charName.data(), outgoing.character.charName.size());
         outgoing.character.enableRename = dbCharacter->enableRename;
         outgoing.character.deleted = dbCharacter->deleteDate ? true : false;
         outgoing.character.cloakInfo = dbCharacter->cloakInfo;

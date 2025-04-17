@@ -1,6 +1,5 @@
 ﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <strsafe.h>
 #include <util/util.h>
 #include <shaiya/include/common/DateTime.h>
 #include <shaiya/include/network/dbAgent/incoming/0E00.h>
@@ -52,8 +51,8 @@ namespace packet_shop
 
         DBAgentPointItemGiftSendIncoming outgoing{};
         outgoing.billingId = user->billingId;
-        StringCbCopyA(outgoing.targetName.data(), outgoing.targetName.size(), targetName);
-        StringCbCopyA(outgoing.productCode.data(), outgoing.productCode.size(), productCode);
+        std::memcpy(outgoing.targetName.data(), targetName, outgoing.targetName.size());
+        std::memcpy(outgoing.productCode.data(), productCode, outgoing.productCode.size());
         outgoing.purchasePoints = purchasePoints;
         outgoing.purchaseDate = DateTime::encode(lt);
         outgoing.purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));

@@ -62,7 +62,7 @@ namespace packet_quest
         GameLogQuestEndIncoming gameLog{};
         CUser::SetGameLogMain(user, &gameLog.packet);
         gameLog.packet.questId = quest->info->questId;
-        StringCbCopyA(gameLog.packet.questName.data(), gameLog.packet.questName.size(), quest->info->questName.data());
+        std::memcpy(gameLog.packet.questName.data(), quest->info->questName.data(), gameLog.packet.questName.size());
         gameLog.packet.success = true;
         gameLog.packet.money = money;
 
