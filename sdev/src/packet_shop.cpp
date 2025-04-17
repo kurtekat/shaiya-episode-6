@@ -1,4 +1,5 @@
-﻿#define WIN32_LEAN_AND_MEAN
+﻿#include <ranges>
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/util.h>
 #include <shaiya/include/common/DateTime.h>
@@ -92,15 +93,15 @@ namespace packet_shop
         outgoing.log.purchasePoints = packet->log.purchasePoints;
         outgoing.itemCount = packet->itemCount;
 
-        for (int i = 0; i < outgoing.itemCount; ++i)
+        for (auto&& [unit, item] : std::views::zip(
+            outgoing.itemList, 
+            std::as_const(packet->itemList)))
         {
-            PointItemUnit_EP6_4 item2602{};
-            item2602.bag = packet->itemList[i].bag;
-            item2602.slot = packet->itemList[i].slot;
-            item2602.type = packet->itemList[i].type;
-            item2602.typeId = packet->itemList[i].typeId;
-            item2602.count = packet->itemList[i].count;
-            outgoing.itemList[i] = item2602;
+            unit.bag = item.bag;
+            unit.slot = item.slot;
+            unit.type = item.type;
+            unit.typeId = item.typeId;
+            unit.count = item.count;
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(PointItemUnit_EP6_4));

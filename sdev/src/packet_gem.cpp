@@ -741,7 +741,7 @@ namespace packet_gem
         GameItemSynthesisListOutgoing outgoing{};
         outgoing.goldPerPercentage = Synthesis::goldPerPercentage;
 
-        auto itemList = std::ranges::views::zip(
+        auto itemList = std::views::zip(
             outgoing.createType,
             outgoing.createTypeId
         );
@@ -881,7 +881,7 @@ namespace packet_gem
             randomRate = uni(eng);
         }
 
-        const auto& materials = std::ranges::views::zip(
+        const auto& materials = std::views::zip(
             std::as_const(synthesis.materialType),
             std::as_const(synthesis.materialTypeId),
             std::as_const(synthesis.materialCount)

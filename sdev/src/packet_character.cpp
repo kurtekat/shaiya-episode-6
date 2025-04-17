@@ -111,8 +111,12 @@ namespace packet_character
     {
         GameWeaponStepOutgoing outgoing{};
 
-        for (int i = 0; std::cmp_less(i, outgoing.weaponStep.size()); ++i)
-            outgoing.weaponStep[i] = g_LapisianEnchantAddValue->step[i].weapon;
+        for (auto&& [value, step] : std::views::zip(
+            outgoing.weaponStep,
+            std::as_const(g_LapisianEnchantAddValue->step)))
+        {
+            value = step.weapon;
+        }
 
         NetworkHelper::Send(user, &outgoing, sizeof(GameWeaponStepOutgoing));
     }

@@ -1,4 +1,4 @@
-#include <strsafe.h>
+#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/0900.h>
 #include <shaiya/include/network/gameLog/incoming/0500.h>
@@ -36,7 +36,7 @@ namespace packet_quest
     /// <param name="quest"></param>
     /// <param name="npcId"></param>
     /// <param name="resultIndex"></param>
-    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, uint8_t resultIndex)
+    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, uint resultIndex)
     {
         if (resultIndex >= quest->info->results.size())
             return;
@@ -74,35 +74,26 @@ namespace packet_quest
         outgoing.exp = exp;
         outgoing.money = money;
 
-        auto& itemList = quest->info->results[resultIndex].itemList;
-        for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
+        for (auto&& [unit, item] : std::views::zip(
+            outgoing.itemList,
+            std::as_const(quest->info->results[resultIndex].itemList)))
         {
-            auto type = itemList[i].type;
-            auto typeId = itemList[i].typeId;
-            auto count = itemList[i].count;
-
             int bag{}, slot{};
             ItemInfo itemInfo{};
-            if (CUser::QuestAddItem(user, type, typeId, count, &bag, &slot, &itemInfo))
+            if (CUser::QuestAddItem(user, item.type, item.typeId, item.count, &bag, &slot, &itemInfo))
             {
-                outgoing.itemList[i].count = count;
-                outgoing.itemList[i].bag = bag;
-                outgoing.itemList[i].slot = slot;
-                outgoing.itemList[i].type = type;
-                outgoing.itemList[i].typeId = typeId;
+                unit.count = item.count;
+                unit.bag = bag;
+                unit.slot = slot;
+                unit.type = item.type;
+                unit.typeId = item.typeId;
 
                 gameLog.packet.itemId = itemInfo.itemId;
-                gameLog.packet.itemCount = count;
+                gameLog.packet.itemCount = item.count;
                 gameLog.packet.itemName = itemInfo.itemName;
             }
             else
             {
-                outgoing.itemList[i].count = 0;
-                outgoing.itemList[i].bag = 0;
-                outgoing.itemList[i].slot = 0;
-                outgoing.itemList[i].type = 0;
-                outgoing.itemList[i].typeId = 0;
-
                 gameLog.packet.itemId = 0;
                 gameLog.packet.itemCount = 0;
                 gameLog.packet.itemName = {};
