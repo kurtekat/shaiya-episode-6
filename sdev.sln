@@ -30,6 +30,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdev-login", "sdev-login\sd
 		{B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4} = {B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mini-gmp", "mini-gmp", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		mini-gmp\mini-gmp.c = mini-gmp\mini-gmp.c
+		mini-gmp\mini-gmp.h = mini-gmp\mini-gmp.h
+		mini-gmp\mini-mpq.c = mini-gmp\mini-mpq.c
+		mini-gmp\mini-mpq.h = mini-gmp\mini-mpq.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
