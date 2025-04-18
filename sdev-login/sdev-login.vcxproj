@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
+    <ClInclude Include="include\shaiya\include\AesKey.h" />
     <ClInclude Include="include\shaiya\include\CUser.h" />
     <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
+    <ClInclude Include="include\shaiya\include\SAes.h" />
     <ClInclude Include="include\shaiya\include\SConnection.h" />
     <ClInclude Include="include\shaiya\include\SConnectionParam.h" />
     <ClInclude Include="include\shaiya\include\SDatabase.h" />
@@ -22,6 +24,8 @@
     <ClInclude Include="include\shaiya\include\SLog.h" />
     <ClInclude Include="include\shaiya\include\SNode.h" />
     <ClInclude Include="include\shaiya\include\SQueueStatusNode.h" />
+    <ClInclude Include="include\shaiya\include\SRsa.h" />
+    <ClInclude Include="include\shaiya\include\SRsaEnc.h" />
     <ClInclude Include="include\shaiya\include\SSyncQueueBuffer.h" />
     <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h" />
     <ClInclude Include="include\shaiya\include\SSyncQueueStatus.h" />

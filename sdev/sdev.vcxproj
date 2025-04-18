@@ -57,6 +57,7 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\include\AdminInfo.h" />
+    <ClInclude Include="include\shaiya\include\AesKey.h" />
     <ClInclude Include="include\shaiya\include\AStar.h" />
     <ClInclude Include="include\shaiya\include\Attack.h" />
     <ClInclude Include="include\shaiya\include\AttackAdd.h" />
@@ -134,6 +135,7 @@
     <ClInclude Include="include\shaiya\include\QuestItem.h" />
     <ClInclude Include="include\shaiya\include\QuestResult.h" />
     <ClInclude Include="include\shaiya\include\Quick.h" />
+    <ClInclude Include="include\shaiya\include\SAes.h" />
     <ClInclude Include="include\shaiya\include\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\include\SConnectionCustomRecv.h" />
     <ClInclude Include="include\shaiya\include\SConnectionCustomRecvTBase.h" />

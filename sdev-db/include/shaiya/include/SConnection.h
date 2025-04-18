@@ -11,11 +11,16 @@ namespace shaiya
     struct SAgent;
 
     #pragma pack(push, 1)
-    struct SConnection
+    struct SConnection_vtbl
     {
-        void* vftable;                   //0x00
+        void* vftable;
         PAD(4);
-        SConnectionParam param;          //0x08
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct SConnection : SConnection_vtbl, SConnectionParam
+    {
         int socket;                      //0x68
         SInternetAddress address;        //0x6C
         SSyncQueueBuffer recvQueue;      //0x7C
