@@ -29,7 +29,7 @@ namespace item_effect
     /// <param name="bag"></param>
     /// <param name="slot"></param>
     /// <returns></returns>
-    int hook(CUser* user, CItem* item, ItemEffect effect, uint8_t bag, uint8_t slot)
+    int hook(CUser* user, CItem* item, ItemEffect effect, uint bag, uint slot)
     {
         switch (effect)
         {
