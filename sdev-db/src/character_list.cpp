@@ -1,3 +1,4 @@
+#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
@@ -22,7 +23,7 @@ namespace character_list
 
         for (const auto& character : user->characterList)
         {
-            if (!character.charId || character.slot >= user->characterList.size())
+            if (!character.charId || character.slot >= user->equipment.size())
                 continue;
 
             DBCharacterList_EP6_4 dbCharacter{};
@@ -49,16 +50,21 @@ namespace character_list
             dbCharacter.stamina = character.stamina;
             dbCharacter.mapId = character.mapId;
             dbCharacter.deleteDate = character.deleteDate;
-            std::copy_n(
-                user->equipment[character.slot].type.begin(), 
-                dbCharacter.equipment.type.size(),
-                dbCharacter.equipment.type.begin()
-            );
-            std::copy_n(
-                user->equipment[character.slot].typeId.begin(),
-                dbCharacter.equipment.typeId.size(), 
-                dbCharacter.equipment.typeId.begin()
-            );
+
+            for (auto&& [value, type] : std::views::zip(
+                dbCharacter.equipment.type,
+                std::as_const(user->equipment[character.slot].type)))
+            {
+                value = type;
+            }
+
+            for (auto&& [value, typeId] : std::views::zip(
+                dbCharacter.equipment.typeId,
+                std::as_const(user->equipment[character.slot].typeId)))
+            {
+                value = typeId;
+            }
+
             dbCharacter.cloakInfo = character.cloakInfo;
             dbCharacter.charName = character.charName;
 
@@ -73,9 +79,12 @@ namespace character_list
         SConnection::Send(user->connection, &outgoing, length);
     }
 
-    void assign_equipment(CUser* user, uint8_t characterSlot, uint8_t equipmentSlot, uint8_t type, uint8_t typeId)
+    void assign_equipment(CUser* user, uint characterSlot, uint equipmentSlot, uint type, uint typeId)
     {
-        if (characterSlot >= user->characterList.size() || equipmentSlot >= max_equipment_slot)
+        if (characterSlot >= user->equipment.size())
+            return;
+
+        if (equipmentSlot >= user->equipment[characterSlot].type.size() || equipmentSlot >= user->equipment[characterSlot].typeId.size())
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;
