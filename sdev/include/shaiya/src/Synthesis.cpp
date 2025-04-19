@@ -5,7 +5,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <ini/ini.h>
-#include <util/util.h>
+#include <util/string_helper.h>
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 

@@ -14,6 +14,7 @@
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="string_helper.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
