@@ -25,7 +25,7 @@ void Synthesis::init()
         auto sectionNames = ini::IniHelper::getSectionNames(path);
         for (const auto& sectionName : sectionNames)
         {
-            auto kvp = ini::IniHelper::getSection(sectionName, path);
+            auto kvp = ini::IniHelper::getSection(sectionName.c_str(), path);
             if (kvp.size() != 8)
                 continue;
 
