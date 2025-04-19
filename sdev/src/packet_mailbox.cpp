@@ -1,4 +1,5 @@
 #include <util/util.h>
+#include <shaiya/include/network/TP_MAIN.h>
 #include "include/main.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/SConnection.h"
@@ -8,11 +9,9 @@ using namespace shaiya;
 
 namespace packet_mailbox
 {
-    void handler(CUser* user, uint8_t* packet)
+    void handler(CUser* user, TP_MAIN* packet)
     {
-        auto opcode = util::deserialize<uint16_t>(packet, 0);
-        
-        switch (opcode)
+        switch (packet->opcode)
         {
         case 0x2A01:
         {

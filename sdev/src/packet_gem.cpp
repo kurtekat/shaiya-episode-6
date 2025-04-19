@@ -5,6 +5,7 @@
 #include <tuple>
 #include <util/util.h>
 #include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/incoming/0800.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
@@ -27,9 +28,6 @@ namespace packet_gem
     /// <summary>
     /// Adds support for safety charms.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
-    /// <returns></returns>
     bool remove_charm(CUser* user, GameLapisianAddIncoming_EP6_4* incoming)
     {
         if (!incoming->safetyCharm)
@@ -41,9 +39,6 @@ namespace packet_gem
     /// <summary>
     /// Adds support for perfect lapisian.
     /// </summary>
-    /// <param name="lapisian"></param>
-    /// <param name="item"></param>
-    /// <returns></returns>
     bool enable_step(CItem* lapisian, CItem* item)
     {
         constexpr int max_enchant_step = 20;
@@ -96,8 +91,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x80B packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x80B(CUser* user, GameItemRemake5Incoming_EP6_4* incoming)
     {
         if (!incoming->lapisBag1 || incoming->lapisBag1 > user->bagsUnlocked || incoming->lapisSlot1 >= max_inventory_slot)
@@ -219,8 +212,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x80C packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x80C(CUser* user, GameItemRemake4Incoming_EP6_4* incoming)
     {
         if (!incoming->lapisianBag1 || incoming->lapisianBag1 > user->bagsUnlocked || incoming->lapisianSlot1 >= max_inventory_slot)
@@ -323,8 +314,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x80D packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x80D(CUser* user, GameRecreationRuneUpgradeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -405,8 +394,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x80E packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x80E(CUser* user, GameLapisianUpgradeIncoming* incoming)
     {
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked || incoming->cubeSlot >= max_inventory_slot)
@@ -487,8 +474,6 @@ namespace packet_gem
     /// Handles incoming 0x806 packets. Supports vanilla recreation runes. Adding custom 
     /// item effects (e.g., perfect) will require a client modification.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
@@ -714,8 +699,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x830 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x830(CUser* user, GameItemSynthesisListIncoming* incoming)
     {
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
@@ -774,8 +757,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x831 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x831(CUser* user, GameItemSynthesisMaterialIncoming* incoming)
     {
         auto& square = user->inventory[user->savePosUseBag][user->savePosUseSlot];
@@ -810,8 +791,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x832 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     {
         constexpr auto min_success_rate = 100;
@@ -915,8 +894,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x833 packets. This feature will not be implemented.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x833(CUser* user, GameItemFreeSynthesisIncoming* incoming)
     {
     }
@@ -924,8 +901,6 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x811 packets. ES client 171 supports this feature.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x811(CUser* user, GameItemAbilityTransferIncoming* incoming)
     {
         constexpr auto min_success_rate = 30;
@@ -1093,13 +1068,9 @@ namespace packet_gem
     /// <summary>
     /// Adds support for 6.4 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="packet"></param>
-    void handler(CUser* user, uint8_t* packet)
+    void handler(CUser* user, TP_MAIN* packet)
     {
-        auto opcode = util::deserialize<uint16_t>(packet, 0);
-
-        switch (opcode)
+        switch (packet->opcode)
         {
         case 0x80B:
         {
