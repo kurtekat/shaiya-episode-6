@@ -15,9 +15,6 @@ namespace packet_quest
     /// <summary>
     /// Sends packet 0x903 (6.0) failure packet to the user.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="quest"></param>
-    /// <param name="npcId"></param>
     void send_failure_0x903(CUser* user, CQuest* quest, uint npcId)
     {
         GameQuestEndOutgoing_EP6 outgoing{};
@@ -30,12 +27,8 @@ namespace packet_quest
     /// <summary>
     /// Sends the 0x903 (6.0) success packet to the user. Adds support for skill ability 87. 
     /// Please note that the client does not prevent gold overflow when it handles the 0x903 
-    /// packet. Do not report it.
+    /// packet. Do not report it as a bug.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="quest"></param>
-    /// <param name="npcId"></param>
-    /// <param name="resultIndex"></param>
     void send_success_0x903(CUser* user, CQuest* quest, uint npcId, uint resultIndex)
     {
         if (resultIndex >= quest->info->results.size())

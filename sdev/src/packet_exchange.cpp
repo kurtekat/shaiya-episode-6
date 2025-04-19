@@ -11,7 +11,6 @@ namespace packet_exchange
     /// <summary>
     /// Sends packet 0xA05 to the user.
     /// </summary>
-    /// <param name="user"></param>
     void send_cancel_0xA05(CUser* user)
     {
         user->exchange.ready = false;
@@ -25,8 +24,6 @@ namespace packet_exchange
     /// <summary>
     /// Sends packet 0xA0A to the users.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="exchangeUser"></param>
     void send_cancel_0xA0A(CUser* user, CUser* exchangeUser)
     {
         user->exchange.confirmed = false;
@@ -50,8 +47,6 @@ namespace packet_exchange
     /// <summary>
     /// Sends packets 0xA05 and 0xA0A to the users.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="exchangeUser"></param>
     void send_cancel(CUser* user, CUser* exchangeUser)
     {
         send_cancel_0xA05(user);
@@ -62,8 +57,6 @@ namespace packet_exchange
     /// <summary>
     /// Handles incoming 0xA0A packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0xA0A(CUser* user, GameExchangeConfirmIncoming* incoming)
     {
         if (!user->exchange.user)
@@ -90,8 +83,6 @@ namespace packet_exchange
     /// <summary>
     /// Sends packets 0xA09 or 0x240D (6.4) to the user. The item dates will be zero.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="packet"></param>
     void dest_hook(CUser* user, GameExchangeAddDestOutgoing_EP5* packet)
     {
         GameExchangeAddDestOutgoing_EP6_4 outgoing{};

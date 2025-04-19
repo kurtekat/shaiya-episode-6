@@ -13,7 +13,6 @@ namespace user_status
     /// <summary>
     /// Sends packet 0x526 to the user.
     /// </summary>
-    /// <param name="user"></param>
     void send_0x526(CUser* user)
     {
         GameUserStatusOutgoing outgoing{};

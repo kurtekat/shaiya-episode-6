@@ -23,12 +23,6 @@ namespace item_effect
     /// <summary>
     /// Adds support for additional item effects.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="item"></param>
-    /// <param name="effect"></param>
-    /// <param name="bag"></param>
-    /// <param name="slot"></param>
-    /// <returns></returns>
     int hook(CUser* user, CItem* item, ItemEffect effect, uint bag, uint slot)
     {
         switch (effect)
@@ -93,8 +87,6 @@ namespace item_effect
     /// <summary>
     /// Handles incoming 0x55A packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x55A(CUser* user, GameTownMoveScrollIncoming* incoming)
     {
         if (user->status == UserStatus::Death)
@@ -169,9 +161,6 @@ namespace item_effect
     /// <summary>
     /// Implements item effects 212, 213, and 214.
     /// </summary>
-    /// <param name="item"></param>
-    /// <param name="enterType"></param>
-    /// <returns></returns>
     int zone_enter_item_hook(CItem* item, int enterType)
     {
         if (enterType != std::to_underlying(GameItemZoneEnterType::MobDrop))

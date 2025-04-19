@@ -17,7 +17,6 @@ namespace packet_shop
     /// <summary>
     /// Sends packet 0xE06 to the dbAgent service.
     /// </summary>
-    /// <param name="user"></param>
     void send_dbAgent_0xE06(CUser* user)
     {
         DBAgentPointReloadIncoming outgoing{};
@@ -28,7 +27,6 @@ namespace packet_shop
     /// <summary>
     /// Sends packets 0xE0A and 0xE06 to the dbAgent service.
     /// </summary>
-    /// <param name="user"></param>
     void send_dbAgent_0xE0A(CUser* user)
     {
         DBAgentPointUpdateIncoming outgoing{};
@@ -41,10 +39,6 @@ namespace packet_shop
     /// <summary>
     /// Sends packet 0xE03 to the dbAgent service.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="targetName"></param>
-    /// <param name="productCode"></param>
-    /// <param name="purchasePoints"></param>
     void send_dbAgent_0xE03(CUser* user, const char* targetName, const char* productCode, uint purchasePoints)
     {
         SYSTEMTIME lt{};
@@ -64,8 +58,6 @@ namespace packet_shop
     /// <summary>
     /// Handles incoming 0xE06 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0xE06(CUser* user, DBAgentPointReloadOutgoing* incoming)
     {
         if (InterlockedCompareExchange(&user->pointsLock, 0, 0))
@@ -81,8 +73,6 @@ namespace packet_shop
     /// <summary>
     /// Sends packet 0x2602 (6.4) to the user. The item dates will be zero.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="packet"></param>
     void send_0x2602(CUser* user, GamePointBuyOutgoing<PointItemUnit_EP5>* packet)
     {
         GamePointBuyOutgoing<PointItemUnit_EP6_4> outgoing{};

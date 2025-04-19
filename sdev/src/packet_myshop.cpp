@@ -11,8 +11,6 @@ namespace packet_myshop
     /// <summary>
     /// Sends packet 0x230B (6.4) to the user. The item dates will be zero.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="packet"></param>
     void send_0x230B(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
     {
         GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};

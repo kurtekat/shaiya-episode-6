@@ -12,8 +12,6 @@ namespace packet_party
     /// <summary>
     /// Handles incoming 0xB1C packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0xB1C(CUser* user, GamePartyBossMapPosIncoming* incoming)
     {
         if (user->status == UserStatus::Death)

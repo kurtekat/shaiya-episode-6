@@ -114,12 +114,8 @@ namespace user_skill
     }
 
     /// <summary>
-    /// Extends skill ability support.
+    /// Extends skill ability support. The abilityValue will be negative in the case of removal.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="typeEffect"></param>
-    /// <param name="abilityType"></param>
-    /// <param name="abilityValue">The value will be negative in the case of removal.</param>
     void set_ability_hook(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
     {
         switch (abilityType)

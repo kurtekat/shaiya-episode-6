@@ -21,8 +21,6 @@ namespace packet_character
     /// <summary>
     /// Handles incoming 0x119 packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x119(CUser* user, GameCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
@@ -45,8 +43,6 @@ namespace packet_character
     /// <summary>
     /// Sends packet 0x119 to the user.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void send_0x119(CUser* user, DBAgentCharNameAvailableOutgoing* incoming)
     {
         GameCharNameAvailableOutgoing outgoing{};
@@ -57,7 +53,6 @@ namespace packet_character
     /// <summary>
     /// Sends packet 0x711 (6.4) to the user. The item dates will be zero.
     /// </summary>
-    /// <param name="user"></param>
     void send_0x711(CUser* user)
     {
         GameCharBankOutgoing<BankUnit_EP6_4, 40> outgoing{};
@@ -106,7 +101,6 @@ namespace packet_character
     /// Sends packet 0x116 to the user. The client defense step values 
     /// are hard-coded to be multiples of five.
     /// </summary>
-    /// <param name="user"></param>
     void send_0x116(CUser* user)
     {
         GameWeaponStepOutgoing outgoing{};
@@ -124,8 +118,6 @@ namespace packet_character
     /// <summary>
     /// Sends packet 0x101 (6.4) to the user.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="dbCharacter"></param>
     void send_0x101(CUser* user, DBCharacterList_EP6_4* dbCharacter)
     {
         GameCharListOutgoing<CharacterList_EP6_4> outgoing{};

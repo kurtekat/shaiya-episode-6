@@ -56,8 +56,6 @@ namespace user_character
     /// <summary>
     /// Handles incoming 0x40D packets.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="incoming"></param>
     void handler_0x40D(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';

@@ -71,8 +71,6 @@ namespace user_shape
     /// <summary>
     /// Sends packet 0x303 (6.4) to the target.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="target"></param>
     void send_user_0x303(CUser* user, CUser* target)
     {
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
@@ -159,7 +157,6 @@ namespace user_shape
     /// <summary>
     /// Sends packet 0x303 (6.4) to the zone.
     /// </summary>
-    /// <param name="user"></param>
     void send_zone_0x303(CUser* user)
     {
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
@@ -252,8 +249,6 @@ namespace user_shape
     /// <summary>
     /// Sends packet 0x51D (6.4) to the zone.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="packet"></param>
     void send_zone_0x51D(CUser* user, GameCharShapeOutgoing_EP5* packet)
     {
         GameCharShapeOutgoing_EP6_4 outgoing{};
@@ -272,9 +267,6 @@ namespace user_shape
     /// <summary>
     /// Sends packet 0x51D (6.4) to the target.
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="user"></param>
-    /// <param name="shapeType"></param>
     void send_user_0x51D(CUser* target, CUser* user, ShapeType shapeType)
     {
         GameCharShapeOutgoing_EP6_4 outgoing{};

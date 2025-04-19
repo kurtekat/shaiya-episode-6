@@ -21,7 +21,6 @@ void user_leave_world_hook(CUser* user)
 /// Scripts accessing memory between 0x62A0 and 0x62F4 will become 
 /// an issue sooner or later.
 /// </summary>
-/// <param name="user"></param>
 void user_hook(CUser* user)
 {
     user->exchange.confirmed = false;

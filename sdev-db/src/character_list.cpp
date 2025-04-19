@@ -12,8 +12,6 @@ namespace character_list
     /// <summary>
     /// Sends packet 0x403 to the game service.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="sendCountry"></param>
     void send(CUser* user, bool sendCountry)
     {
         DBAgentCharListOutgoing<DBCharacterList_EP6_4> outgoing{};

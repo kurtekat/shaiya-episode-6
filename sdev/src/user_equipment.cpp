@@ -114,8 +114,6 @@ namespace user_equipment
     /// <summary>
     /// Sends packet 0x307 (6.4) to the user.
     /// </summary>
-    /// <param name="user"></param>
-    /// <param name="target"></param>
     void send_0x307(CUser* user, CUser* target)
     {
         GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
