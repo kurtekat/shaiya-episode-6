@@ -1,5 +1,6 @@
 #pragma once
 #include <limits>
+#include <locale>
 #include <string>
 #include <vector>
 
@@ -59,5 +60,42 @@ namespace util
     std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep)
     {
         return split(str, std::basic_string<CharT>(1, sep), std::numeric_limits<size_t>::max());
+    }
+
+    /// <summary>
+    /// Removes all the leading white-space characters from the specified string.
+    /// </summary>
+    template<class CharT>
+    std::basic_string<CharT> trim_start(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        auto it = str.cbegin();
+        while (it != str.cend() && std::isspace(*it, loc))
+            ++it;
+
+        auto offset = std::distance(str.cbegin(), it);
+        return str.substr(offset);
+    }
+
+    /// <summary>
+    /// Removes all the trailing white-space characters from the specified string.
+    /// </summary>
+    template<class CharT>
+    std::basic_string<CharT> trim_end(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        auto it = str.crbegin();
+        while (it != str.crend() && std::isspace(*it, loc))
+            ++it;
+
+        auto count = std::distance(it, str.crend());
+        return str.substr(0, count);
+    }
+
+    /// <summary>
+    /// Removes all leading and trailing white-space characters from the specified string.
+    /// </summary>
+    template<class CharT>
+    std::basic_string<CharT> trim(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        return trim_start(trim_end(str, loc), loc);
     }
 }
