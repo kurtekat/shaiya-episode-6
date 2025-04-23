@@ -108,7 +108,7 @@ namespace util::string
     {
         std::basic_string<CharT> text(str);
         std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
-            return static_cast<CharT>(std::tolower(c, loc));
+            return std::tolower(c, loc);
             });
 
         return text;
@@ -122,7 +122,7 @@ namespace util::string
     {
         std::basic_string<CharT> text(str);
         std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
-            return static_cast<CharT>(std::toupper(c, loc));
+            return std::toupper(c, loc);
             });
 
         return text;
