@@ -27,4 +27,4 @@ The encoded date/time value type is an unsigned 32-bit integer.
 
 ## References
 
-[Cups](https://github.com/tristonplummer/Eden/blob/master/eden/common/include/shaiya/common/datatypes/ShaiyaTime.hpp)
+[Eden](https://github.com/tristonplummer/Eden/blob/master/eden/common/include/shaiya/common/datatypes/ShaiyaTime.hpp)
