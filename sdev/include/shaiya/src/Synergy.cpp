@@ -7,7 +7,7 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <util/string_helper.h>
+#include <util/string/string.hpp>
 #include "include/shaiya/include/CItem.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/Synergy.h"
@@ -62,7 +62,7 @@ void Synergy::init()
                 std::string text(textLength, '\0');
                 sdata.read(text.data(), text.size());
 
-                auto vec = util::split(text, ',');
+                auto vec = util::string::split(text, ',');
                 if (vec.size() != effect.size())
                     continue;
 

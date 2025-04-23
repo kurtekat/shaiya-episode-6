@@ -5,6 +5,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h" />
-    <ClInclude Include="string_helper.h" />
+    <ClInclude Include="string\string.hpp">
+      <Filter>string</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="string">
+      <UniqueIdentifier>{dc887dd5-2308-43a5-b2d1-9975c1e84c4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

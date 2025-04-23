@@ -1,10 +1,11 @@
 #pragma once
+#include <algorithm>
 #include <limits>
 #include <locale>
 #include <string>
 #include <vector>
 
-namespace util
+namespace util::string
 {
     /// <summary>
     /// Splits a string into a maximum number of substrings based on a specified delimiting string.
@@ -97,5 +98,33 @@ namespace util
     std::basic_string<CharT> trim(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
         return trim_start(trim_end(str, loc), loc);
+    }
+
+    /// <summary>
+    /// Returns a copy of the specified string converted to lowercase.
+    /// </summary>
+    template<class CharT>
+    std::basic_string<CharT> to_lower(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        std::basic_string<CharT> text(str);
+        std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
+            return static_cast<CharT>(std::tolower(c, loc));
+            });
+
+        return text;
+    }
+
+    /// <summary>
+    /// Returns a copy of the specified string converted to uppercase.
+    /// </summary>
+    template<class CharT>
+    std::basic_string<CharT> to_upper(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        std::basic_string<CharT> text(str);
+        std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
+            return static_cast<CharT>(std::toupper(c, loc));
+            });
+
+        return text;
     }
 }

@@ -5,7 +5,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <ini/ini.h>
-#include <util/string_helper.h>
+#include <util/string/string.hpp>
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
 
@@ -42,15 +42,15 @@ void Synthesis::init()
                 synthesis.materialCount
             );
 
-            auto vec1 = util::split(kvp[2].second, L',');
+            auto vec1 = util::string::split(kvp[2].second, L',');
             if (vec1.size() != itemList.size())
                 continue;
 
-            auto vec2 = util::split(kvp[3].second, L',');
+            auto vec2 = util::string::split(kvp[3].second, L',');
             if (vec2.size() != itemList.size())
                 continue;
 
-            auto vec3 = util::split(kvp[4].second, L',');
+            auto vec3 = util::string::split(kvp[4].second, L',');
             if (vec3.size() != itemList.size())
                 continue;
 
