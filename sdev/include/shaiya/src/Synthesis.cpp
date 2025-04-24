@@ -4,7 +4,7 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <ini/ini.h>
+#include <util/ini/ini.h>
 #include <util/string/string.hpp>
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
@@ -22,35 +22,34 @@ void Synthesis::init()
         path.append("Data");
         path.append("ChaoticSquare.ini");
 
-        auto sectionNames = ini::IniHelper::getSectionNames(path);
-        for (const auto& sectionName : sectionNames)
+        for (const auto& section : util::ini::get_sections(path))
         {
-            auto kvp = ini::IniHelper::getSection(sectionName.c_str(), path);
-            if (kvp.size() != 8)
+            auto pairs = util::ini::get_pairs(section.c_str(), path);
+            if (pairs.size() != 8)
                 continue;
 
-            auto itemId = std::stoi(kvp[0].second);
-            auto successRate = std::stoi(kvp[1].second);
+            auto itemId = std::stoi(pairs[0].second);
+            auto successRate = std::stoi(pairs[1].second);
             successRate = (successRate > 100) ? 100 : successRate;
 
             Synthesis synthesis{};
             synthesis.successRate = successRate * 100;
 
-            auto itemList = std::ranges::views::zip(
+            auto itemList = std::views::zip(
                 synthesis.materialType,
                 synthesis.materialTypeId,
                 synthesis.materialCount
             );
 
-            auto vec1 = util::string::split(kvp[2].second, L',');
+            auto vec1 = util::string::split(pairs[2].second, L',');
             if (vec1.size() != itemList.size())
                 continue;
 
-            auto vec2 = util::string::split(kvp[3].second, L',');
+            auto vec2 = util::string::split(pairs[3].second, L',');
             if (vec2.size() != itemList.size())
                 continue;
 
-            auto vec3 = util::string::split(kvp[4].second, L',');
+            auto vec3 = util::string::split(pairs[4].second, L',');
             if (vec3.size() != itemList.size())
                 continue;
 
@@ -61,9 +60,9 @@ void Synthesis::init()
                 std::get<2>(itemList[i]) = std::stoi(vec3[i]);
             }
 
-            synthesis.createType = std::stoi(kvp[5].second);
-            synthesis.createTypeId = std::stoi(kvp[6].second);
-            synthesis.createCount = std::stoi(kvp[7].second);
+            synthesis.createType = std::stoi(pairs[5].second);
+            synthesis.createTypeId = std::stoi(pairs[6].second);
+            synthesis.createCount = std::stoi(pairs[7].second);
 
             if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
                 it->second.push_back(synthesis);

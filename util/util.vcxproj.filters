@@ -2,16 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="ini\ini.cpp">
+      <Filter>ini</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="util.h" />
     <ClInclude Include="string\string.hpp">
       <Filter>string</Filter>
     </ClInclude>
+    <ClInclude Include="ini\ini.h">
+      <Filter>ini</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="string">
       <UniqueIdentifier>{dc887dd5-2308-43a5-b2d1-9975c1e84c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ini">
+      <UniqueIdentifier>{73e46c41-206e-4448-bdd0-9de244f4eed5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <ini/ini.h>
+#include <util/ini/ini.h>
 #include "include/shaiya/include/ItemRemake.h"
 using namespace shaiya;
 
@@ -20,19 +20,18 @@ void ItemRemake4::init()
         path.append("Data");
         path.append("ItemRemake4.ini");
 
-        auto sectionNames = ini::IniHelper::getSectionNames(path);
-        for (const auto& sectionName : sectionNames)
+        for (const auto& section : util::ini::get_sections(path))
         {
-            auto kvp = ini::IniHelper::getSection(sectionName.c_str(), path);
-            if (kvp.size() != 5)
+            auto pairs = util::ini::get_pairs(section.c_str(), path);
+            if (pairs.size() != 5)
                 continue;
 
             ItemRemake remake{};
-            remake.itemId1 = std::stoi(kvp[0].second);
-            remake.itemId2 = std::stoi(kvp[1].second);
-            remake.itemId3 = std::stoi(kvp[2].second);
-            remake.createType = std::stoi(kvp[3].second);
-            remake.createTypeId = std::stoi(kvp[4].second);
+            remake.itemId1 = std::stoi(pairs[0].second);
+            remake.itemId2 = std::stoi(pairs[1].second);
+            remake.itemId3 = std::stoi(pairs[2].second);
+            remake.createType = std::stoi(pairs[3].second);
+            remake.createTypeId = std::stoi(pairs[4].second);
             g_itemRemake4.push_back(remake);
         }
     }
@@ -55,19 +54,18 @@ void ItemRemake5::init()
         path.append("Data");
         path.append("ItemRemake5.ini");
 
-        auto sectionNames = ini::IniHelper::getSectionNames(path);
-        for (const auto& sectionName : sectionNames)
+        for (const auto& section : util::ini::get_sections(path))
         {
-            auto kvp = ini::IniHelper::getSection(sectionName.c_str(), path);
-            if (kvp.size() != 5)
+            auto pairs = util::ini::get_pairs(section.c_str(), path);
+            if (pairs.size() != 5)
                 continue;
 
             ItemRemake remake{};
-            remake.itemId1 = std::stoi(kvp[0].second);
-            remake.itemId2 = std::stoi(kvp[1].second);
-            remake.itemId3 = std::stoi(kvp[2].second);
-            remake.createType = std::stoi(kvp[3].second);
-            remake.createTypeId = std::stoi(kvp[4].second);
+            remake.itemId1 = std::stoi(pairs[0].second);
+            remake.itemId2 = std::stoi(pairs[1].second);
+            remake.itemId3 = std::stoi(pairs[2].second);
+            remake.createType = std::stoi(pairs[3].second);
+            remake.createTypeId = std::stoi(pairs[4].second);
             g_itemRemake5.push_back(remake);
         }
     }
