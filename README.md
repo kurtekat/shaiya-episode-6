@@ -14,7 +14,13 @@ C++ 23
 
 ## Injection
 
-Cheat Engine isn't guaranteed to work for everyone. It's not an issue with the application or the libraries. The libraries have an export defined in the main headers.
+### Cheat Engine
+
+Cheat Engine isn't guaranteed to work for everyone. I recommend using Cheat Engine 7.3 because users have reported issues with newer versions.
+
+### Imports
+
+The libraries have an export defined in the main headers. I recommend using [PE Bear](https://github.com/hasherezade/pe-bear) to add new imports.
 
 ## Data Execution Prevention (DEP)
 
