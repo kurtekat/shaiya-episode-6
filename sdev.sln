@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdev", "sdev\sdev.vcxproj", "{CC07FBE2-8D59-47AF-8344-A80F5C1C3414}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4} = {B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4}
-		{E92C1C91-521E-4DDE-A95F-5445FE168211} = {E92C1C91-521E-4DDE-A95F-5445FE168211}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "util", "util\util.vcxproj", "{B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4}"
@@ -22,8 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdev-db", "sdev-db\sdev-db.
 	ProjectSection(ProjectDependencies) = postProject
 		{B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4} = {B72BDD57-D682-4B48-A0FA-37E8A5FCD0A4}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ini", "ini\ini.vcxproj", "{E92C1C91-521E-4DDE-A95F-5445FE168211}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sdev-login", "sdev-login\sdev-login.vcxproj", "{29E1E2C5-FA64-460F-B0D8-142FCC8D0BF2}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -64,10 +61,6 @@ Global
 		{2C4EF34C-C178-44E1-82FB-18A867DA85C1}.Debug|x86.Build.0 = Debug|Win32
 		{2C4EF34C-C178-44E1-82FB-18A867DA85C1}.Release|x86.ActiveCfg = Release|Win32
 		{2C4EF34C-C178-44E1-82FB-18A867DA85C1}.Release|x86.Build.0 = Release|Win32
-		{E92C1C91-521E-4DDE-A95F-5445FE168211}.Debug|x86.ActiveCfg = Debug|Win32
-		{E92C1C91-521E-4DDE-A95F-5445FE168211}.Debug|x86.Build.0 = Debug|Win32
-		{E92C1C91-521E-4DDE-A95F-5445FE168211}.Release|x86.ActiveCfg = Release|Win32
-		{E92C1C91-521E-4DDE-A95F-5445FE168211}.Release|x86.Build.0 = Release|Win32
 		{29E1E2C5-FA64-460F-B0D8-142FCC8D0BF2}.Debug|x86.ActiveCfg = Debug|Win32
 		{29E1E2C5-FA64-460F-B0D8-142FCC8D0BF2}.Debug|x86.Build.0 = Debug|Win32
 		{29E1E2C5-FA64-460F-B0D8-142FCC8D0BF2}.Release|x86.ActiveCfg = Release|Win32
