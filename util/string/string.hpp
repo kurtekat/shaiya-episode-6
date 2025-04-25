@@ -8,10 +8,24 @@
 namespace util::string
 {
     /// <summary>
+    /// Compares two strings, ignoring case.
+    /// </summary>
+    template<class CharT>
+    inline int icompare(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
+    {
+        auto result = std::lexicographical_compare_three_way(
+            lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend(), [&loc](CharT lc, CharT rc) {
+                return std::toupper<CharT>(lc, loc) <=> std::toupper<CharT>(rc, loc);
+            });
+
+        return std::is_lt(result) ? -1 : std::is_gt(result) ? 1 : 0;
+    }
+
+    /// <summary>
     /// Splits a string into a maximum number of substrings based on a specified delimiting string.
     /// </summary>
     template<class CharT>
-    std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep, size_t count)
+    inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep, size_t count)
     {
         std::vector<std::basic_string<CharT>> tokens;
         if (!count)
@@ -40,7 +54,7 @@ namespace util::string
     /// Splits a string into substrings based on a specified delimiting string.
     /// </summary>
     template<class CharT>
-    std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep)
+    inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep)
     {
         return split(str, sep, std::numeric_limits<size_t>::max());
     }
@@ -49,7 +63,7 @@ namespace util::string
     /// Splits a string into a maximum number of substrings based on a specified delimiting character.
     /// </summary>
     template<class CharT>
-    std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep, size_t count)
+    inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep, size_t count)
     {
         return split(str, std::basic_string<CharT>(1, sep), count);
     }
@@ -58,17 +72,66 @@ namespace util::string
     /// Splits a string into substrings based on a specified delimiting character.
     /// </summary>
     template<class CharT>
-    std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep)
+    inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep)
     {
         return split(str, std::basic_string<CharT>(1, sep), std::numeric_limits<size_t>::max());
+    }
+
+    /// <summary>
+    /// Returns a copy of the specified string converted to lowercase.
+    /// </summary>
+    template<class CharT>
+    inline std::basic_string<CharT> to_lower(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        std::basic_string<CharT> result(str);
+        std::transform(result.begin(), result.end(), result.begin(), [&loc](CharT c) {
+            return std::tolower<CharT>(c, loc);
+            });
+
+        return result;
+    }
+
+    /// <summary>
+    /// Returns a copy of the specified string converted to uppercase.
+    /// </summary>
+    template<class CharT>
+    inline std::basic_string<CharT> to_upper(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        std::basic_string<CharT> result(str);
+        std::transform(result.begin(), result.end(), result.begin(), [&loc](CharT c) {
+            return std::toupper<CharT>(c, loc);
+            });
+
+        return result;
+    }
+
+    /// <summary>
+    /// Removes all the trailing white-space characters from the specified string.
+    /// </summary>
+    template<class CharT>
+    inline std::basic_string<CharT> trim_end(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    {
+        auto length = str.length();
+        if (!length)
+            return str;
+
+        auto it = str.crbegin();
+        while (it != str.crend() && std::isspace(*it, loc))
+            ++it;
+
+        auto offset = std::distance(str.crbegin(), it);
+        return str.substr(0, length - offset);
     }
 
     /// <summary>
     /// Removes all the leading white-space characters from the specified string.
     /// </summary>
     template<class CharT>
-    std::basic_string<CharT> trim_start(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    inline std::basic_string<CharT> trim_start(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
+        if (str.empty())
+            return str;
+
         auto it = str.cbegin();
         while (it != str.cend() && std::isspace(*it, loc))
             ++it;
@@ -78,53 +141,14 @@ namespace util::string
     }
 
     /// <summary>
-    /// Removes all the trailing white-space characters from the specified string.
-    /// </summary>
-    template<class CharT>
-    std::basic_string<CharT> trim_end(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
-    {
-        auto it = str.crbegin();
-        while (it != str.crend() && std::isspace(*it, loc))
-            ++it;
-
-        auto count = std::distance(it, str.crend());
-        return str.substr(0, count);
-    }
-
-    /// <summary>
     /// Removes all leading and trailing white-space characters from the specified string.
     /// </summary>
     template<class CharT>
-    std::basic_string<CharT> trim(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
+    inline std::basic_string<CharT> trim(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
+        if (str.empty())
+            return str;
+
         return trim_start(trim_end(str, loc), loc);
-    }
-
-    /// <summary>
-    /// Returns a copy of the specified string converted to lowercase.
-    /// </summary>
-    template<class CharT>
-    std::basic_string<CharT> to_lower(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
-    {
-        std::basic_string<CharT> text(str);
-        std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
-            return std::tolower(c, loc);
-            });
-
-        return text;
-    }
-
-    /// <summary>
-    /// Returns a copy of the specified string converted to uppercase.
-    /// </summary>
-    template<class CharT>
-    std::basic_string<CharT> to_upper(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
-    {
-        std::basic_string<CharT> text(str);
-        std::transform(text.begin(), text.end(), text.begin(), [&loc](auto c) {
-            return std::toupper(c, loc);
-            });
-
-        return text;
     }
 }
