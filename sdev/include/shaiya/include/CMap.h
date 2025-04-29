@@ -18,6 +18,7 @@ namespace shaiya
     struct MobInfo;
     struct MapMob;
     struct MapNpc;
+    struct MapObelisk;
     struct MapOther;
     struct MapPortal;
     struct MapSadari;
@@ -88,7 +89,13 @@ namespace shaiya
         bool32_t enableMarket;     //0x1E0
         MapCurse curse;            //0x1E4
         // 0x1EC
-        PAD(28);
+        PAD(4);
+        double expMultiplier;      //0x1F0
+        uint32_t pvpKillAdd;       //0x1F8
+        bool obeliskResetSend;     //0x1FC
+        PAD(3);
+        int32_t obeliskCount;      //0x200
+        MapObelisk* obelisks;      //0x200
         // 0x208
     };
     #pragma pack(pop)
