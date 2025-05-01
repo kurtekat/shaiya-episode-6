@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include "include/shaiya/include/CZoneLink.h"
-#include "include/shaiya/include/CZoneNode.h"
 #include "include/shaiya/include/InsZonePortal.h"
 #include "include/shaiya/include/MapWeather.h"
 #include "include/shaiya/include/SNode.h"
@@ -17,8 +16,10 @@ namespace shaiya
     struct CMapRegion;
     struct CMob;
     struct CNpc;
+    struct CObjectLink;
     struct CTrap;
     struct CUser;
+    struct CZoneNode;
     struct MapBoss;
     struct MapMob;
     struct SNodeSendAll;
@@ -40,10 +41,10 @@ namespace shaiya
         SSyncMap<uint32_t, CMob*> mobMap;      //0xAC
         SSyncMap<uint32_t, CNpc*> npcMap;      //0xF4
         SSyncMap<uint32_t, CItem*> itemMap;    //0x13C
-        SSyncList<CUser> userList;             //0x184
-        SSyncList<CMob> mobList;               //0x1B0
-        SSyncList<CNpc> npcList;               //0x1DC
-        SSyncList<CItem> itemList;             //0x208
+        SSyncList<CObjectLink> userList;       //0x184
+        SSyncList<CObjectLink> mobList;        //0x1B0
+        SSyncList<CObjectLink> npcList;        //0x1DC
+        SSyncList<CObjectLink> itemList;       //0x208
         SSyncList<CTrap> trapList;             //0x234
         SSyncList<SNodeSendAll> sendAllQueue;  //0x260
         Array<InsZonePortal, 10> portals;      //0x28C
