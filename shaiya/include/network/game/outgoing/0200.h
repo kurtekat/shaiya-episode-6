@@ -87,7 +87,7 @@ namespace shaiya
     enum struct GameUserSkillGetResult : uint8_t
     {
         Success,
-        InsufficientPoints,
+        NotEnoughPoints,
         LevelTooLowToLearn,
         UnableToLearn
     };

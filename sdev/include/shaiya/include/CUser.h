@@ -63,7 +63,7 @@ namespace shaiya
         UpperArmor,  //0x1C4
         LowerArmor,  //0x1C8
         Gloves,      //0x1CC
-        Shoes,       //0x1D0
+        Boots,       //0x1D0
         Weapon,      //0x1D4
         Shield,      //0x1D8
         Cloak,       //0x1DC

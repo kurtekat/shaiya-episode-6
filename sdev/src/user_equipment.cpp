@@ -29,8 +29,8 @@ namespace user_equipment
             return realType == RealType::LowerArmor;
         case EquipmentSlot::Gloves:
             return realType == RealType::Gloves;
-        case EquipmentSlot::Shoes:
-            return realType == RealType::Shoes;
+        case EquipmentSlot::Boots:
+            return realType == RealType::Boots;
         case EquipmentSlot::Weapon:
         {
             if (CItem::IsWeapon(item))

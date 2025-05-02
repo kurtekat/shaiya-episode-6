@@ -4,7 +4,6 @@
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 #include <shaiya/include/network/game/QuickUnit.h>
 
 namespace shaiya

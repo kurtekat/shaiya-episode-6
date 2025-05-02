@@ -1,5 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
 
 namespace shaiya
 {
@@ -193,7 +194,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // not implemented
-    struct GameRecreationRuneUpgradeIncoming_EP5
+    struct GameRuneUpgradeIncoming_EP5
     {
         uint16_t opcode{ 0x80D };
         uint8_t runeBag;
@@ -204,7 +205,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameRecreationRuneUpgradeIncoming_EP6_4
+    struct GameRuneUpgradeIncoming_EP6_4
     {
         uint16_t opcode{ 0x80D };
         uint8_t runeBag;

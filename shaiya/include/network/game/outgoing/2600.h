@@ -1,7 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
-#include <shaiya/include/common/UserTypes.h>
 #include <shaiya/include/network/game/PointItemUnit.h>
 #include <shaiya/include/network/game/PointLogUnit.h>
 #include <shaiya/include/network/game/PointStoredItemUnit.h>
@@ -12,8 +10,8 @@ namespace shaiya
     {
         Success,
         ProductCodeDoesNotExist,
-        InsufficientPoints,
-        InsufficientSlots
+        NotEnoughPoints,
+        NotEnoughSlots
     };
 
     #pragma pack(push, 1)
@@ -36,15 +34,15 @@ namespace shaiya
     {
         Success,
         CharNameDoesNotExist,
-        CannotSendPresent,
-        ItemCountExceeded,
-        InsufficientSlots,
-        InsertFailure,
+        SameAccount,
+        Full,
+        NotEnoughSlots,
+        InsertError,
         ProductCodeDoesNotExist,
-        CannotDeductPoints,
-        LogInsertFailure,
-        PreviousRequestInProcess,
-        InsufficientPoints
+        PointUpdateError,
+        LogError,
+        ProcessBusy,
+        NotEnoughPoints
     };
 
     #pragma pack(push, 1)

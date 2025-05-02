@@ -314,7 +314,7 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x80D packets.
     /// </summary>
-    void handler_0x80D(CUser* user, GameRecreationRuneUpgradeIncoming_EP6_4* incoming)
+    void handler_0x80D(CUser* user, GameRuneUpgradeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
@@ -330,12 +330,12 @@ namespace packet_gem
         if (!vial)
             return;
 
-        GameRecreationRuneUpgradeOutgoing failure{};
-        failure.result = GameRecreationRuneUpgradeResult::Failure;
+        GameRuneUpgradeOutgoing failure{};
+        failure.result = GameRuneUpgradeResult::Failure;
 
         if (rune->count < 2 || rune->info->effect != ItemEffect::RecreationRune)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
             return;
         }
 
@@ -367,28 +367,28 @@ namespace packet_gem
 
         if (!itemInfo)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
             return;
         }
         
         int bag{}, slot{};
         if (!UserHelper::ItemCreate(user, itemInfo, 1, bag, slot))
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameRecreationRuneUpgradeOutgoing));
+            NetworkHelper::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
             return;
         }
 
         UserHelper::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
         UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
 
-        GameRecreationRuneUpgradeOutgoing success{};
-        success.result = GameRecreationRuneUpgradeResult::Success;
+        GameRuneUpgradeOutgoing success{};
+        success.result = GameRuneUpgradeResult::Success;
         success.newItem.bag = bag;
         success.newItem.slot = slot;
         success.newItem.type = itemInfo->type;
         success.newItem.typeId = itemInfo->typeId;
         success.newItem.count = 1;
-        NetworkHelper::Send(user, &success, sizeof(GameRecreationRuneUpgradeOutgoing));
+        NetworkHelper::Send(user, &success, sizeof(GameRuneUpgradeOutgoing));
     }
 
     /// <summary>
@@ -1086,7 +1086,7 @@ namespace packet_gem
         }
         case 0x80D:
         {
-            auto incoming = reinterpret_cast<GameRecreationRuneUpgradeIncoming_EP6_4*>(packet);
+            auto incoming = reinterpret_cast<GameRuneUpgradeIncoming_EP6_4*>(packet);
             handler_0x80D(user, incoming);
             break;
         }

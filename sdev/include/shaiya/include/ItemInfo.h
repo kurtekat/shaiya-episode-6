@@ -51,7 +51,7 @@ namespace shaiya
         // 20,35,70,76,85,91
         Gloves,
         // 21,36,71,77,86,92
-        Shoes,
+        Boots,
         // 22,37
         Ring,
         // 23,96
@@ -71,8 +71,9 @@ namespace shaiya
     // notes: item types
     enum struct MarketType : uint8_t
     {
+        All,
         // 2,4,46,48
-        TwoHandedWeapon = 1,
+        TwoHandedWeapon,
         // 1,3,45,47
         OneHandedWeapon,
         // 5,49,50
@@ -100,7 +101,7 @@ namespace shaiya
         // 20,35,70,76,85,91
         Gloves,
         // 21,36,71,77,86,92
-        Shoes,
+        Boots,
         // 24,39
         Cloak,
         // 19,34,69,75,84,90
@@ -120,7 +121,9 @@ namespace shaiya
         // 42
         Mount,
         // 100,101,102,103
-        Special
+        Other,
+        // ?
+        Max
     };
 
     #pragma pack(push, 1)

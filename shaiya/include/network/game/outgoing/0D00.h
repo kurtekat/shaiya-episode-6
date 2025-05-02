@@ -1,8 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
-#include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/UserTypes.h>
 #include <shaiya/include/network/game/GuildBankUnit.h>
 #include <shaiya/include/network/game/GuildJoinUserUnit.h>
 

@@ -1,7 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
-#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {

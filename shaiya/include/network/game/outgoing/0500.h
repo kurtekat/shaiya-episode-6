@@ -27,7 +27,7 @@ namespace shaiya
         Miss,
         Failed,
         SuccessBuff,
-        InsufficientRange,
+        TooFarAway,
         NotEnoughMPSP,
         WrongEquipment,
         PreviousSkillRequired,

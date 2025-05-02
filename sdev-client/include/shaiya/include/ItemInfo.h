@@ -37,7 +37,7 @@ namespace shaiya
         LowerArmor,
         Shield,
         Gloves,
-        Shoes,
+        Boots,
         Ring,
         Necklace,
         Cloak,
@@ -52,11 +52,11 @@ namespace shaiya
         FuryLowerArmor,
         FuryShield,
         FuryGloves,
-        FuryShoes,
+        FuryBoots,
         FuryCloak,
         Bracelet2,
         // 100, 101, 102, 103
-        Special = 100,
+        Other = 100,
         Wings = 121
     };
 

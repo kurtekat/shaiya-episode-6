@@ -132,7 +132,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct GameRecreationRuneUpgradeResult : uint8_t
+    enum struct GameRuneUpgradeResult : uint8_t
     {
         Success,
         NotImplemented,
@@ -140,10 +140,10 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct GameRecreationRuneUpgradeOutgoing
+    struct GameRuneUpgradeOutgoing
     {
         uint16_t opcode{ 0x80D };
-        GameRecreationRuneUpgradeResult result;
+        GameRuneUpgradeResult result;
         ItemUnit newItem;
     };
     #pragma pack(pop)
