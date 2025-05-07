@@ -54,19 +54,19 @@ namespace shaiya
     // 00572D30 ctor
     struct Camera
     {
-        D3DMATRIX world;            //0x22B69B0  0x00
-        D3DMATRIX view;             //0x22B69F0  0x40
-        D3DMATRIX projection;       //0x22B6A30  0x80
-        D3DVECTOR pos;              //0x22B6A70  0xC0
-        D3DVECTOR lookAt;           //0x22B6A7C  0xCC
-        D3DVECTOR up;               //0x22B6A88  0xD8
-        D3DVECTOR vec1;             //0x22B6A94  0xE4
-        D3DVECTOR target;           //0x22B6AA0  0xF0
-        D3DMATRIX mat1;             //0x22B6AAC  0xFC
-        D3DMATRIX mat2;             //0x22B6AEC  0x13C
-        D3DMATRIX mat3;             //0x22B6B2C  0x17C
-        D3DMATRIX mat4;             //0x22B6B6C  0x1BC
-        D3DMATRIX mat5;             //0x22B6BAC  0x1FC
+        D3DXMATRIX world;           //0x22B69B0  0x00
+		D3DXMATRIX view;            //0x22B69F0  0x40
+		D3DXMATRIX projection;      //0x22B6A30  0x80
+		D3DVECTOR pos;              //0x22B6A70  0xC0
+		D3DVECTOR lookAt;           //0x22B6A7C  0xCC
+		D3DVECTOR up;               //0x22B6A88  0xD8
+		D3DVECTOR vec1;             //0x22B6A94  0xE4
+		D3DVECTOR target;           //0x22B6AA0  0xF0
+		D3DXMATRIX mat1;            //0x22B6AAC  0xFC
+		D3DXMATRIX mat2;            //0x22B6AEC  0x13C
+		D3DXMATRIX mat3;            //0x22B6B2C  0x17C
+		D3DXMATRIX mat4;            //0x22B6B6C  0x1BC
+		D3DXMATRIX mat5;            //0x22B6BAC  0x1FC
         // 0x22B6BEC  0x23C
         PAD(260);
         D3DCOLOR fogColor;          //0x22B6CF0  0x340

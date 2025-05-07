@@ -132,7 +132,8 @@ namespace shaiya
         Grow grow;                    //0x2B9
         PAD(10);
         bool32_t invisible;           //0x2C4
-        PAD(12);
+        PAD(8);
+        CMonster* vehicle;            //0x2D0
         bool isAdmin;                 //0x2D4
         PAD(23);
         ShapeType shapeType;          //0x2EC
