@@ -7,23 +7,24 @@
 
 namespace util::string
 {
-    /// <summary>
-    /// Compares two strings, ignoring case.
-    /// </summary>
     template<class CharT>
-    inline int ilexicographical_compare(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
+    inline bool ilexicographical_compare(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
     {
-        auto result = std::lexicographical_compare_three_way(
+        return std::lexicographical_compare(
+            lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend(), [&loc](CharT lc, CharT rc) {
+                return std::toupper<CharT>(lc, loc) < std::toupper<CharT>(rc, loc);
+            });
+    }
+
+    template<class CharT>
+    inline auto ilexicographical_compare_three_way(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
+    {
+        return std::lexicographical_compare_three_way(
             lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend(), [&loc](CharT lc, CharT rc) {
                 return std::toupper<CharT>(lc, loc) <=> std::toupper<CharT>(rc, loc);
             });
-
-        return std::is_lt(result) ? -1 : std::is_gt(result) ? 1 : 0;
     }
 
-    /// <summary>
-    /// Splits a string into a maximum number of substrings based on a specified delimiting string.
-    /// </summary>
     template<class CharT>
     inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep, size_t count)
     {
@@ -50,36 +51,24 @@ namespace util::string
         return tokens;
     }
 
-    /// <summary>
-    /// Splits a string into substrings based on a specified delimiting string.
-    /// </summary>
     template<class CharT>
     inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, const std::basic_string<CharT>& sep)
     {
         return split(str, sep, std::numeric_limits<size_t>::max());
     }
 
-    /// <summary>
-    /// Splits a string into a maximum number of substrings based on a specified delimiting character.
-    /// </summary>
     template<class CharT>
     inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep, size_t count)
     {
         return split(str, std::basic_string<CharT>(1, sep), count);
     }
 
-    /// <summary>
-    /// Splits a string into substrings based on a specified delimiting character.
-    /// </summary>
     template<class CharT>
     inline std::vector<std::basic_string<CharT>> split(const std::basic_string<CharT>& str, CharT sep)
     {
         return split(str, std::basic_string<CharT>(1, sep), std::numeric_limits<size_t>::max());
     }
 
-    /// <summary>
-    /// Returns a copy of the specified string converted to lowercase.
-    /// </summary>
     template<class CharT>
     inline std::basic_string<CharT> to_lower(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
@@ -91,9 +80,6 @@ namespace util::string
         return result;
     }
 
-    /// <summary>
-    /// Returns a copy of the specified string converted to uppercase.
-    /// </summary>
     template<class CharT>
     inline std::basic_string<CharT> to_upper(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
@@ -105,9 +91,6 @@ namespace util::string
         return result;
     }
 
-    /// <summary>
-    /// Removes all the trailing white-space characters from the specified string.
-    /// </summary>
     template<class CharT>
     inline std::basic_string<CharT> trim_end(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
@@ -123,9 +106,6 @@ namespace util::string
         return str.substr(0, length - offset);
     }
 
-    /// <summary>
-    /// Removes all the leading white-space characters from the specified string.
-    /// </summary>
     template<class CharT>
     inline std::basic_string<CharT> trim_start(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
@@ -140,9 +120,6 @@ namespace util::string
         return str.substr(offset);
     }
 
-    /// <summary>
-    /// Removes all leading and trailing white-space characters from the specified string.
-    /// </summary>
     template<class CharT>
     inline std::basic_string<CharT> trim(const std::basic_string<CharT>& str, const std::locale& loc = std::locale())
     {
