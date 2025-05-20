@@ -134,6 +134,22 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    enum struct GameCharMaxEnergyType : uint8_t
+    {
+        HP, SP, MP
+    };
+
+    #pragma pack(push, 1)
+    // TP_SET_MAX
+    struct GameCharMaxEnergyOutgoing
+    {
+        uint16_t opcode{ 0x50B };
+        uint32_t objectId;
+        GameCharMaxEnergyType type;
+        int32_t value;
+    };
+    #pragma pack(pop)
+
     #pragma pack(push, 1)
     // TP_PC_SKILL_SET
     struct GameCharSkillSetOutgoing
