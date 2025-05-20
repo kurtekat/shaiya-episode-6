@@ -11,7 +11,7 @@ namespace util::string
     /// Compares two strings, ignoring case.
     /// </summary>
     template<class CharT>
-    inline int icompare(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
+    inline int ilexicographical_compare(const std::basic_string<CharT>& lhs, const std::basic_string<CharT>& rhs, const std::locale& loc = std::locale())
     {
         auto result = std::lexicographical_compare_three_way(
             lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend(), [&loc](CharT lc, CharT rc) {
