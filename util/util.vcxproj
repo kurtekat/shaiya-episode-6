@@ -16,7 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ini\ini.h" />
-    <ClInclude Include="string\string.hpp" />
+    <ClInclude Include="string\split.h" />
+    <ClInclude Include="string\trim.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
