@@ -20,6 +20,9 @@ void ItemRemake4::init()
         path.append("Data");
         path.append("ItemRemake4.ini");
 
+        if (!std::filesystem::exists(path))
+            return;
+
         for (const auto& section : util::ini::get_sections(path))
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
@@ -53,6 +56,9 @@ void ItemRemake5::init()
         path.remove_filename();
         path.append("Data");
         path.append("ItemRemake5.ini");
+
+        if (!std::filesystem::exists(path))
+            return;
 
         for (const auto& section : util::ini::get_sections(path))
         {
