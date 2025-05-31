@@ -22,6 +22,9 @@ void Synthesis::init()
         path.append("Data");
         path.append("ChaoticSquare.ini");
 
+        if (!std::filesystem::exists(path))
+            return;
+
         for (const auto& section : util::ini::get_sections(path))
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
