@@ -55,7 +55,9 @@ see https://www.gnu.org/licenses/.  */
 #include <float.h>
 #endif
 
-
+#pragma warning(push)
+#pragma warning(disable : 4146 4244)
+
 /* Macros */
 #define GMP_LIMB_BITS (sizeof(mp_limb_t) * CHAR_BIT)
 
@@ -4625,3 +4627,5 @@ mpz_export (void *r, size_t *countp, int order, size_t size, int endian,
 
   return r;
 }
+
+#pragma warning(pop)
