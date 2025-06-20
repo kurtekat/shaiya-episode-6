@@ -45,7 +45,7 @@ void __declspec(naked) naked_0x41E2BB()
     }
 }
 
-void hook::gui()
+void hook::patch()
 {
     // dungeon wings shadow workaround
     util::detour((void*)0x41F9C0, naked_0x41F9C0, 9);

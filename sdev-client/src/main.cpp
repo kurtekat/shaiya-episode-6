@@ -2,6 +2,6 @@
 
 void Main()
 {
-    hook::gui();
     hook::packet();
+    hook::patch();
 }

@@ -5,6 +5,6 @@ extern "C" __declspec(dllexport) void DllExport();
 
 namespace hook
 {
-    void gui();
     void packet();
+    void patch();
 }
