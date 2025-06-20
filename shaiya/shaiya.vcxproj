@@ -60,6 +60,7 @@
     <ClInclude Include="include\network\game\incoming\0B00.h" />
     <ClInclude Include="include\network\game\GetInfoItemType.h" />
     <ClInclude Include="include\network\game\incoming\1100.h" />
+    <ClInclude Include="include\network\game\incoming\1F00.h" />
     <ClInclude Include="include\network\game\incoming\2200.h" />
     <ClInclude Include="include\network\game\incoming\2500.h" />
     <ClInclude Include="include\network\game\incoming\2600.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="include\network\game\outgoing\0D00.h" />
     <ClInclude Include="include\network\game\outgoing\0E00.h" />
     <ClInclude Include="include\network\game\outgoing\1100.h" />
+    <ClInclude Include="include\network\game\outgoing\1F00.h" />
     <ClInclude Include="include\network\game\outgoing\2200.h" />
     <ClInclude Include="include\network\game\outgoing\2300.h" />
     <ClInclude Include="include\network\game\outgoing\2400.h" />
@@ -98,6 +100,7 @@
     <ClInclude Include="include\network\game\PointStoredItemUnit.h" />
     <ClInclude Include="include\network\game\QuestItemUnit.h" />
     <ClInclude Include="include\network\game\QuickUnit.h" />
+    <ClInclude Include="include\network\game\RewardItemUnit.h" />
     <ClInclude Include="include\network\login\incoming\A100.h" />
     <ClInclude Include="include\network\login\incoming\A200.h" />
     <ClInclude Include="include\network\login\outgoing\A100.h" />

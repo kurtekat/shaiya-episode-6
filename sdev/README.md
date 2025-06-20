@@ -37,6 +37,71 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
+## Reward Item Event
+
+The current progress will reset if a character leaves the game world. The event will end once all items are claimed. The event will restart the next time a character enters the game world.
+
+### Configuration
+
+Use the following example to get started:
+
+```ini
+; PSM_Client\Bin\Data\RewardItem.ini
+
+[RewardItem_1]
+; minutes
+Delay=5
+Type=100
+TypeID=1
+Count=1
+
+[RewardItem_2]
+Delay=10
+Type=100
+TypeID=1
+Count=1
+
+[RewardItem_3]
+Delay=20
+Type=100
+TypeID=1
+Count=1
+
+[RewardItem_4]
+Delay=40
+Type=100
+TypeID=1
+Count=1
+
+[RewardItem_5]
+Delay=80
+Type=100
+TypeID=1
+Count=1
+```
+
+Add the following `sysmsg-uni.txt` lines:
+
+```
+2044		"The keep-alive event has ended."
+//
+7186		"Medal event begins in 5 minutes! Make sure you have at least 3 open inventory slots or else you will not be able to receive a reward."
+7187		"Medal event begins in 1 minute! Make sure you have at least 3 open inventory slots or else you will not be able to receive a reward."
+7188		"Could not receive your reward because you do not have space in your inventory."
+7189		"Bronze medal received"
+7190		"Silver medal received"
+7191		"Gold medal received"
+7192		"Recurring player item received"
+```
+
+### Medal Event
+
+This feature is not implemented.
+
+### Known Issues
+
+Do not expect the progress bar to synchronize perfectly with the server. Do not contact me about it unless you can provide a solution.
+
 ## Alchemy
 
 The client expects the merchant type of the npc to be 20 (Alchemist).

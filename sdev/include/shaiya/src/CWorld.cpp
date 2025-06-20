@@ -18,6 +18,18 @@ CUser* CWorld::FindUser(const char* charName/*eax*/)
     }
 }
 
+CUser* CWorld::FindUserBill(uint billingId)
+{
+    unsigned u0x414C70 = 0x414C70;
+
+    __asm
+    {
+        mov ecx,g_pWorld
+        push billingId
+        call u0x414C70
+    }
+}
+
 CZone* CWorld::GetZone(int mapId/*eax*/)
 {
     unsigned u0x41A250 = 0x41A250;

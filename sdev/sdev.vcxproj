@@ -24,6 +24,7 @@
     <ClCompile Include="include\shaiya\src\CZone.cpp" />
     <ClCompile Include="include\shaiya\src\ItemRemake.cpp" />
     <ClCompile Include="include\shaiya\src\RevengeMark.cpp" />
+    <ClCompile Include="include\shaiya\src\RewardItem.cpp" />
     <ClCompile Include="include\shaiya\src\UserHelper.cpp" />
     <ClCompile Include="include\shaiya\src\ItemHelper.cpp" />
     <ClCompile Include="include\shaiya\src\MyShop.cpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="src\packet_myshop.cpp" />
     <ClCompile Include="src\packet_party.cpp" />
     <ClCompile Include="src\revenge_mark.cpp" />
+    <ClCompile Include="src\reward_item.cpp" />
     <ClCompile Include="src\user_equipment.cpp" />
     <ClCompile Include="src\packet_character.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
@@ -53,6 +55,7 @@
     <ClCompile Include="src\user_skill.cpp" />
     <ClCompile Include="src\user_status.cpp" />
     <ClCompile Include="src\user_shape.cpp" />
+    <ClCompile Include="src\world_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
@@ -135,6 +138,7 @@
     <ClInclude Include="include\shaiya\include\QuestItem.h" />
     <ClInclude Include="include\shaiya\include\QuestResult.h" />
     <ClInclude Include="include\shaiya\include\Quick.h" />
+    <ClInclude Include="include\shaiya\include\RewardItem.h" />
     <ClInclude Include="include\shaiya\include\SAes.h" />
     <ClInclude Include="include\shaiya\include\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\include\SConnectionCustomRecv.h" />

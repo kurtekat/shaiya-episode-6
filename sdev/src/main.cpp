@@ -3,6 +3,7 @@
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/ItemRemake.h"
 #include "include/shaiya/include/RevengeMark.h"
+#include "include/shaiya/include/RewardItem.h"
 #include "include/shaiya/include/Synergy.h"
 #include "include/shaiya/include/Synthesis.h"
 using namespace shaiya;
@@ -113,12 +114,15 @@ void Main()
     hook::packet_quest();
     hook::packet_shop();
     hook::revenge_mark();
+    hook::reward_item();
     hook::user_equipment();
     hook::user_shape();
     hook::user_skill();
     hook::user_status();
+    hook::world_thread();
     ItemRemake4::init();
     ItemRemake5::init();
+    RewardItemEvent::init();
     Synergy::init();
     Synthesis::init();
 }

@@ -16,8 +16,10 @@ namespace hook
     void packet_quest();
     void packet_shop();
     void revenge_mark();
+    void reward_item();
     void user_equipment();
     void user_skill();
     void user_shape();
     void user_status();
+    void world_thread();
 }

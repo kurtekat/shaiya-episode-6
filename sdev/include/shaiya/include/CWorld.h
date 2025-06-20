@@ -49,6 +49,7 @@ namespace shaiya
 
         static CUser* FindUser(uint objectId);
         static CUser* FindUser(const char* charName/*eax*/);
+        static CUser* FindUserBill(uint billingId);
         static CZone* GetZone(int mapId/*eax*/);
         static void SendAll(void* packet/*ecx*/, int length/*eax*/);
         static void SendAllCountry(void* packet/*ecx*/, int length/*eax*/, int country);

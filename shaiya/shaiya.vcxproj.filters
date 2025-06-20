@@ -322,5 +322,14 @@
     <ClInclude Include="include\network\TP_MAIN.h">
       <Filter>include\network</Filter>
     </ClInclude>
+    <ClInclude Include="include\network\game\RewardItemUnit.h">
+      <Filter>include\network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\outgoing\1F00.h">
+      <Filter>include\network\game\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\game\incoming\1F00.h">
+      <Filter>include\network\game\incoming</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
