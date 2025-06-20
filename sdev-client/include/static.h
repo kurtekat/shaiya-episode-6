@@ -38,7 +38,7 @@ namespace shaiya
         Taiwan,        // 950
         English,       // CP_ACP
         Germany,       // CP_ACP
-        SingaMala,     // 950
+        Singapore,     // 950
         HongKong,      // 950
         France,        // CP_ACP
         Russia,        // CP_ACP
