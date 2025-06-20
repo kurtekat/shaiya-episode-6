@@ -43,7 +43,7 @@ The current progress will reset if a character leaves the game world. The event 
 
 ### Configuration
 
-Use the following example to get started:
+The client expects no more than 20 items. Use the following example to get started:
 
 ```ini
 ; PSM_Client\Bin\Data\RewardItem.ini
@@ -80,7 +80,7 @@ TypeID=1
 Count=1
 ```
 
-Add the following `sysmsg-uni.txt` lines:
+Add the following system messages:
 
 ```
 2044		"The keep-alive event has ended."
@@ -274,8 +274,8 @@ The kill count will determine which effect(s) will be rendered. The library will
 The client library adds support for system message 509.
 
 ```
-508    "Your revenge to <t> has succeeded!"
-509    "<t> killed  you <v> time(s)."
+508		"Your revenge to <t> has succeeded!"
+509		"<t> killed  you <v> time(s)."
 ```
 
 ## Skill Abilities
