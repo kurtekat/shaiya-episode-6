@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct GameAdminCmdNoticeToOutgoing
+    struct GameAdminCmdDNoticeToOutgoing
     {
         uint16_t opcode{ 0xF908 };
         // w/ null-terminator
@@ -18,7 +18,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_ADMIN_CMDS_NOTICE
-    struct GameAdminCmdNoticeOutgoing
+    struct GameAdminCmdDNoticeOutgoing
     {
         uint16_t opcode{ 0xF90B };
         // w/ null-terminator

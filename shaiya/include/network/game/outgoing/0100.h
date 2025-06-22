@@ -102,4 +102,13 @@ namespace shaiya
         bool available;
     };
     #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GameSystemMessageOutgoing
+    {
+        uint16_t opcode{ 0x122 };
+        bool32_t isNotification;
+        uint32_t messageNumber;
+    };
+    #pragma pack(pop)
 }

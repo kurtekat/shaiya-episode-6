@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct GameAdminCmdMoveCharIncoming
+    struct GameAdminCmdDMoveCharIncoming
     {
         uint16_t opcode{ 0xF904 };
         String<21> charName;
@@ -12,7 +12,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameAdminCmdNoticeToIncoming
+    struct GameAdminCmdDNoticeToIncoming
     {
         uint16_t opcode{ 0xF908 };
         String<21> targetName;
@@ -23,7 +23,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameAdminCmdNoticeIncoming
+    struct GameAdminCmdDNoticeIncoming
     {
         uint16_t opcode{ 0xF90B };
         uint16_t unknown;
