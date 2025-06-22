@@ -26,7 +26,7 @@ namespace reward_item
             auto now = std::chrono::system_clock::now();
             auto& progress = it->second;
 
-            if (now < progress.nextItemGetTime)
+            if (now < progress.itemGetWaitTime)
                 return;
 
             auto index = progress.itemListIndex;
@@ -43,6 +43,7 @@ namespace reward_item
 
             if (!CUser::ItemCreate(user, itemInfo, count))
             {
+                // The client will output system message 7188 inside a message box
                 GameRewardItemGetResultOutgoing outgoing{};
                 outgoing.result = GameRewardItemGetResult::Failure;
                 NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
@@ -64,7 +65,7 @@ namespace reward_item
                 else
                 {
                     progress.itemListIndex = index;
-                    progress.nextItemGetTime = now + g_rewardItems[index].delay;
+                    progress.itemGetWaitTime = now + g_rewardItems[index].delay;
 
                     GameRewardItemEventProgressOutgoing outgoing{};
                     outgoing.itemListIndex = index;

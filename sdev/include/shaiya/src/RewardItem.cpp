@@ -89,7 +89,7 @@ void RewardItemEvent::sendItemList(CUser* user)
 
         RewardItemEventProgress progress{};
         progress.itemListIndex = 0;
-        progress.nextItemGetTime = now + g_rewardItems[0].delay;
+        progress.itemGetWaitTime = now + g_rewardItems[0].delay;
         g_rewardItemEventProgress.insert({ user->billingId, progress });
 
         GameRewardItemEventProgressOutgoing outgoing{};

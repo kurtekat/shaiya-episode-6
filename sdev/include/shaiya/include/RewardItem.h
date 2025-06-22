@@ -22,7 +22,7 @@ namespace shaiya
     struct RewardItemEventProgress
     {
         uint32_t itemListIndex;
-        std::chrono::system_clock::time_point nextItemGetTime;
+        std::chrono::system_clock::time_point itemGetWaitTime;
     };
     #pragma pack(pop)
 

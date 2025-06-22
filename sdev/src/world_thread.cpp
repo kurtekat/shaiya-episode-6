@@ -26,7 +26,7 @@ namespace world_thread
         for (const auto& [billingId, progress] : g_rewardItemEventProgress)
         {
             auto now = std::chrono::system_clock::now();
-            if (now < progress.nextItemGetTime)
+            if (now < progress.itemGetWaitTime)
                 continue;
 
             auto user = CWorld::FindUserBill(billingId);
