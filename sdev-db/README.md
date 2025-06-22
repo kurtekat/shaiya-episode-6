@@ -1,6 +1,6 @@
 # Documentation
 
-This library is for the dbAgent service. It adds support for the character list packet (equipment) and the name availability packet. Incoming and outgoing packet types are named relative to the dbAgent service.
+This library is for the dbAgent service. It adds support for the character list packet (equipment) and the name availability packet.
 
 ## Environment
 

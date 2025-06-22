@@ -1,6 +1,6 @@
 # Documentation
 
-This library is for Shaiya PT client 182 modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory. Incoming and outgoing packet types are named relative to the client.
+This library is for Shaiya PT client 182 modifications. The DirectX SDK installer should create a system environment variable named `DXSDK_DIR` that specifies the installation directory.
 
 ## Environment
 

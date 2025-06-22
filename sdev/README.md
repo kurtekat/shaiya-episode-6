@@ -1,6 +1,6 @@
 # Documentation
 
-This library is for the game service. Incoming and outgoing packet types are named relative to the services.
+This library is for the game service.
 
 ## Environment
 
