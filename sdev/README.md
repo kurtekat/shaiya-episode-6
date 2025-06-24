@@ -1,6 +1,6 @@
 # Documentation
 
-This library is for the game service.
+This library is for the game service. Please read the features section to learn more.
 
 ## Environment
 
@@ -24,6 +24,8 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/
 
 # Features
 
+All features are implemented based on client specifications. The intent is to keep everything as vanilla as possible.
+
 ## Item Mall
 
 Install the following procedures:
@@ -39,7 +41,7 @@ If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Reward Item Event
 
-The current progress will reset if a character leaves the game world. The event will end once all items are claimed. The event will restart the next time a character enters the game world.
+Event progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly.
 
 ### Configuration
 
@@ -96,11 +98,15 @@ Add the following system messages:
 
 ### Medal Event
 
-This feature is not implemented.
+This feature will not be implemented.
 
-### Known Issues
+### Clients
 
-Do not expect the progress bar to synchronize perfectly with the server. Do not contact me about it unless you can provide a solution.
+| Locale | Patch | Supported          |
+|--------|-------|--------------------|
+| ES     | 171   | :x:                |
+| PT     | 182   | :white_check_mark: |
+| PT     | 189   | :white_check_mark: |
 
 ## Alchemy
 
@@ -160,7 +166,7 @@ CreateType=30
 CreateTypeID=41
 ```
 
-Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack or `ReqIg` values 30 and 99.
+Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack. `ReqIg` values 30 and 99 are not allowed.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
@@ -244,14 +250,7 @@ The following items are supported:
 
 ## NpcQuest
 
-The episode 6 format has 6 quest results, each containing up to 3 items. The following items are supported:
-
-| ItemId | SkillId | SkillLv |
-|--------|---------|---------|
-| 101112 | 432     | 2       |
-| 101113 | 432     | 3       |
-
-The library will divide the ability value by 100.
+The episode 6 format has 6 quest results, each containing up to 3 items. The game service executable has been modified to read the file format.
 
 ## Revenge Mark
 
@@ -304,6 +303,13 @@ Unsupported ability types will not be implemented.
 The effect(s) will be removed a few seconds after the skill has been stopped.
 
 ### Skill Ability 87
+
+The following items are supported:
+
+| ItemId | SkillId | SkillLv |
+|--------|---------|---------|
+| 101112 | 432     | 2       |
+| 101113 | 432     | 3       |
 
 The ability value is expected to be greater than or equal to 200. The library will divide the ability value by 100.
 
