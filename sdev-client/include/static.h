@@ -153,7 +153,46 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // the .data section
+    struct ResolutionListItem
+    {
+        // 0:13
+        uint32_t id;
+        // e.g., "1024x768"
+        String<20> value;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct ResolutionList
+    {
+        Array<ResolutionListItem, 14> items;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GraphicOptions
+    {
+        uint32_t detailsValue;           //0x22B0220
+        uint32_t resolutionId;           //0x22B0224
+        bool32_t resolutionListVisible;  //0x22B0228
+        PAD(92);
+        ResolutionList resolutionList;   //0x22B0288
+        uint32_t distanceValue;          //0x22B03D8
+        PAD(124);
+        uint32_t brightnessValue;        //0x22B0458
+        PAD(536);
+        uint32_t glowEffectValue;        //0x22B0674
+        PAD(44);
+        // 0: 16-bit, 1: 32-bit
+        uint32_t colorDepthValue;        //0x22B06A4
+        bool32_t colorDepthListVisible;  //0x22B06A8
+        PAD(12);
+        // 0x22B06B8
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // The .data section
     struct Static
     {
         PAD(212);                            //0x7AB000
@@ -164,7 +203,9 @@ namespace shaiya
         PAD(2788);
         uint32_t targetId;                   //0x7ABBDC
         TargetType targetType;               //0x7ABBE0
-        PAD(16164);
+        PAD(8912);
+        uint32_t resolutionListCount;        //0x7ADEB4
+        PAD(7248);
         WNDCLASSEXA wndClassExa;             //0x7AFB08
         // 0x7AFB38
         PAD(8364);
@@ -186,7 +227,7 @@ namespace shaiya
         float viewFarthest;                  //0x7C0D94
         float viewNearest;                   //0x7C0D98
         // 0: 16-bit, 1: 32-bit
-        int32_t colorDepth;                  //0x7C0D9C
+        uint32_t colorDepth;                 //0x7C0D9C
         float cameraTargetSpeed;             //0x7C0DA0
         float fogNearest;                    //0x7C0DA4
         float fogFarthest;                   //0x7C0DA8
@@ -200,7 +241,10 @@ namespace shaiya
         PAD(12);
         String<16> ipv4;                     //0x7C0DD0
         // 0x7C0DE0
-        PAD(172);
+        PAD(28);
+        // 0:13
+        uint32_t resolutionId;               //0x7C0DFC
+        PAD(140);
         ExtraHotkey extraHotkey;             //0x7C0E8C
         HotkeyOptions hotkeyOptions;         //0x7C0EB4
         // 0x7C0F04
@@ -243,7 +287,11 @@ namespace shaiya
         PAD(25576);
         CPlayerData playerData;              //0x90D1D0
         // 0x22B0208
-        PAD(6384);
+        PAD(24);
+        GraphicOptions graphicOptions;       //0x22B0220
+        CTexture optionsImage;               //0x22B06B8
+        // 0x22B06C8
+        PAD(5168);
         int32_t killLv;                      //0x22B1AF8
         int32_t deathLv;                     //0x22B1AFC
         PAD(2488);
@@ -677,10 +725,9 @@ namespace shaiya
         // static functions
 
         static void DrawRect(D3DCOLOR argb, int x, int y, int w, int h);
-        static void MsgTextOut(int messageType, int messageNumber, int unknown);
+        static void SysMsgToChatBox(int messageType, int messageNumber, int unknown);
         static int GetDaSkillEffectDataId(int skillId);
         static char* GetMsg(int messageNumber);
-        static bool PlayWav(const char* wavFileName, D3DVECTOR* origin, float volume, bool repeat);
     };
     #pragma pack(pop)
 

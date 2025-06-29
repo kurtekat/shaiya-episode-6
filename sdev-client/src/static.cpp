@@ -19,13 +19,7 @@ char* Static::GetMsg(int messageNumber)
     return (*(LPFN)0x420DB0)(messageNumber);
 }
 
-bool Static::PlayWav(const char* wavFileName, D3DVECTOR* origin, float volume, bool repeat)
-{
-    typedef bool(__thiscall* LPFN)(void*, const char*, D3DVECTOR*, float, bool);
-    return (*(LPFN)0x56C650)((void*)0x22B4030, wavFileName, origin, volume, repeat);
-}
-
-void Static::MsgTextOut(int messageType, int messageNumber, int unknown)
+void Static::SysMsgToChatBox(int messageType, int messageNumber, int unknown)
 {
     typedef void(__cdecl* LPFN)(int, int, int);
     (*(LPFN)0x423150)(messageType, messageNumber, unknown);

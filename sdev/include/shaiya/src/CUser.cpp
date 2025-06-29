@@ -5,13 +5,13 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
-void CUser::AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool quest)
+void CUser::AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, int exp, bool isQuest)
 {
     unsigned u0x465060 = 0x465060;
 
     __asm
     {
-        movzx eax,quest
+        movzx eax,isQuest
         push eax
         push exp
         push lastTargetId

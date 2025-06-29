@@ -486,7 +486,7 @@ namespace shaiya
         SkillAbility70 skillAbility70;           //0x62E8
         uint32_t multiplyQuestExpRate;           //0x62F0
 
-        static void AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, uint exp, bool quest);
+        static void AddExpFromUser(CUser* user/*esi*/, uint lastTargetId, int exp, bool isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, uint money/*edx*/);
         static void GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
