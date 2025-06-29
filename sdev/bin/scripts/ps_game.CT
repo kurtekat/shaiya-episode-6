@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="45">
+<CheatTable CheatEngineTableVersion="38">
   <CheatEntries>
     <CheatEntry>
       <ID>909</ID>
       <Description>"load libraries"</Description>
       <Options moManualExpandCollapse="1" moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
           <ID>910</ID>
           <Description>"sdev.dll"</Description>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 loadlibrary('sdev.dll')
@@ -23,6 +25,7 @@ loadlibrary('sdev.dll')
     <CheatEntry>
       <ID>913</ID>
       <Description>"global variables"</Description>
+      <LastState Value="" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
         <CheatEntry>
