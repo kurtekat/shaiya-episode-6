@@ -331,6 +331,8 @@ The following data is from a 6.4 client:
 |---------|---------|--------------|
 | 222     | 1       | 150          |
 
+The ability value is expected to be greater than or equal to 150. The library will divide the ability value by 100.
+
 ### Skill Ability 70
 
 The effect(s) will be removed a few seconds after the skill has been stopped.
