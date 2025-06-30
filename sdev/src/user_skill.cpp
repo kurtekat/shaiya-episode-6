@@ -135,9 +135,6 @@ namespace user_skill
 
     int multiply_exp(CUser* user, int exp, bool isQuest)
     {
-        if (exp <= 0)
-            return 0;
-
         if (isQuest)
         {
             auto rate = user->multiplyQuestExpRate;
