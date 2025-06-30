@@ -5,9 +5,12 @@
 #include <shaiya/include/common/SkillTypes.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
+#include "include/shaiya/include/CMap.h"
 #include "include/shaiya/include/CUser.h"
+#include "include/shaiya/include/CZone.h"
 #include "include/shaiya/include/NetworkHelper.h"
 #include "include/shaiya/include/SkillInfo.h"
+#include "include/shaiya/include/UserHelper.h"
 using namespace shaiya;
 
 namespace user_skill
@@ -128,6 +131,60 @@ namespace user_skill
         default:
             break;
         }
+    }
+
+    int multiply_exp(CUser* user, int exp, bool isQuest)
+    {
+        if (exp <= 0)
+            return 0;
+
+        if (isQuest)
+        {
+            auto rate = user->multiplyQuestExpRate;
+            if (rate < 200)
+                return exp;
+
+            auto bonus = (rate / 100.0) * exp;
+            return static_cast<int>(bonus);
+        }
+
+        auto multiplier = 1.0;
+        auto rate = user->multiplyExp2;
+        if (rate >= 150)
+            multiplier = rate / 100.0;
+
+        switch (user->charmType)
+        {
+        case SkillCharmType::BlueDragon:
+        case SkillCharmType::WhiteTiger:
+        case SkillCharmType::RedPhoenix:
+            multiplier += 0.2;
+            break;
+        default:
+            break;
+        }
+
+        // expupmap
+
+        auto zone = user->zone;
+        if (zone)
+        {
+            auto map = zone->map;
+            if (map)
+            {
+                multiplier *= map->expMultiplier;
+            }
+        }
+
+        // expupcamp
+
+        if (user->country == Country::Light)
+            multiplier *= *reinterpret_cast<double*>(0x582768);
+        else
+            multiplier *= *reinterpret_cast<double*>(0x582770);
+
+        auto bonus = multiplier * exp;
+        return static_cast<int>(bonus);
     }
 }
 
@@ -272,6 +329,30 @@ void __declspec(naked) naked_0x4959A4()
     }
 }
 
+unsigned u0x46511A = 0x46511A;
+void __declspec(naked) naked_0x465087()
+{
+    __asm
+    {
+        pushad
+
+        movzx eax,byte ptr[esp+0x44]
+        mov ecx,dword ptr[esp+0x40]
+
+        push eax // isQuest
+        push ecx // exp
+        push esi // user
+        call user_skill::multiply_exp
+        add esp,0xC
+
+        mov dword ptr[esp+0x40],eax
+
+        popad
+
+        jmp u0x46511A
+    }
+}
+
 void hook::user_skill()
 {
     // CUser::SkillAttackRange
@@ -286,4 +367,6 @@ void hook::user_skill()
     util::detour((void*)0x4935B2, naked_0x4935B2, 5);
     // CUser::SetSkillAbility (default case)
     util::detour((void*)0x4959A4, naked_0x4959A4, 7);
+    // CUser::AddExpFromUser
+    util::detour((void*)0x465087, naked_0x465087, 5);
 }

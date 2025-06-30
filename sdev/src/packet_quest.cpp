@@ -39,10 +39,6 @@ namespace packet_quest
 
         if (exp)
         {
-            auto rate = user->multiplyQuestExpRate;
-            if (rate >= 200)
-                exp *= rate / 100;
-
             CUser::AddExpFromUser(user, 0, exp, true);
         }
 

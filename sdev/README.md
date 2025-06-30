@@ -283,6 +283,9 @@ Unsupported ability types will not be implemented.
 
 | SkillId | Ability | Supported          |
 |---------|---------|--------------------|
+| 222     | 35      | :white_check_mark: |
+| 223     | 35      | :white_check_mark: |
+| 272     | 35      | :white_check_mark: |
 | 375     | 52      | :x:                |
 | 376     | 53      | :x:                |
 | 377     | 54      | :x:                |
@@ -296,7 +299,37 @@ Unsupported ability types will not be implemented.
 | 396     | 73      | :x:                |
 | 397     | 74      | :x:                |
 | 412     | 78      | :x:                |
+| 426     | 35      | :white_check_mark: |
+| 427     | 35      | :white_check_mark: |
 | 432     | 87      | :white_check_mark: |
+| 434     | 35      | :white_check_mark: |
+
+### Skill Ability 35
+
+The original code multiplies exp depending on the value of two `CUser` booleans:
+
+```
+// 00574080 (2.0)
+bool32_t multiplyExp2;  //0x596C
+// 00574090 (1.5)
+bool32_t multiplyExp1;  //0x5970 (not used)
+```
+
+The library modifies `CUser::AddExpFromUser` to support 6.4 skill ability values.
+
+| ItemId | SkillId | SkillLv | AbilityValue |
+|--------|---------|---------|--------------|
+| 101114 | 426     | 2       | 500          |
+| 101115 | 426     | 3       | 1000         |
+| 101117 | 427     | 2       | 500          |
+| 101121 | 434     | 2       | 200          |
+| 101122 | 434     | 3       | 200          |
+
+The following data is from a 6.4 client:
+
+| SkillId | SkillLv | AbilityValue |
+|---------|---------|--------------|
+| 222     | 1       | 150          |
 
 ### Skill Ability 70
 
