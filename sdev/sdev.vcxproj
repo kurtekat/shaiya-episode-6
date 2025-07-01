@@ -44,8 +44,8 @@
     <ClCompile Include="src\packet_market.cpp" />
     <ClCompile Include="src\packet_myshop.cpp" />
     <ClCompile Include="src\packet_party.cpp" />
-    <ClCompile Include="src\revenge_mark.cpp" />
-    <ClCompile Include="src\reward_item.cpp" />
+    <ClCompile Include="src\packet_main_interface.cpp" />
+    <ClCompile Include="src\packet_reward_item.cpp" />
     <ClCompile Include="src\user_equipment.cpp" />
     <ClCompile Include="src\packet_character.cpp" />
     <ClCompile Include="src\dllmain.cpp" />

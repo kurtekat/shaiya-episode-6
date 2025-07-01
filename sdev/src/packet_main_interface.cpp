@@ -4,9 +4,9 @@
 #include "include/shaiya/include/RevengeMark.h"
 using namespace shaiya;
 
-namespace revenge_mark
+namespace packet_main_interface
 {
-    void hook(CUser* target, CUser* killer)
+    void send_revenge_mark(CUser* target, CUser* killer)
     {
         auto killerId = killer->id;
         auto targetId = target->id;
@@ -61,7 +61,7 @@ void __declspec(naked) naked_0x4656F7()
 
         push esi // killer
         push edi // target
-        call revenge_mark::hook
+        call packet_main_interface::send_revenge_mark
         add esp,0x8
 
         popad
@@ -72,7 +72,7 @@ void __declspec(naked) naked_0x4656F7()
     }
 }
 
-void hook::revenge_mark()
+void hook::packet_main_interface()
 {
     // CUser::Death
     util::detour((void*)0x4656F7, naked_0x4656F7, 6);

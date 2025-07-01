@@ -111,7 +111,7 @@
     <ClCompile Include="src\user_skill.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\revenge_mark.cpp">
+    <ClCompile Include="src\packet_main_interface.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\CObjectMgr.cpp">
@@ -150,7 +150,7 @@
     <ClCompile Include="include\shaiya\src\RevengeMark.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\reward_item.cpp">
+    <ClCompile Include="src\packet_reward_item.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\src\RewardItem.cpp">
