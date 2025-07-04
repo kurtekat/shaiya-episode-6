@@ -21,6 +21,7 @@
     <ClInclude Include="include\shaiya\include\CEffectData.h" />
     <ClInclude Include="include\shaiya\include\CEffectModel.h" />
     <ClInclude Include="include\shaiya\include\CEffectModelList.h" />
+    <ClInclude Include="include\shaiya\include\ChatType.h" />
     <ClInclude Include="include\shaiya\include\CInput.h" />
     <ClInclude Include="include\shaiya\include\CMap.h" />
     <ClInclude Include="include\shaiya\include\CMonsterData.h" />

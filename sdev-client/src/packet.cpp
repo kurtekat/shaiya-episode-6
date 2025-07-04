@@ -27,7 +27,7 @@ namespace packet
         std::memcpy(g_var->msgTargetName.data(), killer->charName.data(), killer->charName.size());
         g_var->msgTargetName[killer->charName.size() - 1] = '\0';
         g_var->msgValue = killCount;
-        Static::SysMsgToChatBox(5, 509, 1);
+        Static::SysMsgToChatBox(ChatType(1), 509, 1);
     }
 }
 

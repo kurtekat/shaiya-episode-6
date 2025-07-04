@@ -5,6 +5,7 @@
 #include "include/shaiya/include/CAniListData.h"
 #include "include/shaiya/include/CEffectData.h"
 #include "include/shaiya/include/CEffectModelList.h"
+#include "include/shaiya/include/ChatType.h"
 #include "include/shaiya/include/CInput.h"
 #include "include/shaiya/include/CMonsterData.h"
 #include "include/shaiya/include/CObjectData.h"
@@ -725,9 +726,11 @@ namespace shaiya
         // static functions
 
         static void DrawRect(D3DCOLOR argb, int x, int y, int w, int h);
-        static void SysMsgToChatBox(int messageType, int messageNumber, int unknown);
+        static void DrawText_ChatBox(ChatType chatType, const char* text, int unknown);
+        static void DrawText_ViewPoint(int x, int y, D3DCOLOR color, const char* text);
         static int GetDaSkillEffectDataId(int skillId);
         static char* GetMsg(int messageNumber);
+        static void SysMsgToChatBox(ChatType chatType, int messageNumber, int unknown);
     };
     #pragma pack(pop)
 
