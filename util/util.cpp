@@ -45,7 +45,7 @@ int util::read_memory(void* addr, void* dest, size_t size)
     return VirtualProtect(addr, size, protect, &protect);
 }
 
-int util::write_memory(void* addr, void* src, size_t size)
+int util::write_memory(void* addr, const void* src, size_t size)
 {
     if (size < 1)
         return 0;
