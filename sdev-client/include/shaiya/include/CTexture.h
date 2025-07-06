@@ -21,6 +21,7 @@ namespace shaiya
             int w, int h, 
             float a, float b, float c, float d
         );
+        static void Reset(CTexture* texture);
     };
     #pragma pack(pop)
 

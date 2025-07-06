@@ -22,3 +22,9 @@ void CTexture::Render(CTexture* texture, D3DCOLOR diffuse,
     typedef void(__thiscall* LPFN)(CTexture*, D3DCOLOR, int, int, float, int, int, float, float, float, float);
     (*(LPFN)0x57C000)(texture, diffuse, x, y, z, w, h, a, b, c, d);
 }
+
+void CTexture::Reset(CTexture* texture)
+{
+    typedef void(__thiscall* LPFN)(CTexture*);
+    (*(LPFN)0x40FE80)(texture);
+}
