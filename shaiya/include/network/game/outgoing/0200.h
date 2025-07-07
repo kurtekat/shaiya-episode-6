@@ -173,6 +173,15 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    // TP_USER_SETRUN
+    struct GameUserSetRunOutgoing
+    {
+        uint16_t opcode{ 0x210 };
+        bool enabled;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // TP_USER_SETMONEY
     struct GameUserSetMoneyOutgoing
     {
