@@ -138,7 +138,7 @@ namespace user_skill
         if (isQuest)
         {
             auto rate = user->multiplyQuestExpRate;
-            if (rate < 200)
+            if (rate <= 100)
                 return exp;
 
             auto bonus = (rate / 100.0) * exp;
@@ -147,7 +147,7 @@ namespace user_skill
 
         auto multiplier = 1.0;
         auto rate = user->multiplyExp2;
-        if (rate >= 150)
+        if (rate > 100)
             multiplier = rate / 100.0;
 
         switch (user->charmType)
