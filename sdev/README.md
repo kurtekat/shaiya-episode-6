@@ -331,7 +331,7 @@ The following data is from a 6.4 client:
 |---------|---------|--------------|
 | 222     | 1       | 150          |
 
-The ability value is expected to be greater than or equal to 150. The library will divide the ability value by 100.
+The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
 ### Skill Ability 70
 
@@ -346,7 +346,7 @@ The following items are supported:
 | 101112 | 432     | 2       |
 | 101113 | 432     | 3       |
 
-The ability value is expected to be greater than or equal to 200. The library will divide the ability value by 100.
+The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
 ## Chaotic Squares
 
