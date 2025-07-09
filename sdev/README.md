@@ -279,7 +279,7 @@ The client library adds support for system message 509.
 
 ## Skill Abilities
 
-Unsupported ability types will not be implemented.
+This library adds support for episode 6 skill abilities 70, 87, and 35 (exp stones). **It does not affect other skills.**
 
 | SkillId | Ability | Supported          |
 |---------|---------|--------------------|
@@ -319,17 +319,13 @@ The library modifies `CUser::AddExpFromUser` to support 6.4 skill ability values
 
 | ItemId | SkillId | SkillLv | AbilityValue |
 |--------|---------|---------|--------------|
+| 100042 | 222     | 1       | 150          |
+| 100043 | 223     | 1       | 150          |
 | 101114 | 426     | 2       | 500          |
 | 101115 | 426     | 3       | 1000         |
 | 101117 | 427     | 2       | 500          |
 | 101121 | 434     | 2       | 200          |
 | 101122 | 434     | 3       | 200          |
-
-The following data is from a 6.4 client:
-
-| SkillId | SkillLv | AbilityValue |
-|---------|---------|--------------|
-| 222     | 1       | 150          |
 
 The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
@@ -339,7 +335,7 @@ The effect(s) will be removed a few seconds after the skill has been stopped.
 
 ### Skill Ability 87
 
-The following items are supported:
+Use the following items to get started:
 
 | ItemId | SkillId | SkillLv |
 |--------|---------|---------|
