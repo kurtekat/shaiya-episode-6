@@ -112,6 +112,7 @@ void Main()
     hook::packet_market();
     hook::packet_myshop();
     hook::packet_party();
+    hook::packet_pc();
     hook::packet_quest();
     hook::packet_reward_item();
     hook::packet_shop();

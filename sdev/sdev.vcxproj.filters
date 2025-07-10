@@ -159,6 +159,9 @@
     <ClCompile Include="src\world_thread.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\packet_pc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">

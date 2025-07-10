@@ -14,6 +14,7 @@ namespace hook
     void packet_market();
     void packet_myshop();
     void packet_party();
+    void packet_pc();
     void packet_quest();
     void packet_reward_item();
     void packet_shop();

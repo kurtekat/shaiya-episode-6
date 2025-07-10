@@ -39,6 +39,7 @@
     <ClCompile Include="include\shaiya\src\Synthesis.cpp" />
     <ClCompile Include="src\item_effect.cpp" />
     <ClCompile Include="src\packet_mailbox.cpp" />
+    <ClCompile Include="src\packet_pc.cpp" />
     <ClCompile Include="src\packet_quest.cpp" />
     <ClCompile Include="src\packet_exchange.cpp" />
     <ClCompile Include="src\packet_market.cpp" />
