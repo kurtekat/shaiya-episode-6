@@ -899,7 +899,7 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Handles incoming 0x811 packets. ES client 171 supports this feature.
+    /// Handles incoming 0x811 packets. See the docs for a list of supported clients.
     /// </summary>
     void handler_0x811(CUser* user, GameItemAbilityTransferIncoming* incoming)
     {

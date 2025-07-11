@@ -11,6 +11,10 @@
 #include "include/shaiya/include/SConnection.h"
 using namespace shaiya;
 
+/// <summary>
+/// See the docs for a list of supported clients.
+/// </summary>
+
 namespace packet_reward_item
 {
     void handler(CUser* user, TP_MAIN* packet)

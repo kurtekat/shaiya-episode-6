@@ -64,14 +64,14 @@ void RewardItemEvent::sendItemList(CUser* user)
     GameRewardItemListOutgoing outgoing{};
     outgoing.itemCount = static_cast<uint32_t>(g_rewardItems.size());
 
-    for (auto&& [dest, item] : std::views::zip(
+    for (auto&& [unit, item] : std::views::zip(
         outgoing.itemList,
         std::as_const(g_rewardItems)))
     {
-        dest.minutes = item.delay.count();
-        dest.type = item.type;
-        dest.typeId = item.typeId;
-        dest.count = item.count;
+        unit.minutes = item.delay.count();
+        unit.type = item.type;
+        unit.typeId = item.typeId;
+        unit.count = item.count;
     }
     
     auto length = outgoing.baseLength + (outgoing.itemCount * sizeof(RewardItemUnit));
