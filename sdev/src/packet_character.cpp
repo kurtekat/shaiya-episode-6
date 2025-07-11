@@ -51,7 +51,12 @@ namespace packet_character
     }
 
     /// <summary>
-    /// Sends packet 0x711 (6.4) to the user. The item dates will be zero.
+    /// Sends packet 0x711 (6.4) to the user. The item dates will be zero. 
+    /// 
+    /// EP5:   7 + 33 * 50 = 1657 // ok
+    /// EP6.4: 7 + 41 * 50 = 2057 // not ok (exceeds 2048)
+    /// EP6.4: 7 + 41 * 40 = 1647 // ok
+    /// 
     /// </summary>
     void send_0x711(CUser* user)
     {

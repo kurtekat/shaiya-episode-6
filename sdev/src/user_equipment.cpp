@@ -232,8 +232,8 @@ void hook::user_equipment()
     util::write_memory((void*)0x468B5D, max_equipment_slot, 1);
     // CUser::ClearEquipment
     util::write_memory((void*)0x46BCCF, max_equipment_slot, 1);
-    // CUser::PacketAdminCmdD
-    // The client does not support more than 13 items (0xF901)
+    // CUser::PacketAdminCmdD (0xF901)
+    // The client does not support more than 13 items (thanks, xarel)
     //util::write_memory((void*)0x482896, max_equipment_slot, 1);
 
     // change 0x199 (user->itemQualityLv) to 0x62A0
