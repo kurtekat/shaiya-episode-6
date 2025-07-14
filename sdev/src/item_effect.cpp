@@ -127,7 +127,10 @@ namespace item_effect
             }
 
             if (rate > 0)
-                money += (rate / money) * 100;
+            {
+                auto bonus = (rate * money) / 100;
+                money += bonus;
+            }
 
             CUser::ItemGetMoney(user, money);
             return 1;
