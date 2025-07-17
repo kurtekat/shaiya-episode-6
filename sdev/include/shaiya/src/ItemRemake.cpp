@@ -30,9 +30,9 @@ void ItemRemake4::init()
                 continue;
 
             ItemRemake remake{};
-            remake.itemId1 = std::stoi(pairs[0].second);
-            remake.itemId2 = std::stoi(pairs[1].second);
-            remake.itemId3 = std::stoi(pairs[2].second);
+            remake.items[0] = std::stoi(pairs[0].second);
+            remake.items[1] = std::stoi(pairs[1].second);
+            remake.items[2] = std::stoi(pairs[2].second);
             remake.createType = std::stoi(pairs[3].second);
             remake.createTypeId = std::stoi(pairs[4].second);
             g_itemRemake4.push_back(remake);
@@ -67,9 +67,9 @@ void ItemRemake5::init()
                 continue;
 
             ItemRemake remake{};
-            remake.itemId1 = std::stoi(pairs[0].second);
-            remake.itemId2 = std::stoi(pairs[1].second);
-            remake.itemId3 = std::stoi(pairs[2].second);
+            remake.items[0] = std::stoi(pairs[0].second);
+            remake.items[1] = std::stoi(pairs[1].second);
+            remake.items[2] = std::stoi(pairs[2].second);
             remake.createType = std::stoi(pairs[3].second);
             remake.createTypeId = std::stoi(pairs[4].second);
             g_itemRemake5.push_back(remake);
