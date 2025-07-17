@@ -58,7 +58,7 @@ namespace shaiya
         uint8_t materialCount;
         uint8_t itemBag;
         uint8_t itemSlot;
-        bool safetyCharm;
+        bool itemProtect;
         uint32_t npcId;
     };
     #pragma pack(pop)

@@ -75,7 +75,8 @@ namespace shaiya
     {
         Success,
         Failure,
-        NotAllowed
+        Failure_MakeTypeQ,
+        Failure_MakeTypeB,
     };
 
     #pragma pack(push, 1)
@@ -88,46 +89,28 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct GameItemRemake2Result : uint8_t
-    {
-        Success,
-        Failure
-    };
-
     #pragma pack(push, 1)
     struct GameItemRemake2Outgoing
     {
         uint16_t opcode{ 0x808 };
-        GameItemRemake2Result result;
+        GameItemRemakeResult result;
     };
     #pragma pack(pop)
-
-    enum struct GameItemRemake5Result : uint8_t
-    {
-        Success,
-        Failure
-    };
 
     #pragma pack(push, 1)
     struct GameItemRemake5Outgoing
     {
         uint16_t opcode{ 0x80B };
-        GameItemRemake5Result result;
+        GameItemRemakeResult result;
         ItemUnit newItem;
     };
     #pragma pack(pop)
-
-    enum struct GameItemRemake4Result : uint8_t
-    {
-        Success,
-        Failure
-    };
 
     #pragma pack(push, 1)
     struct GameItemRemake4Outgoing
     {
         uint16_t opcode{ 0x80C };
-        GameItemRemake4Result result;
+        GameItemRemakeResult result;
         ItemUnit newItem;
     };
     #pragma pack(pop)
