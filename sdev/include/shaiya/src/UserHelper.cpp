@@ -26,6 +26,54 @@
 #include "include/shaiya/include/UserHelper.h"
 using namespace shaiya;
 
+bool UserHelper::FindItem(CUser* user, int type, int typeId, uint count, int& outBag, int& outSlot)
+{
+    outBag = 1;
+    while (outBag <= user->bagsUnlocked)
+    {
+        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        {
+            auto& item = user->inventory[outBag][outSlot];
+            if (!item)
+                continue;
+
+            if (item->count < count)
+                continue;
+
+            if (item->type == type && item->typeId == typeId)
+                return true;
+        }
+
+        ++outBag;
+    }
+
+    return false;
+}
+
+bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint count, int& outBag, int& outSlot)
+{
+    outBag = 1;
+    while (outBag <= user->bagsUnlocked)
+    {
+        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        {
+            auto& item = user->inventory[outBag][outSlot];
+            if (!item)
+                continue;
+
+            if (item->count < count)
+                continue;
+
+            if (item->info->effect == itemEffect)
+                return true;
+        }
+
+        ++outBag;
+    }
+
+    return false;
+}
+
 bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& outBag, int& outSlot)
 {
     if (count < 1 || count > itemInfo->count)
@@ -48,7 +96,7 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& ou
 
 bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
 {
-    if (!bag || bag >= user->inventory.size() || slot >= max_inventory_slot)
+    if (!bag || bag > uint(user->bagsUnlocked) || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -102,62 +150,6 @@ bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
     }
 
     return true;
-}
-
-bool UserHelper::ItemRemove(CUser* user, ItemInfo* itemInfo, uint count)
-{
-    for (const auto& [bag, items] : std::views::enumerate(
-        std::as_const(user->inventory)))
-    {
-        if (!bag)
-            continue;
-
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(items)))
-        {
-            if (!item)
-                continue;
-
-            if (item->info->itemId != itemInfo->itemId)
-                continue;
-
-            if (item->count < count)
-                continue;
-
-            if (ItemRemove(user, bag, slot, count))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-bool UserHelper::ItemRemove(CUser* user, ItemEffect itemEffect, uint count)
-{
-    for (const auto& [bag, items] : std::views::enumerate(
-        std::as_const(user->inventory)))
-    {
-        if (!bag)
-            continue;
-
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(items)))
-        {
-            if (!item)
-                continue;
-
-            if (item->info->effect != itemEffect)
-                continue;
-
-            if (item->count < count)
-                continue;
-
-            if (ItemRemove(user, bag, slot, count))
-                return true;
-        }
-    }
-
-    return false;
 }
 
 void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, float z, int movePosType, uint delay)
