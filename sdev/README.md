@@ -118,7 +118,7 @@ The client expects the merchant type of the npc to be 20 (Alchemist).
 
 ### Lapis Combination
 
-The client expects the 3 items to be the same. Use the following example to get started:
+The client expects the remake items to be the same. Use the following example to get started:
 
 ```ini
 ; PSM_Client\Bin\Data\ItemRemake5.ini
@@ -127,43 +127,43 @@ The client expects the 3 items to be the same. Use the following example to get 
 ItemID1=30005
 ItemID2=30005
 ItemID3=30005
-CreateType=30
-CreateTypeID=6
+NewItemType=30
+NewItemTypeID=6
 
 [ItemRemake_2]
 ItemID1=30012
 ItemID2=30012
 ItemID3=30012
-CreateType=30
-CreateTypeID=13
+NewItemType=30
+NewItemTypeID=13
 
 [ItemRemake_3]
 ItemID1=30019
 ItemID2=30019
 ItemID3=30019
-CreateType=30
-CreateTypeID=20
+NewItemType=30
+NewItemTypeID=20
 
 [ItemRemake_4]
 ItemID1=30026
 ItemID2=30026
 ItemID3=30026
-CreateType=30
-CreateTypeID=27
+NewItemType=30
+NewItemTypeID=27
 
 [ItemRemake_5]
 ItemID1=30033
 ItemID2=30033
 ItemID3=30033
-CreateType=30
-CreateTypeID=34
+NewItemType=30
+NewItemTypeID=34
 
 [ItemRemake_6]
 ItemID1=30040
 ItemID2=30040
 ItemID3=30040
-CreateType=30
-CreateTypeID=41
+NewItemType=30
+NewItemTypeID=41
 ```
 
 Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack. `ReqIg` values 30 and 99 are not allowed.
@@ -174,7 +174,7 @@ Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than
 
 ### Lapisian Combination
 
-The client expects the 3 items to be the same. Use the following example to get started:
+The client expects the remake items to be the same. Use the following example to get started:
 
 ```ini
 ; PSM_Client\Bin\Data\ItemRemake4.ini
@@ -183,29 +183,29 @@ The client expects the 3 items to be the same. Use the following example to get 
 ItemID1=95001
 ItemID2=95001
 ItemID3=95001
-CreateType=95
-CreateTypeID=2
+NewItemType=95
+NewItemTypeID=2
 
 [ItemRemake_2]
 ItemID1=95006
 ItemID2=95006
 ItemID3=95006
-CreateType=95
-CreateTypeID=7
+NewItemType=95
+NewItemTypeID=7
 
 [ItemRemake_3]
 ItemID1=95002
 ItemID2=95002
 ItemID3=95002
-CreateType=95
-CreateTypeID=4
+NewItemType=95
+NewItemTypeID=4
 
 [ItemRemake_4]
 ItemID1=95007
 ItemID2=95007
 ItemID3=95007
-CreateType=95
-CreateTypeID=9
+NewItemType=95
+NewItemTypeID=9
 ```
 
 Lapisian combination requires 1 Crowley Liquid. The client does not allow more than one lapisian from the same stack.
@@ -359,9 +359,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=6
-CreateCount=1
+NewItemType=30
+NewItemTypeID=6
+NewItemCount=1
 
 [ChaoticSquare_2]
 ItemID=102073
@@ -369,9 +369,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=12,12,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=13
-CreateCount=1
+NewItemType=30
+NewItemTypeID=13
+NewItemCount=1
 
 [ChaoticSquare_3]
 ItemID=102073
@@ -379,9 +379,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=20
-CreateCount=1
+NewItemType=30
+NewItemTypeID=20
+NewItemCount=1
 
 [ChaoticSquare_4]
 ItemID=102073
@@ -389,9 +389,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=27
-CreateCount=1
+NewItemType=30
+NewItemTypeID=27
+NewItemCount=1
 
 [ChaoticSquare_5]
 ItemID=102073
@@ -399,9 +399,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=33,33,33,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=34
-CreateCount=1
+NewItemType=30
+NewItemTypeID=34
+NewItemCount=1
 
 [ChaoticSquare_6]
 ItemID=102073
@@ -409,9 +409,9 @@ SuccessRate=80
 MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialTypeID=40,40,40,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-CreateType=30
-CreateTypeID=41
-CreateCount=1
+NewItemType=30
+NewItemTypeID=41
+NewItemCount=1
 ```
 
 ### Money
