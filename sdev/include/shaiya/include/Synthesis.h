@@ -14,9 +14,9 @@ namespace shaiya
         Array<uint8_t, 24> materialType;
         Array<uint8_t, 24> materialTypeId;
         Array<uint8_t, 24> materialCount;
-        int32_t createType;
-        int32_t createTypeId;
-        int32_t createCount;
+        int32_t newItemType;
+        int32_t newItemTypeId;
+        int32_t newItemCount;
 
         static void init();
 

@@ -63,9 +63,9 @@ void Synthesis::init()
                 std::get<2>(itemList[i]) = std::stoi(vec3[i]);
             }
 
-            synthesis.createType = std::stoi(pairs[5].second);
-            synthesis.createTypeId = std::stoi(pairs[6].second);
-            synthesis.createCount = std::stoi(pairs[7].second);
+            synthesis.newItemType = std::stoi(pairs[5].second);
+            synthesis.newItemTypeId = std::stoi(pairs[6].second);
+            synthesis.newItemCount = std::stoi(pairs[7].second);
 
             if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
                 it->second.push_back(synthesis);

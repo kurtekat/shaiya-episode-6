@@ -42,7 +42,7 @@ namespace shaiya
         uint8_t materialCount;
         uint8_t itemBag;
         uint8_t itemSlot;
-        bool safetyCharm;
+        bool itemProtect;
     };
     #pragma pack(pop)
 
@@ -136,9 +136,9 @@ namespace shaiya
         uint8_t lapisSlot1;
         uint8_t lapisSlot2;
         uint8_t lapisSlot3;
-        uint8_t essenceBag;
-        uint8_t essenceSlot;
-        uint8_t essenceCount;
+        uint8_t vialBag;
+        uint8_t vialSlot;
+        uint8_t vialCount;
     };
     #pragma pack(pop)
 
@@ -152,9 +152,9 @@ namespace shaiya
         uint8_t lapisSlot1;
         uint8_t lapisSlot2;
         uint8_t lapisSlot3;
-        uint8_t essenceBag;
-        uint8_t essenceSlot;
-        uint8_t essenceCount;
+        uint8_t vialBag;
+        uint8_t vialSlot;
+        uint8_t vialCount;
         uint32_t npcId;
     };
     #pragma pack(pop)
@@ -169,9 +169,9 @@ namespace shaiya
         uint8_t lapisianSlot1;
         uint8_t lapisianSlot2;
         uint8_t lapisianSlot3;
-        uint8_t liquidBag;
-        uint8_t liquidSlot;
-        uint8_t liquidCount;
+        uint8_t vialBag;
+        uint8_t vialSlot;
+        uint8_t vialCount;
     };
     #pragma pack(pop)
 
@@ -185,9 +185,9 @@ namespace shaiya
         uint8_t lapisianSlot1;
         uint8_t lapisianSlot2;
         uint8_t lapisianSlot3;
-        uint8_t liquidBag;
-        uint8_t liquidSlot;
-        uint8_t liquidCount;
+        uint8_t vialBag;
+        uint8_t vialSlot;
+        uint8_t vialCount;
         uint32_t npcId;
     };
     #pragma pack(pop)
@@ -246,8 +246,8 @@ namespace shaiya
     struct GameItemSynthesisListIncoming
     {
         uint16_t opcode{ 0x830 };
-        uint8_t squareBag;
-        uint8_t squareSlot;
+        uint8_t chaoticSquareBag;
+        uint8_t chaoticSquareSlot;
     };
     #pragma pack(pop)
 
@@ -255,8 +255,8 @@ namespace shaiya
     struct GameItemSynthesisMaterialIncoming
     {
         uint16_t opcode{ 0x831 };
-        uint8_t createType;
-        uint8_t createTypeId;
+        uint8_t newItemType;
+        uint8_t newItemTypeId;
         uint32_t index;
     };
     #pragma pack(pop)
@@ -265,8 +265,8 @@ namespace shaiya
     struct GameItemSynthesisIncoming
     {
         uint16_t opcode{ 0x832 };
-        uint8_t squareBag;
-        uint8_t squareSlot;
+        uint8_t chaoticSquareBag;
+        uint8_t chaoticSquareSlot;
         uint32_t money;
         uint32_t index;
         uint8_t hammerBag;
@@ -278,8 +278,8 @@ namespace shaiya
     struct GameItemFreeSynthesisIncoming
     {
         uint16_t opcode{ 0x833 };
-        uint8_t squareBag;
-        uint8_t squareSlot;
+        uint8_t chaoticSquareBag;
+        uint8_t chaoticSquareSlot;
         uint32_t money;
         uint8_t hammerBag;
         uint8_t hammerSlot;

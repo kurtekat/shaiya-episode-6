@@ -170,8 +170,8 @@ namespace shaiya
     struct GameItemSynthesisListOutgoing
     {
         uint16_t opcode{ 0x830 };
-        Array<uint8_t, 10> createType;
-        Array<uint8_t, 10> createTypeId;
+        Array<uint8_t, 10> newItemType;
+        Array<uint8_t, 10> newItemTypeId;
         uint32_t goldPerPercentage;
     };
     #pragma pack(pop)
@@ -183,11 +183,11 @@ namespace shaiya
         // e.g. 10000 = 100%
         uint32_t successRate;
         Array<uint8_t, 24> materialType;
-        uint8_t createType;
+        uint8_t newItemType;
         Array<uint8_t, 24> materialTypeId;
-        uint8_t createTypeId;
+        uint8_t newItemTypeId;
         Array<uint8_t, 24> materialCount;
-        uint8_t createCount;
+        uint8_t newItemCount;
     };
     #pragma pack(pop)
 

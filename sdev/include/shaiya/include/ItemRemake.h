@@ -9,8 +9,8 @@ namespace shaiya
     struct ItemRemake
     {
         std::array<uint32_t, 3> items;
-        int32_t createType;
-        int32_t createTypeId;
+        int32_t newItemType;
+        int32_t newItemTypeId;
     };
     #pragma pack(pop)
 
