@@ -14,9 +14,9 @@ namespace shaiya
         static bool FindItem(CUser* user, ItemEffect itemEffect, uint count, int& outBag, int& outSlot);
         static bool ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& outBag, int& outSlot);
         static bool ItemRemove(CUser* user, uint bag, uint slot, uint count);
-        static void SetMovePosition(CUser* user, uint mapId, float x, float y, float z, int movePosType, uint delay);
-        static void SetMovePosition(CUser* user, uint mapId, SVector* pos, int movePosType, uint delay);
-        static bool Move(CUser* user, uint mapId, float x, float y, float z, int movePosType, uint delay);
-        static bool Move(CUser* user, uint mapId, SVector* pos, int movePosType, uint delay);
+        static void SetMovePosition(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay);
+        static void SetMovePosition(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay);
+        static bool Move(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay);
+        static bool Move(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay);
     };
 }

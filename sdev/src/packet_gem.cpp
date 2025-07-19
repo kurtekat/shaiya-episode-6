@@ -160,17 +160,17 @@ namespace packet_gem
         if (lapis3->info->reqIg == 30 || lapis3->info->reqIg == 99)
             return;
 
-        int vialCount = 0;
+        int requiredCount = 0;
         if (lapis1->info->reqIg >= 36)
-            ++vialCount;
+            ++requiredCount;
 
         if (lapis2->info->reqIg >= 36)
-            ++vialCount;
+            ++requiredCount;
 
         if (lapis3->info->reqIg >= 36)
-            ++vialCount;
+            ++requiredCount;
 
-        if (vial->count < vialCount)
+        if (vial->count < requiredCount)
             return;
 
         auto itemId1 = lapis1->info->itemId;
@@ -192,7 +192,7 @@ namespace packet_gem
             UserHelper::ItemRemove(user, incoming->lapisBag1, incoming->lapisSlot1, 1);
             UserHelper::ItemRemove(user, incoming->lapisBag2, incoming->lapisSlot2, 1);
             UserHelper::ItemRemove(user, incoming->lapisBag3, incoming->lapisSlot3, 1);
-            UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, vialCount);
+            UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, requiredCount);
 
             int bag{}, slot{};
             if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))

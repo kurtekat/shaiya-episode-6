@@ -21,9 +21,9 @@ namespace item_effect
     /// <summary>
     /// Adds support for additional item effects.
     /// </summary>
-    int hook(CUser* user, CItem* item, ItemEffect effect, uint bag, uint slot)
+    int hook(CUser* user, CItem* item, ItemEffect itemEffect, uint bag, uint slot)
     {
-        switch (effect)
+        switch (itemEffect)
         {
         case ItemEffect::TownMoveScroll:
         {
@@ -70,7 +70,7 @@ namespace item_effect
             auto x = gateKeeper->gates[index].x;
             auto y = gateKeeper->gates[index].y;
             auto z = gateKeeper->gates[index].z;
-            UserHelper::SetMovePosition(user, mapId, x, y, z, int(UserMovePosType::TownMoveScroll), 5000);
+            UserHelper::SetMovePosition(user, mapId, x, y, z, UserMovePosType::TownMoveScroll, 5000);
 
             GameUserItemCastOutgoing outgoing{};
             outgoing.objectId = user->id;
@@ -87,7 +87,7 @@ namespace item_effect
     /// </summary>
     int zone_enter_item_hook(CItem* item, int enterType)
     {
-        if (enterType != std::to_underlying(GameItemZoneEnterType::MobDrop))
+        if (enterType != static_cast<int>(GameItemZoneEnterType::MobDrop))
             return 0;
 
         if (!item->zone)
@@ -97,7 +97,7 @@ namespace item_effect
         if (!user)
             return 0;
 
-        auto& pet = user->inventory[0][int(EquipmentSlot::Pet)];
+        auto& pet = user->inventory[0][static_cast<int>(EquipmentSlot::Pet)];
         if (!pet)
             return 0;
 
@@ -107,8 +107,8 @@ namespace item_effect
             if (!money)
                 return 0;
 
-            auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetPickGoldDrop && effect != ItemEffect::PetPickDrop)
+            auto itemEffect = pet->info->effect;
+            if (itemEffect != ItemEffect::PetPickGoldDrop && itemEffect != ItemEffect::PetPickDrop)
                 return 0;
 
             auto rate = user->increaseGoldDropRate;
@@ -143,8 +143,8 @@ namespace item_effect
             if (item->info->realType == RealType::Quest)
                 return 0;
 
-            auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetPickItemDrop && effect != ItemEffect::PetPickDrop)
+            auto itemEffect = pet->info->effect;
+            if (itemEffect != ItemEffect::PetPickItemDrop && itemEffect != ItemEffect::PetPickDrop)
                 return 0;
 
             CUser::ItemGet(user, item);

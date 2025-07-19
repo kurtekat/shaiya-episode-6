@@ -75,9 +75,9 @@ void CUser::GetGuildName(CUser* user, char* output)
     }
 }
 
-int CUser::GetPartyType(CUser* user)
+PartyType CUser::GetPartyType(CUser* user)
 {
-    typedef int(__stdcall* LPFN)(CUser*);
+    typedef PartyType(__stdcall* LPFN)(CUser*);
     return (*(LPFN)0x49B120)(user);
 }
 
