@@ -227,7 +227,8 @@ namespace shaiya
     {
         None,
         Death,
-        Combat
+        Combat,
+        Casting
     };
 
     enum struct UserTargetType : int32_t
@@ -240,8 +241,8 @@ namespace shaiya
     enum struct UserVehicleStatus : int32_t
     {
         None, 
-        Wait, 
-        Ride
+        Casting,
+        Riding
     };
 
     enum struct UserWhere : int32_t
@@ -492,7 +493,7 @@ namespace shaiya
         static void GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GemEquipmentRem(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
-        static int GetPartyType(CUser* user);
+        static PartyType GetPartyType(CUser* user);
         static void InitEquipment(CUser* user/*ecx*/);
         static void InitEquipment(CUser* user/*ecx*/, bool reset);
         static void ItemBagToBag(CUser* user/*ecx*/, int srcBag, int srcSlot, int destBag, int destSlot);

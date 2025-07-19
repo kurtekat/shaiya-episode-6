@@ -96,7 +96,7 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& ou
 
 bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
 {
-    if (!bag || bag > uint(user->bagsUnlocked) || slot >= max_inventory_slot)
+    if (!bag || bag > static_cast<uint>(user->bagsUnlocked) || slot >= max_inventory_slot)
         return false;
 
     auto& item = user->inventory[bag][slot];
@@ -152,7 +152,7 @@ bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
     return true;
 }
 
-void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, float z, int movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
 {
     if (delay < 500)
         delay = 500;
@@ -161,16 +161,16 @@ void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, floa
     user->movePos.x = x;
     user->movePos.y = y;
     user->movePos.z = z;
-    user->movePosType = UserMovePosType(movePosType);
+    user->movePosType = movePosType;
     user->movePosTime = GetTickCount() + delay;
 }
 
-void UserHelper::SetMovePosition(CUser* user, uint mapId, SVector* pos, int movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay)
 {
     UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
 
-bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, int movePosType, uint delay)
+bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
 {
     if (delay < 500)
         delay = 500;
@@ -190,7 +190,7 @@ bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, int mo
     return true;
 }
 
-bool UserHelper::Move(CUser* user, uint mapId, SVector* pos, int movePosType, uint delay)
+bool UserHelper::Move(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay)
 {
     return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
