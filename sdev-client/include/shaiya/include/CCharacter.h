@@ -37,6 +37,15 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
+    struct CharacterEquipment
+    {
+        Array<uint8_t, 17> type;
+        Array<uint8_t, 17> typeId;
+        Array<uint8_t, 17> enchantStep;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // 00419800 ctor
     struct CCharacter
     {
@@ -83,9 +92,8 @@ namespace shaiya
         Sex sex;                      //0x19F
         Job job;                      //0x1A0
         PAD(7);
-        ItemList<17> equipment;       //0x1A8
-        // 0x1CA (2 pad bytes)
-        PAD(18);
+        CharacterEquipment equipment; //0x1A8
+        PAD(1);
         uint32_t attackTime;          //0x1DC
         uint32_t actionTime;          //0x1E0
         CharacterAction actionType2;  //0x1E4
