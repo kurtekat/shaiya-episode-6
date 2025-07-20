@@ -3,6 +3,7 @@
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>
@@ -82,32 +83,8 @@ namespace shaiya
         Sex sex;                      //0x19F
         Job job;                      //0x1A0
         PAD(7);
-        uint8_t helmetType;           //0x1A8
-        uint8_t upperType;            //0x1A9
-        uint8_t lowerType;            //0x1AA
-        uint8_t gloveType;            //0x1AB
-        uint8_t bootType;             //0x1AC
-        uint8_t weaponType;           //0x1AD
-        uint8_t shieldType;           //0x1AE
-        uint8_t mantleType;           //0x1AF
-        PAD(5);
-        uint8_t vehicleType;          //0x1B5
-        uint8_t petType;              //0x1B6
-        uint8_t costumeType;          //0x1B7
-        uint8_t wingsType;            //0x1B8
-        uint8_t helmetTypeId;         //0x1B9
-        uint8_t upperTypeId;          //0x1BA
-        uint8_t lowerTypeId;          //0x1BB
-        uint8_t gloveTypeId;          //0x1BC
-        uint8_t bootTypeId;           //0x1BD
-        uint8_t weaponTypeId;         //0x1BE
-        uint8_t shieldTypeId;         //0x1BF
-        uint8_t mantleTypeId;         //0x1C0
-        PAD(5);
-        uint8_t vehicleTypeId;        //0x1C6
-        uint8_t petTypeId;            //0x1C7
-        uint8_t costumeTypeId;        //0x1C8
-        uint8_t wingsTypeId;          //0x1C9
+        ItemList<17> equipment;       //0x1A8
+        // 0x1CA (2 pad bytes)
         PAD(18);
         uint32_t attackTime;          //0x1DC
         uint32_t actionTime;          //0x1E0
