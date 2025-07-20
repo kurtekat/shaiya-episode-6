@@ -102,8 +102,40 @@ namespace shaiya
         uint32_t health;                      //0x914478  0x72A8
         uint32_t mana;                        //0x91447C  0x72AC
         uint32_t stamina;                     //0x914480  0x72B0
-        ItemList<17> equipment;               //0x914484  0x72B4
-        // 0x9144A6  0x72D6
+        uint8_t helmetType;                   //0x914484  0x72B4
+        uint8_t upperType;                    //0x914485  0x72B5
+        uint8_t lowerType;                    //0x914486  0x72B6
+        uint8_t handsType;                    //0x914487  0x72B7
+        uint8_t bootsType;                    //0x914488  0x72B8
+        uint8_t weaponType;                   //0x914489  0x72B9
+        uint8_t shieldType;                   //0x91448A  0x72BA
+        uint8_t cloakType;                    //0x91448B  0x72BB
+        uint8_t necklaceType;                 //0x91448C  0x72BC
+        uint8_t ring1Type;                    //0x91448D  0x72BD
+        uint8_t ring2Type;                    //0x91448E  0x72BE
+        uint8_t bracelet1Type;                //0x91448F  0x72BF
+        uint8_t bracelet2Type;                //0x914490  0x72C0
+        uint8_t vehicleType;                  //0x914491  0x72C1
+        uint8_t petType;                      //0x914492  0x72C2
+        uint8_t costumeType;                  //0x914493  0x72C3
+        uint8_t wingsType;                    //0x914494  0x72C4
+        uint8_t helmetTypeId;                 //0x914495  0x72C5
+        uint8_t upperTypeId;                  //0x914496  0x72C6
+        uint8_t lowerTypeId;                  //0x914497  0x72C7
+        uint8_t handsTypeId;                  //0x914498  0x72C8
+        uint8_t bootsTypeId;                  //0x914499  0x72C9
+        uint8_t weaponTypeId;                 //0x91449A  0x72CA
+        uint8_t shieldTypeId;                 //0x91449B  0x72CB
+        uint8_t cloakTypeId;                  //0x91449C  0x72CC
+        uint8_t necklaceTypeId;               //0x91449D  0x72CD
+        uint8_t ring1TypeId;                  //0x91449E  0x72CE
+        uint8_t ring2TypeId;                  //0x91449F  0x72CF
+        uint8_t bracelet1TypeId;              //0x9144A0  0x72D0
+        uint8_t bracelet2TypeId;              //0x9144A1  0x72D1
+        uint8_t vehicleTypeId;                //0x9144A2  0x72D2
+        uint8_t petTypeId;                    //0x9144A3  0x72D3
+        uint8_t costumeTypeId;                //0x9144A4  0x72D4
+        uint8_t wingsTypeId;                  //0x9144A5  0x72D5
         PAD(40);
         String<21> charName;                  //0x9144CE  0x72FE
         PAD(1);
