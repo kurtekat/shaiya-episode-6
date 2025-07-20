@@ -97,7 +97,7 @@ namespace item_effect
         if (!user)
             return 0;
 
-        auto& pet = user->inventory[0][static_cast<int>(EquipmentSlot::Pet)];
+        auto& pet = user->inventory[0][EquipmentSlot::Pet];
         if (!pet)
             return 0;
 

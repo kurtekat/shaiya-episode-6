@@ -164,7 +164,7 @@ namespace shaiya
         // 0x8858
 
         // custom
-        Array<ItemList<24>, 5> equipment;  //0x8858
+        Array<ItemList<24>, 5> equipment;     //0x8858
     };
     #pragma pack(pop)
 

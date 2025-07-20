@@ -8,16 +8,16 @@ namespace packet
 {
     void hook_0x303(CCharacter* user)
     {
-        if (!user->petType)
+        if (!user->equipment.type[EquipmentSlot::Pet])
             user->pet = nullptr;
 
-        if (!user->costumeType)
+        if (!user->equipment.type[EquipmentSlot::Costume])
         {
             user->enableCostume = 0;
             user->costume.fill(-1);
         }
 
-        if (!user->wingsType)
+        if (!user->equipment.type[EquipmentSlot::Wings])
             user->wings = nullptr;
     }
 

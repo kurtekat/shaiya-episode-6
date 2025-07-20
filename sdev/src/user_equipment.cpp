@@ -12,14 +12,14 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, EquipmentSlot slot)
+    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int equipmentSlot)
     {
         auto itemType = static_cast<ItemType>(itemInfo->type);
         auto realType = itemInfo->realType;
 
         // hint: write naked event logic here :P
 
-        switch (slot)
+        switch (equipmentSlot)
         {
         case EquipmentSlot::Helmet:
             return realType == RealType::Helmet;
@@ -35,7 +35,7 @@ namespace user_equipment
         {
             if (CItem::IsWeapon(item))
             {
-                if (!user->inventory[0][static_cast<int>(EquipmentSlot::Shield)])
+                if (!user->inventory[0][EquipmentSlot::Shield])
                     return true;
 
                 if (CItem::IsOneHandWeapon(item))
@@ -48,7 +48,7 @@ namespace user_equipment
         {
             if (realType == RealType::Shield)
             {
-                auto& item = user->inventory[0][static_cast<int>(EquipmentSlot::Weapon)];
+                auto& item = user->inventory[0][EquipmentSlot::Weapon];
                 if (!item)
                     return true;
 
@@ -101,7 +101,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (slot < static_cast<int>(EquipmentSlot::Vehicle))
+            if (slot < EquipmentSlot::Vehicle)
                 user->itemQualityEx[slot] = item->quality;
 
             CUser::ItemEquipmentAdd(user, item, slot);
@@ -128,14 +128,14 @@ namespace user_equipment
             if (std::cmp_greater_equal(slot, outgoing.itemList.size()))
                 break;
 
-            if (slot < static_cast<int>(EquipmentSlot::Wings))
+            if (slot < EquipmentSlot::Wings)
             {
                 GetInfoItemUnit_EP5 item0307{};
                 item0307.slot = slot;
                 item0307.type = item->type;
                 item0307.typeId = item->typeId;
 
-                if (slot < static_cast<int>(EquipmentSlot::Vehicle))
+                if (slot < EquipmentSlot::Vehicle)
                     item0307.quality = item->quality;
 
                 item0307.gems = item->gems;

@@ -33,6 +33,40 @@ namespace shaiya
         BasicAction = 101
     };
 
+    struct EquipmentSlot
+    {
+        enum
+        {
+            Helmet,
+            UpperArmor,
+            LowerArmor,
+            Gloves,
+            Boots,
+            Weapon,
+            Shield,
+            Cloak,
+            Necklace,
+            Ring1,
+            Ring2,
+            Bracelet1,
+            Bracelet2,
+            Vehicle,
+            Pet,
+            Costume,
+            Wings,
+
+            // Not supported
+
+            Index17,
+            Index18,
+            Index19,
+            Index20,
+            Index21,
+            Index22,
+            Index23
+        };
+    };
+
     enum struct ItemEffect : uint8_t
     {
         HypnosisCure = 1,

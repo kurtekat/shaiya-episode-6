@@ -43,7 +43,7 @@ namespace user_status
 
         auto attackPower = user->attack.power;
 
-        auto& weapon = user->inventory[0][static_cast<int>(EquipmentSlot::Weapon)];
+        auto& weapon = user->inventory[0][EquipmentSlot::Weapon];
         if (weapon)
         {
             switch (weapon->info->realType)

@@ -55,7 +55,7 @@ namespace user_shape
         user->clone->charName = target->charName;
         user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-        auto& item = target->inventory[0][static_cast<int>(EquipmentSlot::Cloak)];
+        auto& item = target->inventory[0][EquipmentSlot::Cloak];
         if (!item)
         {
             user->clone->packetLength -= sizeof(CloakInfo);
@@ -138,7 +138,7 @@ namespace user_shape
             outgoing.charName = user->charName;
             int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-            auto& item = user->inventory[0][static_cast<int>(EquipmentSlot::Cloak)];
+            auto& item = user->inventory[0][EquipmentSlot::Cloak];
             if (!item)
             {
                 length -= sizeof(CloakInfo);
@@ -227,7 +227,7 @@ namespace user_shape
             outgoing.charName = user->charName;
             int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-            auto& item = user->inventory[0][static_cast<int>(EquipmentSlot::Cloak)];
+            auto& item = user->inventory[0][EquipmentSlot::Cloak];
             if (!item)
             {
                 length -= sizeof(CloakInfo);
@@ -254,7 +254,7 @@ namespace user_shape
         GameCharShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
         outgoing.shapeType = packet->shapeType;
-        auto& vehicle = user->inventory[0][static_cast<int>(EquipmentSlot::Vehicle)];
+        auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
@@ -272,7 +272,7 @@ namespace user_shape
         GameCharShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
         outgoing.shapeType = shapeType;
-        auto& vehicle = user->inventory[0][static_cast<int>(EquipmentSlot::Vehicle)];
+        auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
         NetworkHelper::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
