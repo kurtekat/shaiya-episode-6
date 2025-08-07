@@ -241,7 +241,7 @@ namespace user_shape
     {
         UserShapeTypeOutgoing packet{};
         packet.charId = user->id;
-        packet.shapeType = util::deserialize<ShapeType>(buffer, 6);
+        packet.shapeType = util::deserialize<ShapeType>(buffer, 6, 7);
         
 #ifdef SHAIYA_EP6_4_PT
         auto& vehicle = user->inventory[0][EquipmentSlot::Vehicle];

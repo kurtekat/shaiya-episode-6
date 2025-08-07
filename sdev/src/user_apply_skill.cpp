@@ -98,14 +98,14 @@ namespace user_apply_skill
             return frenzy_handler(sender, skillInfo);
 
         SkillUseOutgoing packet{};
-        packet.targetType = util::deserialize<std::uint8_t>(buffer, 2);
+        packet.targetType = util::deserialize<std::uint8_t>(buffer, 2, 20);
         packet.senderId = sender->id;
         packet.targetId = target->id;
-        packet.skillId = util::deserialize<std::uint16_t>(buffer, 11);
-        packet.skillLv = util::deserialize<std::uint8_t>(buffer, 13);
-        packet.health = util::deserialize<std::uint16_t>(buffer, 14);
-        packet.stamina = util::deserialize<std::uint16_t>(buffer, 16);
-        packet.mana = util::deserialize<std::uint16_t>(buffer, 18);
+        packet.skillId = util::deserialize<std::uint16_t>(buffer, 11, 20);
+        packet.skillLv = util::deserialize<std::uint8_t>(buffer, 13, 20);
+        packet.health = util::deserialize<std::uint16_t>(buffer, 14, 20);
+        packet.stamina = util::deserialize<std::uint16_t>(buffer, 16, 20);
+        packet.mana = util::deserialize<std::uint16_t>(buffer, 18, 20);
 
         if (!sender->zone)
             return;

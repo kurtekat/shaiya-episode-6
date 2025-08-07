@@ -39,25 +39,30 @@ namespace packet_shop
     void send_purchase(CUser* user, Packet buffer)
     {
         constexpr int packet_size_without_list = 37;
+        constexpr int max_items = 20;
+        constexpr int max_size = packet_size_without_list + (max_items * sizeof(Item2602));
 
         PointPurchaseItemOutgoing packet{};
-        packet.opcode = util::deserialize<std::uint16_t>(buffer, 0);
-        packet.result = util::deserialize<PointPurchaseItemResult>(buffer, 2);
-        packet.points = util::deserialize<std::uint32_t>(buffer, 3);
+        packet.opcode = util::deserialize<std::uint16_t>(buffer, 0, max_size);
+        packet.result = util::deserialize<PointPurchaseItemResult>(buffer, 2, max_size);
+        packet.points = util::deserialize<std::uint32_t>(buffer, 3, max_size);
         std::memcpy(&packet.productCode, &buffer[7], packet.productCode.size());
-        packet.purchaseDate = util::deserialize<std::uint32_t>(buffer, 28);
-        packet.itemPrice = util::deserialize<std::uint32_t>(buffer, 32);
-        packet.itemCount = util::deserialize<std::uint8_t>(buffer, 36);
+        packet.purchaseDate = util::deserialize<std::uint32_t>(buffer, 28, max_size);
+        packet.itemPrice = util::deserialize<std::uint32_t>(buffer, 32, max_size);
+        packet.itemCount = util::deserialize<std::uint8_t>(buffer, 36, max_size);
+
+        if (packet.itemCount > max_items)
+            packet.itemCount = max_items;
 
         int offset = 0;
         for (int i = 0; i < packet.itemCount; ++i)
         {
             Item2602 item2602{};
-            item2602.bag = util::deserialize<std::uint8_t>(buffer, 37 + offset);
-            item2602.slot = util::deserialize<std::uint8_t>(buffer, 38 + offset);
-            item2602.type = util::deserialize<std::uint8_t>(buffer, 39 + offset);
-            item2602.typeId = util::deserialize<std::uint8_t>(buffer, 40 + offset);
-            item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset);
+            item2602.bag = util::deserialize<std::uint8_t>(buffer, 37 + offset, max_size);
+            item2602.slot = util::deserialize<std::uint8_t>(buffer, 38 + offset, max_size);
+            item2602.type = util::deserialize<std::uint8_t>(buffer, 39 + offset, max_size);
+            item2602.typeId = util::deserialize<std::uint8_t>(buffer, 40 + offset, max_size);
+            item2602.count = util::deserialize<std::uint8_t>(buffer, 41 + offset, max_size);
             packet.itemList[i] = item2602;
 
             offset += 5;

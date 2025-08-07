@@ -12,8 +12,6 @@ using namespace shaiya;
 
 namespace character_list
 {
-    inline std::map<UserId, std::array<Equipment0403, 5>> g_equipment{};
-
     void send(CUser* user, bool sendCountry)
     {
         constexpr int packet_size_without_list = 8;
@@ -53,8 +51,7 @@ namespace character_list
             character0403.mapId = character.mapId;
             character0403.deleteDate = character.deleteDate;
 
-            if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
-                character0403.equipment = it->second[character.slot];
+            character0403.equipment = user->characterEquipment[character.slot];
 
             character0403.cloakBadge = character.cloakBadge;
             character0403.charName = character.name;
@@ -68,26 +65,20 @@ namespace character_list
 
         int length = packet_size_without_list + (packet.characterCount * sizeof(Character0403));
         SConnection::Send(user->connection, &packet, length);
-
-        g_equipment.erase(user->userId);
     }
 
     void make_equipment(CUser* user)
     {
-        std::array<Equipment0403, 5> equipment{};
-        g_equipment.insert_or_assign(user->userId, equipment);
+        std::memset(&user->characterEquipment, 0, sizeof(user->characterEquipment));
     }
 
     void init_equipment(CUser* user, std::uint8_t characterSlot, std::uint8_t equipmentSlot, std::uint8_t type, std::uint8_t typeId)
     {
-        if (auto it = g_equipment.find(user->userId); it != g_equipment.end())
-        {
-            if (characterSlot >= user->characterList.size() || equipmentSlot >= item_list_size)
-                return;
+        if (characterSlot >= user->characterList.size() || equipmentSlot >= item_list_size)
+            return;
 
-            it->second[characterSlot].type[equipmentSlot] = type;
-            it->second[characterSlot].typeId[equipmentSlot] = typeId;
-        }
+        user->characterEquipment[characterSlot].type[equipmentSlot] = type;
+        user->characterEquipment[characterSlot].typeId[equipmentSlot] = typeId;
     }
 }
 

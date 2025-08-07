@@ -8,9 +8,11 @@ namespace util
     typedef void* Function;
 
     template<class Data>
-    Data deserialize(Byte* buffer, int offset)
+    Data deserialize(Byte* buffer, int offset, int size)
     {
         Data data{};
+        if (offset + sizeof(Data) > size)
+            return data;
         memcpy(&data, &buffer[offset], sizeof(Data));
         return data;
     }

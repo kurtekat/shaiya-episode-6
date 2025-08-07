@@ -32,6 +32,8 @@ namespace packet_gem
 
     void item_rune_combine_handler(CUser* user, ItemRuneCombineIncoming* incoming)
     {
+        if (!incoming)
+            return;
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
 
@@ -117,6 +119,8 @@ namespace packet_gem
 
     void item_compose_handler(CUser* user, ItemComposeIncoming* incoming)
     {
+        if (!incoming)
+            return;
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked || incoming->runeSlot >= max_inventory_slot)
             return;
 
@@ -444,6 +448,8 @@ namespace packet_gem
 
     void item_synthesis_list_handler(CUser* user, ItemSynthesisListIncoming* incoming)
     {
+        if (!incoming)
+            return;
         if (user->stateType == UserStateType::Death)
             return;
 
@@ -498,6 +504,8 @@ namespace packet_gem
 
     void item_synthesis_material_handler(CUser* user, ItemSynthesisMaterialIncoming* incoming)
     {
+        if (!incoming)
+            return;
         auto& square = user->inventory[user->recallItemBag][user->recallItemSlot];
         if (!square)
             return;
@@ -529,6 +537,8 @@ namespace packet_gem
 
     void item_synthesis_handler(CUser* user, ItemSynthesisIncoming* incoming)
     {
+        if (!incoming)
+            return;
         if (!incoming->squareBag || incoming->squareBag > user->bagsUnlocked || incoming->squareSlot >= max_inventory_slot)
             return;
 
@@ -624,6 +634,8 @@ namespace packet_gem
 
     void item_free_synthesis_handler(CUser* user, ItemFreeSynthesisIncoming* incoming)
     {
+        if (!incoming)
+            return;
     }
 }
 

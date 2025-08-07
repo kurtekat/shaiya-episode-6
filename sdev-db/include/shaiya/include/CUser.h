@@ -1,5 +1,6 @@
 #pragma once
 #include <sdev/include/shaiya/common.h>
+#include <sdev/include/shaiya/packets/dbAgent/0400.h>
 
 namespace shaiya
 {
@@ -124,6 +125,7 @@ namespace shaiya
         PAD(13452);
         // 0x3B6C
         Array<Character, 5> characterList;
+        Array<Equipment0403, 5> characterEquipment;
         // 0x3D38
         PAD(17340);
         UINT32 points;                    //0x80F4
