@@ -12,15 +12,15 @@ void __declspec(naked) naked_0x486319()
         // search index
         movzx eax,byte ptr[ebp+0x5]
         cmp eax,0x13
-        jge decrement
+        jge fix_index             // If index is >= 0x13 (19), jump to fix_index
 
-        original:
+        original_path:            // Label for the original execution path
         lea ecx,[ebp+0x7]
         jmp u0x486320
 
-        decrement:
-        dec eax
-        jmp original
+        fix_index:
+        mov eax,0x12              // Set index to 0x12 (18)
+        jmp original_path         // Jump to the original execution path
     }
 }
 
