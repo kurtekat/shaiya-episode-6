@@ -16,7 +16,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TPC_CHAT_SENDTO
-    struct GameAdminChatWhisperIncoming
+    struct GameAdminChatSendToIncoming
     {
         uint16_t opcode{ 0xF102 };
         String<21> senderName;

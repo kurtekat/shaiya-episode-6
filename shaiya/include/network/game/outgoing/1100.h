@@ -36,7 +36,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_CHAT_SENDALL
-    struct GameChatWorldOutgoing
+    struct GameChatTradeOutgoing
     {
         uint16_t opcode{ 0x1103 };
         String<21> senderName;

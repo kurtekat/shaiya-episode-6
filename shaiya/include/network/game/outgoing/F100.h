@@ -20,7 +20,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_CHAT_SENDTO
-    struct GameAdminChatWhisperOutgoing
+    struct GameAdminChatSendToOutgoing
     {
         uint16_t opcode{ 0xF102 };
         bool toSender;

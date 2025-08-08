@@ -242,7 +242,7 @@ namespace shaiya
         // 0x22AFF40  0x19A2D70
         PAD(712);
         // 0x19A3038
-        
+
         static int GetItemRealType(int itemType);
         static GuildUserData* GetGuildUserData(uint charId);
     };

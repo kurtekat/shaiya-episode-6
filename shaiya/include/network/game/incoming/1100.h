@@ -27,7 +27,7 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TPC_CHAT_SENDALL
-    struct GameChatWorldIncoming
+    struct GameChatTradeIncoming
     {
         uint16_t opcode{ 0x1103 };
         // w/ null-terminator

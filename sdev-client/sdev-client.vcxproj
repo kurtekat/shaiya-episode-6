@@ -15,6 +15,7 @@
     <ClInclude Include="include\shaiya\common.h" />
     <ClInclude Include="include\shaiya\include\3DC_Model.h" />
     <ClInclude Include="include\shaiya\include\BillingItemInfo.h" />
+    <ClInclude Include="include\shaiya\include\BlockData.h" />
     <ClInclude Include="include\shaiya\include\CAniListData.h" />
     <ClInclude Include="include\shaiya\include\CCharacterChat.h" />
     <ClInclude Include="include\shaiya\include\CDataFile.h" />
