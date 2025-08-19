@@ -120,6 +120,7 @@ void __declspec(naked) naked_0x48DC3D()
     {
         // original
         mov ecx,[esp+0xE0]
+        xor esi,esi // Success (false)
 
         pushad
 
