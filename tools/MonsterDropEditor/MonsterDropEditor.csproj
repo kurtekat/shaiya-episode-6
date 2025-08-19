@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyTitle>Shaiya Monster Drop Editor</AssemblyTitle>
+    <AssemblyDescription>A tool for editing monster drop rates in Shaiya Episode 6</AssemblyDescription>
+    <AssemblyCompany>Shaiya Community</AssemblyCompany>
+    <AssemblyProduct>Shaiya Monster Drop Editor</AssemblyProduct>
+    <Copyright>Copyright © 2025</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+    <PackageReference Include="System.Windows.Forms" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
