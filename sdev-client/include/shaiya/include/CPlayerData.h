@@ -50,9 +50,9 @@ namespace shaiya
         uint32_t money;                       //0x90D1DC  0x0C
         uint32_t bankMoney;                   //0x90D1E0  0x10
         uint32_t level;                       //0x90D1E4  0x14
-        uint32_t maxHealth;                   //0x90D1E8  0x18
-        uint32_t maxMana;                     //0x90D1EC  0x1C
-        uint32_t maxStamina;                  //0x90D1F0  0x20
+        int32_t maxHealth;                    //0x90D1E8  0x18
+        int32_t maxMana;                      //0x90D1EC  0x1C
+        int32_t maxStamina;                   //0x90D1F0  0x20
         uint32_t exp;                         //0x90D1F4  0x24
         uint32_t reqExpToLvDown;              //0x90D1F8  0x28
         uint32_t reqExpToLvUp;                //0x90D1FC  0x2C
@@ -65,18 +65,18 @@ namespace shaiya
         PAD(160);
         uint16_t statusPoints;                //0x90D2AC  0xDC
         uint16_t skillPoints;                 //0x90D2AE  0xDE
-        uint32_t abilityStrength;             //0x90D2B0  0xE0
-        uint32_t abilityReaction;             //0x90D2B4  0xE4
-        uint32_t abilityIntelligence;         //0x90D2B8  0xE8
-        uint32_t abilityWisdom;               //0x90D2BC  0xEC
-        uint32_t abilityDexterity;            //0x90D2C0  0xF0
-        uint32_t abilityLuck;                 //0x90D2C4  0xF4
-        uint32_t minAttackPower;              //0x90D2C8  0xF8
-        uint32_t maxAttackPower;              //0x90D2CC  0xFC
-        uint32_t minMagicPower;               //0x90D2D0  0x100
-        uint32_t maxMagicPower;               //0x90D2D4  0x104
-        uint32_t defense;                     //0x90D2D8  0x108
-        uint32_t resistance;                  //0x90D2DC  0x10C
+        int32_t abilityStrength;              //0x90D2B0  0xE0
+        int32_t abilityReaction;              //0x90D2B4  0xE4
+        int32_t abilityIntelligence;          //0x90D2B8  0xE8
+        int32_t abilityWisdom;                //0x90D2BC  0xEC
+        int32_t abilityDexterity;             //0x90D2C0  0xF0
+        int32_t abilityLuck;                  //0x90D2C4  0xF4
+        int32_t minAttackPower;               //0x90D2C8  0xF8
+        int32_t maxAttackPower;               //0x90D2CC  0xFC
+        int32_t minMagicPower;                //0x90D2D0  0x100
+        int32_t maxMagicPower;                //0x90D2D4  0x104
+        int32_t defense;                      //0x90D2D8  0x108
+        int32_t resistance;                   //0x90D2DC  0x10C
         PAD(4096);                            //0x90D2E0  0x110
         uint16_t mapId;                       //0x90E2E0  0x1110
         PAD(2);
@@ -99,9 +99,9 @@ namespace shaiya
         PAD(4096);                            //0x913474  0x62A4
         Sex sex;                              //0x914474  0x72A4
         PAD(3);
-        uint32_t health;                      //0x914478  0x72A8
-        uint32_t mana;                        //0x91447C  0x72AC
-        uint32_t stamina;                     //0x914480  0x72B0
+        int32_t health;                       //0x914478  0x72A8
+        int32_t mana;                         //0x91447C  0x72AC
+        int32_t stamina;                      //0x914480  0x72B0
         uint8_t helmetType;                   //0x914484  0x72B4
         uint8_t upperType;                    //0x914485  0x72B5
         uint8_t lowerType;                    //0x914486  0x72B6

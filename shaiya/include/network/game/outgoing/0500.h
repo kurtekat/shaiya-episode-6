@@ -250,9 +250,9 @@ namespace shaiya
     struct GameUserRecoverSetOutgoing
     {
         uint16_t opcode{ 0x521 };
-        uint32_t health;
-        uint32_t mana;
-        uint32_t stamina;
+        int32_t health;
+        int32_t mana;
+        int32_t stamina;
     };
     #pragma pack(pop)
 
@@ -270,18 +270,18 @@ namespace shaiya
     struct GameUserStatusOutgoing
     {
         uint16_t opcode{ 0x526 };
-        uint32_t strength;
-        uint32_t reaction;
-        uint32_t intelligence;
-        uint32_t wisdom;
-        uint32_t dexterity;
-        uint32_t luck;
-        uint32_t minAttackPower;
-        uint32_t maxAttackPower;
-        uint32_t minMagicPower;
-        uint32_t maxMagicPower;
-        uint32_t defense;
-        uint32_t resistance;
+        int32_t strength;
+        int32_t reaction;
+        int32_t intelligence;
+        int32_t wisdom;
+        int32_t dexterity;
+        int32_t luck;
+        int32_t minAttackPower;
+        int32_t maxAttackPower;
+        int32_t minMagicPower;
+        int32_t maxMagicPower;
+        int32_t defense;
+        int32_t resistance;
     };
     #pragma pack(pop)
 

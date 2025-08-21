@@ -73,12 +73,12 @@ namespace shaiya
         String<21> charName;          //0x10C
         String<51> shapeName;         //0x121
         PAD(4);
-        uint32_t health;              //0x158
-        uint32_t maxHealth;           //0x15C
-        uint32_t mana;                //0x160
-        uint32_t maxMana;             //0x164
-        uint32_t stamina;             //0x168
-        uint32_t maxStamina;          //0x16C
+        int32_t health;               //0x158
+        int32_t maxHealth;            //0x15C
+        int32_t mana;                 //0x160
+        int32_t maxMana;              //0x164
+        int32_t stamina;              //0x168
+        int32_t maxStamina;           //0x16C
         D3DVECTOR movePos;            //0x170
         D3DVECTOR moveDir;            //0x17C
         uint32_t targetId;            //0x188
