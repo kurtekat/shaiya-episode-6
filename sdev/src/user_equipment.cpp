@@ -320,4 +320,12 @@ void hook::user_equipment()
     util::write_memory((void*)0x473912, &a01, 2);
     // CUser::SendDBAgentCharGetInfo
     util::write_memory((void*)0x47AE7B, &a01, 2);
+
+    // change 0x19E (user->itemQualityLv[5]) to 0x62A5
+    std::array<uint8_t, 2> a02{ 0xA5, 0x62 };
+
+    util::write_memory((void*)0x4621F0, &a02, 2);
+    util::write_memory((void*)0x462205, &a02, 2);
+    util::write_memory((void*)0x4732C0, &a02, 2);
+    util::write_memory((void*)0x4732ED, &a02, 2);
 }
