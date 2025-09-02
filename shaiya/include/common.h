@@ -9,7 +9,7 @@
 
 namespace shaiya
 {
-    constexpr int max_equipment_slot = 24;
+    constexpr int max_equipment_slot = 17;
     constexpr int max_inventory_slot = 24;
 
     using bool32_t = uint32_t;

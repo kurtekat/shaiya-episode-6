@@ -17,8 +17,6 @@ namespace user_equipment
         auto itemType = static_cast<ItemType>(itemInfo->type);
         auto realType = itemInfo->realType;
 
-        // hint: write naked event logic here :P
-
         switch (equipmentSlot)
         {
         case EquipmentSlot::Helmet:
@@ -76,14 +74,6 @@ namespace user_equipment
             return itemType == ItemType::Costume;
         case EquipmentSlot::Wings:
             return itemType == ItemType::Wings;
-        case EquipmentSlot::Index17:
-        case EquipmentSlot::Index18:
-        case EquipmentSlot::Index19:
-        case EquipmentSlot::Index20:
-        case EquipmentSlot::Index21:
-        case EquipmentSlot::Index22:
-        case EquipmentSlot::Index23:
-            break;
         default:
             break;
         }
@@ -236,7 +226,7 @@ void hook::user_equipment()
     // The client does not support more than 13 items (thanks, xarel)
     //util::write_memory((void*)0x482896, max_equipment_slot, 1);
 
-    // change 0x199 (user->itemQualityLv) to 0x62A0
+    // user->itemQualityLv[0] (0x199 to 0x62A0)
     std::array<uint8_t, 2> a00{ 0xA0, 0x62 };
     
     // CUser::ItemEquipmentAdd
@@ -272,7 +262,7 @@ void hook::user_equipment()
     util::write_memory((void*)0x47395E, &a00, 2);
     util::write_memory((void*)0x47398F, &a00, 2);
 
-    // change 0x1A6 (user->itemQuality) to 0x62B8
+    // user->itemQuality[0] (0x1A6 to 0x62B8)
     std::array<uint8_t, 2> a01{ 0xB8, 0x62 };
 
     // CUser::ItemDropByUserDeath
@@ -321,7 +311,7 @@ void hook::user_equipment()
     // CUser::SendDBAgentCharGetInfo
     util::write_memory((void*)0x47AE7B, &a01, 2);
 
-    // change 0x19E (user->itemQualityLv[5]) to 0x62A5
+    // user->itemQualityLv[5] (0x19E to 0x62A5)
     std::array<uint8_t, 2> a02{ 0xA5, 0x62 };
 
     util::write_memory((void*)0x4621F0, &a02, 2);

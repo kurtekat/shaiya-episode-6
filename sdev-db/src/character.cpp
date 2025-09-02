@@ -13,7 +13,7 @@
 #include "include/shaiya/include/SDatabasePool.h"
 using namespace shaiya;
 
-namespace user_character
+namespace character
 {
     bool is_name_available(char* name)
     {
@@ -87,7 +87,7 @@ void __declspec(naked) naked_0x4061D3()
 
         push eax // packet
         push ecx // user
-        call user_character::handler_0x40D
+        call character::handler_0x40D
         add esp,0x8
 
         popad
@@ -97,7 +97,7 @@ void __declspec(naked) naked_0x4061D3()
     }
 }
 
-void hook::user_character()
+void hook::character()
 {
     // CUser::PacketUserChar switch
     util::detour((void*)0x4061D3, naked_0x4061D3, 6);

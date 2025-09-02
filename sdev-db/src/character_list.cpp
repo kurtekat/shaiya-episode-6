@@ -1,4 +1,3 @@
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
@@ -21,7 +20,7 @@ namespace character_list
 
         for (const auto& character : user->characterList)
         {
-            if (!character.charId || character.slot >= user->equipment.size())
+            if (!character.charId || character.slot >= 5)
                 continue;
 
             DBCharacterList_EP6_4 dbCharacter{};
@@ -48,21 +47,7 @@ namespace character_list
             dbCharacter.stamina = character.stamina;
             dbCharacter.mapId = character.mapId;
             dbCharacter.deleteDate = character.deleteDate;
-
-            for (auto&& [value, type] : std::views::zip(
-                dbCharacter.equipment.type,
-                std::as_const(user->equipment[character.slot].type)))
-            {
-                value = type;
-            }
-
-            for (auto&& [value, typeId] : std::views::zip(
-                dbCharacter.equipment.typeId,
-                std::as_const(user->equipment[character.slot].typeId)))
-            {
-                value = typeId;
-            }
-
+            dbCharacter.equipment = user->equipment[character.slot];
             dbCharacter.cloakInfo = character.cloakInfo;
             dbCharacter.charName = character.charName;
 
@@ -79,10 +64,7 @@ namespace character_list
 
     void assign_equipment(CUser* user, uint characterSlot, uint equipmentSlot, uint type, uint typeId)
     {
-        if (characterSlot >= user->equipment.size())
-            return;
-
-        if (equipmentSlot >= user->equipment[characterSlot].type.size() || equipmentSlot >= user->equipment[characterSlot].typeId.size())
+        if (characterSlot >= 5 || equipmentSlot >= max_equipment_slot)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;

@@ -17,6 +17,8 @@ short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart,
     if (SDatabase::PrepareSql(db, query.c_str()))
         return -1;
 
+    // The existing code null-terminates the incoming username and password.
+
     ret = SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(username), 0, username, 32, nullptr);
     ret = SQLBindParameter(db->stmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(password), 0, password, 32, nullptr);
     ret = SQLBindParameter(db->stmt, 3, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &sessionId, 0, nullptr);
@@ -27,7 +29,6 @@ short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart,
 
     return SDatabase::ExecuteSql(db);
 }
-
 
 unsigned u0x406B24 = 0x406B24;
 unsigned u0x406ADF = 0x406ADF;

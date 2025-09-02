@@ -52,11 +52,11 @@ void Main()
     util::detour((void*)0x4017B2, naked_0x4017B2, 6);
     // CUser::Reset
     util::detour((void*)0x403450, naked_0x403450, 6);
-    // change 0x8858 to 0x8948
-    int size = 0x8948;
+    // change 0x8858 to 0x8902
+    int size = 0x8902;
     // SSyncHeap<CUser>::Alloc
     util::write_memory((void*)0x40F474, &size, 4);
 
-    hook::user_character();
+    hook::character();
     hook::character_list();
 }

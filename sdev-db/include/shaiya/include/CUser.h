@@ -164,10 +164,10 @@ namespace shaiya
         // 0x8858
 
         // custom
-        Array<ItemList<24>, 5> equipment;     //0x8858
+        Array<ItemList<17>, 5> equipment;     //0x8858
     };
     #pragma pack(pop)
 
     //static_assert(sizeof(CUser) == 0x8858);
-    static_assert(sizeof(CUser) == 0x8948);
+    static_assert(sizeof(CUser) == 0x8902);
 }

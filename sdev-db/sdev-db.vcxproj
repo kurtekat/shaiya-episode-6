@@ -14,7 +14,7 @@
     <ClCompile Include="include\shaiya\src\SConnection.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
-    <ClCompile Include="src\user_character.cpp" />
+    <ClCompile Include="src\character.cpp" />
     <ClCompile Include="src\character_list.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\main.cpp" />

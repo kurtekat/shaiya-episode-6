@@ -53,17 +53,7 @@ namespace shaiya
             Vehicle,
             Pet,
             Costume,
-            Wings,
-
-            // Not supported
-
-            Index17,
-            Index18,
-            Index19,
-            Index20,
-            Index21,
-            Index22,
-            Index23
+            Wings
         };
     };
 

@@ -158,7 +158,7 @@
     <ClCompile Include="include\shaiya\src\SDatabasePool.cpp">
       <Filter>include\shaiya\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\user_character.cpp">
+    <ClCompile Include="src\character.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\character_list.cpp">
