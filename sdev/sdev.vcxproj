@@ -47,6 +47,7 @@
     <ClCompile Include="src\packet_party.cpp" />
     <ClCompile Include="src\packet_main_interface.cpp" />
     <ClCompile Include="src\packet_reward_item.cpp" />
+    <ClCompile Include="src\static.cpp" />
     <ClCompile Include="src\user_equipment.cpp" />
     <ClCompile Include="src\packet_character.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="include\shaiya\include\Synergy.h" />
     <ClInclude Include="include\shaiya\include\Synthesis.h" />
     <ClInclude Include="include\shaiya\include\UserInfo.h" />
+    <ClInclude Include="include\static.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -2,12 +2,12 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/util.h>
-#include <shaiya/include/common/DateTime.h>
 #include <shaiya/include/network/dbAgent/incoming/0E00.h>
 #include <shaiya/include/network/dbAgent/outgoing/0E00.h>
 #include <shaiya/include/network/game/outgoing/2600.h>
 #include <shaiya/include/network/game/PointItemUnit.h>
 #include "include/main.h"
+#include "include/static.h"
 #include "include/shaiya/include/CUser.h"
 #include "include/shaiya/include/NetworkHelper.h"
 using namespace shaiya;
@@ -41,15 +41,12 @@ namespace packet_shop
     /// </summary>
     void send_dbAgent_0xE03(CUser* user, const char* targetName, const char* productCode, uint purchasePoints)
     {
-        SYSTEMTIME lt{};
-        GetLocalTime(&lt);
-
         DBAgentPointItemGiftSendIncoming outgoing{};
         outgoing.billingId = user->billingId;
         std::memcpy(outgoing.targetName.data(), targetName, outgoing.targetName.size());
         std::memcpy(outgoing.productCode.data(), productCode, outgoing.productCode.size());
         outgoing.purchasePoints = purchasePoints;
-        outgoing.purchaseDate = DateTime::encode(lt);
+        outgoing.purchaseDate = Static::GetSystemTime();
         outgoing.purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
         NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentPointItemGiftSendIncoming));
         InterlockedExchange(&user->pointsLock, 0);
