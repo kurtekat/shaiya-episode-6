@@ -12,16 +12,14 @@ short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart,
 {
     ULARGE_INTEGER sessionId{ lowPart, highPart };
 
-    // Parameterize user-supplied data
-
     std::array<char, 1024> buffer{};
-    std::snprintf(buffer.data(), 1024, "EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,%llu,'%s';", 
+    std::snprintf(buffer.data(), buffer.size(), "EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,%llu,'%s';",
         sessionId.QuadPart, ipv4);
 
     if (SDatabase::PrepareSql(db, buffer.data()))
         return -1;
 
-    // The existing code null-terminates the username and password
+    // Parameterize user-supplied data
 
     short result = 0;
     result = SDatabase::BindParameter(db, 1, 32, SQL_C_CHAR, SQL_VARCHAR, username, nullptr, SQL_PARAM_INPUT);
