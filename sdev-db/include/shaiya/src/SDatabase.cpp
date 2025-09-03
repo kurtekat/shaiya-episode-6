@@ -1,6 +1,18 @@
 #include "include/shaiya/include/SDatabase.h"
 using namespace shaiya;
 
+short SDatabase::BindParameter(SDatabase* db/*ecx*/, int paramNum, int columSize, int valueType, int paramType, void* data, int* cbBlob, int inoutType)
+{
+    typedef short(__thiscall* LPFN)(SDatabase*, int, int, int, int, void*, int*, int);
+    return (*(LPFN)0x444D40)(db, paramNum, columSize, valueType, paramType, data, cbBlob, inoutType);
+}
+
+short SDatabase::CountRow(SDatabase* db/*ecx*/, int* rows)
+{
+    typedef short(__thiscall* LPFN)(SDatabase*, int*);
+    return (*(LPFN)0x4442B0)(db, rows);
+}
+
 short SDatabase::ExecuteSql(SDatabase* db/*ecx*/)
 {
     typedef short(__thiscall* LPFN)(SDatabase*);

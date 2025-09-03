@@ -28,6 +28,7 @@ namespace shaiya
         PAD(2);
         // 0x838
 
+        static short BindParameter(SDatabase* db/*ecx*/, int paramNum, int columSize, int valueType, int paramType, void* data, int* cbBlob, int inoutType);
         static short ExecuteSql(SDatabase* db/*ecx*/);
         static short PrepareSql(SDatabase* db/*ecx*/, const char* query);
     };

@@ -30,7 +30,7 @@ namespace character
             return false;
         }
 
-        if (FAILED(SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(name), 0, name, 19, nullptr)))
+        if (SDatabase::BindParameter(db, 1, 19, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT))
         {
             SDatabasePool::FreeDB(db);
             return false;
@@ -42,15 +42,15 @@ namespace character
             return false;
         }
 
-        long rowCount = SQL_NULL_DATA;
-        if (FAILED(SQLRowCount(db->stmt, &rowCount)))
+        int rows = SQL_NULL_DATA;
+        if (SDatabase::CountRow(db, &rows))
         {
             SDatabasePool::FreeDB(db);
             return false;
         }
 
         SDatabasePool::FreeDB(db);
-        return !rowCount;
+        return !rows;
     }
 
     /// <summary>

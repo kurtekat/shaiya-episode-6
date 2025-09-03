@@ -1,4 +1,4 @@
-#include <string>
+#include <array>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <sql.h>
@@ -10,21 +10,24 @@ using namespace shaiya;
 
 short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart, uint highPart, char* ipv4)
 {
-    short ret = 0;
     ULARGE_INTEGER sessionId{ lowPart, highPart };
 
-    std::string query("EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,?,?");
-    if (SDatabase::PrepareSql(db, query.c_str()))
+    // Parameterize user-supplied data
+
+    std::array<char, 1024> buffer{};
+    std::snprintf(buffer.data(), 1024, "EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,%llu,'%s';", 
+        sessionId.QuadPart, ipv4);
+
+    if (SDatabase::PrepareSql(db, buffer.data()))
         return -1;
 
-    // The existing code null-terminates the incoming username and password.
+    // The existing code null-terminates the username and password
 
-    ret = SQLBindParameter(db->stmt, 1, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(username), 0, username, 32, nullptr);
-    ret = SQLBindParameter(db->stmt, 2, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(password), 0, password, 32, nullptr);
-    ret = SQLBindParameter(db->stmt, 3, SQL_PARAM_INPUT, SQL_C_UBIGINT, SQL_BIGINT, 0, 0, &sessionId, 0, nullptr);
-    ret = SQLBindParameter(db->stmt, 4, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_VARCHAR, std::strlen(ipv4), 0, ipv4, 16, nullptr);
+    short result = 0;
+    result = SDatabase::BindParameter(db, 1, 32, SQL_C_CHAR, SQL_VARCHAR, username, nullptr, SQL_PARAM_INPUT);
+    result = SDatabase::BindParameter(db, 2, 32, SQL_C_CHAR, SQL_VARCHAR, password, nullptr, SQL_PARAM_INPUT);
 
-    if (FAILED(ret))
+    if (result)
         return -1;
 
     return SDatabase::ExecuteSql(db);
