@@ -16,30 +16,9 @@ C++ 23
 
 # String
 
-Constants require a template parameter.
-
 ```cpp
 #include <iostream>
-#include <util/string/string.hpp>
-
-int main(int argc, char** argv)
-{
-    std::locale::global(std::locale("es-ES"));
-
-    const wchar_t* str = L"Kurt <3 Bebé";
-    auto vec = util::string::split<wchar_t>(str, L' ');
-    for (const auto& e : vec)
-        std::wcout << e << L'\n';
-
-    return 0;
-}
-```
-
-Containers do not require a template parameter.
-
-```cpp
-#include <iostream>
-#include <util/string/string.hpp>
+#include <util/string/split.h>
 
 int main(int argc, char** argv)
 {

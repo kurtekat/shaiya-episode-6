@@ -12,6 +12,18 @@ C++ 23
 
 [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x86.exe)
 
+## Development
+
+The intent is to provide episode 6 client support. The best way to contribute is to report issues. Please don't send code because it's a pain in the ass to review, etc.
+
+### Pull Requests
+
+Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be disabled.
+
+### Issues
+
+Send me an email.
+
 ## Injection
 
 ### Cheat Engine
@@ -49,7 +61,3 @@ The files in this repository are submitted to antivirus companies for analysis w
 [Teos](https://github.com/ShaiyaTeos/Teos)
 
 [Parsec](https://github.com/matigramirez/Parsec)
-
-## Pull Requests
-
-Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be disabled.
