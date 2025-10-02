@@ -11,19 +11,10 @@
     <ClInclude Include="ini\ini.h">
       <Filter>ini</Filter>
     </ClInclude>
-    <ClInclude Include="string\split.h">
-      <Filter>string</Filter>
-    </ClInclude>
-    <ClInclude Include="string\trim.h">
-      <Filter>string</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ini">
       <UniqueIdentifier>{73e46c41-206e-4448-bdd0-9de244f4eed5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="string">
-      <UniqueIdentifier>{58be3346-7ff8-4a80-a251-99a02b170c53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
