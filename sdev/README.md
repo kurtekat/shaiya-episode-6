@@ -547,3 +547,56 @@ The item effect will determine which effect will be rendered when the pet is equ
 | 101107 | 104    | 104        |
 | 101108 | 104    | 105        |
 | 101109 | 104    | 106        |
+
+# Notes
+
+## Warehouse Items
+
+I received several reports over the course of this project about missing warehouse items. I just want to provide evidence that I believe will absolve me of this shit.
+
+### Research
+
+People who reported the issue had a teleport feature that sends invalid `0x50A` packets to the server.
+
+```
+SEND >> 0A 05 06 01
+SEND >> 0A 05 06 02
+SEND >> 0A 05 06 03
+SEND >> 0A 05 06 04
+SEND >> 0A 05 06 05
+SEND >> 0A 05 06 06
+SEND >> 0A 05 06 07
+SEND >> 0A 05 06 08
+SEND >> 0A 05 06 09
+SEND >> 0A 05 06 0A
+SEND >> 0A 05 06 0B
+SEND >> 0A 05 06 0C
+SEND >> 0A 05 06 0D
+SEND >> 0A 05 06 0E
+SEND >> 0A 05 06 0F
+SEND >> 0A 05 06 10
+```
+
+The bag value is 6, which is an out-of-range subscript.
+
+```cpp
+Array<Array<CItem*, 24>, 6> inventory;  //0x1C0
+Array<CItem*, 240> warehouse;           //0x400
+```
+
+So...
+
+```
+(24 * 4) + 0x1C0 = 0x220 // inventory[1][0]
+(24 * 4) + 0x220 = 0x280 // inventory[2][0]
+(24 * 4) + 0x280 = 0x2E0 // inventory[3][0]
+(24 * 4) + 0x2E0 = 0x340 // inventory[4][0]
+(24 * 4) + 0x340 = 0x3A0 // inventory[5][0]
+(24 * 4) + 0x3A0 = 0x400 // warehouse[0]
+
+inventory[6][0] = warehouse[0] (0x400)
+inventory[6][1] = warehouse[1] (0x404)
+inventory[6][2] = warehouse[2] (0x408)
+inventory[6][3] = warehouse[3] (0x40C)
+and so on...
+```
