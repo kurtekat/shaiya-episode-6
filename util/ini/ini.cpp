@@ -83,7 +83,7 @@ std::wstring util::ini::get_value(const wchar_t* section, const wchar_t* key, co
     return buffer;
 }
 
-int util::ini::set_value(const wchar_t* section, const wchar_t* key, const wchar_t* value, const std::filesystem::path& path)
+int util::ini::write_pair(const wchar_t* section, const wchar_t* key, const wchar_t* value, const std::filesystem::path& path)
 {
     return WritePrivateProfileStringW(section, key, value, path.c_str());
 }
