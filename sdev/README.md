@@ -584,19 +584,70 @@ Array<Array<CItem*, 24>, 6> inventory;  //0x1C0
 Array<CItem*, 240> warehouse;           //0x400
 ```
 
+The `CUser` memory alignment:
+
+```
+                   0x1C0 -> inventory[0][0]
+(24 * 4) + 0x1C0 = 0x220 -> inventory[1][0]
+(24 * 4) + 0x220 = 0x280 -> inventory[2][0]
+(24 * 4) + 0x280 = 0x2E0 -> inventory[3][0]
+(24 * 4) + 0x2E0 = 0x340 -> inventory[4][0]
+(24 * 4) + 0x340 = 0x3A0 -> inventory[5][0]
+(24 * 4) + 0x3A0 = 0x400 -> warehouse[0]
+```
+
 So...
 
 ```
-(24 * 4) + 0x1C0 = 0x220 // inventory[1][0]
-(24 * 4) + 0x220 = 0x280 // inventory[2][0]
-(24 * 4) + 0x280 = 0x2E0 // inventory[3][0]
-(24 * 4) + 0x2E0 = 0x340 // inventory[4][0]
-(24 * 4) + 0x340 = 0x3A0 // inventory[5][0]
-(24 * 4) + 0x3A0 = 0x400 // warehouse[0]
-
-inventory[6][0] = warehouse[0] (0x400)
-inventory[6][1] = warehouse[1] (0x404)
-inventory[6][2] = warehouse[2] (0x408)
-inventory[6][3] = warehouse[3] (0x40C)
-and so on...
+inventory[6][0] = 0x400 -> warehouse[0]
+inventory[6][1] = 0x404 -> warehouse[1]
+inventory[6][2] = 0x408 -> warehouse[2]
+inventory[6][3] = 0x40C -> warehouse[3]
+inventory[6][4] = 0x410 -> warehouse[4]
+inventory[6][5] = 0x414 -> warehouse[5]
+...
 ```
+
+I don't think I need to explain further.
+
+## File Operations
+
+I think the reason for this code is unclear.
+
+```cpp
+std::wstring buffer(INT16_MAX, 0);
+if (!GetModuleFileNameW(nullptr, buffer.data(), INT16_MAX))
+    return;
+
+std::filesystem::path path(buffer);
+path.remove_filename();
+...
+```
+
+Once upon a time, I told people to inject the libraries with an application. For whatever reason, some decided to import the libraries, which, in turn, bugged all the file operations.
+
+### Research
+
+This is what happens when `std::filesystem::current_path` is called before the current working directory is resolved.
+
+```cpp
+auto path = std::filesystem::current_path();
+// result: "C:\\WINDOWS\\system32"
+```
+
+It should be obvious that a relative path is also not an option.
+
+### INT16_MAX
+
+I looked at the machine code for `GetModuleFileNameW` because I couldn't find a clear answer regarding the `MAX_PATH` limitation.
+
+```
+KERNELBASE.GetModuleFileNameW+19 - B8 FF7F0000 - mov eax,00007FFF { 32767 }
+KERNELBASE.GetModuleFileNameW+1E - 3B F0       - cmp esi,eax
+KERNELBASE.GetModuleFileNameW+20 - 77 6A       - ja KERNELBASE.GetModuleFileNameW+8C
+...
+KERNELBASE.GetModuleFileNameW+8C - 8B F0       - mov esi,eax
+KERNELBASE.GetModuleFileNameW+8E - EB 96       - jmp KERNELBASE.GetModuleFileNameW+26
+```
+
+I'll just pass the max size and be done with it.
