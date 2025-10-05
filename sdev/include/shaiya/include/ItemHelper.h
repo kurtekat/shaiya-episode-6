@@ -5,6 +5,7 @@
 namespace shaiya
 {
     struct CItem;
+    struct CUser;
 
     class ItemHelper
     {
