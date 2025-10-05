@@ -1,6 +1,5 @@
 #pragma once
 #include <map>
-#include <vector>
 #include <shaiya/include/common.h>
 
 namespace shaiya
@@ -12,9 +11,9 @@ namespace shaiya
     {
     public:
 
-        uint32_t charId;
-        uint32_t killCount;
-
+        /// <summary>
+        /// Sends packet 0x229 to the user.
+        /// </summary>
         static void send(CUser* user, uint charId, uint killCount);
 
         /// <summary>
@@ -24,5 +23,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline std::map<uint32_t, std::vector<RevengeMark>> g_revengeMarks;
+    inline std::map<uint32_t/*CharID*/, std::map<uint32_t/*CharID*/, uint32_t/*KillCount*/>> g_revengeMarks;
 }

@@ -8,46 +8,35 @@ namespace packet_main_interface
 {
     void send_revenge_mark(CUser* target, CUser* killer)
     {
-        auto killerId = killer->id;
-        auto targetId = target->id;
-
-        if (auto it = g_revengeMarks.find(killerId); it != g_revengeMarks.end())
+        if (auto outer = g_revengeMarks.find(killer->id); outer != g_revengeMarks.end())
         {
-            if (auto revengeMark = std::find_if(
-                it->second.begin(), it->second.end(), [&targetId](const auto& revengeMark) {
-                    return revengeMark.charId == targetId;
-                }
-            ); revengeMark != it->second.end())
+            if (auto inner = outer->second.find(target->id); inner != outer->second.end())
             {
-                it->second.erase(revengeMark);
-                RevengeMark::send(killer, targetId, 0);
+                outer->second.erase(inner);
+                RevengeMark::send(killer, target->id, 0);
             }
         }
 
-        if (auto it = g_revengeMarks.find(targetId); it != g_revengeMarks.end())
+        if (auto outer = g_revengeMarks.find(target->id); outer != g_revengeMarks.end())
         {
-            if (auto revengeMark = std::find_if(
-                it->second.begin(), it->second.end(), [&killerId](const auto& revengeMark) {
-                    return revengeMark.charId == killerId;
-                }
-            ); revengeMark != it->second.end())
+            if (auto inner = outer->second.find(killer->id); inner != outer->second.end())
             {
-                if (revengeMark->killCount < RevengeMark::maxKillCount)
+                if (inner->second < RevengeMark::maxKillCount)
                 {
-                    ++revengeMark->killCount;
-                    RevengeMark::send(target, revengeMark->charId, revengeMark->killCount);
+                    ++inner->second;
+                    RevengeMark::send(target, inner->first, inner->second);
                 }
             }
             else
             {
-                it->second.push_back({ killerId, 1 });
-                RevengeMark::send(target, killerId, 1);
+                outer->second.insert({ killer->id, 1 });
+                RevengeMark::send(target, killer->id, 1);
             }
         }
         else
         {
-            g_revengeMarks.insert({ targetId, {{ killerId, 1 }} });
-            RevengeMark::send(target, killerId, 1);
+            g_revengeMarks.insert({ target->id, {{ killer->id, 1 }} });
+            RevengeMark::send(target, killer->id, 1);
         }
     }
 }
