@@ -497,6 +497,35 @@ The base success rate is 30 percent.
 | PT     | 182   | :x:                |
 | PT     | 189   | :x:                |
 
+## Perfect Lapisian
+
+The vanilla items define a perfect success rate (10000).
+
+```cpp
+auto materialCount = 10;
+auto reqRec = 10000;
+
+auto rate = reqRec * 100; // 1000000
+rate += materialCount;    // 1000010
+```
+
+If `ReqRec` is zero, the game service will get the rate from `g_LapisianEnchantSuccessRate`.
+
+### Configuration
+
+| Column         | Value    | Description               |
+|----------------|----------|---------------------------|
+| Level          | 0:1      | Can use with Weapons      |
+| Country        | 0:1      | Can use with Helmets      |
+| AttackFighter  | 0:1      | Can use with Upper Armor  |
+| DefenseFighter | 0:1      | Can use with Lower Armor  |
+| PatrolRogue    | 0:1      | Can use with Shields      |
+| ShootRogue     | 0:1      | Can use with Gloves       |
+| AttackMage     | 0:1      | Can use with Boots        |
+| ReqRec         | 0:10000  | Success rate              |
+| Range          | 0:19     | Minimum item enchant step |
+| AttackTime     | 1:20     | Maximum step              |
+
 ## Perfect Lapisian Combination
 
 Use item `101101` to activate the window. The `ReqLuc` value is the number of lapisian required for combination. See system message 510 for more information.
