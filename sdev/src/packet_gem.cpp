@@ -42,59 +42,6 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Adds support for perfect lapisian.
-    /// </summary>
-    bool lapisian_add_perfect(CItem* lapisian, CItem* item)
-    {
-        constexpr int max_enchant_step = 20;
-        constexpr int armor_difference = 50;
-
-        auto enchantStep = CItem::GetEnchantStep(item);
-        auto isWeapon = CItem::IsWeapon(item);
-
-        if (!isWeapon && enchantStep > armor_difference)
-            enchantStep -= armor_difference;
-
-        if (enchantStep >= max_enchant_step)
-            return false;
-
-        auto successRate = lapisian->info->reqRec;
-        if (successRate != 10000)
-            return false;
-
-        auto lapisianLv = lapisian->info->attackTime;
-        if (!lapisianLv || lapisianLv > max_enchant_step)
-            return false;
-
-        // Hot Time Lapisia +1
-        if (enchantStep < 10 && lapisian->info->itemId == 95005)
-            return true;
-
-        // 0: weapon, 1: defense
-        auto lapisianType = std::to_underlying(lapisian->info->country);
-        auto lapisianStep = lapisian->info->range;
-
-        if (isWeapon)
-        {
-            // Weapon Lapisia +1
-            if (enchantStep < 10 && lapisian->info->itemId == 95004)
-                return true;
-            else if (enchantStep == lapisianStep && lapisianType == 0)
-                return true;
-        }
-        else
-        {
-            // Armor Lapisia +1
-            if (enchantStep < 10 && lapisian->info->itemId == 95009)
-                return true;
-            else if (enchantStep == lapisianStep && lapisianType == 1)
-                return true;
-        }
-
-        return false;
-    }
-
-    /// <summary>
     /// Handles incoming 0x80B packets.
     /// </summary>
     void handler_0x80B(CUser* user, GameItemRemake5Incoming_EP6_4* incoming)
@@ -1205,37 +1152,61 @@ void __declspec(naked) naked_0x47A003()
     }
 }
 
-unsigned u0x47AAE0 = 0x47AAE0;
-unsigned u0x46CCF5 = 0x46CCF5;
-unsigned u0x46CD83 = 0x46CD83;
-void __declspec(naked) naked_0x46CCF0()
+unsigned u0x46D5BE = 0x46D5BE;
+unsigned u0x46CCCF = 0x46CCCF;
+void __declspec(naked) naked_0x46CCC8()
+{
+    // esi = CItem* (lapisian)
+    __asm
+    {
+        // enchant step
+        movzx eax,byte ptr[esp+0x13]
+        mov ecx,[esi+0x30]
+        // minimum step
+        movzx edx,word ptr[ecx+0x42]
+        test edx,edx
+        je maximum_step
+
+        cmp eax,edx
+        jl _0x46D5BE
+
+        maximum_step:
+        movzx edx,byte ptr[ecx+0x44]
+        test edx,edx
+        je original
+
+        cmp eax,edx
+        jnl _0x46D5BE
+
+        original:
+        mov ecx,[esi+0x30]
+        movzx eax,byte ptr[ecx+0x32]
+        jmp u0x46CCCF
+
+        _0x46D5BE:
+        jmp u0x46D5BE
+    }
+}
+
+unsigned u0x46CD3F = 0x46CD3F;
+void __declspec(naked) naked_0x46CD38()
 {
     __asm
     {
-        // original
-        call u0x47AAE0
+        mov edi,[esp+0x14]
+        mov edi,[edi+0x30]
+        // success rate
+        movzx edi,word ptr[edi+0x3A]
+        test edi,edi
+        je _original
 
-        pushad
+        imul edi,edi,0x64
+        jmp u0x46CD3F
 
-        mov eax,[esp+0x3C]
-        push eax // item
-        push esi // lapisian
-        call packet_gem::lapisian_add_perfect
-        add esp,0x8
-        test al,al
-
-        popad
-
-        jne add_enchant_step
-        jmp u0x46CCF5
-
-        add_enchant_step:
-        // isWeapon
-        movzx ecx,byte ptr[esp+0x18]
-        // enchant step
-        movzx edx,byte ptr[esp+0x13]
-        lea edx,[ecx+edx*2]
-        jmp u0x46CD83
+        _original:
+        // g_LapisianEnchantSuccessRate
+        mov edi,[edx*0x4+0x581C88]
+        jmp u0x46CD3F
     }
 }
 
@@ -1293,8 +1264,10 @@ void hook::packet_gem()
 {
     // CUser::PacketGem (default case)
     util::detour((void*)0x47A040, naked_0x47A040, 6);
-    // CUser::ItemLapisianAdd
-    util::detour((void*)0x46CCF0, naked_0x46CCF0, 5);
+    // CUser::ItemLapisianAdd (perfect lapisian)
+    util::detour((void*)0x46CCC8, naked_0x46CCC8, 7);
+    // CUser::ItemLapisianAdd (perfect lapisian)
+    util::detour((void*)0x46CD38, naked_0x46CD38, 7);
     // CUser::ItemLapisianAdd (success)
     util::detour((void*)0x46CDB0, naked_0x46CDB0, 5);
     // CUser::ItemLapisianAdd (failure)
