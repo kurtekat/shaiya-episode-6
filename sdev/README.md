@@ -525,6 +525,7 @@ If `ReqRec` is zero, the game service will get the rate from `g_LapisianEnchantS
 | ReqRec         | 0:10000  | Success rate              |
 | Range          | 0:19     | Minimum item enchant step |
 | AttackTime     | 1:20     | Maximum step              |
+| ReqVg          | 0:1      | Needs item protection     |
 
 ## Perfect Lapisian Combination
 

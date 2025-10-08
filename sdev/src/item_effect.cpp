@@ -19,7 +19,8 @@ using namespace shaiya;
 namespace item_effect
 {
     /// <summary>
-    /// Adds support for additional item effects.
+    /// Adds support for additional item effects. Add new values to the enum and 
+    /// then add more cases to this function.
     /// </summary>
     int hook(CUser* user, CItem* item, ItemEffect itemEffect, uint bag, uint slot)
     {

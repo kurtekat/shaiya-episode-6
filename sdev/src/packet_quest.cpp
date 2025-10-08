@@ -116,11 +116,12 @@ void __declspec(naked) naked_0x48D1F2()
 unsigned u0x48DC91 = 0x48DC91;
 void __declspec(naked) naked_0x48DC3D()
 {
+    // esi = success boolean
     __asm
     {
         // original
         mov ecx,[esp+0xE0]
-        xor esi,esi // Success (false)
+        xor esi,esi
 
         pushad
 

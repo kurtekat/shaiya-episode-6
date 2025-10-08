@@ -377,6 +377,7 @@ void __declspec(naked) naked_0x42A56C()
 unsigned u0x4263B8 = 0x4263B8;
 void __declspec(naked) naked_0x4263AD()
 {
+    // edi = CUser*
     __asm
     {
         // shapeType

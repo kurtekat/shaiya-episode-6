@@ -174,7 +174,7 @@ void __declspec(naked) naked_0x4614E3()
     {
         pushad
 
-        push esi
+        push esi // user
         call user_equipment::init
         add esp,0x4
 
