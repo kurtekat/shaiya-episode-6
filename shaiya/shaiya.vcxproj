@@ -94,6 +94,7 @@
     <ClInclude Include="include\network\game\outgoing\B100.h" />
     <ClInclude Include="include\network\game\outgoing\F100.h" />
     <ClInclude Include="include\network\game\outgoing\F500.h" />
+    <ClInclude Include="include\network\game\outgoing\F700.h" />
     <ClInclude Include="include\network\game\outgoing\F900.h" />
     <ClInclude Include="include\network\game\PointItemUnit.h" />
     <ClInclude Include="include\network\game\PointLogUnit.h" />

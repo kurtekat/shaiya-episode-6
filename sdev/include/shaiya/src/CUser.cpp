@@ -249,6 +249,36 @@ void CUser::ItemUseNSend(CUser* user, int bag, int slot, bool moveMap)
     (*(LPFN)0x4728E0)(user, bag, slot, moveMap);
 }
 
+void CUser::LevelChange(CUser* user, int prevLv, int currLv)
+{
+    unsigned u0x49BD70 = 0x49BD70;
+
+    __asm
+    {
+        push currLv
+        mov eax,prevLv
+        mov ecx,user
+        call u0x49BD70
+    }
+}
+
+void CUser::LevelUp(CUser* user, bool event)
+{
+    typedef void(__stdcall* LPFN)(CUser*, bool);
+    (*(LPFN)0x49B9C0)(user, event);
+}
+
+void CUser::LevelUpStatus(CUser* user)
+{
+    unsigned u0x49B3B0 = 0x49B3B0;
+
+    __asm
+    {
+        mov eax,user
+        call u0x49B3B0
+    }
+}
+
 bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo* outInfo)
 {
     typedef bool(__fastcall* LPFN)(int, int*, CUser*, int, int, int*, ItemInfo*);

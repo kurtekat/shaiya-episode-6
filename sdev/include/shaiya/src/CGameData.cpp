@@ -5,6 +5,18 @@
 #include "include/shaiya/include/SkillInfo.h"
 using namespace shaiya;
 
+uint CGameData::GetExp(int grow, int level)
+{
+    unsigned u0x464FF0 = 0x464FF0;
+
+    __asm
+    {
+        mov ecx,level
+        mov eax,grow
+        call u0x464FF0
+    }
+}
+
 ItemInfo* CGameData::GetItemInfo(int type_/*eax*/, int typeId/*ecx*/)
 {
     unsigned u0x4059B0 = 0x4059B0;
