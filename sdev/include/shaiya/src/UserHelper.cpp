@@ -154,9 +154,6 @@ bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
 
 void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
 {
-    if (delay < 500)
-        delay = 500;
-
     user->moveMapId = mapId;
     user->movePos.x = x;
     user->movePos.y = y;
@@ -172,9 +169,6 @@ void UserHelper::SetMovePosition(CUser* user, uint mapId, SVector* pos, UserMove
 
 bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
 {
-    if (delay < 500)
-        delay = 500;
-
     if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
         return false;
 
