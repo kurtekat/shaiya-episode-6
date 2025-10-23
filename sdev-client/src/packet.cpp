@@ -24,9 +24,9 @@ namespace packet
     // Adds support for system message 509
     void hook_0x229(CCharacter* killer, uint killCount)
     {
-        std::memcpy(g_var->msgTargetName.data(), killer->charName.data(), killer->charName.size());
-        g_var->msgTargetName[killer->charName.size() - 1] = '\0';
-        g_var->msgValue = killCount;
+        std::memcpy(g_var->sysmsg_t.data(), killer->charName.data(), killer->charName.size());
+        g_var->sysmsg_t[killer->charName.size() - 1] = '\0';
+        g_var->sysmsg_v = killCount;
         Static::SysMsgToChatBox(static_cast<ChatType>(1), 509, 1);
     }
 }

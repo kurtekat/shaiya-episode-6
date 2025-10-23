@@ -256,26 +256,26 @@ namespace shaiya
         PAD(4);
         bool32_t isActiveWindow;             //0x7C13AC
         PAD(1408);
-        uint32_t msgValue2;                  //0x7C1930  <v2>
-        HealPointType msgHealPointType1;     //0x7C1934  <up>
-        SkillStatusType msgStatusType;       //0x7C1935  <zz>
-        HealPointType msgHealPointType2;     //0x7C1936  <hp>
+        uint32_t sysmsg_v2;                  //0x7C1930  <v2>
+        HealPointType sysmsg_up;             //0x7C1934  <up>
+        SkillStatusType sysmsg_zz;           //0x7C1935  <zz>
+        HealPointType sysmsg_hp;             //0x7C1936  <hp>
         PAD(1);
-        Array<char, 512> msgLapisName;       //0x7C1938  <r>
-        Array<char, 512> msgTargetName;      //0x7C1B38  <t>
-        Array<char, 1024> msgBuffer;         //0x7C1D38  <b>
-        Array<char, 512> msgSkillName;       //0x7C2138  <s>
-        Array<char, 512> msgPlayerName;      //0x7C2338  <p>
-        Array<char, 512> msgItemName;        //0x7C2538  <i>
-        uint32_t msgValue3;                  //0x7C2738  <v3>
-        uint32_t msgValue;                   //0x7C273C  <v>
-        Array<char, 1024> msgTextBuffer1;    //0x7C2740
-        Array<char, 1024> msgTextBuffer2;    //0x7C2B40
-        Array<char, 1024> msgTextBuffer3;    //0x7C2F40
-        Array<char, 1024> msgTextBuffer4;    //0x7C3340
-        Array<char, 1024> msgTextBuffer5;    //0x7C3740
+        Array<char, 512> sysmsg_r;           //0x7C1938  <r> (lapis)
+        Array<char, 512> sysmsg_t;           //0x7C1B38  <t> (target)
+        Array<char, 1024> sysmsg_b;          //0x7C1D38  <b>
+        Array<char, 512> sysmsg_s;           //0x7C2138  <s> (skill)
+        Array<char, 512> sysmsg_p;           //0x7C2338  <p> (player)
+        Array<char, 512> sysmsg_i;           //0x7C2538  <i> (item)
+        uint32_t sysmsg_v3;                  //0x7C2738  <v3>
+        uint32_t sysmsg_v;                   //0x7C273C  <v>
+        Array<char, 1024> sysmsg_buffer1;    //0x7C2740
+        Array<char, 1024> sysmsg_buffer2;    //0x7C2B40
+        Array<char, 1024> sysmsg_buffer3;    //0x7C2F40
+        Array<char, 1024> sysmsg_buffer4;    //0x7C3340
+        Array<char, 1024> sysmsg_buffer5;    //0x7C3740
         // 0:5 (switches buffers)
-        uint32_t msgTextBufferIndex;         //0x7C3B40
+        uint32_t sysmsg_bufferIndex;         //0x7C3B40
         PAD(200);
         int32_t cursorX;                     //0x7C3C0C
         int32_t cursorY;                     //0x7C3C10
