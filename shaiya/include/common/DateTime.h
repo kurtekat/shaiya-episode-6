@@ -123,15 +123,6 @@ namespace shaiya
             return encode(date, time);
         }
 
-        template<class DurationT>
-        static value_type encode(const std::chrono::local_time<DurationT>& lt)
-        {
-            auto midnight = std::chrono::floor<std::chrono::days>(lt);
-            auto date = std::chrono::year_month_day(midnight);
-            auto time = std::chrono::hh_mm_ss(lt - midnight);
-            return encode(date, time);
-        }
-
         static value_type encode(const SYSTEMTIME& st)
         {
             return encode(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
