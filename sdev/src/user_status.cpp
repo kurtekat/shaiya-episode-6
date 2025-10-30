@@ -1,11 +1,11 @@
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/Synergy.h"
+#include "include/shaiya/CItem.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Synergy.h"
 using namespace shaiya;
 
 namespace user_status

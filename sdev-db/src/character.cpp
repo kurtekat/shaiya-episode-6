@@ -7,10 +7,10 @@
 #include <shaiya/include/network/dbAgent/incoming/0400.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/SConnection.h"
-#include "include/shaiya/include/SDatabase.h"
-#include "include/shaiya/include/SDatabasePool.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/SConnection.h"
+#include "include/shaiya/SDatabase.h"
+#include "include/shaiya/SDatabasePool.h"
 using namespace shaiya;
 
 namespace character

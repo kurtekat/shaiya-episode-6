@@ -12,28 +12,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
-    <ClInclude Include="include\shaiya\include\AesKey.h" />
-    <ClInclude Include="include\shaiya\include\CUser.h" />
-    <ClInclude Include="include\shaiya\include\CUserCrypto.h" />
-    <ClInclude Include="include\shaiya\include\SAes.h" />
-    <ClInclude Include="include\shaiya\include\SConnection.h" />
-    <ClInclude Include="include\shaiya\include\SConnectionParam.h" />
-    <ClInclude Include="include\shaiya\include\SDatabase.h" />
-    <ClInclude Include="include\shaiya\include\SDBDispatchClient.h" />
-    <ClInclude Include="include\shaiya\include\SInternetAddress.h" />
-    <ClInclude Include="include\shaiya\include\SLog.h" />
-    <ClInclude Include="include\shaiya\include\SNode.h" />
-    <ClInclude Include="include\shaiya\include\SQueueStatusNode.h" />
-    <ClInclude Include="include\shaiya\include\SRsa.h" />
-    <ClInclude Include="include\shaiya\include\SRsaEnc.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueBuffer.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueStatus.h" />
+    <ClInclude Include="include\shaiya\AesKey.h" />
+    <ClInclude Include="include\shaiya\CUser.h" />
+    <ClInclude Include="include\shaiya\CUserCrypto.h" />
+    <ClInclude Include="include\shaiya\SAes.h" />
+    <ClInclude Include="include\shaiya\SConnection.h" />
+    <ClInclude Include="include\shaiya\SConnectionParam.h" />
+    <ClInclude Include="include\shaiya\SDatabase.h" />
+    <ClInclude Include="include\shaiya\SDBDispatchClient.h" />
+    <ClInclude Include="include\shaiya\SInternetAddress.h" />
+    <ClInclude Include="include\shaiya\SLog.h" />
+    <ClInclude Include="include\shaiya\SNode.h" />
+    <ClInclude Include="include\shaiya\SQueueStatusNode.h" />
+    <ClInclude Include="include\shaiya\SRsa.h" />
+    <ClInclude Include="include\shaiya\SRsaEnc.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueBuffer.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueBufferSend.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueStatus.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\shaiya\src\SConnection.cpp" />
-    <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
+    <ClCompile Include="include\shaiya\SConnection.cpp" />
+    <ClCompile Include="include\shaiya\SDatabase.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>

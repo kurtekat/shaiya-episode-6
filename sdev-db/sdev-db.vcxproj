@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\shaiya\src\SConnection.cpp" />
-    <ClCompile Include="include\shaiya\src\SDatabase.cpp" />
-    <ClCompile Include="include\shaiya\src\SDatabasePool.cpp" />
+    <ClCompile Include="include\shaiya\SConnection.cpp" />
+    <ClCompile Include="include\shaiya\SDatabase.cpp" />
+    <ClCompile Include="include\shaiya\SDatabasePool.cpp" />
     <ClCompile Include="src\character.cpp" />
     <ClCompile Include="src\character_list.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
@@ -21,43 +21,43 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />
-    <ClInclude Include="include\shaiya\include\BaseItem.h" />
-    <ClInclude Include="include\shaiya\include\BillingItemInfo.h" />
-    <ClInclude Include="include\shaiya\include\BlockInfo.h" />
-    <ClInclude Include="include\shaiya\include\CCharacterList.h" />
-    <ClInclude Include="include\shaiya\include\CItem.h" />
-    <ClInclude Include="include\shaiya\include\ConcernMarket.h" />
-    <ClInclude Include="include\shaiya\include\CPointItem.h" />
-    <ClInclude Include="include\shaiya\include\CQuest.h" />
-    <ClInclude Include="include\shaiya\include\CQuick.h" />
-    <ClInclude Include="include\shaiya\include\CSkill.h" />
-    <ClInclude Include="include\shaiya\include\CUser.h" />
-    <ClInclude Include="include\shaiya\include\DBCharacterList.h" />
-    <ClInclude Include="include\shaiya\include\DeleteFriend.h" />
-    <ClInclude Include="include\shaiya\include\DeleteItem.h" />
-    <ClInclude Include="include\shaiya\include\DeleteQuest.h" />
-    <ClInclude Include="include\shaiya\include\FriendInfo.h" />
-    <ClInclude Include="include\shaiya\include\SavePoint.h" />
-    <ClInclude Include="include\shaiya\include\SaveType.h" />
-    <ClInclude Include="include\shaiya\include\SConnection.h" />
-    <ClInclude Include="include\shaiya\include\SConnectionParam.h" />
-    <ClInclude Include="include\shaiya\include\SDatabase.h" />
-    <ClInclude Include="include\shaiya\include\SDatabasePool.h" />
-    <ClInclude Include="include\shaiya\include\SDBDispatchClient.h" />
-    <ClInclude Include="include\shaiya\include\SInternetAddress.h" />
-    <ClInclude Include="include\shaiya\include\SLog.h" />
-    <ClInclude Include="include\shaiya\include\SNode.h" />
-    <ClInclude Include="include\shaiya\include\SPacketBufferSend.h" />
-    <ClInclude Include="include\shaiya\include\SQueuePrioritySendNode.h" />
-    <ClInclude Include="include\shaiya\include\SQueueSendNode.h" />
-    <ClInclude Include="include\shaiya\include\SQueueStatusNode.h" />
-    <ClInclude Include="include\shaiya\include\SSyncList.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueBuffer.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueBufferSend.h" />
-    <ClInclude Include="include\shaiya\include\PointItemGift.h" />
-    <ClInclude Include="include\shaiya\include\PointLog.h" />
-    <ClInclude Include="include\shaiya\include\SSyncQueueStatus.h" />
-    <ClInclude Include="include\shaiya\include\StatResetBackup.h" />
+    <ClInclude Include="include\shaiya\BaseItem.h" />
+    <ClInclude Include="include\shaiya\BillingItemInfo.h" />
+    <ClInclude Include="include\shaiya\BlockInfo.h" />
+    <ClInclude Include="include\shaiya\CCharacterList.h" />
+    <ClInclude Include="include\shaiya\CItem.h" />
+    <ClInclude Include="include\shaiya\ConcernMarket.h" />
+    <ClInclude Include="include\shaiya\CPointItem.h" />
+    <ClInclude Include="include\shaiya\CQuest.h" />
+    <ClInclude Include="include\shaiya\CQuick.h" />
+    <ClInclude Include="include\shaiya\CSkill.h" />
+    <ClInclude Include="include\shaiya\CUser.h" />
+    <ClInclude Include="include\shaiya\DBCharacterList.h" />
+    <ClInclude Include="include\shaiya\DeleteFriend.h" />
+    <ClInclude Include="include\shaiya\DeleteItem.h" />
+    <ClInclude Include="include\shaiya\DeleteQuest.h" />
+    <ClInclude Include="include\shaiya\FriendInfo.h" />
+    <ClInclude Include="include\shaiya\PointItemGift.h" />
+    <ClInclude Include="include\shaiya\PointLog.h" />
+    <ClInclude Include="include\shaiya\SavePoint.h" />
+    <ClInclude Include="include\shaiya\SaveType.h" />
+    <ClInclude Include="include\shaiya\SConnection.h" />
+    <ClInclude Include="include\shaiya\SConnectionParam.h" />
+    <ClInclude Include="include\shaiya\SDatabase.h" />
+    <ClInclude Include="include\shaiya\SDatabasePool.h" />
+    <ClInclude Include="include\shaiya\SDBDispatchClient.h" />
+    <ClInclude Include="include\shaiya\SInternetAddress.h" />
+    <ClInclude Include="include\shaiya\SLog.h" />
+    <ClInclude Include="include\shaiya\SNode.h" />
+    <ClInclude Include="include\shaiya\SPacketBufferSend.h" />
+    <ClInclude Include="include\shaiya\SQueuePrioritySendNode.h" />
+    <ClInclude Include="include\shaiya\SQueueSendNode.h" />
+    <ClInclude Include="include\shaiya\SQueueStatusNode.h" />
+    <ClInclude Include="include\shaiya\SSyncList.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueBuffer.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueBufferSend.h" />
+    <ClInclude Include="include\shaiya\SSyncQueueStatus.h" />
+    <ClInclude Include="include\shaiya\StatResetBackup.h" />
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,8 @@
 #include <shaiya/include/network/game/incoming/0A00.h>
 #include <shaiya/include/network/game/outgoing/0A00.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/NetworkHelper.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/NetworkHelper.h"
 using namespace shaiya;
 
 namespace packet_exchange

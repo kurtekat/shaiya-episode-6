@@ -2,11 +2,11 @@
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CWorld.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/RewardItem.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/CWorld.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/RewardItem.h"
 using namespace shaiya;
 
 namespace world_thread

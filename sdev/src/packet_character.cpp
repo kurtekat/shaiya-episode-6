@@ -7,13 +7,13 @@
 #include <shaiya/include/network/game/outgoing/0100.h>
 #include <shaiya/include/network/game/outgoing/0700.h>
 #include "include/main.h"
-#include "include/shaiya/include/CharacterList.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/DBCharacterList.h"
-#include "include/shaiya/include/ItemEnchant.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
+#include "include/shaiya/CharacterList.h"
+#include "include/shaiya/CItem.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/DBCharacterList.h"
+#include "include/shaiya/ItemEnchant.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
 using namespace shaiya;
 
 namespace packet_character

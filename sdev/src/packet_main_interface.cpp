@@ -1,7 +1,7 @@
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/RevengeMark.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/RevengeMark.h"
 using namespace shaiya;
 
 namespace packet_main_interface

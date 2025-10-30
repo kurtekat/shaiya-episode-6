@@ -1,8 +1,8 @@
 #include <util/util.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 // This feature will not be implemented.

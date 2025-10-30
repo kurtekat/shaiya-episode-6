@@ -1,11 +1,11 @@
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemRemake.h"
-#include "include/shaiya/include/RevengeMark.h"
-#include "include/shaiya/include/RewardItem.h"
-#include "include/shaiya/include/Synergy.h"
-#include "include/shaiya/include/Synthesis.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemRemake.h"
+#include "include/shaiya/RevengeMark.h"
+#include "include/shaiya/RewardItem.h"
+#include "include/shaiya/Synergy.h"
+#include "include/shaiya/Synthesis.h"
 using namespace shaiya;
 
 void user_leave_world_hook(CUser* user)

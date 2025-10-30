@@ -5,12 +5,12 @@
 #include <shaiya/include/common/SkillTypes.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
-#include "include/shaiya/include/CMap.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/SkillInfo.h"
-#include "include/shaiya/include/UserHelper.h"
+#include "include/shaiya/CMap.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/CZone.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SkillInfo.h"
+#include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
 namespace user_skill

@@ -1,6 +1,6 @@
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/CUser.h"
 using namespace shaiya;
 
 void user_hook(CUser* user)

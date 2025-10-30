@@ -3,8 +3,8 @@
 #include <shaiya/include/network/game/incoming/0B00.h>
 #include <shaiya/include/network/game/outgoing/0B00.h>
 #include "include/main.h"
-#include "include/shaiya/include/CParty.h"
-#include "include/shaiya/include/CUser.h"
+#include "include/shaiya/CParty.h"
+#include "include/shaiya/CUser.h"
 using namespace shaiya;
 
 namespace packet_party

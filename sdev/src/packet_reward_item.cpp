@@ -3,12 +3,12 @@
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "include/main.h"
-#include "include/shaiya/include/CGameData.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/RewardItem.h"
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/CGameData.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/RewardItem.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 /// <summary>

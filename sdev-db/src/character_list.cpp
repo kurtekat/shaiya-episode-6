@@ -1,9 +1,9 @@
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/DBCharacterList.h"
-#include "include/shaiya/include/SConnection.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/DBCharacterList.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace character_list

@@ -1,16 +1,16 @@
 #include <ranges>
+#include <util/util.h>
 #include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/PartyTypes.h>
-#include <util/util.h>
 #include <shaiya/include/common/UserTypes.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CloneUser.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/NetworkHelper.h"
+#include "include/shaiya/CItem.h"
+#include "include/shaiya/CloneUser.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/CZone.h"
+#include "include/shaiya/NetworkHelper.h"
 using namespace shaiya;
 
 namespace user_shape

@@ -3,14 +3,14 @@
 #include <shaiya/include/network/game/incoming/0500.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include "include/main.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CObject.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/CWorld.h"
-#include "include/shaiya/include/CZone.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/UserHelper.h"
+#include "include/shaiya/CItem.h"
+#include "include/shaiya/CObject.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/CWorld.h"
+#include "include/shaiya/CZone.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
 namespace packet_pc

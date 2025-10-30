@@ -5,7 +5,7 @@
 #include <sqlext.h>
 #include <util/util.h>
 #include "include/main.h"
-#include "include/shaiya/include/SDatabase.h"
+#include "include/shaiya/SDatabase.h"
 using namespace shaiya;
 
 short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart, uint highPart, char* ipv4)

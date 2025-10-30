@@ -15,160 +15,163 @@
     <Filter Include="include\shaiya">
       <UniqueIdentifier>{84e1ba66-ddf6-4f25-98e3-89a0bb316e0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\shaiya\include">
-      <UniqueIdentifier>{70582268-59a2-4fef-85b2-9638afc8f291}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\shaiya\src">
-      <UniqueIdentifier>{b78fdabe-c3b9-4511-8b28-843deaa34ee7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CCharacter.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CNetwork.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
     <ClInclude Include="resources\resource.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\GuildData2.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CItem.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CNpc.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CMonster.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CTexture.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CWorldMgr.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CDataFile.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CWindow.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\3DC_Model.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SModel.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\ItemInfo.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SkillInfo.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\MobInfo.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\static.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CPlayerData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CStaticText.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CCharacterChat.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CVector.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\GuildUserData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CMap.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CAniListData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CEffectData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CMonsterData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CObjectData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CParticleData.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CEffectModel.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CTextureList.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CEffectModelList.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CInput.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SIMM.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\STextIME.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\CQuickSlot.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\BillingItemInfo.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\ExcItem.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\MeshFace.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\TargetType.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SBoxAxis.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\SModelTexture.h">
-      <Filter>include\shaiya\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shaiya\include\STexture.h">
-      <Filter>include\shaiya\include</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\common.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CUnionPartyInfo.h">
-      <Filter>include\shaiya\include</Filter>
+    <ClInclude Include="include\shaiya\3DC_Model.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\CQuickPotionSlot.h">
-      <Filter>include\shaiya\include</Filter>
+    <ClInclude Include="include\shaiya\BillingItemInfo.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\WindowType.h">
-      <Filter>include\shaiya\include</Filter>
+    <ClInclude Include="include\shaiya\BlockData.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\ChatType.h">
-      <Filter>include\shaiya\include</Filter>
+    <ClInclude Include="include\shaiya\CAniListData.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\include\BlockData.h">
-      <Filter>include\shaiya\include</Filter>
+    <ClInclude Include="include\shaiya\CCharacter.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CCharacterChat.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CDataFile.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CEffectData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CEffectModel.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CEffectModelList.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\ChatType.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CInput.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CItem.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CMap.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CMonster.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CMonsterData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CNetwork.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CNpc.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CObjectData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CParticleData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CPlayerData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CQuickPotionSlot.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CQuickSlot.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CStaticText.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CTexture.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CTextureList.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CUnionPartyInfo.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CVector.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CWindow.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\CWorldMgr.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\ExcItem.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\GuildData2.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\GuildUserData.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\HealPointType.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\ItemInfo.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\LoginVersion.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\MeshFace.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\MobInfo.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SBoxAxis.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SIMM.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SkillInfo.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SModel.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SModelTexture.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\Static.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\STextIME.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\STexture.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\TargetType.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\WindowType.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\Camera.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,47 +187,47 @@
     <ClCompile Include="src\packet.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CNetwork.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CCharacter.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CDataFile.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CDataFile.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CTexture.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CEffectData.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CWorldMgr.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CMonster.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CWindow.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CNetwork.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="src\static.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="include\shaiya\CPlayerData.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CStaticText.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CQuickSlot.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\GuildData2.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CStaticText.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CPlayerData.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CTexture.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CEffectData.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CWindow.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CCharacter.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\CWorldMgr.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\SIMM.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\GuildData2.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CMonster.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\SIMM.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\src\CQuickSlot.cpp">
-      <Filter>include\shaiya\src</Filter>
+    <ClCompile Include="include\shaiya\Static.cpp">
+      <Filter>include\shaiya</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

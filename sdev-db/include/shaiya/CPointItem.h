@@ -1,0 +1,32 @@
+#pragma once
+#include <shaiya/include/common.h>
+#include <shaiya/include/common/ItemTypes.h>
+#include "SaveType.h"
+#include "SNode.h"
+
+namespace shaiya
+{
+    #pragma pack(push, 1)
+    struct CPointItem : SNode
+    {
+        SaveType saveType;  //0x08
+        uint8_t bag;        //0x0C
+        uint8_t slot;       //0x0D
+        PAD(2);
+        uint64_t uniqueId;  //0x10
+        uint32_t itemId;    //0x18
+        uint8_t type;       //0x1C
+        uint8_t typeId;     //0x1D
+        uint8_t count;      //0x1E
+        PAD(1);
+        uint16_t quality;   //0x20
+        PAD(2);
+        time32_t makeTime;  //0x24
+        MakeType makeType;  //0x28
+        PAD(7);
+        // 0x30
+    };
+    #pragma pack(pop)
+
+    static_assert(sizeof(CPointItem) == 0x30);
+}

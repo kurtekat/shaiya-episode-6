@@ -12,15 +12,15 @@
 #include <shaiya/include/network/game/outgoing/0800.h>
 #include <shaiya/include/network/gameLog/incoming/0400.h>
 #include "include/main.h"
-#include "include/shaiya/include/CGameData.h"
-#include "include/shaiya/include/CItem.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemHelper.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/ItemRemake.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/Synthesis.h"
-#include "include/shaiya/include/UserHelper.h"
+#include "include/shaiya/CGameData.h"
+#include "include/shaiya/CItem.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemHelper.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/ItemRemake.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Synthesis.h"
+#include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
 namespace packet_gem

@@ -3,11 +3,11 @@
 #include <shaiya/include/network/game/outgoing/0900.h>
 #include <shaiya/include/network/gameLog/incoming/0500.h>
 #include "include/main.h"
-#include "include/shaiya/include/CQuest.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/ItemInfo.h"
-#include "include/shaiya/include/NetworkHelper.h"
-#include "include/shaiya/include/QuestInfo.h"
+#include "include/shaiya/CQuest.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/QuestInfo.h"
 using namespace shaiya;
 
 namespace packet_quest

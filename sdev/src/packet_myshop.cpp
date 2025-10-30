@@ -2,8 +2,8 @@
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/2300.h>
 #include "include/main.h"
-#include "include/shaiya/include/CUser.h"
-#include "include/shaiya/include/NetworkHelper.h"
+#include "include/shaiya/CUser.h"
+#include "include/shaiya/NetworkHelper.h"
 using namespace shaiya;
 
 namespace packet_myshop
