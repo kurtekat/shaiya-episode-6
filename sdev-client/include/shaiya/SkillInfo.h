@@ -17,15 +17,23 @@ namespace shaiya
     #pragma pack(push, 1)
     struct SkillInfo
     {
-        uint16_t skillId;        //0x00
+        PAD(2);
         uint8_t skillLv;         //0x02
         PAD(1);
-        char* skillName;         //0x04
+        char* name;              //0x04
         uint16_t icon;           //0x08
-        PAD(8);
-        uint16_t level;          //0x12
-        uint16_t skillPoints;    //0x14
+        uint8_t animation;       //0x0A
         PAD(7);
+        uint16_t level;          //0x12
+        Faction country;         //0x14
+        bool fighter;            //0x15
+        bool defender;           //0x16
+        bool ranger;             //0x17
+        bool archer;             //0x18
+        bool mage;               //0x19
+        bool priest;             //0x1A
+        Grow grow;               //0x1B
+        uint8_t skillPoints;     //0x1C
         uint8_t typeShow;        //0x1D
         uint8_t typeAttack;      //0x1E
         uint8_t typeEffect;      //0x1F
@@ -43,7 +51,8 @@ namespace shaiya
         PAD(16);
         SkillAbility abilities;  //0x66
         // 0x84
-        PAD(24);
+        PAD(20);
+        char* description;       //0x98
         // 0x9C
     };
     #pragma pack(pop)
