@@ -140,7 +140,7 @@ namespace shaiya
         float viewNearest;                   //0x7C0D98
         // 0: 16-bit, 1: 32-bit
         uint32_t colorDepth;                 //0x7C0D9C
-        float cameraTargetSpeed;             //0x7C0DA0
+        float baseMoveSpeed;                 //0x7C0DA0
         float fogNearest;                    //0x7C0DA4
         float fogFarthest;                   //0x7C0DA8
         float fogStart;                      //0x7C0DAC
