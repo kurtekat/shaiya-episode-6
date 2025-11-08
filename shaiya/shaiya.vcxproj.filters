@@ -334,5 +334,8 @@
     <ClInclude Include="include\network\game\outgoing\F700.h">
       <Filter>include\network\game\outgoing</Filter>
     </ClInclude>
+    <ClInclude Include="include\network\game\BillingProductList.h">
+      <Filter>include\network\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

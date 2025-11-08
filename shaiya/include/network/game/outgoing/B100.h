@@ -1,6 +1,7 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/network/game/BillingItemUnit.h>
+#include <shaiya/include/network/game/BillingProductList.h>
 
 namespace shaiya
 {
@@ -43,6 +44,18 @@ namespace shaiya
     {
         uint16_t opcode{ 0xB105 };
         time32_t time;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TP_BILLING_PRODUCTLIST
+    struct GameBillingProductListOutgoing
+    {
+        uint16_t opcode{ 0xB106 };
+        uint8_t itemCount;
+        Array<BillingProductList, 128> itemList;
+
+        constexpr static int baseLength = 3;
     };
     #pragma pack(pop)
 }

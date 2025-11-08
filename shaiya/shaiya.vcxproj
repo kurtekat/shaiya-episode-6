@@ -46,6 +46,7 @@
     <ClInclude Include="include\network\gameLog\incoming\0C00.h" />
     <ClInclude Include="include\network\game\BankUnit.h" />
     <ClInclude Include="include\network\game\BillingItemUnit.h" />
+    <ClInclude Include="include\network\game\BillingProductList.h" />
     <ClInclude Include="include\network\game\GetInfoItemUnit.h" />
     <ClInclude Include="include\network\game\GuildBankUnit.h" />
     <ClInclude Include="include\network\game\GuildJoinUserUnit.h" />
