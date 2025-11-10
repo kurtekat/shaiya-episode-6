@@ -173,6 +173,9 @@
     <ClInclude Include="include\shaiya\Camera.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\ChatColor.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

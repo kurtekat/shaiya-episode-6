@@ -23,6 +23,7 @@
     <ClInclude Include="include\shaiya\CEffectData.h" />
     <ClInclude Include="include\shaiya\CEffectModel.h" />
     <ClInclude Include="include\shaiya\CEffectModelList.h" />
+    <ClInclude Include="include\shaiya\ChatColor.h" />
     <ClInclude Include="include\shaiya\ChatType.h" />
     <ClInclude Include="include\shaiya\CInput.h" />
     <ClInclude Include="include\shaiya\CItem.h" />
