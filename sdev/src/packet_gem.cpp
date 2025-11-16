@@ -223,7 +223,7 @@ namespace packet_gem
         auto itemId2 = lapisian2->info->itemId;
         auto itemId3 = lapisian3->info->itemId;
 
-        auto itemRemake = std::find_if(g_itemRemake5.begin(), g_itemRemake5.end(), [&itemId1, &itemId2, &itemId3](const auto& itemRemake) {
+        auto itemRemake = std::find_if(g_itemRemake4.begin(), g_itemRemake4.end(), [&itemId1, &itemId2, &itemId3](const auto& itemRemake) {
             return std::ranges::contains(itemRemake.items, itemId1) &&
                    std::ranges::contains(itemRemake.items, itemId2) &&
                    std::ranges::contains(itemRemake.items, itemId3);
