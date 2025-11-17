@@ -19,7 +19,6 @@ namespace shaiya
         Array<StatusEffects, 13> effects;
         Array<ItemId, 13> set;
 
-        static void init();
         static void equipmentAdd(CUser* user);
         static void equipmentRemove(CUser* user, int slot);
         static void removeSynergies(CUser* user);

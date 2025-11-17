@@ -18,12 +18,12 @@
     <ClCompile Include="include\shaiya\CMob.cpp" />
     <ClCompile Include="include\shaiya\CObject.cpp" />
     <ClCompile Include="include\shaiya\CObjectMgr.cpp" />
+    <ClCompile Include="include\shaiya\Configuration.cpp" />
     <ClCompile Include="include\shaiya\CParty.cpp" />
     <ClCompile Include="include\shaiya\CUser.cpp" />
     <ClCompile Include="include\shaiya\CWorld.cpp" />
     <ClCompile Include="include\shaiya\CZone.cpp" />
     <ClCompile Include="include\shaiya\ItemHelper.cpp" />
-    <ClCompile Include="include\shaiya\ItemRemake.cpp" />
     <ClCompile Include="include\shaiya\MyShop.cpp" />
     <ClCompile Include="include\shaiya\NetworkHelper.cpp" />
     <ClCompile Include="include\shaiya\RevengeMark.cpp" />
@@ -36,7 +36,6 @@
     <ClCompile Include="include\shaiya\Static.cpp" />
     <ClCompile Include="include\shaiya\SVector.cpp" />
     <ClCompile Include="include\shaiya\Synergy.cpp" />
-    <ClCompile Include="include\shaiya\Synthesis.cpp" />
     <ClCompile Include="include\shaiya\UserHelper.cpp" />
     <ClCompile Include="src\item_effect.cpp" />
     <ClCompile Include="src\packet_mailbox.cpp" />
@@ -102,6 +101,7 @@
     <ClInclude Include="include\shaiya\CObjectLink.h" />
     <ClInclude Include="include\shaiya\CObjectMgr.h" />
     <ClInclude Include="include\shaiya\CObjectMoveable.h" />
+    <ClInclude Include="include\shaiya\Configuration.h" />
     <ClInclude Include="include\shaiya\CParty.h" />
     <ClInclude Include="include\shaiya\CQuest.h" />
     <ClInclude Include="include\shaiya\CServer.h" />
@@ -150,6 +150,7 @@
     <ClInclude Include="include\shaiya\NpcGateKeeper.h" />
     <ClInclude Include="include\shaiya\NpcShop.h" />
     <ClInclude Include="include\shaiya\PartyUser.h" />
+    <ClInclude Include="include\shaiya\PathHelper.h" />
     <ClInclude Include="include\shaiya\PointLog.h" />
     <ClInclude Include="include\shaiya\ProductInfo.h" />
     <ClInclude Include="include\shaiya\QuestInfo.h" />

@@ -30,7 +30,6 @@ namespace shaiya
     {
     public:
 
-        static void init();
         static void sendItemList(CUser* user);
 
         static constexpr uint32_t maxItemCount = 20;

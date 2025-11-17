@@ -16,20 +16,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    struct ItemRemake4
-    {
-        static void init();
-    };
-    #pragma pack(pop)
-
-    #pragma pack(push, 1)
-    struct ItemRemake5
-    {
-        static void init();
-    };
-    #pragma pack(pop)
-
     struct ItemRemakeContainsF
     {
         ItemRemakeContainsF(uint32_t itemId1, uint32_t itemId2, uint32_t itemId3)

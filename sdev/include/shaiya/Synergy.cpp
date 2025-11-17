@@ -1,85 +1,12 @@
-#include <filesystem>
-#include <fstream>
+#include <algorithm>
 #include <map>
 #include <ranges>
 #include <set>
-#include <string>
 #include <vector>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include "CItem.h"
 #include "CUser.h"
 #include "Synergy.h"
 using namespace shaiya;
-
-void Synergy::init()
-{
-    try
-    {
-        std::wstring buffer(INT16_MAX, 0);
-        if (!GetModuleFileNameW(nullptr, buffer.data(), INT16_MAX))
-            return;
-
-        std::filesystem::path path(buffer);
-        path.remove_filename();
-        path.append("Data");
-        path.append("SetItem.SData");
-
-        std::ifstream sdata(path, std::ios::binary);
-        if (!sdata)
-            return;
-
-        uint32_t recordCount{};
-        sdata.read(reinterpret_cast<char*>(&recordCount), 4);
-
-        for (int i = 0; std::cmp_less(i, recordCount); ++i)
-        {
-            uint16_t id{};
-            sdata.read(reinterpret_cast<char*>(&id), 2);
-
-            Synergy synergy{};
-            synergy.id = id;
-
-            uint32_t nameLength{};
-            sdata.read(reinterpret_cast<char*>(&nameLength), 4);
-            sdata.ignore(nameLength);
-
-            for (auto&& itemId : synergy.set)
-            {
-                uint16_t type{}, typeId{};
-                sdata.read(reinterpret_cast<char*>(&type), 2);
-                sdata.read(reinterpret_cast<char*>(&typeId), 2);
-                itemId = (type * 1000) + typeId;
-            }
-
-            for (auto&& effect : synergy.effects)
-            {
-                uint32_t textLength{};
-                sdata.read(reinterpret_cast<char*>(&textLength), 4);
-
-                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
-                std::string text(textLength, '\0');
-                sdata.read(text.data(), text.size());
-
-                auto rng = std::views::split(text, ',');
-                auto vec = std::ranges::to<std::vector<std::string>>(rng);
-                if (vec.size() != effect.size())
-                    continue;
-
-                for (int i = 0; std::cmp_less(i, effect.size()); ++i)
-                    effect[i] = std::stoi(vec[i]);
-            }
-
-            g_synergies.push_back(synergy);
-        }
-
-        sdata.close();
-    }
-    catch (...)
-    {
-        g_synergies.clear();
-    }
-}
 
 void Synergy::equipmentAdd(CUser* user)
 {

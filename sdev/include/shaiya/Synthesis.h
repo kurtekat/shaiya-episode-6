@@ -18,8 +18,6 @@ namespace shaiya
         int32_t newItemTypeId;
         int32_t newItemCount;
 
-        static void init();
-
         static constexpr uint32_t goldPerPercentage = 100'000'000;
         static constexpr uint32_t goldPerPercentage5x = goldPerPercentage * 5;
     };

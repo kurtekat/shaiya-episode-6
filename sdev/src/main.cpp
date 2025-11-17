@@ -1,11 +1,9 @@
 #include <util/util.h>
 #include "include/main.h"
+#include "include/shaiya/Configuration.h"
 #include "include/shaiya/CUser.h"
-#include "include/shaiya/ItemRemake.h"
 #include "include/shaiya/RevengeMark.h"
-#include "include/shaiya/RewardItem.h"
 #include "include/shaiya/Synergy.h"
-#include "include/shaiya/Synthesis.h"
 using namespace shaiya;
 
 void user_leave_world_hook(CUser* user)
@@ -18,9 +16,6 @@ void user_leave_world_hook(CUser* user)
 /// Please check Cheat Engine scripts for instructions that access 
 /// extended user memory. Adjust the scripts and increase the user 
 /// allocation size as needed. (e.g., 0x6500)
-/// 
-/// Scripts accessing memory between 0x62A0 and 0x62F4 will become 
-/// an issue sooner or later.
 /// </summary>
 void user_hook(CUser* user)
 {
@@ -121,9 +116,11 @@ void Main()
     hook::user_skill();
     hook::user_status();
     hook::world_thread();
-    ItemRemake4::init();
-    ItemRemake5::init();
-    RewardItemEvent::init();
-    Synergy::init();
-    Synthesis::init();
+
+    Configuration::Init();
+    Configuration::LoadItemRemake4();
+    Configuration::LoadItemRemake5();
+    Configuration::LoadItemSetData();
+    Configuration::LoadItemSynthesis();
+    Configuration::LoadRewardItemEvent();
 }
