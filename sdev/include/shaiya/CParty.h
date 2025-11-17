@@ -26,7 +26,8 @@ namespace shaiya
         bool isAutoJoin;             //0x115
         PAD(2);
         CRITICAL_SECTION cs;         //0x118
-        // 0x130
+        PAD(32);
+        // 0x150
 
         static CUser* FindUser(CParty* party/*edi*/, uint objectId);
         static bool IsPartyBoss(CParty* party/*esi*/, CUser* user);
@@ -39,5 +40,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(CParty) == 0x130);
+    static_assert(sizeof(CParty) == 0x150);
 }
