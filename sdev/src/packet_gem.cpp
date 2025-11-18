@@ -18,8 +18,8 @@
 #include "include/shaiya/ItemHelper.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/ItemRemake.h"
+#include "include/shaiya/ItemSynthesis.h"
 #include "include/shaiya/NetworkHelper.h"
-#include "include/shaiya/Synthesis.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -675,8 +675,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto synthesis = g_synthesis.find(chaoticSquare->info->itemId);
-        if (synthesis == g_synthesis.end())
+        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
+        if (it == g_itemSynthesis.end())
             return;
 
         user->savePosUseBag = incoming->chaoticSquareBag;
@@ -686,22 +686,22 @@ namespace packet_gem
         MyShop::Ended(&user->myShop);
 
         GameItemSynthesisListOutgoing outgoing{};
-        outgoing.goldPerPercentage = Synthesis::goldPerPercentage;
+        outgoing.goldPerPercentage = ItemSynthesis::minMoney;
 
         auto itemList = std::views::zip(
             outgoing.newItemType,
             outgoing.newItemTypeId
         );
 
-        int index = 0;
-        for (const auto& synthesis : synthesis->second)
+        size_t index = 0;
+        for (const auto& synthesis : it->second)
         {
             std::get<0>(itemList[index]) = synthesis.newItemType;
             std::get<1>(itemList[index]) = synthesis.newItemTypeId;
 
             ++index;
 
-            if (std::cmp_less(index, itemList.size()))
+            if (index < itemList.size())
                 continue;
             else
             {
@@ -730,8 +730,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_synthesis.find(chaoticSquare->info->itemId);
-        if (it == g_synthesis.end())
+        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
+        if (it == g_itemSynthesis.end())
             return;
 
         if (incoming->index >= it->second.size())
@@ -757,9 +757,6 @@ namespace packet_gem
     /// </summary>
     void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     {
-        constexpr auto min_success_rate = 100;
-        constexpr auto max_success_rate = 10000;
-
         if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
             return;
 
@@ -773,8 +770,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_synthesis.find(chaoticSquare->info->itemId);
-        if (it == g_synthesis.end())
+        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
+        if (it == g_itemSynthesis.end())
             return;
 
         if (incoming->index >= it->second.size())
@@ -789,17 +786,20 @@ namespace packet_gem
             return;
 
         auto money = incoming->money;
-        if (money > Synthesis::goldPerPercentage5x)
-            money = Synthesis::goldPerPercentage5x;
-
-        auto successRate = synthesis.successRate;
-        if (money >= Synthesis::goldPerPercentage && Synthesis::goldPerPercentage > 0)
-            successRate += (money / Synthesis::goldPerPercentage) * 100;
+        if (money > ItemSynthesis::maxMoney)
+            money = ItemSynthesis::maxMoney;
 
         if (money)
         {
             user->money -= money;
             CUser::SendDBMoney(user);
+        }
+
+        auto successRate = synthesis.successRate;
+        if (money >= ItemSynthesis::minMoney)
+        {
+            auto percent = (money / ItemSynthesis::minMoney) * 100;
+            successRate += percent;
         }
 
         if (incoming->hammerBag != 0)
@@ -841,12 +841,15 @@ namespace packet_gem
         }
 
         int randomValue = 0;
-        if (successRate < max_success_rate)
+        if (successRate < ItemSynthesis::maxSuccessRate)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
-            std::uniform_int_distribution<int> uni(min_success_rate, max_success_rate);
+            std::uniform_int_distribution<int> uni(
+                ItemSynthesis::minSuccessRate, 
+                ItemSynthesis::maxSuccessRate);
+
             randomValue = uni(eng);
         }
 
@@ -878,8 +881,7 @@ namespace packet_gem
     /// </summary>
     void handler_0x811(CUser* user, GameItemAbilityTransferIncoming* incoming)
     {
-        constexpr auto min_success_rate = 30;
-        constexpr auto max_success_rate = 100;
+        constexpr int baseSuccessRate = 30;
 
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked)
             return;
@@ -929,7 +931,7 @@ namespace packet_gem
         if (target->info->reqWis < source->info->reqWis)
             return;
 
-        int successRate = min_success_rate;
+        int successRate = baseSuccessRate;
 
         // 255 means the slot is empty
         if (incoming->catalystSlot != 255)
@@ -961,12 +963,12 @@ namespace packet_gem
         outgoing.destSlot = incoming->destSlot;
 
         int randomValue = 0;
-        if (successRate < max_success_rate)
+        if (successRate < 100)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
-            std::uniform_int_distribution<int> uni(1, max_success_rate);
+            std::uniform_int_distribution<int> uni(1, 100);
             randomValue = uni(eng);
         }
 

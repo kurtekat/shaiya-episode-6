@@ -194,7 +194,7 @@
     <ClInclude Include="include\shaiya\StoredPointItemInfo.h" />
     <ClInclude Include="include\shaiya\SVector.h" />
     <ClInclude Include="include\shaiya\Synergy.h" />
-    <ClInclude Include="include\shaiya\Synthesis.h" />
+    <ClInclude Include="include\shaiya\ItemSynthesis.h" />
     <ClInclude Include="include\shaiya\Target.h" />
     <ClInclude Include="include\shaiya\TypeValue.h" />
     <ClInclude Include="include\shaiya\UserHelper.h" />

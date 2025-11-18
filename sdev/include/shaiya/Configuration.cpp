@@ -10,11 +10,11 @@
 #include <util/ini/ini.h>
 #include "Configuration.h"
 #include "ItemRemake.h"
+#include "ItemSynthesis.h"
 #include "PathHelper.h"
 #include "RewardItem.h"
 #include "SBinaryReader.h"
 #include "Synergy.h"
-#include "Synthesis.h"
 using namespace shaiya;
 
 void Configuration::Init()
@@ -163,7 +163,7 @@ void Configuration::LoadItemSynthesis()
             auto successRate = std::stoi(pairs[1].second);
             successRate = (successRate > 100) ? 100 : successRate;
 
-            Synthesis synthesis{};
+            ItemSynthesis synthesis{};
             synthesis.successRate = successRate * 100;
 
             auto itemList = std::views::zip(
@@ -198,15 +198,15 @@ void Configuration::LoadItemSynthesis()
             synthesis.newItemTypeId = std::stoi(pairs[6].second);
             synthesis.newItemCount = std::stoi(pairs[7].second);
 
-            if (auto it = g_synthesis.find(itemId); it != g_synthesis.end())
+            if (auto it = g_itemSynthesis.find(itemId); it != g_itemSynthesis.end())
                 it->second.push_back(synthesis);
             else
-                g_synthesis.insert({ itemId, { synthesis } });
+                g_itemSynthesis.insert({ itemId, { synthesis } });
         }
     }
     catch (...)
     {
-        g_synthesis.clear();
+        g_itemSynthesis.clear();
     }
 }
 

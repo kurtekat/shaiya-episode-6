@@ -557,7 +557,7 @@
     <ClInclude Include="include\shaiya\Synergy.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\Synthesis.h">
+    <ClInclude Include="include\shaiya\ItemSynthesis.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\Target.h">

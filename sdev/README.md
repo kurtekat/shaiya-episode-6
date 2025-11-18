@@ -418,11 +418,6 @@ NewItemCount=1
 
 The gold per percentage value in the library is the same as the official server.
 
-```cpp
-// Synthesis.h
-constexpr static int goldPerPercentage = 100'000'000;
-```
-
 ### Crafting Hammers
 
 The **ReqVg** value is the success rate. The library will multiply the value by 100.
