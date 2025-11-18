@@ -12,6 +12,7 @@
 #include "ItemRemake.h"
 #include "PathHelper.h"
 #include "RewardItem.h"
+#include "SBinaryReader.h"
 #include "Synergy.h"
 #include "Synthesis.h"
 using namespace shaiya;
@@ -97,59 +98,48 @@ void Configuration::LoadItemSetData()
         std::filesystem::path path(m_root);
         PathHelper::combine(path, "Data", "SetItem.SData");
 
-        std::ifstream sdata(path, std::ios::binary);
-        if (!sdata)
+        if (!std::filesystem::exists(path))
             return;
 
-        uint32_t recordCount{};
-        sdata.read(reinterpret_cast<char*>(&recordCount), 4);
-
-        for (int i = 0; std::cmp_less(i, recordCount); ++i)
+        SBinaryReader reader(path);
+        auto recordCount = reader.readUInt32();
+        for (size_t i = 0; i < recordCount; ++i)
         {
-            uint16_t id{};
-            sdata.read(reinterpret_cast<char*>(&id), 2);
+            ItemSet itemSet{};
+            itemSet.id = reader.readUInt16();
 
-            Synergy synergy{};
-            synergy.id = id;
+            // Discard the name
+            auto length = reader.readUInt32();
+            reader.ignore(length);
 
-            uint32_t nameLength{};
-            sdata.read(reinterpret_cast<char*>(&nameLength), 4);
-            sdata.ignore(nameLength);
-
-            for (auto&& itemId : synergy.set)
+            for (auto&& itemId : itemSet.items)
             {
-                uint16_t type{}, typeId{};
-                sdata.read(reinterpret_cast<char*>(&type), 2);
-                sdata.read(reinterpret_cast<char*>(&typeId), 2);
+                auto type = reader.readUInt16();
+                auto typeId = reader.readUInt16();
                 itemId = (type * 1000) + typeId;
             }
 
-            for (auto&& effect : synergy.effects)
+            for (auto&& synergy : itemSet.synergies)
             {
-                uint32_t textLength{};
-                sdata.read(reinterpret_cast<char*>(&textLength), 4);
-
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
-                std::string text(textLength, '\0');
-                sdata.read(text.data(), text.size());
-
-                auto rng = std::views::split(text, ',');
+                auto effects = reader.readString();
+                auto rng = std::views::split(effects, ',');
                 auto vec = std::ranges::to<std::vector<std::string>>(rng);
-                if (vec.size() != effect.size())
+                if (vec.size() != synergy.effects.size())
                     continue;
 
-                for (int i = 0; std::cmp_less(i, effect.size()); ++i)
-                    effect[i] = std::stoi(vec[i]);
+                for (size_t i = 0; i < synergy.effects.size(); ++i)
+                    synergy.effects[i] = std::stoi(vec[i]);
             }
 
-            g_synergies.push_back(synergy);
+            g_itemSets.push_back(itemSet);
         }
 
-        sdata.close();
+        reader.close();
     }
     catch (...)
     {
-        g_synergies.clear();
+        g_itemSets.clear();
     }
 }
 

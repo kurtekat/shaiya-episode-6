@@ -18,13 +18,13 @@ void Synergy::equipmentAdd(CUser* user)
     if (equipment.empty())
         return;
 
-    std::vector<StatusEffects> effects;
-    Synergy::getWornSynergies(equipment, effects);
+    std::vector<ItemSetSynergy> synergies;
+    Synergy::getWornSynergies(equipment, synergies);
 
-    if (effects.empty())
+    if (synergies.empty())
         return;
 
-    Synergy::applySynergies(user, effects);
+    Synergy::applySynergies(user, synergies);
 }
 
 void Synergy::equipmentRemove(CUser* user, int slot)
@@ -48,40 +48,40 @@ void Synergy::equipmentRemove(CUser* user, int slot)
     if (equipment.empty())
         return;
 
-    std::vector<StatusEffects> effects;
-    Synergy::getWornSynergies(equipment, effects);
+    std::vector<ItemSetSynergy> synergies;
+    Synergy::getWornSynergies(equipment, synergies);
 
-    if (effects.empty())
+    if (synergies.empty())
         return;
 
-    Synergy::applySynergies(user, effects);
+    Synergy::applySynergies(user, synergies);
 }
 
 void Synergy::removeSynergies(CUser* user)
 {
-    auto it = g_appliedSynergies.find(user->id);
-    if (it == g_appliedSynergies.end())
+    auto it = g_itemSetSynergies.find(user->id);
+    if (it == g_itemSetSynergies.end())
         return;
 
     auto maxHealth = user->maxHealth;
     auto maxMana = user->maxHealth;
     auto maxStamina = user->maxHealth;
 
-    auto& effects = it->second;
-    for (const auto& effect : effects)
+    auto& synergies = it->second;
+    for (const auto& synergy : synergies)
     {
-        auto strength = effect[0];
-        auto dexterity = effect[1];
-        auto reaction = effect[2];
-        auto intelligence = effect[3];
-        auto wisdom = effect[4];
-        auto luck = effect[5];
-        auto health = effect[6];
-        auto mana = effect[7];
-        auto stamina = effect[8];
-        auto attackPower = effect[9];
-        auto rangedAttackPower = effect[10];
-        auto magicPower = effect[11];
+        auto& strength = synergy.effects[0];
+        auto& dexterity = synergy.effects[1];
+        auto& reaction = synergy.effects[2];
+        auto& intelligence = synergy.effects[3];
+        auto& wisdom = synergy.effects[4];
+        auto& luck = synergy.effects[5];
+        auto& health = synergy.effects[6];
+        auto& mana = synergy.effects[7];
+        auto& stamina = synergy.effects[8];
+        auto& attackPower = synergy.effects[9];
+        auto& rangedAttackPower = synergy.effects[10];
+        auto& magicPower = synergy.effects[11];
 
         user->abilityStrength -= strength;
         user->abilityDexterity -= dexterity;
@@ -118,32 +118,32 @@ void Synergy::removeSynergies(CUser* user)
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.erase(user->id);
+    g_itemSetSynergies.erase(user->id);
 }
 
-void Synergy::applySynergies(CUser* user, const std::vector<StatusEffects>& effects)
+void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
 {
-    if (g_appliedSynergies.count(user->id))
+    if (g_itemSetSynergies.count(user->id))
         Synergy::removeSynergies(user);
 
     auto maxHealth = user->maxHealth;
     auto maxMana = user->maxHealth;
     auto maxStamina = user->maxHealth;
 
-    for (const auto& effect : effects)
+    for (const auto& synergy : synergies)
     {
-        auto strength = effect[0];
-        auto dexterity = effect[1];
-        auto reaction = effect[2];
-        auto intelligence = effect[3];
-        auto wisdom = effect[4];
-        auto luck = effect[5];
-        auto health = effect[6];
-        auto mana = effect[7];
-        auto stamina = effect[8];
-        auto attackPower = effect[9];
-        auto rangedAttackPower = effect[10];
-        auto magicPower = effect[11];
+        auto& strength = synergy.effects[0];
+        auto& dexterity = synergy.effects[1];
+        auto& reaction = synergy.effects[2];
+        auto& intelligence = synergy.effects[3];
+        auto& wisdom = synergy.effects[4];
+        auto& luck = synergy.effects[5];
+        auto& health = synergy.effects[6];
+        auto& mana = synergy.effects[7];
+        auto& stamina = synergy.effects[8];
+        auto& attackPower = synergy.effects[9];
+        auto& rangedAttackPower = synergy.effects[10];
+        auto& magicPower = synergy.effects[11];
 
         user->abilityStrength += strength;
         user->abilityDexterity += dexterity;
@@ -180,7 +180,7 @@ void Synergy::applySynergies(CUser* user, const std::vector<StatusEffects>& effe
             CUser::SendMaxSP(user);
     }
 
-    g_appliedSynergies.insert({ user->id, effects });
+    g_itemSetSynergies.insert({ user->id, synergies });
 }
 
 void Synergy::getWornEquipment(CUser* user, std::set<ItemId>& equipment)
@@ -195,35 +195,37 @@ void Synergy::getWornEquipment(CUser* user, std::set<ItemId>& equipment)
     }
 }
 
-void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<StatusEffects>& effects)
+void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<ItemSetSynergy>& synergies)
 {
     if (equipment.empty())
         return;
 
-    for (const auto& synergy : g_synergies)
+    for (const auto& itemSet : g_itemSets)
     {
-        int wornCount = 0;
-        for (const auto& itemId : synergy.set)
+        size_t wornCount = 0;
+        for (const auto& itemId : itemSet.items)
         {
-            if (equipment.count(itemId))
+            if (equipment.contains(itemId))
                 ++wornCount;
         }
 
-        if (!wornCount)
+        size_t size = itemSet.synergies.size();
+        if (!wornCount || wornCount > size)
             continue;
 
-        --wornCount;
-        if (!wornCount || std::cmp_greater_equal(wornCount, synergy.effects.size()))
+        auto offset = size - wornCount;
+        auto first = itemSet.synergies.crbegin() + offset;
+        auto last = itemSet.synergies.crend();
+
+        auto it = std::find_if(first, last, [](const auto& synergy) {
+            return !std::all_of(synergy.effects.cbegin(), synergy.effects.cend(), [](const auto& effect) {
+                return !effect;
+                });
+            });
+
+        if (it == last)
             continue;
 
-        for (int i = wornCount; i > 0; --i)
-        {
-            auto& effect = synergy.effects[i];
-            if (std::all_of(effect.begin(), effect.end(), [](auto& e) { return !e; }))
-                continue;
-
-            effects.push_back(effect);
-            break;
-        }
+        synergies.push_back(*it);
     }
 }
