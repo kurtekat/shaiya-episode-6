@@ -156,6 +156,9 @@
     <ClCompile Include="include\shaiya\Configuration.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\SBinaryReader.cpp">
+      <Filter>include\shaiya</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -573,6 +576,9 @@
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\PathHelper.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\SBinaryReader.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
   </ItemGroup>
