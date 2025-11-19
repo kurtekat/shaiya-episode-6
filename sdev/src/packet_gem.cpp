@@ -660,7 +660,7 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x830 packets.
     /// </summary>
-    void handler_0x830(CUser* user, GameItemSynthesisListIncoming* incoming)
+    void handler_0x830(CUser* user, GameChaoticSquareListIncoming* incoming)
     {
         if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
             return;
@@ -675,47 +675,24 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
-        if (it == g_itemSyntheses.end())
-            return;
-
         user->savePosUseBag = incoming->chaoticSquareBag;
         user->savePosUseSlot = incoming->chaoticSquareSlot;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
 
-        GameItemSynthesisListOutgoing outgoing{};
-        outgoing.goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
-
-        auto itemList = std::views::zip(
-            outgoing.newItemType,
-            outgoing.newItemTypeId
-        );
-
-        size_t index = 0;
-        for (const auto& synthesis : it->second)
+        auto itemId = chaoticSquare->info->itemId;
+        for (const auto& chaoticSquare : g_chaoticSquares)
         {
-            std::get<0>(itemList[index]) = synthesis.newItemType;
-            std::get<1>(itemList[index]) = synthesis.newItemTypeId;
-
-            ++index;
-
-            if (index < itemList.size())
-                continue;
-            else
+            if (chaoticSquare.itemId == itemId)
             {
-                NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisListOutgoing));
-
-                std::fill(itemList.begin(), itemList.end(), std::tuple(0, 0));
-                index = 0;
+                GameChaoticSquareListOutgoing outgoing{};
+                outgoing.newItemType = chaoticSquare.newItemType;
+                outgoing.newItemTypeId = chaoticSquare.newItemTypeId;
+                outgoing.goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
+                NetworkHelper::Send(user, &outgoing, sizeof(GameChaoticSquareListOutgoing));
             }
         }
-
-        if (!index)
-            return;
-
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisListOutgoing));
     }
 
     /// <summary>
@@ -1087,7 +1064,7 @@ namespace packet_gem
         }
         case 0x830:
         {
-            handler_0x830(user, reinterpret_cast<GameItemSynthesisListIncoming*>(packet));
+            handler_0x830(user, reinterpret_cast<GameChaoticSquareListIncoming*>(packet));
             break;
         }
         case 0x831:

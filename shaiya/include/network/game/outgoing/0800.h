@@ -167,7 +167,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemSynthesisListOutgoing
+    struct GameChaoticSquareListOutgoing
     {
         uint16_t opcode{ 0x830 };
         Array<uint8_t, 10> newItemType;

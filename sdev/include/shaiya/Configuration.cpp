@@ -203,10 +203,45 @@ void Configuration::LoadItemSynthesis()
             else
                 g_itemSyntheses.insert({ itemId, { synthesis } });
         }
+
+        for (const auto& [itemId, syntheses] : g_itemSyntheses)
+        {
+            ChaoticSquare chaoticSquare{};
+            chaoticSquare.itemId = itemId;
+
+            auto view = std::views::zip(
+                chaoticSquare.newItemType,
+                chaoticSquare.newItemTypeId
+            );
+
+            size_t index = 0;
+            for (const auto& synthesis : syntheses)
+            {
+                std::get<0>(view[index]) = synthesis.newItemType;
+                std::get<1>(view[index]) = synthesis.newItemTypeId;
+
+                ++index;
+
+                if (index < view.size())
+                    continue;
+                else
+                {
+                    g_chaoticSquares.push_back(chaoticSquare);
+                    std::fill(view.begin(), view.end(), std::tuple(0, 0));
+                    index = 0;
+                }
+            }
+
+            if (!index)
+                continue;
+
+            g_chaoticSquares.push_back(chaoticSquare);
+        }
     }
     catch (...)
     {
         g_itemSyntheses.clear();
+        g_chaoticSquares.clear();
     }
 }
 

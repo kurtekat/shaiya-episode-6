@@ -7,7 +7,7 @@ namespace shaiya
 {
     namespace ItemSynthesisConstants
     {
-        // A value evenly divisible by 100 or 0
+        // Zero, or a value evenly divisible by 100
         inline constexpr unsigned goldPerPercentage = 100'000'000;
         static_assert(goldPerPercentage % 100 == 0);
 
@@ -30,5 +30,15 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    #pragma pack(push, 1)
+    struct ChaoticSquare
+    {
+        uint32_t itemId;
+        Array<uint8_t, 10> newItemType;
+        Array<uint8_t, 10> newItemTypeId;
+    };
+    #pragma pack(pop)
+
     inline std::map<uint32_t, std::vector<ItemSynthesis>> g_itemSyntheses{};
+    inline std::vector<ChaoticSquare> g_chaoticSquares{};
 }
