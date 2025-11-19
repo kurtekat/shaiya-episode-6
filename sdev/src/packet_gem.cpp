@@ -686,7 +686,7 @@ namespace packet_gem
         MyShop::Ended(&user->myShop);
 
         GameItemSynthesisListOutgoing outgoing{};
-        outgoing.goldPerPercentage = ItemSynthesis::minMoney;
+        outgoing.goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
 
         auto itemList = std::views::zip(
             outgoing.newItemType,
@@ -785,21 +785,23 @@ namespace packet_gem
         if (incoming->money > user->money)
             return;
 
-        auto money = incoming->money;
-        if (money > ItemSynthesis::maxMoney)
-            money = ItemSynthesis::maxMoney;
-
-        if (money)
-        {
-            user->money -= money;
-            CUser::SendDBMoney(user);
-        }
-
         auto successRate = synthesis.successRate;
-        if (money >= ItemSynthesis::minMoney)
+        auto goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
+
+        if (goldPerPercentage)
         {
-            auto percent = (money / ItemSynthesis::minMoney) * 100;
-            successRate += percent;
+            auto money = incoming->money;
+            if (money > ItemSynthesisConstants::maxMoney)
+                money = ItemSynthesisConstants::maxMoney;
+
+            if (money >= ItemSynthesisConstants::minMoney)
+            {
+                auto bonus = ((double)money / goldPerPercentage) * 100.0;
+                successRate += static_cast<int>(bonus);
+
+                user->money -= money;
+                CUser::SendDBMoney(user);
+            }
         }
 
         if (incoming->hammerBag != 0)
@@ -841,14 +843,14 @@ namespace packet_gem
         }
 
         int randomValue = 0;
-        if (successRate < ItemSynthesis::maxSuccessRate)
+        if (successRate < ItemSynthesisConstants::maxSuccessRate)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
             std::uniform_int_distribution<int> uni(
-                ItemSynthesis::minSuccessRate, 
-                ItemSynthesis::maxSuccessRate);
+                ItemSynthesisConstants::minSuccessRate,
+                ItemSynthesisConstants::maxSuccessRate);
 
             randomValue = uni(eng);
         }

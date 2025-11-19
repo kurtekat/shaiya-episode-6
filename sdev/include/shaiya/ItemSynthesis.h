@@ -1,11 +1,22 @@
 #pragma once
-#include <array>
 #include <map>
 #include <vector>
 #include <shaiya/include/common.h>
 
 namespace shaiya
 {
+    namespace ItemSynthesisConstants
+    {
+        // A value evenly divisible by 100 or 0
+        inline constexpr unsigned goldPerPercentage = 100'000'000;
+        static_assert(goldPerPercentage % 100 == 0);
+
+        inline constexpr unsigned minMoney = goldPerPercentage / 100;
+        inline constexpr unsigned maxMoney = goldPerPercentage * 5;
+        inline constexpr int minSuccessRate = 100;
+        inline constexpr int maxSuccessRate = 10000;
+    };
+
     #pragma pack(push, 1)
     struct ItemSynthesis
     {
@@ -16,14 +27,8 @@ namespace shaiya
         int32_t newItemType;
         int32_t newItemTypeId;
         int32_t newItemCount;
-
-        static constexpr uint32_t minMoney = 100'000'000;
-        static constexpr uint32_t maxMoney = minMoney * 5;
-        static constexpr int minSuccessRate = 100;
-        static constexpr int maxSuccessRate = 10000;
     };
     #pragma pack(pop)
 
-    static_assert(ItemSynthesis::minMoney != 0);
     inline std::map<uint32_t, std::vector<ItemSynthesis>> g_itemSynthesis{};
 }
