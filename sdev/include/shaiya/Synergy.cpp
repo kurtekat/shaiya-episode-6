@@ -70,18 +70,18 @@ void Synergy::removeSynergies(CUser* user)
     auto& synergies = it->second;
     for (const auto& synergy : synergies)
     {
-        auto& strength = synergy.effects[0];
-        auto& dexterity = synergy.effects[1];
-        auto& reaction = synergy.effects[2];
-        auto& intelligence = synergy.effects[3];
-        auto& wisdom = synergy.effects[4];
-        auto& luck = synergy.effects[5];
-        auto& health = synergy.effects[6];
-        auto& mana = synergy.effects[7];
-        auto& stamina = synergy.effects[8];
-        auto& attackPower = synergy.effects[9];
-        auto& rangedAttackPower = synergy.effects[10];
-        auto& magicPower = synergy.effects[11];
+        auto strength = synergy.effects[0];
+        auto dexterity = synergy.effects[1];
+        auto reaction = synergy.effects[2];
+        auto intelligence = synergy.effects[3];
+        auto wisdom = synergy.effects[4];
+        auto luck = synergy.effects[5];
+        auto health = synergy.effects[6];
+        auto mana = synergy.effects[7];
+        auto stamina = synergy.effects[8];
+        auto attackPower = synergy.effects[9];
+        auto rangedAttackPower = synergy.effects[10];
+        auto magicPower = synergy.effects[11];
 
         user->abilityStrength -= strength;
         user->abilityDexterity -= dexterity;
@@ -132,18 +132,18 @@ void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& syn
 
     for (const auto& synergy : synergies)
     {
-        auto& strength = synergy.effects[0];
-        auto& dexterity = synergy.effects[1];
-        auto& reaction = synergy.effects[2];
-        auto& intelligence = synergy.effects[3];
-        auto& wisdom = synergy.effects[4];
-        auto& luck = synergy.effects[5];
-        auto& health = synergy.effects[6];
-        auto& mana = synergy.effects[7];
-        auto& stamina = synergy.effects[8];
-        auto& attackPower = synergy.effects[9];
-        auto& rangedAttackPower = synergy.effects[10];
-        auto& magicPower = synergy.effects[11];
+        auto strength = synergy.effects[0];
+        auto dexterity = synergy.effects[1];
+        auto reaction = synergy.effects[2];
+        auto intelligence = synergy.effects[3];
+        auto wisdom = synergy.effects[4];
+        auto luck = synergy.effects[5];
+        auto health = synergy.effects[6];
+        auto mana = synergy.effects[7];
+        auto stamina = synergy.effects[8];
+        auto attackPower = synergy.effects[9];
+        auto rangedAttackPower = synergy.effects[10];
+        auto magicPower = synergy.effects[11];
 
         user->abilityStrength += strength;
         user->abilityDexterity += dexterity;
