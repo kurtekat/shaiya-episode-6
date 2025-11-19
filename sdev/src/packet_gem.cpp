@@ -48,7 +48,7 @@ namespace packet_gem
         if (!incoming->lapisBag1 || incoming->lapisBag1 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisSlot1 >= max_inventory_slot)
+        if (incoming->lapisSlot1 >= ItemSlotCount)
             return;
 
         auto& lapis1 = user->inventory[incoming->lapisBag1][incoming->lapisSlot1];
@@ -58,7 +58,7 @@ namespace packet_gem
         if (!incoming->lapisBag2 || incoming->lapisBag2 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisSlot2 >= max_inventory_slot)
+        if (incoming->lapisSlot2 >= ItemSlotCount)
             return;
 
         auto& lapis2 = user->inventory[incoming->lapisBag2][incoming->lapisSlot2];
@@ -68,7 +68,7 @@ namespace packet_gem
         if (!incoming->lapisBag3 || incoming->lapisBag3 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisSlot3 >= max_inventory_slot)
+        if (incoming->lapisSlot3 >= ItemSlotCount)
             return;
 
         auto& lapis3 = user->inventory[incoming->lapisBag3][incoming->lapisSlot3];
@@ -78,7 +78,7 @@ namespace packet_gem
         if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
             return;
 
-        if (incoming->vialSlot >= max_inventory_slot)
+        if (incoming->vialSlot >= ItemSlotCount)
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -165,7 +165,7 @@ namespace packet_gem
         if (!incoming->lapisianBag1 || incoming->lapisianBag1 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisianSlot1 >= max_inventory_slot)
+        if (incoming->lapisianSlot1 >= ItemSlotCount)
             return;
 
         auto& lapisian1 = user->inventory[incoming->lapisianBag1][incoming->lapisianSlot1];
@@ -175,7 +175,7 @@ namespace packet_gem
         if (!incoming->lapisianBag2 || incoming->lapisianBag2 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisianSlot2 >= max_inventory_slot)
+        if (incoming->lapisianSlot2 >= ItemSlotCount)
             return;
 
         auto& lapisian2 = user->inventory[incoming->lapisianBag2][incoming->lapisianSlot2];
@@ -185,7 +185,7 @@ namespace packet_gem
         if (!incoming->lapisianBag3 || incoming->lapisianBag3 > user->bagsUnlocked)
             return;
 
-        if (incoming->lapisianSlot3 >= max_inventory_slot)
+        if (incoming->lapisianSlot3 >= ItemSlotCount)
             return;
 
         auto& lapisian3 = user->inventory[incoming->lapisianBag3][incoming->lapisianSlot3];
@@ -195,7 +195,7 @@ namespace packet_gem
         if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
             return;
 
-        if (incoming->vialSlot >= max_inventory_slot)
+        if (incoming->vialSlot >= ItemSlotCount)
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -260,7 +260,7 @@ namespace packet_gem
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked)
             return;
 
-        if (incoming->runeSlot >= max_inventory_slot)
+        if (incoming->runeSlot >= ItemSlotCount)
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
@@ -270,7 +270,7 @@ namespace packet_gem
         if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
             return;
 
-        if (incoming->vialSlot >= max_inventory_slot)
+        if (incoming->vialSlot >= ItemSlotCount)
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -348,7 +348,7 @@ namespace packet_gem
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked)
             return;
 
-        if (incoming->cubeSlot >= max_inventory_slot)
+        if (incoming->cubeSlot >= ItemSlotCount)
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
@@ -432,7 +432,7 @@ namespace packet_gem
         if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked)
             return;
 
-        if (incoming->runeSlot >= max_inventory_slot)
+        if (incoming->runeSlot >= ItemSlotCount)
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
@@ -442,7 +442,7 @@ namespace packet_gem
         if (incoming->itemBag > user->bagsUnlocked)
             return;
 
-        if (incoming->itemSlot >= max_inventory_slot)
+        if (incoming->itemSlot >= ItemSlotCount)
             return;
 
         auto& item = user->inventory[incoming->itemBag][incoming->itemSlot];
@@ -664,7 +664,7 @@ namespace packet_gem
         if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
             return;
 
-        if (incoming->chaoticSquareSlot >= max_inventory_slot)
+        if (incoming->chaoticSquareSlot >= ItemSlotCount)
             return;
 
         auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
@@ -736,7 +736,7 @@ namespace packet_gem
         if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
             return;
 
-        if (incoming->chaoticSquareSlot >= max_inventory_slot)
+        if (incoming->chaoticSquareSlot >= ItemSlotCount)
             return;
 
         auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
@@ -785,7 +785,7 @@ namespace packet_gem
             if (incoming->hammerBag > user->bagsUnlocked)
                 return;
 
-            if (incoming->hammerSlot >= max_inventory_slot)
+            if (incoming->hammerSlot >= ItemSlotCount)
                 return;
 
             auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
@@ -864,7 +864,7 @@ namespace packet_gem
         if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked)
             return;
 
-        if (incoming->cubeSlot >= max_inventory_slot)
+        if (incoming->cubeSlot >= ItemSlotCount)
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
@@ -874,7 +874,7 @@ namespace packet_gem
         if (incoming->srcBag > user->bagsUnlocked)
             return;
 
-        if (incoming->srcSlot >= max_inventory_slot)
+        if (incoming->srcSlot >= ItemSlotCount)
             return;
 
         auto& source = user->inventory[incoming->srcBag][incoming->srcSlot];
@@ -884,7 +884,7 @@ namespace packet_gem
         if (incoming->destBag > user->bagsUnlocked)
             return;
 
-        if (incoming->destSlot >= max_inventory_slot)
+        if (incoming->destSlot >= ItemSlotCount)
             return;
 
         auto& target = user->inventory[incoming->destBag][incoming->destSlot];
@@ -917,7 +917,7 @@ namespace packet_gem
             if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
                 return;
 
-            if (incoming->catalystSlot >= max_inventory_slot)
+            if (incoming->catalystSlot >= ItemSlotCount)
                 return;
 
             auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];

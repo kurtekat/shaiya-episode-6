@@ -8,6 +8,10 @@ namespace shaiya
     using CloakInfo = Gems;
     using CraftName = std::array<char, 21>;
 
+    constexpr int ItemListCount_EP5 = 8;
+    constexpr int ItemListCount_EP6_4 = 17;
+    constexpr int ItemSlotCount = 24;
+
     #pragma pack(push, 1)
     template<size_t N>
     struct ItemList

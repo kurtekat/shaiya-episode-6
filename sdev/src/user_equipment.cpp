@@ -211,20 +211,22 @@ void hook::user_equipment()
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
 
+    uint8_t equipmentCount = ItemListCount_EP6_4;
+
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, max_equipment_slot, 1);
+    util::write_memory((void*)0x4615B3, equipmentCount, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, max_equipment_slot, 1);
-    util::write_memory((void*)0x468722, max_equipment_slot, 1);
-    util::write_memory((void*)0x4688B0, max_equipment_slot, 1);
-    util::write_memory((void*)0x468955, max_equipment_slot, 1);
-    util::write_memory((void*)0x468A2B, max_equipment_slot, 1);
-    util::write_memory((void*)0x468B5D, max_equipment_slot, 1);
+    util::write_memory((void*)0x46862D, equipmentCount, 1);
+    util::write_memory((void*)0x468722, equipmentCount, 1);
+    util::write_memory((void*)0x4688B0, equipmentCount, 1);
+    util::write_memory((void*)0x468955, equipmentCount, 1);
+    util::write_memory((void*)0x468A2B, equipmentCount, 1);
+    util::write_memory((void*)0x468B5D, equipmentCount, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, max_equipment_slot, 1);
+    util::write_memory((void*)0x46BCCF, equipmentCount, 1);
     // CUser::PacketAdminCmdD (0xF901)
     // The client does not support more than 13 items (thanks, xarel)
-    //util::write_memory((void*)0x482896, max_equipment_slot, 1);
+    //util::write_memory((void*)0x482896, equipmentCount, 1);
 
     // user->itemQualityLv[0] (0x199 to 0x62A0)
     std::array<uint8_t, 2> a00{ 0xA0, 0x62 };

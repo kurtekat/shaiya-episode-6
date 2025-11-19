@@ -1,4 +1,5 @@
 #include <util/util.h>
+#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
 #include "include/shaiya/CUser.h"
@@ -64,7 +65,8 @@ namespace character_list
 
     void assign_equipment(CUser* user, uint characterSlot, uint equipmentSlot, uint type, uint typeId)
     {
-        if (characterSlot >= 5 || equipmentSlot >= max_equipment_slot)
+        uint equipmentCount = ItemListCount_EP6_4;
+        if (characterSlot >= 5 || equipmentSlot >= equipmentCount)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;
@@ -151,6 +153,8 @@ void hook::character_list()
     // DBCharacter::LoadCharacterList
     util::detour((void*)0x421AA5, naked_0x421AA5, 6);
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
+
     // DBCharacter::LoadCharacterList
-    util::write_memory((void*)0x42220B, max_equipment_slot, 1);
+    uint8_t equipmentCount = ItemListCount_EP6_4;
+    util::write_memory((void*)0x42220B, equipmentCount, 1);
 }

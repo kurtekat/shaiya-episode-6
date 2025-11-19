@@ -26,7 +26,7 @@ namespace packet_pc
         if (!incoming->bag || incoming->bag > user->bagsUnlocked)
             return;
 
-        if (incoming->slot >= max_inventory_slot)
+        if (incoming->slot >= ItemSlotCount)
             return;
 
         auto& item = user->inventory[incoming->bag][incoming->slot];

@@ -31,7 +31,7 @@ bool UserHelper::FindItem(CUser* user, int type, int typeId, uint count, int& ou
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
     {
-        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
         {
             auto& item = user->inventory[outBag][outSlot];
             if (!item)
@@ -55,7 +55,7 @@ bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint count, int& o
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
     {
-        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
         {
             auto& item = user->inventory[outBag][outSlot];
             if (!item)
@@ -82,7 +82,7 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& ou
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
     {
-        for (outSlot = 0; outSlot < max_inventory_slot; ++outSlot)
+        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
         {
             if (!user->inventory[outBag][outSlot])
                 return CUser::ItemCreate(user, itemInfo, count);
@@ -96,7 +96,10 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& ou
 
 bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
 {
-    if (!bag || bag > static_cast<uint>(user->bagsUnlocked) || slot >= max_inventory_slot)
+    if (!bag || bag > static_cast<uint>(user->bagsUnlocked))
+        return false;
+
+    if (slot >= ItemSlotCount)
         return false;
 
     auto& item = user->inventory[bag][slot];
