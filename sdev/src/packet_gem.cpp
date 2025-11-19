@@ -721,7 +721,7 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x831 packets.
     /// </summary>
-    void handler_0x831(CUser* user, GameItemSynthesisMaterialIncoming* incoming)
+    void handler_0x831(CUser* user, GameItemSynthesisRecipeIncoming* incoming)
     {
         auto& chaoticSquare = user->inventory[user->savePosUseBag][user->savePosUseSlot];
         if (!chaoticSquare)
@@ -741,7 +741,7 @@ namespace packet_gem
         if (incoming->newItemType != synthesis.newItemType || incoming->newItemTypeId != synthesis.newItemTypeId)
             return;
 
-        GameItemSynthesisMaterialOutgoing outgoing{};
+        GameItemSynthesisRecipeOutgoing outgoing{};
         outgoing.successRate = synthesis.successRate;
         outgoing.materialType = synthesis.materialType;
         outgoing.newItemType = synthesis.newItemType;
@@ -749,7 +749,7 @@ namespace packet_gem
         outgoing.newItemTypeId = synthesis.newItemTypeId;
         outgoing.materialCount = synthesis.materialCount;
         outgoing.newItemCount = synthesis.newItemCount;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisMaterialOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisRecipeOutgoing));
     }
 
     /// <summary>
@@ -1092,7 +1092,7 @@ namespace packet_gem
         }
         case 0x831:
         {
-            handler_0x831(user, reinterpret_cast<GameItemSynthesisMaterialIncoming*>(packet));
+            handler_0x831(user, reinterpret_cast<GameItemSynthesisRecipeIncoming*>(packet));
             break;
         }
         case 0x832:

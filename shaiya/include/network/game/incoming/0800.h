@@ -252,7 +252,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemSynthesisMaterialIncoming
+    struct GameItemSynthesisRecipeIncoming
     {
         uint16_t opcode{ 0x831 };
         uint8_t newItemType;

@@ -166,7 +166,7 @@ void Configuration::LoadItemSynthesis()
             ItemSynthesis synthesis{};
             synthesis.successRate = successRate * 100;
 
-            auto itemList = std::views::zip(
+            auto view = std::views::zip(
                 synthesis.materialType,
                 synthesis.materialTypeId,
                 synthesis.materialCount
@@ -174,24 +174,24 @@ void Configuration::LoadItemSynthesis()
 
             auto rng1 = std::views::split(pairs[2].second, L',');
             auto vec1 = std::ranges::to<std::vector<std::wstring>>(rng1);
-            if (vec1.size() != itemList.size())
+            if (vec1.size() != view.size())
                 continue;
 
             auto rng2 = std::views::split(pairs[3].second, L',');
             auto vec2 = std::ranges::to<std::vector<std::wstring>>(rng2);
-            if (vec2.size() != itemList.size())
+            if (vec2.size() != view.size())
                 continue;
 
             auto rng3 = std::views::split(pairs[4].second, L',');
             auto vec3 = std::ranges::to<std::vector<std::wstring>>(rng3);
-            if (vec3.size() != itemList.size())
+            if (vec3.size() != view.size())
                 continue;
 
-            for (int i = 0; std::cmp_less(i, itemList.size()); ++i)
+            for (size_t i = 0; i < view.size(); ++i)
             {
-                std::get<0>(itemList[i]) = std::stoi(vec1[i]);
-                std::get<1>(itemList[i]) = std::stoi(vec2[i]);
-                std::get<2>(itemList[i]) = std::stoi(vec3[i]);
+                std::get<0>(view[i]) = std::stoi(vec1[i]);
+                std::get<1>(view[i]) = std::stoi(vec2[i]);
+                std::get<2>(view[i]) = std::stoi(vec3[i]);
             }
 
             synthesis.newItemType = std::stoi(pairs[5].second);
