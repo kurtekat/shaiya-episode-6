@@ -675,8 +675,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
-        if (it == g_itemSynthesis.end())
+        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
+        if (it == g_itemSyntheses.end())
             return;
 
         user->savePosUseBag = incoming->chaoticSquareBag;
@@ -730,8 +730,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
-        if (it == g_itemSynthesis.end())
+        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
+        if (it == g_itemSyntheses.end())
             return;
 
         if (incoming->index >= it->second.size())
@@ -770,8 +770,8 @@ namespace packet_gem
         if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSynthesis.find(chaoticSquare->info->itemId);
-        if (it == g_itemSynthesis.end())
+        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
+        if (it == g_itemSyntheses.end())
             return;
 
         if (incoming->index >= it->second.size())

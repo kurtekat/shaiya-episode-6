@@ -30,5 +30,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline std::map<uint32_t, std::vector<ItemSynthesis>> g_itemSynthesis{};
+    inline std::map<uint32_t, std::vector<ItemSynthesis>> g_itemSyntheses{};
 }

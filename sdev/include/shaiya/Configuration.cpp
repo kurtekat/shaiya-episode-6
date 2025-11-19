@@ -198,15 +198,15 @@ void Configuration::LoadItemSynthesis()
             synthesis.newItemTypeId = std::stoi(pairs[6].second);
             synthesis.newItemCount = std::stoi(pairs[7].second);
 
-            if (auto it = g_itemSynthesis.find(itemId); it != g_itemSynthesis.end())
+            if (auto it = g_itemSyntheses.find(itemId); it != g_itemSyntheses.end())
                 it->second.push_back(synthesis);
             else
-                g_itemSynthesis.insert({ itemId, { synthesis } });
+                g_itemSyntheses.insert({ itemId, { synthesis } });
         }
     }
     catch (...)
     {
-        g_itemSynthesis.clear();
+        g_itemSyntheses.clear();
     }
 }
 
