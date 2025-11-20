@@ -4,7 +4,7 @@
 #include "RevengeMark.h"
 using namespace shaiya;
 
-void RevengeMark::send(CUser* user, uint charId, uint killCount)
+void RevengeMark::send(CUser* user, uint32_t charId, uint32_t killCount)
 {
     GameRevengeMarkOutgoing outgoing{};
     outgoing.charId = charId;

@@ -21,7 +21,7 @@ namespace packet_main_interface
         {
             if (auto inner = outer->second.find(killer->id); inner != outer->second.end())
             {
-                if (inner->second < RevengeMark::maxKillCount)
+                if (inner->second < RevengeMarkConstants::MaxKillCount)
                 {
                     ++inner->second;
                     RevengeMark::send(target, inner->first, inner->second);
