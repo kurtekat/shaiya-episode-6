@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <map>
@@ -6,7 +7,7 @@
 #include <tuple>
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h> 
+#include <windows.h>
 #include <util/ini/ini.h>
 #include "Configuration.h"
 #include "ItemRemake.h"
@@ -45,12 +46,32 @@ void Configuration::LoadItemRemake4()
             if (pairs.size() != 5)
                 continue;
 
+            auto itemId1 = std::stoi(pairs[0].second);
+            if (itemId1 < MinItemId || itemId1 > MaxItemId)
+                continue;
+
+            auto itemId2 = std::stoi(pairs[1].second);
+            if (itemId2 < MinItemId || itemId2 > MaxItemId)
+                continue;
+
+            auto itemId3 = std::stoi(pairs[2].second);
+            if (itemId3 < MinItemId || itemId3 > MaxItemId)
+                continue;
+
+            auto type = std::stoi(pairs[3].second);
+            if (!std::in_range<uint8_t>(type))
+                continue;
+
+            auto typeId = std::stoi(pairs[4].second);
+            if (!std::in_range<uint8_t>(typeId))
+                continue;
+
             ItemRemake remake{};
-            remake.items[0] = std::stoi(pairs[0].second);
-            remake.items[1] = std::stoi(pairs[1].second);
-            remake.items[2] = std::stoi(pairs[2].second);
-            remake.newItemType = std::stoi(pairs[3].second);
-            remake.newItemTypeId = std::stoi(pairs[4].second);
+            remake.items[0] = itemId1;
+            remake.items[1] = itemId2;
+            remake.items[2] = itemId3;
+            remake.newItemType = type;
+            remake.newItemTypeId = typeId;
             g_itemRemake4.push_back(remake);
         }
     }
@@ -76,12 +97,32 @@ void Configuration::LoadItemRemake5()
             if (pairs.size() != 5)
                 continue;
 
+            auto itemId1 = std::stoi(pairs[0].second);
+            if (itemId1 < MinItemId || itemId1 > MaxItemId)
+                continue;
+
+            auto itemId2 = std::stoi(pairs[1].second);
+            if (itemId2 < MinItemId || itemId2 > MaxItemId)
+                continue;
+
+            auto itemId3 = std::stoi(pairs[2].second);
+            if (itemId3 < MinItemId || itemId3 > MaxItemId)
+                continue;
+
+            auto type = std::stoi(pairs[3].second);
+            if (!std::in_range<uint8_t>(type))
+                continue;
+
+            auto typeId = std::stoi(pairs[4].second);
+            if (!std::in_range<uint8_t>(typeId))
+                continue;
+
             ItemRemake remake{};
-            remake.items[0] = std::stoi(pairs[0].second);
-            remake.items[1] = std::stoi(pairs[1].second);
-            remake.items[2] = std::stoi(pairs[2].second);
-            remake.newItemType = std::stoi(pairs[3].second);
-            remake.newItemTypeId = std::stoi(pairs[4].second);
+            remake.items[0] = itemId1;
+            remake.items[1] = itemId2;
+            remake.items[2] = itemId3;
+            remake.newItemType = type;
+            remake.newItemTypeId = typeId;
             g_itemRemake5.push_back(remake);
         }
     }
@@ -102,8 +143,9 @@ void Configuration::LoadItemSetData()
             return;
 
         SBinaryReader reader(path);
-        auto recordCount = reader.readUInt32();
-        for (size_t i = 0; i < recordCount; ++i)
+
+        auto itemSetCount = reader.readUInt32();
+        for (size_t i = 0; i < itemSetCount; ++i)
         {
             ItemSet itemSet{};
             itemSet.id = reader.readUInt16();
@@ -116,7 +158,10 @@ void Configuration::LoadItemSetData()
             {
                 auto type = reader.readUInt16();
                 auto typeId = reader.readUInt16();
-                itemId = (type * 1000) + typeId;
+
+                auto value = (type * 1000) + typeId;
+                if (value >= MinItemId && value <= MaxItemId)
+                    itemId = value;
             }
 
             for (auto&& synergy : itemSet.synergies)
@@ -160,8 +205,11 @@ void Configuration::LoadItemSynthesis()
                 continue;
 
             auto itemId = std::stoi(pairs[0].second);
+            if (itemId < MinItemId || itemId > MaxItemId)
+                continue;
+
             auto successRate = std::stoi(pairs[1].second);
-            successRate = (successRate > 100) ? 100 : successRate;
+            successRate = std::clamp(successRate, 1, 100);
 
             ItemSynthesis synthesis{};
             synthesis.successRate = successRate * 100;
@@ -189,14 +237,38 @@ void Configuration::LoadItemSynthesis()
 
             for (size_t i = 0; i < view.size(); ++i)
             {
-                std::get<0>(view[i]) = std::stoi(vec1[i]);
-                std::get<1>(view[i]) = std::stoi(vec2[i]);
-                std::get<2>(view[i]) = std::stoi(vec3[i]);
+                auto type = std::stoi(vec1[i]);
+                if (!std::in_range<uint8_t>(type))
+                    continue;
+
+                auto typeId = std::stoi(vec2[i]);
+                if (!std::in_range<uint8_t>(typeId))
+                    continue;
+
+                auto count = std::stoi(vec3[i]);
+                if (!std::in_range<uint8_t>(count))
+                    continue;
+
+                std::get<0>(view[i]) = type;
+                std::get<1>(view[i]) = typeId;
+                std::get<2>(view[i]) = count;
             }
 
-            synthesis.newItemType = std::stoi(pairs[5].second);
-            synthesis.newItemTypeId = std::stoi(pairs[6].second);
-            synthesis.newItemCount = std::stoi(pairs[7].second);
+            auto type = std::stoi(pairs[5].second);
+            if (!std::in_range<uint8_t>(type))
+                continue;
+
+            auto typeId = std::stoi(pairs[6].second);
+            if (!std::in_range<uint8_t>(typeId))
+                continue;
+
+            auto count = std::stoi(pairs[7].second);
+            if (!std::in_range<uint8_t>(count))
+                continue;
+
+            synthesis.newItemType = type;
+            synthesis.newItemTypeId = typeId;
+            synthesis.newItemCount = count;
 
             if (auto it = g_itemSyntheses.find(itemId); it != g_itemSyntheses.end())
                 it->second.push_back(synthesis);
@@ -265,14 +337,26 @@ void Configuration::LoadRewardItemEvent()
             if (delay <= 0)
                 continue;
 
+            auto type = std::stoi(pairs[1].second);
+            if (!std::in_range<uint8_t>(type))
+                continue;
+
+            auto typeId = std::stoi(pairs[2].second);
+            if (!std::in_range<uint8_t>(typeId))
+                continue;
+
+            auto count = std::stoi(pairs[3].second);
+            if (!std::in_range<uint8_t>(count))
+                continue;
+
             RewardItem item{};
             item.delay = std::chrono::minutes(delay);
-            item.type = std::stoi(pairs[1].second);
-            item.typeId = std::stoi(pairs[2].second);
-            item.count = std::stoi(pairs[3].second);
+            item.type = type;
+            item.typeId = typeId;
+            item.count = count;
             g_rewardItems.push_back(item);
 
-            if (g_rewardItems.size() == RewardItemEvent::maxItemCount)
+            if (g_rewardItems.size() == RewardItemEvent::MaxItemCount)
                 break;
         }
     }
