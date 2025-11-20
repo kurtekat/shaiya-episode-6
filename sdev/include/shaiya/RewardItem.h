@@ -1,8 +1,8 @@
 #pragma once
 #include <chrono>
+#include <cstdint>
 #include <map>
 #include <vector>
-#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -32,9 +32,12 @@ namespace shaiya
 
         static void sendItemList(CUser* user);
 
-        static constexpr uint32_t maxItemCount = 20;
+        /// <summary>
+        /// The max reward items read by the client.
+        /// </summary>
+        static constexpr uint32_t MaxItemCount = 20;
     };
 
-    inline std::vector<RewardItem> g_rewardItems;
-    inline std::map<uint32_t, RewardItemEventProgress> g_rewardItemEventProgress;
+    inline std::vector<RewardItem> g_rewardItems{};
+    inline std::map<uint32_t/*UserUID*/, RewardItemEventProgress> g_rewardItemEventProgress{};
 }
