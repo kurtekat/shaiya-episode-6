@@ -1,22 +1,13 @@
 #pragma once
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <map>
-#include <vector>
 
 namespace shaiya
 {
     struct CUser;
-
-    #pragma pack(push, 1)
-    struct RewardItem
-    {
-        std::chrono::minutes delay;
-        uint8_t type;
-        uint8_t typeId;
-        uint8_t count;
-    };
-    #pragma pack(pop)
+    struct RewardItemUnit;
 
     #pragma pack(push, 1)
     struct RewardItemEventProgress
@@ -31,13 +22,9 @@ namespace shaiya
     public:
 
         static void sendItemList(CUser* user);
-
-        /// <summary>
-        /// The max reward items read by the client.
-        /// </summary>
-        static constexpr uint32_t MaxItemCount = 20;
     };
 
-    inline std::vector<RewardItem> g_rewardItems{};
+    inline uint32_t g_rewardItemCount{};
+    inline std::array<RewardItemUnit, 20> g_rewardItemList{};
     inline std::map<uint32_t/*UserUID*/, RewardItemEventProgress> g_rewardItemEventProgress{};
 }

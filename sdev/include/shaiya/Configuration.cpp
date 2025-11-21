@@ -9,6 +9,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/ini/ini.h>
+#include <shaiya/include/network/game/RewardItemUnit.h>
 #include "Configuration.h"
 #include "ItemRemake.h"
 #include "ItemSynthesis.h"
@@ -327,14 +328,15 @@ void Configuration::LoadRewardItemEvent()
         if (!std::filesystem::exists(path))
             return;
 
+        size_t index = 0;
         for (const auto& section : util::ini::get_sections(path))
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 4)
                 continue;
 
-            auto delay = std::stoi(pairs[0].second);
-            if (delay <= 0)
+            auto minutes = std::stoi(pairs[0].second);
+            if (minutes <= 0)
                 continue;
 
             auto type = std::stoi(pairs[1].second);
@@ -349,19 +351,21 @@ void Configuration::LoadRewardItemEvent()
             if (!std::in_range<uint8_t>(count))
                 continue;
 
-            RewardItem item{};
-            item.delay = std::chrono::minutes(delay);
-            item.type = type;
-            item.typeId = typeId;
-            item.count = count;
-            g_rewardItems.push_back(item);
+            g_rewardItemList[index].minutes = minutes;
+            g_rewardItemList[index].type = type;
+            g_rewardItemList[index].typeId = typeId;
+            g_rewardItemList[index].count = count;
 
-            if (g_rewardItems.size() == RewardItemEvent::MaxItemCount)
+            ++index;
+            ++g_rewardItemCount;
+
+            if (index == g_rewardItemList.size())
                 break;
         }
     }
     catch (...)
     {
-        g_rewardItems.clear();
+        g_rewardItemCount = 0;
+        g_rewardItemList.fill({});
     }
 }

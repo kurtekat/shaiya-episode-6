@@ -1,4 +1,5 @@
 #include <chrono>
+#include <map>
 #include <util/util.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/game/outgoing/1F00.h>
@@ -23,23 +24,24 @@ namespace packet_reward_item
         {
         case 0x1F04:
         {
+            if (!g_rewardItemCount)
+                return;
+
             auto it = g_rewardItemEventProgress.find(user->billingId);
             if (it == g_rewardItemEventProgress.end())
                 return;
 
             auto now = std::chrono::system_clock::now();
-            auto& progress = it->second;
-
-            if (now < progress.itemGetWaitTime)
+            if (now < it->second.itemGetWaitTime)
                 return;
 
-            auto index = progress.itemListIndex;
-            if (index >= g_rewardItems.size())
+            auto index = it->second.itemListIndex;
+            if (index >= g_rewardItemCount)
                 return;
 
-            auto type = g_rewardItems[index].type;
-            auto typeId = g_rewardItems[index].typeId;
-            auto count = g_rewardItems[index].count;
+            auto type = g_rewardItemList[index].type;
+            auto typeId = g_rewardItemList[index].typeId;
+            auto count = g_rewardItemList[index].count;
 
             auto itemInfo = CGameData::GetItemInfo(type, typeId);
             if (!itemInfo)
@@ -60,7 +62,8 @@ namespace packet_reward_item
                 NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
 
                 ++index;
-                if (index >= g_rewardItems.size())
+
+                if (index >= g_rewardItemCount)
                 {
                     GameRewardItemEventEndedOutgoing outgoing{};
                     NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventEndedOutgoing));
@@ -68,8 +71,11 @@ namespace packet_reward_item
                 }
                 else
                 {
-                    progress.itemListIndex = index;
-                    progress.itemGetWaitTime = now + g_rewardItems[index].delay;
+                    auto minutes = std::chrono::minutes(g_rewardItemList[index].minutes);
+                    auto now = std::chrono::system_clock::now();
+
+                    it->second.itemListIndex = index;
+                    it->second.itemGetWaitTime = now + minutes;
 
                     GameRewardItemEventProgressOutgoing outgoing{};
                     outgoing.itemListIndex = index;

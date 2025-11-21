@@ -1,30 +1,19 @@
 #include <chrono>
-#include <ranges>
-#include <vector>
+#include <map>
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "CUser.h"
-#include "CWorld.h"
 #include "NetworkHelper.h"
 #include "RewardItem.h"
 using namespace shaiya;
 
 void RewardItemEvent::sendItemList(CUser* user)
 {
-    if (g_rewardItems.empty())
+    if (!g_rewardItemCount)
         return;
 
     GameRewardItemListOutgoing outgoing{};
-    outgoing.itemCount = static_cast<uint32_t>(g_rewardItems.size());
-
-    for (auto&& [unit, item] : std::views::zip(
-        outgoing.itemList,
-        std::as_const(g_rewardItems)))
-    {
-        unit.minutes = item.delay.count();
-        unit.type = item.type;
-        unit.typeId = item.typeId;
-        unit.count = item.count;
-    }
+    outgoing.itemCount = g_rewardItemCount;
+    outgoing.itemList = g_rewardItemList;
     
     auto length = outgoing.baseLength + (outgoing.itemCount * sizeof(RewardItemUnit));
     NetworkHelper::Send(user, &outgoing, length);
@@ -37,11 +26,11 @@ void RewardItemEvent::sendItemList(CUser* user)
     }
     else
     {
+        auto minutes = std::chrono::minutes(g_rewardItemList[0].minutes);
         auto now = std::chrono::system_clock::now();
 
         RewardItemEventProgress progress{};
-        progress.itemListIndex = 0;
-        progress.itemGetWaitTime = now + g_rewardItems[0].delay;
+        progress.itemGetWaitTime = now + minutes;
         g_rewardItemEventProgress.insert({ user->billingId, progress });
 
         GameRewardItemEventProgressOutgoing outgoing{};
