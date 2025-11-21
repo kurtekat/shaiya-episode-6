@@ -4,7 +4,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
+#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/network/dbAgent/incoming/0600.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
@@ -26,8 +27,11 @@
 #include "UserHelper.h"
 using namespace shaiya;
 
-bool UserHelper::FindItem(CUser* user, int type, int typeId, uint_t count, int& outBag, int& outSlot)
+bool UserHelper::FindItem(CUser* user, int type, int typeId, int count, int& outBag, int& outSlot)
 {
+    if (count < 1)
+        return false;
+
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
     {
@@ -50,8 +54,11 @@ bool UserHelper::FindItem(CUser* user, int type, int typeId, uint_t count, int& 
     return false;
 }
 
-bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint_t count, int& outBag, int& outSlot)
+bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, int count, int& outBag, int& outSlot)
 {
+    if (count < 1)
+        return false;
+
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
     {
@@ -74,7 +81,7 @@ bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint_t count, int&
     return false;
 }
 
-bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint_t count, int& outBag, int& outSlot)
+bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
 {
     if (count < 1 || count > itemInfo->count)
         return false;
@@ -94,12 +101,12 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint_t count, int& 
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, uint_t bag, uint_t slot, uint_t count)
+bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
 {
-    if (!bag || bag > static_cast<uint_t>(user->bagsUnlocked))
+    if (bag <= 0 || bag > user->bagsUnlocked)
         return false;
 
-    if (slot >= ItemSlotCount)
+    if (slot < 0 || slot >= ItemSlotCount)
         return false;
 
     auto& item = user->inventory[bag][slot];

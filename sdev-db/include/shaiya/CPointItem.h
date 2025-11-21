@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/MakeType.h>
 #include "SaveType.h"
 #include "SNode.h"
 

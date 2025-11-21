@@ -3,7 +3,7 @@
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>

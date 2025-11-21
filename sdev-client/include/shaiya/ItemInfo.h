@@ -3,7 +3,7 @@
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
 
 namespace shaiya
 {
@@ -58,6 +58,13 @@ namespace shaiya
         // 100, 101, 102, 103
         Other = 100,
         Wings = 121
+    };
+
+    enum struct ReqOg : uint8_t
+    {
+        Tradable,
+        AccountBound,
+        CharacterBound
     };
 
     #pragma pack(push, 1)

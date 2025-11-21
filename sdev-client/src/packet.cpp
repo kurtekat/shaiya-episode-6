@@ -8,21 +8,21 @@ namespace packet
 {
     void hook_0x303(CCharacter* user)
     {
-        if (!user->equipment.type[EquipmentSlot::Pet])
+        if (!user->equipment.type[ItemSlot::Pet])
             user->pet = nullptr;
 
-        if (!user->equipment.type[EquipmentSlot::Costume])
+        if (!user->equipment.type[ItemSlot::Costume])
         {
             user->enableCostume = 0;
             user->costume.fill(-1);
         }
 
-        if (!user->equipment.type[EquipmentSlot::Wings])
+        if (!user->equipment.type[ItemSlot::Wings])
             user->wings = nullptr;
     }
 
     // Adds support for system message 509
-    void hook_0x229(CCharacter* killer, uint_t killCount)
+    void hook_0x229(CCharacter* killer, uint32_t killCount)
     {
         std::memcpy(g_var->sysmsg_t.data(), killer->charName.data(), killer->charName.size());
         g_var->sysmsg_t[killer->charName.size() - 1] = '\0';

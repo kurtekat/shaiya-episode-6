@@ -3,10 +3,16 @@
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
 
 namespace shaiya
 {
+    inline constexpr int ItemCraft_MAX = 99;
+    inline constexpr int ItemGrade_MAX = 3072;
+
+    inline constexpr int ItemId_MIN = 1 * 1000 + 1;
+    inline constexpr int ItemId_MAX = UINT8_MAX * 1000 + UINT8_MAX;
+
     // notes: item types
     enum struct RealType : int32_t
     {
@@ -126,6 +132,13 @@ namespace shaiya
         Max
     };
 
+    enum struct ReqOg : uint8_t
+    {
+        Tradable,
+        AccountBound,
+        CharacterBound
+    };
+
     #pragma pack(push, 1)
     struct ItemInfo
     {
@@ -186,7 +199,6 @@ namespace shaiya
         uint16_t intelligence;      //0x76
         uint16_t wisdom;            //0x78
         uint16_t luck;              //0x7A
-        // max: 3072
         uint16_t dropGrade;         //0x7C
         uint16_t dropLimit;         //0x7E
         uint32_t buy;               //0x80

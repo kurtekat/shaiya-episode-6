@@ -1,6 +1,5 @@
 #pragma once
-#include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
 
 namespace shaiya
 {
@@ -10,10 +9,10 @@ namespace shaiya
 
     struct UserHelper
     {
-        static bool FindItem(CUser* user, int type, int typeId, uint_t count, int& outBag, int& outSlot);
-        static bool FindItem(CUser* user, ItemEffect itemEffect, uint_t count, int& outBag, int& outSlot);
-        static bool ItemCreate(CUser* user, ItemInfo* itemInfo, uint_t count, int& outBag, int& outSlot);
-        static bool ItemRemove(CUser* user, uint_t bag, uint_t slot, uint_t count);
+        static bool FindItem(CUser* user, int type, int typeId, int count, int& outBag, int& outSlot);
+        static bool FindItem(CUser* user, ItemEffect itemEffect, int count, int& outBag, int& outSlot);
+        static bool ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot);
+        static bool ItemRemove(CUser* user, int bag, int slot, int count);
         static void SetMovePosition(CUser* user, uint_t mapId, float x, float y, float z, UserMovePosType movePosType, uint_t delay);
         static void SetMovePosition(CUser* user, uint_t mapId, SVector* pos, UserMovePosType movePosType, uint_t delay);
         static bool Move(CUser* user, uint_t mapId, float x, float y, float z, UserMovePosType movePosType, uint_t delay);

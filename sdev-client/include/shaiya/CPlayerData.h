@@ -2,7 +2,6 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/common/Sex.h>

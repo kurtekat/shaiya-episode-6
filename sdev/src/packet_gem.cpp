@@ -3,7 +3,9 @@
 #include <ranges>
 #include <string>
 #include <util/util.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
+#include <shaiya/include/common/ItemSlot.h>
+#include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/incoming/0800.h>
@@ -85,13 +87,13 @@ namespace packet_gem
         if (!vial)
             return;
 
-        if (lapis1->type != std::to_underlying(ItemType::Lapis))
+        if (lapis1->type != ItemType::Lapis)
             return;
 
-        if (lapis2->type != std::to_underlying(ItemType::Lapis))
+        if (lapis2->type != ItemType::Lapis)
             return;
 
-        if (lapis3->type != std::to_underlying(ItemType::Lapis))
+        if (lapis3->type != ItemType::Lapis)
             return;
 
         if (vial->info->effect != ItemEffect::CrowleyEssence)
@@ -202,13 +204,13 @@ namespace packet_gem
         if (!vial)
             return;
 
-        if (lapisian1->type != std::to_underlying(ItemType::Lapisian))
+        if (lapisian1->type != ItemType::Lapisian)
             return;
 
-        if (lapisian2->type != std::to_underlying(ItemType::Lapisian))
+        if (lapisian2->type != ItemType::Lapisian)
             return;
 
-        if (lapisian3->type != std::to_underlying(ItemType::Lapisian))
+        if (lapisian3->type != ItemType::Lapisian)
             return;
 
         if (vial->info->effect != ItemEffect::CrowleyLiquid)
@@ -359,7 +361,7 @@ namespace packet_gem
         if (cube->info->itemId != 101101)
             return;
 
-        if (incoming->lapisianType != std::to_underlying(ItemType::Lapisian))
+        if (incoming->lapisianType != ItemType::Lapisian)
             return;
 
         auto oldItemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId);
@@ -458,7 +460,7 @@ namespace packet_gem
             return;
         }
 
-        if (!item->info->reqWis || item->info->reqWis > 99)
+        if (!item->info->reqWis || item->info->reqWis > ItemCraft_MAX)
         {
             NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;

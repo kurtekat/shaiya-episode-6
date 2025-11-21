@@ -13,12 +13,19 @@
   <ItemGroup>
     <ClInclude Include="include\common.h" />
     <ClInclude Include="include\common\Attribute.h" />
+    <ClInclude Include="include\common\Bag.h" />
     <ClInclude Include="include\common\Country.h" />
+    <ClInclude Include="include\common\CraftName.h" />
     <ClInclude Include="include\common\DateTime.h" />
     <ClInclude Include="include\common\Family.h" />
+    <ClInclude Include="include\common\Gems.h" />
     <ClInclude Include="include\common\Grow.h" />
-    <ClInclude Include="include\common\ItemTypes.h" />
+    <ClInclude Include="include\common\ItemEffect.h" />
+    <ClInclude Include="include\common\ItemSlot.h" />
+    <ClInclude Include="include\common\ItemType.h" />
+    <ClInclude Include="include\common\ItemList.h" />
     <ClInclude Include="include\common\Job.h" />
+    <ClInclude Include="include\common\MakeType.h" />
     <ClInclude Include="include\common\PartyTypes.h" />
     <ClInclude Include="include\common\NpcTypes.h" />
     <ClInclude Include="include\common\Sex.h" />

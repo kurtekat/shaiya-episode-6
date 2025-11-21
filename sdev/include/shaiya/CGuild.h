@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/UserTypes.h>
 #include "GuildUserInfo.h"
 #include "SNode.h"
 #include "SSyncMap.h"

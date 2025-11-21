@@ -11,6 +11,7 @@
 #include <util/ini/ini.h>
 #include <shaiya/include/network/game/RewardItemUnit.h>
 #include "Configuration.h"
+#include "ItemInfo.h"
 #include "ItemRemake.h"
 #include "ItemSynthesis.h"
 #include "PathHelper.h"
@@ -49,15 +50,15 @@ void Configuration::LoadItemRemake4()
                 continue;
 
             auto itemId1 = std::stoi(pairs[0].second);
-            if (itemId1 < MinItemId || itemId1 > MaxItemId)
+            if (itemId1 < ItemId_MIN || itemId1 > ItemId_MAX)
                 continue;
 
             auto itemId2 = std::stoi(pairs[1].second);
-            if (itemId2 < MinItemId || itemId2 > MaxItemId)
+            if (itemId2 < ItemId_MIN || itemId2 > ItemId_MAX)
                 continue;
 
             auto itemId3 = std::stoi(pairs[2].second);
-            if (itemId3 < MinItemId || itemId3 > MaxItemId)
+            if (itemId3 < ItemId_MIN || itemId3 > ItemId_MAX)
                 continue;
 
             auto type = std::stoi(pairs[3].second);
@@ -101,15 +102,15 @@ void Configuration::LoadItemRemake5()
                 continue;
 
             auto itemId1 = std::stoi(pairs[0].second);
-            if (itemId1 < MinItemId || itemId1 > MaxItemId)
+            if (itemId1 < ItemId_MIN || itemId1 > ItemId_MAX)
                 continue;
 
             auto itemId2 = std::stoi(pairs[1].second);
-            if (itemId2 < MinItemId || itemId2 > MaxItemId)
+            if (itemId2 < ItemId_MIN || itemId2 > ItemId_MAX)
                 continue;
 
             auto itemId3 = std::stoi(pairs[2].second);
-            if (itemId3 < MinItemId || itemId3 > MaxItemId)
+            if (itemId3 < ItemId_MIN || itemId3 > ItemId_MAX)
                 continue;
 
             auto type = std::stoi(pairs[3].second);
@@ -163,7 +164,7 @@ void Configuration::LoadItemSetData()
                 auto typeId = reader.readUInt16();
 
                 auto value = (type * 1000) + typeId;
-                if (value >= MinItemId && value <= MaxItemId)
+                if (value >= ItemId_MIN && value <= ItemId_MAX)
                     itemId = value;
             }
 
@@ -209,7 +210,7 @@ void Configuration::LoadItemSynthesis()
                 continue;
 
             auto itemId = std::stoi(pairs[0].second);
-            if (itemId < MinItemId || itemId > MaxItemId)
+            if (itemId < ItemId_MIN || itemId > ItemId_MAX)
                 continue;
 
             auto successRate = std::stoi(pairs[1].second);

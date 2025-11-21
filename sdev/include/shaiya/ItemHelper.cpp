@@ -11,7 +11,7 @@ using namespace shaiya;
 
 void ItemHelper::SetCraftStrength(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -23,7 +23,7 @@ void ItemHelper::SetCraftStrength(CItem* item, int value)
 
 void ItemHelper::SetCraftDexterity(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -35,7 +35,7 @@ void ItemHelper::SetCraftDexterity(CItem* item, int value)
 
 void ItemHelper::SetCraftReaction(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -47,7 +47,7 @@ void ItemHelper::SetCraftReaction(CItem* item, int value)
 
 void ItemHelper::SetCraftIntelligence(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -59,7 +59,7 @@ void ItemHelper::SetCraftIntelligence(CItem* item, int value)
 
 void ItemHelper::SetCraftWisdom(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -71,7 +71,7 @@ void ItemHelper::SetCraftWisdom(CItem* item, int value)
 
 void ItemHelper::SetCraftLuck(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -83,7 +83,7 @@ void ItemHelper::SetCraftLuck(CItem* item, int value)
 
 void ItemHelper::SetCraftHealth(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -95,7 +95,7 @@ void ItemHelper::SetCraftHealth(CItem* item, int value)
 
 void ItemHelper::SetCraftMana(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');
@@ -107,7 +107,7 @@ void ItemHelper::SetCraftMana(CItem* item, int value)
 
 void ItemHelper::SetCraftStamina(CItem* item, int value)
 {
-    value = std::clamp(value, 0, 99);
+    value = std::clamp(value, 0, ItemCraft_MAX);
     auto str = std::to_string(value);
     if (value < 10)
         str.insert(str.begin(), 1, '0');

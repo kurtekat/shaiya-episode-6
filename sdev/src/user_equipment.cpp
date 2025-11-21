@@ -1,7 +1,9 @@
 #include <array>
 #include <ranges>
 #include <util/util.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemList.h>
+#include <shaiya/include/common/ItemSlot.h>
+#include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
 #include "include/shaiya/CItem.h"
@@ -12,28 +14,28 @@ using namespace shaiya;
 
 namespace user_equipment
 {
-    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int equipmentSlot)
+    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int itemSlot)
     {
         auto itemType = static_cast<ItemType>(itemInfo->type);
         auto realType = itemInfo->realType;
 
-        switch (equipmentSlot)
+        switch (itemSlot)
         {
-        case EquipmentSlot::Helmet:
+        case ItemSlot::Helmet:
             return realType == RealType::Helmet;
-        case EquipmentSlot::UpperArmor:
+        case ItemSlot::UpperArmor:
             return realType == RealType::UpperArmor;
-        case EquipmentSlot::LowerArmor:
+        case ItemSlot::LowerArmor:
             return realType == RealType::LowerArmor;
-        case EquipmentSlot::Gloves:
+        case ItemSlot::Gloves:
             return realType == RealType::Gloves;
-        case EquipmentSlot::Boots:
+        case ItemSlot::Boots:
             return realType == RealType::Boots;
-        case EquipmentSlot::Weapon:
+        case ItemSlot::Weapon:
         {
             if (CItem::IsWeapon(item))
             {
-                if (!user->inventory[0][EquipmentSlot::Shield])
+                if (!user->inventory[0][ItemSlot::Shield])
                     return true;
 
                 if (CItem::IsOneHandWeapon(item))
@@ -42,11 +44,11 @@ namespace user_equipment
 
             return false;
         }
-        case EquipmentSlot::Shield:
+        case ItemSlot::Shield:
         {
             if (realType == RealType::Shield)
             {
-                auto& item = user->inventory[0][EquipmentSlot::Weapon];
+                auto& item = user->inventory[0][ItemSlot::Weapon];
                 if (!item)
                     return true;
 
@@ -56,23 +58,23 @@ namespace user_equipment
 
             return false;
         }
-        case EquipmentSlot::Cloak:
+        case ItemSlot::Cloak:
             return realType == RealType::Cloak;
-        case EquipmentSlot::Necklace:
+        case ItemSlot::Necklace:
             return realType == RealType::Necklace;
-        case EquipmentSlot::Ring1:
-        case EquipmentSlot::Ring2:
+        case ItemSlot::Ring1:
+        case ItemSlot::Ring2:
             return realType == RealType::Ring;
-        case EquipmentSlot::Bracelet1:
-        case EquipmentSlot::Bracelet2:
+        case ItemSlot::Bracelet1:
+        case ItemSlot::Bracelet2:
             return realType == RealType::Bracelet;
-        case EquipmentSlot::Vehicle:
+        case ItemSlot::Vehicle:
             return itemType == ItemType::Vehicle;
-        case EquipmentSlot::Pet:
+        case ItemSlot::Pet:
             return itemType == ItemType::Pet;
-        case EquipmentSlot::Costume:
+        case ItemSlot::Costume:
             return itemType == ItemType::Costume;
-        case EquipmentSlot::Wings:
+        case ItemSlot::Wings:
             return itemType == ItemType::Wings;
         default:
             break;
@@ -91,7 +93,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (slot < EquipmentSlot::Vehicle)
+            if (slot < ItemSlot::Vehicle)
                 user->itemQualityEx[slot] = item->quality;
 
             CUser::ItemEquipmentAdd(user, item, slot);
@@ -118,14 +120,14 @@ namespace user_equipment
             if (std::cmp_greater_equal(slot, outgoing.itemList.size()))
                 break;
 
-            if (slot < EquipmentSlot::Wings)
+            if (slot < ItemSlot::Wings)
             {
                 GetInfoItemUnit_EP5 item0307{};
                 item0307.slot = slot;
                 item0307.type = item->type;
                 item0307.typeId = item->typeId;
 
-                if (slot < EquipmentSlot::Vehicle)
+                if (slot < ItemSlot::Vehicle)
                     item0307.quality = item->quality;
 
                 item0307.gems = item->gems;
@@ -211,22 +213,20 @@ void hook::user_equipment()
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
 
-    uint8_t equipmentCount = ItemListCount_EP6_4;
-
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, equipmentCount, 1);
+    util::write_memory((void*)0x4615B3, ItemListCount_EP6_4, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, equipmentCount, 1);
-    util::write_memory((void*)0x468722, equipmentCount, 1);
-    util::write_memory((void*)0x4688B0, equipmentCount, 1);
-    util::write_memory((void*)0x468955, equipmentCount, 1);
-    util::write_memory((void*)0x468A2B, equipmentCount, 1);
-    util::write_memory((void*)0x468B5D, equipmentCount, 1);
+    util::write_memory((void*)0x46862D, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x468722, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x4688B0, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x468955, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x468A2B, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x468B5D, ItemListCount_EP6_4, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, equipmentCount, 1);
+    util::write_memory((void*)0x46BCCF, ItemListCount_EP6_4, 1);
     // CUser::PacketAdminCmdD (0xF901)
     // The client does not support more than 13 items (thanks, xarel)
-    //util::write_memory((void*)0x482896, equipmentCount, 1);
+    //util::write_memory((void*)0x482896, ItemListCount_EP6_4, 1);
 
     // user->itemQualityLv[0] (0x199 to 0x62A0)
     std::array<uint8_t, 2> a00{ 0xA0, 0x62 };

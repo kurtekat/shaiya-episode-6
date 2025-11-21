@@ -1,11 +1,11 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Family.h>
+#include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemList.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {

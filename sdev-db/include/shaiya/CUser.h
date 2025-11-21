@@ -5,10 +5,9 @@
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemList.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 #include "BaseItem.h"
 #include "BillingItemInfo.h"
 #include "BlockInfo.h"

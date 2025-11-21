@@ -3,10 +3,8 @@
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/ItemTypes.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 #include "BillingItemInfo.h"
 #include "Quick.h"
 #include "SSyncList.h"
@@ -20,6 +18,12 @@ namespace shaiya
     using Inventory = Array<Array<CItem*, 24>, 6>;
     using Warehouse = Array<CItem*, 240>;
     using Bank = Array<BillingItemInfo, 240>;
+
+    template<size_t N>
+    using ItemQuality = std::array<uint16_t, N>;
+
+    template<size_t N>
+    using ItemQualityLv = std::array<uint8_t, N>;
 
     #pragma pack(push, 1)
     struct UserInfo

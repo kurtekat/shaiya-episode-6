@@ -73,7 +73,7 @@
     <ClInclude Include="include\common\SkillTypes.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\ItemTypes.h">
+    <ClInclude Include="include\common\ItemList.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\UserTypes.h">
@@ -336,6 +336,27 @@
     </ClInclude>
     <ClInclude Include="include\network\game\BillingProductList.h">
       <Filter>include\network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ItemType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ItemEffect.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Bag.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\MakeType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Gems.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\CraftName.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ItemSlot.h">
+      <Filter>include\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

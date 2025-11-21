@@ -1,6 +1,8 @@
 //#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
 #include <util/util.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/ItemEffect.h>
+#include <shaiya/include/common/ItemSlot.h>
+#include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/common/SkillTypes.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0400.h>
@@ -98,11 +100,11 @@ namespace item_effect
         if (!user)
             return 0;
 
-        auto& pet = user->inventory[0][EquipmentSlot::Pet];
+        auto& pet = user->inventory[0][ItemSlot::Pet];
         if (!pet)
             return 0;
 
-        if (item->type == std::to_underlying(ItemType::Gold))
+        if (item->type == ItemType::Gold)
         {
             auto money = item->dropMoney;
             if (!money)

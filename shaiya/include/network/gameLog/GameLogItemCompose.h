@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/ItemTypes.h>
+#include <shaiya/include/common/CraftName.h>
 #include <shaiya/include/network/gameLog/GameLogItem.h>
 
 namespace shaiya
