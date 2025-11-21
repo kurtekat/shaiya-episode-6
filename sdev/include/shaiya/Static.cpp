@@ -3,7 +3,7 @@
 #include "Static.h"
 using namespace shaiya;
 
-void Static::ConvTime(uint time/*eax*/, SYSTEMTIME* output/*ecx*/)
+void Static::ConvTime(uint_t time/*eax*/, SYSTEMTIME* output/*ecx*/)
 {
     unsigned u0x4E1CA0 = 0x4E1CA0;
 
@@ -15,7 +15,7 @@ void Static::ConvTime(uint time/*eax*/, SYSTEMTIME* output/*ecx*/)
     }
 }
 
-uint Static::ConvTime(SYSTEMTIME* time/*ecx*/)
+uint_t Static::ConvTime(SYSTEMTIME* time/*ecx*/)
 {
     unsigned u0x4E1CF0 = 0x4E1CF0;
 
@@ -26,8 +26,8 @@ uint Static::ConvTime(SYSTEMTIME* time/*ecx*/)
     }
 }
 
-uint Static::GetSystemTime()
+uint_t Static::GetSystemTime()
 {
-    typedef uint(__stdcall* LPFN)();
+    typedef uint_t(__stdcall* LPFN)();
     return (*(LPFN)0x4E1A50)();
 }

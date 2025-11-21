@@ -19,11 +19,11 @@ bool SDatabasePool::Connect(
     const char* dbName, 
     const char* username, 
     const char* password, 
-    uint queryTimeout,
-    uint connectionTimeout
+    uint_t queryTimeout,
+    uint_t connectionTimeout
 )
 {
-    typedef bool(__thiscall* LPFN)(void*, int, const char*, const char*, const char*, const char*, uint, uint);
+    typedef bool(__thiscall* LPFN)(void*, int, const char*, const char*, const char*, const char*, uint_t, uint_t);
     return (*(LPFN)0x4F4A10)((void*)0x109BED0, connectionCount, serverName, dbName, username, password, queryTimeout, connectionTimeout);
 }
 

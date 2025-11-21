@@ -26,7 +26,7 @@
 #include "UserHelper.h"
 using namespace shaiya;
 
-bool UserHelper::FindItem(CUser* user, int type, int typeId, uint count, int& outBag, int& outSlot)
+bool UserHelper::FindItem(CUser* user, int type, int typeId, uint_t count, int& outBag, int& outSlot)
 {
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
@@ -50,7 +50,7 @@ bool UserHelper::FindItem(CUser* user, int type, int typeId, uint count, int& ou
     return false;
 }
 
-bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint count, int& outBag, int& outSlot)
+bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint_t count, int& outBag, int& outSlot)
 {
     outBag = 1;
     while (outBag <= user->bagsUnlocked)
@@ -74,7 +74,7 @@ bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, uint count, int& o
     return false;
 }
 
-bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& outBag, int& outSlot)
+bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint_t count, int& outBag, int& outSlot)
 {
     if (count < 1 || count > itemInfo->count)
         return false;
@@ -94,9 +94,9 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, uint count, int& ou
     return false;
 }
 
-bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
+bool UserHelper::ItemRemove(CUser* user, uint_t bag, uint_t slot, uint_t count)
 {
-    if (!bag || bag > static_cast<uint>(user->bagsUnlocked))
+    if (!bag || bag > static_cast<uint_t>(user->bagsUnlocked))
         return false;
 
     if (slot >= ItemSlotCount)
@@ -155,7 +155,7 @@ bool UserHelper::ItemRemove(CUser* user, uint bag, uint slot, uint count)
     return true;
 }
 
-void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint_t mapId, float x, float y, float z, UserMovePosType movePosType, uint_t delay)
 {
     user->moveMapId = mapId;
     user->movePos.x = x;
@@ -165,12 +165,12 @@ void UserHelper::SetMovePosition(CUser* user, uint mapId, float x, float y, floa
     user->movePosTime = GetTickCount() + delay;
 }
 
-void UserHelper::SetMovePosition(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay)
+void UserHelper::SetMovePosition(CUser* user, uint_t mapId, SVector* pos, UserMovePosType movePosType, uint_t delay)
 {
     UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }
 
-bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, UserMovePosType movePosType, uint delay)
+bool UserHelper::Move(CUser* user, uint_t mapId, float x, float y, float z, UserMovePosType movePosType, uint_t delay)
 {
     if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
         return false;
@@ -187,7 +187,7 @@ bool UserHelper::Move(CUser* user, uint mapId, float x, float y, float z, UserMo
     return true;
 }
 
-bool UserHelper::Move(CUser* user, uint mapId, SVector* pos, UserMovePosType movePosType, uint delay)
+bool UserHelper::Move(CUser* user, uint_t mapId, SVector* pos, UserMovePosType movePosType, uint_t delay)
 {
     return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
 }

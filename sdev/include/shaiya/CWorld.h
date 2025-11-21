@@ -47,9 +47,9 @@ namespace shaiya
         uint32_t instanceZoneCount;                //0x380
         // 0x384
 
-        static CUser* FindUser(uint objectId);
+        static CUser* FindUser(uint_t objectId);
         static CUser* FindUser(const char* charName/*eax*/);
-        static CUser* FindUserBill(uint billingId);
+        static CUser* FindUserBill(uint_t billingId);
         static CZone* GetZone(int mapId/*eax*/);
         static void SendAll(void* packet/*ecx*/, int length/*eax*/);
         static void SendAllCountry(void* packet/*ecx*/, int length/*eax*/, int country);

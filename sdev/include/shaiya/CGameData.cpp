@@ -5,7 +5,7 @@
 #include "SkillInfo.h"
 using namespace shaiya;
 
-uint CGameData::GetExp(int grow, int level)
+uint_t CGameData::GetExp(int grow, int level)
 {
     unsigned u0x464FF0 = 0x464FF0;
 

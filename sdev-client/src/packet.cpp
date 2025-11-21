@@ -22,7 +22,7 @@ namespace packet
     }
 
     // Adds support for system message 509
-    void hook_0x229(CCharacter* killer, uint killCount)
+    void hook_0x229(CCharacter* killer, uint_t killCount)
     {
         std::memcpy(g_var->sysmsg_t.data(), killer->charName.data(), killer->charName.size());
         g_var->sysmsg_t[killer->charName.size() - 1] = '\0';

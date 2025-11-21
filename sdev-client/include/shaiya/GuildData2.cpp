@@ -1,8 +1,8 @@
 #include "GuildData2.h"
 using namespace shaiya;
 
-GuildData2* GuildData2::Find(uint guildId)
+GuildData2* GuildData2::Find(uint_t guildId)
 {
-    typedef GuildData2* (__thiscall* LPFN)(void*, uint);
+    typedef GuildData2* (__thiscall* LPFN)(void*, uint_t);
     return (*(LPFN)0x4446E0)((void*)0x22AF6DC, guildId);
 }

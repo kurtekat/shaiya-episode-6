@@ -16,7 +16,7 @@ namespace shaiya
         uint32_t rankPoints;    //0x74
         // 0x78
 
-        static GuildData2* Find(uint guildId);
+        static GuildData2* Find(uint_t guildId);
     };
     #pragma pack(pop)
 

@@ -244,7 +244,7 @@ namespace shaiya
         // 0x19A3038
 
         static int GetItemRealType(int itemType);
-        static GuildUserData* GetGuildUserData(uint charId);
+        static GuildUserData* GetGuildUserData(uint_t charId);
     };
     #pragma pack(pop)
 

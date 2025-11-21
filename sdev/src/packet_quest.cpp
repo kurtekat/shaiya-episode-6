@@ -15,7 +15,7 @@ namespace packet_quest
     /// <summary>
     /// Sends packet 0x903 (6.0) failure packet to the user.
     /// </summary>
-    void send_failure_0x903(CUser* user, CQuest* quest, uint npcId)
+    void send_failure_0x903(CUser* user, CQuest* quest, uint_t npcId)
     {
         GameQuestEndOutgoing_EP6 outgoing{};
         outgoing.npcId = npcId;
@@ -27,7 +27,7 @@ namespace packet_quest
     /// <summary>
     /// Sends the 0x903 (6.0) success packet to the user.
     /// </summary>
-    void send_success_0x903(CUser* user, CQuest* quest, uint npcId, uint resultIndex)
+    void send_success_0x903(CUser* user, CQuest* quest, uint_t npcId, uint_t resultIndex)
     {
         if (resultIndex >= quest->info->results.size())
             return;

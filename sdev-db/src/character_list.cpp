@@ -63,9 +63,9 @@ namespace character_list
         SConnection::Send(user->connection, &outgoing, length);
     }
 
-    void assign_equipment(CUser* user, uint characterSlot, uint equipmentSlot, uint type, uint typeId)
+    void assign_equipment(CUser* user, uint_t characterSlot, uint_t equipmentSlot, uint_t type, uint_t typeId)
     {
-        uint equipmentCount = ItemListCount_EP6_4;
+        uint_t equipmentCount = ItemListCount_EP6_4;
         if (characterSlot >= 5 || equipmentSlot >= equipmentCount)
             return;
 

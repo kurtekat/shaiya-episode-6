@@ -5,21 +5,21 @@
 #include "SVector.h"
 using namespace shaiya;
 
-CMob* CZone::FindMob(CZone* zone/*ecx*/, uint objectId)
+CMob* CZone::FindMob(CZone* zone/*ecx*/, uint_t objectId)
 {
-    typedef CMob* (__thiscall* LPFN)(CZone*, uint);
+    typedef CMob* (__thiscall* LPFN)(CZone*, uint_t);
     return (*(LPFN)0x41CFD0)(zone, objectId);
 }
 
-CNpc* CZone::FindNpc(CZone* zone/*ecx*/, uint objectId)
+CNpc* CZone::FindNpc(CZone* zone/*ecx*/, uint_t objectId)
 {
-    typedef CNpc* (__thiscall* LPFN)(CZone*, uint);
+    typedef CNpc* (__thiscall* LPFN)(CZone*, uint_t);
     return (*(LPFN)0x41D4A0)(zone, objectId);
 }
 
-CUser* CZone::FindUser(CZone* zone/*ecx*/, uint objectId)
+CUser* CZone::FindUser(CZone* zone/*ecx*/, uint_t objectId)
 {
-    typedef CUser* (__thiscall* LPFN)(CZone*, uint);
+    typedef CUser* (__thiscall* LPFN)(CZone*, uint_t);
     return (*(LPFN)0x41C6E0)(zone, objectId);
 }
 
@@ -38,7 +38,7 @@ bool CZone::MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos
     }
 }
 
-uint CZone::MobGenEx(CZone* zone, uint objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
+uint_t CZone::MobGenEx(CZone* zone, uint_t objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/)
 {
     unsigned u0x424750 = 0x424750;
 
@@ -71,9 +71,9 @@ bool CZone::MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, S
     }
 }
 
-bool CZone::MobRemoveById(CZone* zone/*ecx*/, uint objectId)
+bool CZone::MobRemoveById(CZone* zone/*ecx*/, uint_t objectId)
 {
-    typedef bool(__thiscall* LPFN)(CZone*, uint);
+    typedef bool(__thiscall* LPFN)(CZone*, uint_t);
     return (*(LPFN)0x425430)(zone, objectId);
 }
 
@@ -141,9 +141,9 @@ bool CZone::NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int ce
     }
 }
 
-void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint senderId, uint targetId, int priority)
+void CZone::PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint_t senderId, uint_t targetId, int priority)
 {
-    typedef void(__stdcall* LPFN)(CZone*, void*, int, SVector*, float, uint, uint, int);
+    typedef void(__stdcall* LPFN)(CZone*, void*, int, SVector*, float, uint_t, uint_t, int);
     (*(LPFN)0x427CF0)(zone, packet, length, base, radius, senderId, targetId, priority);
 }
 

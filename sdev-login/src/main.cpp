@@ -8,7 +8,7 @@
 #include "include/shaiya/SDatabase.h"
 using namespace shaiya;
 
-short get_user_hook(SDatabase* db, char* username, char* password, uint lowPart, uint highPart, char* ipv4)
+short hook_0x406A8C(SDatabase* db, char* username, char* password, uint_t lowPart, uint_t highPart, char* ipv4)
 {
     ULARGE_INTEGER sessionId{ lowPart, highPart };
 
@@ -54,7 +54,7 @@ void __declspec(naked) naked_0x406A8C()
         push esi // password
         push edi // username
         push ebx // database
-        call get_user_hook
+        call hook_0x406A8C
         add esp,0x18
         test ax,ax
 

@@ -37,8 +37,8 @@ namespace shaiya
             const char* dbName,
             const char* username,
             const char* password,
-            uint queryTimeout,
-            uint connectionTimeout
+            uint_t queryTimeout,
+            uint_t connectionTimeout
         );
         static void Disconnect();
         static void Release();
