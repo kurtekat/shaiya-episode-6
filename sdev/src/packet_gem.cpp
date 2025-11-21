@@ -688,7 +688,7 @@ namespace packet_gem
                 GameChaoticSquareListOutgoing outgoing{};
                 outgoing.newItemType = chaoticSquare.newItemType;
                 outgoing.newItemTypeId = chaoticSquare.newItemTypeId;
-                outgoing.goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
+                outgoing.goldPerPercentage = ItemSynthesisConstants::GoldPerPercentage;
                 NetworkHelper::Send(user, &outgoing, sizeof(GameChaoticSquareListOutgoing));
             }
         }
@@ -762,15 +762,15 @@ namespace packet_gem
             return;
 
         auto successRate = synthesis.successRate;
-        auto goldPerPercentage = ItemSynthesisConstants::goldPerPercentage;
+        auto goldPerPercentage = ItemSynthesisConstants::GoldPerPercentage;
 
         if (goldPerPercentage)
         {
             auto money = incoming->money;
-            if (money > ItemSynthesisConstants::maxMoney)
-                money = ItemSynthesisConstants::maxMoney;
+            if (money > ItemSynthesisConstants::MaxMoney)
+                money = ItemSynthesisConstants::MaxMoney;
 
-            if (money >= ItemSynthesisConstants::minMoney)
+            if (money >= ItemSynthesisConstants::MinMoney)
             {
                 auto bonus = ((double)money / goldPerPercentage) * 100.0;
                 successRate += static_cast<int>(bonus);
@@ -819,14 +819,14 @@ namespace packet_gem
         }
 
         int randomValue = 0;
-        if (successRate < ItemSynthesisConstants::maxSuccessRate)
+        if (successRate < ItemSynthesisConstants::MaxSuccessRate)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
             std::uniform_int_distribution<int> uni(
-                ItemSynthesisConstants::minSuccessRate,
-                ItemSynthesisConstants::maxSuccessRate);
+                ItemSynthesisConstants::MinSuccessRate,
+                ItemSynthesisConstants::MaxSuccessRate);
 
             randomValue = uni(eng);
         }
