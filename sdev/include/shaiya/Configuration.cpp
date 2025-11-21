@@ -41,7 +41,8 @@ void Configuration::LoadItemRemake4()
         if (!std::filesystem::exists(path))
             return;
 
-        for (const auto& section : util::ini::get_sections(path))
+        auto sections = util::ini::get_sections(path);
+        for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 5)
@@ -92,7 +93,8 @@ void Configuration::LoadItemRemake5()
         if (!std::filesystem::exists(path))
             return;
 
-        for (const auto& section : util::ini::get_sections(path))
+        auto sections = util::ini::get_sections(path);
+        for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 5)
@@ -199,7 +201,8 @@ void Configuration::LoadItemSynthesis()
         if (!std::filesystem::exists(path))
             return;
 
-        for (const auto& section : util::ini::get_sections(path))
+        auto sections = util::ini::get_sections(path);
+        for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 8)
@@ -328,8 +331,10 @@ void Configuration::LoadRewardItemEvent()
         if (!std::filesystem::exists(path))
             return;
 
+        auto sections = util::ini::get_sections(path);
         size_t index = 0;
-        for (const auto& section : util::ini::get_sections(path))
+
+        for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 4)
