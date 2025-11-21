@@ -1,8 +1,9 @@
 #pragma once
+#include <array>
+#include <cstdint>
 #include <map>
 #include <set>
 #include <vector>
-#include <shaiya/include/common.h>
 
 namespace shaiya
 {
@@ -11,16 +12,16 @@ namespace shaiya
 
     struct ItemSetSynergy
     {
-        Array<int32_t, 12> effects;
+        std::array<int32_t, 12> effects;
     };
 
     struct ItemSet
     {
         using ItemId = uint32_t;
 
-        int id;
-        Array<ItemId, 13> items;
-        Array<ItemSetSynergy, 13> synergies;
+        int32_t id;
+        std::array<ItemId, 13> items;
+        std::array<ItemSetSynergy, 13> synergies;
     };
 
     #pragma pack(push, 1)
@@ -43,5 +44,5 @@ namespace shaiya
     #pragma pack(pop)
 
     inline std::vector<ItemSet> g_itemSets{};
-    inline std::map<uint32_t, std::vector<ItemSetSynergy>> g_itemSetSynergies{};
+    inline std::map<uint32_t/*CharID*/, std::vector<ItemSetSynergy>> g_itemSetSynergies{};
 }
