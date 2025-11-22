@@ -1,4 +1,3 @@
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/0900.h>
 #include <shaiya/include/network/gameLog/incoming/0500.h>
@@ -32,17 +31,15 @@ namespace packet_quest
         if (resultIndex >= quest->info->results.size())
             return;
 
-        auto exp = quest->info->results[resultIndex].exp;
-        auto money = quest->info->results[resultIndex].money;
-
-        if (exp)
+        auto& result = quest->info->results[resultIndex];
+        if (result.exp)
         {
-            CUser::AddExpFromUser(user, 0, exp, true);
+            CUser::AddExpFromUser(user, 0, result.exp, true);
         }
 
-        if (money)
+        if (result.money)
         {
-            CUser::ChkAddMoneyGet(user, money);
+            CUser::ChkAddMoneyGet(user, result.money);
             CUser::SendDBMoney(user);
         }
 
@@ -51,32 +48,33 @@ namespace packet_quest
         gameLog.packet.questId = quest->info->questId;
         std::memcpy(gameLog.packet.questName.data(), quest->info->questName.data(), gameLog.packet.questName.size());
         gameLog.packet.success = true;
-        gameLog.packet.money = money;
+        gameLog.packet.money = result.money;
 
         GameQuestEndOutgoing_EP6 outgoing{};
         outgoing.npcId = npcId;
         outgoing.questId = quest->info->questId;
         outgoing.success = true;
         outgoing.resultIndex = resultIndex;
-        outgoing.exp = exp;
-        outgoing.money = money;
+        outgoing.exp = result.exp;
+        outgoing.money = result.money;
 
-        for (auto&& [unit, item] : std::views::zip(
-            outgoing.itemList,
-            std::as_const(quest->info->results[resultIndex].itemList)))
+        auto it = result.itemList.cbegin();
+        auto last = result.itemList.cend();
+        auto dest = outgoing.itemList.begin();
+
+        for (; it != last; ++it, ++dest)
         {
-            int bag{}, slot{};
-            ItemInfo itemInfo{};
-            if (CUser::QuestAddItem(user, item.type, item.typeId, item.count, &bag, &slot, &itemInfo))
+            int bag{}, slot{}; ItemInfo itemInfo{};
+            if (CUser::QuestAddItem(user, it->type, it->typeId, it->count, &bag, &slot, &itemInfo))
             {
-                unit.count = item.count;
-                unit.bag = bag;
-                unit.slot = slot;
-                unit.type = item.type;
-                unit.typeId = item.typeId;
+                dest->count = it->count;
+                dest->bag = bag;
+                dest->slot = slot;
+                dest->type = it->type;
+                dest->typeId = it->typeId;
 
                 gameLog.packet.itemId = itemInfo.itemId;
-                gameLog.packet.itemCount = item.count;
+                gameLog.packet.itemCount = it->count;
                 gameLog.packet.itemName = itemInfo.itemName;
             }
             else

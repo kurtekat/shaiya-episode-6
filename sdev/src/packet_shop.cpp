@@ -1,5 +1,4 @@
-﻿#include <ranges>
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/incoming/0E00.h>
@@ -80,15 +79,17 @@ namespace packet_shop
         outgoing.log.purchasePoints = packet->log.purchasePoints;
         outgoing.itemCount = packet->itemCount;
 
-        for (auto&& [unit, item] : std::views::zip(
-            outgoing.itemList, 
-            std::as_const(packet->itemList)))
+        auto it = packet->itemList.cbegin();
+        auto last = it + packet->itemCount;
+        auto dest = outgoing.itemList.begin();
+
+        for (; it != last; ++it, ++dest)
         {
-            unit.bag = item.bag;
-            unit.slot = item.slot;
-            unit.type = item.type;
-            unit.typeId = item.typeId;
-            unit.count = item.count;
+            dest->bag = it->bag;
+            dest->slot = it->slot;
+            dest->type = it->type;
+            dest->typeId = it->typeId;
+            dest->count = it->count;
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(PointItemUnit_EP6_4));

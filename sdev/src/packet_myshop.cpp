@@ -1,4 +1,3 @@
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/2300.h>
 #include "include/main.h"
@@ -17,18 +16,20 @@ namespace packet_myshop
         outgoing.opcode = packet->opcode;
         outgoing.itemCount = packet->itemCount;
 
-        for (auto&& [unit, item] : std::views::zip(
-            outgoing.itemList, 
-            std::as_const(packet->itemList)))
+        auto it = packet->itemList.cbegin();
+        auto last = it + packet->itemCount;
+        auto dest = outgoing.itemList.begin();
+
+        for (; it != last; ++it, ++dest)
         {
-            unit.shopSlot = item.shopSlot;
-            unit.money = item.money;
-            unit.type = item.type;
-            unit.typeId = item.typeId;
-            unit.count = item.count;
-            unit.quality = item.quality;
-            unit.gems = item.gems;
-            unit.craftName = item.craftName;
+            dest->shopSlot = it->shopSlot;
+            dest->money = it->money;
+            dest->type = it->type;
+            dest->typeId = it->typeId;
+            dest->count = it->count;
+            dest->quality = it->quality;
+            dest->gems = it->gems;
+            dest->craftName = it->craftName;
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));
