@@ -3,6 +3,8 @@
 
 namespace shaiya
 {
+    inline constexpr int ItemEnchant_MAX = 20;
+
     #pragma pack(push, 1)
     struct LapisionEnchantStep16
     {

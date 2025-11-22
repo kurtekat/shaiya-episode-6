@@ -7,7 +7,7 @@
 
 namespace shaiya
 {
-    inline constexpr int ItemCraft_MAX = 99;
+    inline constexpr int ItemCraft_MAX = 99;   // ReqWis
     inline constexpr int ItemGrade_MAX = 3072;
 
     inline constexpr int ItemId_MIN = 1 * 1000 + 1;

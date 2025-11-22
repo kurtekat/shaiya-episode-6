@@ -18,8 +18,8 @@ namespace shaiya
         static void SetCraftHealth(CItem* item, int value);
         static void SetCraftMana(CItem* item, int value);
         static void SetCraftStamina(CItem* item, int value);
-        //static void SetCraftAttackPower(CItem* item, int value);
-        //static void SetCraftAbsorption(CItem* item, int value);
+        static void SetCraftAttackPower(CItem* item, int step);
+        static void SetCraftAbsorption(CItem* item, int step);
 
         static void CopyCraftExpansion(CItem* src, CItem* dest);
         static void InitCraftExpansion(CItem* item);

@@ -489,8 +489,8 @@ namespace packet_gem
         case ItemEffect::LucRecreationRune:
         {
             maxCraftValue *= 2;
-            if (maxCraftValue > 99)
-                maxCraftValue = 99;
+            if (maxCraftValue > ItemCraft_MAX)
+                maxCraftValue = ItemCraft_MAX;
 
             break;
         }
