@@ -12,4 +12,24 @@ namespace shaiya
         Skill = 100,
         BasicAction = 101
     };
+
+    inline bool operator==(Bag lhs, int rhs)
+    {
+        return static_cast<int>(lhs) == rhs;
+    }
+
+    inline bool operator==(int lhs, Bag rhs)
+    {
+        return lhs == static_cast<int>(rhs);
+    }
+
+    inline bool operator!=(Bag lhs, int rhs)
+    {
+        return static_cast<int>(lhs) != rhs;
+    }
+
+    inline bool operator!=(int lhs, Bag rhs)
+    {
+        return lhs != static_cast<int>(rhs);
+    }
 }

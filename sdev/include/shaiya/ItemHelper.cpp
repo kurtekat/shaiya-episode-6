@@ -162,20 +162,20 @@ void ItemHelper::SetCraftAbsorption(CItem* item, int step)
     item->craftName[19] = ones;
 }
 
-void ItemHelper::CopyCraftExpansion(CItem* source, CItem* target)
+void ItemHelper::CopyCraftExpansion(CItem* item, CItem* dest)
 {
-    target->craftName = source->craftName;
-    target->craftStrength = source->craftStrength;
-    target->craftDexterity = source->craftDexterity;
-    target->craftReaction = source->craftReaction;
-    target->craftIntelligence = source->craftIntelligence;
-    target->craftWisdom = source->craftWisdom;
-    target->craftLuck = source->craftLuck;
-    target->craftHealth = source->craftHealth;
-    target->craftMana = source->craftMana;
-    target->craftStamina = source->craftStamina;
-    target->craftAttackPower = source->craftAttackPower;
-    target->craftAbsorption = source->craftAbsorption;
+    dest->craftName = item->craftName;
+    dest->craftStrength = item->craftStrength;
+    dest->craftDexterity = item->craftDexterity;
+    dest->craftReaction = item->craftReaction;
+    dest->craftIntelligence = item->craftIntelligence;
+    dest->craftWisdom = item->craftWisdom;
+    dest->craftLuck = item->craftLuck;
+    dest->craftHealth = item->craftHealth;
+    dest->craftMana = item->craftMana;
+    dest->craftStamina = item->craftStamina;
+    dest->craftAttackPower = item->craftAttackPower;
+    dest->craftAbsorption = item->craftAbsorption;
 }
 
 void ItemHelper::InitCraftExpansion(CItem* item)

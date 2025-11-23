@@ -21,7 +21,7 @@ namespace shaiya
         static void SetCraftAttackPower(CItem* item, int step);
         static void SetCraftAbsorption(CItem* item, int step);
 
-        static void CopyCraftExpansion(CItem* src, CItem* dest);
+        static void CopyCraftExpansion(CItem* item, CItem* dest);
         static void InitCraftExpansion(CItem* item);
 
         static void SendDBAgentCraftName(CUser* user, CItem* item, int bag, int slot);

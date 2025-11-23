@@ -113,27 +113,23 @@ namespace shaiya
         Costume = 150
     };
 
-    template<typename Integer>
-    bool operator==(const ItemType& lhs, const Integer& rhs)
+    inline bool operator==(ItemType lhs, int rhs)
     {
-        return static_cast<Integer>(lhs) == rhs;
+        return static_cast<int>(lhs) == rhs;
     }
 
-    template<typename Integer>
-    bool operator==(const Integer& lhs, const ItemType& rhs)
+    inline bool operator==(int lhs, ItemType rhs)
     {
-        return lhs == static_cast<Integer>(rhs);
+        return lhs == static_cast<int>(rhs);
     }
 
-    template<typename Integer>
-    bool operator!=(const ItemType& lhs, const Integer& rhs)
+    inline bool operator!=(ItemType lhs, int rhs)
     {
-        return static_cast<Integer>(lhs) != rhs;
+        return static_cast<int>(lhs) != rhs;
     }
 
-    template<typename Integer>
-    bool operator!=(const Integer& lhs, const ItemType& rhs)
+    inline bool operator!=(int lhs, ItemType rhs)
     {
-        return lhs != static_cast<Integer>(rhs);
+        return lhs != static_cast<int>(rhs);
     }
 }
