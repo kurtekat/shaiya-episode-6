@@ -15,6 +15,7 @@
 #include "HealPointType.h"
 #include "LoginVersion.h"
 #include "CWorldMgr.h"
+#include "SAes.h"
 #include "SIMM.h"
 #include "TargetType.h"
 
@@ -631,7 +632,16 @@ namespace shaiya
         FARPROC usp10_ScriptStringFree;      //0x22FFB04
         FARPROC usp10_ScriptStringCPtoX;     //0x22FFB08
         FARPROC usp10_ScriptString_pSize;    //0x22FFB0C
-        PAD(21744);
+        PAD(15577);
+        bool initDec;                        //0x23037E9
+        bool initEnc;                        //0x23037EA
+        PAD(5);
+        SAes aesDec;                         //0x23037F0
+        // 0x2303908
+        PAD(56);
+        SAes aesEnc;                         //0x2303940
+        // 0x2303A58
+        PAD(5544);
         // 0x2305000 (.rsrc)
 
         // static functions

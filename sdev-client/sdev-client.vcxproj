@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\3DC_Model.h" />
+    <ClInclude Include="include\shaiya\AesKey.h" />
     <ClInclude Include="include\shaiya\BillingItemInfo.h" />
     <ClInclude Include="include\shaiya\BlockData.h" />
     <ClInclude Include="include\shaiya\Camera.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="include\shaiya\LoginVersion.h" />
     <ClInclude Include="include\shaiya\MeshFace.h" />
     <ClInclude Include="include\shaiya\MobInfo.h" />
+    <ClInclude Include="include\shaiya\SAes.h" />
     <ClInclude Include="include\shaiya\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\SIMM.h" />
     <ClInclude Include="include\shaiya\SkillInfo.h" />
