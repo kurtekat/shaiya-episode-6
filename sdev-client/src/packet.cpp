@@ -6,19 +6,17 @@ using namespace shaiya;
 
 namespace packet
 {
+    // Resolves an issue with disguise removal
     void hook_0x303(CCharacter* user)
     {
         if (!user->equipment.type[ItemSlot::Pet])
-            user->pet = nullptr;
+            CCharacter::RemovePet(user);
 
         if (!user->equipment.type[ItemSlot::Costume])
-        {
-            user->enableCostume = 0;
-            user->costume.fill(-1);
-        }
+            CCharacter::RemoveCostume(user);
 
         if (!user->equipment.type[ItemSlot::Wings])
-            user->wings = nullptr;
+            CCharacter::RemoveWings(user);
     }
 
     // Adds support for system message 509

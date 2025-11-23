@@ -18,3 +18,21 @@ void CCharacter::RenderEffect(CCharacter* user, uint_t effectDataId, uint_t effe
     typedef void(__thiscall* LPFN)(CCharacter*, uint_t, uint_t, float, D3DVECTOR*, D3DVECTOR*, D3DVECTOR*, int);
     (*(LPFN)0x41A2C0)(user, effectDataId, effectSubId, delay, pos, dir, up, unknown);
 }
+
+void CCharacter::RemovePet(CCharacter* user)
+{
+    typedef void(__thiscall* LPFN)(CCharacter*);
+    (*(LPFN)0x411380)(user);
+}
+
+void CCharacter::RemoveCostume(CCharacter* user)
+{
+    typedef void(__thiscall* LPFN)(CCharacter*);
+    (*(LPFN)0x416370)(user);
+}
+
+void CCharacter::RemoveWings(CCharacter* user)
+{
+    typedef void(__thiscall* LPFN)(CCharacter*);
+    (*(LPFN)0x41F720)(user);
+}
