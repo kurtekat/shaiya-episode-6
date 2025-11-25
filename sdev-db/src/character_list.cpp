@@ -62,7 +62,7 @@ namespace character_list
         SConnection::Send(user->connection, &outgoing, length);
     }
 
-    void assign_equipment(CUser* user, uint_t characterSlot, uint_t equipmentSlot, uint_t type, uint_t typeId)
+    void assign_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
     {
         if (characterSlot >= 5)
             return;
@@ -156,6 +156,5 @@ void hook::character_list()
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
 
     // DBCharacter::LoadCharacterList
-    uint8_t equipmentCount = ItemListCount_EP6_4;
-    util::write_memory((void*)0x42220B, equipmentCount, 1);
+    util::write_memory((void*)0x42220B, ItemListCount_EP6_4, 1);
 }
