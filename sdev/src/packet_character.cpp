@@ -79,8 +79,8 @@ namespace packet_character
             item0711.gems = item->gems;
             item0711.count = item->count;
             item0711.craftName = item->craftName;
-            outgoing.itemList[outgoing.itemCount] = item0711;
 
+            outgoing.itemList[outgoing.itemCount] = item0711;
             ++outgoing.itemCount;
 
             if (outgoing.itemCount < outgoing.itemList.size())
