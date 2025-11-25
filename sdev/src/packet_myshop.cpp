@@ -13,7 +13,6 @@ namespace packet_myshop
     void send_0x230B(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
     {
         GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};
-        outgoing.opcode = packet->opcode;
         outgoing.itemCount = packet->itemCount;
 
         auto it = packet->itemList.cbegin();
