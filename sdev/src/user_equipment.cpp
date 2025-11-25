@@ -114,11 +114,11 @@ namespace user_equipment
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(target->inventory[0])))
         {
+            if (slot == outgoing.itemList.size())
+                break;
+
             if (!item)
                 continue;
-
-            if (std::cmp_greater_equal(slot, outgoing.itemList.size()))
-                break;
 
             if (slot < ItemSlot::Wings)
             {
@@ -132,8 +132,8 @@ namespace user_equipment
 
                 item0307.gems = item->gems;
                 item0307.craftName = item->craftName;
-                outgoing.itemList[outgoing.itemCount] = item0307;
 
+                outgoing.itemList[outgoing.itemCount] = item0307;
                 ++outgoing.itemCount;
             }
         }

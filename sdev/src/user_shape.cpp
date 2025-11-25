@@ -41,11 +41,11 @@ namespace user_shape
         for (const auto& [slot, item] : std::views::enumerate(
             std::as_const(target->inventory[0])))
         {
+            if (slot == user->clone->equipment.size())
+                break;
+
             if (!item)
                 continue;
-
-            if (std::cmp_greater_equal(slot, user->clone->equipment.size()))
-                break;
 
             user->clone->equipment[slot].type = item->type;
             user->clone->equipment[slot].typeId = item->typeId;
@@ -76,7 +76,7 @@ namespace user_shape
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
 
-        if (user->shapeType == ShapeType::Disguise && user->clone != nullptr)
+        if (user->shapeType == ShapeType::Disguise && user->clone)
         {
             outgoing.dead = user->clone->dead;
             outgoing.motion = user->clone->motion;
@@ -124,11 +124,11 @@ namespace user_shape
             for (const auto& [slot, item] : std::views::enumerate(
                 std::as_const(user->inventory[0])))
             {
+                if (slot == outgoing.equipment.size())
+                    break;
+
                 if (!item)
                     continue;
-
-                if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
-                    break;
 
                 outgoing.equipment[slot].type = item->type;
                 outgoing.equipment[slot].typeId = item->typeId;
@@ -162,7 +162,7 @@ namespace user_shape
         GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
 
-        if (user->shapeType == ShapeType::Disguise && user->clone != nullptr)
+        if (user->shapeType == ShapeType::Disguise && user->clone)
         {
             outgoing.dead = user->clone->dead;
             outgoing.motion = user->clone->motion;
@@ -213,11 +213,11 @@ namespace user_shape
             for (const auto& [slot, item] : std::views::enumerate(
                 std::as_const(user->inventory[0])))
             {
+                if (slot == outgoing.equipment.size())
+                    break;
+
                 if (!item)
                     continue;
-
-                if (std::cmp_greater_equal(slot, outgoing.equipment.size()))
-                    break;
 
                 outgoing.equipment[slot].type = item->type;
                 outgoing.equipment[slot].typeId = item->typeId;
