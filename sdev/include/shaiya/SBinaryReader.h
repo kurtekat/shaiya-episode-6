@@ -32,10 +32,11 @@ namespace shaiya
 
         SBinaryReader& operator=(SBinaryReader&& other) noexcept
         {
-            if (this == &other)
-                return *this;
+            if (this != &other)
+            {
+                m_stream = std::move(other.m_stream);
+            }
 
-            m_stream = std::move(other.m_stream);
             return *this;
         }
 
