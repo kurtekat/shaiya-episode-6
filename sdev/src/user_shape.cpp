@@ -6,6 +6,7 @@
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
+#include "include/extensions/ranges.hpp"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CloneUser.h"
 #include "include/shaiya/CUser.h"
@@ -38,12 +39,10 @@ namespace user_shape
         user->clone->cloakInfo = {};
         user->clone->guildName = {};
 
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(target->inventory[0])))
+        auto count = user->clone->equipment.size();
+        for (const auto& [slot, item] : ext::views::enumerate_n(
+            std::as_const(target->inventory[0]), count))
         {
-            if (slot == user->clone->equipment.size())
-                break;
-
             if (!item)
                 continue;
 
@@ -121,12 +120,10 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            for (const auto& [slot, item] : std::views::enumerate(
-                std::as_const(user->inventory[0])))
+            auto count = outgoing.equipment.size();
+            for (const auto& [slot, item] : ext::views::enumerate_n(
+                std::as_const(user->inventory[0]), count))
             {
-                if (slot == outgoing.equipment.size())
-                    break;
-
                 if (!item)
                     continue;
 
@@ -210,12 +207,10 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            for (const auto& [slot, item] : std::views::enumerate(
-                std::as_const(user->inventory[0])))
+            auto count = outgoing.equipment.size();
+            for (const auto& [slot, item] : ext::views::enumerate_n(
+                std::as_const(user->inventory[0]), count))
             {
-                if (slot == outgoing.equipment.size())
-                    break;
-
                 if (!item)
                     continue;
 

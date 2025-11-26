@@ -10,11 +10,11 @@
 #include <windows.h>
 #include <util/ini/ini.h>
 #include <shaiya/include/network/game/RewardItemUnit.h>
+#include "include/extensions/filesystem.hpp"
 #include "Configuration.h"
 #include "ItemInfo.h"
 #include "ItemRemake.h"
 #include "ItemSynthesis.h"
-#include "PathHelper.h"
 #include "RewardItem.h"
 #include "SBinaryReader.h"
 #include "Synergy.h"
@@ -37,7 +37,7 @@ void Configuration::LoadItemRemake4()
     try
     {
         std::filesystem::path path(m_root);
-        PathHelper::combine(path, "Data", "ItemRemake4.ini");
+        ext::filesystem::combine(path, "Data", "ItemRemake4.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -89,7 +89,7 @@ void Configuration::LoadItemRemake5()
     try
     {
         std::filesystem::path path(m_root);
-        PathHelper::combine(path, "Data", "ItemRemake5.ini");
+        ext::filesystem::combine(path, "Data", "ItemRemake5.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -141,7 +141,7 @@ void Configuration::LoadItemSetData()
     try
     {
         std::filesystem::path path(m_root);
-        PathHelper::combine(path, "Data", "SetItem.SData");
+        ext::filesystem::combine(path, "Data", "SetItem.SData");
 
         if (!std::filesystem::exists(path))
             return;
@@ -197,7 +197,7 @@ void Configuration::LoadItemSynthesis()
     try
     {
         std::filesystem::path path(m_root);
-        PathHelper::combine(path, "Data", "ChaoticSquare.ini");
+        ext::filesystem::combine(path, "Data", "ChaoticSquare.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -327,7 +327,7 @@ void Configuration::LoadRewardItemEvent()
     try
     {
         std::filesystem::path path(m_root);
-        PathHelper::combine(path, "Data", "RewardItem.ini");
+        ext::filesystem::combine(path, "Data", "RewardItem.ini");
 
         if (!std::filesystem::exists(path))
             return;

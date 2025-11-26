@@ -6,6 +6,7 @@
 #include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
+#include "include/extensions/ranges.hpp"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
@@ -111,12 +112,10 @@ namespace user_equipment
         GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
         outgoing.itemCount = 0;
 
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(target->inventory[0])))
+        auto count = outgoing.itemList.size();
+        for (const auto& [slot, item] : ext::views::enumerate_n(
+            std::as_const(target->inventory[0]), count))
         {
-            if (slot == outgoing.itemList.size())
-                break;
-
             if (!item)
                 continue;
 
