@@ -457,9 +457,9 @@ namespace shaiya
         SkillAbility70 skillAbility70;           //0x62E8
         uint32_t multiplyQuestExpRate;           //0x62F0
 
-        static void AddExpFromUser(CUser* user/*esi*/, uint_t lastTargetId, int exp, bool isQuest);
+        static void AddExpFromUser(CUser* user/*esi*/, unsigned lastTargetId, int exp, bool isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
-        static void ChkAddMoneyGet(CUser* user/*ecx*/, uint_t money/*edx*/);
+        static void ChkAddMoneyGet(CUser* user/*ecx*/, unsigned money/*edx*/);
         static void GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GemEquipmentRem(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
@@ -477,9 +477,9 @@ namespace shaiya
         static void ItemEquipmentOptionAdd(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemEquipmentOptionRem(CUser* user/*eax*/, CItem* item/*esi*/);
         static void ItemGet(CUser* user/*ecx*/, CItem* item);
-        static void ItemGetMoney(CUser* user/*edx*/, uint_t money/*ecx*/);
+        static void ItemGetMoney(CUser* user/*edx*/, unsigned money/*ecx*/);
         static void ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/);
-        static void ItemUse(CUser* user, int bag, int slot, uint_t targetId, int targetType);
+        static void ItemUse(CUser* user, int bag, int slot, unsigned targetId, int targetType);
         static void ItemUseNSend(CUser* user, int bag, int slot, bool moveMap);
         static void LevelChange(CUser* user, int prevLv, int currLv);
         static void LevelUp(CUser* user, bool event);

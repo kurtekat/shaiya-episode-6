@@ -5,7 +5,7 @@
 #include "SkillInfo.h"
 using namespace shaiya;
 
-void CUser::AddExpFromUser(CUser* user/*esi*/, uint_t lastTargetId, int exp, bool isQuest)
+void CUser::AddExpFromUser(CUser* user/*esi*/, unsigned lastTargetId, int exp, bool isQuest)
 {
     unsigned u0x465060 = 0x465060;
 
@@ -31,9 +31,9 @@ void CUser::CancelActionExc(CUser* user/*edi*/)
     }
 }
 
-void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, uint_t money/*edx*/)
+void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, unsigned money/*edx*/)
 {
-    typedef void(__fastcall* LPFN)(CUser*, uint_t);
+    typedef void(__fastcall* LPFN)(CUser*, unsigned);
     (*(LPFN)0x486E60)(user, money);
 }
 
@@ -212,7 +212,7 @@ void CUser::ItemGet(CUser* user/*ecx*/, CItem* item)
     (*(LPFN)0x46AE60)(user, item);
 }
 
-void CUser::ItemGetMoney(CUser* user/*edx*/, uint_t money/*ecx*/)
+void CUser::ItemGetMoney(CUser* user/*edx*/, unsigned money/*ecx*/)
 {
     unsigned u0x46BBA0 = 0x46BBA0;
 
@@ -237,9 +237,9 @@ void CUser::ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/)
     }
 }
 
-void CUser::ItemUse(CUser* user, int bag, int slot, uint_t targetId, int targetType)
+void CUser::ItemUse(CUser* user, int bag, int slot, unsigned targetId, int targetType)
 {
-    typedef void(__stdcall* LPFN)(CUser*, int, int, uint_t, int);
+    typedef void(__stdcall* LPFN)(CUser*, int, int, unsigned, int);
     (*(LPFN)0x472DA0)(user, bag, slot, targetId, targetType);
 }
 

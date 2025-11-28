@@ -40,10 +40,10 @@ namespace shaiya
         PAD(7972);
         // 0x906DE0  0x142378
 
-        static CCharacter* FindUser(uint_t objectId);
-        static CMonster* FindMob(uint_t objectId);
-        static CNpc* FindNpc(uint_t objectId);
-        static void RenderEffect(uint_t effectDataId, uint_t effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
+        static CCharacter* FindUser(unsigned objectId);
+        static CMonster* FindMob(unsigned objectId);
+        static CNpc* FindNpc(unsigned objectId);
+        static void RenderEffect(int effectDataId, int effectSubId, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
     };
     #pragma pack(pop)
 

@@ -1,9 +1,9 @@
 #include "CWorld.h"
 using namespace shaiya;
 
-CUser* CWorld::FindUser(uint_t objectId)
+CUser* CWorld::FindUser(unsigned objectId)
 {
-    typedef CUser* (__stdcall* LPFN)(uint_t);
+    typedef CUser* (__stdcall* LPFN)(unsigned);
     return (*(LPFN)0x414CC0)(objectId);
 }
 
@@ -18,7 +18,7 @@ CUser* CWorld::FindUser(const char* charName/*eax*/)
     }
 }
 
-CUser* CWorld::FindUserBill(uint_t billingId)
+CUser* CWorld::FindUserBill(unsigned billingId)
 {
     unsigned u0x414C70 = 0x414C70;
 

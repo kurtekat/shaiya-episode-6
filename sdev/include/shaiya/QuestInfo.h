@@ -7,6 +7,9 @@
 
 namespace shaiya
 {
+    inline constexpr int QuestResultCount_EP5 = 3;
+    inline constexpr int QuestResultCount_EP6 = 6;
+
     #pragma pack(push, 1)
     struct QuestInfo_EP5
     {

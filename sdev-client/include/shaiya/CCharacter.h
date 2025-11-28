@@ -155,8 +155,8 @@ namespace shaiya
         // 0x43C
 
         static void ClearEffects(CCharacter* user);
-        static void RemoveEffect(CCharacter* user, uint_t effectDataId, uint_t effectSubId);
-        static void RenderEffect(CCharacter* user, uint_t effectDataId, uint_t effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
+        static void RemoveEffect(CCharacter* user, int effectDataId, int effectSubId);
+        static void RenderEffect(CCharacter* user, int effectDataId, int effectSubId, float delay, D3DVECTOR* pos, D3DVECTOR* dir, D3DVECTOR* up, int unknown/*0:9*/);
 
         static void RemovePet(CCharacter* user);
         static void RemoveCostume(CCharacter* user);

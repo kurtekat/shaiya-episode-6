@@ -203,8 +203,7 @@ namespace shaiya
         uint16_t dropLimit;         //0x7E
         uint32_t buy;               //0x80
         uint32_t sell;              //0x84
-        // custom
-        int32_t duration;           //0x88
+        PAD(4);
         int32_t dropCount;          //0x8C
         uint32_t dropDelay;         //0x90
         uint32_t dropRandom;        //0x94

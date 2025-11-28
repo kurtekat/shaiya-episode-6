@@ -8,7 +8,7 @@
 #include "include/shaiya/SDatabase.h"
 using namespace shaiya;
 
-short hook_0x406A8C(SDatabase* db, char* username, char* password, uint_t lowPart, uint_t highPart, char* ipv4)
+short hook_0x406A8C(SDatabase* db, char* username, char* password, unsigned lowPart, unsigned highPart, char* ipv4)
 {
     ULARGE_INTEGER sessionId{ lowPart, highPart };
 

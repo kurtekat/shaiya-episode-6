@@ -8,8 +8,8 @@ int CPlayerData::GetItemRealType(int itemType)
     return (*(LPFN)0x4E5630)((void*)0x90D1D0, itemType);
 }
 
-GuildUserData* CPlayerData::GetGuildUserData(uint_t charId)
+GuildUserData* CPlayerData::GetGuildUserData(unsigned charId)
 {
-    typedef GuildUserData* (__thiscall* LPFN)(void*, uint_t);
+    typedef GuildUserData* (__thiscall* LPFN)(void*, unsigned);
     return (*(LPFN)0x4EB120)((void*)0x90D1D0, charId);
 }

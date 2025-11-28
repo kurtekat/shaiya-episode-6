@@ -14,7 +14,7 @@ namespace shaiya
 
     struct CGameData
     {
-        static uint_t GetExp(int grow, int level);
+        static unsigned GetExp(int grow, int level);
         static ItemInfo* GetItemInfo(int type/*eax*/, int typeId/*ecx*/);
         static MobInfo* GetMobInfo(int mobId/*eax*/);
         static ProductInfo* GetProductInfo(const char* productCode/*eax*/);

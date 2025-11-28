@@ -14,9 +14,6 @@ namespace shaiya
     using tick32_t = uint32_t;
     using time32_t = uint32_t;
 
-    using sint_t = signed int;
-    using uint_t = unsigned int;
-
     template<class T, size_t N>
     using Array = std::array<T, N>;
 

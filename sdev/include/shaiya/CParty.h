@@ -29,7 +29,7 @@ namespace shaiya
         PAD(32);
         // 0x150
 
-        static CUser* FindUser(CParty* party/*edi*/, uint_t objectId);
+        static CUser* FindUser(CParty* party/*edi*/, unsigned objectId);
         static bool IsPartyBoss(CParty* party/*esi*/, CUser* user);
         static bool IsPartySubBoss(CParty* party/*esi*/, CUser* user);
         static int GetGroup(CParty* party/*eax*/, CUser* user);

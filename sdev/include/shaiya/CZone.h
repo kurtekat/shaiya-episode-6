@@ -59,18 +59,18 @@ namespace shaiya
         CMapRegion* mapRegions;                //0x314
         // 0x318
 
-        static CMob* FindMob(CZone* zone/*ecx*/, uint_t objectId);
-        static CNpc* FindNpc(CZone* zone/*ecx*/, uint_t objectId);
-        static CUser* FindUser(CZone* zone/*ecx*/, uint_t objectId);
+        static CMob* FindMob(CZone* zone/*ecx*/, unsigned objectId);
+        static CNpc* FindNpc(CZone* zone/*ecx*/, unsigned objectId);
+        static CUser* FindUser(CZone* zone/*ecx*/, unsigned objectId);
         static bool MobGen(CZone* zone, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
-        static uint_t MobGenEx(CZone* zone, uint_t objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
+        static unsigned MobGenEx(CZone* zone, unsigned objectId, int mobId/*ecx*/, int count/*eax*/, SVector* pos/*ebx*/);
         static bool MobRemove(CZone* zone, int mobId, int count, int cellX, int cellZ, SVector* pos);
-        static bool MobRemoveById(CZone* zone/*ecx*/, uint_t objectId);
+        static bool MobRemoveById(CZone* zone/*ecx*/, unsigned objectId);
         static void MoveAllBindPos(CZone* zone/*edi*/);
         static bool MoveUser(CZone* zone, CUser* user/*edi*/, float x, float y, float z);
         static bool NpcCreate(CZone* zone/*ecx*/, int npcType, int npcTypeId, SVector* pos/*edi*/);
         static bool NpcRemove(CZone* zone, int npcType, int npcTypeId, int count, int cellX/*eax*/, int cellZ/*ecx*/, SVector* pos);
-        static void PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, uint_t senderId, uint_t targetId, int priority);
+        static void PSendView(CZone* zone, void* packet, int length, SVector* base, float radius, unsigned senderId, unsigned targetId, int priority);
         static void SendView(CZone* zone, void* packet, int length, int cellX/*ecx*/, int cellZ/*eax*/);
     };
     #pragma pack(pop)

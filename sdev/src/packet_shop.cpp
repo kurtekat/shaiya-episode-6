@@ -38,7 +38,7 @@ namespace packet_shop
     /// <summary>
     /// Sends packet 0xE03 to the dbAgent service.
     /// </summary>
-    void send_dbAgent_0xE03(CUser* user, const char* targetName, const char* productCode, uint_t purchasePoints)
+    void send_dbAgent_0xE03(CUser* user, const char* targetName, const char* productCode, unsigned purchasePoints)
     {
         DBAgentPointItemGiftSendIncoming outgoing{};
         outgoing.billingId = user->billingId;

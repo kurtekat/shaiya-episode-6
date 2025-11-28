@@ -24,7 +24,7 @@ namespace item_effect
     /// Adds support for additional item effects. Add new values to the enum and 
     /// then add more cases to this function.
     /// </summary>
-    int hook(CUser* user, CItem* item, ItemEffect itemEffect, uint_t bag, uint_t slot)
+    int hook(CUser* user, CItem* item, ItemEffect itemEffect, int bag, int slot)
     {
         switch (itemEffect)
         {

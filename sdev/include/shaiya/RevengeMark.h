@@ -22,7 +22,7 @@ namespace shaiya
         /// <summary>
         /// Sends packet 0x229 to the user.
         /// </summary>
-        static void send(CUser* user, uint32_t charId, uint32_t killCount);
+        static void send(CUser* user, unsigned charId, unsigned killCount);
     };
     #pragma pack(pop)
 
