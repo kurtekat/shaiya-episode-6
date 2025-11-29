@@ -29,7 +29,7 @@ void Configuration::Init()
 
     auto first = buffer.begin();
     auto last = first + count;
-    Configuration::m_root.assign(first, last).remove_filename();
+    m_root.assign(first, last).remove_filename();
 }
 
 void Configuration::LoadItemRemake4()
@@ -333,7 +333,7 @@ void Configuration::LoadRewardItemEvent()
             return;
 
         auto sections = util::ini::get_sections(path);
-        size_t index = 0;
+        auto dest = g_rewardItemList.begin();
 
         for (const auto& section : sections)
         {
@@ -357,15 +357,15 @@ void Configuration::LoadRewardItemEvent()
             if (!std::in_range<uint8_t>(count))
                 continue;
 
-            g_rewardItemList[index].minutes = minutes;
-            g_rewardItemList[index].type = type;
-            g_rewardItemList[index].typeId = typeId;
-            g_rewardItemList[index].count = count;
+            dest->minutes = minutes;
+            dest->type = type;
+            dest->typeId = typeId;
+            dest->count = count;
 
-            ++index;
+            ++dest;
             ++g_rewardItemCount;
 
-            if (index == g_rewardItemList.size())
+            if (dest == g_rewardItemList.end())
                 break;
         }
     }
