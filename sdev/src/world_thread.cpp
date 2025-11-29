@@ -11,23 +11,28 @@ using namespace shaiya;
 
 namespace world_thread
 {
-    inline std::chrono::system_clock::time_point next_update_reward_item_event_progress;
+    inline std::chrono::system_clock::time_point next_update_reward_item_event;
 
-    void update_reward_item_event_progress()
+    void update_reward_item_event()
     {
-        using namespace std::chrono;
+        using namespace std::chrono_literals;
 
         auto now = std::chrono::system_clock::now();
-        if (now < next_update_reward_item_event_progress)
+        if (now < next_update_reward_item_event)
             return;
 
-        next_update_reward_item_event_progress = now + 3000ms;
+        next_update_reward_item_event = now + 3000ms;
 
-        for (const auto& [billingId, progress] : g_rewardItemEventProgress)
+        for (auto&& [billingId, progress] : g_rewardItemProgress)
         {
-            auto now = std::chrono::system_clock::now();
-            if (now < progress.itemGetWaitTime)
+            if (progress.completed)
                 continue;
+
+            auto now = std::chrono::system_clock::now();
+            if (now < progress.timeout)
+                continue;
+
+            progress.completed = true;
 
             auto user = CWorld::FindUserBill(billingId);
             if (!user)
@@ -51,7 +56,7 @@ void __declspec(naked) naked_0x404071()
 
         pushad
 
-        call world_thread::update_reward_item_event_progress
+        call world_thread::update_reward_item_event
 
         popad
      

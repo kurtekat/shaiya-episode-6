@@ -54,6 +54,7 @@
     <ClInclude Include="include\shaiya\LoginVersion.h" />
     <ClInclude Include="include\shaiya\MeshFace.h" />
     <ClInclude Include="include\shaiya\MobInfo.h" />
+    <ClInclude Include="include\shaiya\RewardItem.h" />
     <ClInclude Include="include\shaiya\SAes.h" />
     <ClInclude Include="include\shaiya\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\SIMM.h" />

@@ -1,5 +1,4 @@
 #include <chrono>
-#include <map>
 #include <util/util.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/game/outgoing/1F00.h>
@@ -20,6 +19,8 @@ namespace packet_reward_item
 {
     void handler(CUser* user, TP_MAIN* packet)
     {
+        using namespace std::chrono_literals;
+
         switch (packet->opcode)
         {
         case 0x1F04:
@@ -27,27 +28,20 @@ namespace packet_reward_item
             if (!g_rewardItemCount)
                 return;
 
-            auto it = g_rewardItemEventProgress.find(user->billingId);
-            if (it == g_rewardItemEventProgress.end())
+            auto it = g_rewardItemProgress.find(user->billingId);
+            if (it == g_rewardItemProgress.end())
                 return;
 
-            auto now = std::chrono::system_clock::now();
-            if (now < it->second.itemGetWaitTime)
+            auto& progress = it->second;
+            if (!progress.completed)
                 return;
 
-            auto index = it->second.itemListIndex;
-            if (index >= g_rewardItemCount)
-                return;
-
-            auto type = g_rewardItemList[index].type;
-            auto typeId = g_rewardItemList[index].typeId;
-            auto count = g_rewardItemList[index].count;
-
-            auto itemInfo = CGameData::GetItemInfo(type, typeId);
+            auto& item = g_rewardItemList[progress.index];
+            auto itemInfo = CGameData::GetItemInfo(item.type, item.typeId);
             if (!itemInfo)
                 return;
 
-            if (!CUser::ItemCreate(user, itemInfo, count))
+            if (!CUser::ItemCreate(user, itemInfo, item.count))
             {
                 // The client will output system message 7188 inside a message box
                 GameRewardItemGetResultOutgoing outgoing{};
@@ -61,25 +55,33 @@ namespace packet_reward_item
                 outgoing.messageNumber = 7192;
                 NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
 
-                ++index;
+                ++progress.index;
 
-                if (index >= g_rewardItemCount)
+                if (progress.index >= g_rewardItemCount)
                 {
-                    GameRewardItemEventEndedOutgoing outgoing{};
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventEndedOutgoing));
-                    g_rewardItemEventProgress.erase(user->billingId);
+                    auto minutes = g_rewardItemList[0].minutes;
+                    auto ms = minutes * 60000 + 15000;
+                    auto now = std::chrono::system_clock::now();
+
+                    progress.index = 0;
+                    progress.timeout = now + std::chrono::milliseconds(ms);
+                    progress.completed = false;
+
+                    GameRewardItemListIndexOutgoing outgoing{};
+                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
                 }
                 else
                 {
-                    auto minutes = std::chrono::minutes(g_rewardItemList[index].minutes);
+                    auto minutes = g_rewardItemList[progress.index].minutes;
+                    auto ms = minutes * 60000 + 15000;
                     auto now = std::chrono::system_clock::now();
 
-                    it->second.itemListIndex = index;
-                    it->second.itemGetWaitTime = now + minutes;
+                    progress.timeout = now + std::chrono::milliseconds(ms);
+                    progress.completed = false;
 
-                    GameRewardItemEventProgressOutgoing outgoing{};
-                    outgoing.itemListIndex = index;
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventProgressOutgoing));
+                    GameRewardItemListIndexOutgoing outgoing{};
+                    outgoing.index = progress.index;
+                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
                 }
             }
 
@@ -129,7 +131,7 @@ void __declspec(naked) naked_0x47BDA2()
         pushad
 
         push ebp // user
-        call RewardItemEvent::sendItemList
+        call RewardItemEvent::send
         add esp,0x4
 
         popad

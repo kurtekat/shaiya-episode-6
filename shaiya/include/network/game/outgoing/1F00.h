@@ -60,10 +60,10 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameRewardItemEventProgressOutgoing
+    struct GameRewardItemListIndexOutgoing
     {
         uint16_t opcode{ 0x1F05 };
-        uint32_t itemListIndex;
+        uint32_t index;
         uint32_t unknown{ 0 };
     };
     #pragma pack(pop)

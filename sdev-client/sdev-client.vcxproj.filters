@@ -182,6 +182,9 @@
     <ClInclude Include="include\shaiya\AesKey.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
+    <ClInclude Include="include\shaiya\RewardItem.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

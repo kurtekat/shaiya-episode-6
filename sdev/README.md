@@ -41,7 +41,7 @@ If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Reward Item Event
 
-Event progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly.
+Event progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly. The event will reset when the last item is received.
 
 ### Configuration
 
@@ -60,25 +60,25 @@ Count=1
 [RewardItem_2]
 Delay=10
 Type=100
-TypeID=1
+TypeID=2
 Count=1
 
 [RewardItem_3]
-Delay=20
+Delay=15
 Type=100
-TypeID=1
+TypeID=3
 Count=1
 
 [RewardItem_4]
-Delay=40
+Delay=20
 Type=100
-TypeID=1
+TypeID=4
 Count=1
 
 [RewardItem_5]
-Delay=80
+Delay=25
 Type=100
-TypeID=1
+TypeID=5
 Count=1
 ```
 
@@ -99,6 +99,15 @@ Add the following system messages:
 ### Medal Event
 
 This feature will not be implemented.
+
+### Timeout
+
+The client adds 15 seconds to the timeout.
+
+```cpp
+auto minutes = rewardItem[index].minutes;
+auto timeout = GetTickCount() + ((minutes * 60000) + 15000);
+```
 
 ### Clients
 
