@@ -1,5 +1,4 @@
 #include <chrono>
-#include <map>
 #include <util/util.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/game/outgoing/1F00.h>
@@ -27,27 +26,20 @@ namespace packet_reward_item
             if (!g_rewardItemCount)
                 return;
 
-            auto it = g_rewardItemEventProgress.find(user->billingId);
-            if (it == g_rewardItemEventProgress.end())
+            auto it = g_rewardItemEvents.find(user->billingId);
+            if (it == g_rewardItemEvents.end())
                 return;
 
-            auto now = std::chrono::system_clock::now();
-            if (now < it->second.itemGetWaitTime)
+            auto& event = it->second;
+            if (!event.progress.completed)
                 return;
 
-            auto index = it->second.itemListIndex;
-            if (index >= g_rewardItemCount)
-                return;
-
-            auto type = g_rewardItemList[index].type;
-            auto typeId = g_rewardItemList[index].typeId;
-            auto count = g_rewardItemList[index].count;
-
-            auto itemInfo = CGameData::GetItemInfo(type, typeId);
+            auto& item = g_rewardItemList[event.index];
+            auto itemInfo = CGameData::GetItemInfo(item.type, item.typeId);
             if (!itemInfo)
                 return;
 
-            if (!CUser::ItemCreate(user, itemInfo, count))
+            if (!CUser::ItemCreate(user, itemInfo, item.count))
             {
                 // The client will output system message 7188 inside a message box
                 GameRewardItemGetResultOutgoing outgoing{};
@@ -61,25 +53,29 @@ namespace packet_reward_item
                 outgoing.messageNumber = 7192;
                 NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
 
-                ++index;
+                ++event.index;
 
-                if (index >= g_rewardItemCount)
+                if (event.index >= g_rewardItemCount)
                 {
-                    GameRewardItemEventEndedOutgoing outgoing{};
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventEndedOutgoing));
-                    g_rewardItemEventProgress.erase(user->billingId);
+                    auto minutes = std::chrono::minutes(g_rewardItemList[0].minutes);
+                    auto now = std::chrono::system_clock::now();
+                    event.index = 0;
+                    event.progress.timeout = now + minutes;
+                    event.progress.completed = false;
+
+                    GameRewardItemEventIndexOutgoing outgoing{};
+                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventIndexOutgoing));
                 }
                 else
                 {
-                    auto minutes = std::chrono::minutes(g_rewardItemList[index].minutes);
+                    auto minutes = std::chrono::minutes(g_rewardItemList[event.index].minutes);
                     auto now = std::chrono::system_clock::now();
+                    event.progress.timeout = now + minutes;
+                    event.progress.completed = false;
 
-                    it->second.itemListIndex = index;
-                    it->second.itemGetWaitTime = now + minutes;
-
-                    GameRewardItemEventProgressOutgoing outgoing{};
-                    outgoing.itemListIndex = index;
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventProgressOutgoing));
+                    GameRewardItemEventIndexOutgoing outgoing{};
+                    outgoing.index = event.index;
+                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventIndexOutgoing));
                 }
             }
 

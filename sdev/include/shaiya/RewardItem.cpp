@@ -1,5 +1,4 @@
 #include <chrono>
-#include <map>
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "CUser.h"
 #include "NetworkHelper.h"
@@ -18,22 +17,27 @@ void RewardItemEvent::sendItemList(CUser* user)
     auto length = outgoing.baseLength + (outgoing.itemCount * sizeof(RewardItemUnit));
     NetworkHelper::Send(user, &outgoing, length);
 
-    if (auto it = g_rewardItemEventProgress.find(user->billingId); it != g_rewardItemEventProgress.end())
+    if (auto it = g_rewardItemEvents.find(user->billingId); it != g_rewardItemEvents.end())
     {
-        GameRewardItemEventProgressOutgoing outgoing{};
-        outgoing.itemListIndex = it->second.itemListIndex;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventProgressOutgoing));
+        auto minutes = std::chrono::minutes(g_rewardItemList[it->second.index].minutes);
+        auto now = std::chrono::system_clock::now();
+        it->second.progress.timeout = now + minutes;
+        it->second.progress.completed = false;
+
+        GameRewardItemEventIndexOutgoing outgoing{};
+        outgoing.index = it->second.index;
+        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventIndexOutgoing));
     }
     else
     {
         auto minutes = std::chrono::minutes(g_rewardItemList[0].minutes);
         auto now = std::chrono::system_clock::now();
 
-        RewardItemEventProgress progress{};
-        progress.itemGetWaitTime = now + minutes;
-        g_rewardItemEventProgress.insert({ user->billingId, progress });
+        RewardItemEvent event{};
+        event.progress.timeout = now + minutes;
+        g_rewardItemEvents.insert({ user->billingId, event });
 
-        GameRewardItemEventProgressOutgoing outgoing{};
-        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventProgressOutgoing));
+        GameRewardItemEventIndexOutgoing outgoing{};
+        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventIndexOutgoing));
     }
 }
