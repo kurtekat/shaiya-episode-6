@@ -16,8 +16,10 @@
 #include "include/shaiya/CGameData.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
+#include "include/shaiya/ItemFinder.h"
 #include "include/shaiya/ItemHelper.h"
 #include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/ItemPredicate.h"
 #include "include/shaiya/ItemRemake.h"
 #include "include/shaiya/ItemSynthesis.h"
 #include "include/shaiya/NetworkHelper.h"
@@ -35,7 +37,7 @@ namespace packet_gem
             return false;
 
         int bag{}, slot{};
-        if (!UserHelper::FindItem(user, ItemEffect::LapisianAddItemProtect, 1, bag, slot))
+        if (!ItemFinder(user, bag, slot, ItemEffectEqualF(ItemEffect::LapisianAddItemProtect)))
             return false;
 
         CUser::ItemUseNSend(user, bag, slot, false);
@@ -124,9 +126,9 @@ namespace packet_gem
         auto itemId1 = lapis1->info->itemId;
         auto itemId2 = lapis2->info->itemId;
         auto itemId3 = lapis3->info->itemId;
-        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
+        auto predicate = ItemRemakeContainsF(itemId1, itemId2, itemId3);
 
-        auto itemRemake = std::find_if(g_itemRemake5.cbegin(), g_itemRemake5.cend(), functor);
+        auto itemRemake = std::find_if(g_itemRemake5.cbegin(), g_itemRemake5.cend(), predicate);
         if (itemRemake != g_itemRemake5.cend())
         {
             auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
@@ -219,9 +221,9 @@ namespace packet_gem
         auto itemId1 = lapisian1->info->itemId;
         auto itemId2 = lapisian2->info->itemId;
         auto itemId3 = lapisian3->info->itemId;
-        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
+        auto predicate = ItemRemakeContainsF(itemId1, itemId2, itemId3);
 
-        auto itemRemake = std::find_if(g_itemRemake4.cbegin(), g_itemRemake4.cend(), functor);
+        auto itemRemake = std::find_if(g_itemRemake4.cbegin(), g_itemRemake4.cend(), predicate);
         if (itemRemake != g_itemRemake4.cend())
         {
             auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
@@ -403,8 +405,11 @@ namespace packet_gem
 
         for (int i = 0; i < requiredCount; ++i)
         {
+            auto type = oldItemInfo->type;
+            auto typeId = oldItemInfo->typeId;
+
             int bag{}, slot{};
-            if (!UserHelper::FindItem(user, oldItemInfo->type, oldItemInfo->typeId, 1, bag, slot))
+            if (!ItemFinder(user, bag, slot, ItemCountGreaterEqualF(type, typeId, 1)))
                 return;
 
             if (!UserHelper::ItemRemove(user, bag, slot, 1))
@@ -813,7 +818,7 @@ namespace packet_gem
                 continue;
 
             int bag{}, slot{};
-            if (!UserHelper::FindItem(user, type, typeId, count, bag, slot))
+            if (!ItemFinder(user, bag, slot, ItemCountGreaterEqualF(type, typeId, count)))
                 return;
 
             if (!UserHelper::ItemRemove(user, bag, slot, count))

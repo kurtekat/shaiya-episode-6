@@ -126,8 +126,10 @@
     <ClInclude Include="include\shaiya\HPAbility.h" />
     <ClInclude Include="include\shaiya\InsZonePortal.h" />
     <ClInclude Include="include\shaiya\ItemEnchant.h" />
+    <ClInclude Include="include\shaiya\ItemFinder.h" />
     <ClInclude Include="include\shaiya\ItemHelper.h" />
     <ClInclude Include="include\shaiya\ItemInfo.h" />
+    <ClInclude Include="include\shaiya\ItemPredicate.h" />
     <ClInclude Include="include\shaiya\ItemRemake.h" />
     <ClInclude Include="include\shaiya\KillCountInfo.h" />
     <ClInclude Include="include\shaiya\MapBind.h" />

@@ -1,5 +1,3 @@
-#include <ranges>
-#include <string>
 #pragma warning(disable: 28159) // GetTickCount
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -26,60 +24,6 @@
 #include "SConnectionTBaseReconnect.h"
 #include "UserHelper.h"
 using namespace shaiya;
-
-bool UserHelper::FindItem(CUser* user, int type, int typeId, int count, int& outBag, int& outSlot)
-{
-    if (count < 1)
-        return false;
-
-    outBag = 1;
-    while (outBag <= user->bagsUnlocked)
-    {
-        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
-        {
-            auto& item = user->inventory[outBag][outSlot];
-            if (!item)
-                continue;
-
-            if (item->count < count)
-                continue;
-
-            if (item->type == type && item->typeId == typeId)
-                return true;
-        }
-
-        ++outBag;
-    }
-
-    return false;
-}
-
-bool UserHelper::FindItem(CUser* user, ItemEffect itemEffect, int count, int& outBag, int& outSlot)
-{
-    if (count < 1)
-        return false;
-
-    outBag = 1;
-    while (outBag <= user->bagsUnlocked)
-    {
-        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
-        {
-            auto& item = user->inventory[outBag][outSlot];
-            if (!item)
-                continue;
-
-            if (item->count < count)
-                continue;
-
-            if (item->info->effect == itemEffect)
-                return true;
-        }
-
-        ++outBag;
-    }
-
-    return false;
-}
 
 bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
 {

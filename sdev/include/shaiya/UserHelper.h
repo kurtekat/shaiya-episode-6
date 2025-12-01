@@ -1,5 +1,4 @@
 #pragma once
-#include <shaiya/include/common/ItemEffect.h>
 
 namespace shaiya
 {
@@ -9,8 +8,6 @@ namespace shaiya
 
     struct UserHelper
     {
-        static bool FindItem(CUser* user, int type, int typeId, int count, int& outBag, int& outSlot);
-        static bool FindItem(CUser* user, ItemEffect itemEffect, int count, int& outBag, int& outSlot);
         static bool ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot);
         static bool ItemRemove(CUser* user, int bag, int slot, int count);
         static void SetMovePosition(CUser* user, unsigned mapId, float x, float y, float z, UserMovePosType movePosType, unsigned delay);
