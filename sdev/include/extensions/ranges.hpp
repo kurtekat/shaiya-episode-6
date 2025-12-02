@@ -11,6 +11,12 @@ namespace ext {
                 return std::views::enumerate(range) | std::views::take(count);
             }
 
+            template<class Container, std::ranges::viewable_range Range, class Pattern>
+            inline constexpr auto split(Range&& range, Pattern&& pattern)
+            {
+                return std::ranges::to<Container>(std::views::split(range, pattern));
+            }
+
         } // namespace views
     } // namespace ranges
 

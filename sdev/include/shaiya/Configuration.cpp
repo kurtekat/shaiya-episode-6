@@ -11,6 +11,7 @@
 #include <util/ini/ini.h>
 #include <shaiya/include/network/game/RewardItemUnit.h>
 #include "include/extensions/filesystem.hpp"
+#include "include/extensions/ranges.hpp"
 #include "Configuration.h"
 #include "ItemInfo.h"
 #include "ItemRemake.h"
@@ -172,8 +173,7 @@ void Configuration::LoadItemSetData()
             {
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
                 auto effects = reader.readString();
-                auto rng = std::views::split(effects, ',');
-                auto vec = std::ranges::to<std::vector<std::string>>(rng);
+                auto vec = ext::views::split<std::vector<std::string>>(effects, ',');
                 if (vec.size() != synergy.effects.size())
                     continue;
 
@@ -225,18 +225,15 @@ void Configuration::LoadItemSynthesis()
                 synthesis.materialCount
             );
 
-            auto rng1 = std::views::split(pairs[2].second, L',');
-            auto vec1 = std::ranges::to<std::vector<std::wstring>>(rng1);
+            auto vec1 = ext::views::split<std::vector<std::wstring>>(pairs[2].second, L',');
             if (vec1.size() != view.size())
                 continue;
 
-            auto rng2 = std::views::split(pairs[3].second, L',');
-            auto vec2 = std::ranges::to<std::vector<std::wstring>>(rng2);
+            auto vec2 = ext::views::split<std::vector<std::wstring>>(pairs[3].second, L',');
             if (vec2.size() != view.size())
                 continue;
 
-            auto rng3 = std::views::split(pairs[4].second, L',');
-            auto vec3 = std::ranges::to<std::vector<std::wstring>>(rng3);
+            auto vec3 = ext::views::split<std::vector<std::wstring>>(pairs[4].second, L',');
             if (vec3.size() != view.size())
                 continue;
 
