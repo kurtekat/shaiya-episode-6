@@ -38,7 +38,7 @@ void Configuration::LoadItemRemake4()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::combine(path, "Data", "ItemRemake4.ini");
+        ext::filesystem::path::combine(path, "Data", "ItemRemake4.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -90,7 +90,7 @@ void Configuration::LoadItemRemake5()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::combine(path, "Data", "ItemRemake5.ini");
+        ext::filesystem::path::combine(path, "Data", "ItemRemake5.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -142,7 +142,7 @@ void Configuration::LoadItemSetData()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::combine(path, "Data", "SetItem.SData");
+        ext::filesystem::path::combine(path, "Data", "SetItem.SData");
 
         if (!std::filesystem::exists(path))
             return;
@@ -197,7 +197,7 @@ void Configuration::LoadItemSynthesis()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::combine(path, "Data", "ChaoticSquare.ini");
+        ext::filesystem::path::combine(path, "Data", "ChaoticSquare.ini");
 
         if (!std::filesystem::exists(path))
             return;
@@ -324,7 +324,7 @@ void Configuration::LoadRewardItemEvent()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::combine(path, "Data", "RewardItem.ini");
+        ext::filesystem::path::combine(path, "Data", "RewardItem.ini");
 
         if (!std::filesystem::exists(path))
             return;

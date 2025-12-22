@@ -1,17 +1,21 @@
 #pragma once
 #include <filesystem>
 
-namespace ext {
-    namespace filesystem {
-
-        template<class...Args>
-        inline void combine(std::filesystem::path& base, const Args&...args)
+namespace ext
+{
+    namespace filesystem
+    {
+        struct path
         {
-            for (const auto& path : std::initializer_list<std::filesystem::path>{ args... })
+            template<class...Args>
+            static void combine(std::filesystem::path& base, const Args&...args)
             {
-                base /= path;
+                for (const auto& path : std::initializer_list<std::filesystem::path>{ args... })
+                {
+                    base /= path;
+                }
             }
-        }
+        };
 
     } // namespace filesystem
 } // namespace ext

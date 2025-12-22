@@ -1,10 +1,12 @@
 #pragma once
 #include <ranges>
 
-namespace ext {
-    namespace ranges {
-        namespace views {
-
+namespace ext
+{
+    namespace ranges
+    {
+        namespace views
+        {
             template<std::ranges::viewable_range Range>
             inline constexpr auto enumerate_n(Range&& range, std::ranges::range_difference_t<Range> count)
             {
