@@ -10,23 +10,23 @@ int util::detour(void* addr, void* dest, size_t size)
     struct {
         uint8_t opcode{ 0xE9 };
         uint32_t operand;
-    } instruction{};
+    } insn{};
     #pragma pack(pop)
 
-    static_assert(sizeof(instruction) == 5);
+    static_assert(sizeof(insn) == 5);
 
-    if (size < sizeof(instruction))
+    if (size < sizeof(insn))
         return 0;
 
     unsigned long protect;
     if (!VirtualProtect(addr, size, PAGE_EXECUTE_READWRITE, &protect))
         return 0;
 
-    auto address = (size_t(dest) - size_t(addr)) - sizeof(instruction);
-    instruction.operand = address;
+    auto address = (uintptr_t(dest) - uintptr_t(addr)) - sizeof(insn);
+    insn.operand = address;
 
     std::memset(addr, 0x90, size);
-    std::memcpy(addr, &instruction, sizeof(instruction));
+    std::memcpy(addr, &insn, sizeof(insn));
     return VirtualProtect(addr, size, protect, &protect);
 }
 
