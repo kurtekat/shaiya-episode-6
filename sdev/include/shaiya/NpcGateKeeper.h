@@ -5,11 +5,13 @@
 
 namespace shaiya
 {
+    inline constexpr int NpcGateCount = 3;
+    using NpcGates = Array<GateLink, NpcGateCount>;
+
     #pragma pack(push, 1)
     struct NpcGateKeeper : Npc
     {
-        // 0x124
-        Array<GateLink, 3> gates;
+        NpcGates gates;  //0x124
         // 0x460
     };
     #pragma pack(pop)

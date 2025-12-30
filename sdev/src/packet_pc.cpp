@@ -11,6 +11,7 @@
 #include "include/shaiya/CZone.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/NpcGateKeeper.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -37,7 +38,7 @@ namespace packet_pc
         if (item->info->effect != ItemEffect::TownMoveScroll)
             return;
 
-        if (incoming->gateIndex > 2)
+        if (incoming->gateIndex >= NpcGateCount)
             return;
 
         user->savePosUseBag = incoming->bag;

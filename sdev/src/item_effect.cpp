@@ -66,7 +66,7 @@ namespace item_effect
                 return 0;
 
             auto index = user->savePosUseIndex;
-            if (index < 0 || index > 2)
+            if (index < 0 || index >= NpcGateCount)
                 return 0;
 
             auto mapId = gateKeeper->gates[index].mapId;
