@@ -1,3 +1,4 @@
+#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"
@@ -64,10 +65,10 @@ namespace character_list
 
     void assign_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
     {
-        if (characterSlot >= 5)
+        if (characterSlot < 0 || characterSlot >= 5)
             return;
 
-        if (equipmentSlot >= ItemListCount_EP6_4)
+        if (equipmentSlot < 0 || equipmentSlot >= ItemListCount_EP6_4)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;
