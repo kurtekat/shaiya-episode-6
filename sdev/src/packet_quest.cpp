@@ -28,7 +28,7 @@ namespace packet_quest
     /// </summary>
     void send_success_0x903(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
     {
-        if (resultIndex >= QuestResultCount_EP6)
+        if (resultIndex < 0 || resultIndex >= QuestResultCount_EP6)
             return;
 
         auto& result = quest->info->results[resultIndex];
