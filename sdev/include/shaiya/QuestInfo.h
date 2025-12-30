@@ -10,6 +10,9 @@ namespace shaiya
     inline constexpr int QuestResultCount_EP5 = 3;
     inline constexpr int QuestResultCount_EP6 = 6;
 
+    using QuestResults_EP5 = Array<QuestResult_EP5, QuestResultCount_EP5>;
+    using QuestResults_EP6 = Array<QuestResult_EP6, QuestResultCount_EP6>;
+
     #pragma pack(push, 1)
     struct QuestInfo_EP5
     {
@@ -82,8 +85,7 @@ namespace shaiya
         uint8_t resultType;          //0x15C
         uint8_t resultUserSelect;    //0x15D
         PAD(2);
-        // 0x160
-        Array<QuestResult_EP5, 3> results;
+        QuestResults_EP5 results;    //0x160
         tick32_t nextQuestStartTime; //0x1C0
         tick32_t questEndTime;       //0x1C4
         tick32_t questRemainTime;    //0x1C8
@@ -167,8 +169,7 @@ namespace shaiya
         uint8_t resultType;          //0x15C
         uint8_t resultUserSelect;    //0x15D
         PAD(2);
-        // 0x160
-        Array<QuestResult_EP6, 6> results;
+        QuestResults_EP6 results;    //0x160
         // 0x268
         PAD(28);
         // 0x284
