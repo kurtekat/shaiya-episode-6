@@ -35,7 +35,7 @@ namespace shaiya
         uint16_t health;
         uint16_t mana;
         uint16_t stamina;
-        ItemList<8> equipment;
+        ItemList_EP5 equipment;
         String<19> charName;
         bool deleted;
         bool enableRename;
@@ -67,7 +67,7 @@ namespace shaiya
         uint16_t health;
         uint16_t mana;
         uint16_t stamina;
-        ItemList<17> equipment;
+        ItemList_EP6_4 equipment;
         String<19> charName;
         bool deleted;
         bool enableRename;

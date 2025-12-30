@@ -15,4 +15,8 @@ namespace shaiya
         std::array<uint8_t, N> typeId;
     };
     #pragma pack(pop)
+
+    using ItemList_EP5 = ItemList<ItemListCount_EP5>;
+    using ItemList_EP6 = ItemList<ItemListCount_EP5>;
+    using ItemList_EP6_4 = ItemList<ItemListCount_EP6_4>;
 }

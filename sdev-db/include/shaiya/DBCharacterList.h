@@ -35,7 +35,7 @@ namespace shaiya
         uint16_t stamina;
         uint16_t mapId;
         time32_t deleteDate;
-        ItemList<8> equipment;
+        ItemList_EP5 equipment;
         CloakInfo cloakInfo;
         String<21> charName;
     };
@@ -69,7 +69,7 @@ namespace shaiya
         uint16_t stamina;
         uint16_t mapId;
         time32_t deleteDate;
-        ItemList<17> equipment;
+        ItemList_EP6_4 equipment;
         CloakInfo cloakInfo;
         String<21> charName;
     };

@@ -35,8 +35,7 @@ namespace shaiya
         uint16_t mapId;         //0x24
         PAD(2);
         time32_t deleteDate;    //0x28
-        // 0x2C
-        ItemList<8> equipment;
+        ItemList_EP5 equipment; //0x2C
         CloakInfo cloakInfo;    //0x3C
         String<21> charName;    //0x42
         PAD(1);

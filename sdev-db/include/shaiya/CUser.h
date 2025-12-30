@@ -149,21 +149,21 @@ namespace shaiya
         CRITICAL_SECTION csPointItems;            //0x87B0
         volatile unsigned pointsLock;             //0x87C8
         SSyncList<DeleteFriend> pointUpdates;     //0x87CC
-        SConnection* connection;              //0x87F8
-        CRITICAL_SECTION csUser;              //0x87FC
-        UserWhere where;                      //0x8814
-        bool saveCountry;                     //0x8818
+        SConnection* connection;                  //0x87F8
+        CRITICAL_SECTION csUser;                  //0x87FC
+        UserWhere where;                          //0x8814
+        bool saveCountry;                         //0x8818
         PAD(3);
         // 900000
-        tick32_t nextDBSaveTime;              //0x881C
+        tick32_t nextDBSaveTime;                  //0x881C
         PAD(4);
-        CRITICAL_SECTION csItems;             //0x8824
-        CRITICAL_SECTION csSkills;            //0x883C
+        CRITICAL_SECTION csItems;                 //0x8824
+        CRITICAL_SECTION csSkills;                //0x883C
         PAD(4);
         // 0x8858
 
         // custom
-        Array<ItemList<17>, 5> equipment;     //0x8858
+        Array<ItemList_EP6_4, 5> equipment;       //0x8858
     };
     #pragma pack(pop)
 
