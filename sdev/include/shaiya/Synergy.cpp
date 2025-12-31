@@ -202,18 +202,18 @@ void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<It
 
     for (const auto& itemSet : g_itemSets)
     {
-        size_t wornCount = 0;
+        auto wornCount = 0;
         for (const auto& itemId : itemSet.items)
         {
             if (equipment.contains(itemId))
                 ++wornCount;
         }
 
-        size_t size = itemSet.synergies.size();
-        if (!wornCount || wornCount > size)
+        auto maxCount = std::ssize(itemSet.synergies);
+        if (!wornCount || wornCount > maxCount)
             continue;
 
-        auto offset = size - wornCount;
+        auto offset = maxCount - wornCount;
         auto first = itemSet.synergies.crbegin() + offset;
         auto last = itemSet.synergies.crend();
 
