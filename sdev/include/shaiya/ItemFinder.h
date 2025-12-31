@@ -5,8 +5,12 @@ namespace shaiya
 {
     struct CUser;
 
-    template<class Predicate>
-    inline bool ItemFinder(CUser* user, int& outBag, int& outSlot, Predicate predicate)
+    /// <summary>
+    /// Finds the first instance of an item in the inventory that satisfies the unary predicate. 
+    /// The bag and slot are returned in output parameters.
+    /// </summary>
+    template<class UnaryPred>
+    inline bool ItemFinder(CUser* user, int& outBag, int& outSlot, UnaryPred pred)
     {
         outBag = 1;
         while (outBag <= user->bagsUnlocked)
@@ -17,11 +21,32 @@ namespace shaiya
                 if (!item)
                     continue;
 
-                if (predicate(item))
+                if (pred(item))
                     return true;
             }
 
             ++outBag;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Finds the first instance of an item in the warehouse that satisfies the unary predicate. 
+    /// The slot is returned in an output parameter.
+    /// </summary>
+    template<class UnaryPred>
+    inline bool StoredItemFinder(CUser* user, int& outSlot, UnaryPred pred)
+    {
+        int slotCount = user->doubleWarehouse ? 240 : 120;
+        for (outSlot = 0; outSlot < slotCount; ++outSlot)
+        {
+            auto& item = user->warehouse[outSlot];
+            if (!item)
+                continue;
+
+            if (pred(item))
+                return true;
         }
 
         return false;
