@@ -861,6 +861,7 @@ namespace packet_gem
     void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
     {
         constexpr int baseSuccessRate = 30;
+        auto successRate = baseSuccessRate;
 
         if (!incoming->cubeBag)
             return;
@@ -903,8 +904,6 @@ namespace packet_gem
 
         if (target->info->reqWis < source->info->reqWis)
             return;
-
-        int successRate = baseSuccessRate;
 
         // 255 means the slot is empty
         if (incoming->catalystSlot != 255)
