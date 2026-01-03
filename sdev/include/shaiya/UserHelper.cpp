@@ -25,6 +25,17 @@
 #include "UserHelper.h"
 using namespace shaiya;
 
+bool UserHelper::IsValidItemPosition(CUser* user, int bag, int slot)
+{
+    if (bag > user->bagsUnlocked)
+        return false;
+
+    if (slot >= ItemSlotCount)
+        return false;
+
+    return true;
+}
+
 bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot)
 {
     if (count < 1 || count > itemInfo->count)
@@ -44,10 +55,7 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& out
 
 bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
 {
-    if (bag <= 0 || bag > user->bagsUnlocked)
-        return false;
-
-    if (slot < 0 || slot >= ItemSlotCount)
+    if (!UserHelper::IsValidItemPosition(user, bag, slot))
         return false;
 
     auto& item = user->inventory[bag][slot];

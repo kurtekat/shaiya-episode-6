@@ -25,10 +25,10 @@ namespace packet_pc
         if (user->status == UserStatus::Death)
             return;
 
-        if (!incoming->bag || incoming->bag > user->bagsUnlocked)
+        if (!incoming->bag)
             return;
 
-        if (incoming->slot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag, incoming->slot))
             return;
 
         auto& item = user->inventory[incoming->bag][incoming->slot];

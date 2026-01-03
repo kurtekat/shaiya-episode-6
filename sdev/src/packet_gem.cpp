@@ -49,40 +49,40 @@ namespace packet_gem
     /// </summary>
     void handler_0x80B(CUser* user, GameItemRemake5Incoming_EP6_4* incoming)
     {
-        if (!incoming->lapisBag1 || incoming->lapisBag1 > user->bagsUnlocked)
+        if (!incoming->lapisBag1)
             return;
 
-        if (incoming->lapisSlot1 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag1, incoming->lapisSlot1))
             return;
 
         auto& lapis1 = user->inventory[incoming->lapisBag1][incoming->lapisSlot1];
         if (!lapis1)
             return;
 
-        if (!incoming->lapisBag2 || incoming->lapisBag2 > user->bagsUnlocked)
+        if (!incoming->lapisBag2)
             return;
 
-        if (incoming->lapisSlot2 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag2, incoming->lapisSlot2))
             return;
 
         auto& lapis2 = user->inventory[incoming->lapisBag2][incoming->lapisSlot2];
         if (!lapis2)
             return;
 
-        if (!incoming->lapisBag3 || incoming->lapisBag3 > user->bagsUnlocked)
+        if (!incoming->lapisBag3)
             return;
 
-        if (incoming->lapisSlot3 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag3, incoming->lapisSlot3))
             return;
 
         auto& lapis3 = user->inventory[incoming->lapisBag3][incoming->lapisSlot3];
         if (!lapis3)
             return;
 
-        if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
+        if (!incoming->vialBag)
             return;
 
-        if (incoming->vialSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -126,9 +126,9 @@ namespace packet_gem
         auto itemId1 = lapis1->info->itemId;
         auto itemId2 = lapis2->info->itemId;
         auto itemId3 = lapis3->info->itemId;
-        auto predicate = ItemRemakeContainsF(itemId1, itemId2, itemId3);
+        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
 
-        auto itemRemake = std::find_if(g_itemRemake5.cbegin(), g_itemRemake5.cend(), predicate);
+        auto itemRemake = std::find_if(g_itemRemake5.cbegin(), g_itemRemake5.cend(), functor);
         if (itemRemake != g_itemRemake5.cend())
         {
             auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
@@ -166,40 +166,40 @@ namespace packet_gem
     /// </summary>
     void handler_0x80C(CUser* user, GameItemRemake4Incoming_EP6_4* incoming)
     {
-        if (!incoming->lapisianBag1 || incoming->lapisianBag1 > user->bagsUnlocked)
+        if (!incoming->lapisianBag1)
             return;
 
-        if (incoming->lapisianSlot1 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag1, incoming->lapisianSlot1))
             return;
 
         auto& lapisian1 = user->inventory[incoming->lapisianBag1][incoming->lapisianSlot1];
         if (!lapisian1)
             return;
 
-        if (!incoming->lapisianBag2 || incoming->lapisianBag2 > user->bagsUnlocked)
+        if (!incoming->lapisianBag2)
             return;
 
-        if (incoming->lapisianSlot2 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag2, incoming->lapisianSlot2))
             return;
 
         auto& lapisian2 = user->inventory[incoming->lapisianBag2][incoming->lapisianSlot2];
         if (!lapisian2)
             return;
 
-        if (!incoming->lapisianBag3 || incoming->lapisianBag3 > user->bagsUnlocked)
+        if (!incoming->lapisianBag3)
             return;
 
-        if (incoming->lapisianSlot3 >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag3, incoming->lapisianSlot3))
             return;
 
         auto& lapisian3 = user->inventory[incoming->lapisianBag3][incoming->lapisianSlot3];
         if (!lapisian3)
             return;
 
-        if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
+        if (!incoming->vialBag)
             return;
 
-        if (incoming->vialSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -221,9 +221,9 @@ namespace packet_gem
         auto itemId1 = lapisian1->info->itemId;
         auto itemId2 = lapisian2->info->itemId;
         auto itemId3 = lapisian3->info->itemId;
-        auto predicate = ItemRemakeContainsF(itemId1, itemId2, itemId3);
+        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
 
-        auto itemRemake = std::find_if(g_itemRemake4.cbegin(), g_itemRemake4.cend(), predicate);
+        auto itemRemake = std::find_if(g_itemRemake4.cbegin(), g_itemRemake4.cend(), functor);
         if (itemRemake != g_itemRemake4.cend())
         {
             auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
@@ -261,20 +261,20 @@ namespace packet_gem
     /// </summary>
     void handler_0x80D(CUser* user, GameRuneUpgradeIncoming_EP6_4* incoming)
     {
-        if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked)
+        if (!incoming->runeBag)
             return;
 
-        if (incoming->runeSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->runeBag, incoming->runeSlot))
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
         if (!rune)
             return;
 
-        if (!incoming->vialBag || incoming->vialBag > user->bagsUnlocked)
+        if (!incoming->vialBag)
             return;
 
-        if (incoming->vialSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -349,10 +349,10 @@ namespace packet_gem
     /// </summary>
     void handler_0x80E(CUser* user, GameLapisianUpgradeIncoming* incoming)
     {
-        if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked)
+        if (!incoming->cubeBag)
             return;
 
-        if (incoming->cubeSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->cubeBag, incoming->cubeSlot))
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
@@ -436,20 +436,17 @@ namespace packet_gem
     /// </summary>
     void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
     {
-        if (!incoming->runeBag || incoming->runeBag > user->bagsUnlocked)
+        if (!incoming->runeBag)
             return;
 
-        if (incoming->runeSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->runeBag, incoming->runeSlot))
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
         if (!rune)
             return;
 
-        if (incoming->itemBag > user->bagsUnlocked)
-            return;
-
-        if (incoming->itemSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->itemBag, incoming->itemSlot))
             return;
 
         auto& item = user->inventory[incoming->itemBag][incoming->itemSlot];
@@ -668,10 +665,10 @@ namespace packet_gem
     /// </summary>
     void handler_0x830(CUser* user, GameChaoticSquareListIncoming* incoming)
     {
-        if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
+        if (!incoming->chaoticSquareBag)
             return;
 
-        if (incoming->chaoticSquareSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->chaoticSquareBag, incoming->chaoticSquareSlot))
             return;
 
         auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
@@ -740,10 +737,10 @@ namespace packet_gem
     /// </summary>
     void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     {
-        if (!incoming->chaoticSquareBag || incoming->chaoticSquareBag > user->bagsUnlocked)
+        if (!incoming->chaoticSquareBag)
             return;
 
-        if (incoming->chaoticSquareSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->chaoticSquareBag, incoming->chaoticSquareSlot))
             return;
 
         auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
@@ -789,10 +786,7 @@ namespace packet_gem
 
         if (incoming->hammerBag != 0)
         {
-            if (incoming->hammerBag > user->bagsUnlocked)
-                return;
-
-            if (incoming->hammerSlot >= ItemSlotCount)
+            if (!UserHelper::IsValidItemPosition(user, incoming->hammerBag, incoming->hammerSlot))
                 return;
 
             auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
@@ -868,30 +862,24 @@ namespace packet_gem
     {
         constexpr int baseSuccessRate = 30;
 
-        if (!incoming->cubeBag || incoming->cubeBag > user->bagsUnlocked)
+        if (!incoming->cubeBag)
             return;
 
-        if (incoming->cubeSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->cubeBag, incoming->cubeSlot))
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
         if (!cube)
             return;
 
-        if (incoming->srcBag > user->bagsUnlocked)
-            return;
-
-        if (incoming->srcSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->srcBag, incoming->srcSlot))
             return;
 
         auto& source = user->inventory[incoming->srcBag][incoming->srcSlot];
         if (!source)
             return;
 
-        if (incoming->destBag > user->bagsUnlocked)
-            return;
-
-        if (incoming->destSlot >= ItemSlotCount)
+        if (!UserHelper::IsValidItemPosition(user, incoming->destBag, incoming->destSlot))
             return;
 
         auto& target = user->inventory[incoming->destBag][incoming->destSlot];
@@ -921,10 +909,10 @@ namespace packet_gem
         // 255 means the slot is empty
         if (incoming->catalystSlot != 255)
         {
-            if (!incoming->catalystBag || incoming->catalystBag > user->bagsUnlocked)
+            if (!incoming->catalystBag)
                 return;
 
-            if (incoming->catalystSlot >= ItemSlotCount)
+            if (!UserHelper::IsValidItemPosition(user, incoming->catalystBag, incoming->catalystSlot))
                 return;
 
             auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];

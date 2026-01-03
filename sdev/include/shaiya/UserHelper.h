@@ -8,6 +8,7 @@ namespace shaiya
 
     struct UserHelper
     {
+        static bool IsValidItemPosition(CUser* user, int bag, int slot);
         static bool ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot);
         static bool ItemRemove(CUser* user, int bag, int slot, int count);
         static void SetMovePosition(CUser* user, unsigned mapId, float x, float y, float z, UserMovePosType movePosType, unsigned delay);
