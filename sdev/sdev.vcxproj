@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\extensions\filesystem.hpp" />
+    <ClInclude Include="include\extensions\functional.hpp" />
     <ClInclude Include="include\extensions\ranges.hpp" />
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\AdminInfo.h" />

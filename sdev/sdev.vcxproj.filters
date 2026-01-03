@@ -593,6 +593,9 @@
     <ClInclude Include="include\shaiya\ItemFinder.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
+    <ClInclude Include="include\extensions\functional.hpp">
+      <Filter>include\extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">
