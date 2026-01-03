@@ -12,8 +12,7 @@ namespace shaiya
     template<class UnaryPred>
     inline bool ItemFinder(CUser* user, int& outBag, int& outSlot, UnaryPred pred)
     {
-        outBag = 1;
-        while (outBag <= user->bagsUnlocked)
+        for (outBag = 1; outBag <= user->bagsUnlocked; ++outBag)
         {
             for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
             {
@@ -24,8 +23,6 @@ namespace shaiya
                 if (pred(item))
                     return true;
             }
-
-            ++outBag;
         }
 
         return false;

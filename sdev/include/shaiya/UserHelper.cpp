@@ -30,16 +30,13 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& out
     if (count < 1 || count > itemInfo->count)
         return false;
 
-    outBag = 1;
-    while (outBag <= user->bagsUnlocked)
+    for (outBag = 1; outBag <= user->bagsUnlocked; ++outBag)
     {
         for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
         {
             if (!user->inventory[outBag][outSlot])
                 return CUser::ItemCreate(user, itemInfo, count);
         }
-
-        ++outBag;
     }
 
     return false;
