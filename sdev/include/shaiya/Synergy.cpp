@@ -6,6 +6,7 @@
 #include "CItem.h"
 #include "CUser.h"
 #include "Synergy.h"
+#include "include/extensions/functional.hpp"
 using namespace shaiya;
 
 void Synergy::equipmentAdd(CUser* user)
@@ -217,10 +218,8 @@ void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<It
         auto first = itemSet.synergies.crbegin() + offset;
         auto last = itemSet.synergies.crend();
 
-        auto it = std::find_if(first, last, [](const auto& synergy) {
-            return !std::all_of(synergy.effects.cbegin(), synergy.effects.cend(), [](const auto& effect) {
-                return !effect;
-                });
+        auto it = std::find_if_not(first, last, [](const auto& synergy) {
+            return std::all_of(synergy.effects.cbegin(), synergy.effects.cend(), ext::unary_equal_to(0));
             });
 
         if (it == last)
