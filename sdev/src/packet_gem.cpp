@@ -864,7 +864,7 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x811 packets. See the docs for a list of supported clients.
     /// </summary>
-    void handler_0x811(CUser* user, GameItemAbilityTransferIncoming* incoming)
+    void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
     {
         constexpr int baseSuccessRate = 30;
 
@@ -898,7 +898,7 @@ namespace packet_gem
         if (!target)
             return;
 
-        if (cube->info->effect != ItemEffect::ItemAbilityTransfer)
+        if (cube->info->effect != ItemEffect::ItemAbilityMove)
             return;
 
         if (target->info->realType != source->info->realType)
@@ -940,8 +940,8 @@ namespace packet_gem
 
         CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
 
-        GameItemAbilityTransferOutgoing outgoing{};
-        outgoing.result = GameItemAbilityTransferResult::Failure;
+        GameItemAbilityMoveOutgoing outgoing{};
+        outgoing.result = GameItemAbilityMoveResult::Failure;
         outgoing.srcBag = incoming->srcBag;
         outgoing.srcSlot = incoming->srcSlot;
         outgoing.destBag = incoming->destBag;
@@ -959,7 +959,7 @@ namespace packet_gem
 
         if (randomValue <= successRate)
         {
-            outgoing.result = GameItemAbilityTransferResult::Success;
+            outgoing.result = GameItemAbilityMoveResult::Success;
 
             auto maxHealth = user->maxHealth;
             auto maxMana = user->maxHealth;
@@ -1033,7 +1033,7 @@ namespace packet_gem
             ItemHelper::SendDBAgentGems(user, source, incoming->srcBag, incoming->srcSlot);
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemAbilityTransferOutgoing));
+        NetworkHelper::Send(user, &outgoing, sizeof(GameItemAbilityMoveOutgoing));
     }
 
     /// <summary>
@@ -1065,7 +1065,7 @@ namespace packet_gem
         }
         case 0x811:
         {
-            handler_0x811(user, reinterpret_cast<GameItemAbilityTransferIncoming*>(packet));
+            handler_0x811(user, reinterpret_cast<GameItemAbilityMoveIncoming*>(packet));
             break;
         }
         case 0x830:

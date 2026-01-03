@@ -475,7 +475,7 @@ The values are signed 32-bit integers, expected to be in the following order:
 * rangedAttackPower
 * magicPower
 
-## Item Ability Transfer
+## Item Ability Move
 
 Use item `101150` to activate the window. The `CraftName` and `Gems` will be removed from the original item if the transfer is successful.
 

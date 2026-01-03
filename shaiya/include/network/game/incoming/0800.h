@@ -228,7 +228,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemAbilityTransferIncoming
+    struct GameItemAbilityMoveIncoming
     {
         uint16_t opcode{ 0x811 };
         uint8_t cubeBag;

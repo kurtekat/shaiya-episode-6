@@ -149,17 +149,17 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct GameItemAbilityTransferResult : uint8_t
+    enum struct GameItemAbilityMoveResult : uint8_t
     {
         Success,
         Failure
     };
 
     #pragma pack(push, 1)
-    struct GameItemAbilityTransferOutgoing
+    struct GameItemAbilityMoveOutgoing
     {
         uint16_t opcode{ 0x811 };
-        GameItemAbilityTransferResult result;
+        GameItemAbilityMoveResult result;
         uint8_t srcBag;
         uint8_t srcSlot;
         uint8_t destBag;

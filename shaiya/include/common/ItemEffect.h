@@ -81,7 +81,7 @@ namespace shaiya
         CraftingHammer = 102,
         LapisianAddItemProtect,
         TownMoveScroll,
-        ItemAbilityTransfer,
+        ItemAbilityMove,
         Catalyst,
         EnchantEnhancer,
         Dye = 110,
