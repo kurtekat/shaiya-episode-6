@@ -37,7 +37,7 @@ namespace packet_gem
             return false;
 
         int bag{}, slot{};
-        if (!ItemFinder(user, bag, slot, ItemEffectEqualF(ItemEffect::LapisianAddItemProtect)))
+        if (!ItemFinder(user, bag, slot, ItemEffectEqualToF(ItemEffect::LapisianAddItemProtect)))
             return false;
 
         CUser::ItemUseNSend(user, bag, slot, false);
@@ -405,11 +405,8 @@ namespace packet_gem
 
         for (int i = 0; i < requiredCount; ++i)
         {
-            auto type = oldItemInfo->type;
-            auto typeId = oldItemInfo->typeId;
-
             int bag{}, slot{};
-            if (!ItemFinder(user, bag, slot, ItemCountGreaterEqualF(type, typeId, 1)))
+            if (!ItemFinder(user, bag, slot, ItemEqualToF(oldItemInfo->type, oldItemInfo->typeId)))
                 return;
 
             if (!UserHelper::ItemRemove(user, bag, slot, 1))
@@ -812,7 +809,7 @@ namespace packet_gem
                 continue;
 
             int bag{}, slot{};
-            if (!ItemFinder(user, bag, slot, ItemCountGreaterEqualF(type, typeId, count)))
+            if (!ItemFinder(user, bag, slot, ItemMinCountF(type, typeId, count)))
                 return;
 
             if (!UserHelper::ItemRemove(user, bag, slot, count))
