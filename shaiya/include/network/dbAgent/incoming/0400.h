@@ -34,12 +34,11 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    // custom
     struct DBAgentCharNameAvailableIncoming
     {
-        uint16_t opcode{ 0x40D };
+        uint16_t opcode{ 0x410 };
         uint32_t billingId;
-        String<19> name;
+        String<21> name;
 
         constexpr static int baseLength = 6;
     };

@@ -78,7 +78,7 @@ namespace shaiya
     struct GameCharNameAvailableIncoming
     {
         uint16_t opcode{ 0x119 };
-        String<19> name;
+        String<21> name;
     };
     #pragma pack(pop)
 }

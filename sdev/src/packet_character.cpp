@@ -226,11 +226,11 @@ void __declspec(naked) naked_0x47B3E7()
     {
         // original
         add eax,-0x401
-        cmp eax,0xC
-        je case_0x40D
+        cmp eax,0xF
+        je case_0x410
         jmp u0x47B3EC
 
-        case_0x40D:
+        case_0x410:
         pushad
 
         push edi // packet

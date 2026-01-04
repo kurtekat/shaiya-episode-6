@@ -1,4 +1,3 @@
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/outgoing/0400.h>
 #include "include/main.h"

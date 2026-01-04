@@ -54,9 +54,9 @@ namespace character
     }
 
     /// <summary>
-    /// Handles incoming 0x40D packets.
+    /// Handles incoming 0x410 packets.
     /// </summary>
-    void handler_0x40D(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
+    void handler_0x410(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
         bool available = is_name_available(incoming->name.data());
@@ -78,16 +78,16 @@ void __declspec(naked) naked_0x4061D3()
     {
         // original
         add edx,-0x402
-        cmp edx,0xB
-        je case_0x40D
+        cmp edx,0xE
+        je case_0x410
         jmp u0x4061D9
 
-        case_0x40D:
+        case_0x410:
         pushad
 
         push eax // packet
         push ecx // user
-        call character::handler_0x40D
+        call character::handler_0x410
         add esp,0x8
 
         popad
