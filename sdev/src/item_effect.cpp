@@ -1,4 +1,5 @@
 //#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
+#include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemSlot.h>
@@ -66,10 +67,7 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            auto index = user->savePosUseIndex;
-            if (index < 0 || index >= NpcGateCount)
-                return 0;
-
+            auto index = std::clamp(user->savePosUseIndex, 0, std::ssize(gateKeeper->gates) - 1);
             auto mapId = gateKeeper->gates[index].mapId;
             auto x = gateKeeper->gates[index].x;
             auto y = gateKeeper->gates[index].y;

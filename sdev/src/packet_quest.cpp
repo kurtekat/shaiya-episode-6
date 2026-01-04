@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/0900.h>
 #include <shaiya/include/network/gameLog/incoming/0500.h>
@@ -28,10 +29,9 @@ namespace packet_quest
     /// </summary>
     void send_success_0x903(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
     {
-        if (resultIndex < 0 || resultIndex >= QuestResultCount_EP6)
-            return;
+        auto index = std::clamp(resultIndex, 0, std::ssize(quest->info->results) - 1);
+        auto& result = quest->info->results[index];
 
-        auto& result = quest->info->results[resultIndex];
         if (result.exp)
         {
             CUser::AddExpFromUser(user, 0, result.exp, true);
@@ -54,7 +54,7 @@ namespace packet_quest
         outgoing.npcId = npcId;
         outgoing.questId = quest->info->questId;
         outgoing.success = true;
-        outgoing.resultIndex = resultIndex;
+        outgoing.resultIndex = index;
         outgoing.exp = result.exp;
         outgoing.money = result.money;
 
