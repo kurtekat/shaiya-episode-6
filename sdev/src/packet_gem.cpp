@@ -16,6 +16,7 @@
 #include "include/shaiya/CGameData.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
+#include "include/shaiya/EnumHelper.h"
 #include "include/shaiya/ItemFinder.h"
 #include "include/shaiya/ItemHelper.h"
 #include "include/shaiya/ItemInfo.h"

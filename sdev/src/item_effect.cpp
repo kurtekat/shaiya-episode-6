@@ -12,6 +12,7 @@
 #include "include/shaiya/CObject.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
+#include "include/shaiya/EnumHelper.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/NetworkHelper.h"
 #include "include/shaiya/NpcGateKeeper.h"
@@ -90,7 +91,7 @@ namespace item_effect
     /// </summary>
     int zone_enter_item_hook(CItem* item, int enterType)
     {
-        if (enterType != static_cast<int>(GameItemZoneEnterType::MobDrop))
+        if (enterType != GameItemZoneEnterType::MobDrop)
             return 0;
 
         if (!item->zone)

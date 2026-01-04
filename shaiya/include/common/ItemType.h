@@ -112,24 +112,4 @@ namespace shaiya
         Wings,
         Costume = 150
     };
-
-    inline bool operator==(ItemType lhs, int rhs)
-    {
-        return static_cast<int>(lhs) == rhs;
-    }
-
-    inline bool operator==(int lhs, ItemType rhs)
-    {
-        return lhs == static_cast<int>(rhs);
-    }
-
-    inline bool operator!=(ItemType lhs, int rhs)
-    {
-        return static_cast<int>(lhs) != rhs;
-    }
-
-    inline bool operator!=(int lhs, ItemType rhs)
-    {
-        return lhs != static_cast<int>(rhs);
-    }
 }

@@ -60,6 +60,7 @@
     <ClCompile Include="src\world_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\extensions\concepts.hpp" />
     <ClInclude Include="include\extensions\filesystem.hpp" />
     <ClInclude Include="include\extensions\functional.hpp" />
     <ClInclude Include="include\extensions\ranges.hpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="include\shaiya\Damage.h" />
     <ClInclude Include="include\shaiya\DamageMob.h" />
     <ClInclude Include="include\shaiya\DBCharacterList.h" />
+    <ClInclude Include="include\shaiya\EnumHelper.h" />
     <ClInclude Include="include\shaiya\ExcItem.h" />
     <ClInclude Include="include\shaiya\FriendInfo.h" />
     <ClInclude Include="include\shaiya\GateLink.h" />
