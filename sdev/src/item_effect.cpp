@@ -8,12 +8,12 @@
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0400.h>
 #include "include/main.h"
+#include "include/operator.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CNpcData.h"
 #include "include/shaiya/CObject.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
-#include "include/shaiya/EnumHelper.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/NpcGateKeeper.h"
 #include "include/shaiya/UserHelper.h"

@@ -596,11 +596,11 @@
     <ClInclude Include="include\extensions\functional.hpp">
       <Filter>include\extensions</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\EnumHelper.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
     <ClInclude Include="include\extensions\concepts.hpp">
       <Filter>include\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\operator.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
