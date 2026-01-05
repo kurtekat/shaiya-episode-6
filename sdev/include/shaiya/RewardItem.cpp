@@ -1,8 +1,8 @@
 #include <chrono>
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "CUser.h"
-#include "NetworkHelper.h"
 #include "RewardItem.h"
+#include "SConnection.h"
 using namespace shaiya;
 
 void RewardItemEvent::send(CUser* user)
@@ -14,7 +14,7 @@ void RewardItemEvent::send(CUser* user)
 void RewardItemEvent::sendEnded(CUser* user)
 {
     GameRewardItemEventEndedOutgoing outgoing{};
-    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemEventEndedOutgoing));
+    SConnection::Send(user, &outgoing, sizeof(GameRewardItemEventEndedOutgoing));
 }
 
 void RewardItemEvent::sendItemList(CUser* user)
@@ -27,7 +27,7 @@ void RewardItemEvent::sendItemList(CUser* user)
     outgoing.itemList = g_rewardItemList;
 
     auto length = outgoing.baseLength + (outgoing.itemCount * sizeof(RewardItemUnit));
-    NetworkHelper::Send(user, &outgoing, length);
+    SConnection::Send(user, &outgoing, length);
 }
 
 void RewardItemEvent::sendItemListIndex(CUser* user)
@@ -46,7 +46,7 @@ void RewardItemEvent::sendItemListIndex(CUser* user)
 
         GameRewardItemListIndexOutgoing outgoing{};
         outgoing.index = it->second.index;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
     }
     else
     {
@@ -59,6 +59,6 @@ void RewardItemEvent::sendItemListIndex(CUser* user)
         g_rewardItemProgress.insert({ user->billingId, progress });
 
         GameRewardItemListIndexOutgoing outgoing{};
-        NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
     }
 }

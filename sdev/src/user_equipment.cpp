@@ -10,7 +10,7 @@
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace user_equipment
@@ -138,7 +138,7 @@ namespace user_equipment
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
-        NetworkHelper::Send(user, &outgoing, length);
+        SConnection::Send(user, &outgoing, length);
     }
 }
 

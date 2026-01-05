@@ -7,7 +7,8 @@
 #include <shaiya/include/network/game/PointItemUnit.h>
 #include "include/main.h"
 #include "include/shaiya/CUser.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Network.h"
+#include "include/shaiya/SConnection.h"
 #include "include/shaiya/Static.h"
 using namespace shaiya;
 
@@ -20,7 +21,7 @@ namespace packet_shop
     {
         DBAgentPointReloadIncoming outgoing{};
         outgoing.billingId = user->billingId;
-        NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentPointReloadIncoming));
+        Network::SendDBAgent(&outgoing, sizeof(DBAgentPointReloadIncoming));
     }
 
     /// <summary>
@@ -30,7 +31,7 @@ namespace packet_shop
     {
         DBAgentPointUpdateIncoming outgoing{};
         outgoing.billingId = user->billingId;
-        NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentPointUpdateIncoming));
+        Network::SendDBAgent(&outgoing, sizeof(DBAgentPointUpdateIncoming));
         send_dbAgent_0xE06(user);
         InterlockedExchange(&user->pointsLock, 0);
     }
@@ -47,7 +48,7 @@ namespace packet_shop
         outgoing.purchasePoints = purchasePoints;
         outgoing.purchaseDate = Static::GetSystemTime();
         outgoing.purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
-        NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentPointItemGiftSendIncoming));
+        Network::SendDBAgent(&outgoing, sizeof(DBAgentPointItemGiftSendIncoming));
         InterlockedExchange(&user->pointsLock, 0);
     }
 
@@ -63,7 +64,7 @@ namespace packet_shop
 
         GamePointOutgoing outgoing{};
         outgoing.points = user->points;
-        NetworkHelper::Send(user, &outgoing, sizeof(GamePointOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GamePointOutgoing));
     }
 
     /// <summary>
@@ -93,7 +94,7 @@ namespace packet_shop
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(PointItemUnit_EP6_4));
-        NetworkHelper::Send(user, &outgoing, length);
+        SConnection::Send(user, &outgoing, length);
     }
 }
 

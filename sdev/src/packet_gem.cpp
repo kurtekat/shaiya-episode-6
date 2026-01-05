@@ -23,7 +23,8 @@
 #include "include/shaiya/ItemPredicate.h"
 #include "include/shaiya/ItemRemake.h"
 #include "include/shaiya/ItemSynthesis.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Network.h"
+#include "include/shaiya/SConnection.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -151,14 +152,14 @@ namespace packet_gem
                 success.newItem.type = newItemInfo->type;
                 success.newItem.typeId = newItemInfo->typeId;
                 success.newItem.count = 1;
-                NetworkHelper::Send(user, &success, sizeof(GameItemRemake5Outgoing));
+                SConnection::Send(user, &success, sizeof(GameItemRemake5Outgoing));
             }
         }
         else
         {
             GameItemRemake5Outgoing failure{};
             failure.result = GameItemRemakeResult::Failure;
-            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
         }
     }
 
@@ -246,14 +247,14 @@ namespace packet_gem
                 success.newItem.type = newItemInfo->type;
                 success.newItem.typeId = newItemInfo->typeId;
                 success.newItem.count = 1;
-                NetworkHelper::Send(user, &success, sizeof(GameItemRemake4Outgoing));
+                SConnection::Send(user, &success, sizeof(GameItemRemake4Outgoing));
             }
         }
         else
         {
             GameItemRemake4Outgoing failure{};
             failure.result = GameItemRemakeResult::Failure;
-            NetworkHelper::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
         }
     }
 
@@ -289,7 +290,7 @@ namespace packet_gem
         {
             GameRuneUpgradeOutgoing failure{};
             failure.result = GameRuneUpgradeResult::Failure;
-            NetworkHelper::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
             return;
         }
 
@@ -334,14 +335,14 @@ namespace packet_gem
                 success.newItem.type = newItemInfo->type;
                 success.newItem.typeId = newItemInfo->typeId;
                 success.newItem.count = 1;
-                NetworkHelper::Send(user, &success, sizeof(GameRuneUpgradeOutgoing));
+                SConnection::Send(user, &success, sizeof(GameRuneUpgradeOutgoing));
             }
         }
         else
         {
             GameRuneUpgradeOutgoing failure{};
             failure.result = GameRuneUpgradeResult::Failure;
-            NetworkHelper::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
         }
     }
 
@@ -384,21 +385,21 @@ namespace packet_gem
         auto successRate = oldItemInfo->reqRec;
         if (successRate != 10000)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
             return;
         }
 
         auto lapisianLv = oldItemInfo->attackTime;
         if (lapisianLv < 6 || lapisianLv > 19)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
             return;
         }
 
         auto requiredCount = oldItemInfo->reqLuc;
         if (!requiredCount)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
             return;
         }
 
@@ -424,7 +425,7 @@ namespace packet_gem
             success.newItem.type = newItemInfo->type;
             success.newItem.typeId = newItemInfo->typeId;
             success.newItem.count = 1;
-            NetworkHelper::Send(user, &success, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &success, sizeof(GameLapisianUpgradeOutgoing));
         }
     }
 
@@ -456,19 +457,19 @@ namespace packet_gem
 
         if (!item->info->craftExpansions)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
         if (!item->info->reqWis || item->info->reqWis > ItemCraft_MAX)
         {
-            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
         //if (item->makeType == MakeType::QuestResult)
         //{
-        //    NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+        //    SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
         //    return;
         //}
 
@@ -613,7 +614,7 @@ namespace packet_gem
 
             break;
         default:
-            NetworkHelper::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
             return;
         }
 
@@ -648,14 +649,14 @@ namespace packet_gem
         gameLog.packet.composeUniqueId = composeUniqueId;
         gameLog.packet.composeItemId = composeItemId;
         gameLog.packet.oldCraftName = oldCraftName;
-        NetworkHelper::SendGameLog(&gameLog.packet, sizeof(GameLogItemComposeIncoming));
+        Network::SendGameLog(&gameLog.packet, sizeof(GameLogItemComposeIncoming));
 
         GameItemComposeOutgoing success{};
         success.result = GameItemComposeResult::Success;
         success.bag = incoming->itemBag;
         success.slot = incoming->itemSlot;
         success.craftName = item->craftName;
-        NetworkHelper::Send(user, &success, sizeof(GameItemComposeOutgoing));
+        SConnection::Send(user, &success, sizeof(GameItemComposeOutgoing));
     }
 
     /// <summary>
@@ -691,7 +692,7 @@ namespace packet_gem
                 outgoing.newItemType = chaoticSquare.newItemType;
                 outgoing.newItemTypeId = chaoticSquare.newItemTypeId;
                 outgoing.goldPerPercentage = ItemSynthesisConstants::GoldPerPercentage;
-                NetworkHelper::Send(user, &outgoing, sizeof(GameChaoticSquareListOutgoing));
+                SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareListOutgoing));
             }
         }
     }
@@ -727,7 +728,7 @@ namespace packet_gem
         outgoing.newItemTypeId = synthesis.newItemTypeId;
         outgoing.materialCount = synthesis.materialCount;
         outgoing.newItemCount = synthesis.newItemCount;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemSynthesisRecipeOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameItemSynthesisRecipeOutgoing));
     }
 
     /// <summary>
@@ -836,13 +837,13 @@ namespace packet_gem
 
             GameItemSynthesisOutgoing success{};
             success.result = GameItemSynthesisResult::Success;
-            NetworkHelper::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
+            SConnection::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
         }
         else
         {
             GameItemSynthesisOutgoing failure{};
             failure.result = GameItemSynthesisResult::Failure;
-            NetworkHelper::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
         }
     }
 
@@ -1018,7 +1019,7 @@ namespace packet_gem
             ItemHelper::SendDBAgentGems(user, source, incoming->srcBag, incoming->srcSlot);
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemAbilityMoveOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameItemAbilityMoveOutgoing));
     }
 
     /// <summary>

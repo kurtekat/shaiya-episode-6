@@ -3,7 +3,7 @@
 #include <shaiya/include/network/game/outgoing/0A00.h>
 #include "include/main.h"
 #include "include/shaiya/CUser.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace packet_exchange
@@ -18,7 +18,7 @@ namespace packet_exchange
         GameExchangeReadyOutgoing outgoing{};
         outgoing.type = GameExchangeReadyType::Cancel;
         outgoing.canceled = true;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeReadyOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameExchangeReadyOutgoing));
     }
 
     /// <summary>
@@ -31,17 +31,17 @@ namespace packet_exchange
         GameExchangeConfirmOutgoing outgoing{}; 
         outgoing.type = GameExchangeConfirmType::Sender;
         outgoing.confirmed = false;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
         outgoing.type = GameExchangeConfirmType::Target;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
         exchangeUser->exchange.confirmed = false;
         outgoing.type = GameExchangeConfirmType::Sender;
-        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+        SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
         outgoing.type = GameExchangeConfirmType::Target;
-        NetworkHelper::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+        SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
     }
 
     /// <summary>
@@ -69,10 +69,10 @@ namespace packet_exchange
             GameExchangeConfirmOutgoing outgoing{};
             outgoing.type = GameExchangeConfirmType::Sender;
             outgoing.confirmed = true;
-            NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+            SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
             outgoing.type = GameExchangeConfirmType::Target;
-            NetworkHelper::Send(user->exchange.user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+            SConnection::Send(user->exchange.user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
         }
         else
         {
@@ -94,7 +94,7 @@ namespace packet_exchange
         outgoing.quality = packet->quality;
         outgoing.gems = packet->gems;
         outgoing.craftName = packet->craftName;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameExchangeAddDestOutgoing_EP6_4));
+        SConnection::Send(user, &outgoing, sizeof(GameExchangeAddDestOutgoing_EP6_4));
     }
 }
 

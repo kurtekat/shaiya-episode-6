@@ -10,8 +10,8 @@
 #include "include/shaiya/CWorld.h"
 #include "include/shaiya/CZone.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
 #include "include/shaiya/NpcGateKeeper.h"
+#include "include/shaiya/SConnection.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -72,7 +72,7 @@ namespace packet_pc
             outgoing.x = user->movePos.x;
             outgoing.y = user->movePos.y;
             outgoing.z = user->movePos.z;
-            NetworkHelper::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
+            SConnection::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
             CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, true);
         }
         else

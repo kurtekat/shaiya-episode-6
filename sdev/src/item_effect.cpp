@@ -15,7 +15,6 @@
 #include "include/shaiya/CZone.h"
 #include "include/shaiya/EnumHelper.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
 #include "include/shaiya/NpcGateKeeper.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;

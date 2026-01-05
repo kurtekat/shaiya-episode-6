@@ -6,7 +6,6 @@
 #include "include/shaiya/CGameData.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
 #include "include/shaiya/RewardItem.h"
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
@@ -46,14 +45,14 @@ namespace packet_reward_item
                 // The client will output system message 7188 inside a message box
                 GameRewardItemGetResultOutgoing outgoing{};
                 outgoing.result = GameRewardItemGetResult::Failure;
-                NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
+                SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
             }
             else
             {
                 GameRewardItemGetResultOutgoing outgoing{};
                 outgoing.result = GameRewardItemGetResult::Success; 
                 outgoing.messageNumber = 7192;
-                NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
+                SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
 
                 ++progress.index;
 
@@ -68,7 +67,7 @@ namespace packet_reward_item
                     progress.completed = false;
 
                     GameRewardItemListIndexOutgoing outgoing{};
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
+                    SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
                 }
                 else
                 {
@@ -81,7 +80,7 @@ namespace packet_reward_item
 
                     GameRewardItemListIndexOutgoing outgoing{};
                     outgoing.index = progress.index;
-                    NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
+                    SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
                 }
             }
 

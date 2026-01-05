@@ -120,9 +120,6 @@
     <ClCompile Include="include\shaiya\MyShop.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
-    <ClCompile Include="include\shaiya\NetworkHelper.cpp">
-      <Filter>include\shaiya</Filter>
-    </ClCompile>
     <ClCompile Include="include\shaiya\RevengeMark.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
@@ -160,6 +157,9 @@
       <Filter>include\shaiya</Filter>
     </ClCompile>
     <ClCompile Include="include\shaiya\SBinaryReader.cpp">
+      <Filter>include\shaiya</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\Network.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
   </ItemGroup>
@@ -422,7 +422,7 @@
     <ClInclude Include="include\shaiya\MyShop.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\NetworkHelper.h">
+    <ClInclude Include="include\shaiya\Network.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\Npc.h">

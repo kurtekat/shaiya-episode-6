@@ -5,8 +5,8 @@
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CWorld.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
 #include "include/shaiya/RewardItem.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace world_thread
@@ -39,7 +39,7 @@ namespace world_thread
                 continue;
 
             GameRewardItemGetOutgoing outgoing{};
-            NetworkHelper::Send(user, &outgoing, sizeof(GameRewardItemGetOutgoing));
+            SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetOutgoing));
         }
     }
 }

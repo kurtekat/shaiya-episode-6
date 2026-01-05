@@ -11,7 +11,7 @@
 #include "include/shaiya/CloneUser.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace user_shape
@@ -103,7 +103,7 @@ namespace user_shape
                     user->clone->guildName.data(), user->clone->guildName.size());
             }
 
-            NetworkHelper::Send(target, &outgoing, user->clone->packetLength);
+            SConnection::Send(target, &outgoing, user->clone->packetLength);
         }
         else
         {
@@ -147,7 +147,7 @@ namespace user_shape
                 CUser::GetGuildName(user, outgoing.guildName.data());
             }
 
-            NetworkHelper::Send(target, &outgoing, length);
+            SConnection::Send(target, &outgoing, length);
         }
     }
 
@@ -270,7 +270,7 @@ namespace user_shape
         auto& vehicle = user->inventory[0][ItemSlot::Vehicle];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-        NetworkHelper::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
+        SConnection::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
     }
 }
 

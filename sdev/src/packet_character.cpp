@@ -13,7 +13,8 @@
 #include "include/shaiya/DBCharacterList.h"
 #include "include/shaiya/ItemEnchant.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Network.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace packet_character
@@ -30,14 +31,14 @@ namespace packet_character
         {
             GameCharNameAvailableOutgoing outgoing{};
             outgoing.available = false;
-            NetworkHelper::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
+            SConnection::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
             return;
         }
 
         DBAgentCharNameAvailableIncoming outgoing{};
         outgoing.billingId = user->billingId;
         outgoing.name = incoming->name;
-        NetworkHelper::SendDBAgent(&outgoing, outgoing.baseLength + nameLength + 1);
+        Network::SendDBAgent(&outgoing, outgoing.baseLength + nameLength + 1);
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ namespace packet_character
     {
         GameCharNameAvailableOutgoing outgoing{};
         outgoing.available = incoming->available;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameCharNameAvailableOutgoing));
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ namespace packet_character
             else
             {
                 int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
-                NetworkHelper::Send(user, &outgoing, length);
+                SConnection::Send(user, &outgoing, length);
 
                 outgoing.itemCount = 0;
                 outgoing.itemList = {};
@@ -99,7 +100,7 @@ namespace packet_character
             return;
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
-        NetworkHelper::Send(user, &outgoing, length);
+        SConnection::Send(user, &outgoing, length);
     }
 
     /// <summary>
@@ -117,7 +118,7 @@ namespace packet_character
         for (; it != last; ++it, ++dest)
             *dest = it->weapon;
 
-        NetworkHelper::Send(user, &outgoing, sizeof(GameWeaponStepOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameWeaponStepOutgoing));
     }
 
     /// <summary>
@@ -152,7 +153,7 @@ namespace packet_character
         outgoing.character.enableRename = dbCharacter->enableRename;
         outgoing.character.deleted = dbCharacter->deleteDate ? true : false;
         outgoing.character.cloakInfo = dbCharacter->cloakInfo;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameCharListOutgoing<CharacterList_EP6_4>));
+        SConnection::Send(user, &outgoing, sizeof(GameCharListOutgoing<CharacterList_EP6_4>));
     }
 }
 

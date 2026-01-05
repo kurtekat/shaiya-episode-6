@@ -5,10 +5,8 @@ namespace shaiya
     struct CItem;
     struct CUser;
 
-    class ItemHelper
+    struct ItemHelper
     {
-    public:
-
         static void SetCraftStrength(CItem* item, int value);
         static void SetCraftDexterity(CItem* item, int value);
         static void SetCraftReaction(CItem* item, int value);

@@ -8,7 +8,7 @@
 #include "include/shaiya/CMap.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 #include "include/shaiya/SkillInfo.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
@@ -35,7 +35,7 @@ namespace user_skill
             user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
 
             outgoing.statusType = GameCharSkillUseStatusType::Triggered;
-            NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+            SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
         else
         {
@@ -45,7 +45,7 @@ namespace user_skill
             user->skillAbility70.keepTime = 0;
 
             outgoing.statusType = GameCharSkillUseStatusType::Stopped;
-            NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+            SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
 
         return 1;
@@ -90,7 +90,7 @@ namespace user_skill
         outgoing.skillId = user->skillAbility70.skillId;;
         outgoing.skillLv = user->skillAbility70.skillLv;
         outgoing.statusType = GameCharSkillUseStatusType::Stopped;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
     void ability_70_hook4(CUser* user, SkillInfo* skillInfo)
@@ -113,7 +113,7 @@ namespace user_skill
         outgoing.skillId = user->skillAbility70.skillId;;
         outgoing.skillLv = user->skillAbility70.skillLv;
         outgoing.statusType = GameCharSkillUseStatusType::Stopped;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
     /// <summary>

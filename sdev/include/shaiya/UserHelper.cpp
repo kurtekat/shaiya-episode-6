@@ -19,7 +19,7 @@
 #include "CUser.h"
 #include "CWorld.h"
 #include "ItemInfo.h"
-#include "NetworkHelper.h"
+#include "Network.h"
 #include "SConnection.h"
 #include "SConnectionTBaseReconnect.h"
 #include "UserHelper.h"
@@ -72,7 +72,7 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     packet.bag = bag;
     packet.slot = slot;
     packet.count = count;
-    NetworkHelper::SendDBAgent(&packet, sizeof(DBAgentItemDropIncoming));
+    Network::SendDBAgent(&packet, sizeof(DBAgentItemDropIncoming));
 
     GameLogItemDropIncoming gameLog{};
     CUser::SetGameLogMain(user, &gameLog.packet);
@@ -85,14 +85,14 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     gameLog.packet.bag = bag;
     gameLog.packet.slot = slot;
     gameLog.packet.count = count;
-    NetworkHelper::SendGameLog(&gameLog.packet, sizeof(GameLogItemDropIncoming));
+    Network::SendGameLog(&gameLog.packet, sizeof(GameLogItemDropIncoming));
 
     if (!item->count)
     {
         GameItemDropOutgoing outgoing{};
         outgoing.bag = bag;
         outgoing.slot = slot;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
 
         CObjectMgr::FreeItem(item);
         user->inventory[bag][slot] = nullptr;
@@ -105,7 +105,7 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
         outgoing.type = item->type;
         outgoing.typeId = item->typeId;
         outgoing.count = item->count;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameItemDropOutgoing));
     }
 
     return true;

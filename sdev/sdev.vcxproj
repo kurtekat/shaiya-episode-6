@@ -25,7 +25,7 @@
     <ClCompile Include="include\shaiya\CZone.cpp" />
     <ClCompile Include="include\shaiya\ItemHelper.cpp" />
     <ClCompile Include="include\shaiya\MyShop.cpp" />
-    <ClCompile Include="include\shaiya\NetworkHelper.cpp" />
+    <ClCompile Include="include\shaiya\Network.cpp" />
     <ClCompile Include="include\shaiya\RevengeMark.cpp" />
     <ClCompile Include="include\shaiya\RewardItem.cpp" />
     <ClCompile Include="include\shaiya\SBinaryReader.cpp" />
@@ -153,7 +153,7 @@
     <ClInclude Include="include\shaiya\MobItemDropInfo.h" />
     <ClInclude Include="include\shaiya\MobRespawn.h" />
     <ClInclude Include="include\shaiya\MyShop.h" />
-    <ClInclude Include="include\shaiya\NetworkHelper.h" />
+    <ClInclude Include="include\shaiya\Network.h" />
     <ClInclude Include="include\shaiya\Npc.h" />
     <ClInclude Include="include\shaiya\NpcGateKeeper.h" />
     <ClInclude Include="include\shaiya\NpcShop.h" />

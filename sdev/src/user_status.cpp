@@ -5,7 +5,7 @@
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 #include "include/shaiya/Synergy.h"
 using namespace shaiya;
 
@@ -70,7 +70,7 @@ namespace user_status
 
         outgoing.defense = user->attack.defense;
         outgoing.resistance = user->attackMagic.defense;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameUserStatusOutgoing));
+        SConnection::Send(user, &outgoing, sizeof(GameUserStatusOutgoing));
     }
 }
 

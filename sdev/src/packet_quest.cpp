@@ -6,8 +6,9 @@
 #include "include/shaiya/CQuest.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/Network.h"
 #include "include/shaiya/QuestInfo.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace packet_quest
@@ -21,7 +22,7 @@ namespace packet_quest
         outgoing.npcId = npcId;
         outgoing.questId = quest->info->questId;
         outgoing.success = false;
-        NetworkHelper::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+        SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
     }
 
     /// <summary>
@@ -84,10 +85,10 @@ namespace packet_quest
                 gameLog.packet.itemName = {};
             }
 
-            NetworkHelper::SendGameLog(&gameLog, sizeof(GameLogQuestEndIncoming));
+            Network::SendGameLog(&gameLog, sizeof(GameLogQuestEndIncoming));
         }
 
-        NetworkHelper::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+        SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
         CUser::QuestRemove(user, quest, true);
     }
 }

@@ -6,7 +6,7 @@
 #include "ItemEnchant.h"
 #include "ItemHelper.h"
 #include "ItemInfo.h"
-#include "NetworkHelper.h"
+#include "Network.h"
 using namespace shaiya;
 
 void ItemHelper::SetCraftStrength(CItem* item, int value)
@@ -201,7 +201,7 @@ void ItemHelper::SendDBAgentCraftName(CUser* user, CItem* item, int bag, int slo
     outgoing.bag = bag;
     outgoing.slot = slot;
     outgoing.craftName = item->craftName;
-    NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentItemCraftUpdateIncoming));
+    Network::SendDBAgent(&outgoing, sizeof(DBAgentItemCraftUpdateIncoming));
 }
 
 void ItemHelper::SendDBAgentGems(CUser* user, CItem* item, int bag, int slot)
@@ -212,7 +212,7 @@ void ItemHelper::SendDBAgentGems(CUser* user, CItem* item, int bag, int slot)
     outgoing.slot = slot;
     outgoing.gems = item->gems;
     outgoing.money = user->money;
-    NetworkHelper::SendDBAgent(&outgoing, sizeof(DBAgentItemGemUpdateIncoming));
+    Network::SendDBAgent(&outgoing, sizeof(DBAgentItemGemUpdateIncoming));
 }
 
 void ItemHelper::SendDBAgentCloakInfo(CUser* user, CItem* item, int bag, int slot)

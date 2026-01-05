@@ -2,7 +2,7 @@
 #include <shaiya/include/network/game/outgoing/2300.h>
 #include "include/main.h"
 #include "include/shaiya/CUser.h"
-#include "include/shaiya/NetworkHelper.h"
+#include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
 namespace packet_myshop
@@ -32,7 +32,7 @@ namespace packet_myshop
         }
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));
-        NetworkHelper::Send(user, &outgoing, length);
+        SConnection::Send(user, &outgoing, length);
     }
 }
 
