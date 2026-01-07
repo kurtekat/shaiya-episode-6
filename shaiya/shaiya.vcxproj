@@ -114,6 +114,8 @@
     <ClInclude Include="include\network\login\incoming\A200.h" />
     <ClInclude Include="include\network\login\outgoing\A100.h" />
     <ClInclude Include="include\network\login\outgoing\A200.h" />
+    <ClInclude Include="include\network\session\incoming\1B00.h" />
+    <ClInclude Include="include\network\session\outgoing\0100.h" />
     <ClInclude Include="include\network\TP_MAIN.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

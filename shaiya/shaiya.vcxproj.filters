@@ -44,6 +44,15 @@
     <Filter Include="include\network\login\outgoing">
       <UniqueIdentifier>{ca2b83c8-0a81-4fa3-b9fd-230827fd938e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\network\session">
+      <UniqueIdentifier>{f85626e1-7780-41a0-8739-ed01d8dda64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\session\incoming">
+      <UniqueIdentifier>{e9196845-abaf-4524-8228-2b71493bc32a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\network\session\outgoing">
+      <UniqueIdentifier>{7b9365c0-bad1-4c93-8fbf-cbaa8a7d2f6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\common\Attribute.h">
@@ -357,6 +366,12 @@
     </ClInclude>
     <ClInclude Include="include\common\ItemSlot.h">
       <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\session\incoming\1B00.h">
+      <Filter>include\network\session\incoming</Filter>
+    </ClInclude>
+    <ClInclude Include="include\network\session\outgoing\0100.h">
+      <Filter>include\network\session\outgoing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
