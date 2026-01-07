@@ -5,6 +5,7 @@
 #include <shaiya/include/network/dbAgent/outgoing/0E00.h>
 #include <shaiya/include/network/game/outgoing/2600.h>
 #include <shaiya/include/network/game/PointItemUnit.h>
+#include <shaiya/include/network/session/incoming/1B00.h>
 #include "include/main.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/Network.h"
@@ -39,13 +40,13 @@ namespace packet_shop
     /// <summary>
     /// Sends packet 0xE03 to the dbAgent service.
     /// </summary>
-    void send_dbAgent_0xE03(CUser* user, const char* targetName, const char* productCode, unsigned purchasePoints)
+    void send_dbAgent_0xE03(CUser* user, SessionMgrPreBuyProductIncoming* packet)
     {
         DBAgentPointItemGiftSendIncoming outgoing{};
         outgoing.billingId = user->billingId;
-        std::memcpy(outgoing.targetName.data(), targetName, outgoing.targetName.size());
-        std::memcpy(outgoing.productCode.data(), productCode, outgoing.productCode.size());
-        outgoing.purchasePoints = purchasePoints;
+        outgoing.targetName = packet->targetName;
+        outgoing.productCode = packet->productCode;
+        outgoing.purchasePoints = packet->purchasePoints;
         outgoing.purchaseDate = Static::GetSystemTime();
         outgoing.purchaseNumber = InterlockedIncrement(reinterpret_cast<volatile unsigned*>(0x5879B0));
         Network::SendDBAgent(&outgoing, sizeof(DBAgentPointItemGiftSendIncoming));
@@ -143,15 +144,11 @@ void __declspec(naked) naked_0x488A80()
     {
         pushad
 
-        mov eax,[esp+0x174]
-        push eax // purchasePoints
-        lea eax,[esp+0x14E]
-        push eax // productCode
-        lea eax,[esp+0x167]
-        push eax // targetName
+        lea eax,[esp+0x124]
+        push eax // packet
         push edi // user
         call packet_shop::send_dbAgent_0xE03
-        add esp,0x10
+        add esp,0x8
 
         popad
 
