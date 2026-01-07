@@ -24,10 +24,8 @@ namespace packet_character
     /// </summary>
     void handler_0x119(CUser* user, GameCharNameAvailableIncoming* incoming)
     {
-        incoming->name[incoming->name.size() - 1] = '\0';
-        auto nameLength = std::strlen(incoming->name.data());
-
-        if (nameLength < 3 || nameLength > 13)
+        auto count = strnlen_s(incoming->name.data(), incoming->name.size());
+        if (!count || count == incoming->name.size())
         {
             GameCharNameAvailableOutgoing outgoing{};
             outgoing.available = false;
@@ -38,7 +36,7 @@ namespace packet_character
         DBAgentCharNameAvailableIncoming outgoing{};
         outgoing.billingId = user->billingId;
         outgoing.name = incoming->name;
-        Network::SendDBAgent(&outgoing, outgoing.baseLength + nameLength + 1);
+        Network::SendDBAgent(&outgoing, sizeof(DBAgentCharNameAvailableIncoming));
     }
 
     /// <summary>
@@ -53,14 +51,13 @@ namespace packet_character
 
     /// <summary>
     /// Sends packet 0x711 (6.4) to the user. The item dates will be zero. 
-    /// 
-    /// EP5:   7 + 33 * 50 = 1657 // ok
-    /// EP6.4: 7 + 41 * 50 = 2057 // not ok (exceeds 2048)
-    /// EP6.4: 7 + 41 * 40 = 1647 // ok
-    /// 
     /// </summary>
     void send_0x711(CUser* user)
     {
+        // EP5:   7 + 33 * 50 = 1657 // ok
+        // EP6.4: 7 + 41 * 50 = 2057 // not ok (exceeds 2046)
+        // EP6.4: 7 + 41 * 40 = 1647 // ok
+ 
         GameCharBankOutgoing<BankUnit_EP6_4, 40> outgoing{};
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
