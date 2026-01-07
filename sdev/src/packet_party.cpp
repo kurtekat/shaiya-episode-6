@@ -20,29 +20,24 @@ namespace packet_party
         if (!user->party)
             return;
 
-        switch (incoming->partyType)
-        {
-        case UnionType::Boss:
-        {
-            if (!CParty::IsPartyBoss(user->party, user))
-                return;
-            break;
-        }
-        case UnionType::SubBoss:
-        {
-            if (!CParty::IsPartySubBoss(user->party, user))
-                return;
-            break;
-        }
-        default:
-            return;
-        }
+        auto partyType = incoming->partyType;
+        bool isBoss = false;
 
-        GamePartyBossMapPosOutgoing outgoing{};
-        outgoing.x = incoming->x;
-        outgoing.y = incoming->y;
-        outgoing.partyType = incoming->partyType;
-        CParty::Send(user->party, &outgoing, sizeof(GamePartyBossMapPosOutgoing));
+        // Also valid for a regular party
+        if (partyType == UnionType::Boss)
+            isBoss = CParty::IsPartyBoss(user->party, user);
+        // Raid only
+        else if (partyType == UnionType::SubBoss)
+            isBoss = CParty::IsPartySubBoss(user->party, user);
+
+        if (isBoss)
+        {
+            GamePartyBossMapPosOutgoing outgoing{};
+            outgoing.x = incoming->x;
+            outgoing.y = incoming->y;
+            outgoing.partyType = incoming->partyType;
+            CParty::Send(user->party, &outgoing, sizeof(GamePartyBossMapPosOutgoing));
+        }
     }
 }
 
