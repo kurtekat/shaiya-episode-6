@@ -30,7 +30,7 @@ namespace character
             return false;
         }
 
-        if (SDatabase::BindParameter(db, 1, 19, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT))
+        if (SDatabase::BindParameter(db, 1, 21, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT))
         {
             SDatabasePool::FreeDB(db);
             return false;
