@@ -1,6 +1,5 @@
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/network/game/incoming/0500.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include "include/main.h"

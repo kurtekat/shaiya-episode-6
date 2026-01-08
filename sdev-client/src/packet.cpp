@@ -1,4 +1,5 @@
 #include <util/util.h>
+#include <shaiya/include/common/ItemSlot.h>
 #include "include/main.h"
 #include "include/shaiya/CCharacter.h"
 #include "include/shaiya/Static.h"

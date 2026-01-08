@@ -4,7 +4,6 @@
 #include <string>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
