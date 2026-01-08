@@ -7,6 +7,8 @@
 
 namespace shaiya
 {
+    using BillingId = uint32_t;
+
     struct CUser;
     struct RewardItemUnit;
 
@@ -67,5 +69,5 @@ namespace shaiya
 
     inline uint32_t g_rewardItemCount{ 0 };
     inline std::array<RewardItemUnit, 20> g_rewardItemList{};
-    inline std::map<uint32_t/*UserUID*/, RewardItemEventProgress> g_rewardItemProgress{};
+    inline std::map<BillingId, RewardItemEventProgress> g_rewardItemProgress{};
 }
