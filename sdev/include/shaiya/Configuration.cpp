@@ -225,15 +225,16 @@ void Configuration::LoadItemSynthesis()
                 synthesis.materialCount
             );
 
-            auto vec1 = ext::views::split<std::vector<std::wstring>>(pairs[2].second, L',');
+            using Container = std::vector<std::wstring>;
+            auto vec1 = ext::views::split_to<Container>(pairs[2].second, L',');
             if (vec1.size() != view.size())
                 continue;
 
-            auto vec2 = ext::views::split<std::vector<std::wstring>>(pairs[3].second, L',');
+            auto vec2 = ext::views::split_to<Container>(pairs[3].second, L',');
             if (vec2.size() != view.size())
                 continue;
 
-            auto vec3 = ext::views::split<std::vector<std::wstring>>(pairs[4].second, L',');
+            auto vec3 = ext::views::split_to<Container>(pairs[4].second, L',');
             if (vec3.size() != view.size())
                 continue;
 

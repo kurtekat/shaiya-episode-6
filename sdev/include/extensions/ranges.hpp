@@ -12,13 +12,13 @@ namespace views {
     }
 
     template<class Container, std::ranges::viewable_range Range, class Pattern>
-    inline constexpr auto split(Range&& range, Pattern&& pattern)
+    inline constexpr Container split_to(Range&& range, Pattern&& pattern)
     {
         return std::ranges::to<Container>(std::views::split(range, pattern));
     }
 
     template<class Container, std::ranges::viewable_range Range, class Pattern>
-    inline constexpr auto split(Range&& range, Pattern&& pattern, std::ranges::range_difference_t<Range> count)
+    inline constexpr Container split_to(Range&& range, Pattern&& pattern, std::ranges::range_difference_t<Range> count)
     {
         return std::ranges::to<Container>(
             std::views::split(range, pattern) | std::views::take(count));
