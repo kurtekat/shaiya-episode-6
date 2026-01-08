@@ -456,9 +456,11 @@ The client expects the file to be encrypted.
 
 ### Server Format
 
-The library expects the file to be decrypted. The bonus text is expected to be 12 comma-separated values.
+The library expects the file to be decrypted. The bonus description can be up to 15 comma-separated values.
 
-![Capture](https://github.com/kurtekat/shaiya-episode-6/assets/142125482/a0a0c116-c5a0-4443-953e-35077e29f065)
+```
+70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
+```
 
 The values are signed 32-bit integers, expected to be in the following order:
 
@@ -474,6 +476,9 @@ The values are signed 32-bit integers, expected to be in the following order:
 * attackPower
 * rangedAttackPower
 * magicPower
+* defense
+* rangedDefense
+* magicDefense
 
 ## Item Ability Move
 

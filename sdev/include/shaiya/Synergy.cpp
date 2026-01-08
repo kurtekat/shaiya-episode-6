@@ -83,6 +83,9 @@ void Synergy::removeSynergies(CUser* user)
         auto attackPower = synergy.effects[9];
         auto rangedAttackPower = synergy.effects[10];
         auto magicPower = synergy.effects[11];
+        auto defense = synergy.effects[12];
+        auto rangedDefense = synergy.effects[13];
+        auto magicDefense = synergy.effects[14];
 
         user->abilityStrength -= strength;
         user->abilityDexterity -= dexterity;
@@ -96,6 +99,9 @@ void Synergy::removeSynergies(CUser* user)
         user->attackAdd.power -= attackPower;
         user->attackAddRanged.power -= rangedAttackPower;
         user->attackAddMagic.power -= magicPower;
+        user->attack.defense -= defense;
+        user->attackRanged.defense -= rangedDefense;
+        user->attackMagic.defense -= magicDefense;
 
         if (reaction)
             user->maxHealth -= reaction * 5;
@@ -145,6 +151,9 @@ void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& syn
         auto attackPower = synergy.effects[9];
         auto rangedAttackPower = synergy.effects[10];
         auto magicPower = synergy.effects[11];
+        auto defense = synergy.effects[12];
+        auto rangedDefense = synergy.effects[13];
+        auto magicDefense = synergy.effects[14];
 
         user->abilityStrength += strength;
         user->abilityDexterity += dexterity;
@@ -158,6 +167,9 @@ void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& syn
         user->attackAdd.power += attackPower;
         user->attackAddRanged.power += rangedAttackPower;
         user->attackAddMagic.power += magicPower;
+        user->attack.defense += defense;
+        user->attackRanged.defense += rangedDefense;
+        user->attackMagic.defense += magicDefense;
 
         if (reaction)
             user->maxHealth += reaction * 5;

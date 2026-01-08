@@ -171,14 +171,22 @@ void Configuration::LoadItemSetData()
 
             for (auto&& synergy : itemSet.synergies)
             {
-                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0
-                auto effects = reader.readString();
-                auto vec = ext::views::split<std::vector<std::string>>(effects, ',');
-                if (vec.size() != synergy.effects.size())
+                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
+                auto input = reader.readString();
+                if (input.empty())
                     continue;
 
-                for (size_t i = 0; i < synergy.effects.size(); ++i)
-                    synergy.effects[i] = std::stoi(vec[i]);
+                auto count = synergy.effects.size();
+                auto vec = ext::views::split_to<std::vector<std::string>>(input, ',', count);
+                if (vec.size() != count)
+                    vec.resize(count, "0");
+
+                auto it = vec.cbegin();
+                auto last = vec.cend();
+                auto dest = synergy.effects.begin();
+
+                for (; it != last; ++it, ++dest)
+                    *dest = std::stoi(*it);
             }
 
             g_itemSets.push_back(itemSet);
