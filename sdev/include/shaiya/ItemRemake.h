@@ -5,10 +5,12 @@
 
 namespace shaiya
 {
+    using ItemId = uint32_t;
+
     #pragma pack(push, 1)
     struct ItemRemake
     {
-        std::array<uint32_t, 3> items;
+        std::array<ItemId, 3> items;
         int32_t newItemType;
         int32_t newItemTypeId;
     };

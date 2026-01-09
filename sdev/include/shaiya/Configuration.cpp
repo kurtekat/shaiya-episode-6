@@ -45,38 +45,21 @@ void Configuration::LoadItemRemake4()
             return;
 
         auto sections = util::ini::get_sections(path);
+        g_itemRemake4.reserve(sections.size());
+
         for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 5)
                 continue;
 
-            auto itemId1 = std::stoi(pairs[0].second);
-            if (itemId1 < ItemId_MIN || itemId1 > ItemId_MAX)
-                continue;
-
-            auto itemId2 = std::stoi(pairs[1].second);
-            if (itemId2 < ItemId_MIN || itemId2 > ItemId_MAX)
-                continue;
-
-            auto itemId3 = std::stoi(pairs[2].second);
-            if (itemId3 < ItemId_MIN || itemId3 > ItemId_MAX)
-                continue;
-
+            auto itemId1 = std::stoul(pairs[0].second);
+            auto itemId2 = std::stoul(pairs[1].second);
+            auto itemId3 = std::stoul(pairs[2].second);
             auto type = std::stoi(pairs[3].second);
-            if (!std::in_range<uint8_t>(type))
-                continue;
-
             auto typeId = std::stoi(pairs[4].second);
-            if (!std::in_range<uint8_t>(typeId))
-                continue;
 
-            ItemRemake remake{};
-            remake.items[0] = itemId1;
-            remake.items[1] = itemId2;
-            remake.items[2] = itemId3;
-            remake.newItemType = type;
-            remake.newItemTypeId = typeId;
+            ItemRemake remake{ { itemId1, itemId2, itemId3 }, type, typeId };
             g_itemRemake4.push_back(remake);
         }
     }
@@ -97,38 +80,21 @@ void Configuration::LoadItemRemake5()
             return;
 
         auto sections = util::ini::get_sections(path);
+        g_itemRemake5.reserve(sections.size());
+
         for (const auto& section : sections)
         {
             auto pairs = util::ini::get_pairs(section.c_str(), path);
             if (pairs.size() != 5)
                 continue;
 
-            auto itemId1 = std::stoi(pairs[0].second);
-            if (itemId1 < ItemId_MIN || itemId1 > ItemId_MAX)
-                continue;
-
-            auto itemId2 = std::stoi(pairs[1].second);
-            if (itemId2 < ItemId_MIN || itemId2 > ItemId_MAX)
-                continue;
-
-            auto itemId3 = std::stoi(pairs[2].second);
-            if (itemId3 < ItemId_MIN || itemId3 > ItemId_MAX)
-                continue;
-
+            auto itemId1 = std::stoul(pairs[0].second);
+            auto itemId2 = std::stoul(pairs[1].second);
+            auto itemId3 = std::stoul(pairs[2].second);
             auto type = std::stoi(pairs[3].second);
-            if (!std::in_range<uint8_t>(type))
-                continue;
-
             auto typeId = std::stoi(pairs[4].second);
-            if (!std::in_range<uint8_t>(typeId))
-                continue;
 
-            ItemRemake remake{};
-            remake.items[0] = itemId1;
-            remake.items[1] = itemId2;
-            remake.items[2] = itemId3;
-            remake.newItemType = type;
-            remake.newItemTypeId = typeId;
+            ItemRemake remake{ { itemId1, itemId2, itemId3 }, type, typeId };
             g_itemRemake5.push_back(remake);
         }
     }
