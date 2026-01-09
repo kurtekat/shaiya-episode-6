@@ -145,7 +145,7 @@ void Configuration::LoadItemSetData()
                 vec.resize(count, "0");
 
                 auto dest = synergy.effects.begin();
-                std::transform(vec.cbegin(), vec.cend(), dest, ext::to_int());
+                std::transform(vec.cbegin(), vec.cend(), dest, ext::string_to_int());
             }
         }
 

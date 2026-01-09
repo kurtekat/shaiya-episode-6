@@ -21,9 +21,9 @@ namespace ext {
         T m_rhs;
     };
 
-    struct to_int
+    struct string_to_int
     {
-        explicit to_int(int base = 10)
+        explicit string_to_int(int base = 10)
             : m_base(base)
         {
         }
