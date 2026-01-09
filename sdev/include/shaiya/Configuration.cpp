@@ -173,7 +173,7 @@ void Configuration::LoadItemSetData()
             {
                 // e.g., 70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
                 auto input = reader.readString();
-                if (input.empty())
+                if (input.starts_with('\0'))
                     continue;
 
                 auto count = synergy.effects.size();
