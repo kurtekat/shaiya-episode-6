@@ -295,7 +295,8 @@ void Configuration::LoadRewardItemEvent()
         if (!std::filesystem::exists(path))
             return;
 
-        auto sections = util::ini::get_sections(path);
+        auto count = g_rewardItemList.size();
+        auto sections = util::ini::get_sections(path) | std::views::take(count);
         auto dest = g_rewardItemList.begin();
 
         for (const auto& section : sections)
@@ -304,21 +305,10 @@ void Configuration::LoadRewardItemEvent()
             if (pairs.size() != 4)
                 continue;
 
-            auto minutes = std::stoi(pairs[0].second);
-            if (minutes <= 0)
-                continue;
-
+            auto minutes = std::stoul(pairs[0].second);
             auto type = std::stoi(pairs[1].second);
-            if (!std::in_range<uint8_t>(type))
-                continue;
-
             auto typeId = std::stoi(pairs[2].second);
-            if (!std::in_range<uint8_t>(typeId))
-                continue;
-
             auto count = std::stoi(pairs[3].second);
-            if (!std::in_range<uint8_t>(count))
-                continue;
 
             dest->minutes = minutes;
             dest->type = type;
@@ -327,9 +317,6 @@ void Configuration::LoadRewardItemEvent()
 
             ++dest;
             ++g_rewardItemCount;
-
-            if (dest == g_rewardItemList.end())
-                break;
         }
     }
     catch (...)
