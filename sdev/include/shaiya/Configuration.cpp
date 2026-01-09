@@ -11,6 +11,7 @@
 #include <util/ini/ini.h>
 #include <shaiya/include/network/game/RewardItemUnit.h>
 #include "include/extensions/filesystem.hpp"
+#include "include/extensions/functional.hpp"
 #include "include/extensions/ranges.hpp"
 #include "Configuration.h"
 #include "ItemInfo.h"
@@ -148,11 +149,11 @@ void Configuration::LoadItemSetData()
             return;
 
         SBinaryReader reader(path);
-
         auto itemSetCount = reader.readUInt32();
-        for (size_t i = 0; i < itemSetCount; ++i)
+        g_itemSets.resize(itemSetCount);
+
+        for (auto&& itemSet : g_itemSets)
         {
-            ItemSet itemSet{};
             itemSet.id = reader.readUInt16();
 
             // Discard the name
@@ -163,10 +164,7 @@ void Configuration::LoadItemSetData()
             {
                 auto type = reader.readUInt16();
                 auto typeId = reader.readUInt16();
-
-                auto value = (type * 1000) + typeId;
-                if (value >= ItemId_MIN && value <= ItemId_MAX)
-                    itemId = value;
+                itemId = (type * 1000) + typeId;
             }
 
             for (auto&& synergy : itemSet.synergies)
@@ -178,18 +176,11 @@ void Configuration::LoadItemSetData()
 
                 auto count = synergy.effects.size();
                 auto vec = ext::views::split_to<std::vector<std::string>>(input, ',', count);
-                if (vec.size() != count)
-                    vec.resize(count, "0");
+                vec.resize(count, "0");
 
-                auto it = vec.cbegin();
-                auto last = vec.cend();
                 auto dest = synergy.effects.begin();
-
-                for (; it != last; ++it, ++dest)
-                    *dest = std::stoi(*it);
+                std::transform(vec.cbegin(), vec.cend(), dest, ext::to_int());
             }
-
-            g_itemSets.push_back(itemSet);
         }
 
         reader.close();
