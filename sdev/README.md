@@ -450,16 +450,22 @@ The client expects the file to be encrypted.
 
 ![Capture2](https://github.com/kurtekat/shaiya-episode-6/assets/142125482/01b93010-05a5-4323-b8d5-e890551ed4b7)
 
-#### Bonus Description
+Bonus description:
 
 `" Sinergia [5]\n- LUC +20\n- DEX +50\n- STR +70"`
 
 ### Server Format
 
-The library expects the file to be decrypted. The bonus description can be up to 15 comma-separated values.
+The library expects the file to be decrypted. The bonus description can be up to 15 comma-separated values or an empty string.
 
 ```
 70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
+```
+
+Trailing zeros can be omitted.
+
+```
+70,50,0,0,0,20
 ```
 
 The values are signed 32-bit integers, expected to be in the following order:
@@ -479,6 +485,30 @@ The values are signed 32-bit integers, expected to be in the following order:
 * defense
 * rangedDefense
 * magicDefense
+
+I recommend using [Parsec](https://github.com/matigramirez/Parsec) to convert the SData to JSON format.
+
+```csharp
+using Parsec;
+using Parsec.Shaiya.SetItem;
+
+var data = ParsecReader.FromFile<SetItem>("SetItem.SData");
+data.WriteJson("SetItem.json");
+```
+
+and vice versa...
+
+```csharp
+using Parsec;
+using Parsec.Shaiya.SetItem;
+
+var data = ParsecReader.FromJsonFile<SetItem>("SetItem.json");
+data.WriteDecrypted("SetItem.SData");
+
+// or
+
+data.WriteEncrypted("SetItem.SData");
+```
 
 ## Item Ability Move
 
