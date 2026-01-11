@@ -1,6 +1,6 @@
 # Documentation
 
-This library contains memory utilities, etc. The other projects depend on this library.
+This library contains memory utilities. The other projects depend on this library.
 
 ## Environment
 
