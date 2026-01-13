@@ -8,6 +8,7 @@
 namespace shaiya
 {
     using ItemId = uint32_t;
+    using CharId = uint32_t;
 
     struct CItem;
     struct CUser;
@@ -42,5 +43,5 @@ namespace shaiya
     #pragma pack(pop)
 
     inline std::vector<ItemSet> g_itemSets{};
-    inline std::map<uint32_t/*CharID*/, std::vector<ItemSetSynergy>> g_itemSetSynergies{};
+    inline std::map<CharId, std::vector<ItemSetSynergy>> g_itemSetSynergies{};
 }
