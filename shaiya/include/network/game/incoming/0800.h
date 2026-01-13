@@ -127,15 +127,17 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake5Incoming_EP5
+    // ItemRemake5
+    // cuser__packetgem_protocol_itemget_compose
+    struct GameItemGemComposeIncoming_EP5
     {
         uint16_t opcode{ 0x80B };
-        uint8_t lapisBag1;
-        uint8_t lapisBag2;
-        uint8_t lapisBag3;
-        uint8_t lapisSlot1;
-        uint8_t lapisSlot2;
-        uint8_t lapisSlot3;
+        uint8_t bag1;
+        uint8_t bag2;
+        uint8_t bag3;
+        uint8_t slot1;
+        uint8_t slot2;
+        uint8_t slot3;
         uint8_t vialBag;
         uint8_t vialSlot;
         uint8_t vialCount;
@@ -143,15 +145,17 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake5Incoming_EP6_4
+    // ItemRemake5
+    // cuser__packetgem_protocol_itemget_compose
+    struct GameItemGemComposeIncoming_EP6_4
     {
         uint16_t opcode{ 0x80B };
-        uint8_t lapisBag1;
-        uint8_t lapisBag2;
-        uint8_t lapisBag3;
-        uint8_t lapisSlot1;
-        uint8_t lapisSlot2;
-        uint8_t lapisSlot3;
+        uint8_t bag1;
+        uint8_t bag2;
+        uint8_t bag3;
+        uint8_t slot1;
+        uint8_t slot2;
+        uint8_t slot3;
         uint8_t vialBag;
         uint8_t vialSlot;
         uint8_t vialCount;
@@ -160,15 +164,17 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake4Incoming_EP5
+    // ItemRemake4
+    // cuser__packetgem_protocol_itemlapisian_compose
+    struct GameItemLapisianComposeIncoming_EP5
     {
         uint16_t opcode{ 0x80C };
-        uint8_t lapisianBag1;
-        uint8_t lapisianBag2;
-        uint8_t lapisianBag3;
-        uint8_t lapisianSlot1;
-        uint8_t lapisianSlot2;
-        uint8_t lapisianSlot3;
+        uint8_t bag1;
+        uint8_t bag2;
+        uint8_t bag3;
+        uint8_t slot1;
+        uint8_t slot2;
+        uint8_t slot3;
         uint8_t vialBag;
         uint8_t vialSlot;
         uint8_t vialCount;
@@ -176,15 +182,17 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake4Incoming_EP6_4
+    // ItemRemake4
+    // cuser__packetgem_protocol_itemlapisian_compose
+    struct GameItemLapisianComposeIncoming_EP6_4
     {
         uint16_t opcode{ 0x80C };
-        uint8_t lapisianBag1;
-        uint8_t lapisianBag2;
-        uint8_t lapisianBag3;
-        uint8_t lapisianSlot1;
-        uint8_t lapisianSlot2;
-        uint8_t lapisianSlot3;
+        uint8_t bag1;
+        uint8_t bag2;
+        uint8_t bag3;
+        uint8_t slot1;
+        uint8_t slot2;
+        uint8_t slot3;
         uint8_t vialBag;
         uint8_t vialSlot;
         uint8_t vialCount;
@@ -194,7 +202,8 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // not implemented
-    struct GameRuneUpgradeIncoming_EP5
+    // cuser__packetgem_protocol_upperrune_compose
+    struct GameUpperRuneComposeIncoming_EP5
     {
         uint16_t opcode{ 0x80D };
         uint8_t runeBag;
@@ -205,7 +214,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameRuneUpgradeIncoming_EP6_4
+    // cuser__packetgem_protocol_upperrune_compose
+    struct GameUpperRuneComposeIncoming_EP6_4
     {
         uint16_t opcode{ 0x80D };
         uint8_t runeBag;
@@ -217,7 +227,8 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameLapisianUpgradeIncoming
+    // cuser__process_itemlapisian_remake
+    struct GameItemLapisianRemakeIncoming
     {
         uint16_t opcode{ 0x80E };
         uint8_t cubeBag;
@@ -243,20 +254,20 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameChaoticSquareListIncoming
+    struct GameChaoticSquareResultItemListIncoming
     {
         uint16_t opcode{ 0x830 };
-        uint8_t chaoticSquareBag;
-        uint8_t chaoticSquareSlot;
+        uint8_t squareBag;
+        uint8_t squareSlot;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemSynthesisRecipeIncoming
+    struct GameChaoticSquareRecipeIncoming
     {
         uint16_t opcode{ 0x831 };
-        uint8_t newItemType;
-        uint8_t newItemTypeId;
+        uint8_t resultItemType;
+        uint8_t resultItemTypeId;
         uint32_t index;
     };
     #pragma pack(pop)
@@ -265,8 +276,8 @@ namespace shaiya
     struct GameItemSynthesisIncoming
     {
         uint16_t opcode{ 0x832 };
-        uint8_t chaoticSquareBag;
-        uint8_t chaoticSquareSlot;
+        uint8_t squareBag;
+        uint8_t squareSlot;
         uint32_t money;
         uint32_t index;
         uint8_t hammerBag;
@@ -278,8 +289,8 @@ namespace shaiya
     struct GameItemFreeSynthesisIncoming
     {
         uint16_t opcode{ 0x833 };
-        uint8_t chaoticSquareBag;
-        uint8_t chaoticSquareSlot;
+        uint8_t squareBag;
+        uint8_t squareSlot;
         uint32_t money;
         uint8_t hammerBag;
         uint8_t hammerSlot;

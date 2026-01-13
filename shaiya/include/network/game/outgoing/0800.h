@@ -99,7 +99,9 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake5Outgoing
+    // ItemRemake5
+    // cuser__packetgem_protocol_itemget_compose
+    struct GameItemGemComposeOutgoing
     {
         uint16_t opcode{ 0x80B };
         GameItemRemakeResult result;
@@ -108,7 +110,9 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemRemake4Outgoing
+    // ItemRemake4
+    // cuser__packetgem_protocol_itemlapisian_compose
+    struct GameItemLapisianComposeOutgoing
     {
         uint16_t opcode{ 0x80C };
         GameItemRemakeResult result;
@@ -116,7 +120,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct GameRuneUpgradeResult : uint8_t
+    enum struct GameUpperRuneComposeResult : uint8_t
     {
         Success,
         NotImplemented,
@@ -124,27 +128,27 @@ namespace shaiya
     };
 
     #pragma pack(push, 1)
-    struct GameRuneUpgradeOutgoing
+    // cuser__packetgem_protocol_upperrune_compose
+    struct GameUpperRuneComposeOutgoing
     {
         uint16_t opcode{ 0x80D };
-        GameRuneUpgradeResult result;
+        GameUpperRuneComposeResult result;
         ItemUnit newItem;
     };
     #pragma pack(pop)
 
-    enum struct GameLapisianUpgradeResult : uint8_t
+    enum struct GameItemLapisianRemakeResult : uint8_t
     {
         Success,
-        Unknown1,
-        Unknown2,
-        Unknown3,
+        Failure = 3,
     };
 
     #pragma pack(push, 1)
-    struct GameLapisianUpgradeOutgoing
+    // cuser__process_itemlapisian_remake
+    struct GameItemLapisianRemakeOutgoing
     {
         uint16_t opcode{ 0x80E };
-        GameLapisianUpgradeResult result;
+        GameItemLapisianRemakeResult result;
         ItemUnit newItem;
     };
     #pragma pack(pop)
@@ -168,27 +172,26 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameChaoticSquareListOutgoing
+    struct GameChaoticSquareResultItemListOutgoing
     {
         uint16_t opcode{ 0x830 };
-        Array<uint8_t, 10> newItemType;
-        Array<uint8_t, 10> newItemTypeId;
-        uint32_t goldPerPercentage;
+        Array<uint8_t, 10> resultItemType;
+        Array<uint8_t, 10> resultItemTypeId;
+        uint32_t fortuneMoney;
     };
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameItemSynthesisRecipeOutgoing
+    struct GameChaoticSquareRecipeOutgoing
     {
         uint16_t opcode{ 0x831 };
-        // e.g. 10000 = 100%
-        uint32_t successRate;
+        uint32_t chance;
         Array<uint8_t, 24> materialType;
-        uint8_t newItemType;
+        uint8_t resultItemType;
         Array<uint8_t, 24> materialTypeId;
-        uint8_t newItemTypeId;
+        uint8_t resultItemTypeId;
         Array<uint8_t, 24> materialCount;
-        uint8_t newItemCount;
+        uint8_t resultItemCount;
     };
     #pragma pack(pop)
 
