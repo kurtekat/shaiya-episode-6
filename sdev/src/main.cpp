@@ -118,9 +118,7 @@ void Main()
     hook::world_thread();
 
     Configuration::Init();
-    Configuration::LoadItemRemake4();
-    Configuration::LoadItemRemake5();
+    Configuration::LoadChaoticSquareData();
     Configuration::LoadItemSetData();
-    Configuration::LoadItemSynthesis();
-    Configuration::LoadRewardItemEvent();
+    Configuration::LoadOnlineTimePrizeData();
 }

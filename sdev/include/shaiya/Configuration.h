@@ -8,11 +8,9 @@ namespace shaiya
     public:
 
         static void Init();
-        static void LoadItemRemake4();
-        static void LoadItemRemake5();
+        static void LoadChaoticSquareData();
         static void LoadItemSetData();
-        static void LoadItemSynthesis();
-        static void LoadRewardItemEvent();
+        static void LoadOnlineTimePrizeData();
 
     private:
 

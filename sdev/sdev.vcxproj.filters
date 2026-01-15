@@ -162,6 +162,12 @@
     <ClCompile Include="include\shaiya\Network.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\ChaoticSquare.cpp">
+      <Filter>include\shaiya</Filter>
+    </ClCompile>
+    <ClCompile Include="include\shaiya\Ini.cpp">
+      <Filter>include\shaiya</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -362,9 +368,6 @@
     <ClInclude Include="include\shaiya\ItemInfo.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\ItemRemake.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\KillCountInfo.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
@@ -560,7 +563,7 @@
     <ClInclude Include="include\shaiya\Synergy.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\ItemSynthesis.h">
+    <ClInclude Include="include\shaiya\ChaoticSquare.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\Target.h">
@@ -601,6 +604,15 @@
     </ClInclude>
     <ClInclude Include="include\operator.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\ChaoticSquarePredicate.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\ResultItem.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\Ini.h">
+      <Filter>include\shaiya</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

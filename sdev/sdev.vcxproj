@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="include\shaiya\CGameData.cpp" />
     <ClCompile Include="include\shaiya\CGuild.cpp" />
+    <ClCompile Include="include\shaiya\ChaoticSquare.cpp" />
     <ClCompile Include="include\shaiya\CItem.cpp" />
     <ClCompile Include="include\shaiya\CItemDrop.cpp" />
     <ClCompile Include="include\shaiya\CMob.cpp" />
@@ -23,6 +24,7 @@
     <ClCompile Include="include\shaiya\CUser.cpp" />
     <ClCompile Include="include\shaiya\CWorld.cpp" />
     <ClCompile Include="include\shaiya\CZone.cpp" />
+    <ClCompile Include="include\shaiya\Ini.cpp" />
     <ClCompile Include="include\shaiya\ItemHelper.cpp" />
     <ClCompile Include="include\shaiya\MyShop.cpp" />
     <ClCompile Include="include\shaiya\Network.cpp" />
@@ -87,6 +89,7 @@
     <ClInclude Include="include\shaiya\CGameData.h" />
     <ClInclude Include="include\shaiya\CGuild.h" />
     <ClInclude Include="include\shaiya\CGuildCreate.h" />
+    <ClInclude Include="include\shaiya\ChaoticSquarePredicate.h" />
     <ClInclude Include="include\shaiya\CharacterList.h" />
     <ClInclude Include="include\shaiya\ChasePathList.h" />
     <ClInclude Include="include\shaiya\ChasePathNode.h" />
@@ -127,13 +130,13 @@
     <ClInclude Include="include\shaiya\GateLink.h" />
     <ClInclude Include="include\shaiya\GuildUserInfo.h" />
     <ClInclude Include="include\shaiya\HPAbility.h" />
+    <ClInclude Include="include\shaiya\Ini.h" />
     <ClInclude Include="include\shaiya\InsZonePortal.h" />
     <ClInclude Include="include\shaiya\ItemEnchant.h" />
     <ClInclude Include="include\shaiya\ItemFinder.h" />
     <ClInclude Include="include\shaiya\ItemHelper.h" />
     <ClInclude Include="include\shaiya\ItemInfo.h" />
     <ClInclude Include="include\shaiya\ItemPredicate.h" />
-    <ClInclude Include="include\shaiya\ItemRemake.h" />
     <ClInclude Include="include\shaiya\KillCountInfo.h" />
     <ClInclude Include="include\shaiya\MapBind.h" />
     <ClInclude Include="include\shaiya\MapBoss.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="include\shaiya\QuestLink.h" />
     <ClInclude Include="include\shaiya\QuestResult.h" />
     <ClInclude Include="include\shaiya\Quick.h" />
+    <ClInclude Include="include\shaiya\ResultItem.h" />
     <ClInclude Include="include\shaiya\RevengeMark.h" />
     <ClInclude Include="include\shaiya\RewardItem.h" />
     <ClInclude Include="include\shaiya\SAes.h" />
@@ -200,7 +204,7 @@
     <ClInclude Include="include\shaiya\StoredPointItemInfo.h" />
     <ClInclude Include="include\shaiya\SVector.h" />
     <ClInclude Include="include\shaiya\Synergy.h" />
-    <ClInclude Include="include\shaiya\ItemSynthesis.h" />
+    <ClInclude Include="include\shaiya\ChaoticSquare.h" />
     <ClInclude Include="include\shaiya\Target.h" />
     <ClInclude Include="include\shaiya\TypeValue.h" />
     <ClInclude Include="include\shaiya\UserHelper.h" />
