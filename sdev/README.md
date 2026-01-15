@@ -22,6 +22,10 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/
 |----------|-----------|
 | EP6      | 80        |
 
+## Configuration
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/data/
+
 # Features
 
 All features are implemented based on client specifications. The intent is to keep everything as vanilla as possible.
@@ -39,50 +43,15 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
-## Reward Item Event
+## Reward Item
 
-Event progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly. The event will reset when the last item is received.
+Progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly. The index will reset when the last item is received.
 
 ### Configuration
 
-The client expects no more than 20 items. Use the following example to get started:
+The library expects **OnlineTimePrize.ini** to be in the **PSM_Client/Bin/Data** directory. The client expects to receive 20 item units.
 
-```ini
-; PSM_Client\Bin\Data\RewardItem.ini
-
-[RewardItem_1]
-; minutes
-Delay=5
-Type=100
-TypeID=1
-Count=1
-
-[RewardItem_2]
-Delay=10
-Type=100
-TypeID=2
-Count=1
-
-[RewardItem_3]
-Delay=15
-Type=100
-TypeID=3
-Count=1
-
-[RewardItem_4]
-Delay=20
-Type=100
-TypeID=4
-Count=1
-
-[RewardItem_5]
-Delay=25
-Type=100
-TypeID=5
-Count=1
-```
-
-Add the following system messages:
+### System Messages
 
 ```
 2044		"The keep-alive event has ended."
@@ -117,7 +86,7 @@ auto timeout = GetTickCount() + ((minutes * 60000) + 15000);
 | PT     | 182   | :white_check_mark: |
 | PT     | 189   | :white_check_mark: |
 
-## Alchemy
+## Alchemy (not implemented)
 
 The client expects the merchant type of the npc to be 20 (Alchemist).
 
@@ -127,55 +96,11 @@ The client expects the merchant type of the npc to be 20 (Alchemist).
 
 ### Lapis Combination
 
-The client expects the remake items to be the same. Use the following example to get started:
+The client does not allow more than one lapis from the same stack. `ReqIg` values 31 through 40 are allowed.
 
-```ini
-; PSM_Client\Bin\Data\ItemRemake5.ini
+#### Materials
 
-[ItemRemake_1]
-ItemID1=30005
-ItemID2=30005
-ItemID3=30005
-NewItemType=30
-NewItemTypeID=6
-
-[ItemRemake_2]
-ItemID1=30012
-ItemID2=30012
-ItemID3=30012
-NewItemType=30
-NewItemTypeID=13
-
-[ItemRemake_3]
-ItemID1=30019
-ItemID2=30019
-ItemID3=30019
-NewItemType=30
-NewItemTypeID=20
-
-[ItemRemake_4]
-ItemID1=30026
-ItemID2=30026
-ItemID3=30026
-NewItemType=30
-NewItemTypeID=27
-
-[ItemRemake_5]
-ItemID1=30033
-ItemID2=30033
-ItemID3=30033
-NewItemType=30
-NewItemTypeID=34
-
-[ItemRemake_6]
-ItemID1=30040
-ItemID2=30040
-ItemID3=30040
-NewItemType=30
-NewItemTypeID=41
-```
-
-Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36. The client does not allow more than one lapis from the same stack. `ReqIg` values 30 and 99 are not allowed.
+Requires 1 Crowley Essence for each `ReqIg` value greater than or equal to 36.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
@@ -183,41 +108,11 @@ Lapis combination requires 1 Crowley Essence for each `ReqIg` value greater than
 
 ### Lapisian Combination
 
-The client expects the remake items to be the same. Use the following example to get started:
+The client does not allow more than one lapisian from the same stack.
 
-```ini
-; PSM_Client\Bin\Data\ItemRemake4.ini
+#### Materials
 
-[ItemRemake_1]
-ItemID1=95001
-ItemID2=95001
-ItemID3=95001
-NewItemType=95
-NewItemTypeID=2
-
-[ItemRemake_2]
-ItemID1=95006
-ItemID2=95006
-ItemID3=95006
-NewItemType=95
-NewItemTypeID=7
-
-[ItemRemake_3]
-ItemID1=95002
-ItemID2=95002
-ItemID3=95002
-NewItemType=95
-NewItemTypeID=4
-
-[ItemRemake_4]
-ItemID1=95007
-ItemID2=95007
-ItemID3=95007
-NewItemType=95
-NewItemTypeID=9
-```
-
-Lapisian combination requires 1 Crowley Liquid. The client does not allow more than one lapisian from the same stack.
+Requires 1 Crowley Liquid.
 
 | ItemID | ItemName        | ItemEffect |
 |--------|-----------------|------------|
@@ -315,7 +210,7 @@ This library adds support for episode 6 skill abilities 70, 87, and 35 (exp ston
 
 ### Skill Ability 35
 
-The original code multiplies exp depending on the value of two `CUser` booleans:
+The original code multiplies exp depending on the value of two `CUser` variables:
 
 ```
 // 00574080 (2.0)
@@ -355,77 +250,11 @@ The ability value is expected to be greater than 100. The library will divide th
 
 ## Chaotic Squares
 
-### ChaoticSquare.ini
+The library expects **ChaoticSquare.ini** to be in the **PSM_Client/Bin/Data** directory.
 
-Use the following example to get started:
+### Fortune Money
 
-```ini
-; PSM_Client\Bin\Data\ChaoticSquare.ini
-
-[ChaoticSquare_1]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=5,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=6
-NewItemCount=1
-
-[ChaoticSquare_2]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=12,12,12,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=13
-NewItemCount=1
-
-[ChaoticSquare_3]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=19,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=20
-NewItemCount=1
-
-[ChaoticSquare_4]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=26,26,26,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=27
-NewItemCount=1
-
-[ChaoticSquare_5]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=33,33,33,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=34
-NewItemCount=1
-
-[ChaoticSquare_6]
-ItemID=102073
-SuccessRate=80
-MaterialType=30,30,30,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialTypeID=40,40,40,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-MaterialCount=1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-NewItemType=30
-NewItemTypeID=41
-NewItemCount=1
-```
-
-### Money
-
-The gold per percentage value in the library is the same as the official server.
+The default value is `100'000'000`. The value should be nonzero and evenly divisible by 100. The chance of successful synthesis will be increased by 1 percent per the whole value given (can be fractional) and will be limited to 5 percent.
 
 ### Crafting Hammers
 
@@ -504,10 +333,6 @@ using Parsec.Shaiya.SetItem;
 
 var data = ParsecReader.FromJsonFile<SetItem>("SetItem.json");
 data.WriteDecrypted("SetItem.SData");
-
-// or
-
-data.WriteEncrypted("SetItem.SData");
 ```
 
 ## Item Ability Move
@@ -518,15 +343,15 @@ Use item `101150` to activate the window. The `CraftName` and `Gems` will be rem
 |--------|--------|
 | 101150 | 105    |
 
-### Success Rate
+### Chance
 
-The base success rate is 30 percent.
+The base chance is 30 percent.
 
-| ItemId  | Effect | ReqVg | Success Rate |
-|---------|--------|-------|--------------|
-| 101156  | 106    | 20    | 50           |
-| 101157  | 106    | 50    | 80           |
-| 101158  | 106    | 60    | 90           |
+| ItemId  | Effect | ReqVg | Chance |
+|---------|--------|-------|--------|
+| 101156  | 106    | 20    | 50     |
+| 101157  | 106    | 50    | 80     |
+| 101158  | 106    | 60    | 90     |
 
 ### Clients
 
@@ -566,7 +391,7 @@ If `ReqRec` is zero, the game service will get the rate from `g_LapisianEnchantS
 | AttackTime     | 1:20     | Maximum step              |
 | ReqVg          | 0:1      | Needs item protection     |
 
-## Perfect Lapisian Combination
+## Lapisian Remake
 
 Use item `101101` to activate the window. The `ReqLuc` value is the number of lapisian required for combination. See system message 510 for more information.
 
@@ -684,13 +509,14 @@ I don't think I need to explain further.
 I think the reason for this code is unclear.
 
 ```cpp
-std::wstring buffer(INT16_MAX, 0);
-if (!GetModuleFileNameW(nullptr, buffer.data(), INT16_MAX))
+std::wstring output(INT16_MAX, 0);
+auto count = GetModuleFileNameW(nullptr, output.data(), INT16_MAX);
+if (!count)
     return;
 
-std::filesystem::path path(buffer);
-path.remove_filename();
-...
+auto first = output.begin();
+auto last = first + count;
+m_root.assign(first, last).remove_filename();
 ```
 
 Once upon a time, I told people to inject the libraries with an application. For whatever reason, some decided to import the libraries, which, in turn, bugged all the file operations.
@@ -704,7 +530,7 @@ auto path = std::filesystem::current_path();
 // result: "C:\\WINDOWS\\system32"
 ```
 
-It should be obvious that a relative path is also not an option.
+A relative path doesn't work out either.
 
 ### INT16_MAX
 
