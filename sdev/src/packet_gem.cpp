@@ -14,14 +14,14 @@
 #include "include/main.h"
 #include "include/operator.h"
 #include "include/shaiya/CGameData.h"
+#include "include/shaiya/ChaoticSquare.h"
+#include "include/shaiya/ChaoticSquarePredicate.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemFinder.h"
 #include "include/shaiya/ItemHelper.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/ItemPredicate.h"
-#include "include/shaiya/ItemRemake.h"
-#include "include/shaiya/ItemSynthesis.h"
 #include "include/shaiya/Network.h"
 #include "include/shaiya/SConnection.h"
 #include "include/shaiya/UserHelper.h"
@@ -46,38 +46,38 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Handles incoming 0x80B packets.
+    /// Handles incoming 0x80B packets. Does not do anything else for now.
     /// </summary>
-    void handler_0x80B(CUser* user, GameItemRemake5Incoming_EP6_4* incoming)
+    void handler_0x80B(CUser* user, GameItemGemComposeIncoming_EP6_4* incoming)
     {
-        if (!incoming->lapisBag1)
+        if (!incoming->bag1)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag1, incoming->lapisSlot1))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag1, incoming->slot1))
             return;
 
-        auto& lapis1 = user->inventory[incoming->lapisBag1][incoming->lapisSlot1];
-        if (!lapis1)
+        auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
+        if (!item1)
             return;
 
-        if (!incoming->lapisBag2)
+        if (!incoming->bag2)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag2, incoming->lapisSlot2))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag2, incoming->slot2))
             return;
 
-        auto& lapis2 = user->inventory[incoming->lapisBag2][incoming->lapisSlot2];
-        if (!lapis2)
+        auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
+        if (!item2)
             return;
 
-        if (!incoming->lapisBag3)
+        if (!incoming->bag3)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisBag3, incoming->lapisSlot3))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag3, incoming->slot3))
             return;
 
-        auto& lapis3 = user->inventory[incoming->lapisBag3][incoming->lapisSlot3];
-        if (!lapis3)
+        auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
+        if (!item3)
             return;
 
         if (!incoming->vialBag)
@@ -90,111 +90,76 @@ namespace packet_gem
         if (!vial)
             return;
 
-        if (lapis1->type != ItemType::Lapis)
+        if (item1->type != ItemType::Lapis)
             return;
 
-        if (lapis2->type != ItemType::Lapis)
+        if (item2->type != ItemType::Lapis)
             return;
 
-        if (lapis3->type != ItemType::Lapis)
+        if (item3->type != ItemType::Lapis)
             return;
 
         if (vial->info->effect != ItemEffect::CrowleyEssence)
             return;
 
-        if (lapis1->info->reqIg == 30 || lapis1->info->reqIg == 99)
+        if (item1->info->reqIg <= 30 || item1->info->reqIg > 40)
             return;
 
-        if (lapis2->info->reqIg == 30 || lapis2->info->reqIg == 99)
+        if (item2->info->reqIg <= 30 || item2->info->reqIg > 40)
             return;
 
-        if (lapis3->info->reqIg == 30 || lapis3->info->reqIg == 99)
+        if (item3->info->reqIg <= 30 || item3->info->reqIg > 40)
             return;
 
         int requiredCount = 0;
-        if (lapis1->info->reqIg >= 36)
+        if (item1->info->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis2->info->reqIg >= 36)
+        if (item2->info->reqIg >= 36)
             ++requiredCount;
 
-        if (lapis3->info->reqIg >= 36)
+        if (item3->info->reqIg >= 36)
             ++requiredCount;
 
         if (vial->count < requiredCount)
             return;
 
-        auto itemId1 = lapis1->info->itemId;
-        auto itemId2 = lapis2->info->itemId;
-        auto itemId3 = lapis3->info->itemId;
-        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
-
-        auto itemRemake = std::find_if(g_itemRemake5.cbegin(), g_itemRemake5.cend(), functor);
-        if (itemRemake != g_itemRemake5.cend())
-        {
-            auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
-            if (!newItemInfo)
-                return;
-
-            UserHelper::ItemRemove(user, incoming->lapisBag1, incoming->lapisSlot1, 1);
-            UserHelper::ItemRemove(user, incoming->lapisBag2, incoming->lapisSlot2, 1);
-            UserHelper::ItemRemove(user, incoming->lapisBag3, incoming->lapisSlot3, 1);
-            UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, requiredCount);
-
-            int bag{}, slot{};
-            if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
-            {
-                GameItemRemake5Outgoing success{};
-                success.result = GameItemRemakeResult::Success;
-                success.newItem.bag = bag;
-                success.newItem.slot = slot;
-                success.newItem.type = newItemInfo->type;
-                success.newItem.typeId = newItemInfo->typeId;
-                success.newItem.count = 1;
-                SConnection::Send(user, &success, sizeof(GameItemRemake5Outgoing));
-            }
-        }
-        else
-        {
-            GameItemRemake5Outgoing failure{};
-            failure.result = GameItemRemakeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameItemRemake5Outgoing));
-        }
+        // to-do
     }
 
     /// <summary>
-    /// Handles incoming 0x80C packets.
+    /// Handles incoming 0x80C packets. Does not do anything else for now.
     /// </summary>
-    void handler_0x80C(CUser* user, GameItemRemake4Incoming_EP6_4* incoming)
+    void handler_0x80C(CUser* user, GameItemLapisianComposeIncoming_EP6_4* incoming)
     {
-        if (!incoming->lapisianBag1)
+        if (!incoming->bag1)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag1, incoming->lapisianSlot1))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag1, incoming->slot1))
             return;
 
-        auto& lapisian1 = user->inventory[incoming->lapisianBag1][incoming->lapisianSlot1];
-        if (!lapisian1)
+        auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
+        if (!item1)
             return;
 
-        if (!incoming->lapisianBag2)
+        if (!incoming->bag2)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag2, incoming->lapisianSlot2))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag2, incoming->slot2))
             return;
 
-        auto& lapisian2 = user->inventory[incoming->lapisianBag2][incoming->lapisianSlot2];
-        if (!lapisian2)
+        auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
+        if (!item2)
             return;
 
-        if (!incoming->lapisianBag3)
+        if (!incoming->bag3)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->lapisianBag3, incoming->lapisianSlot3))
+        if (!UserHelper::IsValidItemPosition(user, incoming->bag3, incoming->slot3))
             return;
 
-        auto& lapisian3 = user->inventory[incoming->lapisianBag3][incoming->lapisianSlot3];
-        if (!lapisian3)
+        auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
+        if (!item3)
             return;
 
         if (!incoming->vialBag)
@@ -207,60 +172,25 @@ namespace packet_gem
         if (!vial)
             return;
 
-        if (lapisian1->type != ItemType::Lapisian)
+        if (item1->type != ItemType::Lapisian)
             return;
 
-        if (lapisian2->type != ItemType::Lapisian)
+        if (item2->type != ItemType::Lapisian)
             return;
 
-        if (lapisian3->type != ItemType::Lapisian)
+        if (item3->type != ItemType::Lapisian)
             return;
 
         if (vial->info->effect != ItemEffect::CrowleyLiquid)
             return;
 
-        auto itemId1 = lapisian1->info->itemId;
-        auto itemId2 = lapisian2->info->itemId;
-        auto itemId3 = lapisian3->info->itemId;
-        auto functor = ItemRemakeContainsF(itemId1, itemId2, itemId3);
-
-        auto itemRemake = std::find_if(g_itemRemake4.cbegin(), g_itemRemake4.cend(), functor);
-        if (itemRemake != g_itemRemake4.cend())
-        {
-            auto newItemInfo = CGameData::GetItemInfo(itemRemake->newItemType, itemRemake->newItemTypeId);
-            if (!newItemInfo)
-                return;
-
-            UserHelper::ItemRemove(user, incoming->lapisianBag1, incoming->lapisianSlot1, 1);
-            UserHelper::ItemRemove(user, incoming->lapisianBag2, incoming->lapisianSlot2, 1);
-            UserHelper::ItemRemove(user, incoming->lapisianBag3, incoming->lapisianSlot3, 1);
-            UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
-
-            int bag{}, slot{};
-            if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
-            {
-                GameItemRemake4Outgoing success{};
-                success.result = GameItemRemakeResult::Success;
-                success.newItem.bag = bag;
-                success.newItem.slot = slot;
-                success.newItem.type = newItemInfo->type;
-                success.newItem.typeId = newItemInfo->typeId;
-                success.newItem.count = 1;
-                SConnection::Send(user, &success, sizeof(GameItemRemake4Outgoing));
-            }
-        }
-        else
-        {
-            GameItemRemake4Outgoing failure{};
-            failure.result = GameItemRemakeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameItemRemake4Outgoing));
-        }
+        // to-do
     }
 
     /// <summary>
     /// Handles incoming 0x80D packets.
     /// </summary>
-    void handler_0x80D(CUser* user, GameRuneUpgradeIncoming_EP6_4* incoming)
+    void handler_0x80D(CUser* user, GameUpperRuneComposeIncoming_EP6_4* incoming)
     {
         if (!incoming->runeBag)
             return;
@@ -287,9 +217,9 @@ namespace packet_gem
 
         if (rune->info->effect != ItemEffect::RecreationRune)
         {
-            GameRuneUpgradeOutgoing failure{};
-            failure.result = GameRuneUpgradeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
+            GameUpperRuneComposeOutgoing failure{};
+            failure.result = GameUpperRuneComposeResult::Failure;
+            SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
             return;
         }
 
@@ -327,28 +257,28 @@ namespace packet_gem
             int bag{}, slot{};
             if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
             {
-                GameRuneUpgradeOutgoing success{};
-                success.result = GameRuneUpgradeResult::Success;
+                GameUpperRuneComposeOutgoing success{};
+                success.result = GameUpperRuneComposeResult::Success;
                 success.newItem.bag = bag;
                 success.newItem.slot = slot;
                 success.newItem.type = newItemInfo->type;
                 success.newItem.typeId = newItemInfo->typeId;
                 success.newItem.count = 1;
-                SConnection::Send(user, &success, sizeof(GameRuneUpgradeOutgoing));
+                SConnection::Send(user, &success, sizeof(GameUpperRuneComposeOutgoing));
             }
         }
         else
         {
-            GameRuneUpgradeOutgoing failure{};
-            failure.result = GameRuneUpgradeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameRuneUpgradeOutgoing));
+            GameUpperRuneComposeOutgoing failure{};
+            failure.result = GameUpperRuneComposeResult::Failure;
+            SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
         }
     }
 
     /// <summary>
     /// Handles incoming 0x80E packets.
     /// </summary>
-    void handler_0x80E(CUser* user, GameLapisianUpgradeIncoming* incoming)
+    void handler_0x80E(CUser* user, GameItemLapisianRemakeIncoming* incoming)
     {
         if (!incoming->cubeBag)
             return;
@@ -360,8 +290,8 @@ namespace packet_gem
         if (!cube)
             return;
 
-        // The data does not specify an item effect
-        if (cube->info->itemId != 101101)
+        // Requires an item (not an item effect)
+        if (cube->info->type != 101 && cube->info->typeId != 101)
             return;
 
         if (incoming->lapisianType != ItemType::Lapisian)
@@ -375,30 +305,22 @@ namespace packet_gem
         if (!newItemInfo)
             return;
 
-        // Failure result values are unclear. The client executes the same code 
-        // as long as the value is nonzero and not greater than 3.
+        GameItemLapisianRemakeOutgoing failure{};
+        failure.result = GameItemLapisianRemakeResult::Failure;
 
-        GameLapisianUpgradeOutgoing failure{};
-        failure.result = GameLapisianUpgradeResult::Unknown1;
-
-        auto successRate = oldItemInfo->reqRec;
-        if (successRate != 10000)
-        {
-            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
-            return;
-        }
+        // See system message 510
 
         auto lapisianLv = oldItemInfo->attackTime;
         if (lapisianLv < 6 || lapisianLv > 19)
         {
-            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
             return;
         }
 
         auto requiredCount = oldItemInfo->reqLuc;
         if (!requiredCount)
         {
-            SConnection::Send(user, &failure, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
             return;
         }
 
@@ -417,14 +339,14 @@ namespace packet_gem
         int bag{}, slot{};
         if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
         {
-            GameLapisianUpgradeOutgoing success{};
-            success.result = GameLapisianUpgradeResult::Success;
+            GameItemLapisianRemakeOutgoing success{};
+            success.result = GameItemLapisianRemakeResult::Success;
             success.newItem.bag = bag;
             success.newItem.slot = slot;
             success.newItem.type = newItemInfo->type;
             success.newItem.typeId = newItemInfo->typeId;
             success.newItem.count = 1;
-            SConnection::Send(user, &success, sizeof(GameLapisianUpgradeOutgoing));
+            SConnection::Send(user, &success, sizeof(GameItemLapisianRemakeOutgoing));
         }
     }
 
@@ -661,73 +583,77 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x830 packets.
     /// </summary>
-    void handler_0x830(CUser* user, GameChaoticSquareListIncoming* incoming)
+    void handler_0x830(CUser* user, GameChaoticSquareResultItemListIncoming* incoming)
     {
-        if (!incoming->chaoticSquareBag)
+        if (!incoming->squareBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->chaoticSquareBag, incoming->chaoticSquareSlot))
+        if (!UserHelper::IsValidItemPosition(user, incoming->squareBag, incoming->squareSlot))
             return;
 
-        auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
-        if (!chaoticSquare)
+        auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
+        if (!item)
             return;
 
-        if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
+        if (item->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        user->savePosUseBag = incoming->chaoticSquareBag;
-        user->savePosUseSlot = incoming->chaoticSquareSlot;
+        auto square = ChaoticSquare::Find(item->info->itemId);
+        if (!square)
+            return;
+
+        user->savePosUseBag = incoming->squareBag;
+        user->savePosUseSlot = incoming->squareSlot;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
 
-        auto itemId = chaoticSquare->info->itemId;
-        for (const auto& chaoticSquare : g_chaoticSquares)
+        for (const auto& resultList : square->resultLists)
         {
-            if (chaoticSquare.itemId == itemId)
-            {
-                GameChaoticSquareListOutgoing outgoing{};
-                outgoing.newItemType = chaoticSquare.newItemType;
-                outgoing.newItemTypeId = chaoticSquare.newItemTypeId;
-                outgoing.goldPerPercentage = ItemSynthesisConstants::GoldPerPercentage;
-                SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareListOutgoing));
-            }
+            GameChaoticSquareResultItemListOutgoing outgoing{};
+            outgoing.resultItemType = resultList.itemType;
+            outgoing.resultItemTypeId = resultList.itemTypeId;
+            outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
+            SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareResultItemListOutgoing));
         }
     }
 
     /// <summary>
     /// Handles incoming 0x831 packets.
     /// </summary>
-    void handler_0x831(CUser* user, GameItemSynthesisRecipeIncoming* incoming)
+    void handler_0x831(CUser* user, GameChaoticSquareRecipeIncoming* incoming)
     {
-        auto& chaoticSquare = user->inventory[user->savePosUseBag][user->savePosUseSlot];
-        if (!chaoticSquare)
+        auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
+        if (!item)
             return;
 
-        if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
+        if (item->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
-        if (it == g_itemSyntheses.end())
+        auto square = ChaoticSquare::Find(item->info->itemId);
+        if (!square)
             return;
 
-        if (incoming->index >= it->second.size())
+        if (incoming->index >= square->recipeList.size())
             return;
 
-        auto& synthesis = it->second[incoming->index];
-        if (incoming->newItemType != synthesis.newItemType || incoming->newItemTypeId != synthesis.newItemTypeId)
+        auto id = square->recipeList[incoming->index];
+        auto recipe = ChaoticSquare::FindRecipe(id);
+        if (!recipe)
             return;
 
-        GameItemSynthesisRecipeOutgoing outgoing{};
-        outgoing.successRate = synthesis.successRate;
-        outgoing.materialType = synthesis.materialType;
-        outgoing.newItemType = synthesis.newItemType;
-        outgoing.materialTypeId = synthesis.materialTypeId;
-        outgoing.newItemTypeId = synthesis.newItemTypeId;
-        outgoing.materialCount = synthesis.materialCount;
-        outgoing.newItemCount = synthesis.newItemCount;
-        SConnection::Send(user, &outgoing, sizeof(GameItemSynthesisRecipeOutgoing));
+        if (incoming->resultItemType != recipe->resultItem.type || incoming->resultItemTypeId != recipe->resultItem.typeId)
+            return;
+
+        GameChaoticSquareRecipeOutgoing outgoing{};
+        outgoing.chance = recipe->chance;
+        outgoing.materialType = recipe->materialType;
+        outgoing.resultItemType = recipe->resultItem.type;
+        outgoing.materialTypeId = recipe->materialTypeId;
+        outgoing.resultItemTypeId = recipe->resultItem.typeId;
+        outgoing.materialCount = recipe->materialCount;
+        outgoing.resultItemCount = recipe->resultItem.count;
+        SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
     }
 
     /// <summary>
@@ -735,47 +661,50 @@ namespace packet_gem
     /// </summary>
     void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     {
-        if (!incoming->chaoticSquareBag)
+        if (!incoming->squareBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->chaoticSquareBag, incoming->chaoticSquareSlot))
+        if (!UserHelper::IsValidItemPosition(user, incoming->squareBag, incoming->squareSlot))
             return;
 
-        auto& chaoticSquare = user->inventory[incoming->chaoticSquareBag][incoming->chaoticSquareSlot];
-        if (!chaoticSquare)
+        auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
+        if (!item)
             return;
 
-        if (chaoticSquare->info->effect != ItemEffect::ChaoticSquare)
+        if (item->info->effect != ItemEffect::ChaoticSquare)
             return;
 
-        auto it = g_itemSyntheses.find(chaoticSquare->info->itemId);
-        if (it == g_itemSyntheses.end())
+        auto square = ChaoticSquare::Find(item->info->itemId);
+        if (!square)
             return;
 
-        if (incoming->index >= it->second.size())
+        if (incoming->index >= square->recipeList.size())
             return;
 
-        auto& synthesis = it->second[incoming->index];
-        auto newItemInfo = CGameData::GetItemInfo(synthesis.newItemType, synthesis.newItemTypeId);
-        if (!newItemInfo)
+        auto id = square->recipeList[incoming->index];
+        auto recipe = ChaoticSquare::FindRecipe(id);
+        if (!recipe)
             return;
 
         if (incoming->money > user->money)
             return;
 
-        auto successRate = synthesis.successRate;
-        auto goldPerPercentage = ItemSynthesisConstants::GoldPerPercentage;
+        auto fortuneMoney = g_chaoticSquareFortuneMoney;
+        auto chance = recipe->chance;
 
-        if (goldPerPercentage)
+        if (fortuneMoney >= 100)
         {
-            auto money = incoming->money;
-            if (money > ItemSynthesisConstants::MaxMoney)
-                money = ItemSynthesisConstants::MaxMoney;
+            auto minMoney = fortuneMoney / 100;
+            auto maxMoney = fortuneMoney * 5;
 
-            if (money >= ItemSynthesisConstants::MinMoney)
+            auto money = incoming->money;
+            if (money > maxMoney)
+                money = maxMoney;
+
+            if (money >= minMoney)
             {
-                auto bonus = ((double)money / goldPerPercentage) * 100.0;
-                successRate += static_cast<int>(bonus);
+                auto bonus = ((double)money / fortuneMoney) * 100.0;
+                chance += static_cast<int>(bonus);
 
                 user->money -= money;
                 CUser::SendDBMoney(user);
@@ -794,55 +723,51 @@ namespace packet_gem
             if (hammer->info->effect != ItemEffect::CraftingHammer)
                 return;
 
-            successRate += hammer->info->reqVg * 100;
+            chance += hammer->info->reqVg * 100;
             CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
         }
 
-        CUser::ItemUseNSend(user, incoming->chaoticSquareBag, incoming->chaoticSquareSlot, false);
+        CUser::ItemUseNSend(user, incoming->squareBag, incoming->squareSlot, false);
 
-        for (const auto& [type, typeId, count] : std::views::zip(
-            std::as_const(synthesis.materialType),
-            std::as_const(synthesis.materialTypeId),
-            std::as_const(synthesis.materialCount)
-        ))
+        if (UserHelper::RecipeRemove(user, *recipe))
         {
-            if (!type || !typeId || !count)
-                continue;
+            auto randomChance = 0;
+            if (chance < 10000)
+            {
+                std::random_device seed;
+                std::mt19937 eng(seed());
 
-            int bag{}, slot{};
-            if (!ItemFinder(user, bag, slot, ItemMinCountF(type, typeId, count)))
-                return;
+                std::uniform_int_distribution<int> uni(100, 10000);
+                randomChance = uni(eng);
+            }
 
-            if (!UserHelper::ItemRemove(user, bag, slot, count))
-                return;
-        }
+            if (randomChance <= chance)
+            {
+                auto itemInfo = CGameData::GetItemInfo(recipe->resultItem.type, recipe->resultItem.typeId);
+                if (!itemInfo)
+                    return;
 
-        int randomValue = 0;
-        if (successRate < ItemSynthesisConstants::MaxSuccessRate)
-        {
-            std::random_device seed;
-            std::mt19937 eng(seed());
+                CUser::ItemCreate(user, itemInfo, recipe->resultItem.count);
 
-            std::uniform_int_distribution<int> uni(
-                ItemSynthesisConstants::MinSuccessRate,
-                ItemSynthesisConstants::MaxSuccessRate);
+                GameItemSynthesisOutgoing success{};
+                success.result = GameItemSynthesisResult::Success;
+                SConnection::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
+            }
+            else
+            {
+                for (const auto& failItem : square->failItems)
+                {
+                    auto itemInfo = CGameData::GetItemInfo(failItem.type, failItem.typeId);
+                    if (!itemInfo)
+                        continue;
 
-            randomValue = uni(eng);
-        }
+                    CUser::ItemCreate(user, itemInfo, failItem.count);
+                }
 
-        if (randomValue <= successRate)
-        {
-            CUser::ItemCreate(user, newItemInfo, synthesis.newItemCount);
-
-            GameItemSynthesisOutgoing success{};
-            success.result = GameItemSynthesisResult::Success;
-            SConnection::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
-        }
-        else
-        {
-            GameItemSynthesisOutgoing failure{};
-            failure.result = GameItemSynthesisResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
+                GameItemSynthesisOutgoing failure{};
+                failure.result = GameItemSynthesisResult::Failure;
+                SConnection::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
+            }
         }
     }
 
@@ -858,8 +783,8 @@ namespace packet_gem
     /// </summary>
     void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
     {
-        constexpr int baseSuccessRate = 30;
-        auto successRate = baseSuccessRate;
+        constexpr auto baseChance = 30;
+        auto chance = baseChance;
 
         if (!incoming->cubeBag)
             return;
@@ -919,7 +844,7 @@ namespace packet_gem
             if (catalyst->info->effect != ItemEffect::Catalyst)
                 return;
 
-            successRate += catalyst->info->reqVg;
+            chance += catalyst->info->reqVg;
             CUser::ItemUseNSend(user, incoming->catalystBag, incoming->catalystSlot, false);
         }
 
@@ -932,17 +857,17 @@ namespace packet_gem
         outgoing.destBag = incoming->destBag;
         outgoing.destSlot = incoming->destSlot;
 
-        int randomValue = 0;
-        if (successRate < 100)
+        auto randomChance = 0;
+        if (chance < 100)
         {
             std::random_device seed;
             std::mt19937 eng(seed());
 
             std::uniform_int_distribution<int> uni(1, 100);
-            randomValue = uni(eng);
+            randomChance = uni(eng);
         }
 
-        if (randomValue <= successRate)
+        if (randomChance <= chance)
         {
             outgoing.result = GameItemAbilityMoveResult::Success;
 
@@ -1030,22 +955,22 @@ namespace packet_gem
         {
         case 0x80B:
         {
-            handler_0x80B(user, reinterpret_cast<GameItemRemake5Incoming_EP6_4*>(packet));
+            handler_0x80B(user, reinterpret_cast<GameItemGemComposeIncoming_EP6_4*>(packet));
             break;
         }
         case 0x80C:
         {
-            handler_0x80C(user, reinterpret_cast<GameItemRemake4Incoming_EP6_4*>(packet));
+            handler_0x80C(user, reinterpret_cast<GameItemLapisianComposeIncoming_EP6_4*>(packet));
             break;
         }
         case 0x80D:
         {
-            handler_0x80D(user, reinterpret_cast<GameRuneUpgradeIncoming_EP6_4*>(packet));
+            handler_0x80D(user, reinterpret_cast<GameUpperRuneComposeIncoming_EP6_4*>(packet));
             break;
         }
         case 0x80E:
         {
-            handler_0x80E(user, reinterpret_cast<GameLapisianUpgradeIncoming*>(packet));
+            handler_0x80E(user, reinterpret_cast<GameItemLapisianRemakeIncoming*>(packet));
             break;
         }
         case 0x811:
@@ -1055,12 +980,12 @@ namespace packet_gem
         }
         case 0x830:
         {
-            handler_0x830(user, reinterpret_cast<GameChaoticSquareListIncoming*>(packet));
+            handler_0x830(user, reinterpret_cast<GameChaoticSquareResultItemListIncoming*>(packet));
             break;
         }
         case 0x831:
         {
-            handler_0x831(user, reinterpret_cast<GameItemSynthesisRecipeIncoming*>(packet));
+            handler_0x831(user, reinterpret_cast<GameChaoticSquareRecipeIncoming*>(packet));
             break;
         }
         case 0x832:

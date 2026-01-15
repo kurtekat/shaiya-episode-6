@@ -1,4 +1,5 @@
 #pragma warning(disable: 28159) // GetTickCount
+#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common.h>
@@ -12,13 +13,16 @@
 #include "CClientToGameLog.h"
 #include "CClientToMgr.h"
 #include "CGameData.h"
+#include "ChaoticSquare.h"
 #include "CItem.h"
 #include "CLogConnection.h"
 #include "CObjectMgr.h"
 #include "CSkill.h"
 #include "CUser.h"
 #include "CWorld.h"
+#include "ItemFinder.h"
 #include "ItemInfo.h"
+#include "ItemPredicate.h"
 #include "Network.h"
 #include "SConnection.h"
 #include "SConnectionTBaseReconnect.h"
@@ -146,4 +150,27 @@ bool UserHelper::Move(CUser* user, unsigned mapId, float x, float y, float z, Us
 bool UserHelper::Move(CUser* user, unsigned mapId, SVector* pos, UserMovePosType movePosType, unsigned delay)
 {
     return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, movePosType, delay);
+}
+
+bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
+{
+    auto view = std::views::zip(
+        recipe.materialType,
+        recipe.materialTypeId,
+        recipe.materialCount);
+
+    for (auto [type, typeId, count] : view)
+    {
+        if (!type || !typeId || !count)
+            continue;
+
+        int bag{}, slot{};
+        if (!ItemFinder(user, bag, slot, ItemMinCountF(type, typeId, count)))
+            return false;
+
+        if (!UserHelper::ItemRemove(user, bag, slot, count))
+            return false;
+    }
+
+    return true;
 }

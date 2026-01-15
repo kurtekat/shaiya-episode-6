@@ -1,8 +1,9 @@
 #pragma once
+#include "CUser.h"
 
 namespace shaiya
 {
-    struct CUser;
+    struct ChaoticSquareRecipe;
     struct ItemInfo;
     struct SVector;
 
@@ -15,5 +16,6 @@ namespace shaiya
         static void SetMovePosition(CUser* user, unsigned mapId, SVector* pos, UserMovePosType movePosType, unsigned delay);
         static bool Move(CUser* user, unsigned mapId, float x, float y, float z, UserMovePosType movePosType, unsigned delay);
         static bool Move(CUser* user, unsigned mapId, SVector* pos, UserMovePosType movePosType, unsigned delay);
+        static bool RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe);
     };
 }
