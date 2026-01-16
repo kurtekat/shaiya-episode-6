@@ -5,6 +5,7 @@ namespace shaiya
 {
     enum struct ChatType : int32_t
     {
+        Default = 1,
         Damage15 = 15,   // Orange
         Damage16,        // Red
         Damage20 = 20,   // Pink

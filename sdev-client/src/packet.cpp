@@ -2,6 +2,7 @@
 #include <shaiya/include/common/ItemSlot.h>
 #include "include/main.h"
 #include "include/shaiya/CCharacter.h"
+#include "include/shaiya/ChatType.h"
 #include "include/shaiya/Static.h"
 using namespace shaiya;
 
@@ -26,7 +27,7 @@ namespace packet
         std::memcpy(g_var->sysmsg_t.data(), killer->charName.data(), killer->charName.size());
         g_var->sysmsg_t[killer->charName.size() - 1] = '\0';
         g_var->sysmsg_v = killCount;
-        Static::SysMsgToChatBox(static_cast<ChatType>(1), 509, 1);
+        Static::SysMsgToChatBox(ChatType::Default, 509, 1);
     }
 }
 
