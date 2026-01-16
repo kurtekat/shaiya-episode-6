@@ -4,15 +4,9 @@
 
 namespace shaiya
 {
-    struct CUser;
+    using CharId = uint32_t;
 
-    struct RevengeMarkConstants
-    {
-        /// <summary>
-        /// The max kill count defined in the client.
-        /// </summary>
-        static constexpr uint32_t MaxKillCount = 999;
-    };
+    struct CUser;
 
     #pragma pack(push, 1)
     class RevengeMark
@@ -26,5 +20,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline std::map<uint32_t/*CharID*/, std::map<uint32_t/*CharID*/, uint32_t/*KillCount*/>> g_revengeMarks{};
+    inline std::map<CharId, std::map<CharId, uint32_t/*KillCount*/>> g_revengeMarks{};
 }
