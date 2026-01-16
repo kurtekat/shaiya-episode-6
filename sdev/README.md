@@ -458,7 +458,7 @@ The item effect will determine which effect will be rendered when the pet is equ
 
 ## Warehouse Items
 
-I received several reports over the course of this project about missing warehouse items. I just want to provide evidence that I believe will absolve me of this shit.
+I received several reports over the course of this project about missing warehouse items. I just want to provide evidence that I believe will absolve me of this shit. I will also provide a solution to the underlying issue.
 
 ### Research
 
@@ -514,7 +514,23 @@ inventory[6][5] = 0x414 -> warehouse[5]
 ...
 ```
 
-I don't think I need to explain further.
+### Solution
+
+Replace the client code that sends the invalid packet.
+
+```cpp
+if (g_pPlayerData->mapId == mapId)
+{
+    Static::SysMsgToChatBox(ChatType::Default, 6602, 1);
+    return;
+}
+
+GameMovePvPZoneIncoming outgoing{};
+outgoing.mapId = mapId;
+CNetwork::Send(&outgoing, sizeof(GameMovePvPZoneIncoming));
+```
+
+The sdev library will take care of the rest.
 
 ## File Operations
 
