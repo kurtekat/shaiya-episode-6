@@ -118,6 +118,7 @@ void Main()
     hook::world_thread();
 
     Configuration::Init();
+    Configuration::LoadBattlefieldMoveData();
     Configuration::LoadChaoticSquareData();
     Configuration::LoadItemSetData();
     Configuration::LoadOnlineTimePrizeData();

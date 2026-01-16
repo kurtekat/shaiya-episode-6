@@ -175,7 +175,8 @@ namespace shaiya
         // itemId 100169 (EP5)
         MoveWar,
         // custom
-        TownMoveScroll,
+        MoveTown,
+        MovePvPZone,
         MoveMapId200 = 10,
         MoveChar = 0xF904,
         MoveCharZone = 0xF905,

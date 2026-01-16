@@ -74,6 +74,7 @@
     <ClInclude Include="include\shaiya\Attack.h" />
     <ClInclude Include="include\shaiya\AttackAdd.h" />
     <ClInclude Include="include\shaiya\AttackMob.h" />
+    <ClInclude Include="include\shaiya\BattlefieldMoveInfo.h" />
     <ClInclude Include="include\shaiya\BillingItemInfo.h" />
     <ClInclude Include="include\shaiya\BlockInfo.h" />
     <ClInclude Include="include\shaiya\CBitArray.h" />

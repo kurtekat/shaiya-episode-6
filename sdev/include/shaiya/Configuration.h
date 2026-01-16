@@ -8,6 +8,7 @@ namespace shaiya
     public:
 
         static void Init();
+        static void LoadBattlefieldMoveData();
         static void LoadChaoticSquareData();
         static void LoadItemSetData();
         static void LoadOnlineTimePrizeData();

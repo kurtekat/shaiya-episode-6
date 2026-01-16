@@ -49,7 +49,7 @@ namespace packet_pc
         CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
     }
 
-    void town_move_scroll_hook(CUser* user)
+    void move_town_hook(CUser* user)
     {
         auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
         if (!item)
@@ -92,6 +92,23 @@ namespace packet_pc
             CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, false);
         }
     }
+
+    void move_pvp_zone_hook(CUser* user)
+    {
+        if (user->mapId == user->moveMapId)
+            return;
+
+        CWorld::ZoneLeaveUserMove(user, user->moveMapId, user->movePos.x, user->movePos.y, user->movePos.z);
+
+        GameUserSetMapPosOutgoing outgoing{};
+        outgoing.objectId = user->id;
+        outgoing.mapId = user->moveMapId;
+        outgoing.x = user->movePos.x;
+        outgoing.y = user->movePos.y;
+        outgoing.z = user->movePos.z;
+        SConnection::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
+        CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, true);
+    }
 }
 
 unsigned u0x4784DB = 0x4784DB;
@@ -127,18 +144,31 @@ void __declspec(naked) naked_0x49DDBF()
     __asm
     {
         cmp eax,0x7
-        je town_move_scroll
+        je move_town
+        cmp eax,0x8
+        je move_pvp_zone
 
         // original
         cmp eax,0x1
         jne _0x49DEB5
         jmp u0x49DDC8
 
-        town_move_scroll:
+        move_town:
         pushad
 
         push edi // user
-        call packet_pc::town_move_scroll_hook
+        call packet_pc::move_town_hook
+        add esp,0x4
+
+        popad
+
+        jmp u0x49E8D1
+
+        move_pvp_zone:
+        pushad
+
+        push edi // user
+        call packet_pc::move_pvp_zone_hook
         add esp,0x4
 
         popad

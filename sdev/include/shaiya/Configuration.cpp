@@ -14,6 +14,7 @@
 #include "include/extensions/filesystem.hpp"
 #include "include/extensions/functional.hpp"
 #include "include/extensions/ranges.hpp"
+#include "BattlefieldMoveInfo.h"
 #include "ChaoticSquare.h"
 #include "ChaoticSquarePredicate.h"
 #include "Configuration.h"
@@ -35,6 +36,97 @@ void Configuration::Init()
     auto first = output.begin();
     auto last = first + count;
     m_root.assign(first, last).remove_filename();
+}
+
+void Configuration::LoadBattlefieldMoveData()
+{
+    try
+    {
+        std::filesystem::path path(m_root);
+        ext::filesystem::path::combine(path, "Data", "BattleFieldMoveInfo.ini");
+        if (!std::filesystem::exists(path))
+            return;
+
+        Ini ini(path);
+        ini.Read();
+
+        auto count = ini.GetValueOrDefault(L"BATTLEFIELD_INFO:BATTLEFIELD_COUNT", 0);
+        if (count <= 0)
+            return;
+
+        for (auto num : std::views::iota(1, count + 1))
+        {
+            auto key1 = std::format(L"BATTLEFIELD_{}:MAP_NO", num);
+            auto mapId = ini.GetValueOrDefault(key1, 0);
+            auto key2 = std::format(L"BATTLEFIELD_{}:LEVEL_MIN", num);
+            auto levelMin = ini.GetValueOrDefault(key2, 0);
+            auto key3 = std::format(L"BATTLEFIELD_{}:LEVEL_MAX", num);
+            auto levelMax = ini.GetValueOrDefault(key3, 0);
+
+            BattlefieldMoveInfo info{};
+            info.levelMin = levelMin;
+            info.levelMax = levelMax;
+
+            auto keyX = std::format(L"BATTLEFIELD_{}:HU_POSX", num);
+            auto x = ini.GetValueOrDefault(keyX, L"");
+            auto keyY = std::format(L"BATTLEFIELD_{}:HU_POSY", num);
+            auto y = ini.GetValueOrDefault(keyY, L"");
+            auto keyZ = std::format(L"BATTLEFIELD_{}:HU_POSZ", num);
+            auto z = ini.GetValueOrDefault(keyZ, L"");
+
+            info.mapPos[0].mapId = mapId;
+            info.mapPos[0].x = std::stof(x);
+            info.mapPos[0].y = std::stof(y);
+            info.mapPos[0].z = std::stof(z);
+
+            keyX = std::format(L"BATTLEFIELD_{}:EL_POSX", num);
+            x = ini.GetValueOrDefault(keyX, L"");
+            keyY = std::format(L"BATTLEFIELD_{}:EL_POSY", num);
+            y = ini.GetValueOrDefault(keyY, L"");
+            keyZ = std::format(L"BATTLEFIELD_{}:EL_POSZ", num);
+            z = ini.GetValueOrDefault(keyZ, L"");
+
+            info.mapPos[1].mapId = mapId;
+            info.mapPos[1].x = std::stof(x);
+            info.mapPos[1].y = std::stof(y);
+            info.mapPos[1].z = std::stof(z);
+
+            keyX = std::format(L"BATTLEFIELD_{}:VI_POSX", num);
+            x = ini.GetValueOrDefault(keyX, L"");
+            keyY = std::format(L"BATTLEFIELD_{}:VI_POSY", num);
+            y = ini.GetValueOrDefault(keyY, L"");
+            keyZ = std::format(L"BATTLEFIELD_{}:VI_POSZ", num);
+            z = ini.GetValueOrDefault(keyZ, L"");
+
+            info.mapPos[3].mapId = mapId;
+            info.mapPos[3].x = std::stof(x);
+            info.mapPos[3].y = std::stof(y);
+            info.mapPos[3].z = std::stof(z);
+
+            keyX = std::format(L"BATTLEFIELD_{}:DE_POSX", num);
+            x = ini.GetValueOrDefault(keyX, L"");
+            keyY = std::format(L"BATTLEFIELD_{}:DE_POSY", num);
+            y = ini.GetValueOrDefault(keyY, L"");
+            keyZ = std::format(L"BATTLEFIELD_{}:DE_POSZ", num);
+            z = ini.GetValueOrDefault(keyZ, L"");
+
+            info.mapPos[2].mapId = mapId;
+            info.mapPos[2].x = std::stof(x);
+            info.mapPos[2].y = std::stof(y);
+            info.mapPos[2].z = std::stof(z);
+
+            // Not implemented
+            //auto key4 = std::format(L"BATTLEFIELD_{}:MOVE_SPOT_RANGE", num);
+            //auto range = ini.GetValueOrDefault(key4, 0);
+
+            if (!g_pvpZones.contains(mapId))
+                g_pvpZones[mapId] = info;
+        }
+    }
+    catch (...)
+    {
+        g_pvpZones.clear();
+    }
 }
 
 void Configuration::LoadChaoticSquareData()

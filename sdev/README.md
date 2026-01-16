@@ -43,6 +43,18 @@ Install the following procedures:
 
 If you receive an error, change `ALTER` to `CREATE` and try again.
 
+## Battlefield Move
+
+The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. For each section in the file, assign a unique value to the `MAP_NO` key. Moving to the same zone is not allowed.
+
+### Clients
+
+| Locale | Patch | Supported |
+|--------|-------|-----------|
+| ES     | 171   | :x:       |
+| PT     | 182   | :x:       |
+| PT     | 189   | :x:       |
+
 ## Reward Item
 
 Progress is account-wide. The progress of the current item will reset if a character leaves the game world. Do not expect the progress bar to synchronize perfectly. The index will reset when the last item is received.
@@ -71,7 +83,7 @@ This feature will not be implemented.
 
 ### Timeout
 
-The client adds 15 seconds to the timeout.
+The client adds 15 seconds to the timeout, so the library will do the same.
 
 ```cpp
 auto minutes = rewardItem[index].minutes;
