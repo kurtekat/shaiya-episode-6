@@ -32,7 +32,7 @@ All features are implemented based on client specifications. The intent is to ke
 
 ## Item Mall
 
-Install the following procedures:
+Install the following stored procedures:
 
 ```
 [dbo].[usp_Read_User_CashPoint_UsersMaster]
@@ -41,7 +41,7 @@ Install the following procedures:
 [dbo].[usp_Update_UserPoint]
 ```
 
-If you receive an error, change `ALTER` to `CREATE` and try again.
+The stored procedures are original code. If you receive an error, change `ALTER` to `CREATE` and try again.
 
 ## Battlefield Move
 
