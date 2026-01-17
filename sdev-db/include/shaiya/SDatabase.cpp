@@ -19,6 +19,12 @@ short SDatabase::ExecuteSql(SDatabase* db/*ecx*/)
     return (*(LPFN)0x444E20)(db);
 }
 
+short SDatabase::MoreResults(SDatabase* db/*ecx*/)
+{
+    typedef short(__thiscall* LPFN)(SDatabase*);
+    return (*(LPFN)0x444D00)(db);
+}
+
 int SDatabase::Prepare(SDatabase* db/*ecx*/)
 {
     typedef int(__thiscall* LPFN)(SDatabase*);
@@ -29,6 +35,12 @@ short SDatabase::PrepareSql(SDatabase* db/*ecx*/, const char* query)
 {
     typedef short(__thiscall* LPFN)(SDatabase*, const char*);
     return (*(LPFN)0x444DC0)(db, query);
+}
+
+short SDatabase::Query(SDatabase* db/*ecx*/, const char* query)
+{
+    typedef short(__thiscall* LPFN)(SDatabase*, const char*);
+    return (*(LPFN)0x444C80)(db, query);
 }
 
 void SDatabase::WriteErrorLog(SDatabase* db/*ecx*/)

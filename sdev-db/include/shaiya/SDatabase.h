@@ -31,8 +31,10 @@ namespace shaiya
         static short BindParameter(SDatabase* db/*ecx*/, int paramNum, int columSize, int valueType, int paramType, void* data, int* cbBlob, int inoutType);
         static short CountRow(SDatabase* db/*ecx*/, int* rows);
         static short ExecuteSql(SDatabase* db/*ecx*/);
+        static short MoreResults(SDatabase* db/*ecx*/);
         static int Prepare(SDatabase* db/*ecx*/);
         static short PrepareSql(SDatabase* db/*ecx*/, const char* query);
+        static short Query(SDatabase* db/*ecx*/, const char* query);
         static void WriteErrorLog(SDatabase* db/*ecx*/);
     };
     #pragma pack(pop)
