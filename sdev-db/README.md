@@ -14,6 +14,10 @@ C++ 23
 
 [Microsoft Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x86.exe)
 
+## Stored Procedures
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db/bin/sql
+
 ## Binary
 
 The file was patched to undo an edit that causes item mall purchase duplicates.

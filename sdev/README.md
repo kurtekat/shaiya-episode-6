@@ -26,6 +26,10 @@ https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/
 
 https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev/bin/data/
 
+## Stored Procedures
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-db/bin/sql
+
 # Features
 
 All features are implemented based on client specifications. The intent is to keep everything as vanilla as possible.
