@@ -26,17 +26,12 @@ namespace character
         std::array<char, 1024> query{};
         std::snprintf(query.data(), query.size(), "{?=call usp_Check_Char_Name(?)}");
 
-        if (SDatabase::PrepareSql(db, query.data()))
-        {
-            SDatabasePool::FreeDB(db);
-            return SQL_ERROR;
-        }
-
         int output = 0;
         int cbBlob = SQL_DATA_AT_EXEC;
         int result = 0;
         result = SDatabase::BindParameter(db, 1, 4, SQL_C_LONG, SQL_INTEGER, &output, &cbBlob, SQL_PARAM_OUTPUT);
         result = SDatabase::BindParameter(db, 2, 21, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT);
+        result = SDatabase::PrepareSql(db, query.data());
 
         if (result)
         {

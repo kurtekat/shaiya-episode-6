@@ -17,14 +17,12 @@ short hook_0x406A8C(SDatabase* db, char* username, char* password, unsigned lowP
     std::snprintf(query.data(), query.size(), "EXEC usp_Try_GameLogin_Taiwan ?,?,%llu,'%s'",
         sessionId.QuadPart, ipv4);
 
-    if (SDatabase::PrepareSql(db, query.data()))
-        return SQL_ERROR;
-
     // Parameterize user-supplied data
 
     int result = 0;
     result = SDatabase::BindParameter(db, 1, 32, SQL_C_CHAR, SQL_VARCHAR, username, nullptr, SQL_PARAM_INPUT);
     result = SDatabase::BindParameter(db, 2, 32, SQL_C_CHAR, SQL_VARCHAR, password, nullptr, SQL_PARAM_INPUT);
+    result = SDatabase::PrepareSql(db, query.data());
 
     if (result)
         return SQL_ERROR;
