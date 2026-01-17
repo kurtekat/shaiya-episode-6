@@ -1,4 +1,4 @@
-#include <string>
+#include <array>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <sql.h>
@@ -15,42 +15,49 @@ using namespace shaiya;
 
 namespace character
 {
-    bool is_name_available(char* name)
+    int check_char_name(char* name)
     {
         auto db = SDatabasePool::AllocDB();
         if (!db)
-            return false;
+            return SQL_ERROR;
 
         SDatabase::Prepare(db);
 
-        std::string query("SELECT CharName FROM [PS_GameData].[dbo].[Chars] WHERE CharName=? AND Del=0;");
-        if (SDatabase::PrepareSql(db, query.c_str()))
+        std::array<char, 1024> query{};
+        std::snprintf(query.data(), query.size(), "{?=call usp_Check_Char_Name(?)}");
+
+        if (SDatabase::PrepareSql(db, query.data()))
         {
             SDatabasePool::FreeDB(db);
-            return false;
+            return SQL_ERROR;
         }
 
-        if (SDatabase::BindParameter(db, 1, 21, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT))
+        int output = 0;
+        int cbBlob = SQL_DATA_AT_EXEC;
+        int result = 0;
+        result = SDatabase::BindParameter(db, 1, 4, SQL_C_LONG, SQL_INTEGER, &output, &cbBlob, SQL_PARAM_OUTPUT);
+        result = SDatabase::BindParameter(db, 2, 21, SQL_C_CHAR, SQL_VARCHAR, name, nullptr, SQL_PARAM_INPUT);
+
+        if (result)
         {
             SDatabasePool::FreeDB(db);
-            return false;
+            return SQL_ERROR;
         }
 
-        if (SDatabase::ExecuteSql(db))
+        if (SDatabase::Query(db, query.data()))
         {
             SDatabasePool::FreeDB(db);
-            return false;
+            return SQL_ERROR;
         }
 
-        int rows = SQL_NULL_DATA;
-        if (SDatabase::CountRow(db, &rows))
+        if (SDatabase::MoreResults(db))
         {
             SDatabasePool::FreeDB(db);
-            return false;
+            return SQL_ERROR;
         }
 
         SDatabasePool::FreeDB(db);
-        return !rows;
+        return output;
     }
 
     /// <summary>
@@ -59,14 +66,14 @@ namespace character
     void handler_0x410(CUser* user, DBAgentCharNameAvailableIncoming* incoming)
     {
         incoming->name[incoming->name.size() - 1] = '\0';
-        bool available = is_name_available(incoming->name.data());
+        int result = check_char_name(incoming->name.data());
 
         if (!user->connection)
             return;
 
         DBAgentCharNameAvailableOutgoing outgoing{};
         outgoing.billingId = user->billingId;
-        outgoing.available = available;
+        outgoing.available = result == TRUE;
         SConnection::Send(user->connection, &outgoing, sizeof(DBAgentCharNameAvailableOutgoing));
     }
 }
