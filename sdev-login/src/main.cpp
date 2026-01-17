@@ -8,25 +8,26 @@
 #include "include/shaiya/SDatabase.h"
 using namespace shaiya;
 
+// The login service null-terminates the username and password
 short hook_0x406A8C(SDatabase* db, char* username, char* password, unsigned lowPart, unsigned highPart, char* ipv4)
 {
     ULARGE_INTEGER sessionId{ lowPart, highPart };
 
-    std::array<char, 1024> buffer{};
-    std::snprintf(buffer.data(), buffer.size(), "EXEC [PS_UserData].[dbo].[usp_Try_GameLogin_Taiwan] ?,?,%llu,'%s';",
+    std::array<char, 1024> query{};
+    std::snprintf(query.data(), query.size(), "EXEC usp_Try_GameLogin_Taiwan ?,?,%llu,'%s'",
         sessionId.QuadPart, ipv4);
 
-    if (SDatabase::PrepareSql(db, buffer.data()))
-        return -1;
+    if (SDatabase::PrepareSql(db, query.data()))
+        return SQL_ERROR;
 
     // Parameterize user-supplied data
 
-    short result = 0;
+    int result = 0;
     result = SDatabase::BindParameter(db, 1, 32, SQL_C_CHAR, SQL_VARCHAR, username, nullptr, SQL_PARAM_INPUT);
     result = SDatabase::BindParameter(db, 2, 32, SQL_C_CHAR, SQL_VARCHAR, password, nullptr, SQL_PARAM_INPUT);
 
     if (result)
-        return -1;
+        return SQL_ERROR;
 
     return SDatabase::ExecuteSql(db);
 }
