@@ -71,19 +71,9 @@ The library expects **OnlineTimePrize.ini** to be in the **PSM_Client/Bin/Data**
 
 ```
 2044		"The keep-alive event has ended."
-//
-7186		"Medal event begins in 5 minutes! Make sure you have at least 3 open inventory slots or else you will not be able to receive a reward."
-7187		"Medal event begins in 1 minute! Make sure you have at least 3 open inventory slots or else you will not be able to receive a reward."
-7188		"Could not receive your reward because you do not have space in your inventory."
-7189		"Bronze medal received"
-7190		"Silver medal received"
-7191		"Gold medal received"
+...
 7192		"Recurring player item received"
 ```
-
-### Medal Event
-
-This feature will not be implemented.
 
 ### Timeout
 
@@ -301,7 +291,7 @@ Bonus description:
 
 ### Server
 
-The `Drop` field is the ID of set. **SetItem.SData** and **Item.SData** should work as-is if they are vanilla.
+The `Drop` field is the ID of the item set. The original item SData files can be used for testing.
 
 ```sql
 USE PS_GameDefs
@@ -339,7 +329,7 @@ The instruction at `004DB0E2` has been removed so we can use vanilla configurati
 004DB0E5  NOP
 ```
 
-I cannot know for sure if it will cause an issue elsewhere.
+I do not know if the change will cause an issue elsewhere.
 
 ## Item Ability Move
 
