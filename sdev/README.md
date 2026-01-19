@@ -199,7 +199,7 @@ The client library adds support for system message 509.
 
 ## Skill Abilities
 
-This library adds support for episode 6 skill abilities 70, 87, and 35 (exp stones). **It does not affect other skills.**
+The library adds support for episode 6 skill abilities 70, 87, and 35 (exp stones). **It does not affect other skills.**
 
 | SkillId | Ability | Supported          |
 |---------|---------|--------------------|
@@ -287,11 +287,11 @@ This feature will not be implemented.
 
 ## Synergy
 
-The library expects **SetItem.SData** to be in the **PSM_Client/Bin/Data** directory.
+The library expects **SetItem.ini** to be in the **PSM_Client/Bin/Data** directory.
 
-### Client Format
+### Client
 
-The client expects the file to be encrypted.
+The client expects **SetItem.SData** to be encrypted.
 
 ![Capture2](https://github.com/kurtekat/shaiya-episode-6/assets/142125482/01b93010-05a5-4323-b8d5-e890551ed4b7)
 
@@ -299,57 +299,47 @@ Bonus description:
 
 `" Sinergia [5]\n- LUC +20\n- DEX +50\n- STR +70"`
 
-### Server Format
+### Server
 
-The library expects the file to be decrypted. The bonus description can be up to 15 comma-separated values or an empty string.
+The `Drop` field is the ID of set. **SetItem.SData** and **Item.SData** should work as-is if they are vanilla.
 
-```
-70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
-```
-
-Trailing zeros can be omitted.
-
-```
-70,50,0,0,0,20
+```sql
+USE PS_GameDefs
+SELECT ItemName, ItemID, [Drop] FROM Items WHERE [Drop]=64
 ```
 
-The values are signed 32-bit integers, expected to be in the following order:
+Output:
 
-* strength
-* dexterity
-* intelligence
-* wisdom
-* reaction
-* luck
-* health
-* mana
-* stamina
-* attackPower
-* rangedAttackPower
-* magicPower
-* defense
-* rangedDefense
-* magicDefense
+| ItemName                  | ItemID | Drop |
+|---------------------------|--------|------|
+| Bright Emperor's Helmet   | 72003  | 64   |
+| Bright Emperor's Armor    | 73003  | 64   |
+| Bright Emperor's Pants    | 74003  | 64   |
+| Bright Emperor's Gauntlet | 76003  | 64   |
+| Bright Emperor's Boots    | 77003  | 64   |
 
-I recommend using [Parsec](https://github.com/matigramirez/Parsec) to convert the SData to JSON format.
+This machine code is incompatible:
 
-```csharp
-using Parsec;
-using Parsec.Shaiya.SetItem;
-
-var data = ParsecReader.FromFile<SetItem>("SetItem.SData");
-data.WriteJson("SetItem.json");
+```
+// CGameData::LoadConstItem
+// EBX = 0
+004DB0DA  CMP WORD PTR SS:[ESP+70],6     // Drop
+004DB0E0  JBE SHORT ps_game.004DB0E6
+004DB0E2  MOV DWORD PTR SS:[ESP+70],EBX  // Overwrite with 0
 ```
 
-and vice versa...
+The instruction at `004DB0E2` has been removed so we can use vanilla configuration.
 
-```csharp
-using Parsec;
-using Parsec.Shaiya.SetItem;
-
-var data = ParsecReader.FromJsonFile<SetItem>("SetItem.json");
-data.WriteDecrypted("SetItem.SData");
 ```
+004DB0DA  CMP WORD PTR SS:[ESP+70],6
+004DB0E0  JBE SHORT ps_game.004DB0E6
+004DB0E2  NOP
+004DB0E3  NOP
+004DB0E4  NOP
+004DB0E5  NOP
+```
+
+I cannot know for sure if it will cause an issue elsewhere.
 
 ## Item Ability Move
 
