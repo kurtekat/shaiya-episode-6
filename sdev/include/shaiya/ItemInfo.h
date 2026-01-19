@@ -199,8 +199,8 @@ namespace shaiya
         uint16_t intelligence;      //0x76
         uint16_t wisdom;            //0x78
         uint16_t luck;              //0x7A
-        uint16_t dropGrade;         //0x7C
-        uint16_t dropLimit;         //0x7E
+        uint16_t grade;             //0x7C
+        uint16_t drop;              //0x7E
         uint32_t buy;               //0x80
         uint32_t sell;              //0x84
         PAD(4);

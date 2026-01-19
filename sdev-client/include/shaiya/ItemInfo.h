@@ -116,7 +116,7 @@ namespace shaiya
         PAD(2);
         uint32_t buy;             //0x4C
         uint32_t sell;            //0x50
-        uint32_t dropGrade;       //0x54
+        uint32_t grade;           //0x54
         uint8_t craftExpansions;  //0x58
         uint8_t count;            //0x59
         PAD(2);

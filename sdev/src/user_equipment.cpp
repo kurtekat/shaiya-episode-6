@@ -11,16 +11,17 @@
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/SConnection.h"
+#include "include/shaiya/Synergy.h"
 using namespace shaiya;
 
 namespace user_equipment
 {
-    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int itemSlot)
+    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int slot)
     {
         auto itemType = static_cast<ItemType>(itemInfo->type);
         auto realType = itemInfo->realType;
 
-        switch (itemSlot)
+        switch (slot)
         {
         case ItemSlot::Helmet:
             return realType == RealType::Helmet;
@@ -86,6 +87,12 @@ namespace user_equipment
 
     void init(CUser* user)
     {
+        // Clear the synergy vector because InitEquipment 
+        // removes the effects
+        auto it = g_itemSetSynergies.find(user->id);
+        if (it != g_itemSetSynergies.end())
+            it->second.clear();
+
         user->initStatusFlag = true;
 
         for (const auto& [slot, item] : std::views::enumerate(
@@ -139,6 +146,19 @@ namespace user_equipment
 
         int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
         SConnection::Send(user, &outgoing, length);
+    }
+
+    void synergy_hook(CUser* user)
+    {
+        auto it = g_itemSetSynergies.find(user->id);
+        if (it != g_itemSetSynergies.end())
+            Synergy::subSynergies(user, it->second);
+
+        std::vector<ItemSetSynergy> synergies;
+        Synergy::getSynergies(user, synergies);
+
+        Synergy::addSynergies(user, synergies);
+        g_itemSetSynergies[user->id] = synergies;
     }
 }
 
@@ -203,6 +223,44 @@ void __declspec(naked) naked_0x477D4F()
     }
 }
 
+unsigned u0x461675 = 0x461675;
+void __declspec(naked) naked_0x46166E()
+{
+    __asm
+    {
+        pushad
+
+        push edi // user
+        call user_equipment::synergy_hook
+        add esp,0x4
+
+        popad
+
+        // original
+        cmp byte ptr [edi+0x5855],0x0
+        jmp u0x461675
+    }
+}
+
+unsigned u0x461D4A = 0x461D4A;
+void __declspec(naked) naked_0x461D43()
+{
+    __asm
+    {
+        pushad
+
+        push edi // user
+        call user_equipment::synergy_hook
+        add esp,0x4
+
+        popad
+
+        // original
+        cmp byte ptr [edi+0x5855],0x0
+        jmp u0x461D4A
+    }
+}
+
 void hook::user_equipment()
 {
     // CUser::EnableEquipment (switch)
@@ -211,6 +269,10 @@ void hook::user_equipment()
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);
+    // CUser::ItemEquipmentAdd
+    util::detour((void*)0x46166E, naked_0x46166E, 7);
+    // CUser::ItemEquipmentRem
+    util::detour((void*)0x461D43, naked_0x461D43, 7);
 
     // CUser::InitEquipment (overload)
     util::write_memory((void*)0x4615B3, ItemListCount_EP6_4, 1);

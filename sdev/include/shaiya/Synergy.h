@@ -7,10 +7,8 @@
 
 namespace shaiya
 {
-    using ItemId = uint32_t;
     using CharId = uint32_t;
 
-    struct CItem;
     struct CUser;
 
     struct ItemSetSynergy
@@ -21,7 +19,6 @@ namespace shaiya
     struct ItemSet
     {
         int32_t id;
-        std::array<ItemId, 13> items;
         std::array<ItemSetSynergy, 13> synergies;
     };
 
@@ -30,15 +27,9 @@ namespace shaiya
     {
     public:
 
-        static void equipmentAdd(CUser* user);
-        static void equipmentRemove(CUser* user, int slot);
-        static void removeSynergies(CUser* user);
-
-    private:
-
-        static void applySynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies);
-        static void getWornEquipment(CUser* user, std::set<ItemId>& equipment);
-        static void getWornSynergies(const std::set<ItemId>& equipment, std::vector<ItemSetSynergy>& synergies);
+        static void subSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies);
+        static void addSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies);
+        static void getSynergies(CUser* user, std::vector<ItemSetSynergy>& synergies);
     };
     #pragma pack(pop)
 

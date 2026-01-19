@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <chrono>
 #include <filesystem>
-#include <fstream>
 #include <format>
 #include <map>
 #include <ranges>
@@ -142,6 +141,7 @@ void Configuration::LoadChaoticSquareData()
         ini.Read();
 
         auto recipeMax = ini.GetValueOrDefault(L"Info:RecipeMax", 0);
+        recipeMax = std::clamp(recipeMax, 0, 1000);
         if (recipeMax <= 0)
             return;
 
@@ -290,45 +290,94 @@ void Configuration::LoadItemSetData()
     try
     {
         std::filesystem::path path(m_root);
-        ext::filesystem::path::combine(path, "Data", "SetItem.SData");
+        ext::filesystem::path::combine(path, "Data", "SetItem.ini");
         if (!std::filesystem::exists(path))
             return;
 
-        SBinaryReader reader(path);
-        auto itemSetCount = reader.readUInt32();
-        g_itemSets.resize(itemSetCount);
+        Ini ini(path);
+        ini.Read();
 
-        for (auto&& itemSet : g_itemSets)
+        auto str1 = ini.GetValueOrDefault(L"SetItem_String:MainString", L"");
+        auto str2 = ini.GetValueOrDefault(L"SetItem_String:SubString", L"");
+        if (str1.empty() || str2.empty())
+            return;
+
+        auto itemSetMax = ini.GetValueOrDefault(L"SetItem_Max:SetItem_Max", 0);
+        itemSetMax = std::clamp(itemSetMax, 0, 200);
+        if (itemSetMax <= 0)
+            return;
+
+        auto effectMax = ini.GetValueOrDefault(L"SetItem_Max:Effect_Max", 0);
+        effectMax = std::clamp(effectMax, 0, 13);
+        if (effectMax <= 0)
+            return;
+
+        g_itemSets.reserve(itemSetMax);
+
+        for (auto num : std::views::iota(1, itemSetMax + 1))
         {
-            itemSet.id = reader.readUInt16();
-            // Discard the name
-            auto length = reader.readUInt32();
-            reader.ignore(length);
+            ItemSet itemSet{};
+            itemSet.id = num;
 
-            for (auto&& itemId : itemSet.items)
+            for (auto i : std::views::iota(0, effectMax))
             {
-                auto type = reader.readUInt16();
-                auto typeId = reader.readUInt16();
-                itemId = (type * 1000) + typeId;
+                auto key1 = std::format(L"{}_{}_{}_{}:HP", str1, num, str2, i + 1);
+                auto value1 = ini.GetValueOrDefault(key1, 0);
+                auto key2 = std::format(L"{}_{}_{}_{}:MP", str1, num, str2, i + 1);
+                auto value2 = ini.GetValueOrDefault(key2, 0);
+                auto key3 = std::format(L"{}_{}_{}_{}:SP", str1, num, str2, i + 1);
+                auto value3 = ini.GetValueOrDefault(key3, 0);
+
+                auto key4 = std::format(L"{}_{}_{}_{}:STR", str1, num, str2, i + 1);
+                auto value4 = ini.GetValueOrDefault(key4, 0);
+                auto key5 = std::format(L"{}_{}_{}_{}:DEX", str1, num, str2, i + 1);
+                auto value5 = ini.GetValueOrDefault(key5, 0);
+                auto key6 = std::format(L"{}_{}_{}_{}:REC", str1, num, str2, i + 1);
+                auto value6 = ini.GetValueOrDefault(key6, 0);
+                auto key7 = std::format(L"{}_{}_{}_{}:INT", str1, num, str2, i + 1);
+                auto value7 = ini.GetValueOrDefault(key7, 0);
+                auto key8 = std::format(L"{}_{}_{}_{}:WIS", str1, num, str2, i + 1);
+                auto value8 = ini.GetValueOrDefault(key8, 0);
+                auto key9 = std::format(L"{}_{}_{}_{}:LUC", str1, num, str2, i + 1);
+                auto value9 = ini.GetValueOrDefault(key9, 0);
+
+                auto key10 = std::format(L"{}_{}_{}_{}:AtkFL", str1, num, str2, i + 1);
+                auto value10 = ini.GetValueOrDefault(key10, 0);
+                auto key11 = std::format(L"{}_{}_{}_{}:AtkSH", str1, num, str2, i + 1);
+                auto value11 = ini.GetValueOrDefault(key11, 0);
+                auto key12 = std::format(L"{}_{}_{}_{}:AtkMG", str1, num, str2, i + 1);
+                auto value12 = ini.GetValueOrDefault(key12, 0);
+
+                auto key13 = std::format(L"{}_{}_{}_{}:DefFL", str1, num, str2, i + 1);
+                auto value13 = ini.GetValueOrDefault(key13, 0);
+                auto key14 = std::format(L"{}_{}_{}_{}:DefSH", str1, num, str2, i + 1);
+                auto value14 = ini.GetValueOrDefault(key14, 0);
+                auto key15 = std::format(L"{}_{}_{}_{}:DefMG", str1, num, str2, i + 1);
+                auto value15 = ini.GetValueOrDefault(key15, 0);
+
+                // STR, DEX, REC, INT, WIS, LUC
+                itemSet.synergies[i].effects[0] = value4;
+                itemSet.synergies[i].effects[1] = value5;
+                itemSet.synergies[i].effects[2] = value6;
+                itemSet.synergies[i].effects[3] = value7;
+                itemSet.synergies[i].effects[4] = value8;
+                itemSet.synergies[i].effects[5] = value9;
+                // HP, MP, SP
+                itemSet.synergies[i].effects[6] = value1;
+                itemSet.synergies[i].effects[7] = value2;
+                itemSet.synergies[i].effects[8] = value3;
+                // Attack
+                itemSet.synergies[i].effects[9] = value10;
+                itemSet.synergies[i].effects[10] = value11;
+                itemSet.synergies[i].effects[11] = value12;
+                // Defense
+                itemSet.synergies[i].effects[12] = value13;
+                itemSet.synergies[i].effects[13] = value14;
+                itemSet.synergies[i].effects[14] = value15;
             }
 
-            for (auto&& synergy : itemSet.synergies)
-            {
-                // e.g., 70,50,0,0,0,20,0,0,0,0,0,0,0,0,0
-                auto input = reader.readString();
-                if (input.starts_with('\0'))
-                    continue;
-
-                auto count = synergy.effects.size();
-                auto vec = ext::views::split_to<std::vector<std::string>>(input, ',', count);
-                vec.resize(count, "0");
-
-                auto dest = synergy.effects.begin();
-                std::transform(vec.cbegin(), vec.cend(), dest, ext::string_to_int());
-            }
+            g_itemSets.push_back(itemSet);
         }
-
-        reader.close();
     }
     catch (...)
     {

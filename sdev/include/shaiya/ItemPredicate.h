@@ -14,6 +14,9 @@ namespace shaiya
 
         bool operator()(const CItem* item)
         {
+            if (!item)
+                return false;
+
             return item->type == m_type 
                 && item->typeId == m_typeId 
                 && item->count >= m_count;
@@ -35,6 +38,9 @@ namespace shaiya
 
         bool operator()(const CItem* item)
         {
+            if (!item)
+                return false;
+
             return item->type == m_type 
                 && item->typeId == m_typeId;
         }
@@ -47,18 +53,41 @@ namespace shaiya
 
     struct ItemEffectEqualToF
     {
-        explicit ItemEffectEqualToF(ItemEffect itemEffect)
-            : m_effect(itemEffect)
+        explicit ItemEffectEqualToF(ItemEffect effect)
+            : m_effect(effect)
         {
         }
 
         bool operator()(const CItem* item)
         {
+            if (!item)
+                return false;
+
             return item->info->effect == m_effect;
         }
 
     private:
 
         ItemEffect m_effect;
+    };
+
+    struct ItemSetEqualToF
+    {
+        explicit ItemSetEqualToF(uint16_t id)
+            : m_id(id)
+        {
+        }
+
+        bool operator()(const CItem* item)
+        {
+            if (!item)
+                return false;
+
+            return item->info->drop == m_id;
+        }
+
+    private:
+
+        uint16_t m_id;
     };
 }

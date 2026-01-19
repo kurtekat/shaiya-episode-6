@@ -1,74 +1,17 @@
 #include <algorithm>
 #include <map>
 #include <ranges>
-#include <set>
 #include <vector>
 #include "CItem.h"
 #include "CUser.h"
+#include "ItemInfo.h"
+#include "ItemPredicate.h"
 #include "Synergy.h"
 #include "include/extensions/functional.hpp"
 using namespace shaiya;
 
-void Synergy::equipmentAdd(CUser* user)
+void Synergy::subSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
 {
-    Synergy::removeSynergies(user);
-
-    std::set<ItemId> equipment;
-    Synergy::getWornEquipment(user, equipment);
-
-    if (equipment.empty())
-        return;
-
-    std::vector<ItemSetSynergy> synergies;
-    Synergy::getWornSynergies(equipment, synergies);
-
-    if (synergies.empty())
-        return;
-
-    Synergy::applySynergies(user, synergies);
-}
-
-void Synergy::equipmentRemove(CUser* user, int slot)
-{
-    Synergy::removeSynergies(user);
-
-    std::set<ItemId> equipment;
-    for (const auto& [_, item] : std::views::enumerate(
-        std::as_const(user->inventory[0])))
-    {
-        if (!item)
-            continue;
-
-        if (_ == slot)
-            continue;
-
-        auto itemId = (item->type * 1000) + item->typeId;
-        equipment.insert(itemId);
-    }
-
-    if (equipment.empty())
-        return;
-
-    std::vector<ItemSetSynergy> synergies;
-    Synergy::getWornSynergies(equipment, synergies);
-
-    if (synergies.empty())
-        return;
-
-    Synergy::applySynergies(user, synergies);
-}
-
-void Synergy::removeSynergies(CUser* user)
-{
-    auto it = g_itemSetSynergies.find(user->id);
-    if (it == g_itemSetSynergies.end())
-        return;
-
-    auto maxHealth = user->maxHealth;
-    auto maxMana = user->maxHealth;
-    auto maxStamina = user->maxHealth;
-
-    auto& synergies = it->second;
     for (const auto& synergy : synergies)
     {
         auto strength = synergy.effects[0];
@@ -112,31 +55,10 @@ void Synergy::removeSynergies(CUser* user)
         if (dexterity)
             user->maxStamina -= dexterity * 5;
     }
-
-    if (!user->initStatusFlag)
-    {
-        if (maxHealth != user->maxHealth)
-            CUser::SendMaxHP(user);
-
-        if (maxMana != user->maxMana)
-            CUser::SendMaxMP(user);
-
-        if (maxStamina != user->maxStamina)
-            CUser::SendMaxSP(user);
-    }
-
-    g_itemSetSynergies.erase(user->id);
 }
 
-void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
+void Synergy::addSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
 {
-    if (g_itemSetSynergies.count(user->id))
-        Synergy::removeSynergies(user);
-
-    auto maxHealth = user->maxHealth;
-    auto maxMana = user->maxHealth;
-    auto maxStamina = user->maxHealth;
-
     for (const auto& synergy : synergies)
     {
         auto strength = synergy.effects[0];
@@ -180,53 +102,20 @@ void Synergy::applySynergies(CUser* user, const std::vector<ItemSetSynergy>& syn
         if (dexterity)
             user->maxStamina += dexterity * 5;
     }
-
-    if (!user->initStatusFlag)
-    {
-        if (maxHealth != user->maxHealth)
-            CUser::SendMaxHP(user);
-
-        if (maxMana != user->maxMana)
-            CUser::SendMaxMP(user);
-
-        if (maxStamina != user->maxStamina)
-            CUser::SendMaxSP(user);
-    }
-
-    g_itemSetSynergies.insert({ user->id, synergies });
 }
 
-void Synergy::getWornEquipment(CUser* user, std::set<ItemId>& equipment)
+void Synergy::getSynergies(CUser* user, std::vector<ItemSetSynergy>& synergies)
 {
-    for (const auto& item : user->inventory[0])
-    {
-        if (!item)
-            continue;
-
-        auto itemId = (item->type * 1000) + item->typeId;
-        equipment.insert(itemId);
-    }
-}
-
-void Synergy::getWornSynergies(const std::set<ItemId>& equipment, std::vector<ItemSetSynergy>& synergies)
-{
-    if (equipment.empty())
-        return;
-
     for (const auto& itemSet : g_itemSets)
     {
-        auto wornCount = 0;
-        for (const auto& itemId : itemSet.items)
-        {
-            if (equipment.contains(itemId))
-                ++wornCount;
-        }
+        auto count = std::count_if(
+            user->inventory[0].cbegin(), user->inventory[0].cend(), ItemSetEqualToF(itemSet.id));
 
         auto maxCount = std::ssize(itemSet.synergies);
-        if (!wornCount || wornCount > maxCount)
+        if (!count || count > maxCount)
             continue;
 
-        auto offset = maxCount - wornCount;
+        auto offset = maxCount - count;
         auto first = itemSet.synergies.crbegin() + offset;
         auto last = itemSet.synergies.crend();
 
