@@ -30,7 +30,6 @@
     <ClCompile Include="include\shaiya\Network.cpp" />
     <ClCompile Include="include\shaiya\RevengeMark.cpp" />
     <ClCompile Include="include\shaiya\RewardItem.cpp" />
-    <ClCompile Include="include\shaiya\SBinaryReader.cpp" />
     <ClCompile Include="include\shaiya\SConnection.cpp" />
     <ClCompile Include="include\shaiya\SConnectionTBaseReconnect.cpp" />
     <ClCompile Include="include\shaiya\SDatabase.cpp" />
@@ -173,7 +172,6 @@
     <ClInclude Include="include\shaiya\RevengeMark.h" />
     <ClInclude Include="include\shaiya\RewardItem.h" />
     <ClInclude Include="include\shaiya\SAes.h" />
-    <ClInclude Include="include\shaiya\SBinaryReader.h" />
     <ClInclude Include="include\shaiya\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\SConnection.h" />
     <ClInclude Include="include\shaiya\SConnectionCustomRecv.h" />

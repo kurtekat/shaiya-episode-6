@@ -21,7 +21,6 @@
 #include "ItemInfo.h"
 #include "ResultItem.h"
 #include "RewardItem.h"
-#include "SBinaryReader.h"
 #include "Synergy.h"
 using namespace shaiya;
 
