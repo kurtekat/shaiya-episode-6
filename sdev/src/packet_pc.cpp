@@ -180,10 +180,34 @@ void __declspec(naked) naked_0x49DDBF()
     }
 }
 
+double g_itemRepairBuyDivisor = 15.0;
+unsigned u0x471C29 = 0x471C29;
+void __declspec(naked) naked_0x471C23()
+{
+    __asm
+    {
+        fld qword ptr[g_itemRepairBuyDivisor]
+        jmp u0x471C29
+    }
+}
+
+unsigned u0x472030 = 0x472030;
+void __declspec(naked) naked_0x47202A()
+{
+    __asm
+    {
+        fdiv qword ptr[g_itemRepairBuyDivisor]
+        jmp u0x472030
+    }
+}
+
 void hook::packet_pc()
 {
     // CUser::PacketPC
     util::detour((void*)0x4784D6, naked_0x4784D6, 5);
     // CUser::UpdateResetPosition
     util::detour((void*)0x49DDBF, naked_0x49DDBF, 9);
+    // CUser::ItemRepair
+    util::detour((void*)0x471C23, naked_0x471C23, 6);
+    util::detour((void*)0x47202A, naked_0x47202A, 6);
 }

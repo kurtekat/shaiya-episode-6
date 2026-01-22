@@ -47,6 +47,22 @@ Install the following stored procedures:
 
 The stored procedures are original code. If you receive an error, change `ALTER` to `CREATE` and try again.
 
+## Item Repair
+
+The client endurance will not match the server endurance in real-time. Please relog to see the correct repair cost(s).
+
+### EP5
+
+```
+RepairCost = (Item.Buy / 30.0) * (Damage / 400.0) 
+```
+
+### EP6.4
+
+```
+RepairCost = (Item.Buy / 15.0) * (Damage / 400.0) 
+```
+
 ## Battlefield Move
 
 The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. For each section in the file, assign a unique value to the `MAP_NO` key. Moving to the same zone is not allowed.
