@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <ranges>
 #include <string>
 #include <util/util.h>
@@ -146,7 +147,7 @@ namespace packet_character
         outgoing.character.mana = dbCharacter->mana;
         outgoing.character.stamina = dbCharacter->stamina;
         outgoing.character.equipment = dbCharacter->equipment;
-        std::memcpy(outgoing.character.charName.data(), dbCharacter->charName.data(), outgoing.character.charName.size());
+        std::copy_n(dbCharacter->charName.cbegin(), 19, outgoing.character.charName.begin());
         outgoing.character.enableRename = dbCharacter->enableRename;
         outgoing.character.deleted = dbCharacter->deleteDate ? true : false;
         outgoing.character.cloakInfo = dbCharacter->cloakInfo;
