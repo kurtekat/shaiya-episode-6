@@ -108,8 +108,8 @@ void Synergy::getSynergies(CUser* user, std::vector<ItemSetSynergy>& synergies)
 {
     for (const auto& itemSet : g_itemSets)
     {
-        auto count = std::count_if(
-            user->inventory[0].cbegin(), user->inventory[0].cend(), ItemSetEqualToF(itemSet.id));
+        auto& equipment = user->inventory[0];
+        auto count = std::count_if(equipment.cbegin(), equipment.cend(), ItemSetEqualToF(itemSet.id));
 
         auto maxCount = std::ssize(itemSet.synergies);
         if (!count || count > maxCount)

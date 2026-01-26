@@ -66,7 +66,7 @@ namespace item_effect
             if (!gateKeeper)
                 return 0;
 
-            auto index = std::clamp(user->savePosUseIndex, 0, std::ssize(gateKeeper->gates) - 1);
+            auto index = std::clamp(user->savePosUseIndex, 0, 2);
             auto mapId = gateKeeper->gates[index].mapId;
             auto x = gateKeeper->gates[index].x;
             auto y = gateKeeper->gates[index].y;

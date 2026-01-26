@@ -30,7 +30,7 @@ namespace packet_quest
     /// </summary>
     void send_success_0x903(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
     {
-        auto index = std::clamp(resultIndex, 0, std::ssize(quest->info->results) - 1);
+        auto index = std::clamp(resultIndex, 0, 5);
         auto& result = quest->info->results[index];
 
         if (result.exp)
