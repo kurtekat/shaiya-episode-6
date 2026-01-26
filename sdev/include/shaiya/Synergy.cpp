@@ -12,6 +12,10 @@ using namespace shaiya;
 
 void Synergy::subSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
 {
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
     for (const auto& synergy : synergies)
     {
         auto strength = synergy.effects[0];
@@ -55,10 +59,26 @@ void Synergy::subSynergies(CUser* user, const std::vector<ItemSetSynergy>& syner
         if (dexterity)
             user->maxStamina -= dexterity * 5;
     }
+
+    if (!user->initStatusFlag)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
+            CUser::SendMaxSP(user);
+    }
 }
 
 void Synergy::addSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
 {
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
     for (const auto& synergy : synergies)
     {
         auto strength = synergy.effects[0];
@@ -101,6 +121,18 @@ void Synergy::addSynergies(CUser* user, const std::vector<ItemSetSynergy>& syner
 
         if (dexterity)
             user->maxStamina += dexterity * 5;
+    }
+
+    if (!user->initStatusFlag)
+    {
+        if (maxHealth != user->maxHealth)
+            CUser::SendMaxHP(user);
+
+        if (maxMana != user->maxMana)
+            CUser::SendMaxMP(user);
+
+        if (maxStamina != user->maxStamina)
+            CUser::SendMaxSP(user);
     }
 }
 
