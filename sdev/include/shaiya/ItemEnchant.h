@@ -6,7 +6,7 @@ namespace shaiya
     inline constexpr int ItemEnchant_MAX = 20;
 
     #pragma pack(push, 1)
-    struct LapisionEnchantStep16
+    struct LapisianEnchantStep16
     {
         uint16_t weapon;
         uint16_t defense;
@@ -14,7 +14,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct LapisionEnchantStep32
+    struct LapisianEnchantStep32
     {
         uint32_t weapon;
         uint32_t defense;
@@ -24,7 +24,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct LapisianEnchantSuccessRate
     {
-        Array<LapisionEnchantStep32, 21> step;
+        Array<LapisianEnchantStep32, 21> step;
     };
     #pragma pack(pop)
 
@@ -33,7 +33,7 @@ namespace shaiya
     #pragma pack(push, 1)
     struct LapisianEnchantAddValue
     {
-        Array<LapisionEnchantStep16, 21> step;
+        Array<LapisianEnchantStep16, 21> step;
     };
     #pragma pack(pop)
 
