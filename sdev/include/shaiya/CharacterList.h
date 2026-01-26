@@ -43,6 +43,8 @@ namespace shaiya
     };
     #pragma pack(pop)
 
+    static_assert(sizeof(CharacterList_EP5) == 0x50);
+
     #pragma pack(push, 1)
     // 17 items (6.4)
     struct CharacterList_EP6_4
@@ -74,4 +76,6 @@ namespace shaiya
         CloakInfo cloakInfo;
     };
     #pragma pack(pop)
+
+    static_assert(sizeof(CharacterList_EP6_4) == 0x62);
 }
