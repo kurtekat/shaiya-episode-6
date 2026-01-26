@@ -88,6 +88,10 @@ The library expects **OnlineTimePrize.ini** to be in the **PSM_Client/Bin/Data**
 ```
 2044		"The keep-alive event has ended."
 ...
+7188		"Could not receive your reward because you do not have space in your inventory."
+7189		"Bronze medal received"
+7190		"Silver medal received"
+7191		"Gold medal received"
 7192		"Recurring player item received"
 ```
 
