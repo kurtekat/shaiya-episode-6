@@ -578,9 +578,6 @@
     <ClInclude Include="include\shaiya\Configuration.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\extensions\ranges.hpp">
-      <Filter>include\extensions</Filter>
-    </ClInclude>
     <ClInclude Include="include\extensions\filesystem.hpp">
       <Filter>include\extensions</Filter>
     </ClInclude>
@@ -610,6 +607,12 @@
     </ClInclude>
     <ClInclude Include="include\shaiya\BattlefieldMoveInfo.h">
       <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extensions\type_traits.hpp">
+      <Filter>include\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extensions\string.hpp">
+      <Filter>include\extensions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,9 @@ This library patches two well-known login service vulnerabilities.
 
 Windows 10
 
-Visual Studio 2022
+Visual Studio 2019
 
-C++ 23
+C++ 20
 
 ## Prerequisites
 

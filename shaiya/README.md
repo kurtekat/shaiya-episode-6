@@ -6,9 +6,9 @@ This library contains common types and packet definitions. The other projects de
 
 Windows 10
 
-Visual Studio 2022
+Visual Studio 2019
 
-C++ 23
+C++ 20
 
 ## Prerequisites
 

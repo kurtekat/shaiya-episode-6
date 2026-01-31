@@ -64,7 +64,8 @@
     <ClInclude Include="include\extensions\concepts.hpp" />
     <ClInclude Include="include\extensions\filesystem.hpp" />
     <ClInclude Include="include\extensions\functional.hpp" />
-    <ClInclude Include="include\extensions\ranges.hpp" />
+    <ClInclude Include="include\extensions\string.hpp" />
+    <ClInclude Include="include\extensions\type_traits.hpp" />
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\operator.h" />
     <ClInclude Include="include\shaiya\AdminInfo.h" />
@@ -236,7 +237,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
@@ -290,7 +291,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);</AdditionalIncludeDirectories>
       <AdditionalOptions>
       </AdditionalOptions>

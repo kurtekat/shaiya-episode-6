@@ -6,9 +6,9 @@ This library is for the game service. Please read the features section to learn 
 
 Windows 10
 
-Visual Studio 2022
+Visual Studio 2019
 
-C++ 23
+C++ 20
 
 ## Prerequisites
 

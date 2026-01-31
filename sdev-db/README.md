@@ -6,9 +6,9 @@ This library is for the dbAgent service. It adds support for the character list 
 
 Windows 10
 
-Visual Studio 2022
+Visual Studio 2019
 
-C++ 23
+C++ 20
 
 ## Prerequisites
 
