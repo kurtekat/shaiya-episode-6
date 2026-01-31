@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <map>
-#include <ranges>
 #include <vector>
 #include "CItem.h"
 #include "CUser.h"

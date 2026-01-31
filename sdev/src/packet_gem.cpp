@@ -1,6 +1,5 @@
 //#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
 #include <random>
-#include <ranges>
 #include <string>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
