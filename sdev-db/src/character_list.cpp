@@ -67,7 +67,7 @@ namespace character_list
         if (characterSlot >= 5)
             return;
 
-        if (equipmentSlot >= ItemListCount_EP6_4)
+        if (equipmentSlot >= 17)
             return;
 
         user->equipment[characterSlot].type[equipmentSlot] = type;
@@ -156,5 +156,5 @@ void hook::character_list()
     util::detour((void*)0x4223F7, naked_0x4223F7, 7);
 
     // DBCharacter::LoadCharacterList
-    util::write_memory((void*)0x42220B, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x42220B, 17, 1);
 }

@@ -14,7 +14,7 @@ namespace shaiya
     {
         for (outBag = 1; outBag <= user->bagsUnlocked; ++outBag)
         {
-            for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
+            for (outSlot = 0; outSlot < 24; ++outSlot)
             {
                 auto& item = user->inventory[outBag][outSlot];
                 if (!item)

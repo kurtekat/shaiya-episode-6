@@ -7,11 +7,8 @@
 
 namespace shaiya
 {
-    inline constexpr int QuestResultCount_EP5 = 3;
-    inline constexpr int QuestResultCount_EP6 = 6;
-
-    using QuestResults_EP5 = Array<QuestResult_EP5, QuestResultCount_EP5>;
-    using QuestResults_EP6 = Array<QuestResult_EP6, QuestResultCount_EP6>;
+    using QuestResults_EP5 = Array<QuestResult_EP5, 3>;
+    using QuestResults_EP6 = Array<QuestResult_EP6, 6>;
 
     #pragma pack(push, 1)
     struct QuestInfo_EP5

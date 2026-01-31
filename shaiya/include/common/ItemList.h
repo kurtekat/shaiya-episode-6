@@ -4,9 +4,6 @@
 
 namespace shaiya
 {
-    constexpr int ItemListCount_EP5 = 8;
-    constexpr int ItemListCount_EP6_4 = 17;
-
     #pragma pack(push, 1)
     template<size_t N>
     struct ItemList
@@ -16,7 +13,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    using ItemList_EP5 = ItemList<ItemListCount_EP5>;
-    using ItemList_EP6 = ItemList<ItemListCount_EP5>;
-    using ItemList_EP6_4 = ItemList<ItemListCount_EP6_4>;
+    using ItemList_EP5 = ItemList<8>;
+    using ItemList_EP6 = ItemList<8>;
+    using ItemList_EP6_4 = ItemList<17>;
 }

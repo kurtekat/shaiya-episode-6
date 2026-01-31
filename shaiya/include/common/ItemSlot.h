@@ -3,8 +3,6 @@
 
 namespace shaiya
 {
-    constexpr int ItemSlotCount = 24;
-
     struct ItemSlot
     {
         enum

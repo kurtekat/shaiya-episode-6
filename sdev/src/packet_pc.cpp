@@ -37,7 +37,7 @@ namespace packet_pc
         if (item->info->effect != ItemEffect::TownMoveScroll)
             return;
 
-        if (incoming->gateIndex >= NpcGateCount)
+        if (incoming->gateIndex > 2)
             return;
 
         user->savePosUseBag = incoming->bag;
