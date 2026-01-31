@@ -4,7 +4,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "Ini.h"
-#include "include/extensions/ranges.hpp"
+#include "include/extensions/string.hpp"
 using namespace shaiya;
 
 std::wstring Ini::GetValueOrDefault(const std::wstring& key, const std::wstring& defaultValue) const
@@ -22,7 +22,7 @@ void Ini::Read()
     m_data.clear();
 
     auto output = GetString(nullptr, nullptr, nullptr);
-    auto sections = ext::views::split_to<std::vector<std::wstring>>(output, L'\0');
+    auto sections = ext::string::split(output, L'\0');
     if (sections.empty())
         return;
 
@@ -32,7 +32,7 @@ void Ini::Read()
             continue;
 
         auto output = GetString(section.c_str(), nullptr, nullptr);
-        auto keys = ext::views::split_to<std::vector<std::wstring>>(output, L'\0');
+        auto keys = ext::string::split(output, L'\0');
         if (keys.empty())
             continue;
 

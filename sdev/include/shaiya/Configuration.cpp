@@ -12,7 +12,7 @@
 #include <shaiya/include/network/game/RewardItemUnit.h>
 #include "include/extensions/filesystem.hpp"
 #include "include/extensions/functional.hpp"
-#include "include/extensions/ranges.hpp"
+#include "include/extensions/string.hpp"
 #include "BattlefieldMoveInfo.h"
 #include "ChaoticSquare.h"
 #include "ChaoticSquarePredicate.h"
@@ -164,7 +164,7 @@ void Configuration::LoadChaoticSquareData()
             auto chance = ini.GetValueOrDefault(key2, 0);
             auto key3 = std::format(L"Recipe_{}:Result", num);
             auto result = ini.GetValueOrDefault(key3, L"");
-            auto vec = ext::views::split_to<std::vector<std::wstring>>(result, L',', 3);
+            auto vec = ext::string::split(result, L',', 3);
             if (vec.size() != 3)
                 continue;
 
@@ -176,21 +176,16 @@ void Configuration::LoadChaoticSquareData()
             recipe.resultItem.typeId = std::stoi(vec[1]);
             recipe.resultItem.count = std::stoi(vec[2]);
 
-            auto view = std::views::zip(
-                recipe.materialType, 
-                recipe.materialTypeId, 
-                recipe.materialCount);
-
-            for (auto i : std::views::iota(0, std::ssize(view)))
+            for (auto i : std::views::iota(0, 24))
             {
                 auto key = std::format(L"Recipe_{}:Material_{}", num, i + 1);
                 auto value = ini.GetValueOrDefault(key, L"");
-                auto vec = ext::views::split_to<std::vector<std::wstring>>(value, L',', 3);
+                auto vec = ext::string::split(value, L',', 3);
                 vec.resize(3, L"0");
 
-                std::get<0>(view[i]) = std::stoi(vec[0]);
-                std::get<1>(view[i]) = std::stoi(vec[1]);
-                std::get<2>(view[i]) = std::stoi(vec[2]);
+                recipe.materialType[i] = std::stoi(vec[0]);
+                recipe.materialTypeId[i] = std::stoi(vec[1]);
+                recipe.materialCount[i] = std::stoi(vec[2]);
             }
 
             g_chaoticSquareRecipes.push_back(recipe);
@@ -200,7 +195,7 @@ void Configuration::LoadChaoticSquareData()
         {
             auto key = std::format(L"Square_{}:ItemCtId", num);
             auto value = ini.GetValueOrDefault(key, L"");
-            auto vec = ext::views::split_to<std::vector<std::wstring>>(value, L',', 2);
+            auto vec = ext::string::split(value, L',', 2);
             if (vec.size() != 2)
                 continue;
 
@@ -210,12 +205,12 @@ void Configuration::LoadChaoticSquareData()
 
             key = std::format(L"Square_{}:RecipeList", num);
             value = ini.GetValueOrDefault(key, L"");
-            vec = ext::views::split_to<std::vector<std::wstring>>(value, L',');
+            vec = ext::string::split(value, L',');
             if (vec.empty())
                 continue;
 
             std::vector<int> recipeList;
-            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipeList), ext::string_to_int());
+            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipeList), ext::string::to_int());
             std::sort(recipeList.begin(), recipeList.end());
 
             ChaoticSquare square{};
@@ -223,11 +218,11 @@ void Configuration::LoadChaoticSquareData()
             square.recipeList = recipeList;
 
             auto dest = square.failItems.begin();
-            for (auto i : std::views::iota(1, std::ssize(square.failItems) + 1))
+            for (auto i : std::views::iota(0, 24))
             {
-                auto key = std::format(L"Square_{}:Fail_Item_{}", num, i);
+                auto key = std::format(L"Square_{}:Fail_Item_{}", num, i + 1);
                 auto value = ini.GetValueOrDefault(key, L"");
-                auto vec = ext::views::split_to<std::vector<std::wstring>>(value, L',', 3);
+                auto vec = ext::string::split(value, L',', 3);
                 vec.resize(3, L"0");
 
                 dest->type = std::stoi(vec[0]);
@@ -242,12 +237,8 @@ void Configuration::LoadChaoticSquareData()
         for (auto&& square : g_chaoticSquares)
         {
             ChaoticSquareResultList resultList{};
-            
-            auto view = std::views::zip(
-                resultList.itemType,
-                resultList.itemTypeId);
- 
-            auto index = 0;
+
+            auto i = 0;
             for (const auto& id : square.recipeList)
             {
                 auto recipe = ChaoticSquare::FindRecipe(id);
@@ -257,21 +248,22 @@ void Configuration::LoadChaoticSquareData()
                 if (recipe->hidden)
                     continue;
 
-                std::get<0>(view[index]) = recipe->resultItem.type;
-                std::get<1>(view[index]) = recipe->resultItem.typeId;
-                ++index;
+                resultList.itemType[i] = recipe->resultItem.type;
+                resultList.itemTypeId[i] = recipe->resultItem.typeId;
+                ++i;
 
-                if (index < std::ssize(view))
+                if (i < 10)
                     continue;
                 else
                 {
                     square.resultLists.push_back(resultList);
-                    std::fill(view.begin(), view.end(), std::tuple(0, 0));
-                    index = 0;
+                    resultList.itemType = {};
+                    resultList.itemTypeId = {};
+                    i = 0;
                 }
             }
 
-            if (!index)
+            if (!i)
                 continue;
 
             square.resultLists.push_back(resultList);

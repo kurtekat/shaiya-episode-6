@@ -34,7 +34,7 @@ bool UserHelper::IsValidItemPosition(CUser* user, int bag, int slot)
     if (bag > user->bagsUnlocked)
         return false;
 
-    if (slot >= ItemSlotCount)
+    if (slot >= 24)
         return false;
 
     return true;
@@ -47,7 +47,7 @@ bool UserHelper::ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& out
 
     for (outBag = 1; outBag <= user->bagsUnlocked; ++outBag)
     {
-        for (outSlot = 0; outSlot < ItemSlotCount; ++outSlot)
+        for (outSlot = 0; outSlot < 24; ++outSlot)
         {
             if (!user->inventory[outBag][outSlot])
                 return CUser::ItemCreate(user, itemInfo, count);
@@ -154,13 +154,12 @@ bool UserHelper::Move(CUser* user, unsigned mapId, SVector* pos, UserMovePosType
 
 bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
 {
-    auto view = std::views::zip(
-        recipe.materialType,
-        recipe.materialTypeId,
-        recipe.materialCount);
-
-    for (auto [type, typeId, count] : view)
+    for (auto i : std::views::iota(0, 24))
     {
+        auto type = recipe.materialType[i];
+        auto typeId = recipe.materialTypeId[i];
+        auto count = recipe.materialCount[i];
+
         if (!type || !typeId || !count)
             continue;
 

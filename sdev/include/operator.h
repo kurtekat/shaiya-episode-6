@@ -6,23 +6,23 @@
 template<ext::scoped_enum L, std::integral R>
 inline bool operator==(L lhs, R rhs)
 {
-    return std::to_underlying(lhs) == rhs;
+    return static_cast<R>(lhs) == rhs;
 }
 
 template<std::integral L, ext::scoped_enum R>
 inline bool operator==(L lhs, R rhs)
 {
-    return lhs == std::to_underlying(rhs);
+    return lhs == static_cast<L>(rhs);
 }
 
 template<ext::scoped_enum L, std::integral R>
 inline bool operator!=(L lhs, R rhs)
 {
-    return std::to_underlying(lhs) != rhs;
+    return static_cast<R>(lhs) != rhs;
 }
 
 template<std::integral L, ext::scoped_enum R>
 inline bool operator!=(L lhs, R rhs)
 {
-    return lhs != std::to_underlying(rhs);
+    return lhs != static_cast<L>(rhs);
 }

@@ -6,7 +6,6 @@
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
-#include "include/extensions/ranges.hpp"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CloneUser.h"
 #include "include/shaiya/CUser.h"
@@ -39,10 +38,9 @@ namespace user_shape
         user->clone->cloakInfo = {};
         user->clone->guildName = {};
 
-        auto count = user->clone->equipment.size();
-        for (const auto& [slot, item] : ext::views::enumerate_n(
-            std::as_const(target->inventory[0]), count))
+        for (auto slot : std::views::iota(0, 17))
         {
+            auto& item = target->inventory[0][slot];
             if (!item)
                 continue;
 
@@ -120,10 +118,9 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            auto count = outgoing.equipment.size();
-            for (const auto& [slot, item] : ext::views::enumerate_n(
-                std::as_const(user->inventory[0]), count))
+            for (auto slot : std::views::iota(0, 17))
             {
+                auto& item = user->inventory[0][slot];
                 if (!item)
                     continue;
 
@@ -207,10 +204,9 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            auto count = outgoing.equipment.size();
-            for (const auto& [slot, item] : ext::views::enumerate_n(
-                std::as_const(user->inventory[0]), count))
+            for (auto slot : std::views::iota(0, 17))
             {
+                auto& item = user->inventory[0][slot];
                 if (!item)
                     continue;
 

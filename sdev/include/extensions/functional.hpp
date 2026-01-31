@@ -21,26 +21,4 @@ namespace ext {
         T m_rhs;
     };
 
-    struct string_to_int
-    {
-        explicit string_to_int(int base = 10)
-            : m_base(base)
-        {
-        }
-
-        int operator()(const std::string& str) const
-        {
-            return std::stoi(str, nullptr, m_base);
-        }
-
-        int operator()(const std::wstring& str) const
-        {
-            return std::stoi(str, nullptr, m_base);
-        }
-
-    private:
-
-        int m_base;
-    };
-
 } // namespace ext

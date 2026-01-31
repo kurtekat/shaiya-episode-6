@@ -63,10 +63,9 @@ namespace packet_character
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
-        // Please note that warehouse access is read-only
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(user->warehouse)))
+        for (auto slot : std::views::iota(0, 240))
         {
+            auto& item = user->warehouse[slot];
             if (!item)
                 continue;
 
@@ -82,7 +81,7 @@ namespace packet_character
             outgoing.itemList[outgoing.itemCount] = item0711;
             ++outgoing.itemCount;
 
-            if (outgoing.itemCount < outgoing.itemList.size())
+            if (outgoing.itemCount < 40)
                 continue;
             else
             {

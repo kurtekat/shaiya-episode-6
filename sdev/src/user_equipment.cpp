@@ -6,7 +6,6 @@
 #include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
-#include "include/extensions/ranges.hpp"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
@@ -95,9 +94,9 @@ namespace user_equipment
 
         user->initStatusFlag = true;
 
-        for (const auto& [slot, item] : std::views::enumerate(
-            std::as_const(user->inventory[0])))
+        for (auto slot : std::views::iota(0, 17))
         {
+            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
 
@@ -119,10 +118,9 @@ namespace user_equipment
         GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
         outgoing.itemCount = 0;
 
-        auto count = outgoing.itemList.size();
-        for (const auto& [slot, item] : ext::views::enumerate_n(
-            std::as_const(target->inventory[0]), count))
+        for (auto slot : std::views::iota(0, 17))
         {
+            auto& item = target->inventory[0][slot];
             if (!item)
                 continue;
 
@@ -275,19 +273,19 @@ void hook::user_equipment()
     util::detour((void*)0x461D43, naked_0x461D43, 7);
 
     // CUser::InitEquipment (overload)
-    util::write_memory((void*)0x4615B3, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x4615B3, 17, 1);
     // CUser::ItemBagToBag
-    util::write_memory((void*)0x46862D, ItemListCount_EP6_4, 1);
-    util::write_memory((void*)0x468722, ItemListCount_EP6_4, 1);
-    util::write_memory((void*)0x4688B0, ItemListCount_EP6_4, 1);
-    util::write_memory((void*)0x468955, ItemListCount_EP6_4, 1);
-    util::write_memory((void*)0x468A2B, ItemListCount_EP6_4, 1);
-    util::write_memory((void*)0x468B5D, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x46862D, 17, 1);
+    util::write_memory((void*)0x468722, 17, 1);
+    util::write_memory((void*)0x4688B0, 17, 1);
+    util::write_memory((void*)0x468955, 17, 1);
+    util::write_memory((void*)0x468A2B, 17, 1);
+    util::write_memory((void*)0x468B5D, 17, 1);
     // CUser::ClearEquipment
-    util::write_memory((void*)0x46BCCF, ItemListCount_EP6_4, 1);
+    util::write_memory((void*)0x46BCCF, 17, 1);
     // CUser::PacketAdminCmdD (0xF901)
     // The client does not support more than 13 items (thanks, xarel)
-    //util::write_memory((void*)0x482896, ItemListCount_EP6_4, 1);
+    //util::write_memory((void*)0x482896, 17, 1);
 
     // user->itemQualityLv[0] (0x199 to 0x62A0)
     std::array<uint8_t, 2> a00{ 0xA0, 0x62 };

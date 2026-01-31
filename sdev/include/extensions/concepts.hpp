@@ -1,9 +1,9 @@
 #pragma once
-#include <type_traits>
+#include "type_traits.hpp"
 
 namespace ext {
 
     template<class T>
-    concept scoped_enum = std::is_scoped_enum_v<T>;
+    concept scoped_enum = ext::is_scoped_enum_v<T>;
 
 } // namespace ext
