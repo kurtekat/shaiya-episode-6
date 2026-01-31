@@ -1,5 +1,4 @@
 #include <array>
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/common/ItemList.h>
 #include <shaiya/include/common/ItemSlot.h>
@@ -94,7 +93,7 @@ namespace user_equipment
 
         user->initStatusFlag = true;
 
-        for (auto slot : std::views::iota(0, 17))
+        for (int slot = 0; slot < 17; ++slot)
         {
             auto& item = user->inventory[0][slot];
             if (!item)
@@ -118,7 +117,7 @@ namespace user_equipment
         GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
         outgoing.itemCount = 0;
 
-        for (auto slot : std::views::iota(0, 17))
+        for (int slot = 0; slot < 17; ++slot)
         {
             auto& item = target->inventory[0][slot];
             if (!item)

@@ -1,4 +1,3 @@
-#include <ranges>
 #include <util/util.h>
 #include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/common/PartyTypes.h>
@@ -38,7 +37,7 @@ namespace user_shape
         user->clone->cloakInfo = {};
         user->clone->guildName = {};
 
-        for (auto slot : std::views::iota(0, 17))
+        for (int slot = 0; slot < 17; ++slot)
         {
             auto& item = target->inventory[0][slot];
             if (!item)
@@ -118,7 +117,7 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            for (auto slot : std::views::iota(0, 17))
+            for (int slot = 0; slot < 17; ++slot)
             {
                 auto& item = user->inventory[0][slot];
                 if (!item)
@@ -204,7 +203,7 @@ namespace user_shape
             outgoing.grow = user->grow;
             outgoing.kills = user->kills;
 
-            for (auto slot : std::views::iota(0, 17))
+            for (int slot = 0; slot < 17; ++slot)
             {
                 auto& item = user->inventory[0][slot];
                 if (!item)

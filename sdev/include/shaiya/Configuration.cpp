@@ -3,9 +3,7 @@
 #include <filesystem>
 #include <format>
 #include <map>
-#include <ranges>
 #include <string>
-#include <tuple>
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -52,7 +50,7 @@ void Configuration::LoadBattlefieldMoveData()
         if (count <= 0)
             return;
 
-        for (auto num : std::views::iota(1, count + 1))
+        for (int num = 1; num < count + 1; ++num)
         {
             auto key1 = std::format(L"BATTLEFIELD_{}:MAP_NO", num);
             auto mapId = ini.GetValueOrDefault(key1, 0);
@@ -156,7 +154,7 @@ void Configuration::LoadChaoticSquareData()
         g_chaoticSquareRecipes.reserve(recipeMax);
         g_chaoticSquares.reserve(squareMax);
 
-        for (auto num : std::views::iota(1, recipeMax + 1))
+        for (int num = 1; num < recipeMax + 1; ++num)
         {
             auto key1 = std::format(L"Recipe_{}:Hidden", num);
             auto hidden = ini.GetValueOrDefault(key1, 0);
@@ -176,7 +174,7 @@ void Configuration::LoadChaoticSquareData()
             recipe.resultItem.typeId = std::stoi(vec[1]);
             recipe.resultItem.count = std::stoi(vec[2]);
 
-            for (auto i : std::views::iota(0, 24))
+            for (int i = 0; i < 24; ++i)
             {
                 auto key = std::format(L"Recipe_{}:Material_{}", num, i + 1);
                 auto value = ini.GetValueOrDefault(key, L"");
@@ -191,7 +189,7 @@ void Configuration::LoadChaoticSquareData()
             g_chaoticSquareRecipes.push_back(recipe);
         }
 
-        for (auto num : std::views::iota(1, squareMax + 1))
+        for (int num = 1; num < squareMax + 1; ++num)
         {
             auto key = std::format(L"Square_{}:ItemCtId", num);
             auto value = ini.GetValueOrDefault(key, L"");
@@ -218,7 +216,7 @@ void Configuration::LoadChaoticSquareData()
             square.recipeList = recipeList;
 
             auto dest = square.failItems.begin();
-            for (auto i : std::views::iota(0, 24))
+            for (int i = 0; i < 24; ++i)
             {
                 auto key = std::format(L"Square_{}:Fail_Item_{}", num, i + 1);
                 auto value = ini.GetValueOrDefault(key, L"");
@@ -238,7 +236,7 @@ void Configuration::LoadChaoticSquareData()
         {
             ChaoticSquareResultList resultList{};
 
-            auto i = 0;
+            int i = 0;
             for (const auto& id : square.recipeList)
             {
                 auto recipe = ChaoticSquare::FindRecipe(id);
@@ -257,8 +255,7 @@ void Configuration::LoadChaoticSquareData()
                 else
                 {
                     square.resultLists.push_back(resultList);
-                    resultList.itemType = {};
-                    resultList.itemTypeId = {};
+                    resultList = {};
                     i = 0;
                 }
             }
@@ -305,12 +302,12 @@ void Configuration::LoadItemSetData()
 
         g_itemSets.reserve(itemSetMax);
 
-        for (auto num : std::views::iota(1, itemSetMax + 1))
+        for (int num = 1; num < itemSetMax + 1; ++num)
         {
             ItemSet itemSet{};
             itemSet.id = num;
 
-            for (auto i : std::views::iota(0, effectMax))
+            for (int i = 0; i < effectMax; ++i)
             {
                 auto key1 = std::format(L"{}_{}_{}_{}:HP", str1, num, str2, i + 1);
                 auto value1 = ini.GetValueOrDefault(key1, 0);
@@ -396,7 +393,7 @@ void Configuration::LoadOnlineTimePrizeData()
         auto dest = g_rewardItemList.begin();
         g_rewardItemCount = 0;
 
-        for (auto i : std::views::iota(0, count))
+        for (int i = 0; i < count; ++i)
         {
             auto key1 = std::format(L"OnlineTimePrize{:02d}:ItemID", i);
             auto itemId = ini.GetValueOrDefault(key1, 0);

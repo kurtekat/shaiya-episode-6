@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <ranges>
 #include <string>
 #include <util/util.h>
 #include <shaiya/include/network/dbAgent/incoming/0400.h>
@@ -63,7 +62,7 @@ namespace packet_character
         outgoing.bankMoney = user->bankMoney;
         outgoing.itemCount = 0;
 
-        for (auto slot : std::views::iota(0, 240))
+        for (int slot = 0; slot < 240; ++slot)
         {
             auto& item = user->warehouse[slot];
             if (!item)

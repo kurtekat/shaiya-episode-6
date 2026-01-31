@@ -1,5 +1,4 @@
 #pragma warning(disable: 28159) // GetTickCount
-#include <ranges>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common.h>
@@ -154,7 +153,7 @@ bool UserHelper::Move(CUser* user, unsigned mapId, SVector* pos, UserMovePosType
 
 bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
 {
-    for (auto i : std::views::iota(0, 24))
+    for (int i = 0; i < 24; ++i)
     {
         auto type = recipe.materialType[i];
         auto typeId = recipe.materialTypeId[i];
