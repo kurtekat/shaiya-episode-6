@@ -127,6 +127,7 @@
     <ClInclude Include="include\shaiya\DamageMob.h" />
     <ClInclude Include="include\shaiya\DBCharacterList.h" />
     <ClInclude Include="include\shaiya\ExcItem.h" />
+    <ClInclude Include="include\shaiya\FailItem.h" />
     <ClInclude Include="include\shaiya\FriendInfo.h" />
     <ClInclude Include="include\shaiya\GateLink.h" />
     <ClInclude Include="include\shaiya\GuildUserInfo.h" />
@@ -169,7 +170,6 @@
     <ClInclude Include="include\shaiya\QuestLink.h" />
     <ClInclude Include="include\shaiya\QuestResult.h" />
     <ClInclude Include="include\shaiya\Quick.h" />
-    <ClInclude Include="include\shaiya\ResultItem.h" />
     <ClInclude Include="include\shaiya\RevengeMark.h" />
     <ClInclude Include="include\shaiya\RewardItem.h" />
     <ClInclude Include="include\shaiya\SAes.h" />

@@ -641,17 +641,17 @@ namespace packet_gem
         if (!recipe)
             return;
 
-        if (incoming->resultItemType != recipe->resultItem.type || incoming->resultItemTypeId != recipe->resultItem.typeId)
+        if (incoming->resultItemType != recipe->resultType || incoming->resultItemTypeId != recipe->resultTypeId)
             return;
 
         GameChaoticSquareRecipeOutgoing outgoing{};
         outgoing.chance = recipe->chance;
         outgoing.materialType = recipe->materialType;
-        outgoing.resultItemType = recipe->resultItem.type;
+        outgoing.resultItemType = recipe->resultType;
         outgoing.materialTypeId = recipe->materialTypeId;
-        outgoing.resultItemTypeId = recipe->resultItem.typeId;
+        outgoing.resultItemTypeId = recipe->resultTypeId;
         outgoing.materialCount = recipe->materialCount;
-        outgoing.resultItemCount = recipe->resultItem.count;
+        outgoing.resultItemCount = recipe->resultCount;
         SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
     }
 
@@ -742,11 +742,11 @@ namespace packet_gem
 
             if (randomChance <= chance)
             {
-                auto itemInfo = CGameData::GetItemInfo(recipe->resultItem.type, recipe->resultItem.typeId);
+                auto itemInfo = CGameData::GetItemInfo(recipe->resultType, recipe->resultTypeId);
                 if (!itemInfo)
                     return;
 
-                CUser::ItemCreate(user, itemInfo, recipe->resultItem.count);
+                CUser::ItemCreate(user, itemInfo, recipe->resultCount);
 
                 GameItemSynthesisOutgoing success{};
                 success.result = GameItemSynthesisResult::Success;
@@ -754,7 +754,7 @@ namespace packet_gem
             }
             else
             {
-                for (const auto& failItem : square->failItems)
+                for (const auto& failItem : square->failItemList)
                 {
                     auto itemInfo = CGameData::GetItemInfo(failItem.type, failItem.typeId);
                     if (!itemInfo)

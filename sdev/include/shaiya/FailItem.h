@@ -4,7 +4,7 @@
 namespace shaiya
 {
     #pragma pack(push, 1)
-    struct ResultItem
+    struct FailItem
     {
         uint8_t type;
         uint8_t typeId;
@@ -12,5 +12,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(ResultItem) == 0x3);
+    static_assert(sizeof(FailItem) == 0x3);
 }

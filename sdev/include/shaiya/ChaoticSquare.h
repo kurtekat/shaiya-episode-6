@@ -2,7 +2,7 @@
 #include <array>
 #include <cstdint>
 #include <vector>
-#include "ResultItem.h"
+#include "FailItem.h"
 
 namespace shaiya
 {
@@ -16,7 +16,9 @@ namespace shaiya
         std::array<uint8_t, 24> materialType;
         std::array<uint8_t, 24> materialTypeId;
         std::array<uint8_t, 24> materialCount;
-        ResultItem resultItem;
+        uint8_t resultType;
+        uint8_t resultTypeId;
+        uint8_t resultCount;
         bool hidden;
     };
     #pragma pack(pop)
@@ -35,7 +37,7 @@ namespace shaiya
     public:
 
         ItemId itemId;
-        std::array<ResultItem, 24> failItems;
+        std::array<FailItem, 24> failItemList;
         std::vector<int32_t> recipeList;
         std::vector<ChaoticSquareResultList> resultLists;
 

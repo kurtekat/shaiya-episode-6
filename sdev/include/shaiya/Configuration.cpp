@@ -16,8 +16,6 @@
 #include "ChaoticSquarePredicate.h"
 #include "Configuration.h"
 #include "Ini.h"
-#include "ItemInfo.h"
-#include "ResultItem.h"
 #include "RewardItem.h"
 #include "Synergy.h"
 using namespace shaiya;
@@ -170,9 +168,9 @@ void Configuration::LoadChaoticSquareData()
             recipe.id = num;
             recipe.hidden = std::clamp(hidden, 0, 1);
             recipe.chance = std::clamp(chance, 100, 10000);
-            recipe.resultItem.type = std::stoi(vec[0]);
-            recipe.resultItem.typeId = std::stoi(vec[1]);
-            recipe.resultItem.count = std::stoi(vec[2]);
+            recipe.resultType = std::stoi(vec[0]);
+            recipe.resultTypeId = std::stoi(vec[1]);
+            recipe.resultCount = std::stoi(vec[2]);
 
             for (int i = 0; i < 24; ++i)
             {
@@ -215,7 +213,7 @@ void Configuration::LoadChaoticSquareData()
             square.itemId = itemId;
             square.recipeList = recipeList;
 
-            auto dest = square.failItems.begin();
+            auto dest = square.failItemList.begin();
             for (int i = 0; i < 24; ++i)
             {
                 auto key = std::format(L"Square_{}:Fail_Item_{}", num, i + 1);
@@ -246,8 +244,8 @@ void Configuration::LoadChaoticSquareData()
                 if (recipe->hidden)
                     continue;
 
-                resultList.itemType[i] = recipe->resultItem.type;
-                resultList.itemTypeId[i] = recipe->resultItem.typeId;
+                resultList.itemType[i] = recipe->resultType;
+                resultList.itemTypeId[i] = recipe->resultTypeId;
                 ++i;
 
                 if (i < 10)
