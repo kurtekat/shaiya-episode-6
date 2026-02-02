@@ -37,7 +37,7 @@ namespace packet_main_interface
         auto x = info.mapPos[index].x;
         auto y = info.mapPos[index].y;
         auto z = info.mapPos[index].z;
-        UserHelper::SetMovePosition(user, mapId, x, y, z, UserMovePosType::MovePvPZone, 0);
+        UserHelper::SetMovePosition(user, mapId, x, y, z, MoveType::MovePvPZone, 0);
     }
 
     void send_0x229(CUser* target, CUser* killer)

@@ -71,7 +71,7 @@ namespace item_effect
             auto x = gateKeeper->gates[index].x;
             auto y = gateKeeper->gates[index].y;
             auto z = gateKeeper->gates[index].z;
-            UserHelper::SetMovePosition(user, mapId, x, y, z, UserMovePosType::MoveTown, 5000);
+            UserHelper::SetMovePosition(user, mapId, x, y, z, MoveType::MoveTown, 5000);
 
             GameUserItemCastOutgoing outgoing{};
             outgoing.objectId = user->id;

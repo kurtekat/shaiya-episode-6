@@ -22,6 +22,7 @@
 #include "CUserCrypto.h"
 #include "CDamage.h"
 #include "HPAbility.h"
+#include "MoveType.h"
 #include "MyShop.h"
 #include "PointLog.h"
 #include "SSyncList.h"
@@ -161,30 +162,6 @@ namespace shaiya
         Countdown,
         Start,
         Exchange
-    };
-
-    enum struct UserMovePosType : int32_t
-    {
-        Default,
-        GateKeeper = 1,
-        Portal = 1,
-        SavePoint,
-        RecallRune,
-        PartyCall,
-        PartyMove,
-        // itemId 100169 (EP5)
-        MoveWar,
-        // custom
-        MoveTown,
-        MovePvPZone,
-        MoveMapId200 = 10,
-        MoveChar = 0xF904,
-        MoveCharZone = 0xF905,
-        MoveParty = 0xF90C,
-        MoveTo = 0xFA09,
-        MoveZone = 0xFA0A,
-        MoveMap = 0xFA11,
-        MoveInsZone = 0xFA12
     };
 
     enum struct UserRecoveryStatus : int32_t
@@ -398,8 +375,8 @@ namespace shaiya
         uint8_t moveByWarResult;                 //0x5884
         PAD(43);
         uint32_t undefinedPacketErrorCount;      //0x58B0
-        UserMovePosType movePosType;             //0x58B4
-        tick32_t movePosTime;                    //0x58B8
+        MoveType moveType;                       //0x58B4
+        tick32_t moveTime;                       //0x58B8
         uint32_t moveMapId;                      //0x58BC
         SVector movePos;                         //0x58C0
         tick32_t exchangeReqExpireTime;          //0x58CC
