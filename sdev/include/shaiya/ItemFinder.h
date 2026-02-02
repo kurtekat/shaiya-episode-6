@@ -1,10 +1,8 @@
 #pragma once
-#include <shaiya/include/common/ItemSlot.h>
+#include "CUser.h"
 
 namespace shaiya
 {
-    struct CUser;
-
     /// <summary>
     /// Finds the first instance of an item in the inventory that satisfies the unary predicate. 
     /// The bag and slot are returned in output parameters.

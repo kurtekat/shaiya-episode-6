@@ -1,6 +1,5 @@
 #pragma once
 #include <concepts>
-#include <utility>
 #include <extensions/include/concepts.hpp>
 
 template<ext::scoped_enum L, std::integral R>

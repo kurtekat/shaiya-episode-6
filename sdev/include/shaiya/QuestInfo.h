@@ -167,11 +167,11 @@ namespace shaiya
         uint8_t resultUserSelect;    //0x15D
         PAD(2);
         QuestResults_EP6 results;    //0x160
-        // 0x268
-        PAD(28);
-        // 0x284
+        // 0x250
+        PAD(16);
+        // 0x260
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(QuestInfo) == 0x284);
+    static_assert(sizeof(QuestInfo) == 0x260);
 }

@@ -1,10 +1,10 @@
 #pragma once
 #include <shaiya/include/common/ItemEffect.h>
+#include "CItem.h"
+#include "ItemInfo.h"
 
 namespace shaiya
 {
-    struct CItem;
-
     struct ItemMinCountF
     {
         ItemMinCountF(int type, int typeId, int count)

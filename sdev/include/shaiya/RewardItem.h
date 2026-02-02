@@ -4,13 +4,13 @@
 #include <chrono>
 #include <cstdint>
 #include <map>
+#include <shaiya/include/network/game/RewardItemUnit.h>
 
 namespace shaiya
 {
     using BillingId = uint32_t;
 
     struct CUser;
-    struct RewardItemUnit;
 
     class RewardItemEvent
     {

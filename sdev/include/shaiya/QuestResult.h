@@ -46,12 +46,11 @@ namespace shaiya
         // 0x1C
         Array<QuestItem, 3> itemList;
         // 0x25
-        PAD(3);
-        uint16_t nextQuestId;   //0x28
-        PAD(2);
-        // 0x2C
+        PAD(1);
+        uint16_t nextQuestId;   //0x26
+        // 0x28
     };
     #pragma pack(pop)
 
-    static_assert(sizeof(QuestResult_EP6) == 0x2C);
+    static_assert(sizeof(QuestResult_EP6) == 0x28);
 }
