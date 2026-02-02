@@ -61,11 +61,6 @@
     <ClCompile Include="src\world_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\extensions\concepts.hpp" />
-    <ClInclude Include="include\extensions\filesystem.hpp" />
-    <ClInclude Include="include\extensions\functional.hpp" />
-    <ClInclude Include="include\extensions\string.hpp" />
-    <ClInclude Include="include\extensions\type_traits.hpp" />
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\operator.h" />
     <ClInclude Include="include\shaiya\AdminInfo.h" />
@@ -157,6 +152,7 @@
     <ClInclude Include="include\shaiya\MobInfo.h" />
     <ClInclude Include="include\shaiya\MobItemDropInfo.h" />
     <ClInclude Include="include\shaiya\MobRespawn.h" />
+    <ClInclude Include="include\shaiya\MoveType.h" />
     <ClInclude Include="include\shaiya\MyShop.h" />
     <ClInclude Include="include\shaiya\Network.h" />
     <ClInclude Include="include\shaiya\Npc.h" />

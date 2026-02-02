@@ -3,8 +3,8 @@
 #include <vector>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <extensions/include/string.hpp>
 #include "Ini.h"
-#include "include/extensions/string.hpp"
 using namespace shaiya;
 
 std::wstring Ini::GetValueOrDefault(const std::wstring& key, const std::wstring& defaultValue) const

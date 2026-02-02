@@ -16,9 +16,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="include\extensions">
-      <UniqueIdentifier>{99dd9b30-979f-4b4c-a819-980d87c51178}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -578,20 +575,11 @@
     <ClInclude Include="include\shaiya\Configuration.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\extensions\filesystem.hpp">
-      <Filter>include\extensions</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\ItemPredicate.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\ItemFinder.h">
       <Filter>include\shaiya</Filter>
-    </ClInclude>
-    <ClInclude Include="include\extensions\functional.hpp">
-      <Filter>include\extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\extensions\concepts.hpp">
-      <Filter>include\extensions</Filter>
     </ClInclude>
     <ClInclude Include="include\operator.h">
       <Filter>include</Filter>
@@ -605,13 +593,10 @@
     <ClInclude Include="include\shaiya\BattlefieldMoveInfo.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\extensions\type_traits.hpp">
-      <Filter>include\extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="include\extensions\string.hpp">
-      <Filter>include\extensions</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\FailItem.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\MoveType.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 #include <concepts>
 #include <utility>
-#include "extensions/concepts.hpp"
+#include <extensions/include/concepts.hpp>
 
 template<ext::scoped_enum L, std::integral R>
 inline bool operator==(L lhs, R rhs)

@@ -1,12 +1,12 @@
 #include <algorithm>
 #include <map>
 #include <vector>
+#include <extensions/include/functional.hpp>
 #include "CItem.h"
 #include "CUser.h"
 #include "ItemInfo.h"
 #include "ItemPredicate.h"
 #include "Synergy.h"
-#include "include/extensions/functional.hpp"
 using namespace shaiya;
 
 void Synergy::subSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies)
