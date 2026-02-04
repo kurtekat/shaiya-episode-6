@@ -5,8 +5,8 @@
 #include <ranges>
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <vector>
-#include "type_traits.hpp"
 
 namespace ext {
 namespace string {
@@ -144,7 +144,7 @@ namespace string {
     }
 
     template<class Char>
-    inline void ltrim(std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline void ltrim(std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         ltrim_if(str, detail::equal_to_any_of(rhs));
     }
@@ -168,7 +168,7 @@ namespace string {
     }
 
     template<class Char>
-    inline void rtrim(std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline void rtrim(std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         rtrim_if(str, detail::equal_to_any_of(rhs));
     }
@@ -192,7 +192,7 @@ namespace string {
     }
 
     template<class Char>
-    inline void trim(std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline void trim(std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         trim_if(str, detail::equal_to_any_of(rhs));
     }
@@ -241,7 +241,7 @@ namespace string {
     }
 
     template<class Char>
-    inline auto ltrim_copy(const std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline auto ltrim_copy(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         return ltrim_copy_if(str, detail::equal_to_any_of(rhs));
     }
@@ -265,7 +265,7 @@ namespace string {
     }
 
     template<class Char>
-    inline auto rtrim_copy(const std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline auto rtrim_copy(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         return rtrim_copy_if(str, detail::equal_to_any_of(rhs));
     }
@@ -289,7 +289,7 @@ namespace string {
     }
 
     template<class Char>
-    inline auto trim_copy(const std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> rhs)
+    inline auto trim_copy(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> rhs)
     {
         return trim_copy_if(str, detail::equal_to_any_of(rhs));
     }
@@ -301,7 +301,7 @@ namespace ext {
 namespace string {
 
     template<class Char>
-    inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> sep, int max)
+    inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> sep, int max)
     {
         auto view = std::views::split(str, sep) | std::views::take(max);
         std::vector<std::basic_string<Char>> output;
@@ -315,7 +315,7 @@ namespace string {
     }
 
     template<class Char>
-    inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<non_deduced_t<Char>> sep)
+    inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> sep)
     {
         return split(str, sep, std::numeric_limits<int>::max());
     }

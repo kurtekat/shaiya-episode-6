@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\algorithm.hpp" />
     <ClInclude Include="include\concepts.hpp" />
     <ClInclude Include="include\filesystem.hpp" />
     <ClInclude Include="include\functional.hpp" />

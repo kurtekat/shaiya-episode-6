@@ -7,9 +7,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\algorithm.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\concepts.hpp">
       <Filter>include</Filter>
     </ClInclude>
