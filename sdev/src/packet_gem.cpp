@@ -582,7 +582,7 @@ namespace packet_gem
     /// <summary>
     /// Handles incoming 0x830 packets.
     /// </summary>
-    void handler_0x830(CUser* user, GameChaoticSquareResultItemListIncoming* incoming)
+    void handler_0x830(CUser* user, GameChaoticSquareRecipeResultIncoming* incoming)
     {
         if (!incoming->squareBag)
             return;
@@ -607,13 +607,13 @@ namespace packet_gem
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
 
-        for (const auto& resultList : square->resultLists)
+        for (const auto& result : square->results)
         {
-            GameChaoticSquareResultItemListOutgoing outgoing{};
-            outgoing.resultItemType = resultList.itemType;
-            outgoing.resultItemTypeId = resultList.itemTypeId;
+            GameChaoticSquareRecipeResultOutgoing outgoing{};
+            outgoing.resultType = result.type;
+            outgoing.resultTypeId = result.typeId;
             outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
-            SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareResultItemListOutgoing));
+            SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeResultOutgoing));
         }
     }
 
@@ -633,25 +633,25 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (incoming->index >= square->recipeList.size())
+        if (incoming->index >= square->recipes.size())
             return;
 
-        auto id = square->recipeList[incoming->index];
+        auto id = square->recipes[incoming->index];
         auto recipe = ChaoticSquare::FindRecipe(id);
         if (!recipe)
             return;
 
-        if (incoming->resultItemType != recipe->resultType || incoming->resultItemTypeId != recipe->resultTypeId)
+        if (incoming->resultType != recipe->resultType || incoming->resultTypeId != recipe->resultTypeId)
             return;
 
         GameChaoticSquareRecipeOutgoing outgoing{};
         outgoing.chance = recipe->chance;
         outgoing.materialType = recipe->materialType;
-        outgoing.resultItemType = recipe->resultType;
+        outgoing.resultType = recipe->resultType;
         outgoing.materialTypeId = recipe->materialTypeId;
-        outgoing.resultItemTypeId = recipe->resultTypeId;
+        outgoing.resultTypeId = recipe->resultTypeId;
         outgoing.materialCount = recipe->materialCount;
-        outgoing.resultItemCount = recipe->resultCount;
+        outgoing.resultCount = recipe->resultCount;
         SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
     }
 
@@ -677,10 +677,10 @@ namespace packet_gem
         if (!square)
             return;
 
-        if (incoming->index >= square->recipeList.size())
+        if (incoming->index >= square->recipes.size())
             return;
 
-        auto id = square->recipeList[incoming->index];
+        auto id = square->recipes[incoming->index];
         auto recipe = ChaoticSquare::FindRecipe(id);
         if (!recipe)
             return;
@@ -754,13 +754,13 @@ namespace packet_gem
             }
             else
             {
-                for (const auto& failItem : square->failItemList)
+                for (const auto& result : square->failItemList)
                 {
-                    auto itemInfo = CGameData::GetItemInfo(failItem.type, failItem.typeId);
+                    auto itemInfo = CGameData::GetItemInfo(result.type, result.typeId);
                     if (!itemInfo)
                         continue;
 
-                    CUser::ItemCreate(user, itemInfo, failItem.count);
+                    CUser::ItemCreate(user, itemInfo, result.count);
                 }
 
                 GameItemSynthesisOutgoing failure{};
@@ -979,7 +979,7 @@ namespace packet_gem
         }
         case 0x830:
         {
-            handler_0x830(user, reinterpret_cast<GameChaoticSquareResultItemListIncoming*>(packet));
+            handler_0x830(user, reinterpret_cast<GameChaoticSquareRecipeResultIncoming*>(packet));
             break;
         }
         case 0x831:

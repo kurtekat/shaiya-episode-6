@@ -172,11 +172,11 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameChaoticSquareResultItemListOutgoing
+    struct GameChaoticSquareRecipeResultOutgoing
     {
         uint16_t opcode{ 0x830 };
-        Array<uint8_t, 10> resultItemType;
-        Array<uint8_t, 10> resultItemTypeId;
+        Array<uint8_t, 10> resultType;
+        Array<uint8_t, 10> resultTypeId;
         uint32_t fortuneMoney;
     };
     #pragma pack(pop)
@@ -187,11 +187,11 @@ namespace shaiya
         uint16_t opcode{ 0x831 };
         uint32_t chance;
         Array<uint8_t, 24> materialType;
-        uint8_t resultItemType;
+        uint8_t resultType;
         Array<uint8_t, 24> materialTypeId;
-        uint8_t resultItemTypeId;
+        uint8_t resultTypeId;
         Array<uint8_t, 24> materialCount;
-        uint8_t resultItemCount;
+        uint8_t resultCount;
     };
     #pragma pack(pop)
 

@@ -205,13 +205,13 @@ void Configuration::LoadChaoticSquareData()
             if (vec.empty())
                 continue;
 
-            std::vector<int> recipeList;
-            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipeList), ext::string::to_int());
-            std::sort(recipeList.begin(), recipeList.end());
+            std::vector<int> recipes;
+            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipes), ext::string::to_int());
+            std::sort(recipes.begin(), recipes.end());
 
             ChaoticSquare square{};
             square.itemId = itemId;
-            square.recipeList = recipeList;
+            square.recipes = recipes;
 
             auto dest = square.failItemList.begin();
             for (int i = 0; i < 24; ++i)
@@ -232,10 +232,10 @@ void Configuration::LoadChaoticSquareData()
 
         for (auto&& square : g_chaoticSquares)
         {
-            ChaoticSquareResultList resultList{};
+            ChaoticSquareRecipeResult result{};
 
             int i = 0;
-            for (const auto& id : square.recipeList)
+            for (const auto& id : square.recipes)
             {
                 auto recipe = ChaoticSquare::FindRecipe(id);
                 if (!recipe)
@@ -244,16 +244,16 @@ void Configuration::LoadChaoticSquareData()
                 if (recipe->hidden)
                     continue;
 
-                resultList.itemType[i] = recipe->resultType;
-                resultList.itemTypeId[i] = recipe->resultTypeId;
+                result.type[i] = recipe->resultType;
+                result.typeId[i] = recipe->resultTypeId;
                 ++i;
 
                 if (i < 10)
                     continue;
                 else
                 {
-                    square.resultLists.push_back(resultList);
-                    resultList = {};
+                    square.results.push_back(result);
+                    result = {};
                     i = 0;
                 }
             }
@@ -261,7 +261,7 @@ void Configuration::LoadChaoticSquareData()
             if (!i)
                 continue;
 
-            square.resultLists.push_back(resultList);
+            square.results.push_back(result);
         }
     }
     catch (...)

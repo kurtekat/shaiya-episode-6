@@ -24,10 +24,10 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct ChaoticSquareResultList
+    struct ChaoticSquareRecipeResult
     {
-        std::array<uint8_t, 10> itemType;
-        std::array<uint8_t, 10> itemTypeId;
+        std::array<uint8_t, 10> type;
+        std::array<uint8_t, 10> typeId;
     };
     #pragma pack(pop)
 
@@ -38,8 +38,8 @@ namespace shaiya
 
         ItemId itemId;
         std::array<FailItem, 24> failItemList;
-        std::vector<int32_t> recipeList;
-        std::vector<ChaoticSquareResultList> resultLists;
+        std::vector<int32_t> recipes;
+        std::vector<ChaoticSquareRecipeResult> results;
 
         static ChaoticSquare* Find(ItemId itemId);
         static ChaoticSquareRecipe* FindRecipe(int id);

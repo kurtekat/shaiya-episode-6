@@ -18,7 +18,7 @@ namespace shaiya
 
     struct ItemSet
     {
-        int32_t id;
+        int32_t id; // ItemInfo.Drop
         std::array<ItemSetSynergy, 13> synergies;
     };
 
