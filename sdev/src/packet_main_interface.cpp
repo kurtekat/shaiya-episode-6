@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <map>
 #include <util/util.h>
 #include <shaiya/include/network/TP_MAIN.h>
 #include <shaiya/include/network/game/incoming/0200.h>
@@ -42,35 +43,35 @@ namespace packet_main_interface
 
     void send_0x229(CUser* target, CUser* killer)
     {
-        if (auto outer = g_revengeMarks.find(killer->id); outer != g_revengeMarks.end())
+        if (g_revengeMarks.contains(killer->id))
         {
-            if (auto inner = outer->second.find(target->id); inner != outer->second.end())
+            if (g_revengeMarks[killer->id].erase(target->id))
             {
-                outer->second.erase(inner);
-                RevengeMark::send(killer, target->id, 0);
+                RevengeMark::SendRevengeSuccess(killer, target->id);
             }
         }
 
-        if (auto outer = g_revengeMarks.find(target->id); outer != g_revengeMarks.end())
+        if (g_revengeMarks.contains(target->id))
         {
-            if (auto inner = outer->second.find(killer->id); inner != outer->second.end())
+            if (g_revengeMarks[target->id].contains(killer->id))
             {
-                if (inner->second < 999)
+                auto& killCount = g_revengeMarks[target->id][killer->id];
+                if (killCount < 999)
                 {
-                    ++inner->second;
-                    RevengeMark::send(target, inner->first, inner->second);
+                    ++killCount;
+                    RevengeMark::SendKillCount(target, killer->id, killCount);
                 }
             }
             else
             {
-                outer->second.insert({ killer->id, 1 });
-                RevengeMark::send(target, killer->id, 1);
+                g_revengeMarks[target->id].insert({ killer->id, 1 });
+                RevengeMark::SendKillCount(target, killer->id, 1);
             }
         }
         else
         {
             g_revengeMarks.insert({ target->id, {{ killer->id, 1 }} });
-            RevengeMark::send(target, killer->id, 1);
+            RevengeMark::SendKillCount(target, killer->id, 1);
         }
     }
 

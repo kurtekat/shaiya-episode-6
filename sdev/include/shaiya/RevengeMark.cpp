@@ -4,10 +4,18 @@
 #include "SConnection.h"
 using namespace shaiya;
 
-void RevengeMark::send(CUser* user, unsigned charId, unsigned killCount)
+void RevengeMark::SendKillCount(CUser* user, unsigned killerId, unsigned killCount)
 {
     GameRevengeMarkOutgoing outgoing{};
-    outgoing.charId = charId;
+    outgoing.charId = killerId;
     outgoing.killCount = killCount;
+    SConnection::Send(user, &outgoing, sizeof(GameRevengeMarkOutgoing));
+}
+
+void RevengeMark::SendRevengeSuccess(CUser* user, unsigned targetId)
+{
+    GameRevengeMarkOutgoing outgoing{};
+    outgoing.charId = targetId;
+    outgoing.killCount = 0;
     SConnection::Send(user, &outgoing, sizeof(GameRevengeMarkOutgoing));
 }

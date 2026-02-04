@@ -16,9 +16,10 @@ namespace shaiya
         /// <summary>
         /// Sends packet 0x229 to the user.
         /// </summary>
-        static void send(CUser* user, unsigned charId, unsigned killCount);
+        static void SendKillCount(CUser* user, unsigned killerId, unsigned killCount);
+        static void SendRevengeSuccess(CUser* user, unsigned targetId);
     };
     #pragma pack(pop)
 
-    inline std::map<CharId, std::map<CharId, uint32_t/*KillCount*/>> g_revengeMarks{};
+    inline std::map<CharId, std::map<CharId, unsigned/*KillCount*/>> g_revengeMarks{};
 }
