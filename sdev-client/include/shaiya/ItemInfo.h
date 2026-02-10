@@ -7,7 +7,7 @@
 
 namespace shaiya
 {
-    enum struct ExtDuration : uint8_t
+    enum struct ExpandDuration : uint8_t
     {
         None,
         Unexpandable,
@@ -121,7 +121,8 @@ namespace shaiya
         uint8_t count;            //0x59
         PAD(2);
         uint32_t duration;        //0x5C
-        ExtDuration extDuration;  //0x60
+        // 0x60
+        ExpandDuration expandDuration;
         PAD(47);
         uint8_t vehicleModel;     //0x90
         PAD(3);
