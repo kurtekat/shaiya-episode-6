@@ -563,9 +563,6 @@
     <ClInclude Include="include\shaiya\Target.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\TypeValue.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\UserHelper.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>

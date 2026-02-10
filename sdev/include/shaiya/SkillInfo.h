@@ -3,11 +3,116 @@
 #include <shaiya/include/common/Attribute.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/SkillTypes.h>
-#include "TypeValue.h"
 
 namespace shaiya
 {
+    enum struct SkillAbilityType : uint8_t
+    {
+        MaxHealth = 1,
+        MaxMana,
+        MaxStamina,
+        AbilityStrength,
+        AbilityReaction,
+        AbilityIntelligence,
+        AbilityWisdom,
+        AbilityDexterity,
+        AbilityLuck,
+        AddHpRecovery,
+        AddSpRecovery,
+        AddMpRecovery,
+        DecreaseSpCostPercentage,
+        DecreaseMpCostPercentage,
+        AbilityAttackRange,
+        AbilityAttackSpeed,
+        AbilityMoveSpeed,
+        AbilityCriticalHitRate,
+        DecreaseSkillResetTime,
+        AbilityHitRate,
+        AbilityRangedHitRate,
+        AbilityMagicHitRate,
+        AbilityAttackPower,
+        AbilityRangedAttackPower,
+        AbilityMagicPower,
+        AbilityAddDefense,
+        AbilityAddRangedDefense,
+        AbilityAddMagicDefense,
+        AbilityEvasionRate,
+        AbilityRangedEvasionRate,
+        AbilityMagicEvasionRate,
+        AttackBlinded,
+        RangedAttackBlinded,
+        Silenced,
+        MultiplyExp,
+        EternalEndurance,
+        PreventItemDrop,
+        PreventExpLoss,
+        RecallWarehouse,
+        WhiteTigerCharm,
+        BlueDragonCharm,
+        RedPhoenixCharm,
+        DoubleWarehouse,
+        IncreaseGoldDrop,
+        PreventEquipmentDrop,
+        ContinuousResurrection,
+        BattlefieldRune,
+        AbilityAbsorption,
+        GoddessCurse,
+        EnableEnterDungeon,
+        DisableEnterDungeon,
+        VitalityStrTraining,
+        VitalityRecTraining,
+        VitalityIntTraining,
+        VitalityWisTraining,
+        VitalityDexTraining,
+        VitalityLucTraining,
+        Frenzied = 70,
+        AbilityAddDefensePercentage = 73,
+        AbilityAddRangedDefensePercentage,
+        AbilityAddMagicResistancePercentage = 78,
+        MultiplyQuestExp = 87
+    };
+
+    enum struct SkillStatusType : uint8_t
+    {
+        None,
+        Sleep,
+        Unconscious,
+        Silence,
+        Darkness,
+        Pause,
+        Slow,
+        Dying,
+        Death,
+        Poison,
+        Illness,
+        Delusion,
+        Doom,
+        Fear,
+        Dull,
+        Misfortune
+    };
+
+    enum struct SkillTargetType : uint8_t
+    {
+        None,
+        Trap,
+        Caster,
+        Target,
+        AlliesNearCaster,
+        Allies,
+        EnemiesNearCaster,
+        EnemiesNearTarget
+    };
+
+    #pragma pack(push, 1)
+    struct TypeValue
+    {
+        SkillAbilityType type;
+        PAD(1);
+        uint16_t value;
+    };
+    #pragma pack(pop)
+
     #pragma pack(push, 1)
     struct SkillInfo
     {
@@ -29,7 +134,22 @@ namespace shaiya
         uint8_t typeAttack;          //0x30
         uint8_t typeEffect;          //0x31
         uint16_t typeDetail;         //0x32
-        NeedWeapon needWeapon;       //0x34
+        bool needOneHandedSword;     //0x34
+        bool needTwoHandedSword;     //0x35
+        bool needOneHandedAxe;       //0x36
+        bool needTwoHandedAxe;       //0x37
+        bool needDualWeapon;         //0x38
+        bool needSpear;              //0x39
+        bool needOneHandedBlunt;     //0x3A
+        bool needTwoHandedBlunt;     //0x3B
+        bool needReverseDagger;      //0x3C
+        bool needDagger;             //0x3D
+        bool needJavelin;            //0x3E
+        bool needStaff;              //0x3F
+        bool needBow;                //0x40
+        bool needCrossbow;           //0x41
+        bool needKnuckles;           //0x42
+        bool needShield;             //0x43
         uint16_t needSP;             //0x44
         uint16_t needMP;             //0x46
         uint16_t readyTime;          //0x48
