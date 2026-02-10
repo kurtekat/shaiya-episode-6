@@ -1,5 +1,4 @@
 #include <util/util.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/shaiya/CItem.h"
@@ -43,7 +42,7 @@ namespace user_status
 
         auto attackPower = user->attack.power;
 
-        auto& weapon = user->inventory[0][ItemSlot::Weapon];
+        auto& weapon = user->inventory[0][5];
         if (weapon)
         {
             switch (weapon->info->realType)

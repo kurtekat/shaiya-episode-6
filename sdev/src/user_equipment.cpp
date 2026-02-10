@@ -1,7 +1,7 @@
 #include <array>
 #include <util/util.h>
+#include <shaiya/include/common/ItemEquipment.h>
 #include <shaiya/include/common/ItemList.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/common/ItemType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
@@ -21,21 +21,21 @@ namespace user_equipment
 
         switch (slot)
         {
-        case ItemSlot::Helmet:
+        case ItemEquipment::Helmet:
             return realType == RealType::Helmet;
-        case ItemSlot::UpperArmor:
+        case ItemEquipment::UpperArmor:
             return realType == RealType::UpperArmor;
-        case ItemSlot::LowerArmor:
+        case ItemEquipment::LowerArmor:
             return realType == RealType::LowerArmor;
-        case ItemSlot::Gloves:
+        case ItemEquipment::Gloves:
             return realType == RealType::Gloves;
-        case ItemSlot::Boots:
+        case ItemEquipment::Boots:
             return realType == RealType::Boots;
-        case ItemSlot::Weapon:
+        case ItemEquipment::Weapon:
         {
             if (CItem::IsWeapon(item))
             {
-                if (!user->inventory[0][ItemSlot::Shield])
+                if (!user->inventory[0][6])
                     return true;
 
                 if (CItem::IsOneHandWeapon(item))
@@ -44,37 +44,37 @@ namespace user_equipment
 
             return false;
         }
-        case ItemSlot::Shield:
+        case ItemEquipment::Shield:
         {
             if (realType == RealType::Shield)
             {
-                auto& item = user->inventory[0][ItemSlot::Weapon];
-                if (!item)
+                auto& weapon = user->inventory[0][5];
+                if (!weapon)
                     return true;
 
-                if (CItem::IsOneHandWeapon(item))
+                if (CItem::IsOneHandWeapon(weapon))
                     return true;
             }
 
             return false;
         }
-        case ItemSlot::Cloak:
+        case ItemEquipment::Cloak:
             return realType == RealType::Cloak;
-        case ItemSlot::Necklace:
+        case ItemEquipment::Necklace:
             return realType == RealType::Necklace;
-        case ItemSlot::Ring1:
-        case ItemSlot::Ring2:
+        case ItemEquipment::Ring1:
+        case ItemEquipment::Ring2:
             return realType == RealType::Ring;
-        case ItemSlot::Bracelet1:
-        case ItemSlot::Bracelet2:
+        case ItemEquipment::Bracelet1:
+        case ItemEquipment::Bracelet2:
             return realType == RealType::Bracelet;
-        case ItemSlot::Vehicle:
+        case ItemEquipment::Vehicle:
             return itemType == ItemType::Vehicle;
-        case ItemSlot::Pet:
+        case ItemEquipment::Pet:
             return itemType == ItemType::Pet;
-        case ItemSlot::Costume:
+        case ItemEquipment::Costume:
             return itemType == ItemType::Costume;
-        case ItemSlot::Wings:
+        case ItemEquipment::Wings:
             return itemType == ItemType::Wings;
         default:
             break;
@@ -99,7 +99,7 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (slot < ItemSlot::Vehicle)
+            if (slot < ItemEquipment::Vehicle)
                 user->itemQualityEx[slot] = item->quality;
 
             CUser::ItemEquipmentAdd(user, item, slot);
@@ -123,14 +123,16 @@ namespace user_equipment
             if (!item)
                 continue;
 
-            if (slot < ItemSlot::Wings)
+            // This condition can be removed if the client 
+            // inspection window supports 17 slots
+            if (slot < ItemEquipment::Wings)
             {
                 GetInfoItemUnit_EP5 item0307{};
                 item0307.slot = slot;
                 item0307.type = item->type;
                 item0307.typeId = item->typeId;
 
-                if (slot < ItemSlot::Vehicle)
+                if (slot < ItemEquipment::Vehicle)
                     item0307.quality = item->quality;
 
                 item0307.gems = item->gems;

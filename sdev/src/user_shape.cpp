@@ -1,7 +1,5 @@
 #include <util/util.h>
-#include <shaiya/include/common/ItemSlot.h>
-#include <shaiya/include/common/PartyTypes.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/ShapeType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
@@ -51,15 +49,15 @@ namespace user_shape
         user->clone->charName = target->charName;
         user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-        auto& item = target->inventory[0][ItemSlot::Cloak];
-        if (!item)
+        auto& cloak = target->inventory[0][7];
+        if (!cloak)
         {
             user->clone->packetLength -= sizeof(CloakInfo);
             CUser::GetGuildName(target, user->clone->guildName.data());
         }
         else
         {
-            user->clone->cloakInfo = item->gems;
+            user->clone->cloakInfo = cloak->gems;
             CUser::GetGuildName(target, user->clone->guildName.data());
         }
     }
@@ -131,15 +129,15 @@ namespace user_shape
             outgoing.charName = user->charName;
             int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-            auto& item = user->inventory[0][ItemSlot::Cloak];
-            if (!item)
+            auto& cloak = user->inventory[0][7];
+            if (!cloak)
             {
                 length -= sizeof(CloakInfo);
                 CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
             }
             else
             {
-                outgoing.cloakInfo = item->gems;
+                outgoing.cloakInfo = cloak->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
             }
 
@@ -217,15 +215,15 @@ namespace user_shape
             outgoing.charName = user->charName;
             int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-            auto& item = user->inventory[0][ItemSlot::Cloak];
-            if (!item)
+            auto& cloak = user->inventory[0][7];
+            if (!cloak)
             {
                 length -= sizeof(CloakInfo);
                 CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
             }
             else
             {
-                outgoing.cloakInfo = item->gems;
+                outgoing.cloakInfo = cloak->gems;
                 CUser::GetGuildName(user, outgoing.guildName.data());
             }
 
@@ -244,7 +242,7 @@ namespace user_shape
         GameCharShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
         outgoing.shapeType = packet->shapeType;
-        auto& vehicle = user->inventory[0][ItemSlot::Vehicle];
+        auto& vehicle = user->inventory[0][13];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
@@ -262,7 +260,7 @@ namespace user_shape
         GameCharShapeOutgoing_EP6_4 outgoing{};
         outgoing.objectId = user->id;
         outgoing.shapeType = shapeType;
-        auto& vehicle = user->inventory[0][ItemSlot::Vehicle];
+        auto& vehicle = user->inventory[0][13];
         outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
         outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
         SConnection::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));

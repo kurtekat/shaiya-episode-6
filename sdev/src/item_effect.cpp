@@ -2,13 +2,12 @@
 #include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/common/ItemType.h>
-#include <shaiya/include/common/SkillTypes.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0400.h>
 #include "include/main.h"
 #include "include/operator.h"
+#include "include/shaiya/CharmType.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CNpcData.h"
 #include "include/shaiya/CObject.h"
@@ -25,9 +24,9 @@ namespace item_effect
     /// Adds support for additional item effects. Add new values to the enum and 
     /// then add more cases to this function.
     /// </summary>
-    int hook(CUser* user, CItem* item, ItemEffect itemEffect, int bag, int slot)
+    int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
     {
-        switch (itemEffect)
+        switch (effect)
         {
         case ItemEffect::TownMoveScroll:
         {
@@ -98,7 +97,7 @@ namespace item_effect
         if (!user)
             return 0;
 
-        auto& pet = user->inventory[0][ItemSlot::Pet];
+        auto& pet = user->inventory[0][14];
         if (!pet)
             return 0;
 
@@ -108,19 +107,19 @@ namespace item_effect
             if (!money)
                 return 0;
 
-            auto itemEffect = pet->info->effect;
-            if (itemEffect != ItemEffect::PetPickGoldDrop && itemEffect != ItemEffect::PetPickDrop)
+            auto effect = pet->info->effect;
+            if (effect != ItemEffect::PetPickGoldDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
             auto rate = user->increaseGoldDropRate;
             switch (user->charmType)
             {
-            case SkillCharmType::BlueDragon:
+            case CharmType::BlueDragon:
                 break;
-            case SkillCharmType::WhiteTiger:
+            case CharmType::WhiteTiger:
                 rate += 20;
                 break;
-            case SkillCharmType::RedPhoenix:
+            case CharmType::RedPhoenix:
                 rate += 50;
                 break;
             default:
@@ -144,8 +143,8 @@ namespace item_effect
             if (item->info->realType == RealType::Quest)
                 return 0;
 
-            auto itemEffect = pet->info->effect;
-            if (itemEffect != ItemEffect::PetPickItemDrop && itemEffect != ItemEffect::PetPickDrop)
+            auto effect = pet->info->effect;
+            if (effect != ItemEffect::PetPickItemDrop && effect != ItemEffect::PetPickDrop)
                 return 0;
 
             CUser::ItemGet(user, item);

@@ -1,5 +1,4 @@
 #include <util/util.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include "include/main.h"
 #include "include/shaiya/CCharacter.h"
 #include "include/shaiya/ChatType.h"
@@ -11,13 +10,13 @@ namespace packet
     // Resolves an issue with disguise removal
     void hook_0x303(CCharacter* user)
     {
-        if (!user->equipment.type[ItemSlot::Pet])
+        if (!user->equipment.type[14])
             CCharacter::RemovePet(user);
 
-        if (!user->equipment.type[ItemSlot::Costume])
+        if (!user->equipment.type[15])
             CCharacter::RemoveCostume(user);
 
-        if (!user->equipment.type[ItemSlot::Wings])
+        if (!user->equipment.type[16])
             CCharacter::RemoveWings(user);
     }
 
