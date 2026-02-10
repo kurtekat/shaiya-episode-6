@@ -1,11 +1,27 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/NpcTypes.h>
 #include "common.h"
 
 namespace shaiya
 {
     struct SStaticText;
+
+    enum struct NpcType : uint8_t
+    {
+        Merchant = 1,
+        GateKeeper,
+        Blacksmith,
+        VetManager,
+        GamblingHouse,
+        Warehouse,
+        Normal,
+        Guard,
+        Animal,
+        Apprentice,
+        GuildMaster,
+        Dead,
+        SkillReset
+    };
 
     #pragma pack(push, 1)
     // 0049AB60 ctor

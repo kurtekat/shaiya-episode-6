@@ -1,19 +1,8 @@
 #pragma once
-#include <array>
 #include <cstdint>
 
 namespace shaiya
 {
-    enum struct AuthStatus : uint8_t
-    {
-        AdminA = 1, // 16
-        AdminB,     // 32
-        AdminC,     // 48
-        AdminD,     // 64
-        AdminE,     // 80
-        None = 11
-    };
-
     enum struct MotionType : uint8_t
     {
         None,
@@ -137,21 +126,5 @@ namespace shaiya
         Start,
         Insult,
         Provoke
-    };
-
-    enum struct ShapeType : uint8_t
-    {
-        None,
-        Chicken = 4,
-        Dog,
-        Horse,
-        Pig,
-        Fox = 10,
-        Wolf,
-        Knight,
-        Stealth,
-        Disguise = 100,
-        Degeneration,
-        Transformation,
     };
 }

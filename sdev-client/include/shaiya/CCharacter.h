@@ -4,9 +4,9 @@
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/ShapeType.h>
 #include "common.h"
 
 namespace shaiya

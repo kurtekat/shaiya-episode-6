@@ -5,7 +5,7 @@
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/network/game/GetInfoItemUnit.h>
 #include <shaiya/include/network/game/GetInfoItemType.h>

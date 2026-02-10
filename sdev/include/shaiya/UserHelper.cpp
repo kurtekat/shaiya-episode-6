@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/ItemEffect.h>
-#include <shaiya/include/common/ItemSlot.h>
 #include <shaiya/include/network/dbAgent/incoming/0600.h>
 #include <shaiya/include/network/dbAgent/incoming/0700.h>
 #include <shaiya/include/network/game/outgoing/0200.h>

@@ -1,11 +1,32 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/NpcTypes.h>
 #include "Npc.h"
 #include "ShopItem.h"
 
 namespace shaiya
 {
+    // Credit: Matias Ramirez (Parsec)
+    enum struct NpcShopType : uint8_t
+    {
+        GenericMerchant,
+        WeaponMerchant,
+        ProtectionMerchant,
+        AccessoryMerchant,
+        LiquidMedicineMerchant,
+        ProfessionalTrader,
+        RidingMerchant,
+        MantleMerchant,
+        BadgeMerchant,
+        BankTeller,
+        GoldBarMerchant,
+        ProfessionalBlacksmith1 = 15,
+        ProfessionalBlacksmith2,
+        Alchemist = 20,
+        EtinManager = 100,
+        EtinMerchant,
+        AuctionBoard = 117
+    };
+
     #pragma pack(push, 1)
     struct NpcShop : Npc
     {

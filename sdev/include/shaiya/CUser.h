@@ -2,14 +2,14 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/AuthStatus.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Family.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/SkillTypes.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/ShapeType.h>
 #include "AdminInfo.h"
 #include "Attack.h"
 #include "AttackAdd.h"
@@ -17,6 +17,7 @@
 #include "CExchange.h"
 #include "CExchangePvP.h"
 #include "CFriend.h"
+#include "CharmType.h"
 #include "CMiniGame.h"
 #include "CObjectConnection.h"
 #include "CUserCrypto.h"
@@ -401,7 +402,7 @@ namespace shaiya
         uint32_t nextItemUseTimeIndex;           //0x5908
         Array<int32_t, 4> saveMapId;             //0x590C
         Array<SVector, 4> savePos;               //0x591C
-        SkillCharmType charmType;                //0x594C
+        CharmType charmType;                     //0x594C
         uint32_t increaseGoldDropRate;           //0x5950
         bool32_t eternalEndurance;               //0x5954
         bool32_t preventExpLoss;                 //0x5958

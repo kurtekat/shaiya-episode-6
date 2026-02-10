@@ -1,11 +1,11 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include <shaiya/include/common/AuthStatus.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 #include "common.h"
 #include "BillingItemInfo.h"
 #include "CItem.h"

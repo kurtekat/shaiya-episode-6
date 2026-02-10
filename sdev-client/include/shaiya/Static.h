@@ -1,6 +1,5 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/SkillTypes.h>
 #include "common.h"
 #include "Camera.h"
 #include "CAniListData.h"
@@ -17,6 +16,7 @@
 #include "CWorldMgr.h"
 #include "SAes.h"
 #include "SIMM.h"
+#include "SkillInfo.h"
 #include "TargetType.h"
 
 namespace shaiya

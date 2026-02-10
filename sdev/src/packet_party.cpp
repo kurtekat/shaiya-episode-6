@@ -1,5 +1,4 @@
 #include <util/util.h>
-#include <shaiya/include/common/PartyTypes.h>
 #include <shaiya/include/network/game/incoming/0B00.h>
 #include <shaiya/include/network/game/outgoing/0B00.h>
 #include "include/main.h"

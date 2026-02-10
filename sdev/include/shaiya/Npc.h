@@ -1,10 +1,33 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/NpcTypes.h>
 #include "QuestLink.h"
 
 namespace shaiya
 {
+    enum struct NpcTeam : int32_t
+    {
+        Light,
+        Fury,
+        Neutral
+    };
+
+    enum struct NpcType : uint8_t
+    {
+        Merchant = 1,
+        GateKeeper,
+        Blacksmith,
+        VetManager,
+        GamblingHouse,
+        Warehouse,
+        Normal,
+        Guard,
+        Animal,
+        Apprentice,
+        GuildMaster,
+        Dead,
+        SkillReset
+    };
+
     #pragma pack(push, 1)
     struct Npc
     {

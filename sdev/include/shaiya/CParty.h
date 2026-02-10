@@ -2,7 +2,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/DivType.h>
 #include "PartyUser.h"
 #include "SNode.h"
 

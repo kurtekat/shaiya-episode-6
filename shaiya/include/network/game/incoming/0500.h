@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/MotionType.h>
 
 namespace shaiya
 {

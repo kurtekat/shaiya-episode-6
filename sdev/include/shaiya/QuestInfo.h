@@ -2,7 +2,6 @@
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Country.h>
 #include <shaiya/include/common/Grow.h>
-#include <shaiya/include/common/NpcTypes.h>
 #include "QuestResult.h"
 
 namespace shaiya

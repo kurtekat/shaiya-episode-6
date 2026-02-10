@@ -76,19 +76,13 @@
     <ClInclude Include="include\common.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\PartyTypes.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\SkillTypes.h">
+    <ClInclude Include="include\common\PartyType.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\ItemList.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\UserTypes.h">
-      <Filter>include\common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\common\NpcTypes.h">
+    <ClInclude Include="include\common\AuthStatus.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\common\DateTime.h">
@@ -364,7 +358,7 @@
     <ClInclude Include="include\common\CraftName.h">
       <Filter>include\common</Filter>
     </ClInclude>
-    <ClInclude Include="include\common\ItemSlot.h">
+    <ClInclude Include="include\common\ItemEquipment.h">
       <Filter>include\common</Filter>
     </ClInclude>
     <ClInclude Include="include\network\session\incoming\1B00.h">
@@ -372,6 +366,15 @@
     </ClInclude>
     <ClInclude Include="include\network\session\outgoing\0100.h">
       <Filter>include\network\session\outgoing</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\DivType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ShapeType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\MotionType.h">
+      <Filter>include\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

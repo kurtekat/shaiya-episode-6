@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/AuthStatus.h>
 #include "CUserCrypto.h"
 #include "SConnection.h"
 #include "SDBDispatchClient.h"

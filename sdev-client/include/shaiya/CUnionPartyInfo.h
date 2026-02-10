@@ -1,6 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
-#include <shaiya/include/common/PartyTypes.h>
+#include <shaiya/include/common/PartyType.h>
 
 namespace shaiya
 {

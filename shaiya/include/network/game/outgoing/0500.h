@@ -1,7 +1,8 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Gems.h>
-#include <shaiya/include/common/UserTypes.h>
+#include <shaiya/include/common/MotionType.h>
+#include <shaiya/include/common/ShapeType.h>
 
 namespace shaiya
 {

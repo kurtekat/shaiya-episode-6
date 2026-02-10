@@ -7,7 +7,6 @@
 #include <shaiya/include/common/ItemList.h>
 #include <shaiya/include/common/Job.h>
 #include <shaiya/include/common/Sex.h>
-#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {

@@ -2,9 +2,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <util/util.h>
-#include <shaiya/include/common/SkillTypes.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
+#include "include/shaiya/CharmType.h"
 #include "include/shaiya/CMap.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
@@ -152,9 +152,9 @@ namespace user_skill
 
         switch (user->charmType)
         {
-        case SkillCharmType::BlueDragon:
-        case SkillCharmType::WhiteTiger:
-        case SkillCharmType::RedPhoenix:
+        case CharmType::BlueDragon:
+        case CharmType::WhiteTiger:
+        case CharmType::RedPhoenix:
             multiplier += 0.2;
             break;
         default:

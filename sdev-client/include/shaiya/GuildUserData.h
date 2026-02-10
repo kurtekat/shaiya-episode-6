@@ -1,7 +1,6 @@
 #pragma once
 #include <shaiya/include/common.h>
 #include <shaiya/include/common/Job.h>
-#include <shaiya/include/common/UserTypes.h>
 
 namespace shaiya
 {
