@@ -107,7 +107,6 @@ namespace packet_pc
         outgoing.y = user->movePos.y;
         outgoing.z = user->movePos.z;
         SConnection::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
-        CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, true);
     }
 }
 
