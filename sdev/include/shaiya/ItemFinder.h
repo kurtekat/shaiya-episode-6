@@ -33,8 +33,7 @@ namespace shaiya
     template<class UnaryPred>
     inline bool StoredItemFinder(CUser* user, int& outSlot, UnaryPred pred)
     {
-        int slotCount = user->doubleWarehouse ? 240 : 120;
-        for (outSlot = 0; outSlot < slotCount; ++outSlot)
+        for (outSlot = 0; outSlot < 240; ++outSlot)
         {
             auto& item = user->warehouse[outSlot];
             if (!item)
