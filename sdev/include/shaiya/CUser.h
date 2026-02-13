@@ -256,7 +256,9 @@ namespace shaiya
         bool32_t sleeping;                       //0x134C
         bool32_t degenerated;                    //0x1350
         uint16_t transformMobId;                 //0x1354
-        PAD(10);
+        PAD(2);
+        uint32_t debuffTypeDetail;               //0x1358
+        PAD(4);
         ShapeType shapeType;                     //0x1360
         PAD(3);
         int32_t shapeMobId;                      //0x1364

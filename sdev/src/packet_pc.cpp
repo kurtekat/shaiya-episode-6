@@ -92,22 +92,6 @@ namespace packet_pc
             CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, false);
         }
     }
-
-    void move_pvp_zone_hook(CUser* user)
-    {
-        if (user->mapId == user->moveMapId)
-            return;
-
-        CWorld::ZoneLeaveUserMove(user, user->moveMapId, user->movePos.x, user->movePos.y, user->movePos.z);
-
-        GameUserSetMapPosOutgoing outgoing{};
-        outgoing.objectId = user->id;
-        outgoing.mapId = user->moveMapId;
-        outgoing.x = user->movePos.x;
-        outgoing.y = user->movePos.y;
-        outgoing.z = user->movePos.z;
-        SConnection::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
-    }
 }
 
 unsigned u0x4784DB = 0x4784DB;
@@ -144,8 +128,6 @@ void __declspec(naked) naked_0x49DDBF()
     {
         cmp eax,0x7
         je move_town
-        cmp eax,0x8
-        je move_pvp_zone
 
         // original
         cmp eax,0x1
@@ -157,17 +139,6 @@ void __declspec(naked) naked_0x49DDBF()
 
         push edi // user
         call packet_pc::move_town_hook
-        add esp,0x4
-
-        popad
-
-        jmp u0x49E8D1
-
-        move_pvp_zone:
-        pushad
-
-        push edi // user
-        call packet_pc::move_pvp_zone_hook
         add esp,0x4
 
         popad

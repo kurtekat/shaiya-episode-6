@@ -16,7 +16,6 @@ namespace shaiya
         MoveWar,
         // custom
         MoveTown,
-        MovePvPZone,
         //
         MoveMapId200 = 10,
         MoveChar = 0xF904,
