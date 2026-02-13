@@ -16,10 +16,6 @@ C++ 20
 
 The intent is to provide episode 6 client support. The best way to contribute is to report issues. Please don't send code because it's a pain in the ass to review, etc.
 
-### Pull Requests
-
-Pull requests are not welcome. GitHub doesn't allow the pull requests tab to be disabled.
-
 ### Issues
 
 Send me an email.
