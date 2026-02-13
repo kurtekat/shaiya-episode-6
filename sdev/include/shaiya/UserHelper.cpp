@@ -113,41 +113,14 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     return true;
 }
 
-void UserHelper::SetMovePosition(CUser* user, unsigned mapId, float x, float y, float z, MoveType moveType, unsigned delay)
+void UserHelper::SetMovePosition(CUser* user, MoveType moveType, unsigned delay, int mapId, float x, float y, float z)
 {
+    user->moveType = moveType;
+    user->moveTime = GetTickCount() + delay;
     user->moveMapId = mapId;
     user->movePos.x = x;
     user->movePos.y = y;
     user->movePos.z = z;
-    user->moveType = moveType;
-    user->moveTime = GetTickCount() + delay;
-}
-
-void UserHelper::SetMovePosition(CUser* user, unsigned mapId, SVector* pos, MoveType moveType, unsigned delay)
-{
-    UserHelper::SetMovePosition(user, mapId, pos->x, pos->y, pos->z, moveType, delay);
-}
-
-bool UserHelper::Move(CUser* user, unsigned mapId, float x, float y, float z, MoveType moveType, unsigned delay)
-{
-    if (user->status == UserStatus::Death || user->where != UserWhere::ZoneEnter)
-        return false;
-
-    if (!user->zone)
-        return false;
-
-    if (!CWorld::GetZone(mapId))
-        return false;
-
-    CUser::CancelActionExc(user);
-    MyShop::Ended(&user->myShop);
-    UserHelper::SetMovePosition(user, mapId, x, y, z, moveType, delay);
-    return true;
-}
-
-bool UserHelper::Move(CUser* user, unsigned mapId, SVector* pos, MoveType moveType, unsigned delay)
-{
-    return UserHelper::Move(user, mapId, pos->x, pos->y, pos->z, moveType, delay);
 }
 
 bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
