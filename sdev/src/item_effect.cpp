@@ -21,8 +21,7 @@ using namespace shaiya;
 namespace item_effect
 {
     /// <summary>
-    /// Adds support for additional item effects. Add new values to the enum and 
-    /// then add more cases to this function.
+    /// Adds support for additional item effects.
     /// </summary>
     int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
     {
@@ -70,7 +69,7 @@ namespace item_effect
             auto x = gateKeeper->gates[index].x;
             auto y = gateKeeper->gates[index].y;
             auto z = gateKeeper->gates[index].z;
-            UserHelper::SetMovePosition(user, mapId, x, y, z, MoveType::MoveTown, 5000);
+            UserHelper::SetMovePosition(user, MoveType::MoveTown, 5000, mapId, x, y, z);
 
             GameUserItemCastOutgoing outgoing{};
             outgoing.objectId = user->id;
@@ -108,7 +107,7 @@ namespace item_effect
                 return 0;
 
             auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetPickGoldDrop && effect != ItemEffect::PetPickDrop)
+            if (effect != ItemEffect::PetGoldPick && effect != ItemEffect::PetGoldItemPick)
                 return 0;
 
             auto rate = user->increaseGoldDropRate;
@@ -144,7 +143,7 @@ namespace item_effect
                 return 0;
 
             auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetPickItemDrop && effect != ItemEffect::PetPickDrop)
+            if (effect != ItemEffect::PetItemPick && effect != ItemEffect::PetGoldItemPick)
                 return 0;
 
             CUser::ItemGet(user, item);
