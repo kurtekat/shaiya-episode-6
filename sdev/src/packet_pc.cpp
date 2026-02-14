@@ -59,6 +59,7 @@ namespace packet_pc
         if (it == g_townMoveData.end())
             return;
 
+        // Disabled? (see Map.ini)
         if (!it->second)
             return;
 
