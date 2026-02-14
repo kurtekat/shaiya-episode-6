@@ -14,9 +14,6 @@ namespace shaiya
         PartyMove,
         // itemId 100169 (EP5)
         MoveWar,
-        // custom
-        MoveTown,
-        //
         MoveMapId200 = 10,
         MoveChar = 0xF904,
         MoveCharZone = 0xF905,

@@ -18,6 +18,7 @@
 #include "Ini.h"
 #include "RewardItem.h"
 #include "Synergy.h"
+#include "TownMoveScroll.h"
 using namespace shaiya;
 
 void Configuration::Init()
@@ -426,5 +427,34 @@ void Configuration::LoadOnlineTimePrizeData()
     {
         g_rewardItemCount = 0;
         g_rewardItemList.fill({});
+    }
+}
+
+void Configuration::LoadMapData()
+{
+    try
+    {
+        std::filesystem::path path(m_root);
+        ext::filesystem::path::combine(path, "Data", "Map.ini");
+        if (!std::filesystem::exists(path))
+            return;
+
+        Ini ini(path);
+        ini.Read();
+
+        auto count = ini.GetValueOrDefault(L"BASE:MapCount", 0);
+        if (count <= 0)
+            return;
+
+        for (int i = 0; i < count; ++i)
+        {
+            auto key = std::format(L"SET_ZONE_{}:TownMoveScroll", i);
+            auto value = ini.GetValueOrDefault(key, 0);
+            g_townMoveData[i] = std::clamp(value, 0, 1);
+        }
+    }
+    catch (...)
+    {
+        g_townMoveData.clear();
     }
 }

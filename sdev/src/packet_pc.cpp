@@ -1,16 +1,17 @@
+#include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/network/game/incoming/0500.h>
 #include <shaiya/include/network/game/outgoing/0200.h>
 #include "include/main.h"
+#include "include/operator.h"
 #include "include/shaiya/CItem.h"
-#include "include/shaiya/CObject.h"
+#include "include/shaiya/CNpcData.h"
 #include "include/shaiya/CUser.h"
-#include "include/shaiya/CWorld.h"
-#include "include/shaiya/CZone.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/NpcGateKeeper.h"
 #include "include/shaiya/SConnection.h"
+#include "include/shaiya/TownMoveScroll.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -24,6 +25,12 @@ namespace packet_pc
         if (user->status == UserStatus::Death)
             return;
 
+        if (user->debuffTypeDetail)
+            return;
+
+        if (user->logoutTime)
+            return;
+
         if (!incoming->bag)
             return;
 
@@ -34,63 +41,37 @@ namespace packet_pc
         if (!item)
             return;
 
-        if (item->info->effect != ItemEffect::TownMoveScroll)
-            return;
-
-        if (incoming->gateIndex > 2)
-            return;
-
-        user->savePosUseBag = incoming->bag;
-        user->savePosUseSlot = incoming->slot;
-        user->savePosUseIndex = incoming->gateIndex;
-
-        CUser::CancelActionExc(user);
-        MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
-    }
-
-    void move_town_hook(CUser* user)
-    {
-        auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
-        if (!item)
-            return;
-
         if (item->info->realType != RealType::Consumable)
             return;
 
         if (item->info->effect != ItemEffect::TownMoveScroll)
             return;
 
-        if (user->mapId != user->moveMapId)
-        {
-            CWorld::ZoneLeaveUserMove(user, user->moveMapId, user->movePos.x, user->movePos.y, user->movePos.z);
+        auto gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, item->info->reqVg);
+        if (!gateKeeper)
+            return;
 
-            GameUserSetMapPosOutgoing outgoing{};
-            outgoing.objectId = user->id;
-            outgoing.mapId = user->moveMapId;
-            outgoing.x = user->movePos.x;
-            outgoing.y = user->movePos.y;
-            outgoing.z = user->movePos.z;
-            SConnection::Send(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
-            CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, true);
-        }
-        else
-        {
-            if (!user->zone)
-                return;
+        auto country = gateKeeper->country;
+        if (country != user->country)
+            return;
 
-            if (!CZone::MoveUser(user->zone, user, user->movePos.x, user->movePos.y, user->movePos.z))
-                return;
+        auto it = g_townMoveData.find(user->mapId);
+        if (it == g_townMoveData.end())
+            return;
 
-            GameUserSetMapPosOutgoing outgoing{};
-            outgoing.objectId = user->id;
-            outgoing.mapId = user->moveMapId;
-            outgoing.x = user->movePos.x;
-            outgoing.y = user->movePos.y;
-            outgoing.z = user->movePos.z;
-            CObject::SendView(user, &outgoing, sizeof(GameUserSetMapPosOutgoing));
-            CUser::ItemUseNSend(user, user->savePosUseBag, user->savePosUseSlot, false);
-        }
+        if (!it->second)
+            return;
+
+        CUser::CancelActionExc(user);
+        MyShop::Ended(&user->myShop);
+        CUser::ItemUseNSend(user, incoming->bag, incoming->slot, false);
+
+        auto index = std::clamp(static_cast<int>(incoming->gateIndex), 0, 2);
+        auto mapId = gateKeeper->gates[index].mapId;
+        auto x = gateKeeper->gates[index].x;
+        auto y = gateKeeper->gates[index].y;
+        auto z = gateKeeper->gates[index].z;
+        UserHelper::SetMovePosition(user, MoveType::GateKeeper, 0, mapId, x, y, z);
     }
 }
 
@@ -119,37 +100,6 @@ void __declspec(naked) naked_0x4784D6()
     }
 }
 
-unsigned u0x49DDC8 = 0x49DDC8;
-unsigned u0x49DEB5 = 0x49DEB5;
-unsigned u0x49E8D1 = 0x49E8D1;
-void __declspec(naked) naked_0x49DDBF()
-{
-    __asm
-    {
-        cmp eax,0x7
-        je move_town
-
-        // original
-        cmp eax,0x1
-        jne _0x49DEB5
-        jmp u0x49DDC8
-
-        move_town:
-        pushad
-
-        push edi // user
-        call packet_pc::move_town_hook
-        add esp,0x4
-
-        popad
-
-        jmp u0x49E8D1
-
-        _0x49DEB5:
-        jmp u0x49DEB5
-    }
-}
-
 double g_itemRepairBuyDivisor = 15.0;
 unsigned u0x471C29 = 0x471C29;
 void __declspec(naked) naked_0x471C23()
@@ -175,8 +125,6 @@ void hook::packet_pc()
 {
     // CUser::PacketPC
     util::detour((void*)0x4784D6, naked_0x4784D6, 5);
-    // CUser::UpdateResetPosition
-    util::detour((void*)0x49DDBF, naked_0x49DDBF, 9);
     // CUser::ItemRepair
     util::detour((void*)0x471C23, naked_0x471C23, 6);
     util::detour((void*)0x47202A, naked_0x47202A, 6);

@@ -122,4 +122,5 @@ void Main()
     Configuration::LoadChaoticSquareData();
     Configuration::LoadItemSetData();
     Configuration::LoadOnlineTimePrizeData();
+    Configuration::LoadMapData();
 }

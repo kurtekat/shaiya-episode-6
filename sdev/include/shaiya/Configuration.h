@@ -12,6 +12,7 @@ namespace shaiya
         static void LoadChaoticSquareData();
         static void LoadItemSetData();
         static void LoadOnlineTimePrizeData();
+        static void LoadMapData();
 
     private:
 
