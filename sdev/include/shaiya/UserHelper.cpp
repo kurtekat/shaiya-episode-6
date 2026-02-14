@@ -113,14 +113,21 @@ bool UserHelper::ItemRemove(CUser* user, int bag, int slot, int count)
     return true;
 }
 
-void UserHelper::SetMovePosition(CUser* user, MoveType moveType, unsigned delay, int mapId, float x, float y, float z)
+bool UserHelper::SetMovePosition(CUser* user, MoveType moveType, unsigned delay, int mapId, float x, float y, float z)
 {
+    if (moveType == MoveType::Default)
+    {
+        if (user->moveTime)
+            return false;
+    }
+
     user->moveType = moveType;
     user->moveTime = GetTickCount() + delay;
     user->moveMapId = mapId;
     user->movePos.x = x;
     user->movePos.y = y;
     user->movePos.z = z;
+    return true;
 }
 
 bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
