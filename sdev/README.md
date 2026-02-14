@@ -65,7 +65,7 @@ RepairCost = (Item.Buy / 15.0) * (Damage / 400.0)
 
 ## Battlefield Move
 
-The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. For each section in the file, assign a unique value to the `MAP_NO` key. Certain debuffs prevent movement. Moving to the same zone is not allowed.
+The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. For each section in the file, assign a unique value to the `MAP_NO` key. The move will be instant, like the official server. Certain debuffs will prevent movement. Moving to the same zone is not allowed.
 
 ### Clients
 
@@ -447,16 +447,31 @@ The item effect will determine which effect will be rendered when the pet is equ
 
 ### Town Move Scrolls
 
-| ItemId | Effect | GateKeeper |
-|--------|--------|------------|
-| 101102 | 104    | 111        |
-| 101103 | 104    | 112        |
-| 101104 | 104    | 101        |
-| 101105 | 104    | 102        |
-| 101106 | 104    | 103        |
-| 101107 | 104    | 104        |
-| 101108 | 104    | 105        |
-| 101109 | 104    | 106        |
+The library will read `TownMoveScroll` keys from `Map.ini` to determine whether the item effect is enabled or disabled.
+
+```ini
+[SET_ZONE_0]
+MapType		 = F
+WeatherState	  = 0
+WeatherRate	  = 10
+WeatherPower	  = 1
+WeatherDelay	  = 10
+WeatherNoneDelay	  = 60
+TownMoveScroll   = 0
+```
+
+The move will be instant, like the official server. Certain debuffs will prevent movement. The library will use NPC data to determine the locations. The item `ReqVg` value is the NPC.
+
+| ItemId | Effect | ReqVg |
+|--------|--------|-------|
+| 101102 | 104    | 111   |
+| 101103 | 104    | 112   |
+| 101104 | 104    | 101   |
+| 101105 | 104    | 102   |
+| 101106 | 104    | 103   |
+| 101107 | 104    | 104   |
+| 101108 | 104    | 105   |
+| 101109 | 104    | 106   |
 
 # Notes
 
