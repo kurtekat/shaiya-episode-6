@@ -15,5 +15,5 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    inline std::map<int32_t/*MapID*/, BattlefieldMoveInfo> g_pvpZones{};
+    inline std::map<int32_t/*MapID*/, BattlefieldMoveInfo> g_pvpMoveData{};
 }

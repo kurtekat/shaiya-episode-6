@@ -22,11 +22,14 @@ namespace packet_main_interface
         if (user->debuffTypeDetail)
             return;
 
+        if (user->logoutTime)
+            return;
+
         if (user->mapId == incoming->mapId)
             return;
 
-        auto it = g_pvpZones.find(incoming->mapId);
-        if (it == g_pvpZones.end())
+        auto it = g_pvpMoveData.find(incoming->mapId);
+        if (it == g_pvpMoveData.end())
             return;
 
         auto& info = it->second;

@@ -113,13 +113,12 @@ void Configuration::LoadBattlefieldMoveData()
             //auto key4 = std::format(L"BATTLEFIELD_{}:MOVE_SPOT_RANGE", num);
             //auto range = ini.GetValueOrDefault(key4, 0);
 
-            if (!g_pvpZones.contains(mapId))
-                g_pvpZones[mapId] = info;
+            g_pvpMoveData[mapId] = info;
         }
     }
     catch (...)
     {
-        g_pvpZones.clear();
+        g_pvpMoveData.clear();
     }
 }
 
