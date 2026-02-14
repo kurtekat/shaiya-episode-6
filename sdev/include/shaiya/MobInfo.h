@@ -6,13 +6,6 @@
 
 namespace shaiya
 {
-    enum struct MobTeam : int32_t
-    {
-        Light,
-        Fury,
-        Neutral
-    };
-
     #pragma pack(push, 1)
     struct MobInfo
     {
@@ -58,7 +51,7 @@ namespace shaiya
         uint32_t defenseAdd;      //0x70
         // Attack3
         uint32_t recoverValue;    //0x74
-        MobTeam country;          //0x78
+        int32_t country;          //0x78
         bool isObelisk;           //0x7C
         PAD(3);
         // 0x80

@@ -4,13 +4,6 @@
 
 namespace shaiya
 {
-    enum struct NpcTeam : int32_t
-    {
-        Light,
-        Fury,
-        Neutral
-    };
-
     enum struct NpcType : uint8_t
     {
         Merchant = 1,
@@ -37,7 +30,7 @@ namespace shaiya
         int32_t model;         //0x04
         int32_t moveDistance;  //0x08
         int32_t moveSpeed;     //0x0C
-        NpcTeam country;       //0x10
+        int32_t country;       //0x10
         String<256> name;      //0x14
         QuestLink questLink;   //0x114
         // 0x124
