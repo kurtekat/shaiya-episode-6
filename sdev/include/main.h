@@ -21,6 +21,5 @@ namespace hook
     void user_equipment();
     void user_skill();
     void user_shape();
-    void user_status();
     void world_thread();
 }

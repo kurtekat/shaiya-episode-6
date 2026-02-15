@@ -114,7 +114,6 @@ void Main()
     hook::user_equipment();
     hook::user_shape();
     hook::user_skill();
-    hook::user_status();
     hook::world_thread();
 
     Configuration::Init();

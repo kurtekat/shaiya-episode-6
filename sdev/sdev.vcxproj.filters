@@ -33,9 +33,6 @@
     <ClCompile Include="src\packet_character.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\user_status.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\packet_gem.cpp">
       <Filter>src</Filter>
     </ClCompile>

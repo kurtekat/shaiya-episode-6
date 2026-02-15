@@ -56,7 +56,6 @@
     <ClCompile Include="src\packet_gem.cpp" />
     <ClCompile Include="src\packet_shop.cpp" />
     <ClCompile Include="src\user_skill.cpp" />
-    <ClCompile Include="src\user_status.cpp" />
     <ClCompile Include="src\user_shape.cpp" />
     <ClCompile Include="src\world_thread.cpp" />
   </ItemGroup>
