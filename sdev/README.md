@@ -97,7 +97,7 @@ The library expects **OnlineTimePrize.ini** to be in the **PSM_Client/Bin/Data**
 
 ### Timeout
 
-The client adds 15 seconds to the timeout, so the library will do the same.
+The client adds 15000 ticks to the timeout, so the library will do the same.
 
 ```cpp
 auto minutes = rewardItem[index].minutes;
@@ -114,7 +114,7 @@ auto timeout = GetTickCount() + ((minutes * 60000) + 15000);
 
 ## Alchemy (not implemented)
 
-The client expects the merchant type of the npc to be 20 (Alchemist).
+The client expects the merchant type of the NPC to be 20 (Alchemist).
 
 | NpcType | NpcTypeID |
 |---------|-----------|
@@ -180,7 +180,7 @@ The following items are supported:
 
 ## NpcQuest
 
-The episode 6 format has 6 quest results, each containing up to 3 items. The game service executable has been modified to read the file format.
+The episode 6 format has 6 quest results, each containing up to 3 items. The ps_game in this repository has been modified to read the file format.
 
 ## Revenge Mark
 
@@ -274,17 +274,23 @@ Use the following items to get started:
 
 The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
+### 0x511
+
+Expect to see packet underflow errors in the client log file. The reason is because the EP5 `0x511` packet contains 20 bytes, and EP6 clients expect to receive 21 bytes because they added the `ToggleType` field.
+
+There are 25 references in ps_game, and sadly, the solution is not as simple as changing the packet length argument.
+
 ## Chaotic Squares
 
 The library expects **ChaoticSquare.ini** to be in the **PSM_Client/Bin/Data** directory.
 
 ### Fortune Money
 
-The default value is `100'000'000`. The value should be nonzero and evenly divisible by 100. The chance of successful synthesis will be increased by 1 percent per the whole value given (can be fractional) and will be limited to 5 percent.
+The default value is `100'000'000`. The value should be nonzero and evenly divisible by 100. The chance of success will be increased by 1 percent per the whole value given (can be fractional) and will be limited to 5 percent.
 
 ### Crafting Hammers
 
-The **ReqVg** value is the success rate. The library will multiply the value by 100.
+The **ReqVg** value is the added chance of success. The library will multiply the value by 100.
 
 | ItemId | Effect | ReqVg |
 |--------|--------|-------|
@@ -361,7 +367,7 @@ Use item `101150` to activate the window. The `CraftName` and `Gems` will be rem
 
 ### Chance
 
-The base chance is 30 percent.
+The base chance of success is 30 percent.
 
 | ItemId  | Effect | ReqVg | Chance |
 |---------|--------|-------|--------|
@@ -460,7 +466,7 @@ WeatherNoneDelay	  = 60
 TownMoveScroll   = 0
 ```
 
-The move will be instant, like the official server. Certain debuffs will prevent movement. The library will use NPC data to determine the locations. The item `ReqVg` value is the NPC.
+The move will be instant, like the official server. Certain debuffs will prevent movement. The library will use NPC data to determine the locations. The item `ReqVg` value is the NPC identifier.
 
 | ItemId | Effect | ReqVg |
 |--------|--------|-------|
@@ -535,7 +541,7 @@ inventory[6][5] = 0x414 -> warehouse[5]
 
 ### Solution
 
-Replace the client code that sends the invalid packet.
+Replace the client code that sends the invalid packet. The sdev library will take care of the rest.
 
 ```cpp
 if (g_pPlayerData->mapId == mapId)
@@ -548,8 +554,6 @@ GameMovePvPZoneIncoming outgoing{};
 outgoing.mapId = mapId;
 CNetwork::Send(&outgoing, sizeof(GameMovePvPZoneIncoming));
 ```
-
-The sdev library will take care of the rest.
 
 ## File Operations
 
