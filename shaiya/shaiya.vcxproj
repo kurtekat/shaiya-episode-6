@@ -32,6 +32,7 @@
     <ClInclude Include="include\common\Sex.h" />
     <ClInclude Include="include\common\ShapeType.h" />
     <ClInclude Include="include\common\AuthStatus.h" />
+    <ClInclude Include="include\common\ToggleType.h" />
     <ClInclude Include="include\network\dbAgent\DBQuickUnit.h" />
     <ClInclude Include="include\network\dbAgent\incoming\0400.h" />
     <ClInclude Include="include\network\dbAgent\incoming\0600.h" />

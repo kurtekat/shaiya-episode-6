@@ -34,7 +34,7 @@ namespace user_skill
             user->skillAbility70.skillLv = skillInfo->skillLv;
             user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
 
-            outgoing.statusType = GameCharSkillUseStatusType::Triggered;
+            outgoing.toggleType = ToggleType::Triggered;
             SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
         else
@@ -44,7 +44,7 @@ namespace user_skill
             user->skillAbility70.skillLv = 0;
             user->skillAbility70.keepTime = 0;
 
-            outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+            outgoing.toggleType = ToggleType::Stopped;
             SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
         }
 
@@ -89,7 +89,7 @@ namespace user_skill
         outgoing.targetId = user->id;
         outgoing.skillId = user->skillAbility70.skillId;;
         outgoing.skillLv = user->skillAbility70.skillLv;
-        outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+        outgoing.toggleType = ToggleType::Stopped;
         SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
@@ -112,7 +112,7 @@ namespace user_skill
         outgoing.targetId = user->id;
         outgoing.skillId = user->skillAbility70.skillId;;
         outgoing.skillLv = user->skillAbility70.skillLv;
-        outgoing.statusType = GameCharSkillUseStatusType::Stopped;
+        outgoing.toggleType = ToggleType::Stopped;
         SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 

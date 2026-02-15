@@ -376,5 +376,8 @@
     <ClInclude Include="include\common\MotionType.h">
       <Filter>include\common</Filter>
     </ClInclude>
+    <ClInclude Include="include\common\ToggleType.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

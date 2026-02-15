@@ -3,6 +3,7 @@
 #include <shaiya/include/common/Gems.h>
 #include <shaiya/include/common/MotionType.h>
 #include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/ToggleType.h>
 
 namespace shaiya
 {
@@ -201,12 +202,6 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    enum struct GameCharSkillUseStatusType : uint8_t
-    {
-        Triggered = 1,
-        Stopped = 3
-    };
-
     #pragma pack(push, 1)
     // TP_PC_SKILL_USE
     struct GameCharSkillUseOutgoing_EP6
@@ -220,7 +215,7 @@ namespace shaiya
         uint16_t health;
         uint16_t stamina;
         uint16_t mana;
-        GameCharSkillUseStatusType statusType;
+        ToggleType toggleType;
     };
     #pragma pack(pop)
 
