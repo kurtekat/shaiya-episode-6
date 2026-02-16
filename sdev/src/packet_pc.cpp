@@ -1,18 +1,13 @@
-#include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/network/game/incoming/0500.h>
-#include <shaiya/include/network/game/outgoing/0200.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/operator.h"
 #include "include/shaiya/CItem.h"
-#include "include/shaiya/CNpcData.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
-#include "include/shaiya/NpcGateKeeper.h"
 #include "include/shaiya/SConnection.h"
-#include "include/shaiya/TownMoveScroll.h"
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
@@ -38,42 +33,14 @@ namespace packet_pc
         if (!UserHelper::IsValidItemPosition(user, incoming->bag, incoming->slot))
             return;
 
-        auto& item = user->inventory[incoming->bag][incoming->slot];
-        if (!item)
+        if (incoming->gateIndex > 2)
             return;
 
-        if (item->info->realType != RealType::Consumable)
-            return;
-
-        if (item->info->effect != ItemEffect::TownMoveScroll)
-            return;
-
-        auto gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, item->info->reqVg);
-        if (!gateKeeper)
-            return;
-
-        auto country = gateKeeper->country;
-        if (country != user->country)
-            return;
-
-        auto it = g_townMoveData.find(user->mapId);
-        if (it == g_townMoveData.end())
-            return;
-
-        // Disabled? (see Map.ini)
-        if (!it->second)
-            return;
+        user->savePosUseIndex = incoming->gateIndex;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
-        CUser::ItemUseNSend(user, incoming->bag, incoming->slot, false);
-
-        auto index = std::clamp(static_cast<int>(incoming->gateIndex), 0, 2);
-        auto mapId = gateKeeper->gates[index].mapId;
-        auto x = gateKeeper->gates[index].x;
-        auto y = gateKeeper->gates[index].y;
-        auto z = gateKeeper->gates[index].z;
-        UserHelper::SetMovePosition(user, MoveType::GateKeeper, 0, mapId, x, y, z);
+        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
     }
 
     /// <summary>

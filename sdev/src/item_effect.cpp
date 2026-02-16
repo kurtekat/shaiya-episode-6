@@ -1,4 +1,5 @@
 //#define SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
+#include <algorithm>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEffect.h>
 #include <shaiya/include/common/ItemType.h>
@@ -7,13 +8,58 @@
 #include "include/operator.h"
 #include "include/shaiya/CharmType.h"
 #include "include/shaiya/CItem.h"
+#include "include/shaiya/CNpcData.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
 #include "include/shaiya/ItemInfo.h"
+#include "include/shaiya/MoveType.h"
+#include "include/shaiya/NpcGateKeeper.h"
+#include "include/shaiya/TownMoveScroll.h"
+#include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
 namespace item_effect
 {
+    /// <summary>
+    /// Adds support for additional item effects.
+    /// </summary>
+    int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
+    {
+        switch (effect)
+        {
+        case ItemEffect::TownMoveScroll:
+        {
+            auto it = g_townMoveData.find(user->mapId);
+            if (it == g_townMoveData.end())
+                return 0;
+
+            // Disabled? (see Map.ini)
+            if (!it->second)
+                return 0;
+
+            auto gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, item->info->reqVg);
+            if (!gateKeeper)
+                return 0;
+
+            auto country = gateKeeper->country;
+            if (country != user->country)
+                return 0;
+
+            CUser::ItemUseNSend(user, bag, slot, false);
+
+            auto index = std::clamp(user->savePosUseIndex, 0, 2);
+            auto mapId = gateKeeper->gates[index].mapId;
+            auto x = gateKeeper->gates[index].x;
+            auto y = gateKeeper->gates[index].y;
+            auto z = gateKeeper->gates[index].z;
+            UserHelper::SetMovePosition(user, MoveType::GateKeeper, 0, mapId, x, y, z);
+            return 1;
+        }
+        default:
+            return 0;
+        }
+    }
+
     /// <summary>
     /// Implements item effects 212, 213, and 214.
     /// </summary>
@@ -85,6 +131,40 @@ namespace item_effect
     }
 }
 
+unsigned u0x47469F = 0x47469F;
+unsigned u0x474690 = 0x474690;
+void __declspec(naked) naked_0x47468A()
+{
+    __asm
+    {
+        pushad
+
+        mov edx,[esp+0xB7C]
+        mov edi,[esp+0xB78]
+
+        push edx // slot
+        push edi // bag
+        push ecx // effect
+        push ebx // item
+        push ebp // user
+        call item_effect::hook
+        add esp,0x14
+        test eax,eax
+
+        popad
+
+        jne _0x47469F
+
+        // original
+        mov eax,[esp+0x40]
+        test eax,eax
+        jmp u0x474690
+
+        _0x47469F:
+        jmp u0x47469F
+    }
+}
+
 // CCell::EnterItem
 unsigned u0x42A170 = 0x42A170;
 unsigned u0x41DA1A = 0x41DA1A;
@@ -118,6 +198,8 @@ void __declspec(naked) naked_0x41DA15()
 
 void hook::item_effect()
 {
+    // CUser::ItemUse
+    util::detour((void*)0x47468A, naked_0x47468A, 6);
 #ifdef SHAIYA_EP6_4_ENABLE_PET_ITEM_EFFECT
     // CZone::EnterItem
     util::detour((void*)0x41DA15, naked_0x41DA15, 5);
