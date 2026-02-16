@@ -16,7 +16,7 @@ namespace shaiya
         String<256> questName;       //0x02
         uint16_t minLevel;           //0x102
         uint16_t maxLevel;           //0x104
-        Country country;             //0x106
+        Faction country;             //0x106
         Grow grow;                   //0x107
         bool male;                   //0x108
         bool female;                 //0x109
@@ -100,7 +100,7 @@ namespace shaiya
         String<256> questName;       //0x02
         uint16_t minLevel;           //0x102
         uint16_t maxLevel;           //0x104
-        Country country;             //0x106
+        Faction country;             //0x106
         Grow grow;                   //0x107
         bool male;                   //0x108
         bool female;                 //0x109
@@ -158,10 +158,10 @@ namespace shaiya
         uint8_t endItemTypeId3;      //0x153
         uint8_t endItemCount3;       //0x154
         uint8_t pvpKillCount;        //0x155
-        uint16_t requiredMobId1;     //0x156
-        uint16_t requiredMobId2;     //0x158
-        uint8_t requiredMobCount1;   //0x15A
-        uint8_t requiredMobCount2;   //0x15B
+        uint16_t needMobId1;         //0x156
+        uint16_t needMobId2;         //0x158
+        uint8_t needMobCount1;       //0x15A
+        uint8_t needMobCount2;       //0x15B
         uint8_t resultType;          //0x15C
         uint8_t resultUserSelect;    //0x15D
         PAD(2);
