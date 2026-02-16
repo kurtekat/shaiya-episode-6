@@ -249,6 +249,12 @@ void CUser::ItemUseNSend(CUser* user, int bag, int slot, bool moveMap)
     (*(LPFN)0x4728E0)(user, bag, slot, moveMap);
 }
 
+void CUser::ItemUseError(CUser* user)
+{
+    typedef void(__thiscall* LPFN)(CUser*);
+    (*(LPFN)0x472B80)(user);
+}
+
 void CUser::LevelChange(CUser* user, int prevLv, int currLv)
 {
     unsigned u0x49BD70 = 0x49BD70;

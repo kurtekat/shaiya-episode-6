@@ -462,6 +462,7 @@ namespace shaiya
         static void ItemRemove(CUser* user/*ecx*/, int bag, int slot/*ebx*/);
         static void ItemUse(CUser* user, int bag, int slot, unsigned targetId, int targetType);
         static void ItemUseNSend(CUser* user, int bag, int slot, bool moveMap);
+        static void ItemUseError(CUser* user);
         static void LevelChange(CUser* user, int prevLv, int currLv);
         static void LevelUp(CUser* user, bool event);
         static void LevelUpStatus(CUser* user);
