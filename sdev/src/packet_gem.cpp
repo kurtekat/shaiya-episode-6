@@ -1,4 +1,4 @@
-#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
+//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
 #include <random>
 #include <string>
 #include <util/util.h>
