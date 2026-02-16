@@ -1,4 +1,4 @@
-//#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
+#define SHAIYA_EP6_4_ENABLE_0806_HANDLER
 #include <random>
 #include <string>
 #include <util/util.h>
@@ -350,8 +350,7 @@ namespace packet_gem
     }
 
     /// <summary>
-    /// Handles incoming 0x806 packets. Supports vanilla recreation runes. Adding custom 
-    /// item effects (e.g., perfect) requires a client modification.
+    /// Handles incoming 0x806 packets. Supports vanilla recreation runes.
     /// </summary>
     void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
     {
@@ -396,38 +395,12 @@ namespace packet_gem
         auto composeUniqueId = rune->uniqueId;
         auto composeItemId = rune->info->itemId;
         auto oldCraftName = item->craftName;
-        auto maxCraftValue = item->info->reqWis;
-
-        // See the item descriptions
-
-        switch (rune->info->effect)
-        {
-        case ItemEffect::StrRecreationRune:
-        case ItemEffect::DexRecreationRune:
-        case ItemEffect::IntRecreationRune:
-        case ItemEffect::WisRecreationRune:
-        case ItemEffect::RecRecreationRune:
-        case ItemEffect::LucRecreationRune:
-        {
-            maxCraftValue *= 2;
-            if (maxCraftValue > ItemCraft_MAX)
-                maxCraftValue = ItemCraft_MAX;
-
-            break;
-        }
-        default:
-            break;
-        }
-
-        std::random_device seed;
-        std::mt19937 eng(seed());
-
-        std::uniform_int_distribution<uint16_t> uni(1, maxCraftValue);
-        auto craftValue = uni(eng);
 
         auto maxHealth = user->maxHealth;
         auto maxMana = user->maxHealth;
         auto maxStamina = user->maxHealth;
+
+        // See item descriptions
 
         switch (rune->info->effect)
         {
@@ -437,101 +410,161 @@ namespace packet_gem
                 CUser::ItemEquipmentOptionRem(user, item);
                 CItem::ReGenerationCraftExpansion(item, true);
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            CItem::ReGenerationCraftExpansion(item, true);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+            }
             break;
         case ItemEffect::StrRecreationRune:
-            if (!item->craftStrength)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftStrength(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+
+                if (item->craftStrength)
+                {
+                    auto value = item->craftStrength * 2;
+                    ItemHelper::SetCraftStrength(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
 
-            ItemHelper::SetCraftStrength(item, craftValue);
-
+                if (item->craftStrength)
+                {
+                    auto value = item->craftStrength * 2;
+                    ItemHelper::SetCraftStrength(item, value);
+                }
+            }
             break;
         case ItemEffect::DexRecreationRune:
-            if (!item->craftDexterity)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftDexterity(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+
+                if (item->craftDexterity)
+                {
+                    auto value = item->craftDexterity * 2;
+                    ItemHelper::SetCraftDexterity(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            ItemHelper::SetCraftDexterity(item, craftValue);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftDexterity)
+                {
+                    auto value = item->craftDexterity * 2;
+                    ItemHelper::SetCraftDexterity(item, value);
+                }
+            }
             break;
         case ItemEffect::IntRecreationRune:
-            if (!item->craftIntelligence)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftIntelligence(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+
+                if (item->craftIntelligence)
+                {
+                    auto value = item->craftIntelligence * 2;
+                    ItemHelper::SetCraftIntelligence(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            ItemHelper::SetCraftIntelligence(item, craftValue);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftIntelligence)
+                {
+                    auto value = item->craftIntelligence * 2;
+                    ItemHelper::SetCraftIntelligence(item, value);
+                }
+            }
             break;
         case ItemEffect::WisRecreationRune:
-            if (!item->craftWisdom)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftWisdom(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftWisdom)
+                {
+                    auto value = item->craftWisdom * 2;
+                    ItemHelper::SetCraftWisdom(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            ItemHelper::SetCraftWisdom(item, craftValue);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftWisdom)
+                {
+                    auto value = item->craftWisdom * 2;
+                    ItemHelper::SetCraftWisdom(item, value);
+                }
+            }
             break;
         case ItemEffect::RecRecreationRune:
-            if (!item->craftReaction)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftReaction(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftReaction)
+                {
+                    auto value = item->craftReaction * 2;
+                    ItemHelper::SetCraftReaction(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            ItemHelper::SetCraftReaction(item, craftValue);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftReaction)
+                {
+                    auto value = item->craftReaction * 2;
+                    ItemHelper::SetCraftReaction(item, value);
+                }
+            }
             break;
         case ItemEffect::LucRecreationRune:
-            if (!item->craftLuck)
-                return;
-
             if (!incoming->itemBag)
             {
                 CUser::ItemEquipmentOptionRem(user, item);
-                ItemHelper::SetCraftLuck(item, craftValue);
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftLuck)
+                {
+                    auto value = item->craftLuck * 2;
+                    ItemHelper::SetCraftLuck(item, value);
+                }
+
                 CUser::ItemEquipmentOptionAdd(user, item);
-                break;
             }
-
-            ItemHelper::SetCraftLuck(item, craftValue);
-
+            else
+            {
+                CItem::ReGenerationCraftExpansion(item, true);
+                
+                if (item->craftLuck)
+                {
+                    auto value = item->craftLuck * 2;
+                    ItemHelper::SetCraftLuck(item, value);
+                }
+            }
             break;
         default:
             SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
