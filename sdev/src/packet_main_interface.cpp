@@ -14,7 +14,7 @@ using namespace shaiya;
 
 namespace packet_main_interface
 {
-    void handler_0x245(CUser* user, GameMovePvPZoneIncoming* incoming)
+    void handler_0x245(CUser* user, GameMovePvPZoneIncoming_EP8* incoming)
     {
         if (user->status == UserStatus::Death)
             return;
@@ -86,7 +86,7 @@ namespace packet_main_interface
         switch (packet->opcode)
         {
         case 0x245:
-            handler_0x245(user, reinterpret_cast<GameMovePvPZoneIncoming*>(packet));
+            handler_0x245(user, reinterpret_cast<GameMovePvPZoneIncoming_EP8*>(packet));
             break;
         default:
             SConnection::Close(user, 9, 0);

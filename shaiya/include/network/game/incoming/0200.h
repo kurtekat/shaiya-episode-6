@@ -115,7 +115,14 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameMovePvPZoneIncoming
+    struct GameMovePvPZoneIncoming_EP7
+    {
+        uint16_t opcode{ 0x233 };
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    struct GameMovePvPZoneIncoming_EP8
     {
         uint16_t opcode{ 0x245 };
         uint16_t mapId;
