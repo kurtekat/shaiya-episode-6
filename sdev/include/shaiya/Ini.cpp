@@ -1,75 +1,80 @@
 #include <filesystem>
+#include <fstream>
+#include <map>
+#include <sstream>
 #include <string>
-#include <vector>
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <extensions/include/string.hpp>
 #include "Ini.h"
 using namespace shaiya;
 
+Ini Ini::Parse(const std::filesystem::path& path)
+{
+    std::wifstream stream(path);
+    return Parse(stream);
+}
+
+Ini Ini::Parse(std::wifstream& stream)
+{
+    std::wstringstream iss;
+    iss << stream.rdbuf();
+    return Parse(iss);
+}
+
+Ini Ini::Parse(const std::wstring& rawData)
+{
+    std::wstringstream iss(rawData);
+    return Parse(iss);
+}
+
+// Credit: Microsoft.Extensions.Configuration.Ini
+Ini Ini::Parse(std::wstringstream& rawData)
+{
+    Ini ini;
+    std::wstring rawLine;
+    std::wstring section;
+
+    while (std::getline(rawData, rawLine))
+    {
+        auto line = ext::string::trim_copy(rawLine);
+        if (line.empty())
+            continue;
+
+        if (line.starts_with(L';') || line.starts_with(L'#') || line.starts_with(L'/'))
+            continue;
+
+        if (line.starts_with(L'[') && line.ends_with(L']'))
+        {
+            section = ext::string::trim_copy(line.substr(1, line.length() - 2));
+            section += L':';
+            continue;
+        }
+
+        auto offset = line.find(L'=');
+        if (offset == std::wstring::npos)
+            continue;
+
+        // { Section:Key, Value }
+        auto key = section + ext::string::trim_copy(line.substr(0, offset));
+        auto value = ext::string::trim_copy(line.substr(offset + 1));
+
+        if (value.length() > 1 && value.starts_with(L'"') && value.ends_with(L'"'))
+            value = value.substr(1, value.length() - 2);
+
+        if (ini.data.contains(key))
+            continue;
+
+        ini.data[key] = value;
+    }
+
+    return ini;
+}
+
 std::wstring Ini::GetValueOrDefault(const std::wstring& key, const std::wstring& defaultValue) const
 {
-    return m_data.contains(key) ? m_data.at(key) : defaultValue;
+    return data.contains(key) ? data.at(key) : defaultValue;
 }
 
 int Ini::GetValueOrDefault(const std::wstring& key, int defaultValue) const
 {
-    return m_data.contains(key) ? std::stoi(m_data.at(key)) : defaultValue;
-}
-
-void Ini::Read()
-{
-    m_data.clear();
-
-    auto output = GetString(nullptr, nullptr, nullptr);
-    auto sections = ext::string::split(output, L'\0');
-    if (sections.empty())
-        return;
-
-    for (const auto& section : sections)
-    {
-        if (section.empty())
-            continue;
-
-        auto output = GetString(section.c_str(), nullptr, nullptr);
-        auto keys = ext::string::split(output, L'\0');
-        if (keys.empty())
-            continue;
-
-        std::vector<std::pair<std::wstring, std::wstring>> pairs;
-        for (const auto& key : keys)
-        {
-            if (key.empty())
-                continue;
-
-            auto value = GetString(section.c_str(), key.c_str(), nullptr);
-            pairs.push_back({ key, value });
-        }
-
-        for (const auto& pair : pairs)
-        {
-            // Section:Key
-            auto key = section + L":" + pair.first;
-            if (m_data.contains(key))
-                continue;
-
-            // { Section:Key, Value }
-            m_data[key] = pair.second;
-        }
-    }
-}
-
-std::wstring Ini::GetString(const wchar_t* section, const wchar_t* key, const wchar_t* defaultValue) const
-{
-    size_t size = (!section || !key) ? INT16_MAX : UINT8_MAX;
-    if (!defaultValue)
-        defaultValue = L"";
-
-    std::wstring output(size, L'\0');
-    auto count = GetPrivateProfileStringW(section, key, nullptr, output.data(), output.size(), m_path.c_str());
-    if (!count)
-        return defaultValue;
-
-    output.resize(count);
-    return output;
+    return data.contains(key) ? std::stoi(data.at(key)) : defaultValue;
 }

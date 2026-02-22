@@ -1,6 +1,8 @@
 #pragma once
 #include <filesystem>
+#include <fstream>
 #include <map>
+#include <sstream>
 #include <string>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -11,14 +13,15 @@ namespace shaiya
     {
     public:
 
-        explicit Ini(const std::filesystem::path& path)
-            : m_path(path)
-        {
-        }
+        Ini() = default;
+
+        static Ini Parse(const std::filesystem::path& path);
+        static Ini Parse(std::wifstream& stream);
+        static Ini Parse(const std::wstring& rawData);
+        static Ini Parse(std::wstringstream& rawData);
 
         std::wstring GetValueOrDefault(const std::wstring& key, const std::wstring& defaultValue) const;
         int GetValueOrDefault(const std::wstring& key, int defaultValue) const;
-        void Read();
 
     private:
 
@@ -31,8 +34,6 @@ namespace shaiya
             }
         };
 
-        std::map<std::wstring, std::wstring, key_compare> m_data;
-        std::filesystem::path m_path;
-        std::wstring GetString(const wchar_t* section, const wchar_t* key, const wchar_t* defaultValue) const;
+        std::map<std::wstring, std::wstring, key_compare> data;
     };
 }

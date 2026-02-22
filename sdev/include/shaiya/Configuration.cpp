@@ -42,9 +42,7 @@ void Configuration::LoadBattlefieldMoveData()
         if (!std::filesystem::exists(path))
             return;
 
-        Ini ini(path);
-        ini.Read();
-
+        auto ini = Ini::Parse(path);
         auto count = ini.GetValueOrDefault(L"BATTLEFIELD_INFO:BATTLEFIELD_COUNT", 0);
         if (count <= 0)
             return;
@@ -132,9 +130,7 @@ void Configuration::LoadChaoticSquareData()
         if (!std::filesystem::exists(path))
             return;
 
-        Ini ini(path);
-        ini.Read();
-
+        auto ini = Ini::Parse(path);
         auto recipeMax = ini.GetValueOrDefault(L"Info:RecipeMax", 0);
         recipeMax = std::clamp(recipeMax, 0, 1000);
         if (recipeMax <= 0)
@@ -280,9 +276,7 @@ void Configuration::LoadItemSetData()
         if (!std::filesystem::exists(path))
             return;
 
-        Ini ini(path);
-        ini.Read();
-
+        auto ini = Ini::Parse(path);
         auto str1 = ini.GetValueOrDefault(L"SetItem_String:MainString", L"");
         auto str2 = ini.GetValueOrDefault(L"SetItem_String:SubString", L"");
         if (str1.empty() || str2.empty())
@@ -380,9 +374,7 @@ void Configuration::LoadOnlineTimePrizeData()
         if (!std::filesystem::exists(path))
             return;
 
-        Ini ini(path);
-        ini.Read();
-
+        auto ini = Ini::Parse(path);
         auto count = ini.GetValueOrDefault(L"OnlineTimePrize:Count", 0);
         count = std::clamp(count, 0, 20);
         if (!count)
@@ -439,9 +431,7 @@ void Configuration::LoadMapData()
         if (!std::filesystem::exists(path))
             return;
 
-        Ini ini(path);
-        ini.Read();
-
+        auto ini = Ini::Parse(path);
         auto count = ini.GetValueOrDefault(L"BASE:MapCount", 0);
         if (count <= 0)
             return;
