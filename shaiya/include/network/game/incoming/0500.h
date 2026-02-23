@@ -69,6 +69,13 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    struct GameTownMoveIncoming
+    {
+        uint16_t opcode{ 0x556 };
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     struct GameTownMoveScrollIncoming
     {
         uint16_t opcode{ 0x55A };
