@@ -244,6 +244,7 @@ namespace shaiya
 
         static int GetItemRealType(int itemType);
         static GuildUserData* GetGuildUserData(unsigned charId);
+        static void GetMapName(char* output, int mapId);
     };
     #pragma pack(pop)
 

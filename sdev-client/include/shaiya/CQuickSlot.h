@@ -9,14 +9,14 @@ namespace shaiya
     struct CQuickSlot : CWindow
     {
         PAD(8);
-        CTexture mainImage;  //0x2C
-        CTexture plusImage;  //0x3C
-        uint8_t bag;         //0x4C
+        CTexture image1;  //0x2C  main_slot_1.tga
+        CTexture image2;  //0x3C  main_slot_plus.tga
+        uint8_t bag;      //0x4C
         PAD(203);
-        bool change;         //0x118
-        bool plus;           //0x119
+        bool change;      //0x118
+        bool plus;        //0x119
         PAD(10);
-        uint8_t id;          //0x124
+        uint8_t id;       //0x124
         PAD(3);
         // 0x128
 

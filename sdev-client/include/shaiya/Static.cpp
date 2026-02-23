@@ -36,3 +36,15 @@ void Static::SysMsgToChatBox(ChatType chatType, int messageNumber, int unknown)
     typedef void(__cdecl* LPFN)(ChatType, int, int);
     (*(LPFN)0x423150)(chatType, messageNumber, unknown);
 }
+
+void Static::operator_delete(void* block)
+{
+    typedef void(__cdecl* LPFN)(void*);
+    (*(LPFN)0x6307CD)(block);
+}
+
+void* Static::operator_new(size_t size)
+{
+    typedef void* (__cdecl* LPFN)(size_t);
+    return (*(LPFN)0x6307F3)(size);
+}

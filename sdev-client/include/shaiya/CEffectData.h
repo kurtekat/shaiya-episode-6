@@ -38,7 +38,7 @@ namespace shaiya
         String<260> path;            //0x28
         // 0x12C
 
-        static int CreateFromFile(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
+        static int Create(CEffectData* effectData, const char* path, const char* fileName/*.eft*/);
     };
     #pragma pack(pop)
 

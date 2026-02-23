@@ -22,6 +22,7 @@
 namespace shaiya
 {
     struct CSwordEffect;
+    struct SAFile;
 
     #pragma pack(push, 1)
     struct ExtraHotkey
@@ -167,7 +168,9 @@ namespace shaiya
         bool32_t isFullscreenWindow;         //0x7C13A4
         PAD(4);
         bool32_t isActiveWindow;             //0x7C13AC
-        PAD(1408);
+        PAD(1096);
+        SAFile* file;                        //0x7C17F8
+        PAD(308);
         uint32_t sysmsg_v2;                  //0x7C1930  <v2>
         HealPointType sysmsg_up;             //0x7C1934  <up>
         SkillStatusType sysmsg_zz;           //0x7C1935  <zz>
@@ -652,6 +655,11 @@ namespace shaiya
         static int GetDaSkillEffectDataId(int skillId);
         static char* GetMsg(int messageNumber);
         static void SysMsgToChatBox(ChatType chatType, int messageNumber, int unknown);
+
+        // CRT
+
+        static void operator_delete(void* block);
+        static void* operator_new(size_t size);
     };
     #pragma pack(pop)
 

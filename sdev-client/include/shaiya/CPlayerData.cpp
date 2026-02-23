@@ -13,3 +13,9 @@ GuildUserData* CPlayerData::GetGuildUserData(unsigned charId)
     typedef GuildUserData* (__thiscall* LPFN)(void*, unsigned);
     return (*(LPFN)0x4EB120)((void*)0x90D1D0, charId);
 }
+
+void CPlayerData::GetMapName(char* output, int mapId)
+{
+    typedef void(__thiscall* LPFN)(void*, char*, int);
+    (*(LPFN)0x4EDC10)((void*)0x90D1D0, output, mapId);
+}
