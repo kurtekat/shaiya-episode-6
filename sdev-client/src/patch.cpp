@@ -68,4 +68,10 @@ void hook::patch()
     util::write_memory((void*)0x583DED, 0x75, 1);
     // pet/wing lag workaround
     util::write_memory((void*)0x5881EE, 0x85, 1);
+    // remove skill delay
+    util::write_memory((void*)0x4FE8F1, 0x90, 2);
+    // remove basic delay
+    util::write_memory((void*)0x4FEB78, 0x90, 6);
+    // remove revolver delay
+    util::write_memory((void*)0x50819C, 0x90, 6);
 }
