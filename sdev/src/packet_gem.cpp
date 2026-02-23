@@ -52,7 +52,7 @@ namespace packet_gem
         if (!incoming->bag1)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag1, incoming->slot1))
+        if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
             return;
 
         auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
@@ -62,7 +62,7 @@ namespace packet_gem
         if (!incoming->bag2)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag2, incoming->slot2))
+        if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
             return;
 
         auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
@@ -72,7 +72,7 @@ namespace packet_gem
         if (!incoming->bag3)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag3, incoming->slot3))
+        if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
             return;
 
         auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
@@ -82,7 +82,7 @@ namespace packet_gem
         if (!incoming->vialBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
+        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -134,7 +134,7 @@ namespace packet_gem
         if (!incoming->bag1)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag1, incoming->slot1))
+        if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
             return;
 
         auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
@@ -144,7 +144,7 @@ namespace packet_gem
         if (!incoming->bag2)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag2, incoming->slot2))
+        if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
             return;
 
         auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
@@ -154,7 +154,7 @@ namespace packet_gem
         if (!incoming->bag3)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag3, incoming->slot3))
+        if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
             return;
 
         auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
@@ -164,7 +164,7 @@ namespace packet_gem
         if (!incoming->vialBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
+        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -194,7 +194,7 @@ namespace packet_gem
         if (!incoming->runeBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->runeBag, incoming->runeSlot))
+        if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
@@ -204,7 +204,7 @@ namespace packet_gem
         if (!incoming->vialBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->vialBag, incoming->vialSlot))
+        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
             return;
 
         auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
@@ -282,7 +282,7 @@ namespace packet_gem
         if (!incoming->cubeBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->cubeBag, incoming->cubeSlot))
+        if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
@@ -357,14 +357,14 @@ namespace packet_gem
         if (!incoming->runeBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->runeBag, incoming->runeSlot))
+        if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
             return;
 
         auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
         if (!rune)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->itemBag, incoming->itemSlot))
+        if (!UserHelper::IsBag(user, incoming->itemBag, incoming->itemSlot))
             return;
 
         auto& item = user->inventory[incoming->itemBag][incoming->itemSlot];
@@ -620,7 +620,7 @@ namespace packet_gem
         if (!incoming->squareBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->squareBag, incoming->squareSlot))
+        if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
             return;
 
         auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
@@ -696,7 +696,7 @@ namespace packet_gem
         if (!incoming->squareBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->squareBag, incoming->squareSlot))
+        if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
             return;
 
         auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
@@ -745,7 +745,7 @@ namespace packet_gem
 
         if (incoming->hammerBag != 0)
         {
-            if (!UserHelper::IsValidItemPosition(user, incoming->hammerBag, incoming->hammerSlot))
+            if (!UserHelper::IsBag(user, incoming->hammerBag, incoming->hammerSlot))
                 return;
 
             auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
@@ -821,21 +821,21 @@ namespace packet_gem
         if (!incoming->cubeBag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->cubeBag, incoming->cubeSlot))
+        if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
             return;
 
         auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
         if (!cube)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->srcBag, incoming->srcSlot))
+        if (!UserHelper::IsBag(user, incoming->srcBag, incoming->srcSlot))
             return;
 
         auto& source = user->inventory[incoming->srcBag][incoming->srcSlot];
         if (!source)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->destBag, incoming->destSlot))
+        if (!UserHelper::IsBag(user, incoming->destBag, incoming->destSlot))
             return;
 
         auto& target = user->inventory[incoming->destBag][incoming->destSlot];
@@ -866,7 +866,7 @@ namespace packet_gem
             if (!incoming->catalystBag)
                 return;
 
-            if (!UserHelper::IsValidItemPosition(user, incoming->catalystBag, incoming->catalystSlot))
+            if (!UserHelper::IsBag(user, incoming->catalystBag, incoming->catalystSlot))
                 return;
 
             auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];

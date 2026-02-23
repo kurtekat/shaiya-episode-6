@@ -30,7 +30,7 @@ namespace packet_pc
         if (!incoming->bag)
             return;
 
-        if (!UserHelper::IsValidItemPosition(user, incoming->bag, incoming->slot))
+        if (!UserHelper::IsBag(user, incoming->bag, incoming->slot))
             return;
 
         if (incoming->gateIndex > 2)
