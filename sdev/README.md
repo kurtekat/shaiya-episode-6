@@ -65,7 +65,7 @@ RepairCost = (Item.Buy / 15.0) * (Damage / 400.0)
 
 ## Battlefield Move
 
-The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. Assign a unique value to each `MAP_NO` key. The move will be instant, like the official server. Certain debuffs will prevent movement. Moving to the same zone is not allowed.
+The library expects **BattleFieldMoveInfo.ini** to be in the **PSM_Client/Bin/Data** directory. Assign a unique value to each `MAP_NO` key and a unique level range. The move will be instant, like the official server. Certain debuffs will prevent movement. Moving to the same zone is not allowed.
 
 ### Clients
 

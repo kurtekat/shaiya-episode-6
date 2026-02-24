@@ -47,10 +47,15 @@ void Configuration::LoadBattlefieldMoveData()
         if (count <= 0)
             return;
 
+        g_pvpMoveData.reserve(count);
+
         for (int num = 1; num < count + 1; ++num)
         {
             auto key1 = std::format(L"BATTLEFIELD_{}:MAP_NO", num);
-            auto mapId = ini.GetValueOrDefault(key1, 0);
+            auto mapId = ini.GetValueOrDefault(key1, -1);
+            if (mapId == -1)
+                continue;
+
             auto key2 = std::format(L"BATTLEFIELD_{}:LEVEL_MIN", num);
             auto levelMin = ini.GetValueOrDefault(key2, 0);
             auto key3 = std::format(L"BATTLEFIELD_{}:LEVEL_MAX", num);
@@ -112,7 +117,7 @@ void Configuration::LoadBattlefieldMoveData()
             //auto key4 = std::format(L"BATTLEFIELD_{}:MOVE_SPOT_RANGE", num);
             //auto range = ini.GetValueOrDefault(key4, 0);
 
-            g_pvpMoveData[mapId] = info;
+            g_pvpMoveData.push_back(info);
         }
     }
     catch (...)

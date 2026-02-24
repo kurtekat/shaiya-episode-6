@@ -22,6 +22,10 @@ The files have been partially restored to their original condition. I recommend 
 
 ![Capture](https://github.com/user-attachments/assets/6cc6d390-aaae-4f36-b362-f08ce9f243f5)
 
+## Configuration
+
+https://github.com/kurtekat/shaiya-episode-6/tree/main/sdev-client/bin/data
+
 ### SData Formats
 
 | Name     | Format |
@@ -32,7 +36,39 @@ The files have been partially restored to their original condition. I recommend 
 | NpcSkill | EP6    |
 | Skill    | EP6    |
 
-### Chat Color Exploit
+# Development
+
+## CRT
+
+https://learn.microsoft.com/en-us/cpp/c-runtime-library/potential-errors-passing-crt-objects-across-dll-boundaries?view=msvc-170
+
+## Battlefield Move
+
+The code is based on US client 223 (EP7). Do not expect the EP8 interface and mechanics.
+
+### Data
+
+Add `BattleFieldMoveInfo_Client` to the root directory. Add `main_stats_pvp.tga` and `main_stats_pvp_button.tga` to the interface directory.
+
+```
+data/
+├───BattleFieldMoveInfo_Client
+├───interface/
+│   ├───main_stats_pvp.tga
+│   ├───main_stats_pvp_button.tga
+```
+
+The library will read the ini data from the archive and parse the contents.
+
+### Configuration
+
+Assign a unique value to each `MAP_NO` key and a unique level range. The move will be instant, like the official server. Certain debuffs will prevent movement. Moving to the same zone is not allowed.
+
+### MapID
+
+The game uses the MapID to determine which system message line contains the map name. The client chooses the battlefield based on a level range; not a MapID.
+
+## Chat Color Exploit
 
 ```
 STATUS_STACK_BUFFER_OVERRUN encountered
@@ -99,7 +135,7 @@ mov ecx,[esp+00000558]
 add esp,0000054C
 ```
 
-### Recovery
+## Recovery
 
 Episode 6.4 (and greater) clients do not add the values in the 0x505 packet handler.
 

@@ -2,16 +2,15 @@
 #include <array>
 #include <cstdint>
 #include <vector>
-#include "MapPos.h"
 
 namespace shaiya
 {
     #pragma pack(push, 1)
     struct BattlefieldMoveInfo
     {
+        int32_t mapId;
         int32_t levelMin;
         int32_t levelMax;
-        std::array<MapPos, 4> mapPos;
     };
     #pragma pack(pop)
 

@@ -14,7 +14,7 @@ using namespace shaiya;
 
 namespace packet_main_interface
 {
-    void handler_0x245(CUser* user, GameMovePvPZoneIncoming_EP8* incoming)
+    void handler_0x233(CUser* user, GameMovePvPZoneIncoming_EP7* incoming)
     {
         if (user->status == UserStatus::Death)
             return;
@@ -25,25 +25,21 @@ namespace packet_main_interface
         if (user->logoutTime)
             return;
 
-        if (user->mapId == incoming->mapId)
-            return;
-
-        auto it = g_pvpMoveData.find(incoming->mapId);
+        auto it = std::ranges::find_if(g_pvpMoveData, BattlefieldLvInRangeF(user->level));
         if (it == g_pvpMoveData.end())
             return;
 
-        auto& info = it->second;
-        if (user->level < info.levelMin || user->level > info.levelMax)
+        auto index = std::clamp(static_cast<int>(user->family), 0, 3);
+        auto mapId = it->mapPos[index].mapId;
+        if (user->mapId == mapId)
             return;
 
         CUser::CancelActionExc(user);
         MyShop::Ended(&user->myShop);
 
-        auto index = std::clamp(static_cast<int>(user->family), 0, 3);
-        auto mapId = info.mapPos[index].mapId;
-        auto x = info.mapPos[index].x;
-        auto y = info.mapPos[index].y;
-        auto z = info.mapPos[index].z;
+        auto x = it->mapPos[index].x;
+        auto y = it->mapPos[index].y;
+        auto z = it->mapPos[index].z;
         UserHelper::SetMovePosition(user, MoveType::Portal, 0, mapId, x, y, z);
     }
 
@@ -85,8 +81,8 @@ namespace packet_main_interface
     {
         switch (packet->opcode)
         {
-        case 0x245:
-            handler_0x245(user, reinterpret_cast<GameMovePvPZoneIncoming_EP8*>(packet));
+        case 0x233:
+            handler_0x233(user, reinterpret_cast<GameMovePvPZoneIncoming_EP7*>(packet));
             break;
         default:
             SConnection::Close(user, 9, 0);

@@ -14,10 +14,12 @@
     <ClInclude Include="include\main.h" />
     <ClInclude Include="include\shaiya\3DC_Model.h" />
     <ClInclude Include="include\shaiya\AesKey.h" />
+    <ClInclude Include="include\shaiya\BattlefieldMoveInfo.h" />
     <ClInclude Include="include\shaiya\BillingItemInfo.h" />
     <ClInclude Include="include\shaiya\BlockData.h" />
     <ClInclude Include="include\shaiya\Camera.h" />
     <ClInclude Include="include\shaiya\CAniListData.h" />
+    <ClInclude Include="include\shaiya\CButton.h" />
     <ClInclude Include="include\shaiya\CCharacter.h" />
     <ClInclude Include="include\shaiya\CCharacterChat.h" />
     <ClInclude Include="include\shaiya\CDataFile.h" />
@@ -29,17 +31,20 @@
     <ClInclude Include="include\shaiya\CInput.h" />
     <ClInclude Include="include\shaiya\CItem.h" />
     <ClInclude Include="include\shaiya\CMap.h" />
+    <ClInclude Include="include\shaiya\CMessage.h" />
     <ClInclude Include="include\shaiya\CMonster.h" />
     <ClInclude Include="include\shaiya\CMonsterData.h" />
     <ClInclude Include="include\shaiya\CNetwork.h" />
     <ClInclude Include="include\shaiya\CNpc.h" />
     <ClInclude Include="include\shaiya\CObjectData.h" />
     <ClInclude Include="include\shaiya\common.h" />
+    <ClInclude Include="include\shaiya\Configuration.h" />
     <ClInclude Include="include\shaiya\CParticleData.h" />
     <ClInclude Include="include\shaiya\CPlayerData.h" />
     <ClInclude Include="include\shaiya\CQuickPotionSlot.h" />
     <ClInclude Include="include\shaiya\CQuickSlot.h" />
     <ClInclude Include="include\shaiya\CStaticText.h" />
+    <ClInclude Include="include\shaiya\CStatusMiniBar.h" />
     <ClInclude Include="include\shaiya\CTexture.h" />
     <ClInclude Include="include\shaiya\CTextureList.h" />
     <ClInclude Include="include\shaiya\CUnionPartyInfo.h" />
@@ -50,12 +55,14 @@
     <ClInclude Include="include\shaiya\GuildData2.h" />
     <ClInclude Include="include\shaiya\GuildUserData.h" />
     <ClInclude Include="include\shaiya\HealPointType.h" />
+    <ClInclude Include="include\shaiya\Ini.h" />
     <ClInclude Include="include\shaiya\ItemInfo.h" />
     <ClInclude Include="include\shaiya\LoginVersion.h" />
     <ClInclude Include="include\shaiya\MeshFace.h" />
     <ClInclude Include="include\shaiya\MobInfo.h" />
     <ClInclude Include="include\shaiya\RewardItem.h" />
     <ClInclude Include="include\shaiya\SAes.h" />
+    <ClInclude Include="include\shaiya\SAFile.h" />
     <ClInclude Include="include\shaiya\SBoxAxis.h" />
     <ClInclude Include="include\shaiya\SIMM.h" />
     <ClInclude Include="include\shaiya\SkillInfo.h" />
@@ -69,11 +76,14 @@
     <ClInclude Include="resources\resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\shaiya\CButton.cpp" />
     <ClCompile Include="include\shaiya\CCharacter.cpp" />
     <ClCompile Include="include\shaiya\CDataFile.cpp" />
     <ClCompile Include="include\shaiya\CEffectData.cpp" />
+    <ClCompile Include="include\shaiya\CMessage.cpp" />
     <ClCompile Include="include\shaiya\CMonster.cpp" />
     <ClCompile Include="include\shaiya\CNetwork.cpp" />
+    <ClCompile Include="include\shaiya\Configuration.cpp" />
     <ClCompile Include="include\shaiya\CPlayerData.cpp" />
     <ClCompile Include="include\shaiya\CQuickSlot.cpp" />
     <ClCompile Include="include\shaiya\CStaticText.cpp" />
@@ -81,9 +91,12 @@
     <ClCompile Include="include\shaiya\CWindow.cpp" />
     <ClCompile Include="include\shaiya\CWorldMgr.cpp" />
     <ClCompile Include="include\shaiya\GuildData2.cpp" />
+    <ClCompile Include="include\shaiya\Ini.cpp" />
+    <ClCompile Include="include\shaiya\SAFile.cpp" />
     <ClCompile Include="include\shaiya\SIMM.cpp" />
     <ClCompile Include="include\shaiya\Static.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\main_stats.cpp" />
     <ClCompile Include="src\patch.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\packet.cpp" />
