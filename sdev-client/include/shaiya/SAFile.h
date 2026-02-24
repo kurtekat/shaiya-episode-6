@@ -19,7 +19,6 @@ namespace shaiya
         static int Open(const char* fileName, const char* mode);
         static void Close(int handle);
         static void Read(char* buffer, int elemSize, int elemCount, int handle);
-        static void Seek(int handle, long offset, int origin, const char* fileName);
     };
     #pragma pack(pop)
 
