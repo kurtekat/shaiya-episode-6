@@ -18,7 +18,7 @@ The intent is to provide episode 6 client support. The best way to contribute is
 
 ### Issues
 
-Send me an email.
+Send me an email with enough details to reproduce the issue. Screenshots, videos, and logs are encouraged.
 
 ## Injection
 
@@ -46,7 +46,7 @@ The files in this repository are submitted to antivirus companies for analysis w
 
 [Cups](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4653021-shaiya-library.html)
 
-[EricDutra-16](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4189218-release-wip-ep6-source-code.html)
+[EricDutra](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/4189218-release-wip-ep6-source-code.html)
 
 [shen1l](https://www.elitepvpers.com/forum/shaiya-pserver-guides-releases/3669922-release-ep6-itemmall-fixed.html)
 
