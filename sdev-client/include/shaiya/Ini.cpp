@@ -26,7 +26,7 @@ Ini Ini::Parse(const std::wstring& rawData)
     return Parse(iss);
 }
 
-// Credit: Microsoft.Extensions.Configuration.Ini
+// Source: Microsoft.Extensions.Configuration.Ini
 Ini Ini::Parse(std::wstringstream& rawData)
 {
     Ini ini;

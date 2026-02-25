@@ -5,7 +5,7 @@
 
 namespace shaiya
 {
-    // Credit: Matias Ramirez (Parsec)
+    // Source: matigramirez (GitHub)
     enum struct NpcShopType : uint8_t
     {
         GenericMerchant,

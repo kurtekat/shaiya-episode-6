@@ -21,7 +21,7 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    // Credit: Anna Melashkina (Imgeneus)
+    // Source: aosyatnik (GitHub)
     enum struct GameCharAttackResult : uint8_t
     {
         Normal,

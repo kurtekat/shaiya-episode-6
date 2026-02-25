@@ -49,6 +49,7 @@ namespace detail {
         std::basic_string_view<Char> m_sv;
     };
 
+    // Source: Boost.Algorithm
     struct is_space
     {
         explicit is_space(const std::locale& loc = std::locale())
@@ -344,7 +345,7 @@ namespace string {
         int m_base;
     };
 
-    // Credit: DUB1401 (GitHub)
+    // Source: DUB1401 (GitHub)
     inline std::wstring to_wstring(const std::string& str, const std::locale& loc = std::locale())
     {
         std::wstring output(str.size(), 0);

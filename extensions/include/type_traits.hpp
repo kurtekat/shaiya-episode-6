@@ -3,9 +3,11 @@
 
 namespace ext {
 
+    // Source: Microsoft
     template<class T>
     constexpr bool is_scoped_enum_v = std::conjunction_v<std::is_enum<T>, std::negation<std::is_convertible<T, int>>>;
 
+    // Source: Microsoft
     template<class T>
     struct is_scoped_enum : std::bool_constant<is_scoped_enum_v<T>> {};
 
