@@ -180,7 +180,7 @@ The following items are supported:
 
 ## NpcQuest
 
-The episode 6 format has 6 quest results, each containing up to 3 items. The ps_game in this repository has been modified to read the file format.
+The episode 6 format has 6 quest results, each containing up to 3 items. The ps_game in this repository has been modified to read the file format. See the changelog in the bin directory for more information.
 
 ## Revenge Mark
 
@@ -483,7 +483,7 @@ The move will be instant, like the official server. Certain debuffs will prevent
 
 ## Warehouse Items
 
-I received several reports over the course of this project about missing warehouse items. I just want to provide evidence that I believe will absolve me of this shit. I will also provide a solution to the underlying issue.
+I received several reports over the course of this project about missing warehouse items. I just want to provide evidence that I believe will absolve me of this shit.
 
 ### Research
 
@@ -537,22 +537,6 @@ inventory[6][3] = 0x40C -> warehouse[3]
 inventory[6][4] = 0x410 -> warehouse[4]
 inventory[6][5] = 0x414 -> warehouse[5]
 ...
-```
-
-### Solution
-
-Replace the client code that sends the invalid packet. The sdev library will take care of the rest.
-
-```cpp
-if (g_pPlayerData->mapId == mapId)
-{
-    Static::SysMsgToChatBox(ChatType::Default, 6602, 1);
-    return;
-}
-
-GameMovePvPZoneIncoming outgoing{};
-outgoing.mapId = mapId;
-CNetwork::Send(&outgoing, sizeof(GameMovePvPZoneIncoming));
 ```
 
 ## File Operations
