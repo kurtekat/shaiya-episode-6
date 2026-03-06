@@ -6,78 +6,78 @@
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
-namespace character_list
+/// <summary>
+/// Sends packet 0x403 to the game service.
+/// </summary>
+void hook_0x40AA20(CUser* user, bool sendCountry)
 {
-    /// <summary>
-    /// Sends packet 0x403 to the game service.
-    /// </summary>
-    void send(CUser* user, bool sendCountry)
+    DBAgentCharListOutgoing<DBCharacterList_EP6_4> outgoing{};
+    outgoing.billingId = user->billingId;
+    // The game service sends packet 0x109 to the client 
+    // if this value is true
+    outgoing.withCountry = sendCountry;
+    outgoing.characterCount = 0;
+
+    for (const auto& character : user->characterList)
     {
-        DBAgentCharListOutgoing<DBCharacterList_EP6_4> outgoing{};
-        outgoing.billingId = user->billingId;
-        outgoing.withCountry = sendCountry;
-        outgoing.characterCount = 0;
+        if (!character.charId || character.slot >= 5)
+            continue;
 
-        for (const auto& character : user->characterList)
-        {
-            if (!character.charId || character.slot >= 5)
-                continue;
-
-            DBCharacterList_EP6_4 dbCharacter{};
-            dbCharacter.charId = character.charId;
-            dbCharacter.createDate = character.createDate;
-            dbCharacter.enableRename = character.enableRename;
-            dbCharacter.slot = character.slot;
-            dbCharacter.family = character.family;
-            dbCharacter.grow = character.grow;
-            dbCharacter.hair = character.hair;
-            dbCharacter.face = character.face;
-            dbCharacter.size = character.size;
-            dbCharacter.job = character.job;
-            dbCharacter.sex = character.sex;
-            dbCharacter.level = character.level;
-            dbCharacter.strength = character.strength;
-            dbCharacter.dexterity = character.dexterity;
-            dbCharacter.reaction = character.reaction;
-            dbCharacter.intelligence = character.intelligence;
-            dbCharacter.wisdom = character.wisdom;
-            dbCharacter.luck = character.luck;
-            dbCharacter.health = character.health;
-            dbCharacter.mana = character.mana;
-            dbCharacter.stamina = character.stamina;
-            dbCharacter.mapId = character.mapId;
-            dbCharacter.deleteDate = character.deleteDate;
-            dbCharacter.equipment = user->equipment[character.slot];
-            dbCharacter.cloakInfo = character.cloakInfo;
-            dbCharacter.charName = character.charName;
-
-            outgoing.characterList[outgoing.characterCount] = dbCharacter;
-            ++outgoing.characterCount;
-        }
-
-        if (!user->connection)
-            return;
-
-        int length = outgoing.baseLength + (outgoing.characterCount * sizeof(DBCharacterList_EP6_4));
-        SConnection::Send(user->connection, &outgoing, length);
+        DBCharacterList_EP6_4 dbCharacter{};
+        dbCharacter.charId = character.charId;
+        dbCharacter.createDate = character.createDate;
+        dbCharacter.enableRename = character.enableRename;
+        dbCharacter.slot = character.slot;
+        dbCharacter.family = character.family;
+        dbCharacter.grow = character.grow;
+        dbCharacter.hair = character.hair;
+        dbCharacter.face = character.face;
+        dbCharacter.size = character.size;
+        dbCharacter.job = character.job;
+        dbCharacter.sex = character.sex;
+        dbCharacter.level = character.level;
+        dbCharacter.strength = character.strength;
+        dbCharacter.dexterity = character.dexterity;
+        dbCharacter.reaction = character.reaction;
+        dbCharacter.intelligence = character.intelligence;
+        dbCharacter.wisdom = character.wisdom;
+        dbCharacter.luck = character.luck;
+        dbCharacter.health = character.health;
+        dbCharacter.mana = character.mana;
+        dbCharacter.stamina = character.stamina;
+        dbCharacter.mapId = character.mapId;
+        dbCharacter.deleteDate = character.deleteDate;
+        dbCharacter.equipment = user->equipment[character.slot];
+        dbCharacter.cloakInfo = character.cloakInfo;
+        dbCharacter.charName = character.charName;
+        // The game service copies most of this data to a 0x101 packet 
+        // and then sends the packet to the client
+        outgoing.characterList[outgoing.characterCount] = dbCharacter;
+        ++outgoing.characterCount;
     }
 
-    void assign_equipment(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
-    {
-        if (characterSlot >= 5)
-            return;
+    if (!user->connection)
+        return;
 
-        if (equipmentSlot >= 17)
-            return;
+    int length = outgoing.baseLength + (outgoing.characterCount * sizeof(DBCharacterList_EP6_4));
+    SConnection::Send(user->connection, &outgoing, length);
+}
 
-        user->equipment[characterSlot].type[equipmentSlot] = type;
-        user->equipment[characterSlot].typeId[equipmentSlot] = typeId;
-    }
+void hook_0x421AA5(CUser* user)
+{
+    user->equipment = {};
+}
 
-    void init_equipment(CUser* user)
-    {
-        user->equipment = {};
-    }
+void hook_0x4223F7(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
+{
+    if (characterSlot >= 5)
+        return;
+
+    if (equipmentSlot >= 17)
+        return;
+
+    user->equipment[characterSlot].type[equipmentSlot] = type;
+    user->equipment[characterSlot].typeId[equipmentSlot] = typeId;
 }
 
 void __declspec(naked) naked_0x40AA20()
@@ -90,7 +90,7 @@ void __declspec(naked) naked_0x40AA20()
 
         push edx // sendCountry
         push esi // user
-        call character_list::send
+        call hook_0x40AA20
         add esp,0x8
 
         popad
@@ -107,7 +107,7 @@ void __declspec(naked) naked_0x421AA5()
         pushad
 
         push edi // user
-        call character_list::init_equipment
+        call hook_0x421AA5
         add esp,0x4
 
         popad
@@ -135,7 +135,7 @@ void __declspec(naked) naked_0x4223F7()
         movzx edx,byte ptr[esp+0x54]
         push edx // characterSlot
         push edi // user
-        call character_list::assign_equipment
+        call hook_0x4223F7
         add esp,0x14
 
         popad
