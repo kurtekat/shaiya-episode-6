@@ -37,6 +37,18 @@ void CUser::ChkAddMoneyGet(CUser* user/*ecx*/, unsigned money/*edx*/)
     (*(LPFN)0x486E60)(user, money);
 }
 
+void CUser::ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/)
+{
+    unsigned u0x47E250 = 0x47E250;
+
+    __asm
+    {
+        mov esi,exchangeUser
+        mov ecx,user
+        call u0x47E250
+    }
+}
+
 void CUser::GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/)
 {
     unsigned u0x462A70 = 0x462A70;

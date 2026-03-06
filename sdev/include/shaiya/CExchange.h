@@ -11,7 +11,8 @@ namespace shaiya
         None,
         RequestSent,
         RequestRecv,
-        Start
+        Ready,
+        Confirmed
     };
 
     #pragma pack(push, 1)
@@ -22,9 +23,7 @@ namespace shaiya
         uint32_t money;           //0x15C8
         Array<ExcItem, 8> items;  //0x15CC
         bool ready;               //0x15E4
-        // custom
-        bool confirmed;           //0x15E5
-        PAD(2);
+        PAD(3);
         // 0x28
     };
     #pragma pack(pop)

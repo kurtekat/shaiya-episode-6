@@ -9,81 +9,83 @@ using namespace shaiya;
 namespace packet_exchange
 {
     /// <summary>
-    /// Sends packet 0xA05 to the user.
-    /// </summary>
-    void send_cancel_0xA05(CUser* user)
-    {
-        user->exchange.ready = false;
-
-        GameExchangeReadyOutgoing outgoing{};
-        outgoing.type = GameExchangeReadyType::Cancel;
-        outgoing.canceled = true;
-        SConnection::Send(user, &outgoing, sizeof(GameExchangeReadyOutgoing));
-    }
-
-    /// <summary>
-    /// Sends packet 0xA0A to the users.
-    /// </summary>
-    void send_cancel_0xA0A(CUser* user, CUser* exchangeUser)
-    {
-        user->exchange.confirmed = false;
-
-        GameExchangeConfirmOutgoing outgoing{}; 
-        outgoing.type = GameExchangeConfirmType::Sender;
-        outgoing.confirmed = false;
-        SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
-
-        outgoing.type = GameExchangeConfirmType::Target;
-        SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
-
-        exchangeUser->exchange.confirmed = false;
-        outgoing.type = GameExchangeConfirmType::Sender;
-        SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
-
-        outgoing.type = GameExchangeConfirmType::Target;
-        SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
-    }
-
-    /// <summary>
-    /// Sends packets 0xA05 and 0xA0A to the users.
-    /// </summary>
-    void send_cancel(CUser* user, CUser* exchangeUser)
-    {
-        send_cancel_0xA05(user);
-        send_cancel_0xA05(exchangeUser);
-        send_cancel_0xA0A(user, exchangeUser);
-    }
-
-    /// <summary>
     /// Handles incoming 0xA0A packets.
     /// </summary>
     void handler_0xA0A(CUser* user, GameExchangeConfirmIncoming* incoming)
     {
-        if (!user->exchange.user)
+        if (user->exchange.status < ExchangeStatus::Ready)
             return;
+
+        auto& exchangeUser = user->exchange.user;
+        if (!exchangeUser)
+            return;
+
+        if (user->pvpStatus != UserPvPStatus::None)
+            return;
+
+        if (exchangeUser->pvpStatus != UserPvPStatus::None)
+            return;
+
+        if (user->myShop.status != MyShopStatus::None)
+            return;
+
+        if (exchangeUser->myShop.status != MyShopStatus::None)
+            return;
+
+        if (user == exchangeUser)
+        {
+            SConnection::Close(user, 9, 0);
+            return;
+        }
 
         if (incoming->confirmed)
         {
-            user->exchange.confirmed = true;
+            user->exchange.status = ExchangeStatus::Confirmed;
 
             GameExchangeConfirmOutgoing outgoing{};
-            outgoing.type = GameExchangeConfirmType::Sender;
+            outgoing.type = GameExchangeConfirmType::User;
             outgoing.confirmed = true;
             SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
 
-            outgoing.type = GameExchangeConfirmType::Target;
-            SConnection::Send(user->exchange.user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+            outgoing.type = GameExchangeConfirmType::ExchangeUser;
+            SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
         }
         else
         {
-            send_cancel(user, user->exchange.user);
+            CUser::ExchangeCancelReady(user, exchangeUser);
+
+            if (user->exchange.status == ExchangeStatus::Confirmed)
+            {
+                user->exchange.status = ExchangeStatus::Ready;
+
+                GameExchangeConfirmOutgoing outgoing{};
+                outgoing.type = GameExchangeConfirmType::User;
+                outgoing.confirmed = false;
+                SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+
+                outgoing.type = GameExchangeConfirmType::ExchangeUser;
+                SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+            }
+
+            if (exchangeUser->exchange.status == ExchangeStatus::Confirmed)
+            {
+                exchangeUser->exchange.status = ExchangeStatus::Ready;
+
+                GameExchangeConfirmOutgoing outgoing{};
+                outgoing.type = GameExchangeConfirmType::User;
+                outgoing.confirmed = false;
+                SConnection::Send(exchangeUser, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+
+                outgoing.type = GameExchangeConfirmType::ExchangeUser;
+                SConnection::Send(user, &outgoing, sizeof(GameExchangeConfirmOutgoing));
+            }
         }
     }
 
     /// <summary>
     /// Sends packets 0xA09 or 0x240D (6.4) to the user. The item dates will be zero.
     /// </summary>
-    void dest_hook(CUser* user, GameExchangeAddDestOutgoing_EP5* packet)
+    void hook(CUser* user, GameExchangeAddDestOutgoing_EP5* packet)
     {
         GameExchangeAddDestOutgoing_EP6_4 outgoing{};
         outgoing.opcode = packet->opcode;
@@ -123,62 +125,27 @@ void __declspec(naked) naked_0x47D964()
     }
 }
 
-unsigned u0x47E29D = 0x47E29D;
-void __declspec(naked) naked_0x47E26F()
+unsigned u0x47DBBF = 0x47DBBF;
+void __declspec(naked) naked_0x47DB9E()
 {
     __asm
     {
-        pushad
-
-        push esi // exchangeUser
-        push ecx // user
-        call packet_exchange::send_cancel
-        add esp,0x8
-
-        popad
-
-        jmp u0x47E29D
-    }
-}
-
-unsigned u0x47E250 = 0x47E250;
-unsigned u0x47DE0D = 0x47DE0D;
-void __declspec(naked) naked_0x47DE08()
-{
-    __asm
-    {
-        pushad
-
-        push esi // exchangeUser
-        push ebx // user
-        call packet_exchange::send_cancel
-        add esp,0x8
-
-        popad
-
+        // user->exchange.status
+        cmp dword ptr[ebx+0x15C0],0x4
+        jne _0x47E0DA
+        // user->exchange.user
+        mov esi,[ebx+0x15C4]
+        test esi,esi
+        je _0x47E0DA
+        // user->exchange.status
+        cmp dword ptr[esi+0x15C0],0x4
+        jne _0x47E0DA
         // original
-        call u0x47E250
-        jmp u0x47DE0D
-    }
-}
+        lea ebp,[ebx+0x15C0]
+        jmp u0x47DBBF
 
-unsigned u0x47DFC5 = 0x47DFC5;
-void __declspec(naked) naked_0x47DFC0()
-{
-    __asm
-    {
-        pushad
-
-        push esi // exchangeUser
-        push ebx // user
-        call packet_exchange::send_cancel
-        add esp,0x8
-
-        popad
-
-        // original
-        call u0x47E250
-        jmp u0x47DFC5
+        _0x47E0DA:
+        jmp u0x47E0DA
     }
 }
 
@@ -196,7 +163,7 @@ void __declspec(naked) naked_0x47DF22()
 
         push eax // packet
         push esi // user
-        call packet_exchange::dest_hook
+        call packet_exchange::hook
         add esp,0x8
 
         popad
@@ -219,7 +186,7 @@ void __declspec(naked) naked_0x48C741()
 
         push eax // packet
         push esi // user
-        call packet_exchange::dest_hook
+        call packet_exchange::hook
         add esp,0x8
 
         popad
@@ -232,12 +199,8 @@ void hook::packet_exchange()
 {
     // CUser::PacketExchange switch
     util::detour((void*)0x47D964, naked_0x47D964, 5);
-    // CUser::ExchangeCancelReady
-    util::detour((void*)0x47E26F, naked_0x47E26F, 6);
-    // CUser::PacketExchange case 0xA06
-    util::detour((void*)0x47DE08, naked_0x47DE08, 5);
-    // CUser::PacketExchange case 0xA07
-    util::detour((void*)0x47DFC0, naked_0x47DFC0, 5);
+    // CUser::PacketExchange case 0xA05
+    util::detour((void*)0x47DB9E, naked_0x47DB9E, 7);
     // CUser::PacketExchange case 0xA06
     util::detour((void*)0x47DF22, naked_0x47DF22, 6);
     // CUser::PacketPvP case 0x240A

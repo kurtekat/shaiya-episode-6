@@ -13,13 +13,11 @@ void user_leave_world_hook(CUser* user)
 }
 
 /// <summary>
-/// Please check Cheat Engine scripts for instructions that access 
-/// extended user memory. Adjust the scripts and increase the user 
-/// allocation size as needed. (e.g., 0x6500)
+/// Please check Cheat Engine scripts for instructions that access extended user memory. 
+/// Adjust the scripts and increase the allocation size as needed. (e.g., 0x6500)
 /// </summary>
 void user_hook(CUser* user)
 {
-    user->exchange.confirmed = false;
     user->itemQualityLvEx = {};
     user->itemQualityEx = {};
     user->skillAbility70 = {};

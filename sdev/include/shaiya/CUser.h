@@ -441,6 +441,7 @@ namespace shaiya
         static void AddExpFromUser(CUser* user/*esi*/, unsigned lastTargetId, int exp, bool isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
         static void ChkAddMoneyGet(CUser* user/*ecx*/, unsigned money/*edx*/);
+        static void ExchangeCancelReady(CUser* user/*ecx*/, CUser* exchangeUser/*esi*/);
         static void GemEquipmentAdd(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GemEquipmentRem(CUser* user/*eax*/, int slot/*esi*/, int gem/*ecx*/);
         static void GetGuildName(CUser* user/*ebx*/, char* output);
