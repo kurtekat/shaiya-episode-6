@@ -158,6 +158,9 @@
     <ClCompile Include="include\shaiya\SDatabasePool.cpp">
       <Filter>include\shaiya</Filter>
     </ClCompile>
+    <ClCompile Include="src\user.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources\sdev.rc">

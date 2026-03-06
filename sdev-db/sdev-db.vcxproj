@@ -18,6 +18,7 @@
     <ClCompile Include="src\character_list.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h" />

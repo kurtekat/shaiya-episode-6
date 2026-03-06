@@ -7,4 +7,5 @@ namespace hook
 {
     void character();
     void character_list();
+    void user();
 }
