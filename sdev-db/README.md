@@ -29,3 +29,7 @@ The file was patched to undo an edit that causes item mall purchase duplicates.
 // original code
 00407942  mov dword ptr [ebx+8],0
 ```
+
+## Character Name
+
+Install `[dbo].[usp_Check_Char_Name]`. Add whatever you think is necessary to the procedure (e.g., `PATINDEX`).
