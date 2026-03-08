@@ -11,86 +11,95 @@
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
-namespace packet_quest
+/// <summary>
+/// Sends packet 0x903 (6.0) to the user (failure).
+/// </summary>
+void hook_0x48D1F2(CUser* user, CQuest* quest)
 {
-    /// <summary>
-    /// Sends packet 0x903 (6.0) failure packet to the user.
-    /// </summary>
-    void send_failure_0x903(CUser* user, CQuest* quest, unsigned npcId)
+    GameQuestEndOutgoing_EP6 outgoing{};
+    outgoing.npcId = 0;
+    outgoing.questId = quest->info->questId;
+    outgoing.success = false;
+    SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+}
+
+/// <summary>
+/// Sends packet 0x903 (6.0) to the user (failure).
+/// </summary>
+void hook_0x48DC3D(CUser* user, CQuest* quest, unsigned npcId)
+{
+    GameQuestEndOutgoing_EP6 outgoing{};
+    outgoing.npcId = npcId;
+    outgoing.questId = quest->info->questId;
+    outgoing.success = false;
+    SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+}
+
+/// <summary>
+/// Sends packet 0x903 (6.0) to the user (success).
+/// </summary>
+void hook_0x48DE38(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
+{
+    auto index = std::clamp(resultIndex, 0, 5);
+    auto& result = quest->info->results[index];
+
+    if (result.exp)
     {
-        GameQuestEndOutgoing_EP6 outgoing{};
-        outgoing.npcId = npcId;
-        outgoing.questId = quest->info->questId;
-        outgoing.success = false;
-        SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+        CUser::AddExpFromUser(user, 0, result.exp, true);
     }
 
-    /// <summary>
-    /// Sends the 0x903 (6.0) success packet to the user.
-    /// </summary>
-    void send_success_0x903(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
+    if (result.money)
     {
-        auto index = std::clamp(resultIndex, 0, 5);
-        auto& result = quest->info->results[index];
-
-        if (result.exp)
-        {
-            CUser::AddExpFromUser(user, 0, result.exp, true);
-        }
-
-        if (result.money)
-        {
-            CUser::ChkAddMoneyGet(user, result.money);
-            CUser::SendDBMoney(user);
-        }
-
-        GameLogQuestEndIncoming gameLog{};
-        CUser::SetGameLogMain(user, &gameLog.packet);
-        gameLog.packet.questId = quest->info->questId;
-        std::copy_n(quest->info->questName.cbegin(), 32, gameLog.packet.questName.begin());
-        gameLog.packet.success = true;
-        gameLog.packet.money = result.money;
-
-        GameQuestEndOutgoing_EP6 outgoing{};
-        outgoing.npcId = npcId;
-        outgoing.questId = quest->info->questId;
-        outgoing.success = true;
-        outgoing.resultIndex = index;
-        outgoing.exp = result.exp;
-        outgoing.money = result.money;
-
-        auto it = result.itemList.cbegin();
-        auto last = result.itemList.cend();
-        auto dest = outgoing.itemList.begin();
-
-        for (; it != last; ++it, ++dest)
-        {
-            int bag{}, slot{}; ItemInfo itemInfo{};
-            if (CUser::QuestAddItem(user, it->type, it->typeId, it->count, &bag, &slot, &itemInfo))
-            {
-                dest->count = it->count;
-                dest->bag = bag;
-                dest->slot = slot;
-                dest->type = it->type;
-                dest->typeId = it->typeId;
-
-                gameLog.packet.itemId = itemInfo.itemId;
-                gameLog.packet.itemCount = it->count;
-                gameLog.packet.itemName = itemInfo.itemName;
-            }
-            else
-            {
-                gameLog.packet.itemId = 0;
-                gameLog.packet.itemCount = 0;
-                gameLog.packet.itemName = {};
-            }
-
-            Network::SendGameLog(&gameLog, sizeof(GameLogQuestEndIncoming));
-        }
-
-        SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
-        CUser::QuestRemove(user, quest, true);
+        CUser::ChkAddMoneyGet(user, result.money);
+        CUser::SendDBMoney(user);
     }
+
+    GameLogQuestEndIncoming gameLog{};
+    CUser::SetGameLogMain(user, &gameLog.packet);
+    gameLog.packet.questId = quest->info->questId;
+    std::copy_n(quest->info->questName.cbegin(), 32, gameLog.packet.questName.begin());
+    gameLog.packet.success = true;
+    gameLog.packet.money = result.money;
+
+    GameQuestEndOutgoing_EP6 outgoing{};
+    outgoing.npcId = npcId;
+    outgoing.questId = quest->info->questId;
+    outgoing.success = true;
+    outgoing.resultIndex = index;
+    outgoing.exp = result.exp;
+    outgoing.money = result.money;
+
+    auto it = result.itemList.cbegin();
+    auto last = result.itemList.cend();
+    auto dest = outgoing.itemList.begin();
+
+    for (; it != last; ++it, ++dest)
+    {
+        int bag{}, slot{}; ItemInfo itemInfo{};
+        if (CUser::QuestAddItem(user, it->type, it->typeId, it->count, &bag, &slot, &itemInfo))
+        {
+            dest->count = it->count;
+            dest->bag = bag;
+            dest->slot = slot;
+            dest->type = it->type;
+            dest->typeId = it->typeId;
+
+            gameLog.packet.itemId = itemInfo.itemId;
+            gameLog.packet.itemCount = it->count;
+            gameLog.packet.itemName = itemInfo.itemName;
+        }
+        else
+        {
+            gameLog.packet.itemId = 0;
+            gameLog.packet.itemCount = 0;
+            gameLog.packet.itemName = {};
+        }
+
+        Network::SendGameLog(&gameLog, sizeof(GameLogQuestEndIncoming));
+    }
+
+    SConnection::Send(user, &outgoing, sizeof(GameQuestEndOutgoing_EP6));
+    CUser::QuestRemove(user, quest, true);
 }
 
 unsigned u0x48D237 = 0x48D237;
@@ -100,11 +109,10 @@ void __declspec(naked) naked_0x48D1F2()
     {
         pushad
 
-        push 0x0 // npcId
         push ebp // quest
         push ebx // user
-        call packet_quest::send_failure_0x903
-        add esp,0xC
+        call hook_0x48D1F2
+        add esp,0x8
 
         popad
 
@@ -115,7 +123,6 @@ void __declspec(naked) naked_0x48D1F2()
 unsigned u0x48DC91 = 0x48DC91;
 void __declspec(naked) naked_0x48DC3D()
 {
-    // esi = success boolean
     __asm
     {
         // original
@@ -127,7 +134,7 @@ void __declspec(naked) naked_0x48DC3D()
         push ecx // npcId
         push ebx // quest
         push edi // user
-        call packet_quest::send_failure_0x903
+        call hook_0x48DC3D
         add esp,0xC
 
         popad
@@ -141,15 +148,15 @@ void __declspec(naked) naked_0x48DE38()
 {
     __asm
     {
-        pushad
+        mov ecx,[esp+0xF4]
 
-        mov ecx,[esp+0x114]
+        pushad
 
         push edx // index
         push ecx // npcId
         push ebx // quest
         push edi // user
-        call packet_quest::send_success_0x903
+        call hook_0x48DE38
         add esp,0x10
 
         popad

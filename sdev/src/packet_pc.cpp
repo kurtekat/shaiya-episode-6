@@ -11,99 +11,96 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
-namespace packet_pc
+/// <summary>
+/// Handles incoming 0x55A packets.
+/// </summary>
+void handler_0x55A(CUser* user, GameTownMoveScrollIncoming* incoming)
 {
-    /// <summary>
-    /// Handles incoming 0x55A packets.
-    /// </summary>
-    void handler_0x55A(CUser* user, GameTownMoveScrollIncoming* incoming)
+    if (user->status == UserStatus::Death)
+        return;
+
+    if (user->debuffTypeDetail)
+        return;
+
+    if (user->logoutTime)
+        return;
+
+    if (!incoming->bag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag, incoming->slot))
+        return;
+
+    if (incoming->gateIndex > 2)
+        return;
+
+    user->savePosUseIndex = incoming->gateIndex;
+
+    CUser::CancelActionExc(user);
+    MyShop::Ended(&user->myShop);
+    CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
+}
+
+/// <summary>
+/// Sends packet 0x526 to the user.
+/// </summary>
+void hook_0x461005(CUser* user)
+{
+    GameUserStatusOutgoing outgoing{};
+
+    auto strength = user->abilityStrength;
+    strength -= user->strength;
+    outgoing.strength = strength;
+
+    auto reaction = user->abilityReaction;
+    reaction -= user->reaction;
+    outgoing.reaction = reaction;
+
+    auto intelligence = user->abilityIntelligence;
+    intelligence -= user->intelligence;
+    outgoing.intelligence = intelligence;
+
+    auto wisdom = user->abilityWisdom;
+    wisdom -= user->wisdom;
+    outgoing.wisdom = wisdom;
+
+    auto dexterity = user->abilityDexterity;
+    dexterity -= user->dexterity;
+    outgoing.dexterity = dexterity;
+
+    auto luck = user->abilityLuck;
+    luck -= user->luck;
+    outgoing.luck = luck;
+
+    auto attackPower = user->attack.power;
+
+    auto& weapon = user->inventory[0][5];
+    if (weapon)
     {
-        if (user->status == UserStatus::Death)
-            return;
-
-        if (user->debuffTypeDetail)
-            return;
-
-        if (user->logoutTime)
-            return;
-
-        if (!incoming->bag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag, incoming->slot))
-            return;
-
-        if (incoming->gateIndex > 2)
-            return;
-
-        user->savePosUseIndex = incoming->gateIndex;
-
-        CUser::CancelActionExc(user);
-        MyShop::Ended(&user->myShop);
-        CUser::ItemUse(user, incoming->bag, incoming->slot, user->id, 0);
-    }
-
-    /// <summary>
-    /// Sends packet 0x526 to the user.
-    /// </summary>
-    void send_0x526(CUser* user)
-    {
-        GameUserStatusOutgoing outgoing{};
-
-        auto strength = user->abilityStrength;
-        strength -= user->strength;
-        outgoing.strength = strength;
-
-        auto reaction = user->abilityReaction;
-        reaction -= user->reaction;
-        outgoing.reaction = reaction;
-
-        auto intelligence = user->abilityIntelligence;
-        intelligence -= user->intelligence;
-        outgoing.intelligence = intelligence;
-
-        auto wisdom = user->abilityWisdom;
-        wisdom -= user->wisdom;
-        outgoing.wisdom = wisdom;
-
-        auto dexterity = user->abilityDexterity;
-        dexterity -= user->dexterity;
-        outgoing.dexterity = dexterity;
-
-        auto luck = user->abilityLuck;
-        luck -= user->luck;
-        outgoing.luck = luck;
-
-        auto attackPower = user->attack.power;
-
-        auto& weapon = user->inventory[0][5];
-        if (weapon)
+        switch (weapon->info->realType)
         {
-            switch (weapon->info->realType)
-            {
-            case RealType::Javelin:
-            case RealType::Bow:
-            case RealType::Crossbow:
-                attackPower = user->attackRanged.power;
-                break;
-            default:
-                break;
-            }
+        case RealType::Javelin:
+        case RealType::Bow:
+        case RealType::Crossbow:
+            attackPower = user->attackRanged.power;
+            break;
+        default:
+            break;
         }
-
-        outgoing.minAttackPower = attackPower;
-        attackPower += user->itemAttackPowerAdd;
-        outgoing.maxAttackPower = attackPower;
-
-        auto magicPower = user->attackMagic.power;
-        outgoing.minMagicPower = magicPower;
-        magicPower += user->itemAttackPowerAdd;
-        outgoing.maxMagicPower = magicPower;
-
-        outgoing.defense = user->attack.defense;
-        outgoing.resistance = user->attackMagic.defense;
-        SConnection::Send(user, &outgoing, sizeof(GameUserStatusOutgoing));
     }
+
+    outgoing.minAttackPower = attackPower;
+    attackPower += user->itemAttackPowerAdd;
+    outgoing.maxAttackPower = attackPower;
+
+    auto magicPower = user->attackMagic.power;
+    outgoing.minMagicPower = magicPower;
+    magicPower += user->itemAttackPowerAdd;
+    outgoing.maxMagicPower = magicPower;
+
+    outgoing.defense = user->attack.defense;
+    outgoing.resistance = user->attackMagic.defense;
+    SConnection::Send(user, &outgoing, sizeof(GameUserStatusOutgoing));
 }
 
 unsigned u0x4784DB = 0x4784DB;
@@ -122,7 +119,7 @@ void __declspec(naked) naked_0x4784D6()
 
         push ebp // packet
         push ecx // user
-        call packet_pc::handler_0x55A
+        call handler_0x55A
         add esp,0x8
 
         popad
@@ -138,7 +135,7 @@ void __declspec(naked) naked_0x461005()
         pushad
 
         push esi // user
-        call packet_pc::send_0x526
+        call hook_0x461005
         add esp,0x4
 
         popad

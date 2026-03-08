@@ -12,153 +12,166 @@
 #include "include/shaiya/Synergy.h"
 using namespace shaiya;
 
-namespace user_equipment
+/// <summary>
+/// Enables additional equipment slots.
+/// </summary>
+bool hook_0x468385(CUser* user, CItem* item, ItemInfo* itemInfo, int slot)
 {
-    bool enable_slot(CUser* user, CItem* item, ItemInfo* itemInfo, int slot)
+    auto itemType = static_cast<ItemType>(itemInfo->type);
+    auto realType = itemInfo->realType;
+
+    switch (slot)
     {
-        auto itemType = static_cast<ItemType>(itemInfo->type);
-        auto realType = itemInfo->realType;
-
-        switch (slot)
+    case ItemEquipment::Helmet:
+        return realType == RealType::Helmet;
+    case ItemEquipment::UpperArmor:
+        return realType == RealType::UpperArmor;
+    case ItemEquipment::LowerArmor:
+        return realType == RealType::LowerArmor;
+    case ItemEquipment::Gloves:
+        return realType == RealType::Gloves;
+    case ItemEquipment::Boots:
+        return realType == RealType::Boots;
+    case ItemEquipment::Weapon:
+    {
+        if (CItem::IsWeapon(item))
         {
-        case ItemEquipment::Helmet:
-            return realType == RealType::Helmet;
-        case ItemEquipment::UpperArmor:
-            return realType == RealType::UpperArmor;
-        case ItemEquipment::LowerArmor:
-            return realType == RealType::LowerArmor;
-        case ItemEquipment::Gloves:
-            return realType == RealType::Gloves;
-        case ItemEquipment::Boots:
-            return realType == RealType::Boots;
-        case ItemEquipment::Weapon:
-        {
-            if (CItem::IsWeapon(item))
-            {
-                if (!user->inventory[0][6])
-                    return true;
+            if (!user->inventory[0][6])
+                return true;
 
-                if (CItem::IsOneHandWeapon(item))
-                    return true;
-            }
-
-            return false;
-        }
-        case ItemEquipment::Shield:
-        {
-            if (realType == RealType::Shield)
-            {
-                auto& weapon = user->inventory[0][5];
-                if (!weapon)
-                    return true;
-
-                if (CItem::IsOneHandWeapon(weapon))
-                    return true;
-            }
-
-            return false;
-        }
-        case ItemEquipment::Cloak:
-            return realType == RealType::Cloak;
-        case ItemEquipment::Necklace:
-            return realType == RealType::Necklace;
-        case ItemEquipment::Ring1:
-        case ItemEquipment::Ring2:
-            return realType == RealType::Ring;
-        case ItemEquipment::Bracelet1:
-        case ItemEquipment::Bracelet2:
-            return realType == RealType::Bracelet;
-        case ItemEquipment::Vehicle:
-            return itemType == ItemType::Vehicle;
-        case ItemEquipment::Pet:
-            return itemType == ItemType::Pet;
-        case ItemEquipment::Costume:
-            return itemType == ItemType::Costume;
-        case ItemEquipment::Wings:
-            return itemType == ItemType::Wings;
-        default:
-            break;
+            if (CItem::IsOneHandWeapon(item))
+                return true;
         }
 
         return false;
     }
-
-    void init(CUser* user)
+    case ItemEquipment::Shield:
     {
-        // Clear the synergy vector because InitEquipment 
-        // removes the effects
-        auto it = g_itemSetSynergies.find(user->id);
-        if (it != g_itemSetSynergies.end())
-            it->second.clear();
-
-        user->initStatusFlag = true;
-
-        for (int slot = 0; slot < 17; ++slot)
+        if (realType == RealType::Shield)
         {
-            auto& item = user->inventory[0][slot];
-            if (!item)
-                continue;
+            auto& weapon = user->inventory[0][5];
+            if (!weapon)
+                return true;
+
+            if (CItem::IsOneHandWeapon(weapon))
+                return true;
+        }
+
+        return false;
+    }
+    case ItemEquipment::Cloak:
+        return realType == RealType::Cloak;
+    case ItemEquipment::Necklace:
+        return realType == RealType::Necklace;
+    case ItemEquipment::Ring1:
+    case ItemEquipment::Ring2:
+        return realType == RealType::Ring;
+    case ItemEquipment::Bracelet1:
+    case ItemEquipment::Bracelet2:
+        return realType == RealType::Bracelet;
+    case ItemEquipment::Vehicle:
+        return itemType == ItemType::Vehicle;
+    case ItemEquipment::Pet:
+        return itemType == ItemType::Pet;
+    case ItemEquipment::Costume:
+        return itemType == ItemType::Costume;
+    case ItemEquipment::Wings:
+        return itemType == ItemType::Wings;
+    default:
+        break;
+    }
+
+    return false;
+}
+
+void hook_0x4614E3(CUser* user)
+{
+    // Clear the synergy vector because InitEquipment 
+    // removes the effects
+    auto it = g_itemSetSynergies.find(user->id);
+    if (it != g_itemSetSynergies.end())
+        it->second.clear();
+
+    user->initStatusFlag = true;
+
+    for (int slot = 0; slot < 17; ++slot)
+    {
+        auto& item = user->inventory[0][slot];
+        if (!item)
+            continue;
+
+        if (slot < ItemEquipment::Vehicle)
+            user->itemQualityEx[slot] = item->quality;
+
+        CUser::ItemEquipmentAdd(user, item, slot);
+    }
+
+    user->initStatusFlag = false;
+    CUser::SetAttack(user);
+}
+
+/// <summary>
+/// Sends packet 0x307 (6.4) to the user.
+/// </summary>
+void hook_0x477D4F(CUser* user, CUser* target)
+{
+    GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
+    outgoing.itemCount = 0;
+
+    for (int slot = 0; slot < 17; ++slot)
+    {
+        auto& item = target->inventory[0][slot];
+        if (!item)
+            continue;
+
+        // This condition can be removed if the client 
+        // inspection window supports 17 slots
+        if (slot < ItemEquipment::Wings)
+        {
+            GetInfoItemUnit_EP5 item0307{};
+            item0307.slot = slot;
+            item0307.type = item->type;
+            item0307.typeId = item->typeId;
 
             if (slot < ItemEquipment::Vehicle)
-                user->itemQualityEx[slot] = item->quality;
+                item0307.quality = item->quality;
 
-            CUser::ItemEquipmentAdd(user, item, slot);
+            item0307.gems = item->gems;
+            item0307.craftName = item->craftName;
+
+            outgoing.itemList[outgoing.itemCount] = item0307;
+            ++outgoing.itemCount;
         }
-
-        user->initStatusFlag = false;
-        CUser::SetAttack(user);
     }
 
-    /// <summary>
-    /// Sends packet 0x307 (6.4) to the user.
-    /// </summary>
-    void send_0x307(CUser* user, CUser* target)
-    {
-        GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
-        outgoing.itemCount = 0;
+    int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
+    SConnection::Send(user, &outgoing, length);
+}
 
-        for (int slot = 0; slot < 17; ++slot)
-        {
-            auto& item = target->inventory[0][slot];
-            if (!item)
-                continue;
+void hook_0x46166E(CUser* user)
+{
+    auto it = g_itemSetSynergies.find(user->id);
+    if (it != g_itemSetSynergies.end())
+        Synergy::subSynergies(user, it->second);
 
-            // This condition can be removed if the client 
-            // inspection window supports 17 slots
-            if (slot < ItemEquipment::Wings)
-            {
-                GetInfoItemUnit_EP5 item0307{};
-                item0307.slot = slot;
-                item0307.type = item->type;
-                item0307.typeId = item->typeId;
+    std::vector<ItemSetSynergy> synergies;
+    Synergy::getSynergies(user, synergies);
 
-                if (slot < ItemEquipment::Vehicle)
-                    item0307.quality = item->quality;
+    Synergy::addSynergies(user, synergies);
+    g_itemSetSynergies[user->id] = synergies;
+}
 
-                item0307.gems = item->gems;
-                item0307.craftName = item->craftName;
+void hook_0x461D43(CUser* user)
+{
+    auto it = g_itemSetSynergies.find(user->id);
+    if (it != g_itemSetSynergies.end())
+        Synergy::subSynergies(user, it->second);
 
-                outgoing.itemList[outgoing.itemCount] = item0307;
-                ++outgoing.itemCount;
-            }
-        }
+    std::vector<ItemSetSynergy> synergies;
+    Synergy::getSynergies(user, synergies);
 
-        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
-        SConnection::Send(user, &outgoing, length);
-    }
-
-    void synergy_hook(CUser* user)
-    {
-        auto it = g_itemSetSynergies.find(user->id);
-        if (it != g_itemSetSynergies.end())
-            Synergy::subSynergies(user, it->second);
-
-        std::vector<ItemSetSynergy> synergies;
-        Synergy::getSynergies(user, synergies);
-
-        Synergy::addSynergies(user, synergies);
-        g_itemSetSynergies[user->id] = synergies;
-    }
+    Synergy::addSynergies(user, synergies);
+    g_itemSetSynergies[user->id] = synergies;
 }
 
 unsigned u0x46846B = 0x46846B;
@@ -173,7 +186,7 @@ void __declspec(naked) naked_0x468385()
         push esi // itemInfo
         push ebx // item
         push edi // user
-        call user_equipment::enable_slot
+        call hook_0x468385
         add esp,0x10
         test al,al
 
@@ -195,7 +208,7 @@ void __declspec(naked) naked_0x4614E3()
         pushad
 
         push esi // user
-        call user_equipment::init
+        call hook_0x4614E3
         add esp,0x4
 
         popad
@@ -213,7 +226,7 @@ void __declspec(naked) naked_0x477D4F()
 
         push eax // target
         push edi // user
-        call user_equipment::send_0x307
+        call hook_0x477D4F
         add esp,0x8
 
         popad
@@ -230,7 +243,7 @@ void __declspec(naked) naked_0x46166E()
         pushad
 
         push edi // user
-        call user_equipment::synergy_hook
+        call hook_0x46166E
         add esp,0x4
 
         popad
@@ -249,7 +262,7 @@ void __declspec(naked) naked_0x461D43()
         pushad
 
         push edi // user
-        call user_equipment::synergy_hook
+        call hook_0x461D43
         add esp,0x4
 
         popad

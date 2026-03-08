@@ -18,116 +18,113 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
-namespace item_effect
+/// <summary>
+/// Adds support for additional item effects.
+/// </summary>
+int hook_0x47468A(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
 {
-    /// <summary>
-    /// Adds support for additional item effects.
-    /// </summary>
-    int hook(CUser* user, CItem* item, ItemEffect effect, int bag, int slot)
+    switch (effect)
     {
-        switch (effect)
-        {
-        case ItemEffect::TownMoveScroll:
-        {
-            auto it = g_townMoveData.find(user->mapId);
-            if (it == g_townMoveData.end())
-                return 0;
-
-            // Disabled? (see Map.ini)
-            if (!it->second)
-                return 0;
-
-            auto gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, item->info->reqVg);
-            if (!gateKeeper)
-                return 0;
-
-            auto country = gateKeeper->country;
-            if (country != user->country)
-                return 0;
-
-            CUser::ItemUseNSend(user, bag, slot, false);
-
-            auto index = std::clamp(user->savePosUseIndex, 0, 2);
-            auto mapId = gateKeeper->gates[index].mapId;
-            auto x = gateKeeper->gates[index].x;
-            auto y = gateKeeper->gates[index].y;
-            auto z = gateKeeper->gates[index].z;
-            UserHelper::SetMovePosition(user, MoveType::GateKeeper, 0, mapId, x, y, z);
-            return 1;
-        }
-        default:
+    case ItemEffect::TownMoveScroll:
+    {
+        auto it = g_townMoveData.find(user->mapId);
+        if (it == g_townMoveData.end())
             return 0;
-        }
+
+        // Disabled? (see Map.ini)
+        if (!it->second)
+            return 0;
+
+        auto gateKeeper = CNpcData<NpcGateKeeper*>::GetNpc(2, item->info->reqVg);
+        if (!gateKeeper)
+            return 0;
+
+        auto country = gateKeeper->country;
+        if (country != user->country)
+            return 0;
+
+        CUser::ItemUseNSend(user, bag, slot, false);
+
+        auto index = std::clamp(user->savePosUseIndex, 0, 2);
+        auto mapId = gateKeeper->gates[index].mapId;
+        auto x = gateKeeper->gates[index].x;
+        auto y = gateKeeper->gates[index].y;
+        auto z = gateKeeper->gates[index].z;
+        UserHelper::SetMovePosition(user, MoveType::GateKeeper, 0, mapId, x, y, z);
+        return 1;
     }
+    default:
+        return 0;
+    }
+}
 
-    /// <summary>
-    /// Implements item effects 212, 213, and 214.
-    /// </summary>
-    int zone_enter_item_hook(CItem* item, int enterType)
+/// <summary>
+/// Implements item effects 212, 213, and 214.
+/// </summary>
+int hook_0x41DA15(CItem* item, int enterType)
+{
+    if (enterType != GameItemZoneEnterType::MobDrop)
+        return 0;
+
+    if (!item->zone)
+        return 0;
+
+    auto user = CZone::FindUser(item->zone, item->userId);
+    if (!user)
+        return 0;
+
+    auto& pet = user->inventory[0][14];
+    if (!pet)
+        return 0;
+
+    if (item->type == ItemType::Gold)
     {
-        if (enterType != GameItemZoneEnterType::MobDrop)
+        auto money = item->dropMoney;
+        if (!money)
             return 0;
 
-        if (!item->zone)
+        auto effect = pet->info->effect;
+        if (effect != ItemEffect::PetGoldPick && effect != ItemEffect::PetGoldItemPick)
             return 0;
 
-        auto user = CZone::FindUser(item->zone, item->userId);
-        if (!user)
-            return 0;
-
-        auto& pet = user->inventory[0][14];
-        if (!pet)
-            return 0;
-
-        if (item->type == ItemType::Gold)
+        auto rate = user->increaseGoldDropRate;
+        switch (user->charmType)
         {
-            auto money = item->dropMoney;
-            if (!money)
-                return 0;
-
-            auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetGoldPick && effect != ItemEffect::PetGoldItemPick)
-                return 0;
-
-            auto rate = user->increaseGoldDropRate;
-            switch (user->charmType)
-            {
-            case CharmType::BlueDragon:
-                break;
-            case CharmType::WhiteTiger:
-                rate += 20;
-                break;
-            case CharmType::RedPhoenix:
-                rate += 50;
-                break;
-            default:
-                break;
-            }
-
-            if (rate > 0)
-            {
-                auto bonus = (rate * money) / 100;
-                money += bonus;
-            }
-
-            CUser::ItemGetMoney(user, money);
-            return 1;
+        case CharmType::BlueDragon:
+            break;
+        case CharmType::WhiteTiger:
+            rate += 20;
+            break;
+        case CharmType::RedPhoenix:
+            rate += 50;
+            break;
+        default:
+            break;
         }
-        else
+
+        if (rate > 0)
         {
-            if (!item->info)
-                return 0;
-
-            if (item->info->realType == RealType::Quest)
-                return 0;
-
-            auto effect = pet->info->effect;
-            if (effect != ItemEffect::PetItemPick && effect != ItemEffect::PetGoldItemPick)
-                return 0;
-
-            CUser::ItemGet(user, item);
-            return 1;
+            auto bonus = (rate * money) / 100;
+            money += bonus;
         }
+
+        CUser::ItemGetMoney(user, money);
+        return 1;
+    }
+    else
+    {
+        if (!item->info)
+            return 0;
+
+        if (item->info->realType == RealType::Quest)
+            return 0;
+
+        auto effect = pet->info->effect;
+        if (effect != ItemEffect::PetItemPick && effect != ItemEffect::PetGoldItemPick)
+            return 0;
+
+        CUser::ItemGet(user, item);
+        return 1;
     }
 }
 
@@ -147,7 +144,7 @@ void __declspec(naked) naked_0x47468A()
         push ecx // effect
         push ebx // item
         push ebp // user
-        call item_effect::hook
+        call hook_0x47468A
         add esp,0x14
         test eax,eax
 
@@ -179,7 +176,7 @@ void __declspec(naked) naked_0x41DA15()
 
         push eax // kind
         push edi // item
-        call item_effect::zone_enter_item_hook
+        call hook_0x41DA15
         add esp,0x8
         test eax,eax
 

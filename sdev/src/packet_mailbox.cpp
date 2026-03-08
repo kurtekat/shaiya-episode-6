@@ -6,33 +6,29 @@
 using namespace shaiya;
 
 // This feature will not be implemented.
-
-namespace packet_mailbox
+void handler_0x2A00(CUser* user, TP_MAIN* packet)
 {
-    void handler(CUser* user, TP_MAIN* packet)
+    switch (packet->opcode)
     {
-        switch (packet->opcode)
-        {
-        case 0x2A01:
-        {
-            break;
-        }
-        case 0x2A03:
-        {
-            break;
-        }
-        case 0x2A04:
-        {
-            break;
-        }
-        case 0x2A06:
-        {
-            break;
-        }
-        default:
-            SConnection::Close(user, 9, 0);
-            break;
-        }
+    case 0x2A01:
+    {
+        break;
+    }
+    case 0x2A03:
+    {
+        break;
+    }
+    case 0x2A04:
+    {
+        break;
+    }
+    case 0x2A06:
+    {
+        break;
+    }
+    default:
+        SConnection::Close(user, 9, 0);
+        break;
     }
 }
 
@@ -53,7 +49,7 @@ void __declspec(naked) naked_0x474FA0()
 
         push edi // packet
         push ebx // user
-        call packet_mailbox::handler
+        call handler_0x2A00
         add esp,0x8
 
         popad

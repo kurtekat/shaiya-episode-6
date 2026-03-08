@@ -10,261 +10,258 @@
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
-namespace user_shape
+void hook_0x45A365(CUser* user, CUser* target)
 {
-    void init_clone(CUser* user, CUser* target)
+    if (!user->clone)
+        return;
+
+    user->clone->dead = target->status == UserStatus::Death;
+    user->clone->motion = target->motion;
+    user->clone->country = target->country;
+    user->clone->family = target->family;
+    user->clone->hair = target->hair;
+    user->clone->face = target->face;
+    user->clone->size = target->size;
+    user->clone->job = target->job;
+    user->clone->sex = target->sex;
+    user->clone->partyType = CUser::GetPartyType(target);
+    user->clone->grow = target->grow;
+    user->clone->kills = target->kills;
+
+    user->clone->equipment = {};
+    user->clone->charName = {};
+    user->clone->cloakInfo = {};
+    user->clone->guildName = {};
+
+    for (int slot = 0; slot < 17; ++slot)
     {
-        if (!user->clone)
-            return;
+        auto& item = target->inventory[0][slot];
+        if (!item)
+            continue;
 
-        user->clone->dead = target->status == UserStatus::Death;
-        user->clone->motion = target->motion;
-        user->clone->country = target->country;
-        user->clone->family = target->family;
-        user->clone->hair = target->hair;
-        user->clone->face = target->face;
-        user->clone->size = target->size;
-        user->clone->job = target->job;
-        user->clone->sex = target->sex;
-        user->clone->partyType = CUser::GetPartyType(target);
-        user->clone->grow = target->grow;
-        user->clone->kills = target->kills;
+        user->clone->equipment[slot].type = item->type;
+        user->clone->equipment[slot].typeId = item->typeId;
+        user->clone->equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+    }
 
-        user->clone->equipment = {};
-        user->clone->charName = {};
-        user->clone->cloakInfo = {};
-        user->clone->guildName = {};
+    user->clone->charName = target->charName;
+    user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
+
+    auto& cloak = target->inventory[0][7];
+    if (!cloak)
+    {
+        user->clone->packetLength -= sizeof(CloakInfo);
+        CUser::GetGuildName(target, user->clone->guildName.data());
+    }
+    else
+    {
+        user->clone->cloakInfo = cloak->gems;
+        CUser::GetGuildName(target, user->clone->guildName.data());
+    }
+}
+
+/// <summary>
+/// Sends packet 0x303 (6.4) to the target.
+/// </summary>
+void hook_0x426948(CUser* user, CUser* target)
+{
+    GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
+    outgoing.objectId = user->id;
+
+    if (user->shapeType == ShapeType::Disguise && user->clone)
+    {
+        outgoing.dead = user->clone->dead;
+        outgoing.motion = user->clone->motion;
+        outgoing.country = user->clone->country;
+        outgoing.family = user->clone->family;
+        outgoing.hair = user->clone->hair;
+        outgoing.face = user->clone->face;
+        outgoing.size = user->clone->size;
+        outgoing.job = user->clone->job;
+        outgoing.sex = user->clone->sex;
+        outgoing.partyType = user->clone->partyType;
+        outgoing.grow = user->clone->grow;
+        outgoing.kills = user->clone->kills;
+        outgoing.equipment = user->clone->equipment;
+        outgoing.charName = user->clone->charName;
+
+        if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
+        {
+            outgoing.cloakInfo = user->clone->cloakInfo;
+            outgoing.guildName = user->clone->guildName;
+        }
+        else
+        {
+            std::memcpy(outgoing.cloakInfo.data(),
+                user->clone->guildName.data(), user->clone->guildName.size());
+        }
+
+        SConnection::Send(target, &outgoing, user->clone->packetLength);
+    }
+    else
+    {
+        outgoing.dead = user->status == UserStatus::Death;
+        outgoing.motion = user->motion;
+        outgoing.country = user->country;
+        outgoing.family = user->family;
+        outgoing.hair = user->hair;
+        outgoing.face = user->face;
+        outgoing.size = user->size;
+        outgoing.job = user->job;
+        outgoing.sex = user->sex;
+        outgoing.partyType = CUser::GetPartyType(user);
+        outgoing.grow = user->grow;
+        outgoing.kills = user->kills;
 
         for (int slot = 0; slot < 17; ++slot)
         {
-            auto& item = target->inventory[0][slot];
+            auto& item = user->inventory[0][slot];
             if (!item)
                 continue;
 
-            user->clone->equipment[slot].type = item->type;
-            user->clone->equipment[slot].typeId = item->typeId;
-            user->clone->equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+            outgoing.equipment[slot].type = item->type;
+            outgoing.equipment[slot].typeId = item->typeId;
+            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
         }
 
-        user->clone->charName = target->charName;
-        user->clone->packetLength = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
+        outgoing.charName = user->charName;
+        int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
 
-        auto& cloak = target->inventory[0][7];
+        auto& cloak = user->inventory[0][7];
         if (!cloak)
         {
-            user->clone->packetLength -= sizeof(CloakInfo);
-            CUser::GetGuildName(target, user->clone->guildName.data());
+            length -= sizeof(CloakInfo);
+            CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
         }
         else
         {
-            user->clone->cloakInfo = cloak->gems;
-            CUser::GetGuildName(target, user->clone->guildName.data());
+            outgoing.cloakInfo = cloak->gems;
+            CUser::GetGuildName(user, outgoing.guildName.data());
         }
+
+        SConnection::Send(target, &outgoing, length);
     }
+}
 
-    /// <summary>
-    /// Sends packet 0x303 (6.4) to the target.
-    /// </summary>
-    void send_user_0x303(CUser* user, CUser* target)
+/// <summary>
+/// Sends packet 0x303 (6.4) to the zone.
+/// </summary>
+void hook_0x491B13(CUser* user)
+{
+    GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
+    outgoing.objectId = user->id;
+
+    if (user->shapeType == ShapeType::Disguise && user->clone)
     {
-        GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->id;
+        outgoing.dead = user->clone->dead;
+        outgoing.motion = user->clone->motion;
+        outgoing.country = user->clone->country;
+        outgoing.family = user->clone->family;
+        outgoing.hair = user->clone->hair;
+        outgoing.face = user->clone->face;
+        outgoing.size = user->clone->size;
+        outgoing.job = user->clone->job;
+        outgoing.sex = user->clone->sex;
+        outgoing.partyType = user->clone->partyType;
+        outgoing.grow = user->clone->grow;
+        outgoing.kills = user->clone->kills;
+        outgoing.equipment = user->clone->equipment;
+        outgoing.charName = user->clone->charName;
 
-        if (user->shapeType == ShapeType::Disguise && user->clone)
+        if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
         {
-            outgoing.dead = user->clone->dead;
-            outgoing.motion = user->clone->motion;
-            outgoing.country = user->clone->country;
-            outgoing.family = user->clone->family;
-            outgoing.hair = user->clone->hair;
-            outgoing.face = user->clone->face;
-            outgoing.size = user->clone->size;
-            outgoing.job = user->clone->job;
-            outgoing.sex = user->clone->sex;
-            outgoing.partyType = user->clone->partyType;
-            outgoing.grow = user->clone->grow;
-            outgoing.kills = user->clone->kills;
-            outgoing.equipment = user->clone->equipment;
-            outgoing.charName = user->clone->charName;
-
-            if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
-            {
-                outgoing.cloakInfo = user->clone->cloakInfo;
-                outgoing.guildName = user->clone->guildName;
-            }
-            else
-            {
-                std::memcpy(outgoing.cloakInfo.data(),
-                    user->clone->guildName.data(), user->clone->guildName.size());
-            }
-
-            SConnection::Send(target, &outgoing, user->clone->packetLength);
+            outgoing.cloakInfo = user->clone->cloakInfo;
+            outgoing.guildName = user->clone->guildName;
         }
         else
         {
-            outgoing.dead = user->status == UserStatus::Death;
-            outgoing.motion = user->motion;
-            outgoing.country = user->country;
-            outgoing.family = user->family;
-            outgoing.hair = user->hair;
-            outgoing.face = user->face;
-            outgoing.size = user->size;
-            outgoing.job = user->job;
-            outgoing.sex = user->sex;
-            outgoing.partyType = CUser::GetPartyType(user);
-            outgoing.grow = user->grow;
-            outgoing.kills = user->kills;
-
-            for (int slot = 0; slot < 17; ++slot)
-            {
-                auto& item = user->inventory[0][slot];
-                if (!item)
-                    continue;
-
-                outgoing.equipment[slot].type = item->type;
-                outgoing.equipment[slot].typeId = item->typeId;
-                outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
-            }
-
-            outgoing.charName = user->charName;
-            int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
-
-            auto& cloak = user->inventory[0][7];
-            if (!cloak)
-            {
-                length -= sizeof(CloakInfo);
-                CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
-            }
-            else
-            {
-                outgoing.cloakInfo = cloak->gems;
-                CUser::GetGuildName(user, outgoing.guildName.data());
-            }
-
-            SConnection::Send(target, &outgoing, length);
+            std::memcpy(outgoing.cloakInfo.data(),
+                user->clone->guildName.data(), user->clone->guildName.size());
         }
-    }
-
-    /// <summary>
-    /// Sends packet 0x303 (6.4) to the zone.
-    /// </summary>
-    void send_zone_0x303(CUser* user)
-    {
-        GameGetInfoUserShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->id;
-
-        if (user->shapeType == ShapeType::Disguise && user->clone)
-        {
-            outgoing.dead = user->clone->dead;
-            outgoing.motion = user->clone->motion;
-            outgoing.country = user->clone->country;
-            outgoing.family = user->clone->family;
-            outgoing.hair = user->clone->hair;
-            outgoing.face = user->clone->face;
-            outgoing.size = user->clone->size;
-            outgoing.job = user->clone->job;
-            outgoing.sex = user->clone->sex;
-            outgoing.partyType = user->clone->partyType;
-            outgoing.grow = user->clone->grow;
-            outgoing.kills = user->clone->kills;
-            outgoing.equipment = user->clone->equipment;
-            outgoing.charName = user->clone->charName;
-
-            if (user->clone->packetLength == sizeof(GameGetInfoUserShapeOutgoing_EP6_4))
-            {
-                outgoing.cloakInfo = user->clone->cloakInfo;
-                outgoing.guildName = user->clone->guildName;
-            }
-            else
-            {
-                std::memcpy(outgoing.cloakInfo.data(), 
-                    user->clone->guildName.data(), user->clone->guildName.size());
-            }
-
-            if (!user->zone)
-                return;
-
-            CZone::SendView(user->zone, &outgoing, user->clone->packetLength, user->cellX, user->cellZ);
-        }
-        else
-        {
-            outgoing.dead = user->status == UserStatus::Death;
-            outgoing.motion = user->motion;
-            outgoing.country = user->country;
-            outgoing.family = user->family;
-            outgoing.hair = user->hair;
-            outgoing.face = user->face;
-            outgoing.size = user->size;
-            outgoing.job = user->job;
-            outgoing.sex = user->sex;
-            outgoing.partyType = CUser::GetPartyType(user);
-            outgoing.grow = user->grow;
-            outgoing.kills = user->kills;
-
-            for (int slot = 0; slot < 17; ++slot)
-            {
-                auto& item = user->inventory[0][slot];
-                if (!item)
-                    continue;
-
-                outgoing.equipment[slot].type = item->type;
-                outgoing.equipment[slot].typeId = item->typeId;
-                outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
-            }
-
-            outgoing.charName = user->charName;
-            int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
-
-            auto& cloak = user->inventory[0][7];
-            if (!cloak)
-            {
-                length -= sizeof(CloakInfo);
-                CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
-            }
-            else
-            {
-                outgoing.cloakInfo = cloak->gems;
-                CUser::GetGuildName(user, outgoing.guildName.data());
-            }
-
-            if (!user->zone)
-                return;
-
-            CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
-        }
-    }
-
-    /// <summary>
-    /// Sends packet 0x51D (6.4) to the zone.
-    /// </summary>
-    void send_zone_0x51D(CUser* user, GameCharShapeOutgoing_EP5* packet)
-    {
-        GameCharShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->id;
-        outgoing.shapeType = packet->shapeType;
-        auto& vehicle = user->inventory[0][13];
-        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
-        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
 
         if (!user->zone)
             return;
 
-        CZone::SendView(user->zone, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4), user->cellX, user->cellZ);
+        CZone::SendView(user->zone, &outgoing, user->clone->packetLength, user->cellX, user->cellZ);
     }
-
-    /// <summary>
-    /// Sends packet 0x51D (6.4) to the target.
-    /// </summary>
-    void send_user_0x51D(CUser* target, CUser* user, ShapeType shapeType)
+    else
     {
-        GameCharShapeOutgoing_EP6_4 outgoing{};
-        outgoing.objectId = user->id;
-        outgoing.shapeType = shapeType;
-        auto& vehicle = user->inventory[0][13];
-        outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
-        outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
-        SConnection::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
+        outgoing.dead = user->status == UserStatus::Death;
+        outgoing.motion = user->motion;
+        outgoing.country = user->country;
+        outgoing.family = user->family;
+        outgoing.hair = user->hair;
+        outgoing.face = user->face;
+        outgoing.size = user->size;
+        outgoing.job = user->job;
+        outgoing.sex = user->sex;
+        outgoing.partyType = CUser::GetPartyType(user);
+        outgoing.grow = user->grow;
+        outgoing.kills = user->kills;
+
+        for (int slot = 0; slot < 17; ++slot)
+        {
+            auto& item = user->inventory[0][slot];
+            if (!item)
+                continue;
+
+            outgoing.equipment[slot].type = item->type;
+            outgoing.equipment[slot].typeId = item->typeId;
+            outgoing.equipment[slot].enchantStep = CItem::GetEnchantStep(item);
+        }
+
+        outgoing.charName = user->charName;
+        int length = sizeof(GameGetInfoUserShapeOutgoing_EP6_4);
+
+        auto& cloak = user->inventory[0][7];
+        if (!cloak)
+        {
+            length -= sizeof(CloakInfo);
+            CUser::GetGuildName(user, reinterpret_cast<char*>(outgoing.cloakInfo.data()));
+        }
+        else
+        {
+            outgoing.cloakInfo = cloak->gems;
+            CUser::GetGuildName(user, outgoing.guildName.data());
+        }
+
+        if (!user->zone)
+            return;
+
+        CZone::SendView(user->zone, &outgoing, length, user->cellX, user->cellZ);
     }
+}
+
+/// <summary>
+/// Sends packet 0x51D (6.4) to the zone.
+/// </summary>
+void hook_0x491490(CUser* user, GameCharShapeOutgoing_EP5* packet)
+{
+    GameCharShapeOutgoing_EP6_4 outgoing{};
+    outgoing.objectId = user->id;
+    outgoing.shapeType = packet->shapeType;
+    auto& vehicle = user->inventory[0][13];
+    outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+    outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
+
+    if (!user->zone)
+        return;
+
+    CZone::SendView(user->zone, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4), user->cellX, user->cellZ);
+}
+
+/// <summary>
+/// Sends packet 0x51D (6.4) to the target.
+/// </summary>
+void hook_0x42A56C(CUser* target, CUser* user, ShapeType shapeType)
+{
+    GameCharShapeOutgoing_EP6_4 outgoing{};
+    outgoing.objectId = user->id;
+    outgoing.shapeType = shapeType;
+    auto& vehicle = user->inventory[0][13];
+    outgoing.vehicleType = !vehicle ? 0 : vehicle->type;
+    outgoing.vehicleTypeId = !vehicle ? 0 : vehicle->typeId;
+    SConnection::Send(target, &outgoing, sizeof(GameCharShapeOutgoing_EP6_4));
 }
 
 unsigned u0x426CA0 = 0x426CA0;
@@ -276,7 +273,7 @@ void __declspec(naked) naked_0x426948()
         
         push ebp // target
         push ebx // user
-        call user_shape::send_user_0x303
+        call hook_0x426948
         add esp,0x8
 
         popad
@@ -296,7 +293,7 @@ void __declspec(naked) naked_0x491B13()
         pushad
 
         push ebp // user
-        call user_shape::send_zone_0x303
+        call hook_0x491B13
         add esp,0x4
         
         popad
@@ -314,7 +311,7 @@ void __declspec(naked) naked_0x45A365()
 
         push esi // target
         push edi // user
-        call user_shape::init_clone
+        call hook_0x45A365
         add esp,0x8
         
         popad
@@ -334,7 +331,7 @@ void __declspec(naked) naked_0x491490()
 
         push eax // packet
         push ecx // user
-        call user_shape::send_zone_0x51D
+        call hook_0x491490
         add esp,0x8
         
         popad
@@ -353,7 +350,7 @@ void __declspec(naked) naked_0x42A56C()
         push eax // shapeType
         push esi // user
         push ebx // target
-        call user_shape::send_user_0x51D
+        call hook_0x42A56C
         add esp,0xC
         
         popad

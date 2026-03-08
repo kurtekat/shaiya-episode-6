@@ -13,83 +13,79 @@ using namespace shaiya;
 /// <summary>
 /// See the docs for a list of supported clients.
 /// </summary>
-
-namespace packet_reward_item
+void handler_0x1F00(CUser* user, TP_MAIN* packet)
 {
-    void handler(CUser* user, TP_MAIN* packet)
+    using namespace std::chrono_literals;
+
+    switch (packet->opcode)
     {
-        using namespace std::chrono_literals;
+    case 0x1F04:
+    {
+        if (!g_rewardItemCount)
+            return;
 
-        switch (packet->opcode)
+        auto it = g_rewardItemProgress.find(user->billingId);
+        if (it == g_rewardItemProgress.end())
+            return;
+
+        auto& progress = it->second;
+        if (!progress.completed)
+            return;
+
+        auto& item = g_rewardItemList[progress.index];
+        auto itemInfo = CGameData::GetItemInfo(item.type, item.typeId);
+        if (!itemInfo)
+            return;
+
+        if (!CUser::ItemCreate(user, itemInfo, item.count))
         {
-        case 0x1F04:
+            // The client will output system message 7188 inside a message box
+            GameRewardItemGetResultOutgoing outgoing{};
+            outgoing.result = GameRewardItemGetResult::Failure;
+            SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
+        }
+        else
         {
-            if (!g_rewardItemCount)
-                return;
+            GameRewardItemGetResultOutgoing outgoing{};
+            outgoing.result = GameRewardItemGetResult::Success;
+            outgoing.messageNumber = 7192;
+            SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
 
-            auto it = g_rewardItemProgress.find(user->billingId);
-            if (it == g_rewardItemProgress.end())
-                return;
+            ++progress.index;
 
-            auto& progress = it->second;
-            if (!progress.completed)
-                return;
-
-            auto& item = g_rewardItemList[progress.index];
-            auto itemInfo = CGameData::GetItemInfo(item.type, item.typeId);
-            if (!itemInfo)
-                return;
-
-            if (!CUser::ItemCreate(user, itemInfo, item.count))
+            if (progress.index >= g_rewardItemCount)
             {
-                // The client will output system message 7188 inside a message box
-                GameRewardItemGetResultOutgoing outgoing{};
-                outgoing.result = GameRewardItemGetResult::Failure;
-                SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
+                auto minutes = g_rewardItemList[0].minutes;
+                auto ms = minutes * 60000 + 15000;
+                auto now = std::chrono::system_clock::now();
+
+                progress.index = 0;
+                progress.timeout = now + std::chrono::milliseconds(ms);
+                progress.completed = false;
+
+                GameRewardItemListIndexOutgoing outgoing{};
+                SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
             }
             else
             {
-                GameRewardItemGetResultOutgoing outgoing{};
-                outgoing.result = GameRewardItemGetResult::Success; 
-                outgoing.messageNumber = 7192;
-                SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetResultOutgoing));
+                auto minutes = g_rewardItemList[progress.index].minutes;
+                auto ms = minutes * 60000 + 15000;
+                auto now = std::chrono::system_clock::now();
 
-                ++progress.index;
+                progress.timeout = now + std::chrono::milliseconds(ms);
+                progress.completed = false;
 
-                if (progress.index >= g_rewardItemCount)
-                {
-                    auto minutes = g_rewardItemList[0].minutes;
-                    auto ms = minutes * 60000 + 15000;
-                    auto now = std::chrono::system_clock::now();
-
-                    progress.index = 0;
-                    progress.timeout = now + std::chrono::milliseconds(ms);
-                    progress.completed = false;
-
-                    GameRewardItemListIndexOutgoing outgoing{};
-                    SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
-                }
-                else
-                {
-                    auto minutes = g_rewardItemList[progress.index].minutes;
-                    auto ms = minutes * 60000 + 15000;
-                    auto now = std::chrono::system_clock::now();
-
-                    progress.timeout = now + std::chrono::milliseconds(ms);
-                    progress.completed = false;
-
-                    GameRewardItemListIndexOutgoing outgoing{};
-                    outgoing.index = progress.index;
-                    SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
-                }
+                GameRewardItemListIndexOutgoing outgoing{};
+                outgoing.index = progress.index;
+                SConnection::Send(user, &outgoing, sizeof(GameRewardItemListIndexOutgoing));
             }
+        }
 
-            break;
-        }
-        default:
-            SConnection::Close(user, 9, 0);
-            break;
-        }
+        break;
+    }
+    default:
+        SConnection::Close(user, 9, 0);
+        break;
     }
 }
 
@@ -110,7 +106,7 @@ void __declspec(naked) naked_0x474EFB()
 
         push edi // packet
         push ebx // user
-        call packet_reward_item::handler
+        call handler_0x1F00
         add esp,0x8
 
         popad

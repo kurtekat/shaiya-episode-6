@@ -5,35 +5,32 @@
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
-namespace packet_myshop
+/// <summary>
+/// Sends packet 0x230B (6.4) to the user. The item dates will be zero.
+/// </summary>
+void hook_0x48733F(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
 {
-    /// <summary>
-    /// Sends packet 0x230B (6.4) to the user. The item dates will be zero.
-    /// </summary>
-    void send_0x230B(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
+    GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};
+    outgoing.itemCount = packet->itemCount;
+
+    auto it = packet->itemList.cbegin();
+    auto last = it + packet->itemCount;
+    auto dest = outgoing.itemList.begin();
+
+    for (; it != last; ++it, ++dest)
     {
-        GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};
-        outgoing.itemCount = packet->itemCount;
-
-        auto it = packet->itemList.cbegin();
-        auto last = it + packet->itemCount;
-        auto dest = outgoing.itemList.begin();
-
-        for (; it != last; ++it, ++dest)
-        {
-            dest->shopSlot = it->shopSlot;
-            dest->money = it->money;
-            dest->type = it->type;
-            dest->typeId = it->typeId;
-            dest->count = it->count;
-            dest->quality = it->quality;
-            dest->gems = it->gems;
-            dest->craftName = it->craftName;
-        }
-
-        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));
-        SConnection::Send(user, &outgoing, length);
+        dest->shopSlot = it->shopSlot;
+        dest->money = it->money;
+        dest->type = it->type;
+        dest->typeId = it->typeId;
+        dest->count = it->count;
+        dest->quality = it->quality;
+        dest->gems = it->gems;
+        dest->craftName = it->craftName;
     }
+
+    int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));
+    SConnection::Send(user, &outgoing, length);
 }
 
 unsigned u0x487350 = 0x487350;
@@ -47,7 +44,7 @@ void __declspec(naked) naked_0x48733F()
 
         push eax // packet
         push ecx // user
-        call packet_myshop::send_0x230B
+        call hook_0x48733F
         add esp,0x8
 
         popad

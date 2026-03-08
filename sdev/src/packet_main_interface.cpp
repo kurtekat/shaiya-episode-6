@@ -12,82 +12,88 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
-namespace packet_main_interface
+/// <summary>
+/// Adds battlefield move support (EP7).
+/// </summary>
+void handler_0x233(CUser* user, GameMovePvPZoneIncoming_EP7* incoming)
 {
-    void handler_0x233(CUser* user, GameMovePvPZoneIncoming_EP7* incoming)
+    if (user->status == UserStatus::Death)
+        return;
+
+    if (user->debuffTypeDetail)
+        return;
+
+    if (user->logoutTime)
+        return;
+
+    auto it = std::ranges::find_if(g_pvpMoveData, BattlefieldLvInRangeF(user->level));
+    if (it == g_pvpMoveData.end())
+        return;
+
+    auto index = std::clamp(static_cast<int>(user->family), 0, 3);
+    auto mapId = it->mapPos[index].mapId;
+    if (user->mapId == mapId)
+        return;
+
+    CUser::CancelActionExc(user);
+    MyShop::Ended(&user->myShop);
+
+    auto x = it->mapPos[index].x;
+    auto y = it->mapPos[index].y;
+    auto z = it->mapPos[index].z;
+    UserHelper::SetMovePosition(user, MoveType::Portal, 0, mapId, x, y, z);
+}
+
+/// <summary>
+/// Adds support for additional 0x200 packets.
+/// </summary>
+void handler_0x200(CUser* user, TP_MAIN* packet)
+{
+    switch (packet->opcode)
     {
-        if (user->status == UserStatus::Death)
-            return;
+    case 0x233:
+        handler_0x233(user, reinterpret_cast<GameMovePvPZoneIncoming_EP7*>(packet));
+        break;
+    default:
+        SConnection::Close(user, 9, 0);
+        break;
+    }
+}
 
-        if (user->debuffTypeDetail)
-            return;
-
-        if (user->logoutTime)
-            return;
-
-        auto it = std::ranges::find_if(g_pvpMoveData, BattlefieldLvInRangeF(user->level));
-        if (it == g_pvpMoveData.end())
-            return;
-
-        auto index = std::clamp(static_cast<int>(user->family), 0, 3);
-        auto mapId = it->mapPos[index].mapId;
-        if (user->mapId == mapId)
-            return;
-
-        CUser::CancelActionExc(user);
-        MyShop::Ended(&user->myShop);
-
-        auto x = it->mapPos[index].x;
-        auto y = it->mapPos[index].y;
-        auto z = it->mapPos[index].z;
-        UserHelper::SetMovePosition(user, MoveType::Portal, 0, mapId, x, y, z);
+/// <summary>
+/// Adds revenge mark support.
+/// </summary>
+void hook_0x4656F7(CUser* target, CUser* killer)
+{
+    if (g_revengeMarks.contains(killer->id))
+    {
+        if (g_revengeMarks[killer->id].erase(target->id))
+        {
+            RevengeMark::SendRevengeSuccess(killer, target->id);
+        }
     }
 
-    void send_0x229(CUser* target, CUser* killer)
+    if (g_revengeMarks.contains(target->id))
     {
-        if (g_revengeMarks.contains(killer->id))
+        if (g_revengeMarks[target->id].contains(killer->id))
         {
-            if (g_revengeMarks[killer->id].erase(target->id))
+            auto& killCount = g_revengeMarks[target->id][killer->id];
+            if (killCount < 999)
             {
-                RevengeMark::SendRevengeSuccess(killer, target->id);
-            }
-        }
-
-        if (g_revengeMarks.contains(target->id))
-        {
-            if (g_revengeMarks[target->id].contains(killer->id))
-            {
-                auto& killCount = g_revengeMarks[target->id][killer->id];
-                if (killCount < 999)
-                {
-                    ++killCount;
-                    RevengeMark::SendKillCount(target, killer->id, killCount);
-                }
-            }
-            else
-            {
-                g_revengeMarks[target->id].insert({ killer->id, 1 });
-                RevengeMark::SendKillCount(target, killer->id, 1);
+                ++killCount;
+                RevengeMark::SendKillCount(target, killer->id, killCount);
             }
         }
         else
         {
-            g_revengeMarks.insert({ target->id, {{ killer->id, 1 }} });
+            g_revengeMarks[target->id].insert({ killer->id, 1 });
             RevengeMark::SendKillCount(target, killer->id, 1);
         }
     }
-
-    void handler(CUser* user, TP_MAIN* packet)
+    else
     {
-        switch (packet->opcode)
-        {
-        case 0x233:
-            handler_0x233(user, reinterpret_cast<GameMovePvPZoneIncoming_EP7*>(packet));
-            break;
-        default:
-            SConnection::Close(user, 9, 0);
-            break;
-        }
+        g_revengeMarks.insert({ target->id, {{ killer->id, 1 }} });
+        RevengeMark::SendKillCount(target, killer->id, 1);
     }
 }
 
@@ -100,7 +106,7 @@ void __declspec(naked) naked_0x47798E()
 
         push ebx // packet
         push ebp // user
-        call packet_main_interface::handler
+        call handler_0x200
         add esp,0x8
 
         popad
@@ -118,7 +124,7 @@ void __declspec(naked) naked_0x4656F7()
 
         push esi // killer
         push edi // target
-        call packet_main_interface::send_0x229
+        call hook_0x4656F7
         add esp,0x8
 
         popad

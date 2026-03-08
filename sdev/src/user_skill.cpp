@@ -13,176 +13,199 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
-namespace user_skill
+int hook_0x45CCE3(CUser* user, SkillInfo* skillInfo)
 {
-    int ability_70_hook1(CUser* user, SkillInfo* skillInfo)
+    auto abilityType1 = skillInfo->abilities[0].type;
+    if (abilityType1 != SkillAbilityType::Frenzied)
+        return 0;
+
+    GameCharSkillUseOutgoing_EP6 outgoing{};
+    outgoing.senderId = user->id;
+    outgoing.targetId = user->id;
+    outgoing.skillId = skillInfo->skillId;
+    outgoing.skillLv = skillInfo->skillLv;
+
+    if (!user->skillAbility70.triggered)
     {
-        auto abilityType1 = skillInfo->abilities[0].type;
-        if (abilityType1 != SkillAbilityType::Frenzied)
-            return 0;
+        user->skillAbility70.triggered = true;
+        user->skillAbility70.skillId = skillInfo->skillId;
+        user->skillAbility70.skillLv = skillInfo->skillLv;
+        user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
 
-        GameCharSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->id;
-        outgoing.targetId = user->id;
-        outgoing.skillId = skillInfo->skillId;
-        outgoing.skillLv = skillInfo->skillLv;
-
-        if (!user->skillAbility70.triggered)
-        {
-            user->skillAbility70.triggered = true;
-            user->skillAbility70.skillId = skillInfo->skillId;
-            user->skillAbility70.skillLv = skillInfo->skillLv;
-            user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
-
-            outgoing.toggleType = ToggleType::Triggered;
-            SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
-        }
-        else
-        {
-            user->skillAbility70.triggered = false;
-            user->skillAbility70.skillId = 0;
-            user->skillAbility70.skillLv = 0;
-            user->skillAbility70.keepTime = 0;
-
-            outgoing.toggleType = ToggleType::Stopped;
-            SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
-        }
-
-        return 1;
+        outgoing.toggleType = ToggleType::Triggered;
+        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
-
-    int ability_70_hook2(CUser* user, SkillInfo* skillInfo)
+    else
     {
-        auto abilityType1 = skillInfo->abilities[0].type;
-        if (abilityType1 != SkillAbilityType::Frenzied)
-            return 0;
-
-        if (!user->skillAbility70.triggered)
-            return 0;
-
-        auto now = GetTickCount();
-        if (now < user->skillAbility70.keepTime)
-            return 1;
-
-        user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
-
-        auto abilityValue1 = skillInfo->abilities[0].value;
-        auto damage = (user->health * abilityValue1) / 100;
-
-        user->health -= damage;
-        CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
-        return 1;
-    }
-
-    void ability_70_hook3(CUser* user)
-    {
-        if (!user->skillAbility70.triggered)
-            return;
-
         user->skillAbility70.triggered = false;
         user->skillAbility70.skillId = 0;
         user->skillAbility70.skillLv = 0;
         user->skillAbility70.keepTime = 0;
 
-        GameCharSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->id;
-        outgoing.targetId = user->id;
-        outgoing.skillId = user->skillAbility70.skillId;;
-        outgoing.skillLv = user->skillAbility70.skillLv;
         outgoing.toggleType = ToggleType::Stopped;
         SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
     }
 
-    void ability_70_hook4(CUser* user, SkillInfo* skillInfo)
+    return 1;
+}
+
+int hook_0x496067(CUser* user, SkillInfo* skillInfo)
+{
+    auto abilityType1 = skillInfo->abilities[0].type;
+    if (abilityType1 != SkillAbilityType::Frenzied)
+        return 0;
+
+    if (!user->skillAbility70.triggered)
+        return 0;
+
+    auto now = GetTickCount();
+    if (now < user->skillAbility70.keepTime)
+        return 1;
+
+    user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
+
+    auto abilityValue1 = skillInfo->abilities[0].value;
+    auto damage = (user->health * abilityValue1) / 100;
+
+    user->health -= damage;
+    CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
+    return 1;
+}
+
+void hook_0x49861D(CUser* user)
+{
+    if (!user->skillAbility70.triggered)
+        return;
+
+    user->skillAbility70.triggered = false;
+    user->skillAbility70.skillId = 0;
+    user->skillAbility70.skillLv = 0;
+    user->skillAbility70.keepTime = 0;
+
+    GameCharSkillUseOutgoing_EP6 outgoing{};
+    outgoing.senderId = user->id;
+    outgoing.targetId = user->id;
+    outgoing.skillId = user->skillAbility70.skillId;;
+    outgoing.skillLv = user->skillAbility70.skillLv;
+    outgoing.toggleType = ToggleType::Stopped;
+    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+}
+
+void hook_0x49887C(CUser* user)
+{
+    if (!user->skillAbility70.triggered)
+        return;
+
+    user->skillAbility70.triggered = false;
+    user->skillAbility70.skillId = 0;
+    user->skillAbility70.skillLv = 0;
+    user->skillAbility70.keepTime = 0;
+
+    GameCharSkillUseOutgoing_EP6 outgoing{};
+    outgoing.senderId = user->id;
+    outgoing.targetId = user->id;
+    outgoing.skillId = user->skillAbility70.skillId;;
+    outgoing.skillLv = user->skillAbility70.skillLv;
+    outgoing.toggleType = ToggleType::Stopped;
+    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+}
+
+void hook_0x4935B2(CUser* user, SkillInfo* skillInfo)
+{
+    auto abilityType1 = skillInfo->abilities[0].type;
+    if (abilityType1 != SkillAbilityType::Frenzied)
+        return;
+
+    if (!user->skillAbility70.triggered)
+        return;
+
+    user->skillAbility70.triggered = false;
+    user->skillAbility70.skillId = 0;
+    user->skillAbility70.skillLv = 0;
+    user->skillAbility70.keepTime = 0;
+
+    GameCharSkillUseOutgoing_EP6 outgoing{};
+    outgoing.senderId = user->id;
+    outgoing.targetId = user->id;
+    outgoing.skillId = user->skillAbility70.skillId;;
+    outgoing.skillLv = user->skillAbility70.skillLv;
+    outgoing.toggleType = ToggleType::Stopped;
+    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+}
+
+/// <summary>
+/// Extends skill ability support. The abilityValue will be negative when a skill is removed.
+/// </summary>
+void hook_0x4959A4(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
+{
+    switch (abilityType)
     {
-        auto abilityType1 = skillInfo->abilities[0].type;
-        if (abilityType1 != SkillAbilityType::Frenzied)
-            return;
-
-        if (!user->skillAbility70.triggered)
-            return;
-
-        user->skillAbility70.triggered = false;
-        user->skillAbility70.skillId = 0;
-        user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTime = 0;
-
-        GameCharSkillUseOutgoing_EP6 outgoing{};
-        outgoing.senderId = user->id;
-        outgoing.targetId = user->id;
-        outgoing.skillId = user->skillAbility70.skillId;;
-        outgoing.skillLv = user->skillAbility70.skillLv;
-        outgoing.toggleType = ToggleType::Stopped;
-        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
-    }
-
-    /// <summary>
-    /// Extends skill ability support. The abilityValue will be negative when a skill is removed.
-    /// </summary>
-    void set_ability_hook(CUser* user, int typeEffect, SkillAbilityType abilityType, int abilityValue)
-    {
-        switch (abilityType)
-        {
         // itemId: 101112, 101113
         // skillId: 432
-        case SkillAbilityType::MultiplyQuestExp:
-            user->multiplyQuestExpRate += abilityValue;
-            break;
-        default:
-            break;
-        }
+    case SkillAbilityType::MultiplyQuestExp:
+        user->multiplyQuestExpRate += abilityValue;
+        break;
+    default:
+        break;
     }
+}
 
-    int multiply_exp(CUser* user, int exp, bool isQuest)
+int hook_0x465087(CUser* user, int exp, bool isQuest)
+{
+    if (isQuest)
     {
-        if (isQuest)
-        {
-            auto rate = user->multiplyQuestExpRate;
-            if (rate <= 100)
-                return exp;
+        auto rate = user->multiplyQuestExpRate;
+        if (rate <= 100)
+            return exp;
 
-            auto bonus = (rate / 100.0) * exp;
-            return static_cast<int>(bonus);
-        }
-
-        auto multiplier = 1.0;
-        auto rate = user->multiplyExp2;
-        if (rate > 100)
-            multiplier = rate / 100.0;
-
-        switch (user->charmType)
-        {
-        case CharmType::BlueDragon:
-        case CharmType::WhiteTiger:
-        case CharmType::RedPhoenix:
-            multiplier += 0.2;
-            break;
-        default:
-            break;
-        }
-
-        // expupmap
-
-        auto zone = user->zone;
-        if (zone)
-        {
-            auto map = zone->map;
-            if (map)
-            {
-                multiplier *= map->expMultiplier;
-            }
-        }
-
-        // expupcamp
-
-        if (user->country == Country::Light)
-            multiplier *= *reinterpret_cast<double*>(0x582768);
-        else
-            multiplier *= *reinterpret_cast<double*>(0x582770);
-
-        auto bonus = multiplier * exp;
+        auto bonus = (rate / 100.0) * exp;
         return static_cast<int>(bonus);
     }
+
+    auto multiplier = 1.0;
+    auto rate = user->multiplyExp2;
+    if (rate > 100)
+        multiplier = rate / 100.0;
+
+    switch (user->charmType)
+    {
+    case CharmType::BlueDragon:
+    case CharmType::WhiteTiger:
+    case CharmType::RedPhoenix:
+        multiplier += 0.2;
+        break;
+    default:
+        break;
+    }
+
+    // expupmap
+
+    auto zone = user->zone;
+    if (zone)
+    {
+        auto map = zone->map;
+        if (map)
+        {
+            multiplier *= map->expMultiplier;
+        }
+    }
+
+    // expupcamp
+
+    switch (user->country)
+    {
+    case Country::Light:
+        multiplier *= *reinterpret_cast<double*>(0x582768);
+        break;
+    case Country::Fury:
+        multiplier *= *reinterpret_cast<double*>(0x582770);
+        break;
+    default:
+        break;
+    }
+
+    auto bonus = multiplier * exp;
+    return static_cast<int>(bonus);
 }
 
 unsigned u0x45CCE9 = 0x45CCE9;
@@ -195,7 +218,7 @@ void __declspec(naked) naked_0x45CCE3()
 
         push esi // skillInfo
         push ebp // sender
-        call user_skill::ability_70_hook1
+        call hook_0x45CCE3
         add esp,0x8
         test eax,eax
 
@@ -222,7 +245,7 @@ void __declspec(naked) naked_0x496067()
 
         push ecx // skillInfo
         push esi // user
-        call user_skill::ability_70_hook2
+        call hook_0x496067
         add esp,0x8
         test eax,eax
 
@@ -248,7 +271,7 @@ void __declspec(naked) naked_0x49861D()
         pushad
 
         push esi // user
-        call user_skill::ability_70_hook3
+        call hook_0x49861D
         add esp,0x4
 
         popad
@@ -267,7 +290,7 @@ void __declspec(naked) naked_0x49887C()
         pushad
 
         push esi // user
-        call user_skill::ability_70_hook3
+        call hook_0x49887C
         add esp,0x4
 
         popad
@@ -292,7 +315,7 @@ void __declspec(naked) naked_0x4935B2()
 
         push esi // skillInfo
         push ebp // user
-        call user_skill::ability_70_hook4
+        call hook_0x4935B2
         add esp,0x8
 
         popad
@@ -313,7 +336,7 @@ void __declspec(naked) naked_0x4959A4()
         push edx // abilityType
         push ecx // typeEffect
         push esi // user
-        call user_skill::set_ability_hook
+        call hook_0x4959A4
         add esp,0x10
 
         popad
@@ -334,15 +357,15 @@ void __declspec(naked) naked_0x465087()
         pushad
 
         movzx eax,byte ptr[esp+0x44]
-        mov ecx,dword ptr[esp+0x40]
+        mov ecx,[esp+0x40]
 
         push eax // isQuest
         push ecx // exp
         push esi // user
-        call user_skill::multiply_exp
+        call hook_0x465087
         add esp,0xC
 
-        mov dword ptr[esp+0x40],eax
+        mov [esp+0x40],eax
 
         popad
 

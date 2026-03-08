@@ -9,38 +9,35 @@
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 
-namespace world_thread
-{
-    inline std::chrono::system_clock::time_point next_update_reward_item_event;
+inline std::chrono::system_clock::time_point next_update_reward_item_event;
 
-    void update_reward_item_event()
+void hook_0x404071()
+{
+    using namespace std::chrono_literals;
+
+    auto now = std::chrono::system_clock::now();
+    if (now < next_update_reward_item_event)
+        return;
+
+    next_update_reward_item_event = now + 3000ms;
+
+    for (auto&& [billingId, progress] : g_rewardItemProgress)
     {
-        using namespace std::chrono_literals;
+        if (progress.completed)
+            continue;
 
         auto now = std::chrono::system_clock::now();
-        if (now < next_update_reward_item_event)
-            return;
+        if (now < progress.timeout)
+            continue;
 
-        next_update_reward_item_event = now + 3000ms;
+        progress.completed = true;
 
-        for (auto&& [billingId, progress] : g_rewardItemProgress)
-        {
-            if (progress.completed)
-                continue;
+        auto user = CWorld::FindUserBill(billingId);
+        if (!user)
+            continue;
 
-            auto now = std::chrono::system_clock::now();
-            if (now < progress.timeout)
-                continue;
-
-            progress.completed = true;
-
-            auto user = CWorld::FindUserBill(billingId);
-            if (!user)
-                continue;
-
-            GameRewardItemGetOutgoing outgoing{};
-            SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetOutgoing));
-        }
+        GameRewardItemGetOutgoing outgoing{};
+        SConnection::Send(user, &outgoing, sizeof(GameRewardItemGetOutgoing));
     }
 }
 
@@ -56,7 +53,7 @@ void __declspec(naked) naked_0x404071()
 
         pushad
 
-        call world_thread::update_reward_item_event
+        call hook_0x404071
 
         popad
      

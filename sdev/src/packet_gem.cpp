@@ -26,552 +26,930 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
-namespace packet_gem
+/// <summary>
+/// Adds support for item effect 103.
+/// </summary>
+bool lapisian_add_protect(CUser* user, GameLapisianAddIncoming_EP6_4* incoming)
 {
-    /// <summary>
-    /// Adds support for item effect 103.
-    /// </summary>
-    bool lapisian_add_protect(CUser* user, GameLapisianAddIncoming_EP6_4* incoming)
+    if (!incoming->itemProtect)
+        return false;
+
+    int bag{}, slot{};
+    if (!ItemFinder(user, bag, slot, ItemEffectEqualToF(ItemEffect::LapisianAddItemProtect)))
+        return false;
+
+    CUser::ItemUseNSend(user, bag, slot, false);
+    return true;
+}
+
+/// <summary>
+/// Handles incoming 0x80B packets. Does not do anything else for now.
+/// </summary>
+void handler_0x80B(CUser* user, GameItemGemComposeIncoming_EP6_4* incoming)
+{
+    if (!incoming->bag1)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
+        return;
+
+    auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
+    if (!item1)
+        return;
+
+    if (!incoming->bag2)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
+        return;
+
+    auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
+    if (!item2)
+        return;
+
+    if (!incoming->bag3)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
+        return;
+
+    auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
+    if (!item3)
+        return;
+
+    if (!incoming->vialBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
+        return;
+
+    auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
+    if (!vial)
+        return;
+
+    if (item1->type != ItemType::Lapis)
+        return;
+
+    if (item2->type != ItemType::Lapis)
+        return;
+
+    if (item3->type != ItemType::Lapis)
+        return;
+
+    if (vial->info->effect != ItemEffect::CrowleyEssence)
+        return;
+
+    if (item1->info->reqIg <= 30 || item1->info->reqIg > 40)
+        return;
+
+    if (item2->info->reqIg <= 30 || item2->info->reqIg > 40)
+        return;
+
+    if (item3->info->reqIg <= 30 || item3->info->reqIg > 40)
+        return;
+
+    int requiredCount = 0;
+    if (item1->info->reqIg >= 36)
+        ++requiredCount;
+
+    if (item2->info->reqIg >= 36)
+        ++requiredCount;
+
+    if (item3->info->reqIg >= 36)
+        ++requiredCount;
+
+    if (vial->count < requiredCount)
+        return;
+
+    // to-do
+}
+
+/// <summary>
+/// Handles incoming 0x80C packets. Does not do anything else for now.
+/// </summary>
+void handler_0x80C(CUser* user, GameItemLapisianComposeIncoming_EP6_4* incoming)
+{
+    if (!incoming->bag1)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
+        return;
+
+    auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
+    if (!item1)
+        return;
+
+    if (!incoming->bag2)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
+        return;
+
+    auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
+    if (!item2)
+        return;
+
+    if (!incoming->bag3)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
+        return;
+
+    auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
+    if (!item3)
+        return;
+
+    if (!incoming->vialBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
+        return;
+
+    auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
+    if (!vial)
+        return;
+
+    if (item1->type != ItemType::Lapisian)
+        return;
+
+    if (item2->type != ItemType::Lapisian)
+        return;
+
+    if (item3->type != ItemType::Lapisian)
+        return;
+
+    if (vial->info->effect != ItemEffect::CrowleyLiquid)
+        return;
+
+    // to-do
+}
+
+/// <summary>
+/// Handles incoming 0x80D packets.
+/// </summary>
+void handler_0x80D(CUser* user, GameUpperRuneComposeIncoming_EP6_4* incoming)
+{
+    if (!incoming->runeBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
+        return;
+
+    auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
+    if (!rune)
+        return;
+
+    if (!incoming->vialBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
+        return;
+
+    auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
+    if (!vial)
+        return;
+
+    if (rune->count < 2)
+        return;
+
+    if (rune->info->effect != ItemEffect::RecreationRune)
     {
-        if (!incoming->itemProtect)
-            return false;
-
-        int bag{}, slot{};
-        if (!ItemFinder(user, bag, slot, ItemEffectEqualToF(ItemEffect::LapisianAddItemProtect)))
-            return false;
-
-        CUser::ItemUseNSend(user, bag, slot, false);
-        return true;
+        GameUpperRuneComposeOutgoing failure{};
+        failure.result = GameUpperRuneComposeResult::Failure;
+        SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
+        return;
     }
 
-    /// <summary>
-    /// Handles incoming 0x80B packets. Does not do anything else for now.
-    /// </summary>
-    void handler_0x80B(CUser* user, GameItemGemComposeIncoming_EP6_4* incoming)
+    ItemInfo* newItemInfo = nullptr;
+
+    switch (vial->info->effect)
     {
-        if (!incoming->bag1)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
-            return;
-
-        auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
-        if (!item1)
-            return;
-
-        if (!incoming->bag2)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
-            return;
-
-        auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
-        if (!item2)
-            return;
-
-        if (!incoming->bag3)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
-            return;
-
-        auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
-        if (!item3)
-            return;
-
-        if (!incoming->vialBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
-            return;
-
-        auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
-        if (!vial)
-            return;
-
-        if (item1->type != ItemType::Lapis)
-            return;
-
-        if (item2->type != ItemType::Lapis)
-            return;
-
-        if (item3->type != ItemType::Lapis)
-            return;
-
-        if (vial->info->effect != ItemEffect::CrowleyEssence)
-            return;
-
-        if (item1->info->reqIg <= 30 || item1->info->reqIg > 40)
-            return;
-
-        if (item2->info->reqIg <= 30 || item2->info->reqIg > 40)
-            return;
-
-        if (item3->info->reqIg <= 30 || item3->info->reqIg > 40)
-            return;
-
-        int requiredCount = 0;
-        if (item1->info->reqIg >= 36)
-            ++requiredCount;
-
-        if (item2->info->reqIg >= 36)
-            ++requiredCount;
-
-        if (item3->info->reqIg >= 36)
-            ++requiredCount;
-
-        if (vial->count < requiredCount)
-            return;
-
-        // to-do
+    case ItemEffect::StrVial:
+        newItemInfo = CGameData::GetItemInfo(101, 1);
+        break;
+    case ItemEffect::DexVial:
+        newItemInfo = CGameData::GetItemInfo(101, 2);
+        break;
+    case ItemEffect::IntVial:
+        newItemInfo = CGameData::GetItemInfo(101, 3);
+        break;
+    case ItemEffect::WisVial:
+        newItemInfo = CGameData::GetItemInfo(101, 4);
+        break;
+    case ItemEffect::RecVial:
+        newItemInfo = CGameData::GetItemInfo(101, 5);
+        break;
+    case ItemEffect::LucVial:
+        newItemInfo = CGameData::GetItemInfo(101, 6);
+        break;
+    default:
+        break;
     }
 
-    /// <summary>
-    /// Handles incoming 0x80C packets. Does not do anything else for now.
-    /// </summary>
-    void handler_0x80C(CUser* user, GameItemLapisianComposeIncoming_EP6_4* incoming)
+    if (newItemInfo)
     {
-        if (!incoming->bag1)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag1, incoming->slot1))
-            return;
-
-        auto& item1 = user->inventory[incoming->bag1][incoming->slot1];
-        if (!item1)
-            return;
-
-        if (!incoming->bag2)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag2, incoming->slot2))
-            return;
-
-        auto& item2 = user->inventory[incoming->bag2][incoming->slot2];
-        if (!item2)
-            return;
-
-        if (!incoming->bag3)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->bag3, incoming->slot3))
-            return;
-
-        auto& item3 = user->inventory[incoming->bag3][incoming->slot3];
-        if (!item3)
-            return;
-
-        if (!incoming->vialBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
-            return;
-
-        auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
-        if (!vial)
-            return;
-
-        if (item1->type != ItemType::Lapisian)
-            return;
-
-        if (item2->type != ItemType::Lapisian)
-            return;
-
-        if (item3->type != ItemType::Lapisian)
-            return;
-
-        if (vial->info->effect != ItemEffect::CrowleyLiquid)
-            return;
-
-        // to-do
-    }
-
-    /// <summary>
-    /// Handles incoming 0x80D packets.
-    /// </summary>
-    void handler_0x80D(CUser* user, GameUpperRuneComposeIncoming_EP6_4* incoming)
-    {
-        if (!incoming->runeBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
-            return;
-
-        auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
-        if (!rune)
-            return;
-
-        if (!incoming->vialBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->vialBag, incoming->vialSlot))
-            return;
-
-        auto& vial = user->inventory[incoming->vialBag][incoming->vialSlot];
-        if (!vial)
-            return;
-
-        if (rune->count < 2)
-            return;
-
-        if (rune->info->effect != ItemEffect::RecreationRune)
-        {
-            GameUpperRuneComposeOutgoing failure{};
-            failure.result = GameUpperRuneComposeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
-            return;
-        }
-
-        ItemInfo* newItemInfo = nullptr;
-
-        switch (vial->info->effect)
-        {
-        case ItemEffect::StrVial:
-            newItemInfo = CGameData::GetItemInfo(101, 1);
-            break;
-        case ItemEffect::DexVial:
-            newItemInfo = CGameData::GetItemInfo(101, 2);
-            break;
-        case ItemEffect::IntVial:
-            newItemInfo = CGameData::GetItemInfo(101, 3);
-            break;
-        case ItemEffect::WisVial:
-            newItemInfo = CGameData::GetItemInfo(101, 4);
-            break;
-        case ItemEffect::RecVial:
-            newItemInfo = CGameData::GetItemInfo(101, 5);
-            break;
-        case ItemEffect::LucVial:
-            newItemInfo = CGameData::GetItemInfo(101, 6);
-            break;
-        default:
-            break;
-        }
-
-        if (newItemInfo)
-        {
-            UserHelper::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
-            UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
-
-            int bag{}, slot{};
-            if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
-            {
-                GameUpperRuneComposeOutgoing success{};
-                success.result = GameUpperRuneComposeResult::Success;
-                success.newItem.bag = bag;
-                success.newItem.slot = slot;
-                success.newItem.type = newItemInfo->type;
-                success.newItem.typeId = newItemInfo->typeId;
-                success.newItem.count = 1;
-                SConnection::Send(user, &success, sizeof(GameUpperRuneComposeOutgoing));
-            }
-        }
-        else
-        {
-            GameUpperRuneComposeOutgoing failure{};
-            failure.result = GameUpperRuneComposeResult::Failure;
-            SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
-        }
-    }
-
-    /// <summary>
-    /// Handles incoming 0x80E packets.
-    /// </summary>
-    void handler_0x80E(CUser* user, GameItemLapisianRemakeIncoming* incoming)
-    {
-        if (!incoming->cubeBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
-            return;
-
-        auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
-        if (!cube)
-            return;
-
-        // Requires an item (not an item effect)
-        if (cube->info->type != 101 && cube->info->typeId != 101)
-            return;
-
-        if (incoming->lapisianType != ItemType::Lapisian)
-            return;
-
-        auto oldItemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId);
-        if (!oldItemInfo)
-            return;
-
-        auto newItemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId + 1);
-        if (!newItemInfo)
-            return;
-
-        GameItemLapisianRemakeOutgoing failure{};
-        failure.result = GameItemLapisianRemakeResult::Failure;
-
-        // See system message 510
-
-        auto lapisianLv = oldItemInfo->attackTime;
-        if (lapisianLv < 6 || lapisianLv > 19)
-        {
-            SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
-            return;
-        }
-
-        auto requiredCount = oldItemInfo->reqLuc;
-        if (!requiredCount)
-        {
-            SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
-            return;
-        }
-
-        CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
-
-        for (int i = 0; i < requiredCount; ++i)
-        {
-            int bag{}, slot{};
-            if (!ItemFinder(user, bag, slot, ItemEqualToF(oldItemInfo->type, oldItemInfo->typeId)))
-                return;
-
-            if (!UserHelper::ItemRemove(user, bag, slot, 1))
-                return;
-        }
+        UserHelper::ItemRemove(user, incoming->runeBag, incoming->runeSlot, 2);
+        UserHelper::ItemRemove(user, incoming->vialBag, incoming->vialSlot, 1);
 
         int bag{}, slot{};
         if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
         {
-            GameItemLapisianRemakeOutgoing success{};
-            success.result = GameItemLapisianRemakeResult::Success;
+            GameUpperRuneComposeOutgoing success{};
+            success.result = GameUpperRuneComposeResult::Success;
             success.newItem.bag = bag;
             success.newItem.slot = slot;
             success.newItem.type = newItemInfo->type;
             success.newItem.typeId = newItemInfo->typeId;
             success.newItem.count = 1;
-            SConnection::Send(user, &success, sizeof(GameItemLapisianRemakeOutgoing));
+            SConnection::Send(user, &success, sizeof(GameUpperRuneComposeOutgoing));
+        }
+    }
+    else
+    {
+        GameUpperRuneComposeOutgoing failure{};
+        failure.result = GameUpperRuneComposeResult::Failure;
+        SConnection::Send(user, &failure, sizeof(GameUpperRuneComposeOutgoing));
+    }
+}
+
+/// <summary>
+/// Handles incoming 0x80E packets.
+/// </summary>
+void handler_0x80E(CUser* user, GameItemLapisianRemakeIncoming* incoming)
+{
+    if (!incoming->cubeBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
+        return;
+
+    auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
+    if (!cube)
+        return;
+
+    // Requires an item (not an item effect)
+    if (cube->info->type != 101 && cube->info->typeId != 101)
+        return;
+
+    if (incoming->lapisianType != ItemType::Lapisian)
+        return;
+
+    auto oldItemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId);
+    if (!oldItemInfo)
+        return;
+
+    auto newItemInfo = CGameData::GetItemInfo(incoming->lapisianType, incoming->lapisianTypeId + 1);
+    if (!newItemInfo)
+        return;
+
+    GameItemLapisianRemakeOutgoing failure{};
+    failure.result = GameItemLapisianRemakeResult::Failure;
+
+    // See system message 510
+
+    auto lapisianLv = oldItemInfo->attackTime;
+    if (lapisianLv < 6 || lapisianLv > 19)
+    {
+        SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
+        return;
+    }
+
+    auto requiredCount = oldItemInfo->reqLuc;
+    if (!requiredCount)
+    {
+        SConnection::Send(user, &failure, sizeof(GameItemLapisianRemakeOutgoing));
+        return;
+    }
+
+    CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
+
+    for (int i = 0; i < requiredCount; ++i)
+    {
+        int bag{}, slot{};
+        if (!ItemFinder(user, bag, slot, ItemEqualToF(oldItemInfo->type, oldItemInfo->typeId)))
+            return;
+
+        if (!UserHelper::ItemRemove(user, bag, slot, 1))
+            return;
+    }
+
+    int bag{}, slot{};
+    if (UserHelper::ItemCreate(user, newItemInfo, 1, bag, slot))
+    {
+        GameItemLapisianRemakeOutgoing success{};
+        success.result = GameItemLapisianRemakeResult::Success;
+        success.newItem.bag = bag;
+        success.newItem.slot = slot;
+        success.newItem.type = newItemInfo->type;
+        success.newItem.typeId = newItemInfo->typeId;
+        success.newItem.count = 1;
+        SConnection::Send(user, &success, sizeof(GameItemLapisianRemakeOutgoing));
+    }
+}
+
+/// <summary>
+/// Handles incoming 0x806 packets. Supports vanilla recreation runes.
+/// </summary>
+void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
+{
+    if (!incoming->runeBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
+        return;
+
+    auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
+    if (!rune)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->itemBag, incoming->itemSlot))
+        return;
+
+    auto& item = user->inventory[incoming->itemBag][incoming->itemSlot];
+    if (!item)
+        return;
+
+    GameItemComposeOutgoing failure{};
+    failure.result = GameItemComposeResult::Failure;
+
+    if (!item->info->craftExpansions)
+    {
+        SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+        return;
+    }
+
+    if (!item->info->reqWis || item->info->reqWis > ItemCraft_MAX)
+    {
+        SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+        return;
+    }
+
+    //if (item->makeType == MakeType::QuestResult)
+    //{
+    //    SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+    //    return;
+    //}
+
+    auto composeUniqueId = rune->uniqueId;
+    auto composeItemId = rune->info->itemId;
+    auto oldCraftName = item->craftName;
+
+    auto maxHealth = user->maxHealth;
+    auto maxMana = user->maxHealth;
+    auto maxStamina = user->maxHealth;
+
+    // See item descriptions
+
+    switch (rune->info->effect)
+    {
+    case ItemEffect::RecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+        }
+        break;
+    case ItemEffect::StrRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftStrength)
+            {
+                auto value = item->craftStrength * 2;
+                ItemHelper::SetCraftStrength(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftStrength)
+            {
+                auto value = item->craftStrength * 2;
+                ItemHelper::SetCraftStrength(item, value);
+            }
+        }
+        break;
+    case ItemEffect::DexRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftDexterity)
+            {
+                auto value = item->craftDexterity * 2;
+                ItemHelper::SetCraftDexterity(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftDexterity)
+            {
+                auto value = item->craftDexterity * 2;
+                ItemHelper::SetCraftDexterity(item, value);
+            }
+        }
+        break;
+    case ItemEffect::IntRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftIntelligence)
+            {
+                auto value = item->craftIntelligence * 2;
+                ItemHelper::SetCraftIntelligence(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftIntelligence)
+            {
+                auto value = item->craftIntelligence * 2;
+                ItemHelper::SetCraftIntelligence(item, value);
+            }
+        }
+        break;
+    case ItemEffect::WisRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftWisdom)
+            {
+                auto value = item->craftWisdom * 2;
+                ItemHelper::SetCraftWisdom(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftWisdom)
+            {
+                auto value = item->craftWisdom * 2;
+                ItemHelper::SetCraftWisdom(item, value);
+            }
+        }
+        break;
+    case ItemEffect::RecRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftReaction)
+            {
+                auto value = item->craftReaction * 2;
+                ItemHelper::SetCraftReaction(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftReaction)
+            {
+                auto value = item->craftReaction * 2;
+                ItemHelper::SetCraftReaction(item, value);
+            }
+        }
+        break;
+    case ItemEffect::LucRecreationRune:
+        if (!incoming->itemBag)
+        {
+            CUser::ItemEquipmentOptionRem(user, item);
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftLuck)
+            {
+                auto value = item->craftLuck * 2;
+                ItemHelper::SetCraftLuck(item, value);
+            }
+
+            CUser::ItemEquipmentOptionAdd(user, item);
+        }
+        else
+        {
+            CItem::ReGenerationCraftExpansion(item, true);
+
+            if (item->craftLuck)
+            {
+                auto value = item->craftLuck * 2;
+                ItemHelper::SetCraftLuck(item, value);
+            }
+        }
+        break;
+    default:
+        SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
+        return;
+    }
+
+    if (!incoming->itemBag)
+    {
+        if (!user->initStatusFlag)
+        {
+            if (maxHealth != user->maxHealth)
+                CUser::SendMaxHP(user);
+
+            if (maxMana != user->maxMana)
+                CUser::SendMaxMP(user);
+
+            if (maxStamina != user->maxStamina)
+                CUser::SendMaxSP(user);
+        }
+
+        CUser::SetAttack(user);
+    }
+
+    CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
+    ItemHelper::SendDBAgentCraftName(user, item, incoming->itemBag, incoming->itemSlot);
+
+    GameLogItemComposeIncoming gameLog{};
+    CUser::SetGameLogMain(user, &gameLog.packet);
+    gameLog.packet.uniqueId = item->uniqueId;
+    gameLog.packet.itemId = item->info->itemId;
+    gameLog.packet.itemName = item->info->itemName;
+    gameLog.packet.gems = item->gems;
+    gameLog.packet.makeTime = item->makeTime;
+    gameLog.packet.craftName = item->craftName;
+    gameLog.packet.composeUniqueId = composeUniqueId;
+    gameLog.packet.composeItemId = composeItemId;
+    gameLog.packet.oldCraftName = oldCraftName;
+    Network::SendGameLog(&gameLog.packet, sizeof(GameLogItemComposeIncoming));
+
+    GameItemComposeOutgoing success{};
+    success.result = GameItemComposeResult::Success;
+    success.bag = incoming->itemBag;
+    success.slot = incoming->itemSlot;
+    success.craftName = item->craftName;
+    SConnection::Send(user, &success, sizeof(GameItemComposeOutgoing));
+}
+
+/// <summary>
+/// Handles incoming 0x830 packets.
+/// </summary>
+void handler_0x830(CUser* user, GameChaoticSquareRecipeResultIncoming* incoming)
+{
+    if (!incoming->squareBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
+        return;
+
+    auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
+    if (!item)
+        return;
+
+    if (item->info->effect != ItemEffect::ChaoticSquare)
+        return;
+
+    auto square = ChaoticSquare::Find(item->info->itemId);
+    if (!square)
+        return;
+
+    user->savePosUseBag = incoming->squareBag;
+    user->savePosUseSlot = incoming->squareSlot;
+
+    CUser::CancelActionExc(user);
+    MyShop::Ended(&user->myShop);
+
+    for (const auto& result : square->results)
+    {
+        GameChaoticSquareRecipeResultOutgoing outgoing{};
+        outgoing.resultType = result.type;
+        outgoing.resultTypeId = result.typeId;
+        outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
+        SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeResultOutgoing));
+    }
+}
+
+/// <summary>
+/// Handles incoming 0x831 packets.
+/// </summary>
+void handler_0x831(CUser* user, GameChaoticSquareRecipeIncoming* incoming)
+{
+    auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
+    if (!item)
+        return;
+
+    if (item->info->effect != ItemEffect::ChaoticSquare)
+        return;
+
+    auto square = ChaoticSquare::Find(item->info->itemId);
+    if (!square)
+        return;
+
+    if (incoming->index >= square->recipes.size())
+        return;
+
+    auto id = square->recipes[incoming->index];
+    auto recipe = ChaoticSquare::FindRecipe(id);
+    if (!recipe)
+        return;
+
+    if (incoming->resultType != recipe->resultType || incoming->resultTypeId != recipe->resultTypeId)
+        return;
+
+    GameChaoticSquareRecipeOutgoing outgoing{};
+    outgoing.chance = recipe->chance;
+    outgoing.materialType = recipe->materialType;
+    outgoing.resultType = recipe->resultType;
+    outgoing.materialTypeId = recipe->materialTypeId;
+    outgoing.resultTypeId = recipe->resultTypeId;
+    outgoing.materialCount = recipe->materialCount;
+    outgoing.resultCount = recipe->resultCount;
+    SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
+}
+
+/// <summary>
+/// Handles incoming 0x832 packets.
+/// </summary>
+void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
+{
+    if (!incoming->squareBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
+        return;
+
+    auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
+    if (!item)
+        return;
+
+    if (item->info->effect != ItemEffect::ChaoticSquare)
+        return;
+
+    auto square = ChaoticSquare::Find(item->info->itemId);
+    if (!square)
+        return;
+
+    if (incoming->index >= square->recipes.size())
+        return;
+
+    auto id = square->recipes[incoming->index];
+    auto recipe = ChaoticSquare::FindRecipe(id);
+    if (!recipe)
+        return;
+
+    if (incoming->money > user->money)
+        return;
+
+    auto fortuneMoney = g_chaoticSquareFortuneMoney;
+    auto chance = recipe->chance;
+
+    if (fortuneMoney >= 100)
+    {
+        auto minMoney = fortuneMoney / 100;
+        auto maxMoney = fortuneMoney * 5;
+
+        auto money = incoming->money;
+        if (money > maxMoney)
+            money = maxMoney;
+
+        if (money >= minMoney)
+        {
+            auto bonus = ((double)money / fortuneMoney) * 100.0;
+            chance += static_cast<int>(bonus);
+
+            user->money -= money;
+            CUser::SendDBMoney(user);
         }
     }
 
-    /// <summary>
-    /// Handles incoming 0x806 packets. Supports vanilla recreation runes.
-    /// </summary>
-    void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
+    if (incoming->hammerBag != 0)
     {
-        if (!incoming->runeBag)
+        if (!UserHelper::IsBag(user, incoming->hammerBag, incoming->hammerSlot))
             return;
 
-        if (!UserHelper::IsBag(user, incoming->runeBag, incoming->runeSlot))
+        auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
+        if (!hammer)
             return;
 
-        auto& rune = user->inventory[incoming->runeBag][incoming->runeSlot];
-        if (!rune)
+        if (hammer->info->effect != ItemEffect::CraftingHammer)
             return;
 
-        if (!UserHelper::IsBag(user, incoming->itemBag, incoming->itemSlot))
-            return;
+        chance += hammer->info->reqVg * 100;
+        CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
+    }
 
-        auto& item = user->inventory[incoming->itemBag][incoming->itemSlot];
-        if (!item)
-            return;
+    CUser::ItemUseNSend(user, incoming->squareBag, incoming->squareSlot, false);
 
-        GameItemComposeOutgoing failure{};
-        failure.result = GameItemComposeResult::Failure;
-
-        if (!item->info->craftExpansions)
+    if (UserHelper::RecipeRemove(user, *recipe))
+    {
+        auto randomChance = 0;
+        if (chance < 10000)
         {
-            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
-            return;
+            std::random_device seed;
+            std::mt19937 eng(seed());
+
+            std::uniform_int_distribution<int> uni(100, 10000);
+            randomChance = uni(eng);
         }
 
-        if (!item->info->reqWis || item->info->reqWis > ItemCraft_MAX)
+        if (randomChance <= chance)
         {
-            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
-            return;
+            auto itemInfo = CGameData::GetItemInfo(recipe->resultType, recipe->resultTypeId);
+            if (!itemInfo)
+                return;
+
+            CUser::ItemCreate(user, itemInfo, recipe->resultCount);
+
+            GameItemSynthesisOutgoing success{};
+            success.result = GameItemSynthesisResult::Success;
+            SConnection::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
         }
+        else
+        {
+            for (const auto& result : square->failItemList)
+            {
+                auto itemInfo = CGameData::GetItemInfo(result.type, result.typeId);
+                if (!itemInfo)
+                    continue;
 
-        //if (item->makeType == MakeType::QuestResult)
-        //{
-        //    SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
-        //    return;
-        //}
+                CUser::ItemCreate(user, itemInfo, result.count);
+            }
 
-        auto composeUniqueId = rune->uniqueId;
-        auto composeItemId = rune->info->itemId;
-        auto oldCraftName = item->craftName;
+            GameItemSynthesisOutgoing failure{};
+            failure.result = GameItemSynthesisResult::Failure;
+            SConnection::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
+        }
+    }
+}
+
+/// <summary>
+/// Handles incoming 0x833 packets. This feature will not be implemented.
+/// </summary>
+void handler_0x833(CUser* user, GameItemFreeSynthesisIncoming* incoming)
+{
+}
+
+/// <summary>
+/// Handles incoming 0x811 packets. See the docs for a list of supported clients.
+/// </summary>
+void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
+{
+    constexpr auto baseChance = 30;
+    auto chance = baseChance;
+
+    if (!incoming->cubeBag)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
+        return;
+
+    auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
+    if (!cube)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->srcBag, incoming->srcSlot))
+        return;
+
+    auto& source = user->inventory[incoming->srcBag][incoming->srcSlot];
+    if (!source)
+        return;
+
+    if (!UserHelper::IsBag(user, incoming->destBag, incoming->destSlot))
+        return;
+
+    auto& target = user->inventory[incoming->destBag][incoming->destSlot];
+    if (!target)
+        return;
+
+    if (cube->info->effect != ItemEffect::ItemAbilityMove)
+        return;
+
+    if (target->info->realType != source->info->realType)
+        return;
+
+    if (target->info->level < source->info->level)
+        return;
+
+    if (target->info->slots < source->info->slots)
+        return;
+
+    if (target->info->craftExpansions < source->info->craftExpansions)
+        return;
+
+    if (target->info->reqWis < source->info->reqWis)
+        return;
+
+    // 255 means the slot is empty
+    if (incoming->catalystSlot != 255)
+    {
+        if (!incoming->catalystBag)
+            return;
+
+        if (!UserHelper::IsBag(user, incoming->catalystBag, incoming->catalystSlot))
+            return;
+
+        auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];
+        if (!catalyst)
+            return;
+
+        if (catalyst->info->effect != ItemEffect::Catalyst)
+            return;
+
+        chance += catalyst->info->reqVg;
+        CUser::ItemUseNSend(user, incoming->catalystBag, incoming->catalystSlot, false);
+    }
+
+    CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
+
+    GameItemAbilityMoveOutgoing outgoing{};
+    outgoing.result = GameItemAbilityMoveResult::Failure;
+    outgoing.srcBag = incoming->srcBag;
+    outgoing.srcSlot = incoming->srcSlot;
+    outgoing.destBag = incoming->destBag;
+    outgoing.destSlot = incoming->destSlot;
+
+    auto randomChance = 0;
+    if (chance < 100)
+    {
+        std::random_device seed;
+        std::mt19937 eng(seed());
+
+        std::uniform_int_distribution<int> uni(1, 100);
+        randomChance = uni(eng);
+    }
+
+    if (randomChance <= chance)
+    {
+        outgoing.result = GameItemAbilityMoveResult::Success;
 
         auto maxHealth = user->maxHealth;
         auto maxMana = user->maxHealth;
         auto maxStamina = user->maxHealth;
 
-        // See item descriptions
-
-        switch (rune->info->effect)
+        if (!incoming->destBag)
         {
-        case ItemEffect::RecreationRune:
-            if (!incoming->itemBag)
+            for (const auto& gem : target->gems)
             {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-            }
-            break;
-        case ItemEffect::StrRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
+                if (!gem)
+                    continue;
 
-                if (item->craftStrength)
-                {
-                    auto value = item->craftStrength * 2;
-                    ItemHelper::SetCraftStrength(item, value);
-                }
+                CUser::GemEquipmentRem(user, incoming->destSlot, gem);
+            }
 
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
+            target->gems = source->gems;
 
-                if (item->craftStrength)
-                {
-                    auto value = item->craftStrength * 2;
-                    ItemHelper::SetCraftStrength(item, value);
-                }
-            }
-            break;
-        case ItemEffect::DexRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-
-                if (item->craftDexterity)
-                {
-                    auto value = item->craftDexterity * 2;
-                    ItemHelper::SetCraftDexterity(item, value);
-                }
-
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftDexterity)
-                {
-                    auto value = item->craftDexterity * 2;
-                    ItemHelper::SetCraftDexterity(item, value);
-                }
-            }
-            break;
-        case ItemEffect::IntRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-
-                if (item->craftIntelligence)
-                {
-                    auto value = item->craftIntelligence * 2;
-                    ItemHelper::SetCraftIntelligence(item, value);
-                }
-
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftIntelligence)
-                {
-                    auto value = item->craftIntelligence * 2;
-                    ItemHelper::SetCraftIntelligence(item, value);
-                }
-            }
-            break;
-        case ItemEffect::WisRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftWisdom)
-                {
-                    auto value = item->craftWisdom * 2;
-                    ItemHelper::SetCraftWisdom(item, value);
-                }
-
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftWisdom)
-                {
-                    auto value = item->craftWisdom * 2;
-                    ItemHelper::SetCraftWisdom(item, value);
-                }
-            }
-            break;
-        case ItemEffect::RecRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftReaction)
-                {
-                    auto value = item->craftReaction * 2;
-                    ItemHelper::SetCraftReaction(item, value);
-                }
-
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftReaction)
-                {
-                    auto value = item->craftReaction * 2;
-                    ItemHelper::SetCraftReaction(item, value);
-                }
-            }
-            break;
-        case ItemEffect::LucRecreationRune:
-            if (!incoming->itemBag)
-            {
-                CUser::ItemEquipmentOptionRem(user, item);
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftLuck)
-                {
-                    auto value = item->craftLuck * 2;
-                    ItemHelper::SetCraftLuck(item, value);
-                }
-
-                CUser::ItemEquipmentOptionAdd(user, item);
-            }
-            else
-            {
-                CItem::ReGenerationCraftExpansion(item, true);
-                
-                if (item->craftLuck)
-                {
-                    auto value = item->craftLuck * 2;
-                    ItemHelper::SetCraftLuck(item, value);
-                }
-            }
-            break;
-        default:
-            SConnection::Send(user, &failure, sizeof(GameItemComposeOutgoing));
-            return;
+            CUser::ItemEquipmentOptionRem(user, target);
+            ItemHelper::CopyCraftExpansion(source, target);
+            CUser::ItemEquipmentOptionAdd(user, target);
+        }
+        else
+        {
+            target->gems = source->gems;
+            ItemHelper::CopyCraftExpansion(source, target);
         }
 
-        if (!incoming->itemBag)
+        if (!incoming->srcBag)
+        {
+            for (const auto& gem : source->gems)
+            {
+                if (!gem)
+                    continue;
+
+                CUser::GemEquipmentRem(user, incoming->srcSlot, gem);
+            }
+
+            source->gems.fill(0);
+
+            CUser::ItemEquipmentOptionRem(user, source);
+            ItemHelper::InitCraftExpansion(source);
+            CUser::ItemEquipmentOptionAdd(user, source);
+        }
+        else
+        {
+            source->gems.fill(0);
+            ItemHelper::InitCraftExpansion(source);
+        }
+
+        if (!incoming->destBag || !incoming->srcBag)
         {
             if (!user->initStatusFlag)
             {
@@ -588,452 +966,71 @@ namespace packet_gem
             CUser::SetAttack(user);
         }
 
-        CUser::ItemUseNSend(user, incoming->runeBag, incoming->runeSlot, false);
-        ItemHelper::SendDBAgentCraftName(user, item, incoming->itemBag, incoming->itemSlot);
+        ItemHelper::SendDBAgentCraftName(user, target, incoming->destBag, incoming->destSlot);
+        ItemHelper::SendDBAgentGems(user, target, incoming->destBag, incoming->destSlot);
 
-        GameLogItemComposeIncoming gameLog{};
-        CUser::SetGameLogMain(user, &gameLog.packet);
-        gameLog.packet.uniqueId = item->uniqueId;
-        gameLog.packet.itemId = item->info->itemId;
-        gameLog.packet.itemName = item->info->itemName;
-        gameLog.packet.gems = item->gems;
-        gameLog.packet.makeTime = item->makeTime;
-        gameLog.packet.craftName = item->craftName;
-        gameLog.packet.composeUniqueId = composeUniqueId;
-        gameLog.packet.composeItemId = composeItemId;
-        gameLog.packet.oldCraftName = oldCraftName;
-        Network::SendGameLog(&gameLog.packet, sizeof(GameLogItemComposeIncoming));
-
-        GameItemComposeOutgoing success{};
-        success.result = GameItemComposeResult::Success;
-        success.bag = incoming->itemBag;
-        success.slot = incoming->itemSlot;
-        success.craftName = item->craftName;
-        SConnection::Send(user, &success, sizeof(GameItemComposeOutgoing));
+        ItemHelper::SendDBAgentCraftName(user, source, incoming->srcBag, incoming->srcSlot);
+        ItemHelper::SendDBAgentGems(user, source, incoming->srcBag, incoming->srcSlot);
     }
 
-    /// <summary>
-    /// Handles incoming 0x830 packets.
-    /// </summary>
-    void handler_0x830(CUser* user, GameChaoticSquareRecipeResultIncoming* incoming)
+    SConnection::Send(user, &outgoing, sizeof(GameItemAbilityMoveOutgoing));
+}
+
+/// <summary>
+/// Adds support for additional 0x800 packets.
+/// </summary>
+void handler_0x800(CUser* user, TP_MAIN* packet)
+{
+    switch (packet->opcode)
     {
-        if (!incoming->squareBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
-            return;
-
-        auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
-        if (!item)
-            return;
-
-        if (item->info->effect != ItemEffect::ChaoticSquare)
-            return;
-
-        auto square = ChaoticSquare::Find(item->info->itemId);
-        if (!square)
-            return;
-
-        user->savePosUseBag = incoming->squareBag;
-        user->savePosUseSlot = incoming->squareSlot;
-
-        CUser::CancelActionExc(user);
-        MyShop::Ended(&user->myShop);
-
-        for (const auto& result : square->results)
-        {
-            GameChaoticSquareRecipeResultOutgoing outgoing{};
-            outgoing.resultType = result.type;
-            outgoing.resultTypeId = result.typeId;
-            outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
-            SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeResultOutgoing));
-        }
+    case 0x80B:
+    {
+        handler_0x80B(user, reinterpret_cast<GameItemGemComposeIncoming_EP6_4*>(packet));
+        break;
     }
-
-    /// <summary>
-    /// Handles incoming 0x831 packets.
-    /// </summary>
-    void handler_0x831(CUser* user, GameChaoticSquareRecipeIncoming* incoming)
+    case 0x80C:
     {
-        auto& item = user->inventory[user->savePosUseBag][user->savePosUseSlot];
-        if (!item)
-            return;
-
-        if (item->info->effect != ItemEffect::ChaoticSquare)
-            return;
-
-        auto square = ChaoticSquare::Find(item->info->itemId);
-        if (!square)
-            return;
-
-        if (incoming->index >= square->recipes.size())
-            return;
-
-        auto id = square->recipes[incoming->index];
-        auto recipe = ChaoticSquare::FindRecipe(id);
-        if (!recipe)
-            return;
-
-        if (incoming->resultType != recipe->resultType || incoming->resultTypeId != recipe->resultTypeId)
-            return;
-
-        GameChaoticSquareRecipeOutgoing outgoing{};
-        outgoing.chance = recipe->chance;
-        outgoing.materialType = recipe->materialType;
-        outgoing.resultType = recipe->resultType;
-        outgoing.materialTypeId = recipe->materialTypeId;
-        outgoing.resultTypeId = recipe->resultTypeId;
-        outgoing.materialCount = recipe->materialCount;
-        outgoing.resultCount = recipe->resultCount;
-        SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
+        handler_0x80C(user, reinterpret_cast<GameItemLapisianComposeIncoming_EP6_4*>(packet));
+        break;
     }
-
-    /// <summary>
-    /// Handles incoming 0x832 packets.
-    /// </summary>
-    void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
+    case 0x80D:
     {
-        if (!incoming->squareBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->squareBag, incoming->squareSlot))
-            return;
-
-        auto& item = user->inventory[incoming->squareBag][incoming->squareSlot];
-        if (!item)
-            return;
-
-        if (item->info->effect != ItemEffect::ChaoticSquare)
-            return;
-
-        auto square = ChaoticSquare::Find(item->info->itemId);
-        if (!square)
-            return;
-
-        if (incoming->index >= square->recipes.size())
-            return;
-
-        auto id = square->recipes[incoming->index];
-        auto recipe = ChaoticSquare::FindRecipe(id);
-        if (!recipe)
-            return;
-
-        if (incoming->money > user->money)
-            return;
-
-        auto fortuneMoney = g_chaoticSquareFortuneMoney;
-        auto chance = recipe->chance;
-
-        if (fortuneMoney >= 100)
-        {
-            auto minMoney = fortuneMoney / 100;
-            auto maxMoney = fortuneMoney * 5;
-
-            auto money = incoming->money;
-            if (money > maxMoney)
-                money = maxMoney;
-
-            if (money >= minMoney)
-            {
-                auto bonus = ((double)money / fortuneMoney) * 100.0;
-                chance += static_cast<int>(bonus);
-
-                user->money -= money;
-                CUser::SendDBMoney(user);
-            }
-        }
-
-        if (incoming->hammerBag != 0)
-        {
-            if (!UserHelper::IsBag(user, incoming->hammerBag, incoming->hammerSlot))
-                return;
-
-            auto& hammer = user->inventory[incoming->hammerBag][incoming->hammerSlot];
-            if (!hammer)
-                return;
-
-            if (hammer->info->effect != ItemEffect::CraftingHammer)
-                return;
-
-            chance += hammer->info->reqVg * 100;
-            CUser::ItemUseNSend(user, incoming->hammerBag, incoming->hammerSlot, false);
-        }
-
-        CUser::ItemUseNSend(user, incoming->squareBag, incoming->squareSlot, false);
-
-        if (UserHelper::RecipeRemove(user, *recipe))
-        {
-            auto randomChance = 0;
-            if (chance < 10000)
-            {
-                std::random_device seed;
-                std::mt19937 eng(seed());
-
-                std::uniform_int_distribution<int> uni(100, 10000);
-                randomChance = uni(eng);
-            }
-
-            if (randomChance <= chance)
-            {
-                auto itemInfo = CGameData::GetItemInfo(recipe->resultType, recipe->resultTypeId);
-                if (!itemInfo)
-                    return;
-
-                CUser::ItemCreate(user, itemInfo, recipe->resultCount);
-
-                GameItemSynthesisOutgoing success{};
-                success.result = GameItemSynthesisResult::Success;
-                SConnection::Send(user, &success, sizeof(GameItemSynthesisOutgoing));
-            }
-            else
-            {
-                for (const auto& result : square->failItemList)
-                {
-                    auto itemInfo = CGameData::GetItemInfo(result.type, result.typeId);
-                    if (!itemInfo)
-                        continue;
-
-                    CUser::ItemCreate(user, itemInfo, result.count);
-                }
-
-                GameItemSynthesisOutgoing failure{};
-                failure.result = GameItemSynthesisResult::Failure;
-                SConnection::Send(user, &failure, sizeof(GameItemSynthesisOutgoing));
-            }
-        }
+        handler_0x80D(user, reinterpret_cast<GameUpperRuneComposeIncoming_EP6_4*>(packet));
+        break;
     }
-
-    /// <summary>
-    /// Handles incoming 0x833 packets. This feature will not be implemented.
-    /// </summary>
-    void handler_0x833(CUser* user, GameItemFreeSynthesisIncoming* incoming)
+    case 0x80E:
     {
+        handler_0x80E(user, reinterpret_cast<GameItemLapisianRemakeIncoming*>(packet));
+        break;
     }
-
-    /// <summary>
-    /// Handles incoming 0x811 packets. See the docs for a list of supported clients.
-    /// </summary>
-    void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
+    case 0x811:
     {
-        constexpr auto baseChance = 30;
-        auto chance = baseChance;
-
-        if (!incoming->cubeBag)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->cubeBag, incoming->cubeSlot))
-            return;
-
-        auto& cube = user->inventory[incoming->cubeBag][incoming->cubeSlot];
-        if (!cube)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->srcBag, incoming->srcSlot))
-            return;
-
-        auto& source = user->inventory[incoming->srcBag][incoming->srcSlot];
-        if (!source)
-            return;
-
-        if (!UserHelper::IsBag(user, incoming->destBag, incoming->destSlot))
-            return;
-
-        auto& target = user->inventory[incoming->destBag][incoming->destSlot];
-        if (!target)
-            return;
-
-        if (cube->info->effect != ItemEffect::ItemAbilityMove)
-            return;
-
-        if (target->info->realType != source->info->realType)
-            return;
-
-        if (target->info->level < source->info->level)
-            return;
-
-        if (target->info->slots < source->info->slots)
-            return;
-
-        if (target->info->craftExpansions < source->info->craftExpansions)
-            return;
-
-        if (target->info->reqWis < source->info->reqWis)
-            return;
-
-        // 255 means the slot is empty
-        if (incoming->catalystSlot != 255)
-        {
-            if (!incoming->catalystBag)
-                return;
-
-            if (!UserHelper::IsBag(user, incoming->catalystBag, incoming->catalystSlot))
-                return;
-
-            auto& catalyst = user->inventory[incoming->catalystBag][incoming->catalystSlot];
-            if (!catalyst)
-                return;
-
-            if (catalyst->info->effect != ItemEffect::Catalyst)
-                return;
-
-            chance += catalyst->info->reqVg;
-            CUser::ItemUseNSend(user, incoming->catalystBag, incoming->catalystSlot, false);
-        }
-
-        CUser::ItemUseNSend(user, incoming->cubeBag, incoming->cubeSlot, false);
-
-        GameItemAbilityMoveOutgoing outgoing{};
-        outgoing.result = GameItemAbilityMoveResult::Failure;
-        outgoing.srcBag = incoming->srcBag;
-        outgoing.srcSlot = incoming->srcSlot;
-        outgoing.destBag = incoming->destBag;
-        outgoing.destSlot = incoming->destSlot;
-
-        auto randomChance = 0;
-        if (chance < 100)
-        {
-            std::random_device seed;
-            std::mt19937 eng(seed());
-
-            std::uniform_int_distribution<int> uni(1, 100);
-            randomChance = uni(eng);
-        }
-
-        if (randomChance <= chance)
-        {
-            outgoing.result = GameItemAbilityMoveResult::Success;
-
-            auto maxHealth = user->maxHealth;
-            auto maxMana = user->maxHealth;
-            auto maxStamina = user->maxHealth;
-
-            if (!incoming->destBag)
-            {
-                for (const auto& gem : target->gems)
-                {
-                    if (!gem)
-                        continue;
-
-                    CUser::GemEquipmentRem(user, incoming->destSlot, gem);
-                }
-
-                target->gems = source->gems;
-
-                CUser::ItemEquipmentOptionRem(user, target);
-                ItemHelper::CopyCraftExpansion(source, target);
-                CUser::ItemEquipmentOptionAdd(user, target);
-            }
-            else
-            {
-                target->gems = source->gems;
-                ItemHelper::CopyCraftExpansion(source, target);
-            }
-            
-            if (!incoming->srcBag)
-            {
-                for (const auto& gem : source->gems)
-                {
-                    if (!gem)
-                        continue;
-
-                    CUser::GemEquipmentRem(user, incoming->srcSlot, gem);
-                }
-
-                source->gems.fill(0);
-
-                CUser::ItemEquipmentOptionRem(user, source);
-                ItemHelper::InitCraftExpansion(source);
-                CUser::ItemEquipmentOptionAdd(user, source);
-            }
-            else
-            {
-                source->gems.fill(0);
-                ItemHelper::InitCraftExpansion(source);
-            }
-
-            if (!incoming->destBag || !incoming->srcBag)
-            {
-                if (!user->initStatusFlag)
-                {
-                    if (maxHealth != user->maxHealth)
-                        CUser::SendMaxHP(user);
-
-                    if (maxMana != user->maxMana)
-                        CUser::SendMaxMP(user);
-
-                    if (maxStamina != user->maxStamina)
-                        CUser::SendMaxSP(user);
-                }
-
-                CUser::SetAttack(user);
-            }
-
-            ItemHelper::SendDBAgentCraftName(user, target, incoming->destBag, incoming->destSlot);
-            ItemHelper::SendDBAgentGems(user, target, incoming->destBag, incoming->destSlot);
-
-            ItemHelper::SendDBAgentCraftName(user, source, incoming->srcBag, incoming->srcSlot);
-            ItemHelper::SendDBAgentGems(user, source, incoming->srcBag, incoming->srcSlot);
-        }
-
-        SConnection::Send(user, &outgoing, sizeof(GameItemAbilityMoveOutgoing));
+        handler_0x811(user, reinterpret_cast<GameItemAbilityMoveIncoming*>(packet));
+        break;
     }
-
-    /// <summary>
-    /// Adds support for 6.4 packets.
-    /// </summary>
-    void handler(CUser* user, TP_MAIN* packet)
+    case 0x830:
     {
-        switch (packet->opcode)
-        {
-        case 0x80B:
-        {
-            handler_0x80B(user, reinterpret_cast<GameItemGemComposeIncoming_EP6_4*>(packet));
-            break;
-        }
-        case 0x80C:
-        {
-            handler_0x80C(user, reinterpret_cast<GameItemLapisianComposeIncoming_EP6_4*>(packet));
-            break;
-        }
-        case 0x80D:
-        {
-            handler_0x80D(user, reinterpret_cast<GameUpperRuneComposeIncoming_EP6_4*>(packet));
-            break;
-        }
-        case 0x80E:
-        {
-            handler_0x80E(user, reinterpret_cast<GameItemLapisianRemakeIncoming*>(packet));
-            break;
-        }
-        case 0x811:
-        {
-            handler_0x811(user, reinterpret_cast<GameItemAbilityMoveIncoming*>(packet));
-            break;
-        }
-        case 0x830:
-        {
-            handler_0x830(user, reinterpret_cast<GameChaoticSquareRecipeResultIncoming*>(packet));
-            break;
-        }
-        case 0x831:
-        {
-            handler_0x831(user, reinterpret_cast<GameChaoticSquareRecipeIncoming*>(packet));
-            break;
-        }
-        case 0x832:
-        {
-            handler_0x832(user, reinterpret_cast<GameItemSynthesisIncoming*>(packet));
-            break;
-        }
-        case 0x833:
-        {
-            handler_0x833(user, reinterpret_cast<GameItemFreeSynthesisIncoming*>(packet));
-            break;
-        }
-        default:
-            SConnection::Close(user, 9, 0);
-            break;
-        }
+        handler_0x830(user, reinterpret_cast<GameChaoticSquareRecipeResultIncoming*>(packet));
+        break;
+    }
+    case 0x831:
+    {
+        handler_0x831(user, reinterpret_cast<GameChaoticSquareRecipeIncoming*>(packet));
+        break;
+    }
+    case 0x832:
+    {
+        handler_0x832(user, reinterpret_cast<GameItemSynthesisIncoming*>(packet));
+        break;
+    }
+    case 0x833:
+    {
+        handler_0x833(user, reinterpret_cast<GameItemFreeSynthesisIncoming*>(packet));
+        break;
+    }
+    default:
+        SConnection::Close(user, 9, 0);
+        break;
     }
 }
 
@@ -1046,7 +1043,7 @@ void __declspec(naked) naked_0x47A040()
 
         push esi // packet
         push edi // user
-        call packet_gem::handler
+        call handler_0x800
         add esp,0x8
 
         popad
@@ -1064,7 +1061,7 @@ void __declspec(naked) naked_0x47A003()
 
         push esi // packet
         push edi // user
-        call packet_gem::handler_0x806
+        call handler_0x806
         add esp,0x8
         
         popad
@@ -1144,7 +1141,7 @@ void __declspec(naked) naked_0x46CDB0()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::lapisian_add_protect
+        call lapisian_add_protect
         add esp,0x8
 
         popad
@@ -1163,7 +1160,7 @@ void __declspec(naked) naked_0x46D3BC()
 
         push ebx // packet
         push ebp // user
-        call packet_gem::lapisian_add_protect
+        call lapisian_add_protect
         add esp,0x8
         test al,al
 

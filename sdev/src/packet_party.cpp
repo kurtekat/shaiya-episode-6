@@ -6,37 +6,34 @@
 #include "include/shaiya/CUser.h"
 using namespace shaiya;
 
-namespace packet_party
+/// <summary>
+/// Handles incoming 0xB1C packets.
+/// </summary>
+void handler_0xB1C(CUser* user, GamePartyBossMapPosIncoming* incoming)
 {
-    /// <summary>
-    /// Handles incoming 0xB1C packets.
-    /// </summary>
-    void handler_0xB1C(CUser* user, GamePartyBossMapPosIncoming* incoming)
+    if (user->status == UserStatus::Death)
+        return;
+
+    if (!user->party)
+        return;
+
+    auto partyType = incoming->partyType;
+    bool isBoss = false;
+
+    // Also valid for a regular party
+    if (partyType == UnionType::Boss)
+        isBoss = CParty::IsPartyBoss(user->party, user);
+    // Raid only
+    else if (partyType == UnionType::SubBoss)
+        isBoss = CParty::IsPartySubBoss(user->party, user);
+
+    if (isBoss)
     {
-        if (user->status == UserStatus::Death)
-            return;
-
-        if (!user->party)
-            return;
-
-        auto partyType = incoming->partyType;
-        bool isBoss = false;
-
-        // Also valid for a regular party
-        if (partyType == UnionType::Boss)
-            isBoss = CParty::IsPartyBoss(user->party, user);
-        // Raid only
-        else if (partyType == UnionType::SubBoss)
-            isBoss = CParty::IsPartySubBoss(user->party, user);
-
-        if (isBoss)
-        {
-            GamePartyBossMapPosOutgoing outgoing{};
-            outgoing.x = incoming->x;
-            outgoing.y = incoming->y;
-            outgoing.partyType = incoming->partyType;
-            CParty::Send(user->party, &outgoing, sizeof(GamePartyBossMapPosOutgoing));
-        }
+        GamePartyBossMapPosOutgoing outgoing{};
+        outgoing.x = incoming->x;
+        outgoing.y = incoming->y;
+        outgoing.partyType = incoming->partyType;
+        CParty::Send(user->party, &outgoing, sizeof(GamePartyBossMapPosOutgoing));
     }
 }
 
@@ -57,7 +54,7 @@ void __declspec(naked) naked_0x4752EB()
 
         push ebx // packet
         push ebp // user
-        call packet_party::handler_0xB1C
+        call handler_0xB1C
         add esp,0x8
 
         popad
