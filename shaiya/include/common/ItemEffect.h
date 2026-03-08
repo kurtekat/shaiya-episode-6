@@ -94,8 +94,8 @@ namespace shaiya
         AbsoluteRecreationRune,
         NpcRecall = 200,
         Item500 = 210,
-        PetGoldPick = 212,
-        PetItemPick,
-        PetGoldItemPick
+        PetGold = 212,
+        PetItem,
+        PetGoldItem
     };
 }

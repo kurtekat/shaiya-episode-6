@@ -84,7 +84,7 @@ int hook_0x41DA15(CItem* item, int enterType)
             return 0;
 
         auto effect = pet->info->effect;
-        if (effect != ItemEffect::PetGoldPick && effect != ItemEffect::PetGoldItemPick)
+        if (effect != ItemEffect::PetGold && effect != ItemEffect::PetGoldItem)
             return 0;
 
         auto rate = user->increaseGoldDropRate;
@@ -120,7 +120,7 @@ int hook_0x41DA15(CItem* item, int enterType)
             return 0;
 
         auto effect = pet->info->effect;
-        if (effect != ItemEffect::PetItemPick && effect != ItemEffect::PetGoldItemPick)
+        if (effect != ItemEffect::PetItem && effect != ItemEffect::PetGoldItem)
             return 0;
 
         CUser::ItemGet(user, item);
