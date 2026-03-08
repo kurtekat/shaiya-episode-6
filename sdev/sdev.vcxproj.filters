@@ -27,7 +27,7 @@
     <ClCompile Include="src\packet_shop.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\user_shape.cpp">
+    <ClCompile Include="src\user_clone.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\packet_character.cpp">

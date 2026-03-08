@@ -21,8 +21,8 @@ namespace hook
 
     void item_effect();
     void user();
+    void user_clone();
     void user_equipment();
     void user_skill();
-    void user_shape();
     void world_thread();
 }

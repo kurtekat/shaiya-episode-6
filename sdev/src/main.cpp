@@ -21,8 +21,8 @@ void Main()
 
     hook::item_effect();
     hook::user();
+    hook::user_clone();
     hook::user_equipment();
-    hook::user_shape();
     hook::user_skill();
     hook::world_thread();
 

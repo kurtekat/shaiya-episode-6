@@ -1,5 +1,4 @@
 #include <util/util.h>
-#include <shaiya/include/common/ShapeType.h>
 #include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
 #include "include/shaiya/CItem.h"
@@ -87,7 +86,7 @@ void __declspec(naked) naked_0x411B1F()
     }
 }
 
-void hook::user_shape()
+void hook::user_clone()
 {
     // CUser::CheckTargetUser case 2
     util::detour((void*)0x45A365, naked_0x45A365, 7);
