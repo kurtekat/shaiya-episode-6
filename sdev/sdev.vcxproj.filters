@@ -162,6 +162,9 @@
     <ClCompile Include="src\user.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\packet_get_info.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">

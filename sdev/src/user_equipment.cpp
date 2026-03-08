@@ -3,7 +3,6 @@
 #include <shaiya/include/common/ItemEquipment.h>
 #include <shaiya/include/common/ItemList.h>
 #include <shaiya/include/common/ItemType.h>
-#include <shaiya/include/network/game/outgoing/0300.h>
 #include "include/main.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
@@ -110,44 +109,6 @@ void hook_0x4614E3(CUser* user)
     CUser::SetAttack(user);
 }
 
-/// <summary>
-/// Sends packet 0x307 (6.4) to the user.
-/// </summary>
-void hook_0x477D4F(CUser* user, CUser* target)
-{
-    GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
-    outgoing.itemCount = 0;
-
-    for (int slot = 0; slot < 17; ++slot)
-    {
-        auto& item = target->inventory[0][slot];
-        if (!item)
-            continue;
-
-        // This condition can be removed if the client 
-        // inspection window supports 17 slots
-        if (slot < ItemEquipment::Wings)
-        {
-            GetInfoItemUnit_EP5 item0307{};
-            item0307.slot = slot;
-            item0307.type = item->type;
-            item0307.typeId = item->typeId;
-
-            if (slot < ItemEquipment::Vehicle)
-                item0307.quality = item->quality;
-
-            item0307.gems = item->gems;
-            item0307.craftName = item->craftName;
-
-            outgoing.itemList[outgoing.itemCount] = item0307;
-            ++outgoing.itemCount;
-        }
-    }
-
-    int length = outgoing.baseLength + (outgoing.itemCount * sizeof(GetInfoItemUnit_EP5));
-    SConnection::Send(user, &outgoing, length);
-}
-
 void hook_0x46166E(CUser* user)
 {
     auto it = g_itemSetSynergies.find(user->id);
@@ -217,24 +178,6 @@ void __declspec(naked) naked_0x4614E3()
     }
 }
 
-unsigned u0x477E02 = 0x477E02;
-void __declspec(naked) naked_0x477D4F()
-{
-    __asm
-    {
-        pushad
-
-        push eax // target
-        push edi // user
-        call hook_0x477D4F
-        add esp,0x8
-
-        popad
-
-        jmp u0x477E02
-    }
-}
-
 unsigned u0x461675 = 0x461675;
 void __declspec(naked) naked_0x46166E()
 {
@@ -279,8 +222,6 @@ void hook::user_equipment()
     util::detour((void*)0x468385, naked_0x468385, 9);
     // CUser::InitEquipment
     util::detour((void*)0x4614E3, naked_0x4614E3, 6);
-    // CUser::PacketGetInfo case 0x307
-    util::detour((void*)0x477D4F, naked_0x477D4F, 7);
     // CUser::ItemEquipmentAdd
     util::detour((void*)0x46166E, naked_0x46166E, 7);
     // CUser::ItemEquipmentRem

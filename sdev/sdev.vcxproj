@@ -40,6 +40,7 @@
     <ClCompile Include="include\shaiya\Synergy.cpp" />
     <ClCompile Include="include\shaiya\UserHelper.cpp" />
     <ClCompile Include="src\item_effect.cpp" />
+    <ClCompile Include="src\packet_get_info.cpp" />
     <ClCompile Include="src\packet_mailbox.cpp" />
     <ClCompile Include="src\packet_pc.cpp" />
     <ClCompile Include="src\packet_quest.cpp" />
