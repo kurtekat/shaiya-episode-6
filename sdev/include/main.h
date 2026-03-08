@@ -5,7 +5,6 @@ extern "C" __declspec(dllexport) void DllExport();
 
 namespace hook
 {
-    void item_effect();
     void packet_character();
     void packet_exchange();
     void packet_gem();
@@ -18,6 +17,9 @@ namespace hook
     void packet_quest();
     void packet_reward_item();
     void packet_shop();
+
+    void item_effect();
+    void user();
     void user_equipment();
     void user_skill();
     void user_shape();
