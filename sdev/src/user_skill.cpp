@@ -140,8 +140,7 @@ void hook_0x4959A4(CUser* user, int typeEffect, SkillAbilityType abilityType, in
 {
     switch (abilityType)
     {
-        // itemId: 101112, 101113
-        // skillId: 432
+    // See SkillID 432
     case SkillAbilityType::MultiplyQuestExp:
         user->multiplyQuestExpRate += abilityValue;
         break;
@@ -150,6 +149,9 @@ void hook_0x4959A4(CUser* user, int typeEffect, SkillAbilityType abilityType, in
     }
 }
 
+/// <summary>
+/// Adds support for skill ability 87.
+/// </summary>
 int hook_0x465087(CUser* user, int exp, bool isQuest)
 {
     if (isQuest)
@@ -178,7 +180,7 @@ int hook_0x465087(CUser* user, int exp, bool isQuest)
         break;
     }
 
-    // expupmap
+    // expupmap (PSMServer_Mgr)
 
     auto zone = user->zone;
     if (zone)
@@ -190,7 +192,7 @@ int hook_0x465087(CUser* user, int exp, bool isQuest)
         }
     }
 
-    // expupcamp
+    // expupcamp (PSMServer_Mgr)
 
     switch (user->country)
     {

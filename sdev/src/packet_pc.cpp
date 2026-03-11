@@ -280,24 +280,23 @@ void hook::packet_pc()
 {
     // CUser::PacketPC
     util::detour((void*)0x4784D6, naked_0x4784D6, 5);
-    // CUser::SetAttack
+    // CUser::SetAttack (0x526)
     util::detour((void*)0x461005, naked_0x461005, 5);
-    // CUser::SendShape
+    // CUser::SendShape (0x51D)
     util::detour((void*)0x491490, naked_0x491490, 6);
-    // CCell::SendCellInfoEnter
+    // CCell::SendCellInfoEnter (0x51D)
     util::detour((void*)0x42A56C, naked_0x42A56C, 6);
-    // CZone::SendMoveUser
+    // CZone::SendMoveUser (0x51D)
     util::detour((void*)0x4263AD, naked_0x4263AD, 6);
-    // CUser::ItemRepair
+    // CUser::ItemRepair (0x554)
     util::detour((void*)0x471C23, naked_0x471C23, 6);
     util::detour((void*)0x47202A, naked_0x47202A, 6);
 
-    // CUser::SendRecoverAdd
+    // CUser::SendRecoverAdd (0x505)
     util::write_memory((void*)0x490E35, 0x90, 2);
     util::write_memory((void*)0x490E41, 0x90, 2);
     util::write_memory((void*)0x490E5D, 0x90, 2);
-
-    // CUser::SendRecoverAddSet
+    // CUser::SendRecoverAddSet (0x505)
     util::write_memory((void*)0x490F52, 0x90, 2);
     util::write_memory((void*)0x490F5E, 0x90, 2);
     util::write_memory((void*)0x490F7A, 0x90, 2);

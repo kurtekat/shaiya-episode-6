@@ -196,8 +196,7 @@ void hook_0x477D4F(CUser* user, CUser* target)
         if (!item)
             continue;
 
-        // This condition can be removed if the client 
-        // inspection window supports 17 slots
+        // Remove this condition if the inspection window supports 17 items
         if (slot < ItemEquipment::Wings)
         {
             GetInfoItemUnit_EP5 item0307{};
@@ -278,9 +277,9 @@ void __declspec(naked) naked_0x477D4F()
 
 void hook::packet_get_info()
 {
-    // CZone::SendUserShape
+    // CZone::SendUserShape (0x303)
     util::detour((void*)0x426948, naked_0x426948, 7);
-    // CUser::SendUserShape
+    // CUser::SendUserShape (0x303)
     util::detour((void*)0x491B13, naked_0x491B13, 7);
     // CUser::PacketGetInfo case 0x307
     util::detour((void*)0x477D4F, naked_0x477D4F, 7);

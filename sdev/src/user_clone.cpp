@@ -78,9 +78,10 @@ unsigned u0x411B26 = 0x411B26;
 unsigned u0x51B26B = 0x51B26B;
 void __declspec(naked) naked_0x411B1F()
 {
+    // Changes sizeof(CloneUser)
     __asm
     {
-        push 0x80 // size
+        push 0x80      // size
         call u0x51B26B // malloc
         jmp u0x411B26
     }

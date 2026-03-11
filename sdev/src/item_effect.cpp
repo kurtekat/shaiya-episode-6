@@ -116,6 +116,7 @@ int hook_0x41DA15(CItem* item, int enterType)
         if (!item->info)
             return 0;
 
+        // Not sure auto-picking quest items is safe
         if (item->info->realType == RealType::Quest)
             return 0;
 

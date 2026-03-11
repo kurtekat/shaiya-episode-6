@@ -141,6 +141,7 @@ void __declspec(naked) naked_0x47D964()
 unsigned u0x47DBBF = 0x47DBBF;
 void __declspec(naked) naked_0x47DB9E()
 {
+    // ebx = CUser*
     __asm
     {
         // user->exchange.status

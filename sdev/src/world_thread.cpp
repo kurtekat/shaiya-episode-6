@@ -8,13 +8,12 @@
 #include "include/shaiya/RewardItem.h"
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
+using namespace std::chrono_literals;
 
 inline std::chrono::system_clock::time_point next_update_reward_item_event;
 
 void hook_0x404071()
 {
-    using namespace std::chrono_literals;
-
     auto now = std::chrono::system_clock::now();
     if (now < next_update_reward_item_event)
         return;

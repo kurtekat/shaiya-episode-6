@@ -123,13 +123,12 @@ void hook_0x47B8FB(CUser* user, DBCharacterList_EP6_4* dbCharacter)
 }
 
 /// <summary>
-/// Sends packet 0x116 to the user. The client defense step values 
-/// are hard-coded to be multiples of five.
+/// Sends packet 0x116 to the user. 
+/// The client defense step values are hard-coded to be multiples of five.
 /// </summary>
 void hook_0x47BCE8(CUser* user)
 {
     GameWeaponStepOutgoing outgoing{};
-
     auto it = g_LapisianEnchantAddValue->step.cbegin();
     auto last = g_LapisianEnchantAddValue->step.cend();
     auto dest = outgoing.weaponStep.begin();
