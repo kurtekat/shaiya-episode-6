@@ -1,4 +1,3 @@
-#include <array>
 #include <util/util.h>
 #include <shaiya/include/common/ItemEquipment.h>
 #include <shaiya/include/common/ItemList.h>
@@ -242,96 +241,95 @@ void hook::user_equipment()
     // The client does not support more than 13 items (thanks, xarel)
     //util::write_memory((void*)0x482896, 17, 1);
 
-    // user->itemQualityLv[0] (0x199 to 0x62A0)
-    std::array<uint8_t, 2> a00{ 0xA0, 0x62 };
-    
+    // Change 0x199 to 0x62A0 (&itemQualityLv)
+    int x62A0 = 0x62A0;
     // CUser::ItemEquipmentAdd
-    util::write_memory((void*)0x46166A, &a00, 2);
-    util::write_memory((void*)0x4617FB, &a00, 2);
-    util::write_memory((void*)0x46194C, &a00, 2);
-    util::write_memory((void*)0x461962, &a00, 2);
+    util::write_memory((void*)0x46166A, &x62A0, 4);
+    util::write_memory((void*)0x4617FB, &x62A0, 4);
+    util::write_memory((void*)0x46194C, &x62A0, 4);
+    util::write_memory((void*)0x461962, &x62A0, 4);
     // CUser::ItemEquipmentRem
-    util::write_memory((void*)0x461ED4, &a00, 2);
-    util::write_memory((void*)0x461EEA, &a00, 2);
-    util::write_memory((void*)0x462662, &a00, 2);
+    util::write_memory((void*)0x461ED4, &x62A0, 4);
+    util::write_memory((void*)0x461EEA, &x62A0, 4);
+    util::write_memory((void*)0x462662, &x62A0, 4);
     // CUser::ItemEquipmentAttackAdd
-    util::write_memory((void*)0x462DD9, &a00, 2);
-    util::write_memory((void*)0x462DEF, &a00, 2);
-    util::write_memory((void*)0x462E51, &a00, 2);
-    util::write_memory((void*)0x462E67, &a00, 2);
-    util::write_memory((void*)0x462E8C, &a00, 2);
-    util::write_memory((void*)0x462EA2, &a00, 2);
+    util::write_memory((void*)0x462DD9, &x62A0, 4);
+    util::write_memory((void*)0x462DEF, &x62A0, 4);
+    util::write_memory((void*)0x462E51, &x62A0, 4);
+    util::write_memory((void*)0x462E67, &x62A0, 4);
+    util::write_memory((void*)0x462E8C, &x62A0, 4);
+    util::write_memory((void*)0x462EA2, &x62A0, 4);
     // CUser::QualityDec
-    util::write_memory((void*)0x4682DE, &a00, 2);
-    util::write_memory((void*)0x468305, &a00, 2);
-    // CUser::ItemGeMRemoveAll
-    util::write_memory((void*)0x4703CB, &a00, 2);
-    util::write_memory((void*)0x4703E1, &a00, 2);
-    util::write_memory((void*)0x470428, &a00, 2);
-    util::write_memory((void*)0x471438, &a00, 2);
-    util::write_memory((void*)0x471450, &a00, 2);
-    util::write_memory((void*)0x471497, &a00, 2);
-    util::write_memory((void*)0x471E3A, &a00, 2);
-    util::write_memory((void*)0x471E5F, &a00, 2);
-    util::write_memory((void*)0x4720AC, &a00, 2);
-    util::write_memory((void*)0x4720E7, &a00, 2);
-    util::write_memory((void*)0x47395E, &a00, 2);
-    util::write_memory((void*)0x47398F, &a00, 2);
-
-    // user->itemQuality[0] (0x1A6 to 0x62B8)
-    std::array<uint8_t, 2> a01{ 0xB8, 0x62 };
-
-    // CUser::ItemDropByUserDeath
-    util::write_memory((void*)0x46754C, &a01, 2);
-    util::write_memory((void*)0x467587, &a01, 2);
-    // CUser::ItemDropByMobDeath
-    util::write_memory((void*)0x46798C, &a01, 2);
-    util::write_memory((void*)0x4679C7, &a01, 2);
-    // CUser::ItemBagToBag
-    util::write_memory((void*)0x468665, &a01, 2);
-    util::write_memory((void*)0x4686B6, &a01, 2);
-    util::write_memory((void*)0x4687CB, &a01, 2);
-    util::write_memory((void*)0x468813, &a01, 2);
-    util::write_memory((void*)0x468996, &a01, 2);
-    util::write_memory((void*)0x468A6A, &a01, 2);
-    util::write_memory((void*)0x468ABA, &a01, 2);
-    // CUser::ItemDrop
-    util::write_memory((void*)0x469C64, &a01, 2);
-    util::write_memory((void*)0x469CA4, &a01, 2);
-    // CUser::ItemRemove
-    util::write_memory((void*)0x46C2DC, &a01, 2);
-    util::write_memory((void*)0x46C317, &a01, 2);
-    // CUser::ItemRemoveFree
-    util::write_memory((void*)0x46C50C, &a01, 2);
-    util::write_memory((void*)0x46C547, &a01, 2);
-    // CUser::ItemLapisianAdd
-    util::write_memory((void*)0x46D3D8, &a01, 2);
-    util::write_memory((void*)0x46D413, &a01, 2);
-    // CUser::ItemRemake
-    util::write_memory((void*)0x46DB52, &a01, 2);
-    util::write_memory((void*)0x46DB99, &a01, 2);
-    // CUser::ItemGemAdd
-    util::write_memory((void*)0x46EDE7, &a01, 2);
-    util::write_memory((void*)0x46EE22, &a01, 2);
+    util::write_memory((void*)0x4682DE, &x62A0, 4);
+    util::write_memory((void*)0x468305, &x62A0, 4);
     // CUser::ItemGemRemoveAll
-    util::write_memory((void*)0x470A32, &a01, 2);
-    util::write_memory((void*)0x470A78, &a01, 2);
-    // CUser::ItemGemRemovePos
-    util::write_memory((void*)0x4718B1, &a01, 2);
-    util::write_memory((void*)0x4718F1, &a01, 2);
-    // CUser::ItemRepair
-    util::write_memory((void*)0x471DC5, &a01, 2);
-    util::write_memory((void*)0x472092, &a01, 2);
+    util::write_memory((void*)0x4703CB, &x62A0, 4);
+    util::write_memory((void*)0x4703E1, &x62A0, 4);
+    util::write_memory((void*)0x470428, &x62A0, 4);
+    util::write_memory((void*)0x471438, &x62A0, 4);
+    util::write_memory((void*)0x471450, &x62A0, 4);
+    util::write_memory((void*)0x471497, &x62A0, 4);
+    util::write_memory((void*)0x471E3A, &x62A0, 4);
+    util::write_memory((void*)0x471E5F, &x62A0, 4);
+    util::write_memory((void*)0x4720AC, &x62A0, 4);
+    util::write_memory((void*)0x4720E7, &x62A0, 4);
+    util::write_memory((void*)0x47395E, &x62A0, 4);
+    util::write_memory((void*)0x47398F, &x62A0, 4);
+
+    // Change 0x19E to 0x62A5 (weapon quality)
+    int x62A5 = 0x62A5;
+    // CUser::ItemEquipmentRem
+    util::write_memory((void*)0x4621F0, &x62A5, 4);
+    util::write_memory((void*)0x462205, &x62A5, 4);
     // CUser::ItemUse
-    util::write_memory((void*)0x473912, &a01, 2);
+    util::write_memory((void*)0x4732C0, &x62A5, 4);
+    util::write_memory((void*)0x4732ED, &x62A5, 4);
+
+    // Change 0x1A6 to 0x62B8 (&itemQuality)
+    int x62B8 = 0x62B8;
+    // CUser::ItemDropByUserDeath
+    util::write_memory((void*)0x46754C, &x62B8, 4);
+    util::write_memory((void*)0x467587, &x62B8, 4);
+    // CUser::ItemDropByMobDeath
+    util::write_memory((void*)0x46798C, &x62B8, 4);
+    util::write_memory((void*)0x4679C7, &x62B8, 4);
+    // CUser::ItemBagToBag
+    util::write_memory((void*)0x468665, &x62B8, 4);
+    util::write_memory((void*)0x4686B6, &x62B8, 4);
+    util::write_memory((void*)0x4687CB, &x62B8, 4);
+    util::write_memory((void*)0x468813, &x62B8, 4);
+    util::write_memory((void*)0x468996, &x62B8, 4);
+    util::write_memory((void*)0x468A6A, &x62B8, 4);
+    util::write_memory((void*)0x468ABA, &x62B8, 4);
+    // CUser::ItemDrop
+    util::write_memory((void*)0x469C64, &x62B8, 4);
+    util::write_memory((void*)0x469CA4, &x62B8, 4);
+    // CUser::ItemRemove
+    util::write_memory((void*)0x46C2DC, &x62B8, 4);
+    util::write_memory((void*)0x46C317, &x62B8, 4);
+    // CUser::ItemRemoveFree
+    util::write_memory((void*)0x46C50C, &x62B8, 4);
+    util::write_memory((void*)0x46C547, &x62B8, 4);
+    // CUser::ItemLapisianAdd
+    util::write_memory((void*)0x46D3D8, &x62B8, 4);
+    util::write_memory((void*)0x46D413, &x62B8, 4);
+    // CUser::ItemRemake
+    util::write_memory((void*)0x46DB52, &x62B8, 4);
+    util::write_memory((void*)0x46DB99, &x62B8, 4);
+    // CUser::ItemGemAdd
+    util::write_memory((void*)0x46EDE7, &x62B8, 4);
+    util::write_memory((void*)0x46EE22, &x62B8, 4);
+    // CUser::ItemGemRemoveAll
+    util::write_memory((void*)0x470A32, &x62B8, 4);
+    util::write_memory((void*)0x470A78, &x62B8, 4);
+    // CUser::ItemGemRemovePos
+    util::write_memory((void*)0x4718B1, &x62B8, 4);
+    util::write_memory((void*)0x4718F1, &x62B8, 4);
+    // CUser::ItemRepair
+    util::write_memory((void*)0x471DC5, &x62B8, 4);
+    util::write_memory((void*)0x472092, &x62B8, 4);
+    // CUser::ItemUse
+    util::write_memory((void*)0x473912, &x62B8, 4);
     // CUser::SendDBAgentCharGetInfo
-    util::write_memory((void*)0x47AE7B, &a01, 2);
-
-    // user->itemQualityLv[5] (0x19E to 0x62A5)
-    std::array<uint8_t, 2> a02{ 0xA5, 0x62 };
-
-    util::write_memory((void*)0x4621F0, &a02, 2);
-    util::write_memory((void*)0x462205, &a02, 2);
-    util::write_memory((void*)0x4732C0, &a02, 2);
-    util::write_memory((void*)0x4732ED, &a02, 2);
+    util::write_memory((void*)0x47AE7B, &x62B8, 4);
 }
