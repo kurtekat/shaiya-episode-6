@@ -8,7 +8,8 @@ using namespace shaiya;
 // This feature will not be implemented.
 void handler_0x2A00(CUser* user, TP_MAIN* packet)
 {
-    switch (packet->opcode)
+    auto incoming = SHAIYA_TP_MAIN_CAST(packet);
+    switch (incoming->opcode)
     {
     case 0x2A01:
     {

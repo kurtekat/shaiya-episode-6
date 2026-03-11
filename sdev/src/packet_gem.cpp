@@ -981,51 +981,52 @@ void handler_0x811(CUser* user, GameItemAbilityMoveIncoming* incoming)
 /// </summary>
 void handler_0x800(CUser* user, TP_MAIN* packet)
 {
-    switch (packet->opcode)
+    auto incoming = SHAIYA_TP_MAIN_CAST(packet);
+    switch (incoming->opcode)
     {
     case 0x80B:
     {
-        handler_0x80B(user, reinterpret_cast<GameItemGemComposeIncoming_EP6_4*>(packet));
+        handler_0x80B(user, incoming);
         break;
     }
     case 0x80C:
     {
-        handler_0x80C(user, reinterpret_cast<GameItemLapisianComposeIncoming_EP6_4*>(packet));
+        handler_0x80C(user, incoming);
         break;
     }
     case 0x80D:
     {
-        handler_0x80D(user, reinterpret_cast<GameUpperRuneComposeIncoming_EP6_4*>(packet));
+        handler_0x80D(user, incoming);
         break;
     }
     case 0x80E:
     {
-        handler_0x80E(user, reinterpret_cast<GameItemLapisianRemakeIncoming*>(packet));
+        handler_0x80E(user, incoming);
         break;
     }
     case 0x811:
     {
-        handler_0x811(user, reinterpret_cast<GameItemAbilityMoveIncoming*>(packet));
+        handler_0x811(user, incoming);
         break;
     }
     case 0x830:
     {
-        handler_0x830(user, reinterpret_cast<GameChaoticSquareRecipeResultIncoming*>(packet));
+        handler_0x830(user, incoming);
         break;
     }
     case 0x831:
     {
-        handler_0x831(user, reinterpret_cast<GameChaoticSquareRecipeIncoming*>(packet));
+        handler_0x831(user, incoming);
         break;
     }
     case 0x832:
     {
-        handler_0x832(user, reinterpret_cast<GameItemSynthesisIncoming*>(packet));
+        handler_0x832(user, incoming);
         break;
     }
     case 0x833:
     {
-        handler_0x833(user, reinterpret_cast<GameItemFreeSynthesisIncoming*>(packet));
+        handler_0x833(user, incoming);
         break;
     }
     default:

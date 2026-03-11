@@ -49,10 +49,11 @@ void handler_0x233(CUser* user, GameMovePvPZoneIncoming_EP7* incoming)
 /// </summary>
 void handler_0x200(CUser* user, TP_MAIN* packet)
 {
-    switch (packet->opcode)
+    auto incoming = SHAIYA_TP_MAIN_CAST(packet);
+    switch (incoming->opcode)
     {
     case 0x233:
-        handler_0x233(user, reinterpret_cast<GameMovePvPZoneIncoming_EP7*>(packet));
+        handler_0x233(user, incoming);
         break;
     default:
         SConnection::Close(user, 9, 0);

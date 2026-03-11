@@ -15,9 +15,8 @@ using namespace shaiya;
 /// </summary>
 void handler_0x1F00(CUser* user, TP_MAIN* packet)
 {
-    using namespace std::chrono_literals;
-
-    switch (packet->opcode)
+    auto incoming = SHAIYA_TP_MAIN_CAST(packet);
+    switch (incoming->opcode)
     {
     case 0x1F04:
     {
