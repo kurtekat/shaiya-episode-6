@@ -92,7 +92,7 @@ namespace shaiya
         EternalPreventExpDrop,
         TyrosStone,
         AbsoluteRecreationRune,
-        NpcRecall = 200,
+        NpcSummon = 200,
         Item500 = 210,
         PetGold = 212,
         PetItem,

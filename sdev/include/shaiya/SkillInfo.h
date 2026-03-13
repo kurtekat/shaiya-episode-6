@@ -46,7 +46,7 @@ namespace shaiya
         EternalEndurance,
         PreventItemDrop,
         PreventExpLoss,
-        RecallWarehouse,
+        WarehouseRecall,
         WhiteTigerCharm,
         BlueDragonCharm,
         RedPhoenixCharm,
@@ -69,7 +69,8 @@ namespace shaiya
         AbilityAddDefensePercentage = 73,
         AbilityAddRangedDefensePercentage,
         AbilityAddMagicResistancePercentage = 78,
-        MultiplyQuestExp = 87
+        MultiplyQuestExp = 87,
+        NpcSummon = 200
     };
 
     enum struct SkillStatusType : uint8_t
