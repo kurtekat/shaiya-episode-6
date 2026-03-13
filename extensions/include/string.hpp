@@ -273,48 +273,50 @@ namespace string {
 namespace ext {
 namespace string {
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> sep, int max)
     {
         auto view = std::views::split(str, sep) | std::views::take(max);
-        std::vector<std::basic_string<Char>> output;
+        Container<std::basic_string<Char>> output;
 
-        for (const auto& range : view)
+        for (auto&& subrange : view)
         {
-            output.push_back({ std::begin(range), std::end(range) });
+            output.insert(
+                std::end(output), 
+                std::basic_string<Char>(std::begin(subrange), std::end(subrange)));
         }
 
         return output;
     }
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const std::basic_string_view<std::type_identity_t<Char>> sep)
     {
-        return split(str, sep, std::numeric_limits<int>::max());
+        return split<Container>(str, sep, std::numeric_limits<int>::max());
     }
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const Char sep, int max)
     {
-        return split(str, std::basic_string(1, sep), max);
+        return split<Container>(str, std::basic_string(1, sep), max);
     }
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const Char sep)
     {
-        return split(str, std::basic_string(1, sep), std::numeric_limits<int>::max());
+        return split<Container>(str, std::basic_string(1, sep), std::numeric_limits<int>::max());
     }
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const Char* const sep, int max)
     {
-        return split(str, std::basic_string_view(sep), max);
+        return split<Container>(str, std::basic_string_view(sep), max);
     }
 
-    template<class Char>
+    template<template<typename...> class Container, class Char>
     inline auto split(const std::basic_string<Char>& str, const Char* const sep)
     {
-        return split(str, std::basic_string_view(sep), std::numeric_limits<int>::max());
+        return split<Container>(str, std::basic_string_view(sep), std::numeric_limits<int>::max());
     }
 
 } // namespace string
