@@ -127,13 +127,13 @@ bool UserHelper::SetMovePosition(CUser* user, MoveType moveType, unsigned delay,
     return true;
 }
 
-bool UserHelper::RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe)
+bool UserHelper::RecipeRemove(CUser* user, ChaoticSquareRecipe* recipe)
 {
     for (int i = 0; i < 24; ++i)
     {
-        auto type = recipe.materialType[i];
-        auto typeId = recipe.materialTypeId[i];
-        auto count = recipe.materialCount[i];
+        auto type = recipe->materialType[i];
+        auto typeId = recipe->materialTypeId[i];
+        auto count = recipe->materialCount[i];
 
         if (!type || !typeId || !count)
             continue;

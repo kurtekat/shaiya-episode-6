@@ -759,7 +759,7 @@ void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
 
     CUser::ItemUseNSend(user, incoming->squareBag, incoming->squareSlot, false);
 
-    if (UserHelper::RecipeRemove(user, *recipe))
+    if (UserHelper::RecipeRemove(user, recipe))
     {
         auto randomChance = 0;
         if (chance < 10000)
