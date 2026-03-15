@@ -13,7 +13,6 @@
 #include <shaiya/include/network/game/RewardItemUnit.h>
 #include "BattlefieldMoveInfo.h"
 #include "ChaoticSquare.h"
-#include "ChaoticSquarePredicate.h"
 #include "Configuration.h"
 #include "Ini.h"
 #include "RewardItem.h"

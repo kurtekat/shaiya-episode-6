@@ -14,7 +14,6 @@
 #include "include/operator.h"
 #include "include/shaiya/CGameData.h"
 #include "include/shaiya/ChaoticSquare.h"
-#include "include/shaiya/ChaoticSquarePredicate.h"
 #include "include/shaiya/CItem.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemFinder.h"

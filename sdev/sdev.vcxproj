@@ -86,7 +86,6 @@
     <ClInclude Include="include\shaiya\CGameData.h" />
     <ClInclude Include="include\shaiya\CGuild.h" />
     <ClInclude Include="include\shaiya\CGuildCreate.h" />
-    <ClInclude Include="include\shaiya\ChaoticSquarePredicate.h" />
     <ClInclude Include="include\shaiya\CharacterList.h" />
     <ClInclude Include="include\shaiya\ChasePathList.h" />
     <ClInclude Include="include\shaiya\ChasePathNode.h" />

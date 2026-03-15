@@ -584,9 +584,6 @@
     <ClInclude Include="include\operator.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\ChaoticSquarePredicate.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\Ini.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
