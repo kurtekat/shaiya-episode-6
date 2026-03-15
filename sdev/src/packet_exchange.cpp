@@ -102,7 +102,7 @@ void hook_0x47DF22(CUser* user, GameExchangeAddDestOutgoing_EP5* packet)
 /// </summary>
 void hook_0x48C741(CUser* user, GamePvPExcAddDestOutgoing_EP5* packet)
 {
-    GameExchangeAddDestOutgoing_EP6_4 outgoing{};
+    GamePvPExcAddDestOutgoing_EP6_4 outgoing{};
     outgoing.destSlot = packet->destSlot;
     outgoing.type = packet->type;
     outgoing.typeId = packet->typeId;
