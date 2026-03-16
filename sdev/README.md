@@ -274,11 +274,26 @@ Use the following items to get started:
 
 The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
-### 0x511
+### 0x511 and 0x517
 
-Expect to see packet underflow errors in the client log file. The reason is because the EP5 `0x511` packet contains 20 bytes, and EP6 clients expect to receive 21 bytes because they added the `ToggleType` field.
+Expect to see packet underflow errors in the client log file. 
 
-There are 25 references in ps_game, and sadly, the solution is not as simple as changing the packet length argument.
+```
+[00:29:06] [NET   ] RECV>> [0511/0014] 11 05 00 01 00 00 00 01 00 00 00 1E 00 01 00 00 00 00 00 00 
+
+[00:29:06] [ERROR ] CNetWork::PacketError .\NetWork.cpp(6591)
+
+	Packet Underflow. Protocol : 0x0511 Size : 20 Read 20
+```
+
+EP6 clients expect to receive 21 bytes because they added the `ToggleType` field.
+
+| Packet | References |
+|--------|------------|
+| 0x511  | 25         |
+| 0x517  | 10         |
+
+Patching this would be a nightmare. The code would require 32 detours, which is not going to happen.
 
 ## Chaotic Squares
 
