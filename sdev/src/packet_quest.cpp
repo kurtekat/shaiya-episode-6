@@ -75,7 +75,9 @@ void hook_0x48DE38(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
 
     for (; it != last; ++it, ++dest)
     {
-        int bag{}, slot{}; ItemInfo itemInfo{};
+        ItemInfo* itemInfo = nullptr;
+        int bag{}, slot{};
+
         if (CUser::QuestAddItem(user, it->type, it->typeId, it->count, &bag, &slot, &itemInfo))
         {
             dest->count = it->count;
@@ -84,9 +86,12 @@ void hook_0x48DE38(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
             dest->type = it->type;
             dest->typeId = it->typeId;
 
-            gameLog.packet.itemId = itemInfo.itemId;
-            gameLog.packet.itemCount = it->count;
-            gameLog.packet.itemName = itemInfo.itemName;
+            if (itemInfo)
+            {
+                gameLog.packet.itemId = itemInfo->itemId;
+                gameLog.packet.itemCount = it->count;
+                gameLog.packet.itemName = itemInfo->itemName;
+            }
         }
         else
         {

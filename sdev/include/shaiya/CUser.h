@@ -467,7 +467,7 @@ namespace shaiya
         static void LevelChange(CUser* user, int prevLv, int currLv);
         static void LevelUp(CUser* user, bool event);
         static void LevelUpStatus(CUser* user);
-        static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo* outInfo);
+        static bool QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo** outInfo);
         static CQuest* QuestFind(CUser* user/*edi*/, int questId);
         static void QuestRemove(CUser* user/*esi*/, CQuest* quest/*eax*/, bool success);
         static void SendCharacterHonor(CUser* user/*ecx*/);

@@ -297,10 +297,21 @@ void CUser::LevelUpStatus(CUser* user)
     }
 }
 
-bool CUser::QuestAddItem(CUser* user, int type, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo* outInfo)
+bool CUser::QuestAddItem(CUser* user, int type_, int typeId/*ecx*/, int count, int* outBag, int* outSlot/*edx*/, ItemInfo** outInfo)
 {
-    typedef bool(__fastcall* LPFN)(int, int*, CUser*, int, int, int*, ItemInfo*);
-    return (*(LPFN)0x48D5E0)(typeId, outSlot, user, type, count, outBag, outInfo);
+    unsigned u0x48D5E0 = 0x48D5E0;
+
+    __asm
+    {
+        push outInfo
+        push outBag
+        push count
+        push type_
+        push user
+        mov ecx,typeId
+        mov edx,outSlot
+        call u0x48D5E0
+    }
 }
 
 CQuest* CUser::QuestFind(CUser* user/*edi*/, int questId)
