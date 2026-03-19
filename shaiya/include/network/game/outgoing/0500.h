@@ -153,6 +153,16 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
+    // TP_PC_USESPMP
+    struct GameCharUseSPMPOutgoing
+    {
+        uint16_t opcode{ 0x50C };
+        int32_t stamina;
+        int32_t mana;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
     // TP_PC_SKILL_SET
     struct GameCharSkillSetOutgoing
     {
