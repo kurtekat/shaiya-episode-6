@@ -567,6 +567,19 @@ void CUser::SendUserShape(CUser* user)
     (*(LPFN)0x491B00)(user);
 }
 
+void CUser::SendUseSPMP(CUser* user/*esi*/, int stamina, int mana)
+{
+    unsigned u0x490B80 = 0x490B80;
+
+    __asm
+    {
+        push mana
+        push stamina
+        mov esi,user
+        call u0x490B80
+    }
+}
+
 void CUser::SetAttack(CUser* user/*esi*/)
 {
     unsigned u0x460E40 = 0x460E40;

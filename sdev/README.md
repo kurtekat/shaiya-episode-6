@@ -209,7 +209,7 @@ The client library adds support for system message 509.
 
 ## Skill Abilities
 
-The library adds support for episode 6 skill abilities 70, 87, and 35 (exp stones). **It does not affect other skills.**
+The library adds support for episode 6 skill abilities 70, 71, 72, 87, and 35 (exp stones). **It does not affect other skills.**
 
 | SkillId | Ability | Supported          |
 |---------|---------|--------------------|
@@ -226,6 +226,8 @@ The library adds support for episode 6 skill abilities 70, 87, and 35 (exp stone
 | 399     | 70      | :white_check_mark: |
 | 400     | 70      | :white_check_mark: |
 | 401     | 70      | :white_check_mark: |
+|         | 71      | :white_check_mark: |
+|         | 72      | :white_check_mark: |
 | 396     | 73      | :x:                |
 | 397     | 74      | :x:                |
 | 412     | 78      | :x:                |
@@ -236,7 +238,7 @@ The library adds support for episode 6 skill abilities 70, 87, and 35 (exp stone
 
 ### Skill Ability 35
 
-The original code multiplies exp depending on the value of two `CUser` variables:
+The original code multiplies exp depending on the value of two `CUser` variables.
 
 ```
 // 00574080 (2.0)
@@ -261,7 +263,22 @@ The ability value is expected to be greater than 100. The library will divide th
 
 ### Skill Ability 70
 
-The effect(s) will be removed a few seconds after the skill has been stopped.
+Drains HP until it runs out or the skill is stopped. The ability value is the percentage based on max HP.
+
+| SkillId | SkillName        |
+|---------|------------------|
+| 398     | Frenzied Force   |
+| 399     | Frenzied Focus   |
+| 400     | Frenzied Finesse |
+| 401     | Frenzied Fortune |
+
+### Skill Ability 71
+
+Drains SP until it runs out or the skill is stopped. The ability value is the percentage based on max SP.
+
+### Skill Ability 72
+
+Drains MP until it runs out or the skill is stopped. The ability value is the percentage based on max MP.
 
 ### Skill Ability 87
 
@@ -274,9 +291,9 @@ Use the following items to get started:
 
 The ability value is expected to be greater than 100. The library will divide the ability value by 100.
 
-### 0x511 and 0x517
+### Skill Packets (0x511, 0x517)
 
-Expect to see packet underflow errors in the client log file. 
+Expect to see client-side packet underflow errors.
 
 ```
 [00:29:06] [NET   ] RECV>> [0511/0014] 11 05 00 01 00 00 00 01 00 00 00 1E 00 01 00 00 00 00 00 00 
@@ -286,7 +303,7 @@ Expect to see packet underflow errors in the client log file.
 	Packet Underflow. Protocol : 0x0511 Size : 20 Read 20
 ```
 
-EP6 clients expect to receive 21 bytes because they added the `ToggleType` field.
+EP6 clients expect to receive 21 bytes because of the `ToggleType` field.
 
 | Packet | References |
 |--------|------------|

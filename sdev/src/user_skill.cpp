@@ -1,11 +1,9 @@
-#pragma warning(disable: 28159) // GetTickCount
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <util/util.h>
 #include <shaiya/include/network/game/outgoing/0500.h>
 #include "include/main.h"
 #include "include/shaiya/CharmType.h"
 #include "include/shaiya/CMap.h"
+#include "include/shaiya/CSkill.h"
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/CZone.h"
 #include "include/shaiya/SConnection.h"
@@ -13,124 +11,299 @@
 #include "include/shaiya/UserHelper.h"
 using namespace shaiya;
 
+void send_0x511(CUser* user, int skillId, int skillLv, ToggleType toggleType)
+{
+    GameCharSkillUseOutgoing_EP6 outgoing{};
+    outgoing.senderId = user->id;
+    outgoing.targetId = user->id;
+    outgoing.skillId = skillId;
+    outgoing.skillLv = skillLv;
+    outgoing.toggleType = toggleType;
+    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+}
+
+void func_0x45CCE3_70(CUser* user, SkillInfo* skillInfo)
+{
+    user->ability70Triggered = !user->ability70Triggered;
+    auto toggleType = user->ability70Triggered ? ToggleType::Triggered : ToggleType::Stopped;
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, toggleType);
+}
+
+void func_0x45CCE3_71(CUser* user, SkillInfo* skillInfo)
+{
+    user->ability71Triggered = !user->ability71Triggered;
+    auto toggleType = user->ability71Triggered ? ToggleType::Triggered : ToggleType::Stopped;
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, toggleType);
+}
+
+void func_0x45CCE3_72(CUser* user, SkillInfo* skillInfo)
+{
+    user->ability72Triggered = !user->ability72Triggered;
+    auto toggleType = user->ability72Triggered ? ToggleType::Triggered : ToggleType::Stopped;
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, toggleType);
+}
+
 int hook_0x45CCE3(CUser* user, SkillInfo* skillInfo)
 {
     auto abilityType1 = skillInfo->abilities[0].type;
-    if (abilityType1 != SkillAbilityType::Frenzied)
-        return 0;
-
-    GameCharSkillUseOutgoing_EP6 outgoing{};
-    outgoing.senderId = user->id;
-    outgoing.targetId = user->id;
-    outgoing.skillId = skillInfo->skillId;
-    outgoing.skillLv = skillInfo->skillLv;
-
-    if (!user->skillAbility70.triggered)
+    switch (abilityType1)
     {
-        user->skillAbility70.triggered = true;
-        user->skillAbility70.skillId = skillInfo->skillId;
-        user->skillAbility70.skillLv = skillInfo->skillLv;
-        user->skillAbility70.keepTime = GetTickCount() + (skillInfo->keepTime * 1000);
+    case SkillAbilityType::SubHpPercentage:
+    {
+        func_0x45CCE3_70(user, skillInfo);
+        return 1;
+    }
+    case SkillAbilityType::SubSpPercentage:
+    {
+        func_0x45CCE3_71(user, skillInfo);
+        return 1;
+    }
+    case SkillAbilityType::SubMpPercentage:
+    {
+        func_0x45CCE3_72(user, skillInfo);
+        return 1;
+    }
+    default:
+        return 0;
+    }
+}
 
-        outgoing.toggleType = ToggleType::Triggered;
-        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+void func_0x496067_70(CUser* user, CSkill* skill, tick32_t time)
+{
+    if (!user->ability70Triggered)
+    {
+        skill->endTime = time;
+        return;
+    }
+
+    if (time < skill->endTime)
+        return;
+
+    int needSP = skill->info->needSP;
+    if (needSP > user->stamina)
+    {
+        user->ability70Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughSP);
+        skill->endTime = time;
+        return;
+    }
+
+    int needMP = skill->info->needMP;
+    if (needMP > user->mana)
+    {
+        user->ability70Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughMP);
+        skill->endTime = time;
+        return;
+    }
+
+    CUser::SendUseSPMP(user, needSP, needMP);
+
+    int percent = skill->info->abilities[0].value;
+    int maxHP = user->maxHealth;
+    int damage = (maxHP * percent) / 100;
+
+    if (user->health < damage)
+    {
+        user->ability70Triggered = false;
+        user->health = 1;
+
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughHP);
+        skill->endTime = time;
     }
     else
     {
-        user->skillAbility70.triggered = false;
-        user->skillAbility70.skillId = 0;
-        user->skillAbility70.skillLv = 0;
-        user->skillAbility70.keepTime = 0;
-
-        outgoing.toggleType = ToggleType::Stopped;
-        SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+        user->health -= damage;
+        skill->endTime = time + (skill->info->keepTime * 1000);
     }
 
-    return 1;
+    CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
 }
 
-int hook_0x496067(CUser* user, SkillInfo* skillInfo)
+void func_0x496067_71(CUser* user, CSkill* skill, tick32_t time)
+{
+    if (!user->ability71Triggered)
+    {
+        skill->endTime = time;
+        return;
+    }
+
+    if (time < skill->endTime)
+        return;
+
+    int needSP = skill->info->needSP;
+    if (needSP > user->stamina)
+    {
+        user->ability71Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughSP);
+        skill->endTime = time;
+        return;
+    }
+
+    int needMP = skill->info->needMP;
+    if (needMP > user->mana)
+    {
+        user->ability71Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughMP);
+        skill->endTime = time;
+        return;
+    }
+
+    CUser::SendUseSPMP(user, needSP, needMP);
+
+    int percent = skill->info->abilities[0].value;
+    int maxSP = user->maxStamina;
+    int damage = (maxSP * percent) / 100;
+
+    if (user->stamina < damage)
+    {
+        user->ability71Triggered = false;
+        user->stamina = 0;
+
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughSP);
+        skill->endTime = time;
+    }
+    else
+    {
+        user->stamina -= damage;
+        skill->endTime = time + (skill->info->keepTime * 1000);
+    }
+
+    CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
+}
+
+void func_0x496067_72(CUser* user, CSkill* skill, tick32_t time)
+{
+    if (!user->ability72Triggered)
+    {
+        skill->endTime = time;
+        return;
+    }
+
+    if (time < skill->endTime)
+        return;
+
+    int needSP = skill->info->needSP;
+    if (needSP > user->stamina)
+    {
+        user->ability72Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughSP);
+        skill->endTime = time;
+        return;
+    }
+
+    int needMP = skill->info->needMP;
+    if (needMP > user->mana)
+    {
+        user->ability72Triggered = false;
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughMP);
+        skill->endTime = time;
+        return;
+    }
+
+    CUser::SendUseSPMP(user, needSP, needMP);
+
+    int percent = skill->info->abilities[0].value;
+    int maxMP = user->maxMana;
+    int damage = (maxMP * percent) / 100;
+
+    if (user->mana < damage)
+    {
+        user->ability72Triggered = false;
+        user->mana = 0;
+
+        send_0x511(user, skill->skillId, skill->skillLv, ToggleType::NotEnoughMP);
+        skill->endTime = time;
+    }
+    else
+    {
+        user->mana -= damage;
+        skill->endTime = time + (skill->info->keepTime * 1000);
+    }
+
+    CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
+}
+
+void hook_0x496067(CUser* user, CSkill* skill, tick32_t time)
+{
+    auto abilityType1 = skill->info->abilities[0].type;
+    switch (abilityType1)
+    {
+    case SkillAbilityType::SubHpPercentage:
+        func_0x496067_70(user, skill, time);
+        break;
+    case SkillAbilityType::SubSpPercentage:
+        func_0x496067_71(user, skill, time);
+        break;
+    case SkillAbilityType::SubMpPercentage:
+        func_0x496067_72(user, skill, time);
+        break;
+    default:
+        return;
+    }
+}
+
+void hook_0x498500(CUser* user, SkillInfo* skillInfo)
 {
     auto abilityType1 = skillInfo->abilities[0].type;
-    if (abilityType1 != SkillAbilityType::Frenzied)
-        return 0;
+    switch (abilityType1)
+    {
+    case SkillAbilityType::SubHpPercentage:
+        user->ability70Triggered = false;
+        break;
+    case SkillAbilityType::SubSpPercentage:
+        user->ability71Triggered = false;
+        break;
+    case SkillAbilityType::SubMpPercentage:
+        user->ability72Triggered = false;
+        break;
+    default:
+        return;
+    }
 
-    if (!user->skillAbility70.triggered)
-        return 0;
-
-    auto now = GetTickCount();
-    if (now < user->skillAbility70.keepTime)
-        return 1;
-
-    user->skillAbility70.keepTime = now + (skillInfo->keepTime * 1000);
-
-    auto abilityValue1 = skillInfo->abilities[0].value;
-    auto damage = (user->health * abilityValue1) / 100;
-
-    user->health -= damage;
-    CUser::SendRecoverChange(user, user->health, user->stamina, user->mana);
-    return 1;
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, ToggleType::Stopped);
 }
 
-void hook_0x49861D(CUser* user)
+void hook_0x498806(CUser* user, SkillInfo* skillInfo)
 {
-    if (!user->skillAbility70.triggered)
+    auto abilityType1 = skillInfo->abilities[0].type;
+    switch (abilityType1)
+    {
+    case SkillAbilityType::SubHpPercentage:
+        user->ability70Triggered = false;
+        break;
+    case SkillAbilityType::SubSpPercentage:
+        user->ability71Triggered = false;
+        break;
+    case SkillAbilityType::SubMpPercentage:
+        user->ability72Triggered = false;
+        break;
+    default:
         return;
+    }
 
-    user->skillAbility70.triggered = false;
-    user->skillAbility70.skillId = 0;
-    user->skillAbility70.skillLv = 0;
-    user->skillAbility70.keepTime = 0;
-
-    GameCharSkillUseOutgoing_EP6 outgoing{};
-    outgoing.senderId = user->id;
-    outgoing.targetId = user->id;
-    outgoing.skillId = user->skillAbility70.skillId;;
-    outgoing.skillLv = user->skillAbility70.skillLv;
-    outgoing.toggleType = ToggleType::Stopped;
-    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
-}
-
-void hook_0x49887C(CUser* user)
-{
-    if (!user->skillAbility70.triggered)
-        return;
-
-    user->skillAbility70.triggered = false;
-    user->skillAbility70.skillId = 0;
-    user->skillAbility70.skillLv = 0;
-    user->skillAbility70.keepTime = 0;
-
-    GameCharSkillUseOutgoing_EP6 outgoing{};
-    outgoing.senderId = user->id;
-    outgoing.targetId = user->id;
-    outgoing.skillId = user->skillAbility70.skillId;;
-    outgoing.skillLv = user->skillAbility70.skillLv;
-    outgoing.toggleType = ToggleType::Stopped;
-    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, ToggleType::Stopped);
 }
 
 void hook_0x4935B2(CUser* user, SkillInfo* skillInfo)
 {
     auto abilityType1 = skillInfo->abilities[0].type;
-    if (abilityType1 != SkillAbilityType::Frenzied)
+    switch (abilityType1)
+    {
+    case SkillAbilityType::SubHpPercentage:
+        user->ability70Triggered = false;
+        break;
+    case SkillAbilityType::SubSpPercentage:
+        user->ability71Triggered = false;
+        break;
+    case SkillAbilityType::SubMpPercentage:
+        user->ability72Triggered = false;
+        break;
+    default:
         return;
+    }
 
-    if (!user->skillAbility70.triggered)
-        return;
-
-    user->skillAbility70.triggered = false;
-    user->skillAbility70.skillId = 0;
-    user->skillAbility70.skillLv = 0;
-    user->skillAbility70.keepTime = 0;
-
-    GameCharSkillUseOutgoing_EP6 outgoing{};
-    outgoing.senderId = user->id;
-    outgoing.targetId = user->id;
-    outgoing.skillId = user->skillAbility70.skillId;;
-    outgoing.skillLv = user->skillAbility70.skillLv;
-    outgoing.toggleType = ToggleType::Stopped;
-    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+    send_0x511(user, skillInfo->skillId, skillInfo->skillLv, ToggleType::Stopped);
 }
 
 /// <summary>
@@ -238,68 +411,70 @@ void __declspec(naked) naked_0x45CCE3()
 }
 
 unsigned u0x49606D = 0x49606D;
-unsigned u0x4961F1 = 0x4961F1;
 void __declspec(naked) naked_0x496067()
 {
     __asm
     {
         pushad
 
-        push ecx // skillInfo
+        mov edx,[ebp+0x08]
+
+        push edx // time
+        push ebx // skill
         push esi // user
         call hook_0x496067
-        add esp,0x8
-        test eax,eax
+        add esp,0xC
 
         popad
-
-        jne _0x4961F1
 
         // original
         mov edx,[ebp+0x08]
         cmp edx,[ebx+0x20]
         jmp u0x49606D
-        
-        _0x4961F1:
-        jmp u0x4961F1
     }
 }
 
-unsigned u0x498623 = 0x498623;
-void __declspec(naked) naked_0x49861D()
+unsigned u0x498506 = 0x498506;
+void __declspec(naked) naked_0x498500()
 {
+    // TypeDetail case 82
     __asm
     {
         pushad
 
+        push edi // skillInfo
         push esi // user
-        call hook_0x49861D
-        add esp,0x4
+        call hook_0x498500
+        add esp,0x8
 
         popad
 
         // original
-        mov eax,[esi+0x1C4]
-        jmp u0x498623
+        movzx eax,word ptr[edi+0x7E]
+        neg eax
+        jmp u0x498506
     }
 }
 
-unsigned u0x498882 = 0x498882;
-void __declspec(naked) naked_0x49887C()
+unsigned u0x49880C = 0x49880C;
+void __declspec(naked) naked_0x498806()
 {
+    // TypeDetail case 82
     __asm
     {
         pushad
 
+        push edi // skillInfo
         push esi // user
-        call hook_0x49887C
-        add esp,0x4
+        call hook_0x498806
+        add esp,0x8
 
         popad
 
         // original
-        mov [esi+0x1348],ebx
-        jmp u0x498882
+        movzx eax,word ptr[edi+0x7E]
+        neg eax
+        jmp u0x49880C
     }
 }
 
@@ -382,9 +557,9 @@ void hook::user_skill()
     // CUser::ChkEndTimeSkill
     util::detour((void*)0x496067, naked_0x496067, 6);
     // CUser::ClearApplySkillByDeath
-    util::detour((void*)0x49861D, naked_0x49861D, 6);
+    util::detour((void*)0x498500, naked_0x498500, 6);
     // CUser::SkillClearAll
-    util::detour((void*)0x49887C, naked_0x49887C, 6);
+    util::detour((void*)0x498806, naked_0x498806, 6);
     // CUser::LearnSkill
     util::detour((void*)0x4935B2, naked_0x4935B2, 5);
     // CUser::SetSkillAbility (default case)

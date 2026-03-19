@@ -20,16 +20,20 @@ void hook_0x455165(CUser* user)
 {
     user->itemQualityLvEx = {};
     user->itemQualityEx = {};
-    user->skillAbility70 = {};
     user->multiplyQuestExpRate = 0;
+    user->ability70Triggered = false;
+    user->ability71Triggered = false;
+    user->ability72Triggered = false;
 }
 
 void hook_0x455A83(CUser* user)
 {
     user->itemQualityLvEx = {};
     user->itemQualityEx = {};
-    user->skillAbility70 = {};
     user->multiplyQuestExpRate = 0;
+    user->ability70Triggered = false;
+    user->ability71Triggered = false;
+    user->ability72Triggered = false;
 }
 
 void __declspec(naked) naked_0x414C33()
@@ -98,8 +102,8 @@ void hook::user()
     util::detour((void*)0x455165, naked_0x455165, 6);
     // CUser::ResetCharacter
     util::detour((void*)0x455A83, naked_0x455A83, 6);
-    // change 0x62A0 to 0x62F4
-    int size = 0x62F4;
+    // Change 0x62A0 to 0x62F0
+    int size = 0x62F0;
     // SSyncHeap<CUser>::Alloc
     util::write_memory((void*)0x411F74, &size, 4);
 }

@@ -10,6 +10,7 @@
 #include <shaiya/include/common/PartyType.h>
 #include <shaiya/include/common/Sex.h>
 #include <shaiya/include/common/ShapeType.h>
+#include <shaiya/include/common/ToggleType.h>
 #include "AdminInfo.h"
 #include "Attack.h"
 #include "AttackAdd.h"
@@ -47,16 +48,6 @@ namespace shaiya
 
     using ProductLog = Array<PointLog, 10>;
     using StoredPointItems = Array<StoredPointItemInfo, 640>;
-
-    #pragma pack(push, 1)
-    struct SkillAbility70
-    {
-        uint16_t skillId;
-        uint8_t skillLv;
-        bool triggered;
-        tick32_t keepTime;
-    };
-    #pragma pack(pop)
 
     #pragma pack(push, 1)
     struct UserKillCountStatus
@@ -435,8 +426,12 @@ namespace shaiya
         // custom
         ItemQualityLv<24> itemQualityLvEx;       //0x62A0
         ItemQuality<24> itemQualityEx;           //0x62B8
-        SkillAbility70 skillAbility70;           //0x62E8
-        uint32_t multiplyQuestExpRate;           //0x62F0
+        uint32_t multiplyQuestExpRate;           //0x62E8
+        bool ability70Triggered;                 //0x62EC
+        bool ability71Triggered;                 //0x62ED
+        bool ability72Triggered;                 //0x62EE
+        PAD(1);
+        // 0x62F0
 
         static void AddExpFromUser(CUser* user/*esi*/, unsigned lastTargetId, int exp, bool isQuest);
         static void CancelActionExc(CUser* user/*edi*/);
@@ -492,6 +487,7 @@ namespace shaiya
         static void SendShape(CUser* user/*ecx*/);
         static void SendSpeed(CUser* user/*ecx*/);
         static void SendUserShape(CUser* user);
+        static void SendUseSPMP(CUser* user/*esi*/, int stamina, int mana);
         static void SetAttack(CUser* user/*esi*/);
         static void SetGameLogMain(CUser* user/*edi*/, void* packet/*esi*/);
         static void StatResetSkill(CUser* user/*eax*/, bool event);
@@ -503,5 +499,5 @@ namespace shaiya
     #pragma pack(pop)
 
     //static_assert(sizeof(CUser) == 0x62A0);
-    static_assert(sizeof(CUser) == 0x62F4);
+    static_assert(sizeof(CUser) == 0x62F0);
 }

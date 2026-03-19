@@ -6,7 +6,9 @@ namespace shaiya
     enum struct ToggleType : uint8_t
     {
         Triggered = 1,
-        Unknown,
-        Stopped
+        Stopped = 3,
+        NotEnoughHP = 5,
+        NotEnoughSP,
+        NotEnoughMP
     };
 }
