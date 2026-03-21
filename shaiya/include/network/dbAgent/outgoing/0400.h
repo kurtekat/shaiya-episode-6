@@ -9,14 +9,14 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // TP_DB_CHAR_LIST
-    template<class DBCharacterListT>
+    template<class DBCharacterT>
     struct DBAgentCharListOutgoing
     {
         uint16_t opcode{ 0x403 };
         uint32_t billingId;
         bool withCountry;
         uint8_t characterCount;
-        Array<DBCharacterListT, 5> characterList;
+        Array<DBCharacterT, 5> characterList;
 
         constexpr static int baseLength = 8;
     };

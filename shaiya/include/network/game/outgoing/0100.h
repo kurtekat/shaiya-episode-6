@@ -10,12 +10,12 @@ namespace shaiya
 {
     #pragma pack(push, 1)
     // TP_CHAR_LIST
-    template<class CharacterListT>
+    template<class CharacterT>
     struct GameCharListOutgoing
     {
         uint16_t opcode{ 0x101 };
         uint8_t slot;
-        CharacterListT character;
+        CharacterT character;
     };
     #pragma pack(pop)
 

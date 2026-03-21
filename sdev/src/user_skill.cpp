@@ -239,7 +239,7 @@ void hook_0x496067(CUser* user, CSkill* skill, tick32_t time)
         func_0x496067_72(user, skill, time);
         break;
     default:
-        return;
+        break;
     }
 }
 
