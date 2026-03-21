@@ -16,15 +16,29 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_POINT_BUY
-    template<class PointItemUnitT>
-    struct GamePointBuyOutgoing
+    struct GamePointBuyOutgoing_EP5
     {
         uint16_t opcode{ 0x2602 };
         GamePointBuyResult result;
         uint32_t remainingPoints;
         PointLogUnit log;
         uint8_t itemCount;
-        Array<PointItemUnitT, 24> itemList;
+        Array<PointItemUnit_EP5, 24> itemList;
+
+        constexpr static int baseLength = 37;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TP_POINT_BUY
+    struct GamePointBuyOutgoing_EP6_4
+    {
+        uint16_t opcode{ 0x2602 };
+        GamePointBuyResult result;
+        uint32_t remainingPoints;
+        PointLogUnit log;
+        uint8_t itemCount;
+        Array<PointItemUnit_EP6_4, 24> itemList;
 
         constexpr static int baseLength = 37;
     };

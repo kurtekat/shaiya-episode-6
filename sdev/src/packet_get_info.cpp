@@ -187,10 +187,13 @@ void hook_0x491B13(CUser* user)
 /// </summary>
 void hook_0x477D4F(CUser* user, CUser* target)
 {
-    GameGetInfoUserItemsOutgoing<GetInfoItemUnit_EP5, 17> outgoing{};
+    GameGetInfoUserItemsOutgoing_EP6_4 outgoing{};
     outgoing.itemCount = 0;
 
-    for (int slot = 0; slot < 17; ++slot)
+    auto size = std::ssize(outgoing.itemList);
+    auto dest = outgoing.itemList.begin();
+
+    for (int slot = 0; slot < size; ++slot)
     {
         auto& item = target->inventory[0][slot];
         if (!item)
@@ -199,18 +202,17 @@ void hook_0x477D4F(CUser* user, CUser* target)
         // Remove this condition if the inspection window supports 17 items
         if (slot < ItemEquipment::Wings)
         {
-            GetInfoItemUnit_EP5 item0307{};
-            item0307.slot = slot;
-            item0307.type = item->type;
-            item0307.typeId = item->typeId;
+            dest->slot = slot;
+            dest->type = item->type;
+            dest->typeId = item->typeId;
 
             if (slot < ItemEquipment::Vehicle)
-                item0307.quality = item->quality;
+                dest->quality = item->quality;
 
-            item0307.gems = item->gems;
-            item0307.craftName = item->craftName;
+            dest->gems = item->gems;
+            dest->craftName = item->craftName;
 
-            outgoing.itemList[outgoing.itemCount] = item0307;
+            ++dest;
             ++outgoing.itemCount;
         }
     }

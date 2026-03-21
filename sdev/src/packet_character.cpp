@@ -46,9 +46,12 @@ void hook_0x492660(CUser* user)
     // EP6.4: 7 + 41 * 50 = 2057 // not ok (exceeds 2046)
     // EP6.4: 7 + 41 * 40 = 1647 // ok
 
-    GameCharBankOutgoing<BankUnit_EP6_4, 40> outgoing{};
+    GameCharBankOutgoing_EP6_4 outgoing{};
     outgoing.bankMoney = user->bankMoney;
     outgoing.itemCount = 0;
+
+    auto size = std::ssize(outgoing.itemList);
+    auto dest = outgoing.itemList.begin();
 
     for (int slot = 0; slot < 240; ++slot)
     {
@@ -56,19 +59,18 @@ void hook_0x492660(CUser* user)
         if (!item)
             continue;
 
-        BankUnit_EP6_4 item0711{};
-        item0711.slot = slot;
-        item0711.type = item->type;
-        item0711.typeId = item->typeId;
-        item0711.quality = item->quality;
-        item0711.gems = item->gems;
-        item0711.count = item->count;
-        item0711.craftName = item->craftName;
+        dest->slot = slot;
+        dest->type = item->type;
+        dest->typeId = item->typeId;
+        dest->quality = item->quality;
+        dest->gems = item->gems;
+        dest->count = item->count;
+        dest->craftName = item->craftName;
 
-        outgoing.itemList[outgoing.itemCount] = item0711;
+        ++dest;
         ++outgoing.itemCount;
 
-        if (outgoing.itemCount < 40)
+        if (outgoing.itemCount < size)
             continue;
         else
         {
@@ -77,6 +79,7 @@ void hook_0x492660(CUser* user)
 
             outgoing.itemCount = 0;
             outgoing.itemList = {};
+            dest = outgoing.itemList.begin();
         }
     }
 

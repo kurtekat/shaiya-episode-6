@@ -85,12 +85,23 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_USER_ITEMS
-    template<class GetInfoItemUnitT, size_t UnitCount>
-    struct GameGetInfoUserItemsOutgoing
+    struct GameGetInfoUserItemsOutgoing_EP5
     {
         uint16_t opcode{ 0x307 };
         uint8_t itemCount;
-        Array<GetInfoItemUnitT, UnitCount> itemList;
+        Array<GetInfoItemUnit_EP5, 13> itemList;
+
+        constexpr static int baseLength = 3;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TP_USER_ITEMS
+    struct GameGetInfoUserItemsOutgoing_EP6_4
+    {
+        uint16_t opcode{ 0x307 };
+        uint8_t itemCount;
+        Array<GetInfoItemUnit_EP5, 17> itemList;
 
         constexpr static int baseLength = 3;
     };

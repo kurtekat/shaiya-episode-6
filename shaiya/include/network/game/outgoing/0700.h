@@ -21,13 +21,25 @@ namespace shaiya
 
     #pragma pack(push, 1)
     // TP_CHAR_BANK
-    template<class BankUnitT, size_t UnitCount>
-    struct GameCharBankOutgoing
+    struct GameCharBankOutgoing_EP5
     {
         uint16_t opcode{ 0x711 };
         uint32_t bankMoney;
         uint8_t itemCount;
-        Array<BankUnitT, UnitCount> itemList;
+        Array<BankUnit_EP5, 50> itemList;
+
+        constexpr static int baseLength = 7;
+    };
+    #pragma pack(pop)
+
+    #pragma pack(push, 1)
+    // TP_CHAR_BANK
+    struct GameCharBankOutgoing_EP6_4
+    {
+        uint16_t opcode{ 0x711 };
+        uint32_t bankMoney;
+        uint8_t itemCount;
+        Array<BankUnit_EP6_4, 40> itemList;
 
         constexpr static int baseLength = 7;
     };

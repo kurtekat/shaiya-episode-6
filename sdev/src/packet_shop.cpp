@@ -70,9 +70,9 @@ void handler_0xE06(CUser* user, DBAgentPointReloadOutgoing* incoming)
 /// <summary>
 /// Sends packet 0x2602 (6.4) to the user. The item dates will be zero.
 /// </summary>
-void hook_0x4886E0(CUser* user, GamePointBuyOutgoing<PointItemUnit_EP5>* packet)
+void hook_0x4886E0(CUser* user, GamePointBuyOutgoing_EP5* packet)
 {
-    GamePointBuyOutgoing<PointItemUnit_EP6_4> outgoing{};
+    GamePointBuyOutgoing_EP6_4 outgoing{};
     outgoing.result = packet->result;
     outgoing.remainingPoints = packet->remainingPoints;
     outgoing.log.productCode = packet->log.productCode;

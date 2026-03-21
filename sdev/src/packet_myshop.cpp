@@ -8,9 +8,9 @@ using namespace shaiya;
 /// <summary>
 /// Sends packet 0x230B (6.4) to the user. The item dates will be zero.
 /// </summary>
-void hook_0x48733F(CUser* user, GameMyShopItemListOutgoing<MyShopUnit_EP5>* packet)
+void hook_0x48733F(CUser* user, GameMyShopBuyListOutgoing_EP5* packet)
 {
-    GameMyShopItemListOutgoing<MyShopUnit_EP6_4> outgoing{};
+    GameMyShopBuyListOutgoing_EP6_4 outgoing{};
     outgoing.itemCount = packet->itemCount;
 
     auto it = packet->itemList.cbegin();
