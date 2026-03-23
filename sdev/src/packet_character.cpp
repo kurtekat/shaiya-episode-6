@@ -72,15 +72,13 @@ void hook_0x492660(CUser* user)
 
         if (outgoing.itemCount < size)
             continue;
-        else
-        {
-            int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
-            SConnection::Send(user, &outgoing, length);
+        
+        int length = outgoing.baseLength + (outgoing.itemCount * sizeof(BankUnit_EP6_4));
+        SConnection::Send(user, &outgoing, length);
 
-            outgoing.itemCount = 0;
-            outgoing.itemList = {};
-            dest = outgoing.itemList.begin();
-        }
+        outgoing.itemCount = 0;
+        outgoing.itemList = {};
+        dest = outgoing.itemList.begin();
     }
 
     if (!outgoing.itemCount)
