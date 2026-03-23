@@ -149,8 +149,8 @@ void Configuration::LoadChaoticSquareData()
             return;
 
         g_chaoticSquareFortuneMoney = money;
-        g_chaoticSquareRecipes.reserve(recipeMax);
         g_chaoticSquares.reserve(squareMax);
+        std::map<int, ChaoticSquareRecipe> recipes;
 
         for (int num = 1; num < recipeMax + 1; ++num)
         {
@@ -165,7 +165,6 @@ void Configuration::LoadChaoticSquareData()
                 continue;
 
             ChaoticSquareRecipe recipe{};
-            recipe.id = num;
             recipe.hidden = std::clamp(hidden, 0, 1);
             recipe.chance = std::clamp(chance, 100, 10000);
             recipe.resultType = std::stoi(vec[0]);
@@ -184,7 +183,7 @@ void Configuration::LoadChaoticSquareData()
                 recipe.materialCount[i] = std::stoi(vec[2]);
             }
 
-            g_chaoticSquareRecipes.push_back(recipe);
+            recipes[num] = recipe;
         }
 
         for (int num = 1; num < squareMax + 1; ++num)
@@ -205,15 +204,26 @@ void Configuration::LoadChaoticSquareData()
             if (vec.empty())
                 continue;
 
-            std::vector<int> recipes;
-            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipes), ext::string::to_int());
-            std::sort(recipes.begin(), recipes.end());
+            std::vector<int> recipeList;
+            std::transform(vec.cbegin(), vec.cend(), std::back_inserter(recipeList), ext::string::to_int());
+            std::sort(recipeList.begin(), recipeList.end());
 
             ChaoticSquare square{};
             square.itemId = itemId;
-            square.recipes = recipes;
 
-            auto dest = square.failItemList.begin();
+            for (const auto& id : recipeList)
+            {
+                auto it = recipes.find(id);
+                if (it == recipes.end())
+                    continue;
+
+                auto& recipe = it->second;
+                if (recipe.hidden)
+                    continue;
+
+                square.recipes.push_back(recipe);
+            }
+
             for (int i = 0; i < 24; ++i)
             {
                 auto key = std::format(L"Square_{}:Fail_Item_{}", num, i + 1);
@@ -221,52 +231,16 @@ void Configuration::LoadChaoticSquareData()
                 auto vec = ext::string::split<std::vector>(value, L',', 3);
                 vec.resize(3, L"0");
 
-                dest->type = std::stoi(vec[0]);
-                dest->typeId = std::stoi(vec[1]);
-                dest->count = std::stoi(vec[2]);
-                ++dest;
+                square.results[i].type = std::stoi(vec[0]);
+                square.results[i].typeId = std::stoi(vec[1]);
+                square.results[i].count = std::stoi(vec[2]);
             }
 
             g_chaoticSquares.push_back(square);
         }
-
-        for (auto&& square : g_chaoticSquares)
-        {
-            ChaoticSquareRecipeResult result{};
-
-            int i = 0;
-            for (const auto& id : square.recipes)
-            {
-                auto recipe = ChaoticSquare::FindRecipe(id);
-                if (!recipe)
-                    continue;
-
-                if (recipe->hidden)
-                    continue;
-
-                result.type[i] = recipe->resultType;
-                result.typeId[i] = recipe->resultTypeId;
-                ++i;
-
-                if (i < 10)
-                    continue;
-                else
-                {
-                    square.results.push_back(result);
-                    result = {};
-                    i = 0;
-                }
-            }
-
-            if (!i)
-                continue;
-
-            square.results.push_back(result);
-        }
     }
     catch (...)
     {
-        g_chaoticSquareRecipes.clear();
         g_chaoticSquares.clear();
     }
 }

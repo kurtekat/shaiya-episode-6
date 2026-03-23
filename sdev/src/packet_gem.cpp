@@ -612,7 +612,7 @@ void handler_0x806(CUser* user, GameItemComposeIncoming_EP6_4* incoming)
 /// <summary>
 /// Handles incoming 0x830 packets.
 /// </summary>
-void handler_0x830(CUser* user, GameChaoticSquareRecipeResultIncoming* incoming)
+void handler_0x830(CUser* user, GameChaoticSquareResultIncoming* incoming)
 {
     if (!incoming->squareBag)
         return;
@@ -637,14 +637,28 @@ void handler_0x830(CUser* user, GameChaoticSquareRecipeResultIncoming* incoming)
     CUser::CancelActionExc(user);
     MyShop::Ended(&user->myShop);
 
-    for (const auto& result : square->results)
+    GameChaoticSquareResultOutgoing outgoing{};
+    outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
+
+    int i = 0;
+    for (const auto& recipe : square->recipes)
     {
-        GameChaoticSquareRecipeResultOutgoing outgoing{};
-        outgoing.resultType = result.type;
-        outgoing.resultTypeId = result.typeId;
-        outgoing.fortuneMoney = g_chaoticSquareFortuneMoney;
-        SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeResultOutgoing));
+        outgoing.resultType[i] = recipe.resultType;
+        outgoing.resultTypeId[i] = recipe.resultTypeId;
+
+        if (++i < 10)
+            continue;
+        
+        SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareResultOutgoing));
+        outgoing.resultType = {};
+        outgoing.resultTypeId = {};
+        i = 0;
     }
+
+    if (i == 0)
+        return;
+
+    SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareResultOutgoing));
 }
 
 /// <summary>
@@ -666,22 +680,18 @@ void handler_0x831(CUser* user, GameChaoticSquareRecipeIncoming* incoming)
     if (incoming->index >= square->recipes.size())
         return;
 
-    auto id = square->recipes[incoming->index];
-    auto recipe = ChaoticSquare::FindRecipe(id);
-    if (!recipe)
-        return;
-
-    if (incoming->resultType != recipe->resultType || incoming->resultTypeId != recipe->resultTypeId)
+    auto& recipe = square->recipes[incoming->index];
+    if (incoming->resultType != recipe.resultType || incoming->resultTypeId != recipe.resultTypeId)
         return;
 
     GameChaoticSquareRecipeOutgoing outgoing{};
-    outgoing.chance = recipe->chance;
-    outgoing.materialType = recipe->materialType;
-    outgoing.resultType = recipe->resultType;
-    outgoing.materialTypeId = recipe->materialTypeId;
-    outgoing.resultTypeId = recipe->resultTypeId;
-    outgoing.materialCount = recipe->materialCount;
-    outgoing.resultCount = recipe->resultCount;
+    outgoing.chance = recipe.chance;
+    outgoing.materialType = recipe.materialType;
+    outgoing.resultType = recipe.resultType;
+    outgoing.materialTypeId = recipe.materialTypeId;
+    outgoing.resultTypeId = recipe.resultTypeId;
+    outgoing.materialCount = recipe.materialCount;
+    outgoing.resultCount = recipe.resultCount;
     SConnection::Send(user, &outgoing, sizeof(GameChaoticSquareRecipeOutgoing));
 }
 
@@ -710,16 +720,12 @@ void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
     if (incoming->index >= square->recipes.size())
         return;
 
-    auto id = square->recipes[incoming->index];
-    auto recipe = ChaoticSquare::FindRecipe(id);
-    if (!recipe)
-        return;
-
     if (incoming->money > user->money)
         return;
 
+    auto& recipe = square->recipes[incoming->index];
     auto fortuneMoney = g_chaoticSquareFortuneMoney;
-    auto chance = recipe->chance;
+    auto chance = recipe.chance;
 
     if (fortuneMoney >= 100)
     {
@@ -772,11 +778,11 @@ void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
 
         if (randomChance <= chance)
         {
-            auto itemInfo = CGameData::GetItemInfo(recipe->resultType, recipe->resultTypeId);
+            auto itemInfo = CGameData::GetItemInfo(recipe.resultType, recipe.resultTypeId);
             if (!itemInfo)
                 return;
 
-            CUser::ItemCreate(user, itemInfo, recipe->resultCount);
+            CUser::ItemCreate(user, itemInfo, recipe.resultCount);
 
             GameItemSynthesisOutgoing success{};
             success.result = GameItemSynthesisResult::Success;
@@ -784,7 +790,7 @@ void handler_0x832(CUser* user, GameItemSynthesisIncoming* incoming)
         }
         else
         {
-            for (const auto& result : square->failItemList)
+            for (const auto& result : square->results)
             {
                 auto itemInfo = CGameData::GetItemInfo(result.type, result.typeId);
                 if (!itemInfo)

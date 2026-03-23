@@ -254,7 +254,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameChaoticSquareRecipeResultIncoming
+    struct GameChaoticSquareResultIncoming
     {
         uint16_t opcode{ 0x830 };
         uint8_t squareBag;

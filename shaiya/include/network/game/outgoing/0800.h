@@ -172,7 +172,7 @@ namespace shaiya
     #pragma pack(pop)
 
     #pragma pack(push, 1)
-    struct GameChaoticSquareRecipeResultOutgoing
+    struct GameChaoticSquareResultOutgoing
     {
         uint16_t opcode{ 0x830 };
         Array<uint8_t, 10> resultType;

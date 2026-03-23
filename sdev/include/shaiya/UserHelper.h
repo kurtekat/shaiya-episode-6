@@ -17,6 +17,6 @@ namespace shaiya
         static bool ItemCreate(CUser* user, ItemInfo* itemInfo, int count, int& outBag, int& outSlot);
         static bool ItemRemove(CUser* user, int bag, int slot, int count);
         static bool SetMovePosition(CUser* user, MoveType moveType, unsigned delay, int mapId, float x, float y, float z);
-        static bool RecipeRemove(CUser* user, ChaoticSquareRecipe* recipe);
+        static bool RecipeRemove(CUser* user, const ChaoticSquareRecipe& recipe);
     };
 }

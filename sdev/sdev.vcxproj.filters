@@ -590,9 +590,6 @@
     <ClInclude Include="include\shaiya\BattlefieldMoveInfo.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
-    <ClInclude Include="include\shaiya\FailItem.h">
-      <Filter>include\shaiya</Filter>
-    </ClInclude>
     <ClInclude Include="include\shaiya\MoveType.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
