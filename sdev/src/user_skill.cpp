@@ -19,7 +19,11 @@ void send_0x511(CUser* user, int skillId, int skillLv, ToggleType toggleType)
     outgoing.skillId = skillId;
     outgoing.skillLv = skillLv;
     outgoing.toggleType = toggleType;
-    SConnection::Send(user, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6));
+
+    if (!user->zone)
+        return;
+
+    CZone::SendView(user->zone, &outgoing, sizeof(GameCharSkillUseOutgoing_EP6), user->cellX, user->cellZ);
 }
 
 void func_0x45CCE3_70(CUser* user, SkillInfo* skillInfo)
