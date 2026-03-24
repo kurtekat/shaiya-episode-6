@@ -1,13 +1,9 @@
 #pragma once
 #include <shaiya/include/common.h>
+#include "TargetType.h"
 
 namespace shaiya
 {
-    // to-do
-    enum struct TargetType : int32_t
-    {
-    };
-
     #pragma pack(push, 1)
     struct Target
     {
