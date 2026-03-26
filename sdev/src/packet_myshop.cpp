@@ -15,18 +15,18 @@ void hook_0x48733F(CUser* user, GameMyShopBuyListOutgoing_EP5* packet)
 
     auto it = packet->itemList.cbegin();
     auto last = it + packet->itemCount;
-    auto dest = outgoing.itemList.begin();
+    auto unit = outgoing.itemList.begin();
 
-    for (; it != last; ++it, ++dest)
+    for (; it != last; ++it, ++unit)
     {
-        dest->shopSlot = it->shopSlot;
-        dest->money = it->money;
-        dest->type = it->type;
-        dest->typeId = it->typeId;
-        dest->count = it->count;
-        dest->quality = it->quality;
-        dest->gems = it->gems;
-        dest->craftName = it->craftName;
+        unit->shopSlot = it->shopSlot;
+        unit->money = it->money;
+        unit->type = it->type;
+        unit->typeId = it->typeId;
+        unit->count = it->count;
+        unit->quality = it->quality;
+        unit->gems = it->gems;
+        unit->craftName = it->craftName;
     }
 
     int length = outgoing.baseLength + (outgoing.itemCount * sizeof(MyShopUnit_EP6_4));

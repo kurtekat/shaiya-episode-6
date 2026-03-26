@@ -82,15 +82,15 @@ void hook_0x4886E0(CUser* user, GamePointBuyOutgoing_EP5* packet)
 
     auto it = packet->itemList.cbegin();
     auto last = it + packet->itemCount;
-    auto dest = outgoing.itemList.begin();
+    auto unit = outgoing.itemList.begin();
 
-    for (; it != last; ++it, ++dest)
+    for (; it != last; ++it, ++unit)
     {
-        dest->bag = it->bag;
-        dest->slot = it->slot;
-        dest->type = it->type;
-        dest->typeId = it->typeId;
-        dest->count = it->count;
+        unit->bag = it->bag;
+        unit->slot = it->slot;
+        unit->type = it->type;
+        unit->typeId = it->typeId;
+        unit->count = it->count;
     }
 
     int length = outgoing.baseLength + (outgoing.itemCount * sizeof(PointItemUnit_EP6_4));

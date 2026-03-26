@@ -71,20 +71,20 @@ void hook_0x48DE38(CUser* user, CQuest* quest, unsigned npcId, int resultIndex)
 
     auto it = result.itemList.cbegin();
     auto last = result.itemList.cend();
-    auto dest = outgoing.itemList.begin();
+    auto unit = outgoing.itemList.begin();
 
-    for (; it != last; ++it, ++dest)
+    for (; it != last; ++it, ++unit)
     {
         ItemInfo* itemInfo = nullptr;
         int bag{}, slot{};
 
         if (CUser::QuestAddItem(user, it->type, it->typeId, it->count, &bag, &slot, &itemInfo))
         {
-            dest->count = it->count;
-            dest->bag = bag;
-            dest->slot = slot;
-            dest->type = it->type;
-            dest->typeId = it->typeId;
+            unit->count = it->count;
+            unit->bag = bag;
+            unit->slot = slot;
+            unit->type = it->type;
+            unit->typeId = it->typeId;
 
             if (itemInfo)
             {

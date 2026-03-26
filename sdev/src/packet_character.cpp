@@ -51,7 +51,7 @@ void hook_0x492660(CUser* user)
     outgoing.itemCount = 0;
 
     auto size = std::ssize(outgoing.itemList);
-    auto dest = outgoing.itemList.begin();
+    auto unit = outgoing.itemList.begin();
 
     for (int slot = 0; slot < 240; ++slot)
     {
@@ -59,15 +59,15 @@ void hook_0x492660(CUser* user)
         if (!item)
             continue;
 
-        dest->slot = slot;
-        dest->type = item->type;
-        dest->typeId = item->typeId;
-        dest->quality = item->quality;
-        dest->gems = item->gems;
-        dest->count = item->count;
-        dest->craftName = item->craftName;
+        unit->slot = slot;
+        unit->type = item->type;
+        unit->typeId = item->typeId;
+        unit->quality = item->quality;
+        unit->gems = item->gems;
+        unit->count = item->count;
+        unit->craftName = item->craftName;
 
-        ++dest;
+        ++unit;
         ++outgoing.itemCount;
 
         if (outgoing.itemCount < size)
@@ -78,7 +78,7 @@ void hook_0x492660(CUser* user)
 
         outgoing.itemCount = 0;
         outgoing.itemList = {};
-        dest = outgoing.itemList.begin();
+        unit = outgoing.itemList.begin();
     }
 
     if (!outgoing.itemCount)
@@ -132,10 +132,10 @@ void hook_0x47BCE8(CUser* user)
     GameWeaponStepOutgoing outgoing{};
     auto it = g_LapisianEnchantAddValue->step.cbegin();
     auto last = g_LapisianEnchantAddValue->step.cend();
-    auto dest = outgoing.weaponStep.begin();
+    auto step = outgoing.weaponStep.begin();
 
-    for (; it != last; ++it, ++dest)
-        *dest = it->weapon;
+    for (; it != last; ++it, ++step)
+        *step = it->weapon;
 
     SConnection::Send(user, &outgoing, sizeof(GameWeaponStepOutgoing));
 }

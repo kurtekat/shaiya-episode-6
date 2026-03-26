@@ -191,7 +191,7 @@ void hook_0x477D4F(CUser* user, CUser* target)
     outgoing.itemCount = 0;
 
     auto size = std::ssize(outgoing.itemList);
-    auto dest = outgoing.itemList.begin();
+    auto unit = outgoing.itemList.begin();
 
     for (int slot = 0; slot < size; ++slot)
     {
@@ -202,17 +202,17 @@ void hook_0x477D4F(CUser* user, CUser* target)
         // Remove this condition if the inspection window supports 17 items
         if (slot < ItemEquipment::Wings)
         {
-            dest->slot = slot;
-            dest->type = item->type;
-            dest->typeId = item->typeId;
+            unit->slot = slot;
+            unit->type = item->type;
+            unit->typeId = item->typeId;
 
             if (slot < ItemEquipment::Vehicle)
-                dest->quality = item->quality;
+                unit->quality = item->quality;
 
-            dest->gems = item->gems;
-            dest->craftName = item->craftName;
+            unit->gems = item->gems;
+            unit->craftName = item->craftName;
 
-            ++dest;
+            ++unit;
             ++outgoing.itemCount;
         }
     }
