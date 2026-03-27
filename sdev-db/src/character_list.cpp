@@ -17,42 +17,44 @@ void hook_0x40AA20(CUser* user, bool sendCountry)
     // if this value is true
     outgoing.withCountry = sendCountry;
     outgoing.characterCount = 0;
+    // The game service copies most of this data to a 0x101 packet 
+    // and then sends the packet to the client
+    auto character = outgoing.characterList.begin();
+    auto equipment = user->equipment.cbegin();
 
-    for (const auto& character : user->characterList)
+    for (const auto& e : user->characterList)
     {
-        if (!character.charId || character.slot >= 5)
+        if (!e.charId)
             continue;
 
-        DBCharacterList_EP6_4 dbCharacter{};
-        dbCharacter.charId = character.charId;
-        dbCharacter.createDate = character.createDate;
-        dbCharacter.enableRename = character.enableRename;
-        dbCharacter.slot = character.slot;
-        dbCharacter.family = character.family;
-        dbCharacter.grow = character.grow;
-        dbCharacter.hair = character.hair;
-        dbCharacter.face = character.face;
-        dbCharacter.size = character.size;
-        dbCharacter.job = character.job;
-        dbCharacter.sex = character.sex;
-        dbCharacter.level = character.level;
-        dbCharacter.strength = character.strength;
-        dbCharacter.dexterity = character.dexterity;
-        dbCharacter.reaction = character.reaction;
-        dbCharacter.intelligence = character.intelligence;
-        dbCharacter.wisdom = character.wisdom;
-        dbCharacter.luck = character.luck;
-        dbCharacter.health = character.health;
-        dbCharacter.mana = character.mana;
-        dbCharacter.stamina = character.stamina;
-        dbCharacter.mapId = character.mapId;
-        dbCharacter.deleteDate = character.deleteDate;
-        dbCharacter.equipment = user->equipment[character.slot];
-        dbCharacter.cloakInfo = character.cloakInfo;
-        dbCharacter.charName = character.charName;
-        // The game service copies most of this data to a 0x101 packet 
-        // and then sends the packet to the client
-        outgoing.characterList[outgoing.characterCount] = dbCharacter;
+        character->charId = e.charId;
+        character->createDate = e.createDate;
+        character->enableRename = e.enableRename;
+        character->slot = e.slot;
+        character->family = e.family;
+        character->grow = e.grow;
+        character->hair = e.hair;
+        character->face = e.face;
+        character->size = e.size;
+        character->job = e.job;
+        character->sex = e.sex;
+        character->level = e.level;
+        character->strength = e.strength;
+        character->dexterity = e.dexterity;
+        character->reaction = e.reaction;
+        character->intelligence = e.intelligence;
+        character->wisdom = e.wisdom;
+        character->luck = e.luck;
+        character->health = e.health;
+        character->mana = e.mana;
+        character->stamina = e.stamina;
+        character->mapId = e.mapId;
+        character->deleteDate = e.deleteDate;
+        character->equipment = *(equipment + e.slot);
+        character->cloakInfo = e.cloakInfo;
+        character->charName = e.charName;
+
+        ++character;
         ++outgoing.characterCount;
     }
 
@@ -68,11 +70,9 @@ void hook_0x421AA5(CUser* user)
     user->equipment = {};
 }
 
+// The dbAgent service checks the character slot at 0x421F04
 void hook_0x4223F7(CUser* user, int characterSlot, int equipmentSlot, int type, int typeId)
 {
-    if (characterSlot >= 5)
-        return;
-
     if (equipmentSlot >= 17)
         return;
 
