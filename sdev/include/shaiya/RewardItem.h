@@ -32,12 +32,12 @@ namespace shaiya
 
         RewardItemEventProgress() = default;
 
-        RewardItemEventProgress(RewardItemEventProgress& other)
+        RewardItemEventProgress(const RewardItemEventProgress& other)
         {
             *this = other;
         }
 
-        RewardItemEventProgress& operator=(RewardItemEventProgress& other)
+        RewardItemEventProgress& operator=(const RewardItemEventProgress& other)
         {
             if (this != &other)
             {
