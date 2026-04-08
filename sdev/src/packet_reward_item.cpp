@@ -7,6 +7,7 @@
 #include "include/shaiya/CUser.h"
 #include "include/shaiya/ItemInfo.h"
 #include "include/shaiya/RewardItem.h"
+#include "include/shaiya/RewardItemProgress.h"
 #include "include/shaiya/SConnection.h"
 using namespace shaiya;
 

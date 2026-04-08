@@ -165,6 +165,9 @@
     <ClCompile Include="src\packet_get_info.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="include\shaiya\RewardItemProgress.cpp">
+      <Filter>include\shaiya</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\main.h">
@@ -597,6 +600,9 @@
       <Filter>include\shaiya</Filter>
     </ClInclude>
     <ClInclude Include="include\shaiya\TargetType.h">
+      <Filter>include\shaiya</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shaiya\RewardItemProgress.h">
       <Filter>include\shaiya</Filter>
     </ClInclude>
   </ItemGroup>

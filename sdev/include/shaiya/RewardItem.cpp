@@ -2,6 +2,7 @@
 #include <shaiya/include/network/game/outgoing/1F00.h>
 #include "CUser.h"
 #include "RewardItem.h"
+#include "RewardItemProgress.h"
 #include "SConnection.h"
 using namespace shaiya;
 
@@ -54,7 +55,7 @@ void RewardItemEvent::sendItemListIndex(CUser* user)
         auto ms = minutes * 60000 + 15000;
         auto now = std::chrono::system_clock::now();
 
-        RewardItemEventProgress progress{};
+        RewardItemProgress progress{};
         progress.timeout = now + std::chrono::milliseconds(ms);
         g_rewardItemProgress.insert({ user->billingId, progress });
 
