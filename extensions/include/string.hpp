@@ -20,7 +20,7 @@ namespace detail {
         {
         }
 
-        constexpr bool operator()(const Char lhs) const
+        constexpr bool operator()(const Char lhs) const noexcept
         {
             return std::char_traits<Char>::eq(lhs, m_rhs);
         }
@@ -38,7 +38,7 @@ namespace detail {
         {
         }
 
-        bool operator()(const Char ch) const
+        constexpr bool operator()(const Char ch) const
         {
             return std::any_of(
                 std::cbegin(m_sv), std::cend(m_sv), equal_to(ch));
