@@ -10,7 +10,7 @@ namespace ext {
         {
         }
 
-        bool operator()(const T& lhs) const
+        constexpr bool operator()(const T& lhs) const
         {
             return lhs == m_rhs;
         }
