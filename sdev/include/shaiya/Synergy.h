@@ -22,16 +22,12 @@ namespace shaiya
         std::array<ItemSetSynergy, 13> synergies;
     };
 
-    #pragma pack(push, 1)
-    class Synergy
+    struct Synergy
     {
-    public:
-
         static void subSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies);
         static void addSynergies(CUser* user, const std::vector<ItemSetSynergy>& synergies);
         static void getSynergies(CUser* user, std::vector<ItemSetSynergy>& synergies);
     };
-    #pragma pack(pop)
 
     inline std::vector<ItemSet> g_itemSets{};
     inline std::map<CharId, std::vector<ItemSetSynergy>> g_itemSetSynergies{};

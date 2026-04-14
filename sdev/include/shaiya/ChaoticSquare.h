@@ -28,18 +28,16 @@ namespace shaiya
     };
     #pragma pack(pop)
 
-    #pragma pack(push, 1)
-    class ChaoticSquare
+    struct ChaoticSquare
     {
-    public:
-
-        uint32_t itemId;
-        std::array<ChaoticSquareResult, 24> results;
+        uint32_t itemId{ 0 };
+        std::array<ChaoticSquareResult, 24> results{};
         std::vector<ChaoticSquareRecipe> recipes;
+
+        ChaoticSquare() = default;
 
         static ChaoticSquare* Find(uint32_t itemId);
     };
-    #pragma pack(pop)
 
     inline std::vector<ChaoticSquare> g_chaoticSquares{};
     inline uint32_t g_chaoticSquareFortuneMoney{ 100'000'000 };

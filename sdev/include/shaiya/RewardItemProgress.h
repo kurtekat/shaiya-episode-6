@@ -8,10 +8,8 @@ namespace shaiya
 {
     using BillingId = uint32_t;
 
-    class RewardItemProgress
+    struct RewardItemProgress
     {
-    public:
-
         uint32_t index{ 0 };
         std::chrono::system_clock::time_point timeout;
         std::atomic<bool> completed;

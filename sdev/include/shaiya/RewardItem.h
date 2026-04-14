@@ -5,14 +5,10 @@
 
 namespace shaiya
 {
-    using BillingId = uint32_t;
-
     struct CUser;
 
-    class RewardItemEvent
+    struct RewardItemEvent
     {
-    public:
-
         static void send(CUser* user);
         static void sendEnded(CUser* user);
         static void sendItemList(CUser* user);
