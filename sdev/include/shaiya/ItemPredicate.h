@@ -12,7 +12,7 @@ namespace shaiya
         {
         }
 
-        bool operator()(const CItem* item)
+        bool operator()(const CItem* item) const
         {
             if (!item)
                 return false;
@@ -36,13 +36,12 @@ namespace shaiya
         {
         }
 
-        bool operator()(const CItem* item)
+        bool operator()(const CItem* item) const
         {
             if (!item)
                 return false;
 
-            return item->type == m_type 
-                && item->typeId == m_typeId;
+            return item->type == m_type && item->typeId == m_typeId;
         }
 
     private:
@@ -58,7 +57,7 @@ namespace shaiya
         {
         }
 
-        bool operator()(const CItem* item)
+        bool operator()(const CItem* item) const
         {
             if (!item)
                 return false;
@@ -73,12 +72,12 @@ namespace shaiya
 
     struct ItemSetEqualToF
     {
-        explicit ItemSetEqualToF(uint16_t id)
+        explicit ItemSetEqualToF(int id)
             : m_id(id)
         {
         }
 
-        bool operator()(const CItem* item)
+        bool operator()(const CItem* item) const
         {
             if (!item)
                 return false;
@@ -88,6 +87,6 @@ namespace shaiya
 
     private:
 
-        uint16_t m_id;
+        int m_id;
     };
 }
