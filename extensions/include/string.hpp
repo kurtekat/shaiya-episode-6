@@ -22,7 +22,7 @@ namespace detail {
 
         constexpr bool operator()(const Char lhs) const noexcept
         {
-            return std::char_traits<Char>::eq(lhs, m_rhs);
+            return lhs == m_rhs;
         }
 
     private:
